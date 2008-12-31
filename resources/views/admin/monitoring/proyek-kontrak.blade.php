@@ -93,6 +93,16 @@
                                             <option value="rehabilitasi">Rehabilitasi</option>
                                         </select>
                                     </div>
+                                    <div class="col-sm-12 col-xl-3 m-b-30">
+                                        <h4 class="sub-title">From</h4>
+                                        <input type="date" id="filterDateFrom" name="dateFrom" class="form-control form-control-primary">
+                                        </input>
+                                    </div>
+                                    <div class="col-sm-12 col-xl-3 m-b-30">
+                                        <h4 class="sub-title">To</h4>
+                                        <input type="date" id="filterDateTo" name="dateTo" class="form-control form-control-primary">
+                                        </input>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -477,19 +487,23 @@ $(document).ready(function() {
     let tahun = $("#filterTahun").val();
     let uptd = $("#filterUPTD").val();
     let kegiatan = $("#filterKegiatan").val();
+    let dateFrom = $("#filterDateFrom").val();
+    let dateTo = $("#filterDateTo").val();
 
-    $.get(baseUrl, { tahun: tahun, uptd: uptd, kegiatan: kegiatan},
+    $.get(baseUrl, { tahun: tahun, uptd: uptd, kegiatan: kegiatan, dateFrom: dateFrom, dateTo: dateTo},
         function(response){
             const data = response.data;
             proyekKontrak(data);
         });
 
-    $("#filterTahun, #filterUPTD, #filterKegiatan").change(function () {
+    $("#filterTahun, #filterUPTD, #filterKegiatan, #filterDateFrom, #filterDateTo").change(function () {
         tahun = $("#filterTahun").val();
         uptd = $("#filterUPTD").val();
         kegiatan = $("#filterKegiatan").val();
+        dateFrom = $("#filterDateFrom").val();
+        dateTo = $("#filterDateTo").val();
 
-        $.get(baseUrl, { tahun: tahun, uptd: uptd, kegiatan: kegiatan},
+        $.get(baseUrl, { tahun: tahun, uptd: uptd, kegiatan: kegiatan, dateFrom: dateFrom, dateTo: dateTo},
         function(response){
             const data = response.data;
             proyekKontrak(data);

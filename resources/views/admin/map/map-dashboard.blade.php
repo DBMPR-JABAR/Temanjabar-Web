@@ -703,7 +703,21 @@
                                 fieldName: "UPTD",
                                 label: "UPTD"
                             }
-                        ]}
+                        ]},
+                        {
+                                type: "media",
+                                mediaInfos: [
+                                    {
+                                        title: "<b>Foto Aktual</b>",
+                                        type: "image",
+                                        caption: "{CREATED_AT}",
+                                        value: {
+                                        sourceURL:
+                                            baseUrl + "/assets/images/sample/sample.png"
+                                        }
+                                    }
+                                ]
+                            }
                     ]};
                     pembangunan.forEach(item => {
                         let point = new Point(item.LNG, item.LAT);
@@ -784,7 +798,21 @@
                                 fieldName: "UPTD",
                                 label: "UPTD"
                             }
-                        ]}
+                        ]},
+                        {
+                                type: "media",
+                                mediaInfos: [
+                                    {
+                                        title: "<b>Foto Aktual</b>",
+                                        type: "image",
+                                        caption: "{CREATED_AT}",
+                                        value: {
+                                        sourceURL:
+                                            baseUrl + "/assets/images/sample/sample.png"
+                                        }
+                                    }
+                                ]
+                            }
                     ]};
                     peningkatan.forEach(item => {
                         let point = new Point(item.LNG, item.LAT);
@@ -866,7 +894,21 @@
                                 fieldName: "UPTD",
                                 label: "UPTD"
                             }
-                        ]}
+                        ]},
+                        {
+                                type: "media",
+                                mediaInfos: [
+                                    {
+                                        title: "<b>Foto Aktual</b>",
+                                        type: "image",
+                                        caption: "{CREATED_AT}",
+                                        value: {
+                                        sourceURL:
+                                            baseUrl + "/assets/images/sample/sample.png"
+                                        }
+                                    }
+                                ]
+                            }
                     ]};
                     rehabilitasi.forEach(item => {
                         let point = new Point(item.LNG, item.LAT);
@@ -1381,13 +1423,14 @@
                                         caption: "{CREATED_AT}",
                                         value: {
                                         sourceURL:
-                                            "{GAMBAR}"
+                                            baseUrl + "/assets/images/sample/sample.png"
                                         }
                                     }
                                 ]
                             }
                         ]
                     };
+
                     vehiclecounting.forEach(item => {
                         let point = new Point(item.LONG, item.LAT);
                         layer.graphics.add(new Graphic({
@@ -1503,7 +1546,6 @@
                                     }
                                 ]
                             }
-
                         ]
                     };
                     kemantapanjalan.forEach(item => {
