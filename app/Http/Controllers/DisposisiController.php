@@ -211,7 +211,7 @@ return !empty($tl->persentase) ? "(".$tl->persentase."%)" : "(0%)";
     public function create(Request $request)
     { 
         //
-        if($request->file != null){
+        if(file != null){
             $path = 'disposisi/'.Str::snake(date("YmdHis").'/'.$request->file->getClientOriginalName());
             $request->file->storeAs('public/',$path);
             $disposisi ['file'] = $path;
@@ -270,7 +270,7 @@ return !empty($tl->persentase) ? "(".$tl->persentase."%)" : "(0%)";
         $disposisi['status'] = $request->status;
         $disposisi['keterangan'] = $request->keterangan; 
         $disposisi['persentase'] = $request->persentase; 
-         $disposisi['created_by'] = Auth::user()->id;
+        $disposisi['created_by'] = Auth::user()->id;
         $disposisi['created_date'] = date("YmdHis"); 
         DB::table('disposisi_tindak_lanjut')->insert($disposisi); 
  
@@ -282,6 +282,68 @@ return !empty($tl->persentase) ? "(".$tl->persentase."%)" : "(0%)";
         return back()->with(compact('color', 'msg'));
     }
 
+    public function getDaftarDisposisiInstruksi(){
+        $instruksi = DB::table('master_disposisi_instruksi as a')
+        ->distinct()              
+        ->select('a.id','a.jenis_instruksi','a.keterangan')
+        ->get();
+        return view('admin.disposisi.instruksi',
+                [
+                    'instruksi' => $instruksi
+                ]);
+    }
+    public function createInstruksi(Request $request)
+    { 
 
+        $disposisi['jenis_instruksi'] = $request->jenis_instruksi;
+        $disposisi['keterangan'] = $request->ket;
+        DB::table('master_disposisi_instruksi')->insert($disposisi); 
 
+        $color = "success";
+        $msg = "Berhasil Menambah Data Disposisi Instruksi";
+        return back()->with(compact('color', 'msg'));
+    }
+    public function getDetailDisposisiInstruksi($id){
+         
+        $detail_disposisi_instruksi = DB::table('master_disposisi_instruksi as a')
+        ->distinct()              
+        ->select('a.id','a.jenis_instruksi','a.keterangan')
+                      ->where('a.id','=', $id) 
+                      ->first();
+
+        return view('admin.disposisi.detail-instruksi',
+                [
+                    'detail_disposisi_instruksi' => $detail_disposisi_instruksi
+                ]);              
+    }
+    public function getDataDisposisiInstruksi(Request $request){
+         
+        $detail_disposisi_instruksi = DB::table('master_disposisi_instruksi as a')
+        ->distinct()              
+        ->select('a.id','a.jenis_instruksi','a.keterangan')
+                      ->where('a.id','=', $request->id) 
+                      ->first();
+
+        return response()->json(["data" => $detail_disposisi_instruksi], 200)     ;        
+    }
+    public function updateDisposisiInstruksi(Request $request)
+    {   
+        $disposisi['jenis_instruksi'] = $request->jenis_instruksi;
+        $disposisi['keterangan'] = $request->ket;
+        DB::table('master_disposisi_instruksi')->where('id',$request->id)->update($disposisi); 
+
+        $color = "success";
+        $msg = "Berhasil Update Data Disposisi Instruksi";
+        return back()->with(compact('color', 'msg'));
+    }
+    public function deleteDisposisiInstruksi($id){
+         
+        $disposisi_instruksi = DB::table('master_disposisi_instruksi');
+        $data = $disposisi_instruksi->where('id',$id);
+        $data->delete();
+
+        $color = "success";
+        $msg = "Berhasil Menghapus Data Disposisi Instruksi";
+        return back()->with(compact('color', 'msg'));        
+    }
 }

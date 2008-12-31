@@ -185,6 +185,9 @@
                         <li class="{{(Request::segment(3) == 'tindaklanjut') ? 'active' : ''}}"> 
                     <a href="{{ url('admin/disposisi/tindaklanjut') }}"> <span class="pcoded-mtext">  Disposisi Tindak Lanjut</span> </a>  
                         </li>
+                        <li class="{{(Request::segment(3) == 'instruksi') ? 'active' : ''}}"> 
+                    <a href="{{ url('admin/disposisi/instruksi') }}"> <span class="pcoded-mtext">  Disposisi Instruksi</span> </a>  
+                        </li>
                 </ul>
             </li>
        </ul>
@@ -197,11 +200,24 @@
                     <span class="pcoded-mtext">Manage</span>
                 </a>
                 <ul class="pcoded-submenu">
-                    <li class="{{(Request::segment(3) == 'profil') ? 'active' : ''}}">
+                    <li class="pcoded-hasmenu {{(Request::segment(3) == 'user') ? 'pcoded-trigger active' : ''}}">
 
-                        <a href="{{ url('admin/master-data/user') }}">
+                        <!-- <a href="{{ url('admin/master-data/user') }}"> -->
+                        <a href="javascript:void(0)">
                             <span class="pcoded-mtext">User</span>
                         </a>
+                        <ul class="pcoded-submenu">
+                            <li class="{{(Request::segment(4) == 'role_akses') ? 'active' : ''}}">
+
+                                <!-- <a href="{{ route('admin.master.ruas_jalan') }}">
+
+                                    <span class="pcoded-mtext">Ruas Jalan</span>
+                                </a> -->
+                                <a href="{{ route('getRoleAkses') }}">
+                                    <span class="pcoded-mtext">Role Akses</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="{{(Request::segment(3) == 'ruas_Jalan') ? 'active' : ''}}">
 
