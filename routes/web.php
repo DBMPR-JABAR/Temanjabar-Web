@@ -17,6 +17,7 @@ Route::get('/', function () {
     return view('landing.t_index');
 });
 
+
 Route::group(['prefix' => 'admin'], function () {
     Route::view('/', 'admin.home');
 
