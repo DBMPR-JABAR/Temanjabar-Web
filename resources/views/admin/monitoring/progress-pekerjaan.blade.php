@@ -70,7 +70,7 @@
                             <tr>
                                 <td>1</td>
                                 <td>Paket Pekerjaan Peningkatan Jalan Ruas Jalan Cibadak - Cikidang - Pelabuhan Ratu </th>
-                                <td style="color: green"><b>Ontrack</b></td>
+                                <td style="color: green"><b>On Progress</b></td>
                                 <td>2019-10-20</td>
                                 <td>Hotmix</td>
                                 <td> Cibadak - Cikidang - Pelabuhan Ratu</td>
@@ -96,7 +96,7 @@
                             <tr>
                                 <td>3</td>
                                 <td>Paket Pekerjaan Perbaikan Badan Jalan Ruas Jalan Sp. Waluran - Malereng - Tamanjaya - Ciwaru Km.Bdg. </th>
-                                <td style="color: red"><b>Offtrack</b></td>
+                                <td style="color: red"><b>Off Progress</b></td>
                                 <td>2019-09-25</td>
                                 <td>box culvert</td>
                                 <td> Waluran-Malereng-Palangpang</td>
