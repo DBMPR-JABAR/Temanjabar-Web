@@ -1,5 +1,5 @@
 # Temanjabar Laravel
-Dinamik 15 Official Website Repository
+Temanjabar Website Repository
 
 ## Backend framework
 <img width="40px" align="left" src="https://raw.githubusercontent.com/github/explore/56a826d05cf762b2b50ecbe7d492a839b04f3fbf/topics/laravel/laravel.png"/>
