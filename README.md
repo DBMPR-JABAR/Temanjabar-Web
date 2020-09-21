@@ -11,12 +11,36 @@ Temanjabar Website Repository
 
 ## Instalasi
 1. Clone repo
-2. Pastikan sudah terinstall composer, masukkan command di bawah pada cmd/terminal
+2. Pergi ke direktori aplikasi
+  ```
+  cd path/to/temanjabar-laravel
+  ```
+2. Pastikan sudah terinstall composer (download [disini](https://getcomposer.org/)), masukkan command di bawah pada cmd/terminal
   ```
   composer install
   ```
-3. Copy .env.example terus rename jadi .env, ubah konfigurasi, lalu run
+3. Copy .env.example terus rename jadi .env
+  ```
+  copy .env.example .env
+  ```
+4. ubah konfigurasi env, sesuaikan 
+  ```
+  APP_URL=http://localhost:8000/
+
+  DB_CONNECTION=mysql
+  DB_HOST=127.0.0.1
+  DB_PORT=3306
+  DB_DATABASE=uptm3922_uptd1
+  DB_USERNAME=root
+  DB_PASSWORD=
+  ```
+5. run  
   ```
   php artisan key:generate
   php artisan jwt:secret
+  ```
+6. Import Database uptm3922_uptd1.sql ke server
+7. Untuk menyalakan virtual server run:
+  ```
+  php artisan serve
   ```
