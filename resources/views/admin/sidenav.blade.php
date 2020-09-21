@@ -11,27 +11,27 @@
                 </a>
                 <ul class="pcoded-submenu">
                     <li class=" ">
-                        <a href="progress-pekerjaan.html">
+                        <a href="{{ url('admin/monitoring/progress-pekerjaan') }}">
                             <span class="pcoded-mtext">Map Progress Pekerjaan</span>
                         </a>
                     </li>
                     <li class=" ">
-                        <a href="supervisi-pekerjaan.html">
-                            <span class="pcoded-mtext">Supervisi Pekerjaan</span>
+                        <a href="{{ url('admin/monitoring/supervisi-kontrak') }}">
+                            <span class="pcoded-mtext">Supervisi Kontrak</span>
                         </a>
                     </li>
                     <li class=" ">
-                        <a href="laporan-kerusakan.html">
+                        <a href="{{ url('admin/monitoring/laporan-kerusakan') }}">
                             <span class="pcoded-mtext">Laporan Kerusakan</span>
                         </a>
                     </li>
                     <li class=" ">
-                        <a href="realisasi-keuangan.html">
+                        <a href="{{ url('admin/monitoring/realisasi-keuangan') }}">
                             <span class="pcoded-mtext">Anggaran & Realisasi Keuangan</span>
                         </a>
                     </li>
                     <li class="">
-                        <a href="audit-keuangan.html" class="disabled">
+                        <a href="{{ url('admin/monitoring/audit-keuangan') }}">
                             <span class="pcoded-mtext">Audit Keuangan (Pending)</span>
                         </a>
                     </li>
@@ -44,17 +44,17 @@
                 </a>
                 <ul class="pcoded-submenu">
                     <li class=" ">
-                        <a href="rekomendasi-kontraktor.html">
+                        <a href="{{ url('admin/rekomendasi/rekomendasi-kontraktor') }}">
                             <span class="pcoded-mtext">Kontraktor Terbaik</span>
                         </a>
                     </li>
                     <li class=" ">
-                        <a href="rekomendasi-konsultan.html">
+                        <a href="{{ url('admin/rekomendasi/rekomendasi-konsultan') }}">
                             <span class="pcoded-mtext">Konsultan Terbaik</span>
                         </a>
                     </li>
                     <li class=" ">
-                        <a href="rekomendasi-perbaikan.html">
+                        <a href="{{ url('admin/rekomendasi/rekomendasi-perbaikan') }}">
                             <span class="pcoded-mtext">Perbaikan Infrastruktur</span>
                         </a>
                     </li>
