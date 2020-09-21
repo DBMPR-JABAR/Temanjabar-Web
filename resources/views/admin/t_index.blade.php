@@ -29,8 +29,8 @@
     <!-- feather Awesome -->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/icon/feather/css/feather.css') }}">
     <!-- Style.css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css')}} ">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/jquery.mCustomScrollbar.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/_admin_style.css')}} ">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/_admin/custom-scrollbar/css/jquery.mCustomScrollbar.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/scss/partials/menu/_pcmenu.scss') }}">
     @yield('head')
 </head>
@@ -171,21 +171,21 @@
 <script type="text/javascript" src="{{ asset('assets/vendor/popper.js/js/popper.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
 <!-- jquery slimscroll js -->
-<script type="text/javascript" src="{{ asset('assets/vendor/jquery-slimscroll/js/jquery.slimscroll.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/vendor/_admin/jquery-slimscroll/js/jquery.slimscroll.js') }}"></script>
 <!-- modernizr js -->
-<script type="text/javascript" src="{{ asset('assets/vendor/modernizr/js/modernizr.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/vendor/modernizr/js/css-scrollbars.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/vendor/_admin/modernizr/js/modernizr.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/vendor/_admin/modernizr/js/css-scrollbars.js') }}"></script>
 
 <!-- i18next.min.js -->
-<script type="text/javascript" src="{{ asset('assets/vendor/i18next/js/i18next.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/vendor/i18next-xhr-backend/js/i18nextXHRBackend.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/vendor/i18next-browser-languagedetector/js/i18nextBrowserLanguageDetector.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/vendor/jquery-i18next/js/jquery-i18next.min.js') }}"></script>
-<script src="{{ asset('assets/js/pcoded.min.js') }}"></script>
-<script src="{{ asset('assets/js/vartical-layout.min.js') }}"></script>
-<script src="{{ asset('assets/js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/vendor/_admin/i18next/js/i18next.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/vendor/_admin/i18next-xhr-backend/js/i18nextXHRBackend.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/vendor/_admin/i18next-browser-languagedetector/js/i18nextBrowserLanguageDetector.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/vendor/_admin/jquery-i18next/js/jquery-i18next.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/_admin/extras/js/pcoded.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/_admin/extras/js/vartical-layout.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/_admin/custom-scrollbar/js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
     <!-- Custom js -->
-    <script type="text/javascript" src="{{ asset('assets/js/script.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/admin_script.min.js') }}"></script>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
