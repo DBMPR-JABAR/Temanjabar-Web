@@ -244,7 +244,7 @@
                 <div class="item">
                     <div class="service-box">
                         <span class="bottom25"><i class="fas fa-road"></i></span>
-                        <h4 class="bottom10 text-nowrap"><a href="javascript:void(0)">Progress Pekerjaan</a></h4>
+                        <h4 class="bottom10 text-nowrap"><a href="{{ url('progress_pekerjaan')}}">Progress Pekerjaan</a></h4>
                         <p>Pantau semua proses pembangunan yang sedang dilakukan</p>
                     </div>
                 </div>

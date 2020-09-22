@@ -43,3 +43,11 @@ Route::group(['prefix' => 'admin'], function () {
     });
 
 });
+
+Route::get('/paket_pekerjaan', function () {
+    return view('landing.paket_pekerjaan');
+});
+
+Route::get('/progress_pekerjaan', function () {
+    return view('landing.progress_pekerjaan');
+});
