@@ -112,6 +112,18 @@
     </footer>
     <!--Footer ends-->
 
+    <!--copyright-->
+    <div class="copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center wow fadeIn animated" data-wow-delay="300ms">
+                    <p class="m-0 py-3">Copyright © <span id="year1"></span> <a href="javascript:void(0)" class="hover-default">BMPR Provinsi Jawa Barat</a>. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--copyright ends-->
+
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="{{ asset('assets/vendor/jquery/js/jquery-3.4.1.min.js') }}"></script>
     <!--Bootstrap Core-->

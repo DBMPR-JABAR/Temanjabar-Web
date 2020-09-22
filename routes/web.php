@@ -17,10 +17,16 @@ Route::get('/', function () {
     return view('landing.index');
 });
 
+// {SiteURL}/uptd/*
+Route::group(['prefix' => 'uptd'], function () {
+    Route::view('uptd1', 'landing.uptd.uptd1');
+});
 
+// {SiteURL}/admin/*
 Route::group(['prefix' => 'admin'], function () {
     Route::view('/', 'admin.home');
 
+    // {SiteURL}/admin/monitoring/*
     Route::group(['prefix' => 'monitoring'], function () {
         Route::view('progress-pekerjaan', 'admin.monitoring.progress-pekerjaan');
         Route::view('supervisi-kontrak', 'admin.monitoring.supervisi-kontrak');
@@ -29,12 +35,11 @@ Route::group(['prefix' => 'admin'], function () {
         Route::view('audit-keuangan', 'admin.monitoring.audit-keuangan');
     });
     
+    // {SiteURL}/admin/rekomendasi/*
     Route::group(['prefix' => 'rekomendasi'], function () {
         Route::view('rekomendasi-kontraktor', 'admin.rekomendasi.rekomendasi-kontraktor');
         Route::view('rekomendasi-konsultan', 'admin.rekomendasi.rekomendasi-konsultan');
         Route::view('rekomendasi-perbaikan', 'admin.rekomendasi.rekomendasi-perbaikan');
     });
-
-
 
 });
