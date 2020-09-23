@@ -29,7 +29,7 @@
     <!-- feather Awesome -->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/icon/feather/css/feather.css') }}">
     <!-- Style.css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/_admin_style.css')}} ">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/admin_style.css')}} ">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/_admin/custom-scrollbar/css/jquery.mCustomScrollbar.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/scss/partials/menu/_pcmenu.scss') }}">
     @yield('head')
