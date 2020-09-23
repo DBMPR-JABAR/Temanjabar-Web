@@ -215,7 +215,7 @@ var datanya = [
                                     <span class="icon-cell"><i class="fas fa-mobile-alt"></i></span>
                                 </div>
                                 <div class="d-table-cell cells">
-                                    <p class="bottom0">+92-0900-10072 <span class="d-block">+92-0900-10072</span></p>
+                                    <p class="bottom0">{{ $profil->kontak }}</p>
                                 </div>
                             </div>
                             <div class="contact-table colorone d-table bottom15 text-left">
@@ -223,8 +223,7 @@ var datanya = [
                                     <span class="icon-cell"><i class="fas fa-map-marker-alt"></i></span>
                                 </div>
                                 <div class="d-table-cell cells">
-                                    <p class="bottom0">Jl. Asia Afrika,
-                                        <span class="d-block">Bandung</span>
+                                    <p class="bottom0">{{ $profil->alamat }}
                                     </p>
                                 </div>
                             </div>
@@ -233,12 +232,11 @@ var datanya = [
                                     <span class="icon-cell"><i class="far fa-clock"></i></span>
                                 </div>
                                 <div class="d-table-cell cells">
-                                    <p class="bottom0">Mon to Sat - 9:00am to 6:00pm
-                                        <span class="d-block">Sunday: Closed</span>
+                                    <p class="bottom0">Senin - Jumat: {{$profil->jam_layanan}}
                                     </p>
                                 </div>
                             </div>
-                            <a href="index.html" class="button btnsecondary gradient-btn top30"> Form Lapor</a>
+                            <a href="{{ url('/#laporan') }}" class="button btnsecondary gradient-btn top30"> Form Lapor</a>
                         </div>
                     </div>
                 </div>

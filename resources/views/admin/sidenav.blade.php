@@ -1,7 +1,7 @@
 <nav class="pcoded-navbar">
     <div class="pcoded-inner-navbar main-menu">
         <div class="pcoded-navigatio-lavel">Dashboard Analysis</div>
-     
+
 
         <ul class="pcoded-item pcoded-left-item">
             <li class="pcoded-hasmenu">
@@ -61,8 +61,6 @@
                 </ul>
             </li>
         </ul>
-        <hr>
-        <div class="pcoded-navigatio-lavel">Implementation Only</div>
         <div class="pcoded-navigatio-lavel">Data Utama</div>
         <ul class="pcoded-item pcoded-left-item">
             <li class="pcoded-hasmenu">
@@ -153,6 +151,48 @@
                 <a href="">
                     <span class="pcoded-micon"><i class="ti-blackboard"></i></span>
                     <span class="pcoded-mtext">Laporan Pekerjaan</span>
+                </a>
+            </li>
+        </ul>
+        <div class="pcoded-navigatio-lavel">Landing Page</div>
+        <ul class="pcoded-item pcoded-left-item">
+            <li class="pcoded-hasmenu">
+                <a href="javascript:void(0)">
+                    <span class="pcoded-micon"><i class="ti-home"></i></span>
+                    <span class="pcoded-mtext">Landing Page</span>
+                </a>
+                <ul class="pcoded-submenu">
+                    <li class=" ">
+                        <a href="{{ url('admin/landing-page/profil') }}">
+                            <span class="pcoded-mtext">Profil</span>
+                        </a>
+                    </li>
+                    <li class=" ">
+                        <a href="{{ url('admin/landing-page/slideshow') }}">
+                            <span class="pcoded-mtext">Slideshow</span>
+                        </a>
+                    </li>
+                    <li class=" ">
+                        <a href="{{ url('admin/landing-page/fitur') }}">
+                            <span class="pcoded-mtext">Fitur</span>
+                        </a>
+                    </li>
+                    <li class=" ">
+                        <a href="{{ url('admin/landing-page/pencapaian') }}">
+                            <span class="pcoded-mtext">Pencapaian</span>
+                        </a>
+                    </li>
+                    <li class=" ">
+                        <a href="{{ url('admin/landing-page/uptd') }}">
+                            <span class="pcoded-mtext">UPTD</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="">
+                <a href="">
+                    <span class="pcoded-micon"><i class="ti-email"></i></span>
+                    <span class="pcoded-mtext">Pesan</span>
                 </a>
             </li>
         </ul>

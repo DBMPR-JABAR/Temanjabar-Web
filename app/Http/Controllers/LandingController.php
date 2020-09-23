@@ -14,19 +14,23 @@ class LandingController extends Controller
     // GET
     public function index()
     {
-        return view('landing.index');
+        $profil = DB::table('landing_profil')->where('id',1)->first();
+        $pencapaian = DB::table('landing_pencapaian')->where('id',1)->first();
+        return view('landing.index', compact('profil','pencapaian'));
     }
     public function paketPekerjaan()
     {
-        return view('landing.paket-pekerjaan');
+        $profil = DB::table('landing_profil')->where('id',1)->first();
+        return view('landing.paket-pekerjaan',compact('profil'));
     }
     public function progressPekerjaan()
     {
-        return view('landing.progress-pekerjaan');
+        $profil = DB::table('landing_profil')->where('id',1)->first();
+        return view('landing.progress-pekerjaan',compact('profil'));
     }
 
     // POST
-    public function tambahLaporan(Request $req)
+    public function createLaporan(Request $req)
     {
         $color = 'success';
         $msg = 'Berhasil menambahkan laporan, tanggapan akan dikirim melalui email anda';
@@ -39,7 +43,7 @@ class LandingController extends Controller
         return redirect('/#laporan')->with(['color' => $color,'laporan-msg' => $msg]);
     }
 
-    public function tambahPesan(Request $req)
+    public function createPesan(Request $req)
     {
         $color = 'success';
         $msg = 'Berhasil menambahkan pesan, tanggapan akan dikirim melalui email anda';
@@ -53,18 +57,113 @@ class LandingController extends Controller
 
     }
 
-    // Lokasi: Admin Dashboard
-    public function getSlider()
-    {
+// Lokasi: Admin Dashboard
 
-    }
-    public function updateSlider(Request $req)
+    // TODO: Pesan
+    public function getPesan()
     {
-
+        # code...
     }
 
+    // TODO: Profil
+    public function getProfil()
+    {
+        # code...
+    }
+    public function updateProfil(Request $req)
+    {
+        # code...
+    }
 
-    // DEBUG
+    // TODO: Slideshow
+    public function getSlideshow()
+    {
+        # code...
+    }
+    public function addSlideshow()
+    {
+        # code...
+    }
+    public function editSlideshow($id)
+    {
+        # code...
+    }
+    public function createSlideshow(Request $req)
+    {
+        # code...
+    }
+    public function updateSlideshow(Request $req)
+    {
+        # code...
+    }
+    public function deleteSlideshow($id)
+    {
+        # code...
+    }
+
+    // TODO: Fitur
+    public function getFitur()
+    {
+        # code...
+    }
+    public function addFitur()
+    {
+        # code...
+    }
+    public function editFitur($id)
+    {
+        # code...
+    }
+    public function createFitur(Request $req)
+    {
+        # code...
+    }
+    public function updateFitur(Request $req)
+    {
+        # code...
+    }
+    public function deleteFitur($id)
+    {
+        # code...
+    }
+
+    // TODO: Pencapaian
+    public function getPencapaian()
+    {
+        # code...
+    }
+    public function updatePencapaian(Request $req)
+    {
+        # code...
+    }
+
+    // TODO: UPTD
+    public function getUPTD()
+    {
+        # code...
+    }
+    public function addUPTD()
+    {
+        # code...
+    }
+    public function editUPTD($id)
+    {
+        # code...
+    }
+    public function createUPTD(Request $req)
+    {
+        # code...
+    }
+    public function updateUPTD(Request $req)
+    {
+        # code...
+    }
+    public function deleteUPTD($id)
+    {
+        # code...
+    }
+
+// DEBUG
     public function howToInsert(Request $req)
     {
         // Cara 1

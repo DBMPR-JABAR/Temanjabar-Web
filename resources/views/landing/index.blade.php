@@ -60,11 +60,11 @@
             </nav>
             <div class="side-footer w-100">
                 <ul class="social-icons-simple white top40">
-                    <li><a href="javascript:void(0)" class="facebook"><i class="fab fa-facebook-f"></i> </a> </li>
-                    <li><a href="javascript:void(0)" class="twitter"><i class="fab fa-twitter"></i> </a> </li>
-                    <li><a href="javascript:void(0)" class="insta"><i class="fab fa-instagram"></i> </a> </li>
+                    <li><a href="{!! $profil->link_facebook !!}" class="facebook"><i class="fab fa-facebook-f"></i> </a> </li>
+                    <li><a href="{!! $profil->link_twitter !!}" class="twitter"><i class="fab fa-twitter"></i> </a> </li>
+                    <li><a href="{!! $profil->link_instagram !!}" class="insta"><i class="fab fa-instagram"></i> </a> </li>
                 </ul>
-                <p class="whitecolor">&copy; <span id="year"></span> DBPMR Jawa Barat</p>
+                <p class="whitecolor">&copy; <span id="year"></span> {{$profil->nama}}</p>
             </div>
         </div>
     </div>
@@ -227,12 +227,10 @@
         </div>
     </div>
     <ul class="social-icons-simple revicon white">
-        <li class="d-table"><a href="javascript:void(0)" class="facebook"><i class="fab fa-facebook-f"></i></a>
+        <li class="d-table"><a href="{!! $profil->link_facebook !!}" class="facebook"><i class="fab fa-facebook-f"></i></a>
         </li>
-        <li class="d-table"><a href="javascript:void(0)" class="twitter"><i class="fab fa-twitter"></i> </a> </li>
-        <li class="d-table"><a href="javascript:void(0)" class="linkedin"><i class="fab fa-linkedin-in"></i> </a>
-        </li>
-        <li class="d-table"><a href="javascript:void(0)" class="insta"><i class="fab fa-instagram"></i> </a> </li>
+        <li class="d-table"><a href="{!! $profil->link_twitter !!}" class="twitter"><i class="fab fa-twitter"></i> </a> </li>
+        <li class="d-table"><a href="{!! $profil->link_instagram !!}" class="insta"><i class="fab fa-instagram"></i> </a> </li>
     </ul>
 </section>
 <!--Main Slider ends -->
@@ -287,20 +285,16 @@
         <div class="row d-flex align-items-center">
             <div class="col-lg-6 col-md-7 col-sm-7 text-sm-left text-center wow fadeInLeft" data-wow-delay="300ms">
                 <div class="heading-title mb-4">
-                    <h2 class="darkcolor font-normal bottom30">Kami <span class="defaultcolor">DBMPR</span> Provinsi
-                        Jawa Barat</h2>
+                    <h2 class="darkcolor font-normal bottom30">Kami {{ $profil->nama }}</h2>
                 </div>
                 <p class="bottom35">
-                    Dinas Bina Marga dan Penataan Ruang Provinsi Jawa Barat merupakan salah satu dari dinas daerah
-                    dan menjadi bagian dari Pemerintah Daerah Provinsi Jawa Barat. Merupakan unsur pelaksana otonomi
-                    daerah yang mempunyai tugas melaksanakan urusan Bidang Kebinamargaan dan Penataan Ruang serta
-                    Tugas Pembantuan.
+                    {{ $profil->deskripsi }}
                 </p>
-                <a href="http://dbmtr.jabarprov.go.id/" class="button gradient-btn mb-sm-0 mb-4">Lihat
+                <a href="{!! $profil->link_website !!}" class="button gradient-btn mb-sm-0 mb-4">Lihat
                     Selengkapnya</a>
             </div>
             <div class="col-lg-5 offset-lg-1 col-md-5 col-sm-5 wow fadeInRight" data-wow-delay="300ms">
-                <div class="image"><img alt="SEO" src="{{ asset('assets/images/about/about.jpg') }}"></div>
+                <div class="image"><img alt="SEO" src="{!! $profil->gambar !!}"></div>
             </div>
         </div>
     </div>
@@ -312,9 +306,9 @@
         <div class="row align-items-center text-center">
             <div class="col-lg-4 col-md-4 col-sm-4 bottom10">
                 <div class="counters whitecolor  top10 bottom10">
-                    <span class="count_nums font-light" data-to="874" data-speed="2500"> </span>
+                    <span class="count_nums font-light" data-to="{{ $pencapaian->selesai }}" data-speed="2500"> </span>
                 </div>
-                <h3 class="font-light whitecolor top20">Intrastruktur Yang terselesaikan diseluruh wilayah Jawa
+                <h3 class="font-light whitecolor top20">Infrastruktur Yang terselesaikan diseluruh wilayah Jawa
                     Barat</h3>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4">
@@ -323,9 +317,9 @@
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 bottom10">
                 <div class="counters whitecolor top10 bottom10">
-                    <span class="count_nums font-light" data-to="1200" data-speed="2500"> </span>
+                    <span class="count_nums font-light" data-to="{{ $pencapaian->target }}" data-speed="2500"> </span>
                 </div>
-                <h3 class="font-light whitecolor top20">Target Infrasturktur diseluruh wilayah Jawa Barat</h3>
+                <h3 class="font-light whitecolor top20">Target Infrastruktur diseluruh wilayah Jawa Barat</h3>
             </div>
         </div>
     </div>
@@ -341,7 +335,7 @@
                     <h2 class="font-normal darkcolor heading_space_half"> Unit Pelaksana Teknis Dinas Daerah (UPTD)
                     </h2>
                 </div>
-                <div class="col-md-6 offset-md-3 heading_space_half">
+                <div class="col-md-12 offset-md-3 heading_space_half">
                     <p>Kabupaten/Kota di seluruh Jawa Barat</p>
                 </div>
             </div>
@@ -638,22 +632,19 @@
                 <div class="col-md-6 col-sm-6 order-sm-2">
                     <div class="contact-meta px-2 text-center text-md-left">
                         <div class="heading-title">
-                            <span class="defaultcolor mb-3">Agen DBMPR Provinsi Jawa Barat</span>
+                            <span class="defaultcolor mb-3">Agen {{ $profil->nama }}</span>
                             <h2 class="darkcolor font-normal mb-4">
                                 Kantor Pusat Kami <span class="d-none d-md-inline-block">Di Kota Bandung</span></h2>
                         </div>
-                        <p class="bottom10">Alamat: Jl. Asia Afrika No.79, Braga, Kec. Sumur Bandung, Kota Bandung,
-                            Jawa Barat 40111</p>
-                        <p class="bottom10">0800 214 5252</p>
-                        <p class="bottom10"><a href="mailto:polpo@traxagency.co.au">polpo@Example.co.au</a></p>
-                        <p class="bottom10">Mon-Fri: 9am-5pm</p>
+                        <p class="bottom10">Alamat: {!! $profil->alamat !!}</p>
+                        <p class="bottom10">{{ $profil->kontak }}</p>
+                        <p class="bottom10"><a href="mailto:{{ $profil->email }}">{{ $profil->email }}</a></p>
+                        <p class="bottom10">Senin - Jumat: {{ $profil->jam_layanan }}</p>
                         <ul class="social-icons mt-4 mb-4 mb-sm-0 wow fadeInUp" data-wow-delay="300ms">
-                            <li><a href="javascript:void(0)"><i class="fab fa-facebook-f"></i> </a> </li>
-                            <li><a href="javascript:void(0)"><i class="fab fa-twitter"></i> </a> </li>
-                            <li><a href="javascript:void(0)"><i class="fab fa-linkedin-in"></i> </a> </li>
-                            <li><a href="javascript:void(0)"><i class="fab fa-instagram"></i> </a> </li>
-                            <li><a href="javascript:void(0)"><i class="fab fa-whatsapp"></i> </a> </li>
-                            <li><a href="javascript:void(0)"><i class="far fa-envelope"></i> </a> </li>
+                            <li><a href="{!! $profil->link_facebook !!}"><i class="fab fa-facebook-f"></i> </a> </li>
+                            <li><a href="{!! $profil->link_twitter !!}"><i class="fab fa-twitter"></i> </a> </li>
+                            <li><a href="{!! $profil->link_instagram !!}"><i class="fab fa-instagram"></i> </a> </li>
+                            <li><a href="mailto:{!! $profil->email !!}"><i class="far fa-envelope"></i> </a> </li>
                         </ul>
                     </div>
                 </div>
@@ -698,8 +689,7 @@
                 <div class="widget text-center top60 w-100">
                     <div class="contact-box">
                         <span class="icon-contact defaultcolor"><i class="fas fa-mobile-alt"></i></span>
-                        <p class="bottom0"><a href="tel:+14046000396">+14046000396</a></p>
-                        <p class="d-block"><a href="tel:+43720778972">+43720778972</a></p>
+                        <p class="bottom0"><a href="tel:{!! $profil->kontak !!}">{!! $profil->kontak !!}</a></p>
                     </div>
                 </div>
             </div>
@@ -707,8 +697,7 @@
                 <div class="widget text-center top60 w-100">
                     <div class="contact-box">
                         <span class="icon-contact defaultcolor"><i class="fas fa-map-marker-alt"></i></span>
-                        <p class="bottom0">Jl. Asia Afrika No.79, Braga, Kec. Sumur Bandung, Kota Bandung, Jawa
-                            Barat 40111 </p>
+                        <p class="bottom0">{!! $profil->alamat !!}</p>
                     </div>
                 </div>
             </div>
@@ -716,8 +705,7 @@
                 <div class="widget text-center top60 w-100">
                     <div class="contact-box">
                         <span class="icon-contact defaultcolor"><i class="far fa-envelope"></i></span>
-                        <p class="bottom0"><a href="mailto:admin@website.com">admin@website.com</a></p>
-                        <p class="d-block"><a href="mailto:email@website.com">email@website.com</a></p>
+                        <p class="bottom0"><a href="mailto:{!! $profil->email !!}">{!! $profil->email !!}</a></p>
                     </div>
                 </div>
             </div>
@@ -725,7 +713,7 @@
                 <div class="widget text-center top60 w-100">
                     <div class="contact-box">
                         <span class="icon-contact defaultcolor"><i class="far fa-clock"></i></span>
-                        <p class="bottom15">UTC−05:00 <span class="d-block">UTC+01:00</span></p>
+                        <p class="bottom15">Senin - Jumat: {!! $profil->jam_layanan !!}</p>
                     </div>
                 </div>
             </div>
