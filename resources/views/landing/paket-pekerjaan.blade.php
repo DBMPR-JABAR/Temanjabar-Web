@@ -92,7 +92,7 @@ var datanya = [
         },
             ];
         </script>
-    
+
         <script>
           var customLabel = {
             restaurant: {
@@ -102,7 +102,7 @@ var datanya = [
               label: 'B'
             }
           };
-    
+
             function initMap() {
             var map = new google.maps.Map(document.getElementById('map'), {
               center: new google.maps.LatLng(-6.921475,107.610538),
@@ -116,11 +116,11 @@ var datanya = [
                     var ket = data.keterangan;
                     var hasil = eval('(' + temp + ')');
                     var pathnya = [];
-                    
+
                     for(var j=0;j < hasil.polyline.length;j++){
                         pathnya[j] = {'lat':hasil.polyline[j][0],'lng':hasil.polyline[j][1]};
                         var LatLng = new google.maps.LatLng(pathnya[j].lat,pathnya[j].lng);
-                    
+
                         var marker = new google.maps.Marker({
                                 position: LatLng,
                                // icon: null, //'http://www.busindia.com/images/cab_icon.png', // null = default icon
@@ -128,20 +128,20 @@ var datanya = [
                                 title: ket,
                                 animation: google.maps.Animation.BOUNCE
                             });
-                        
-                        
-                        
+
+
+
                     };
-                    
-                    
-                    
+
+
+
                     polylinenya = new google.maps.Polyline({
                         path: pathnya,
                         geodesic: true,
                         strokeOpacity: 1.0,
                         strokeWeight: 2
                     });
-    
+
                     polylinenya.setMap(map);
                           /*  var marker = new google.maps.Marker({
                                 position: LatLng,
@@ -149,7 +149,7 @@ var datanya = [
                                 map: map,
                                 title: ket
                             });*/
-                
+
                 }
     //--------------
               // Change this depending on the name of your PHP or XML file
@@ -157,7 +157,7 @@ var datanya = [
 
           function doNothing() {}
         </script>
-        
+
         <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCXljmPJFUg&callback=initMap">
         </script>
@@ -176,7 +176,7 @@ var datanya = [
     <div class="overlay overlay-dark opacity-7 z-index-1"></div>
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 offset-lg-2">
+            <div class="col-lg-12 offset-lg-2">
                 <div class="page-titles whitecolor text-center padding_top padding_bottom">
                     <h2 class="font-xlight">Pemetaan</h2>
                     <h2 class="font-bold">Paket Pekerjaan</h2>
@@ -250,7 +250,7 @@ var datanya = [
             <section id="our-services" class="pt-5 bglight">
                 <div class="container">
                     <div class="row whitebox top15">
-                        
+
                         <div class="col-lg-12 col-md-12">
                             <div class="widget heading_space text-center text-md-left">
                                 <h3 class="darkcolor font-normal bottom15">Paket Pekerjaan</h3>

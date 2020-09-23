@@ -18,13 +18,13 @@
                         <a class="nav-link pagescroll scrollupto" href="#about">Tentang Kami</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link pagescroll" href="#portfolio">UPTD</a>
+                        <a class="nav-link pagescroll" href="#uptd">UPTD</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link pagescroll" href="#ourfaq">Laporan Jalan</a>
+                        <a class="nav-link pagescroll" href="#laporan">Laporan Jalan</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link pagescroll" href="#stayconnect1">Kontak</a>
+                        <a class="nav-link pagescroll" href="#kontak">Kontak</a>
                     </li>
                 </ul>
             </div>
@@ -48,13 +48,13 @@
                         <a class="nav-link pagescroll scrollupto" href="#about">Tentang Kami</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link pagescroll" href="#portfolio">UPTD</a>
+                        <a class="nav-link pagescroll" href="#uptd">UPTD</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link pagescroll" href="#ourfaq">Laporan Jalan</a>
+                        <a class="nav-link pagescroll" href="#laporan">Laporan Jalan</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link pagescroll" href="#stayconnect1">Kontak</a>
+                        <a class="nav-link pagescroll" href="#kontak">Kontak</a>
                     </li>
                 </ul>
             </nav>
@@ -244,7 +244,7 @@
                 <div class="item">
                     <div class="service-box">
                         <span class="bottom25"><i class="fas fa-road"></i></span>
-                        <h4 class="bottom10 text-nowrap"><a href="{{ url('progress_pekerjaan')}}">Progress Pekerjaan</a></h4>
+                        <h4 class="bottom10 text-nowrap"><a href="{{ url('progress-pekerjaan')}}">Progress Pekerjaan</a></h4>
                         <p>Pantau semua proses pembangunan yang sedang dilakukan</p>
                     </div>
                 </div>
@@ -258,21 +258,21 @@
                 <div class="item">
                     <div class="service-box">
                         <span class="bottom25"><i class="fas fa-box-open"></i></span>
-                        <h4 class="bottom10"><a href="{{ url('paket_pekerjaan')}}">Paket Pekerjaan</a></h4>
+                        <h4 class="bottom10"><a href="{{ url('paket-pekerjaan')}}">Paket Pekerjaan</a></h4>
                         <p>projek pembangunan infrastruktur yang sudah kami selesaikan</p>
                     </div>
                 </div>
                 <div class="item">
                     <div class="service-box">
                         <span class="bottom25"><i class="fas fa-bullhorn"></i></span>
-                        <h4 class="bottom10"><a href="#ourfaq">Pengaduan</a></h4>
-                        <p>Ada masalah dengan insfrastruktur di daerah kamu? Segera lapor kepada kami!</p>
+                        <h4 class="bottom10"><a href="#laporan">Pengaduan</a></h4>
+                        <p>Ada masalah dengan insfrastruktur di daerah anda? Segera lapor kepada kami!</p>
                     </div>
                 </div>
                 <div class="item">
                     <div class="service-box">
                         <span class="bottom25"><i class="fas fa-map"></i></span>
-                        <h4 class="bottom10"><a href="#portfolio">UPTD</a></h4>
+                        <h4 class="bottom10"><a href="#uptd">UPTD</a></h4>
                         <p>Perkembangan pembangunan disetiap kabupaten/kota</p>
                     </div>
                 </div>
@@ -332,12 +332,12 @@
 </section>
 <!-- Counters ends-->
 <!-- Gallery -->
-<section id="portfolio" class="position-relative padding">
+<section id="uptd" class="position-relative padding">
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center wow fadeIn" data-wow-delay="300ms">
                 <div class="heading-title darkcolor wow fadeInUp" data-wow-delay="300ms">
-                    <span class="defaultcolor"> Ayo pantau proses pembangunan di daerah kamu </span>
+                    <span class="defaultcolor"> Ayo pantau proses pembangunan di daerah anda </span>
                     <h2 class="font-normal darkcolor heading_space_half"> Unit Pelaksana Teknis Dinas Daerah (UPTD)
                     </h2>
                 </div>
@@ -474,7 +474,7 @@
 </section>
 <!-- Gallery ends -->
 <!-- Main sign-up section starts -->
-<section id="ourfaq" class="bglight position-relative padding">
+<section id="laporan" class="bglight position-relative padding">
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center wow fadeIn" data-wow-delay="300ms">
@@ -482,46 +482,57 @@
                     Rusak
                     <span class="divider-center"></span>
                 </h2>
-                <div class="col-md-8 offset-md-2 heading_space">
-                    <p>Ayok bangun Infrastruktur bersama-sama...Laporkan jalan rusak di sekitar kamu,kami akan
+                <div class="col-md-12 offset-md-2 heading_space">
+                    <p>Ayok bangun Infrastruktur bersama-sama...Laporkan jalan rusak di sekitar anda,kami akan
                         SEGERA memperbaikinya.</p>
                 </div>
             </div>
+            @if (Session::has('laporan-msg'))
+            <div class="col-md-12">
+                <div class="alert alert-{{ Session::get('color') }} alert-dismissible fade show" role="alert">
+                    {{ Session::get('laporan-msg') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+            @endif
             <div class="col-lg-6 col-md-12 col-sm-12 pr-lg-0 whitebox wow fadeInLeft">
                 <div class="widget logincontainer">
                     <h3 class="darkcolor bottom35 text-center text-md-left">Identitas Pelapor </h3>
-                    <form class="getin_form border-form" id="register">
+                    <form action="{{ url('tambah-laporan') }}" method="POST" class="getin_form border-form" id="register" enctype="multipart/form-data">
+                        @csrf
                         <div class="row">
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label for="registerName" class="d-none"></label>
-                                    <input class="form-control" type="text" placeholder="Nama Lengkap:" required
+                                    <input name="nama" class="form-control" type="text" placeholder="Nama Lengkap:" required
                                         id="registerName">
                                 </div>
                             </div>
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label for="nik" class="d-none"></label>
-                                    <input class="form-control" type="text" placeholder="NIK:" required id="nik">
+                                    <input name="nik" class="form-control" type="text" placeholder="NIK:" required id="nik">
                                 </div>
                             </div>
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label for="telp" class="d-none"></label>
-                                    <input class="form-control" type="text" placeholder="Telp:" required id="telp">
+                                    <input name="telp" class="form-control" type="text" placeholder="Telp:" required id="telp">
                                 </div>
                             </div>
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label for="registerEmail" class="d-none"></label>
-                                    <input class="form-control" type="email" placeholder="Email:" required
+                                    <input name="email" class="form-control" type="email" placeholder="Email:" required
                                         id="registerEmail">
                                 </div>
                             </div>
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label class="my-1 mr-2" for="pilihanKeluhan">Keluhan</label>
-                                    <select class="custom-select my-1 mr-sm-2" id="pilihanKeluhan" required>
+                                    <select name="jenis" class="custom-select my-1 mr-sm-2" id="pilihanKeluhan" required>
                                         <option selected>Pilih...</option>
                                         <option value="1">Kepuasan Masyarakat</option>
                                         <option value="2">Jalan Berlubang</option>
@@ -535,7 +546,7 @@
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label class="my-1 mr-2" for="pilihanUptd">UPTD</label>
-                                    <select class="custom-select my-1 mr-sm-2" id="pilihanUptd" required>
+                                    <select name="uptd_id" class="custom-select my-1 mr-sm-2" id="pilihanUptd" required>
                                         <option selected>Pilih...</option>
                                         <option value="1">UPTD-I</option>
                                         <option value="2">UPTD-II</option>
@@ -549,34 +560,34 @@
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label for="saran" class="d-none"></label>
-                                    <input class="form-control" type="text" placeholder="Saran/Keluhan:" required
+                                    <input name="deskripsi" class="form-control" type="text" placeholder="Saran/Keluhan:" required
                                         id=saran>
                                 </div>
                             </div>
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label for="lat" class="d-none"></label>
-                                    <input class="form-control" type="text" placeholder="Latitude (-6.98765)"
+                                    <input name="lat" class="form-control" type="text" placeholder="Latitude (-6.98765)"
                                         required id="lat">
                                 </div>
                             </div>
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label for="lng" class="d-none"></label>
-                                    <input class="form-control" type="text" placeholder="Longitude (107.10987)"
+                                    <input name="long" class="form-control" type="text" placeholder="Longitude (107.10987)"
                                         required id="lng">
                                 </div>
                             </div>
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
-                                    <label for="pilihFile">Poto kondisi jalan saat ini</label>
-                                    <input type="file" class="form-control-file" id="pilihFile">
+                                    <label for="pilihFile">Foto kondisi jalan saat ini</label>
+                                    <input name="image" type="file" class="form-control-file" id="pilihFile">
                                 </div>
                             </div>
-                            <div class="col-md-12 col-sm-12">
+                            <div class="col-md-12 col-sm-12 px-5">
                                 <div class="form-group bottom35">
                                     <div class="form-check text-left">
-                                        <input class="form-check-input" checked type="checkbox" value=""
+                                        <input name="agreed" class="form-check-input" required checked type="checkbox"
                                             id="statment">
                                         <label class="form-check-label" for="statment">
                                             Saya setuju dengan peraturan berlaku
@@ -601,7 +612,7 @@
 </section>
 <!-- Main sign-up section ends -->
 <!-- Contact US -->
-<section id="stayconnect1" class="position-relative padding noshadow">
+<section id="kontak" class="position-relative padding noshadow">
     <div class="container whitebox">
         <div class="widget py-5">
             <div class="row">
@@ -610,10 +621,20 @@
                         Kami
                         <span class="divider-center"></span>
                     </h2>
-                    <div class="col-md-8 offset-md-2 bottom35">
-                        <p>Apakah ada yang ingin kamu tanyakan kepada kami?</p>
+                    <div class="col-md-12 offset-md-2 bottom35">
+                        <p>Apakah ada yang ingin anda tanyakan kepada kami?</p>
                     </div>
                 </div>
+                @if (Session::has('pesan-msg'))
+                <div class="col-md-12">
+                    <div class="alert alert-{{ Session::get('color') }} alert-dismissible fade show" role="alert">
+                        {{ Session::get('pesan-msg') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+                @endif
                 <div class="col-md-6 col-sm-6 order-sm-2">
                     <div class="contact-meta px-2 text-center text-md-left">
                         <div class="heading-title">
@@ -638,28 +659,28 @@
                 </div>
                 <div class="col-md-6 col-sm-6">
                     <div class="heading-title  wow fadeInUp" data-wow-delay="300ms">
-                        <form class="getin_form wow fadeInUp" data-wow-delay="400ms" onsubmit="return false;">
+                        <form action="{{ url('tambah-pesan') }}" method="POST" class="getin_form wow fadeInUp" data-wow-delay="400ms">
+                            @csrf
                             <div class="row px-2">
                                 <div class="col-md-12 col-sm-12" id="result1"></div>
                                 <div class="col-md-12 col-sm-12">
                                     <div class="form-group">
                                         <label for="name1" class="d-none"></label>
-                                        <input class="form-control" id="name1" type="text" placeholder="Nama:"
-                                            required name="userName">
+                                        <input name="nama" class="form-control" id="name1" type="text" placeholder="Nama:"
+                                            required>
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-sm-12">
                                     <div class="form-group">
                                         <label for="email1" class="d-none"></label>
-                                        <input class="form-control" type="email" id="email1" placeholder="Email:"
-                                            name="email">
+                                        <input name="email" class="form-control" type="email" id="email1" placeholder="Email:">
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-sm-12">
                                     <div class="form-group">
                                         <label for="message1" class="d-none"></label>
                                         <textarea class="form-control" id="message1" placeholder="Pesan:" required
-                                            name="message"></textarea>
+                                            name="pesan"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-sm-12">
@@ -728,20 +749,20 @@
                     </div>
                 </div>
                 <div class="col-md-12 col-sm-12">
-                    <form class="getin_form wow fadeInUp" data-wow-delay="400ms" onsubmit="return false;">
+                    <form class="getin_form wow fadeInUp" data-wow-delay="400ms">
                         <div class="row">
                             <div class="col-md-12 col-sm-12" id="result"></div>
                             <div class="col-md-3 col-sm-6">
                                 <div class="form-group">
                                     <label for="userName" class="d-none"></label>
-                                    <input class="form-control" type="text" placeholder="Nama Awal:" required
+                                    <input name="nama" class="form-control" type="text" placeholder="Nama Awal:" required
                                         id="userName" name="userName">
                                 </div>
                             </div>
                             <div class="col-md-3 col-sm-6">
                                 <div class="form-group">
                                     <label for="companyName" class="d-none"></label>
-                                    <input class="form-control" type="tel" placeholder="Nama Perusahaan:"
+                                    <input name="" class="form-control" type="tel" placeholder="Nama Perusahaan:"
                                         id="companyName" name="companyName">
                                 </div>
                             </div>

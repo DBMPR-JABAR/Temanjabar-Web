@@ -4,7 +4,7 @@
     <div class="overlay overlay-dark opacity-7 z-index-1"></div>
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 offset-lg-2">
+            <div class="col-lg-12 offset-lg-2">
                 <div class="page-titles whitecolor text-center padding_top padding_bottom">
                     <h2 class="font-xlight">Pemetaan</h2>
                     <h2 class="font-bold">Progress Pekerjaan</h2>
@@ -78,7 +78,7 @@
             <section id="our-services" class="pt-5 bglight">
                 <div class="container">
                     <div class="row whitebox top15">
-                        
+
                         <div class="col-lg-12 col-md-12">
                             <div class="widget heading_space text-center text-md-left">
                                 <h3 class="darkcolor font-normal bottom15">Progress Pekerjaan</h3>

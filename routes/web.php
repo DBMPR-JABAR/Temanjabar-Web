@@ -13,9 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('landing.index');
-});
+// {SiteURL}
+Route::get('/', 'LandingController@index');
+Route::get('/paket-pekerjaan', 'LandingController@paketPekerjaan');
+Route::get('/progress-pekerjaan', 'LandingController@progressPekerjaan');
+Route::post('tambah-laporan', 'LandingController@tambahLaporan');
+Route::post('tambah-pesan', 'LandingController@tambahPesan');
 
 // {SiteURL}/uptd/*
 Route::group(['prefix' => 'uptd'], function () {
@@ -34,7 +37,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::view('realisasi-keuangan', 'admin.monitoring.realisasi-keuangan');
         Route::view('audit-keuangan', 'admin.monitoring.audit-keuangan');
     });
-    
+
     // {SiteURL}/admin/rekomendasi/*
     Route::group(['prefix' => 'rekomendasi'], function () {
         Route::view('rekomendasi-kontraktor', 'admin.rekomendasi.rekomendasi-kontraktor');
@@ -42,12 +45,4 @@ Route::group(['prefix' => 'admin'], function () {
         Route::view('rekomendasi-perbaikan', 'admin.rekomendasi.rekomendasi-perbaikan');
     });
 
-});
-
-Route::get('/paket_pekerjaan', function () {
-    return view('landing.paket_pekerjaan');
-});
-
-Route::get('/progress_pekerjaan', function () {
-    return view('landing.progress_pekerjaan');
 });
