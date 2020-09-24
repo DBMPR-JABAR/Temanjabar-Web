@@ -33,7 +33,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::group(['prefix' => 'monitoring'], function () {
         Route::view('progress-pekerjaan', 'admin.monitoring.progress-pekerjaan');
         Route::view('supervisi-kontrak', 'admin.monitoring.supervisi-kontrak');
-        Route::view('laporan-kerusakan', 'admin.monitoring.laporan-kerusakan');
+        Route::get('laporan-kerusakan', 'MonitoringController@getLaporan');
         Route::view('realisasi-keuangan', 'admin.monitoring.realisasi-keuangan');
         Route::view('audit-keuangan', 'admin.monitoring.audit-keuangan');
     });

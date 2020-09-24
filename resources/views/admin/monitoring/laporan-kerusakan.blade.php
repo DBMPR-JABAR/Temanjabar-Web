@@ -67,57 +67,25 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($laporan as $data)
                         <tr>
                             <td>
-                                <b>Tatan Vincent</b> <br>
-                                3273002009001122 <br>
-                                +6282210103030 <br>
-                                vincent@mail.com <br>
+                                <b>{{$data->nama}}</b> <br>
+                                {{$data->nik}} <br>
+                                {{$data->telp}} <br>
+                                {{$data->email}} <br>
                             </td>
-                            <td>UPTD-I</td>
-                            <td>Jalan Berlubang</td>
+                            <td>{{$data->uptd_id}}</td>
+                            <td>{{$data->jenis}}</td>
                             <td>
-                                -6.002123210 <br>
-                                95.002123210
+                                {{$data->lat}} <br>
+                                {{$data->long}}
                             </td>
                             <td>
-                                <img src="https://images.hukumonline.com/frontend/lt5a954764bab1a/lt5a954d70cd9dd.jpg" class="img-fluid rounded" alt="" style="max-width: 224px;">
+                                <img src="{!! $data->gambar !!}" class="img-fluid rounded" alt="" style="max-width: 224px;">
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                                <b>John Lucas</b> <br>
-                                3273002009001122 <br>
-                                +6282210103030 <br>
-                                john@mail.com <br>
-                            </td>
-                            <td>UPTD-II</td>
-                            <td>Kepuasan Masyarakat</td>
-                            <td>
-                                -7.002123210 <br>
-                                92.002123210
-                            </td>
-                            <td>
-                                <img src="https://www.niaga.asia/wp-content/uploads/2019/10/jalan.jpg" class="img-fluid rounded" alt="" style="max-width: 224px;">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <b>Sumanto</b> <br>
-                                3273002009001122 <br>
-                                +6282210103030 <br>
-                                mantosu@mail.com <br>
-                            </td>
-                            <td>UPTD-VI</td>
-                            <td>Jembatan Rusak</td>
-                            <td>
-                                -11.002123210 <br>
-                                141.002123210
-                            </td>
-                            <td>
-                                <img src="https://cdn-radar.jawapos.com/thumbs/l/radarmadura/news/2019/02/13/setahun-lebih-jembatan-rusak-di-pamekasan-tidak-diperbaiki_m_119293.jpg" class="img-fluid rounded" alt="" style="max-width: 224px;">
-                            </td>
-                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
 
