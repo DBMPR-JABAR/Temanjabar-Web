@@ -86,10 +86,6 @@ class LandingController extends Controller
     {
         # code...
     }
-    public function addSlideshow()
-    {
-        # code...
-    }
     public function editSlideshow($id)
     {
         # code...
@@ -112,10 +108,6 @@ class LandingController extends Controller
     {
         # code...
     }
-    public function addFitur()
-    {
-        # code...
-    }
     public function editFitur($id)
     {
         # code...
@@ -135,10 +127,6 @@ class LandingController extends Controller
 
     // TODO: UPTD
     public function getUPTD()
-    {
-        # code...
-    }
-    public function addUPTD()
     {
         # code...
     }

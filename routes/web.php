@@ -56,7 +56,6 @@ Route::group(['prefix' => 'admin'], function () {
         // {SiteURL}/admin/landing-page/slideshow
         Route::group(['prefix' => 'slideshow'], function () {
             Route::get('/', 'LandingController@getSlideshow');
-            Route::get('add', 'LandingController@addSlideshow');
             Route::get('edit/{id}', 'LandingController@editSlideshow');
             Route::post('create', 'LandingController@createSlideshow');
             Route::post('update', 'LandingController@updateSlideshow');
@@ -66,23 +65,15 @@ Route::group(['prefix' => 'admin'], function () {
         // {SiteURL}/admin/landing-page/fitur
         Route::group(['prefix' => 'fitur'], function () {
             Route::get('/', 'LandingController@getFitur');
-            Route::get('add', 'LandingController@addFitur');
             Route::get('edit/{id}', 'LandingController@editFitur');
             Route::post('create', 'LandingController@createFitur');
             Route::post('update', 'LandingController@updateFitur');
             Route::get('delete/{id}', 'LandingController@deleteFitur');
         });
 
-        // {SiteURL}/admin/landing-page/pencapaian
-        Route::group(['prefix' => 'pencapaian'], function () {
-            Route::get('/', 'LandingController@getPencapaian');
-            Route::post('update', 'LandingController@updatePencapaian');
-        });
-
         // {SiteURL}/admin/landing-page/uptd
         Route::group(['prefix' => 'uptd'], function () {
             Route::get('/', 'LandingController@getUPTD');
-            Route::get('add', 'LandingController@addUPTD');
             Route::get('edit/{id}', 'LandingController@editUPTD');
             Route::post('create', 'LandingController@createUPTD');
             Route::post('update', 'LandingController@updateUPTD');
