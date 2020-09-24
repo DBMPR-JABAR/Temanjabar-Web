@@ -40,7 +40,7 @@ class LandingController extends Controller
         $data = $req->except(['_token', 'agreed']);
         $data['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
 
-        DB::table('laporan')->insert($data);
+        DB::table('monitoring_laporan_masyarakat')->insert($data);
 
         return redirect('/#laporan')->with(['color' => $color,'laporan-msg' => $msg]);
     }
@@ -53,7 +53,7 @@ class LandingController extends Controller
         $data = $req->except(['_token']);
         $data['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
 
-        DB::table('pesan')->insert($data);
+        DB::table('landing_pesan')->insert($data);
 
         return redirect('/#kontak')->with(['color' => $color,'pesan-msg' => $msg]);
 
@@ -64,7 +64,7 @@ class LandingController extends Controller
     // TODO: Pesan
     public function getPesan()
     {
-        $pesan = DB::table('pesan')->get();
+        $pesan = DB::table('landing_pesan')->get();
         return view('admin.landing.pesan',compact('pesan'));
     }
 

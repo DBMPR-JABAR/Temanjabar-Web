@@ -9,7 +9,7 @@ class MonitoringController extends Controller
 {
     public function getLaporan()
     {
-        $laporan = DB::table('laporan')->get();
-        return view('admin.monitoring.laporan-kerusakan',compact('laporan'));
+        $laporan = DB::table('monitoring_laporan_masyarakat')->get();
+        return view('admin.monitoring.laporan-kerusakan',compact('monitoring_laporan_masyarakat'));
     }
 }
