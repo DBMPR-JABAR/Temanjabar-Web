@@ -50,7 +50,7 @@ Route::group(['prefix' => 'admin'], function () {
         // {SiteURL}/admin/landing-page/profil
         Route::group(['prefix' => 'profil'], function () {
             Route::get('/', 'LandingController@getProfil');
-            Route::post('update', 'LandingController@updateProfil');
+            Route::post('update', 'LandingController@updateProfil')->name('updateLandingProfil');
         });
 
         // {SiteURL}/admin/landing-page/slideshow

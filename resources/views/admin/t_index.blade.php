@@ -87,13 +87,25 @@
 
                 @include('admin.sidenav')
 
-                <!-- TODO: Refactor Content -->
-
                 <div class="pcoded-content">
                     <div class="pcoded-inner-content">
                         <!-- Main-body start -->
                         <div class="main-body">
                             <div class="page-wrapper">
+
+                                @if (Session::has('msg'))
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="alert background-{{ Session::get('color') }} alert-dismissible fade show" role="alert">
+                                            {{ Session::get('msg') }}
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+
                                 <!-- Page-header start -->
                                 <div class="page-header">
                                     @yield('page-header')

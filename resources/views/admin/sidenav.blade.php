@@ -178,11 +178,6 @@
                         </a>
                     </li>
                     <li class=" ">
-                        <a href="{{ url('admin/landing-page/pencapaian') }}">
-                            <span class="pcoded-mtext">Pencapaian</span>
-                        </a>
-                    </li>
-                    <li class=" ">
                         <a href="{{ url('admin/landing-page/uptd') }}">
                             <span class="pcoded-mtext">UPTD</span>
                         </a>

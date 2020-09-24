@@ -306,7 +306,7 @@
         <div class="row align-items-center text-center">
             <div class="col-lg-4 col-md-4 col-sm-4 bottom10">
                 <div class="counters whitecolor  top10 bottom10">
-                    <span class="count_nums font-light" data-to="{{ $pencapaian->selesai }}" data-speed="2500"> </span>
+                    <span class="count_nums font-light" data-to="{{ $profil->pencapaian_selesai }}" data-speed="2500"> </span>
                 </div>
                 <h3 class="font-light whitecolor top20">Infrastruktur Yang terselesaikan diseluruh wilayah Jawa
                     Barat</h3>
@@ -317,7 +317,7 @@
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 bottom10">
                 <div class="counters whitecolor top10 bottom10">
-                    <span class="count_nums font-light" data-to="{{ $pencapaian->target }}" data-speed="2500"> </span>
+                    <span class="count_nums font-light" data-to="{{ $profil->pencapaian_target }}" data-speed="2500"> </span>
                 </div>
                 <h3 class="font-light whitecolor top20">Target Infrastruktur diseluruh wilayah Jawa Barat</h3>
             </div>

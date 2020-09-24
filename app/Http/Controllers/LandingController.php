@@ -15,8 +15,7 @@ class LandingController extends Controller
     public function index()
     {
         $profil = DB::table('landing_profil')->where('id',1)->first();
-        $pencapaian = DB::table('landing_pencapaian')->where('id',1)->first();
-        return view('landing.index', compact('profil','pencapaian'));
+        return view('landing.index', compact('profil'));
     }
     public function paketPekerjaan()
     {
@@ -68,11 +67,18 @@ class LandingController extends Controller
     // TODO: Profil
     public function getProfil()
     {
-        # code...
+        $profil = DB::table('landing_profil')->where('id',1)->first();
+        return view('admin.landing.profil',compact('profil'));
     }
     public function updateProfil(Request $req)
     {
-        # code...
+        $color = 'success';
+        $msg = 'Berhasil mengubah data profil';
+
+        $data = $req->except('_token','gambar');
+        DB::table('landing_profil')->where('id',1)->update($data);
+
+        return back()->with(compact('color','msg'));
     }
 
     // TODO: Slideshow
@@ -123,16 +129,6 @@ class LandingController extends Controller
         # code...
     }
     public function deleteFitur($id)
-    {
-        # code...
-    }
-
-    // TODO: Pencapaian
-    public function getPencapaian()
-    {
-        # code...
-    }
-    public function updatePencapaian(Request $req)
     {
         # code...
     }

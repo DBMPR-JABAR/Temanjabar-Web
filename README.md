@@ -38,6 +38,7 @@ Temanjabar Website Repository
   ```
   php artisan key:generate
   php artisan jwt:secret
+  php artisan storage:link
   ```
 6. Import Database uptm3922_uptd1.sql ke server
 7. Untuk menyalakan virtual server run:
