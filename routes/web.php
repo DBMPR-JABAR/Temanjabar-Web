@@ -73,14 +73,15 @@ Route::group(['prefix' => 'admin'], function () {
 
         // {SiteURL}/admin/landing-page/uptd
         Route::group(['prefix' => 'uptd'], function () {
-            Route::get('/', 'LandingController@getUPTD');
-            Route::get('edit/{id}', 'LandingController@editUPTD');
-            Route::post('create', 'LandingController@createUPTD');
-            Route::post('update', 'LandingController@updateUPTD');
-            Route::get('delete/{id}', 'LandingController@deleteUPTD');
+            Route::get('/', 'LandingController@getUPTD')->name('getLandingUPTD');
+            Route::get('edit/{id}', 'LandingController@editUPTD')->name('editLandingUPTD');
+            Route::post('create', 'LandingController@createUPTD')->name('createLandingUPTD');
+            Route::post('update', 'LandingController@updateUPTD')->name('updateLandingUPTD');
+            Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
         });
+
+        Route::get('pesan', 'LandingController@getPesan');
 
     });
 
-    Route::get('pesan', 'LandingController@getPesan');
 });

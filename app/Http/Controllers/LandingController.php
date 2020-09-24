@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class LandingController extends Controller
 {
@@ -15,6 +16,8 @@ class LandingController extends Controller
     public function index()
     {
         $profil = DB::table('landing_profil')->where('id',1)->first();
+
+        // Compact mengubah variabel profil untuk dijadikan variabel yang dikirim
         return view('landing.index', compact('profil'));
     }
     public function paketPekerjaan()
@@ -61,7 +64,8 @@ class LandingController extends Controller
     // TODO: Pesan
     public function getPesan()
     {
-        # code...
+        $pesan = DB::table('pesan')->get();
+        return view('admin.landing.pesan',compact('pesan'));
     }
 
     // TODO: Profil
@@ -128,23 +132,43 @@ class LandingController extends Controller
     // TODO: UPTD
     public function getUPTD()
     {
-        # code...
+        $uptd = DB::table('landing_uptd')->get();
+        return view('admin.landing.uptd.index',compact('uptd'));
     }
     public function editUPTD($id)
     {
-        # code...
+        $uptd = DB::table('landing_uptd')->where('id',$id)->first();
+        return view('admin.landing.uptd.edit',compact('uptd'));
     }
     public function createUPTD(Request $req)
     {
-        # code...
+        $uptd = $req->except('_token','gambar');
+        $uptd['slug'] = Str::slug($req->nama);
+
+        DB::table('landing_uptd')->insert($uptd);
+
+        $color = "success";
+        $msg = "Berhasil Menambah Data UPTD";
+        return back()->with(compact('color','msg'));
     }
     public function updateUPTD(Request $req)
     {
-        # code...
+        $uptd = $req->except('_token','gambar','id');
+        $uptd['slug'] = Str::slug($req->nama);
+
+        DB::table('landing_uptd')->where('id',$req->id)->update($uptd);
+
+        $color = "success";
+        $msg = "Berhasil Mengubah Data UPTD";
+        return redirect(route('getLandingUPTD'))->with(compact('color','msg'));
     }
     public function deleteUPTD($id)
     {
-        # code...
+        DB::table('landing_uptd')->where('id',$id)->delete();
+
+        $color = "success";
+        $msg = "Berhasil Menghapus Data UPTD";
+        return redirect(route('getLandingUPTD'))->with(compact('color','msg'));
     }
 
 // DEBUG
@@ -164,8 +188,8 @@ class LandingController extends Controller
             'created_at' => Carbon::now()->format('Y-m-d H:i:s')
         ];
 
-        // Cara 2
-        $data = $req->except(['_token', 'agreed']);
+        // Cara 2 : Pastikan input name sama dengan kolom tabel
+        $data = $req->except(['_token', 'input_name_lain']);
         $data['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
     }
 }

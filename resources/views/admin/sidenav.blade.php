@@ -185,7 +185,7 @@
                 </ul>
             </li>
             <li class="">
-                <a href="">
+                <a href="{{ url('admin/landing-page/pesan') }}">
                     <span class="pcoded-micon"><i class="ti-email"></i></span>
                     <span class="pcoded-mtext">Pesan</span>
                 </a>
