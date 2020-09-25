@@ -88,45 +88,81 @@ class LandingController extends Controller
     // TODO: Slideshow
     public function getSlideshow()
     {
-        # code...
+        $slideshow = DB::table('landing_slideshow')->get();
+        return view('admin.landing.slideshow.index',compact('slideshow'));
     }
     public function editSlideshow($id)
     {
-        # code...
+        $slideshow = DB::table('landing_slideshow')->where('id',$id)->first();
+        return view('admin.landing.slideshow.edit',compact('slideshow'));
     }
     public function createSlideshow(Request $req)
     {
-        # code...
+        $slideshow = $req->except('_token','gambar');
+
+        DB::table('landing_slideshow')->insert($slideshow);
+
+        $color = "success";
+        $msg = "Berhasil Menambah Data Slideshow";
+        return back()->with(compact('color','msg'));
     }
     public function updateSlideshow(Request $req)
     {
-        # code...
+        $slideshow = $req->except('_token','gambar','id');
+        DB::table('landing_slideshow')->where('id',$req->id)->update($slideshow);
+
+        $color = "success";
+        $msg = "Berhasil Mengubah Data Slideshow";
+        return redirect(route('getLandingSlideshow'))->with(compact('color','msg'));
     }
     public function deleteSlideshow($id)
     {
-        # code...
+        DB::table('landing_slideshow')->where('id',$id)->delete();
+
+        $color = "success";
+        $msg = "Berhasil Menghapus Data Slideshow";
+        return redirect(route('getLandingSlideshow'))->with(compact('color','msg'));
     }
 
     // TODO: Fitur
     public function getFitur()
     {
-        # code...
+        $fitur = DB::table('landing_fitur')->get();
+        return view('admin.landing.fitur.index',compact('fitur'));
     }
     public function editFitur($id)
     {
-        # code...
+        $fitur  = DB::table('landing_fitur')->where('id',$id)->first();
+        return view('admin.landing.fitur.edit',compact('fitur'));
     }
     public function createFitur(Request $req)
     {
-        # code...
+        $fitur = $req->except('_token','icon');
+
+        DB::table('landing_fitur')->insert($fitur);
+
+        $color = "success";
+        $msg = "Berhasil Menambah Data Fitur";
+        return back()->with(compact('color','msg'));
     }
     public function updateFitur(Request $req)
     {
-        # code...
+        $fitur = $req->except('_token','icon','id');
+
+        DB::table('landing_fitur')->where('id',$req->id)->update($fitur);
+
+        $color = "success";
+        $msg = "Berhasil Mengubah Data Fitur";
+        return redirect(route('getLandingFitur'))->with(compact('color','msg'));
     }
+    
     public function deleteFitur($id)
     {
-        # code...
+        DB::table('landing_fitur')->where('id',$id)->delete();
+
+        $color = "success";
+        $msg = "Berhasil Menghapus Data Fitur";
+        return redirect(route('getLandingFitur'))->with(compact('color','msg'));
     }
 
     // TODO: UPTD

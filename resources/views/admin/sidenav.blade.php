@@ -16,8 +16,8 @@
                         </a>
                     </li>
                     <li class=" ">
-                        <a href="{{ url('admin/monitoring/supervisi-kontrak') }}">
-                            <span class="pcoded-mtext">Supervisi Kontrak</span>
+                        <a href="{{ url('admin/monitoring/proyek-kontrak') }}">
+                            <span class="pcoded-mtext">Proyek Kontrak</span>
                         </a>
                     </li>
                     <li class=" ">
@@ -37,12 +37,12 @@
                     </li>
                 </ul>
             </li>
-            <li class="pcoded-hasmenu">
+           <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)">
                     <span class="pcoded-micon"><i class="ti-stats-up"></i></span>
                     <span class="pcoded-mtext">Rekomendasi</span>
                 </a>
-                <ul class="pcoded-submenu">
+               <!-- <ul class="pcoded-submenu">
                     <li class=" ">
                         <a href="{{ url('admin/rekomendasi/rekomendasi-kontraktor') }}">
                             <span class="pcoded-mtext">Kontraktor Terbaik</span>
@@ -58,8 +58,8 @@
                             <span class="pcoded-mtext">Perbaikan Infrastruktur</span>
                         </a>
                     </li>
-                </ul>
-            </li>
+                </ul>-->
+            </li> 
         </ul>
         <div class="pcoded-navigatio-lavel">Data Utama</div>
         <ul class="pcoded-item pcoded-left-item">

@@ -7,7 +7,7 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Supervisi Kontrak</h4>
+                <h4>Proyek Kontrak</h4>
              
             </div>
         </div>
@@ -18,7 +18,7 @@
                 <li class="breadcrumb-item">
                     <a href="index.html"> <i class="feather icon-home"></i> </a>
                 </li>
-                <li class="breadcrumb-item"><a href="#!">Supervisi Kontrak</a> </li>
+                <li class="breadcrumb-item"><a href="#!">Proyek Kontrak</a> </li>
             </ul>
         </div>
     </div>

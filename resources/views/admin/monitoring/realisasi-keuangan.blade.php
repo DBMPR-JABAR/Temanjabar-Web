@@ -43,7 +43,7 @@
                 </div>
             </div>
             <div class="card-footer">
-                <p class="text-white m-b-0"><i class="feather icon-clock text-white f-14 m-r-10"></i>update : 2:15 am</p>
+                <p class="text-white m-b-0"><i class="feather icon-clock text-white f-14 m-r-10"></i>update : 25/09/2020</p>
             </div>
         </div>
     </div>
@@ -61,7 +61,7 @@
                 </div>
             </div>
             <div class="card-footer">
-                <p class="text-white m-b-0"><i class="feather icon-clock text-white f-14 m-r-10"></i>update : 2:15 am</p>
+                <p class="text-white m-b-0"><i class="feather icon-clock text-white f-14 m-r-10"></i>update : 25/09/2020</p>
             </div>
         </div>
     </div>
@@ -80,12 +80,12 @@
                 </div>
             </div>
             <div class="card-footer">
-                <p class="text-white m-b-0"><i class="feather icon-clock text-white f-14 m-r-10"></i>update : 2:15 am</p>
+                <p class="text-white m-b-0"><i class="feather icon-clock text-white f-14 m-r-10"></i>update : 25/09/2020</p>
             </div>
         </div>
     </div>
    
-    <div class="col-xl-4 col-md-12">
+    <div class=" col-md-12">
         <div class="card">
             <div class="card-header">
                 <h5>Infografis Penyerapan Anggaran Tertinggi</h5>
@@ -99,51 +99,8 @@
                 </div>
             </div>
             <div class="card-block">
-                <b> Penyerapan Tertinggi Anggaran < 1 M</b>
-                <div style="height:300px"  id="chartdivInfo1"></div>
-               
-                
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-4 col-md-12">
-        <div class="card">
-            <div class="card-header">
-                <h5>Infografis Penyerapan Anggaran Tertinggi</h5>
-              
-                <div class="card-header-right">
-                    <ul class="list-unstyled card-option">
-                        <li><i class="feather icon-maximize full-card"></i></li>
-                        <li><i class="feather icon-minus minimize-card"></i></li>
-                        <li><i class="feather icon-trash-2 close-card"></i></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="card-block">
-                <b> Penyerapan  Anggaran  1 M - 20 M</b>
-                <div style="height:300px"  id="chartdivInfo2"></div>
-               
-                
-            </div>
-        </div>
-    </div>
-
-    <div class="col-xl-4 col-md-12">
-        <div class="card">
-            <div class="card-header">
-                <h5>Infografis Penyerapan Anggaran Tertinggi</h5>
-              
-                <div class="card-header-right">
-                    <ul class="list-unstyled card-option">
-                        <li><i class="feather icon-maximize full-card"></i></li>
-                        <li><i class="feather icon-minus minimize-card"></i></li>
-                        <li><i class="feather icon-trash-2 close-card"></i></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="card-block">
-                <b> Penyerapan  Anggaran > 20 M</b>
-                <div style="height:300px"  id="chartdivInfo3"></div>
+                <b> Penyerapan Tertinggi Anggaran</b>
+                <div style="height:600px"  id="chartdivInfo1"></div>
                
                 
             </div>
@@ -152,17 +109,7 @@
 
     <div class="col-xl-12 col-md-12">
         <div class="card">
-            <div class="card-header">
-                <h5>Monitoring Realisasi Anggaran < 1M</h5>
-              
-                <div class="card-header-right">
-                    <ul class="list-unstyled card-option">
-                        <li><i class="feather icon-maximize full-card"></i></li>
-                        <li><i class="feather icon-minus minimize-card"></i></li>
-                        <li><i class="feather icon-trash-2 close-card"></i></li>
-                    </ul>
-                </div>
-            </div>
+            <
             <div class="card-block">
 
                 <table id="databanner-1" class="table table-bordered table-hover">
@@ -463,6 +410,33 @@
     }, {
       "country": "UPDT II",
       "visits": 72 
+    }, {
+      "country": "UPDT III",
+      "visits": 80.5 
+    }, {
+      "country": "UPDT IV",
+      "visits": 82.3 
+    }, {
+      "country": "UPDT V",
+      "visits": 69.5
+    }, {
+      "country": "UPDT VI",
+      "visits": 56.3 
+    }, {
+      "country": "SEKRETARIAT",
+      "visits": 70 
+    }, {
+      "country": "BIADANG JASA KONSTRUKSI",
+      "visits": 72.5 
+    }, {
+      "country": "BIDANG TEKNIK JALAN",
+      "visits": 81.5 
+    }, {
+      "country": "BIDANG PEMELIRAHAAN DAN PEMBANGUNAN JALAN",
+      "visits": 82.3 
+    }, {
+      "country": "BIDANG PENATAAN RUANG",
+      "visits": 71.8 
     }  ];
     
     // Create axes
