@@ -26,6 +26,11 @@
                     <li class="nav-item">
                         <a class="nav-link pagescroll" href="#kontak">Kontak</a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ url('login') }}" class="nav-link">
+                            <button type="button" class="btn btn-warning">Login</button>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -56,6 +61,9 @@
                     <li class="nav-item">
                         <a class="nav-link pagescroll" href="#kontak">Kontak</a>
                     </li>
+                    <a href="{{ url('login') }}">
+                        <button type="button" class="btn btn-warning">Login</button>
+                    </a>
                 </ul>
             </nav>
             <div class="side-footer w-100">
