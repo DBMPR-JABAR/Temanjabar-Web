@@ -41,7 +41,7 @@
             </div>
             <div class="card-block">
 
-                <table class="table">
+                <table class="table table-responsive">
                     <thead>
                         <tr>
                             <th>Identitas</th>

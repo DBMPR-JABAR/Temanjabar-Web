@@ -41,7 +41,7 @@
             </div>
             <div class="card-block">
                 <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
-                <table class="table">
+                <table class="table table-responsive">
                     <thead>
                         <tr>
                             <th>Judul</th>
@@ -107,7 +107,7 @@
                             </div>
                         </div>
 
-                       
+
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Link</label>
                             <div class="col-md-10">
