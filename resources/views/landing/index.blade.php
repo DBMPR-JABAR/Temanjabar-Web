@@ -27,7 +27,7 @@
                         <a class="nav-link pagescroll" href="#kontak">Kontak</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ url('login') }}" class="nav-link">
                             <button type="button" class="btn btn-warning">Login</button>
                         </a>
                     </li>
@@ -61,7 +61,7 @@
                     <li class="nav-item">
                         <a class="nav-link pagescroll" href="#kontak">Kontak</a>
                     </li>
-                    <a href="#">
+                    <a href="{{ url('login') }}">
                         <button type="button" class="btn btn-warning">Login</button>
                     </a>
                 </ul>
