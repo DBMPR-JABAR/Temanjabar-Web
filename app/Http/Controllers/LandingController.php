@@ -20,12 +20,12 @@ class LandingController extends Controller
         // Compact mengubah variabel profil untuk dijadikan variabel yang dikirim
         return view('landing.index', compact('profil'));
     }
-    // public function login()
-    // {
-    //     $profil = DB::table('landing_profil')->where('id',1)->first();
+    public function login()
+    {
+        $profil = DB::table('landing_profil')->where('id',1)->first();
 
-    //     return view('landing.login', compact('login'));
-    // }
+        return view('landing.login', compact('profil'));
+    }
     public function paketPekerjaan()
     {
         $profil = DB::table('landing_profil')->where('id',1)->first();
@@ -161,7 +161,7 @@ class LandingController extends Controller
         $msg = "Berhasil Mengubah Data Fitur";
         return redirect(route('getLandingFitur'))->with(compact('color','msg'));
     }
-    
+
     public function deleteFitur($id)
     {
         DB::table('landing_fitur')->where('id',$id)->delete();

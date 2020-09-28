@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 // {SiteURL}
 Route::get('/', 'LandingController@index');
+Route::get('login', 'LandingController@login');
 Route::get('paket-pekerjaan', 'LandingController@paketPekerjaan');
 Route::get('progress-pekerjaan', 'LandingController@progressPekerjaan');
 Route::post('tambah-laporan', 'LandingController@createLaporan');

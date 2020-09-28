@@ -7,7 +7,7 @@
       <div class="row">
           <div class="col-lg-6 pr-0">
               <div class=" image login-image h-100">
-                  <img src="images/login-section.jpg" alt="" class="w-100 h-100">
+                  <img src="{{ asset('assets/images/slider/hero01.jpg') }}" alt="" class="w-100 h-100">
               </div>
           </div>
          <div class="col-lg-6 pl-0 col-md-8 col-sm-10 whitebox">

@@ -27,9 +27,7 @@
                         <a class="nav-link pagescroll" href="#kontak">Kontak</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ url('login') }}" class="nav-link">
-                            <button type="button" class="btn btn-warning">Login</button>
-                        </a>
+                        <a href="{{ url('login') }}" class="nav-link">Login</a>
                     </li>
                 </ul>
             </div>
