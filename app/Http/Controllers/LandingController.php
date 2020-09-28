@@ -20,6 +20,12 @@ class LandingController extends Controller
         // Compact mengubah variabel profil untuk dijadikan variabel yang dikirim
         return view('landing.index', compact('profil'));
     }
+    // public function login()
+    // {
+    //     $profil = DB::table('landing_profil')->where('id',1)->first();
+
+    //     return view('landing.login', compact('login'));
+    // }
     public function paketPekerjaan()
     {
         $profil = DB::table('landing_profil')->where('id',1)->first();
