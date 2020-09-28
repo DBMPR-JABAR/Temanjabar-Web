@@ -31,7 +31,7 @@
             <section id="our-services" class="pt-5 bglight">
                 <div class="container">
                     <div class="row whitebox top15">
-                        
+
                         <div class="col-lg-12 col-md-12">
                             <div class="widget heading_space text-center text-md-left">
 
@@ -45,7 +45,7 @@
                     </div>
                 </div>
             </section>
-           
+
         </div><div class="card">
             <div class="card-block">
                 <div class="table-responsive dt-responsive">
@@ -65,8 +65,8 @@
                             </tr>
                         </thead>
                      <tbody>
-    
-                        
+
+
                             <tr>
                                 <td>1</td>
                                 <td>Paket Pekerjaan Peningkatan Jalan Ruas Jalan Cibadak - Cikidang - Pelabuhan Ratu </th>
@@ -79,7 +79,7 @@
                                 <td>60.3160%</td>
                                 <td>22.9690%</td>
                             </tr>
-                        
+
                             <tr>
                                 <td>2</td>
                                 <td>Paket Pekerjaan Peningkatan Jalan Bts. Karawang/Purwakarta (Curug) - Purwakarta </th>
@@ -106,7 +106,7 @@
                                 <td> -2.0400%</td>
                             </tr>
 
-                       
+
                      </tbody>
                      </table>
                 </div>
