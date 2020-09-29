@@ -16,8 +16,8 @@
                         </a>
                     </li>
                     <li class=" ">
-                        <a href="{{ url('admin/monitoring/supervisi-kontrak') }}">
-                            <span class="pcoded-mtext">Supervisi Kontrak</span>
+                        <a href="{{ url('admin/monitoring/proyek-kontrak') }}">
+                            <span class="pcoded-mtext">Proyek Kontrak</span>
                         </a>
                     </li>
                     <li class=" ">
