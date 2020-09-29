@@ -41,7 +41,7 @@
             </div>
             <div class="card-block">
 
-                <form action="{{ route('updateLandingUPTD') }}" method="post">
+                <form action="{{ route('updateLandingUPTD') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id" value="{{$uptd->id}}">
 

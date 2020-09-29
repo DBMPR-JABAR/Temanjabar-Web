@@ -58,7 +58,7 @@
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label">Foto</label>
                     <div class="col-md-5">
-                        <img class="img-fluid" src="{!! $profil->gambar !!}" alt="" srcset="">
+                        <img class="img-fluid" src="{!! url('storage/'.$profil->gambar) !!}" alt="" srcset="">
                     </div>
                     <div class="col-md-5">
                         <input name="gambar" type="file" class="form-control">

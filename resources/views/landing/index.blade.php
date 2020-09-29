@@ -300,7 +300,7 @@
                     Selengkapnya</a>
             </div>
             <div class="col-lg-5 offset-lg-1 col-md-5 col-sm-5 wow fadeInRight" data-wow-delay="300ms">
-                <div class="image"><img alt="SEO" src="{!! $profil->gambar !!}"></div>
+                <div class="image"><img alt="SEO" src="{!! url('storage/'.$profil->gambar) !!}"></div>
             </div>
         </div>
     </div>

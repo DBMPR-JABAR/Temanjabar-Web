@@ -1,6 +1,9 @@
 @extends('admin.t_index')
 
 @section('title') Admin Dashboard @endsection
+@section('head')
+    <link rel="stylesheet" href="{{ asset('assets/vendor/fontawesome/css/all.min.css') }}">
+@endsection
 
 @section('page-header')
 <div class="row align-items-end">
@@ -46,7 +49,7 @@
                         <tr>
                             <th>Judul</th>
                             <th>Deskripsi</th>
-                            <th>Icon</th>
+                            <th>Icon (Font Awesome)</th>
                             <th>Link</th>
                             <th>Aksi</th>
                         </tr>
@@ -56,7 +59,7 @@
                         <tr>
                             <td>{{$data->judul}}</td>
                             <td>{{$data->deskripsi}}</td>
-                            <td>{{$data->icon}}</td>
+                            <td><i class="{{$data->icon}}"></i> {{$data->icon}}</td>
                             <td>{{$data->link}}</td>
                             <td>
                                 <a href="{{ route('editLandingFitur',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
@@ -101,7 +104,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Icon</label>
+                            <label class="col-md-2 col-form-label">Icon (Font Awesome)</label>
                             <div class="col-md-10">
                                 <input name="icon" type="text" class="form-control" required>
                             </div>

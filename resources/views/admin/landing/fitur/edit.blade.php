@@ -41,7 +41,7 @@
             </div>
             <div class="card-block">
 
-                <form action="{{ route('updateLandingFitur') }}" method="post">
+                <form action="{{ route('updateLandingFitur') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id" value="{{$fitur->id}}">
 
@@ -52,7 +52,7 @@
                         </div>
                     </div>
 
-                   
+
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Deskripsi</label>

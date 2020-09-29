@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class LandingController extends Controller
 {
@@ -85,7 +86,18 @@ class LandingController extends Controller
         $color = 'success';
         $msg = 'Berhasil mengubah data profil';
 
+        $old = DB::table('landing_profil')->where('id',1)->first();
+
         $data = $req->except('_token','gambar');
+        if($req->gambar != null){
+            $old->gambar ?? Storage::delete('public/'.$old->gambar);
+
+            $path = 'landing/profil/'.Str::snake(date("YmdHis").' '.$req->gambar->getClientOriginalName());
+            $req->gambar->storeAs('public/',$path);
+            $data['gambar'] = $path;
+
+        }
+
         DB::table('landing_profil')->where('id',1)->update($data);
 
         return back()->with(compact('color','msg'));
@@ -106,6 +118,13 @@ class LandingController extends Controller
     {
         $slideshow = $req->except('_token','gambar');
 
+        if($req->gambar != null){
+            $path = 'landing/slideshow/'.Str::snake(date("YmdHis").' '.$req->gambar->getClientOriginalName());
+            $req->gambar->storeAs('public/',$path);
+            $slideshow['gambar'] = $path;
+        }
+
+
         DB::table('landing_slideshow')->insert($slideshow);
 
         $color = "success";
@@ -115,6 +134,19 @@ class LandingController extends Controller
     public function updateSlideshow(Request $req)
     {
         $slideshow = $req->except('_token','gambar','id');
+
+        $old = DB::table('landing_slideshow')->where('id',1)->first();
+
+        if($req->gambar != null){
+            $old->gambar ?? Storage::delete('public/'.$old->gambar);
+
+            $path = 'landing/slideshow/'.Str::snake(date("YmdHis").' '.$req->gambar->getClientOriginalName());
+            $req->gambar->storeAs('public/',$path);
+            $slideshow['gambar'] = $path;
+
+        }
+
+
         DB::table('landing_slideshow')->where('id',$req->id)->update($slideshow);
 
         $color = "success";
@@ -123,7 +155,10 @@ class LandingController extends Controller
     }
     public function deleteSlideshow($id)
     {
-        DB::table('landing_slideshow')->where('id',$id)->delete();
+        $old = DB::table('landing_slideshow')->where('id',$id);
+        $old->first()->gambar ?? Storage::delete('public/'.$old->first()->gambar);
+
+        $old->delete();
 
         $color = "success";
         $msg = "Berhasil Menghapus Data Slideshow";
@@ -143,7 +178,7 @@ class LandingController extends Controller
     }
     public function createFitur(Request $req)
     {
-        $fitur = $req->except('_token','icon');
+        $fitur = $req->except('_token');
 
         DB::table('landing_fitur')->insert($fitur);
 
@@ -153,7 +188,7 @@ class LandingController extends Controller
     }
     public function updateFitur(Request $req)
     {
-        $fitur = $req->except('_token','icon','id');
+        $fitur = $req->except('_token','id');
 
         DB::table('landing_fitur')->where('id',$req->id)->update($fitur);
 
@@ -187,6 +222,12 @@ class LandingController extends Controller
         $uptd = $req->except('_token','gambar');
         $uptd['slug'] = Str::slug($req->nama);
 
+        if($req->gambar != null){
+            $path = 'landing/uptd/'.Str::snake(date("YmdHis").' '.$req->gambar->getClientOriginalName());
+            $req->gambar->storeAs('public/',$path);
+            $uptd['gambar'] = $path;
+        }
+
         DB::table('landing_uptd')->insert($uptd);
 
         $color = "success";
@@ -198,6 +239,16 @@ class LandingController extends Controller
         $uptd = $req->except('_token','gambar','id');
         $uptd['slug'] = Str::slug($req->nama);
 
+        $old = DB::table('landing_uptd')->where('id',1)->first();
+
+        if($req->gambar != null){
+            $old->gambar ?? Storage::delete('public/'.$old->gambar);
+
+            $path = 'landing/uptd/'.Str::snake(date("YmdHis").' '.$req->gambar->getClientOriginalName());
+            $req->gambar->storeAs('public/',$path);
+            $uptd['gambar'] = $path;
+        }
+
         DB::table('landing_uptd')->where('id',$req->id)->update($uptd);
 
         $color = "success";
@@ -206,7 +257,11 @@ class LandingController extends Controller
     }
     public function deleteUPTD($id)
     {
-        DB::table('landing_uptd')->where('id',$id)->delete();
+        $old = DB::table('landing_uptd')->where('id',$id);
+        $old->first()->gambar ?? Storage::delete('public/'.$old->first()->gambar);
+
+
+        $old->delete();
 
         $color = "success";
         $msg = "Berhasil Menghapus Data UPTD";

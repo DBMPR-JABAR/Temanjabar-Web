@@ -54,7 +54,7 @@
                     <tbody>
                         @foreach ($uptd as $data)
                         <tr>
-                            <td><img class="img-fluid" style="max-width: 100px" src="{!! $data->gambar !!}" alt="" srcset=""></td>
+                            <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/'.$data->gambar) !!}" alt="" srcset=""></td>
                             <td>{{$data->nama}}</td>
                             <td>{{$data->altnama}}</td>
                             <td>{{$data->deskripsi}}</td>

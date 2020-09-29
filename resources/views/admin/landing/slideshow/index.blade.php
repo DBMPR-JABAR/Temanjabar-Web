@@ -53,7 +53,7 @@
                         @foreach ($slideshow as $data)
                         <tr>
                             <td>{{$data->judul}}</td>
-                            <td><img class="img-fluid" style="max-width: 100px" src="{!! $data->gambar !!}" alt="" srcset=""></td>
+                            <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/'.$data->gambar) !!}" alt="" srcset=""></td>
                             <td>
                                 <a href="{{ route('editLandingSlideshow',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
                                 <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
