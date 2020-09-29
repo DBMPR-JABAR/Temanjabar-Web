@@ -37,7 +37,7 @@
 
                                 <div class="col-12 px-0">
                                     <div class="w-100">
-                                        <iframe style="border:0px" src="http://talikuat-bima-jabar.com/temanjabar/mob/dinas/progress.php" title="Progress Pekerjaan" width="100%" height="400"></iframe>
+                                        <iframe style="border:0px" src="https://talikuat-bima-jabar.com/temanjabar/mob/dinas/progress.php" title="Progress Pekerjaan" width="100%" height="400"></iframe>
                                     </div>
                                 </div>
                             </div>

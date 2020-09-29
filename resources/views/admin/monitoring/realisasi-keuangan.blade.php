@@ -131,7 +131,7 @@
                         <tr><td>1</td>
 
 
-                            <td width=30%>UPDT I</td>
+                            <td width=30%>UPTD I</td>
                             <td align='right'>Rp 316.145.101,-</td>
                             <td align='right'>Rp 265.452.998,-</td>
 
@@ -151,7 +151,7 @@
                         <tr><td>2</td>
 
 
-                            <td width=30%>UPDT II</td>
+                            <td width=30%>UPTD II</td>
                             <td align='right'>Rp 4.345.430.119,-</td>
                             <td align='right'>Rp 3.136.424.579,-</td>
 
@@ -209,7 +209,7 @@
                         <tr><td>1</td>
 
 
-                            <td width=30%>UPDT III</td>
+                            <td width=30%>UPTD III</td>
                             <td align='right'>Rp 6.502.176.979,-</td>
                             <td align='right'>Rp 3.928.615.237,-</td>
 
@@ -229,7 +229,7 @@
                         <tr><td>2</td>
 
 
-                            <td width=30%>UPDT VI</td>
+                            <td width=30%>UPTD VI</td>
                             <td align='right'>Rp 9.799.108.013,-</td>
                             <td align='right'>Rp 5.183.894.528,-</td>
 
@@ -286,7 +286,7 @@
                         <tr><td>1</td>
 
 
-                            <td width=30%>UPDT V</td>
+                            <td width=30%>UPTD V</td>
                             <td align='right'>Rp 106.064.538.816,-</td>
                             <td align='right'>Rp 74.063.353.088,-</td>
 
@@ -306,7 +306,7 @@
                         <tr><td>2</td>
 
 
-                            <td width=30%>UPDT IV</td>
+                            <td width=30%>UPTD IV</td>
                             <td align='right'>Rp 32.150.651.092,-</td>
                             <td align='right'>Rp 19.157.608.600,-</td>
 
@@ -405,22 +405,22 @@
     var chart = am4core.create("chartdivInfo1", am4charts.XYChart3D);
     // Add data
     chart.data = [{
-      "country": "UPDT I",
+      "country": "UPTD I",
       "visits": 80
     }, {
-      "country": "UPDT II",
+      "country": "UPTD II",
       "visits": 72
     }, {
-      "country": "UPDT III",
+      "country": "UPTD III",
       "visits": 80.5
     }, {
-      "country": "UPDT IV",
+      "country": "UPTD IV",
       "visits": 82.3
     }, {
-      "country": "UPDT V",
+      "country": "UPTD V",
       "visits": 69.5
     }, {
-      "country": "UPDT VI",
+      "country": "UPTD LAB",
       "visits": 56.3
     }, {
       "country": "SEKRETARIAT",
@@ -494,10 +494,10 @@
     var chart = am4core.create("chartdivInfo2", am4charts.XYChart3D);
     // Add data
     chart.data = [{
-      "country": "UPDT III",
+      "country": "UPTD III",
       "visits": 80.5
     }, {
-      "country": "UPDT IV",
+      "country": "UPTD IV",
       "visits": 82.3
     }  ];
 
@@ -556,10 +556,10 @@
     var chart = am4core.create("chartdivInfo3", am4charts.XYChart3D);
     // Add data
     chart.data = [{
-      "country": "UPDT V",
+      "country": "UPTD V",
       "visits": 69.5
     }, {
-      "country": "UPDT VI",
+      "country": "UPTD VI",
       "visits": 59.3
     }  ];
 

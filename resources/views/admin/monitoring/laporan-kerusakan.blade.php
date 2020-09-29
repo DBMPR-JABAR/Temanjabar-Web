@@ -40,9 +40,8 @@
             </div>
             <div class="card-block">
                 <div class="mapping">
-                    <iframe style="display:block; width: 100%; height: 60vh;" src="http://talikuat-bima-jabar.com/temanjabar/mob/dinas/progress.php" frameborder="0"></iframe>
+                    <iframe style="display:block; width: 100%; height: 60vh;" src="https://talikuat-bima-jabar.com/temanjabar/mob/dinas/progress.php" frameborder="0"></iframe>
                 </div>
-
             </div>
         </div>
         <div class="card">

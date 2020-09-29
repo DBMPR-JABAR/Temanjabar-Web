@@ -7,8 +7,8 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Proyek Kontrak</h4>
-             
+                <h4>Supervisi Kontrak</h4>
+
             </div>
         </div>
     </div>
@@ -18,7 +18,7 @@
                 <li class="breadcrumb-item">
                     <a href="index.html"> <i class="feather icon-home"></i> </a>
                 </li>
-                <li class="breadcrumb-item"><a href="#!">Proyek Kontrak</a> </li>
+                <li class="breadcrumb-item"><a href="#!">Supervisi Kontrak</a> </li>
             </ul>
         </div>
     </div>
@@ -136,7 +136,7 @@
         <div class="card">
             <div class="card-header">
                 <h5>Daftar Penyelesaian Pekerjaan Kontraktor</h5>
-              
+
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
                         <li><i class="feather icon-maximize full-card"></i></li>
@@ -177,17 +177,17 @@
                         <div id="chartdivalert" style="height:250px"></div>
                      </div>
                     <div class="tab-pane" id="settings3" role="tabpanel">
-                        <div id="chartdivselesai" style="height:250px"></div> 
+                        <div id="chartdivselesai" style="height:250px"></div>
                     </div>
                 </div>
 
 
-               
-                
+
+
             </div>
         </div>
     </div>
-       
+
      <!-- sale order start -->
 </div>
 @endsection
@@ -198,17 +198,17 @@
 <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
 <script>
     am4core.ready(function() {
-    
+
     // Themes begin
     am4core.useTheme(am4themes_animated);
     // Themes end
-    
+
     // Create chart instance
     var chart = am4core.create("chartdiv", am4charts.XYChart);
-    
+
     // Add data
     chart.data = [
-     
+
       {
         "region": "OnTrack",
         "state": "Lingatama",
@@ -229,23 +229,23 @@
         "state": "CDS Studio",
         "sales": 22
       },
-      
+
       {
         "region": "OnTrack",
         "state": "Kuli",
         "sales": 4
       }
     ];
-    
+
     // Create axes
     var yAxis = chart.yAxes.push(new am4charts.CategoryAxis());
     yAxis.dataFields.category = "state";
     yAxis.renderer.grid.template.location = 0;
     yAxis.renderer.labels.template.fontSize = 10;
     yAxis.renderer.minGridDistance = 10;
-    
+
     var xAxis = chart.xAxes.push(new am4charts.ValueAxis());
-    
+
     // Create series
     var series = chart.series.push(new am4charts.ColumnSeries());
     series.dataFields.valueX = "sales";
@@ -271,26 +271,26 @@
       }
       return fill;
     });
-    
+
     var axisBreaks = {};
     var legendData = [];
-    
+
     // Add ranges
-    
-    
-    
+
+
+
     chart.cursor = new am4charts.XYCursor();
-    
-    
+
+
     var legend = new am4charts.Legend();
     legend.position = "right";
     legend.scrollable = true;
     legend.valign = "top";
     legend.reverseOrder = true;
-    
+
     chart.legend = legend;
     legend.data = legendData;
-    
+
     legend.itemContainers.template.events.on("toggled", function(event){
       var name = event.target.dataItem.dataContext.name;
       var axisBreak = axisBreaks[name];
@@ -305,7 +305,7 @@
           if(dataItem.dataContext.region == name){
             dataItem.hide(1000, 0, 0, ["valueX"]);
           }
-        })    
+        })
       }
       else{
         axisBreak.animate({property:"breakSize", to:1}, 1000, am4core.ease.cubicOut);
@@ -313,16 +313,16 @@
           if(dataItem.dataContext.region == name){
             dataItem.show(1000);
           }
-        })  
-    
+        })
+
         series.dataItems.each(function(dataItem){
           if(dataItem.dataContext.region == name){
             dataItem.show(1000, 0, ["valueX"]);
           }
-        })        
+        })
       }
     })
-    
+
     }); // end am4core.ready()
 
 
@@ -344,10 +344,10 @@
 
 
     var chart2 = am4core.create("chartdivontrack", am4charts.XYChart);
-    
+
     // Add data
     chart2.data = [
-     
+
       {
         "region": "OnTrack",
         "state": "Lingatama",
@@ -368,23 +368,23 @@
         "state": "CDS Studio",
         "sales": 2
       },
-      
+
       {
         "region": "OnTrack",
         "state": "Kuli",
         "sales": 4
       }
     ];
-    
+
     // Create axes
     var yAxis2 = chart2.yAxes.push(new am4charts.CategoryAxis());
     yAxis2.dataFields.category = "state";
     yAxis2.renderer.grid.template.location = 0;
     yAxis2.renderer.labels.template.fontSize = 10;
     yAxis2.renderer.minGridDistance = 10;
-    
+
     var xAxis = chart2.xAxes.push(new am4charts.ValueAxis());
-    
+
     // Create series
     var series = chart2.series.push(new am4charts.ColumnSeries());
     series.dataFields.valueX = "sales";
@@ -410,26 +410,26 @@
       }
       return fill;
     });
-    
+
     var axisBreaks = {};
     var legendData = [];
-    
+
     // Add ranges
-    
-    
-    
+
+
+
     chart.cursor = new am4charts.XYCursor();
-    
-    
+
+
     var legend = new am4charts.Legend();
     legend.position = "right";
     legend.scrollable = true;
     legend.valign = "top";
     legend.reverseOrder = true;
-    
+
     chart.legend = legend;
     legend.data = legendData;
-    
+
     legend.itemContainers.template.events.on("toggled", function(event){
       var name = event.target.dataItem.dataContext.name;
       var axisBreak = axisBreaks[name];
@@ -444,7 +444,7 @@
           if(dataItem.dataContext.region == name){
             dataItem.hide(1000, 0, 0, ["valueX"]);
           }
-        })    
+        })
       }
       else{
         axisBreak.animate({property:"breakSize", to:1}, 1000, am4core.ease.cubicOut);
@@ -452,15 +452,15 @@
           if(dataItem.dataContext.region == name){
             dataItem.show(1000);
           }
-        })  
-    
+        })
+
         series.dataItems.each(function(dataItem){
           if(dataItem.dataContext.region == name){
             dataItem.show(1000, 0, ["valueX"]);
           }
-        })        
+        })
       }
     });
-     
+
 </script>
 @endsection
