@@ -28,12 +28,15 @@ Route::group(['prefix' => 'uptd'], function () {
 
 // {SiteURL}/admin/*
 Route::group(['prefix' => 'admin'], function () {
-    Route::view('/', 'admin.home');
+    // Route::view('/', 'admin.home');
+    Route::get('/', function () {
+        return redirect(route('monitoring-kontrak'));
+    });
 
     // {SiteURL}/admin/monitoring/*
     Route::group(['prefix' => 'monitoring'], function () {
         Route::view('progress-pekerjaan', 'admin.monitoring.progress-pekerjaan');
-        Route::view('proyek-kontrak', 'admin.monitoring.proyek-kontrak');
+        Route::view('proyek-kontrak', 'admin.monitoring.proyek-kontrak')->name('monitoring-kontrak');
         Route::get('laporan-kerusakan', 'MonitoringController@getLaporan');
         Route::view('realisasi-keuangan', 'admin.monitoring.realisasi-keuangan');
         Route::view('audit-keuangan', 'admin.monitoring.audit-keuangan');
