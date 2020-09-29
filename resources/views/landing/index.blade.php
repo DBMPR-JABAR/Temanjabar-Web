@@ -26,9 +26,15 @@
                     <li class="nav-item">
                         <a class="nav-link pagescroll" href="#kontak">Kontak</a>
                     </li>
+                    @if (Auth::check())
+                    <li class="nav-item">
+                        <a href="{{ url('admin') }}" class="nav-link">{{ Auth::user()->name }}</a>
+                    </li>
+                    @else
                     <li class="nav-item">
                         <a href="{{ url('login') }}" class="nav-link">Login</a>
                     </li>
+                    @endif
                 </ul>
             </div>
         </div>

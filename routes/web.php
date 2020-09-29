@@ -16,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 // {SiteURL}
 Route::get('/', 'LandingController@index');
 Route::get('login', 'LandingController@login');
+Route::get('logout', 'AuthController@logout');
+
+Route::post('auth', 'AuthController@login');
+
 Route::get('paket-pekerjaan', 'LandingController@paketPekerjaan');
 Route::get('progress-pekerjaan', 'LandingController@progressPekerjaan');
 Route::post('tambah-laporan', 'LandingController@createLaporan');
@@ -27,7 +31,7 @@ Route::group(['prefix' => 'uptd'], function () {
 });
 
 // {SiteURL}/admin/*
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     // Route::view('/', 'admin.home');
     Route::get('/', function () {
         return redirect(route('monitoring-kontrak'));

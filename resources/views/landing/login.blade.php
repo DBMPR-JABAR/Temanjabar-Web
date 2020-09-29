@@ -13,18 +13,19 @@
          <div class="col-lg-6 pl-0 col-md-8 col-sm-10 whitebox">
             <div class="widget logincontainer">
                <h3 class="darkcolor bottom35">Login </h3>
-               <form class="getin_form border-form" id="login">
-                  <div class="row">
+               <form class="getin_form border-form" id="login" action="{{ url('auth') }}" method="POST">
+                @csrf
+                <div class="row">
                      <div class="col-md-12 col-sm-12">
                         <div class="form-group bottom35">
                             <label for="loginEmail" class="d-none"></label>
-                           <input class="form-control" type="email" placeholder="Email:" required id="loginEmail">
+                           <input name="email" class="form-control" type="email" placeholder="Email:" required id="loginEmail">
                         </div>
                      </div>
                      <div class="col-md-12 col-sm-12">
                         <div class="form-group bottom35">
                             <label for="loginPass" class="d-none"></label>
-                           <input class="form-control" type="password" placeholder="Password:" required id="loginPass">
+                           <input name="password" class="form-control" type="password" placeholder="Password:" required id="loginPass">
                         </div>
                      </div>
                      <div class="col-md-12 col-sm-12">

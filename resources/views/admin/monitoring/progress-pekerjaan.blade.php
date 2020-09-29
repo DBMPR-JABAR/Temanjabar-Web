@@ -117,7 +117,8 @@
 @endsection
 
 @section('script')
-<script async defer
+{{-- <script async defer
 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCXljmPJFUg&callback=initMap">
-</script>
+</script> --}}
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgIfLQi8KTxTJahilcem6qHusV-V6XXjw"></script>
 @endsection
