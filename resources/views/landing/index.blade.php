@@ -85,23 +85,16 @@
         <!-- START REVOLUTION SLIDER 5.4.1 fullwidth mode -->
         <div id="rev_main" class="rev_slider fullwidthabanner white" data-version="5.4.1">
             <ul>
-                <!-- SLIDE 1 -->
-                <li data-index="rs-01" data-transition="fade" data-slotamount="default"
+                @php $n = 1; @endphp
+                @foreach ($slideshow as $slide)
+                <li data-index="rs-0{{$n}}" data-transition="fade" data-slotamount="default"
                     data-easein="Power100.easeIn" data-easeout="Power100.easeOut" data-masterspeed="2000"
-                    data-fsmasterspeed="1500" data-param1="01">
+                    data-fsmasterspeed="1500" data-param1="0{{$n}}">
                     <!-- MAIN IMAGE -->
-                    <img src="{{ asset('assets/images/slider/hero01.jpg') }}" alt="" data-bgposition="center center" data-bgfit="cover"
+                    <img src="{{ url('storage/'.$slide->gambar) }}" alt="" data-bgposition="center center" data-bgfit="cover"
                         data-bgrepeat="no-repeat" data-bgparallax="10" class="rev-slidebg" data-no-retina>
                     <div class="overlay overlay-dark opacity-6"></div>
-                    <!-- LAYER NR. 1 -->
-                    <div class="tp-caption tp-resizeme" data-x="['center','center','center','center']"
-                        data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                        data-voffset="['-130','-130','-110','-80']" data-width="none" data-height="none"
-                        data-type="text" data-textAlign="['center','center','center','center']"
-                        data-responsive_offset="on" data-start="1000"
-                        data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","mask":"x:0px;y:[100%];s:inherit;e:inherit;","speed":2000,"to":"o:1;","delay":1500,"ease":"Power4.easeInOut"},{"delay":"wait","speed":1000,"to":"y:[100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power2.easeInOut"}]'>
-                        <h1 class="text-capitalize font-xlight whitecolor text-center">DBMPR</h1>
-                    </div>
+
                     <!-- LAYER NR. 2 -->
                     <div class="tp-caption tp-resizeme" data-x="['center','center','center','center']"
                         data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
@@ -109,126 +102,14 @@
                         data-type="text" data-textAlign="['center','center','center','center']"
                         data-responsive_offset="on" data-start="1000"
                         data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","mask":"x:0px;y:[100%];s:inherit;e:inherit;","speed":2000,"to":"o:1;","delay":1500,"ease":"Power4.easeInOut"},{"delay":"wait","speed":1000,"to":"y:[100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power2.easeInOut"}]'>
-                        <h1 class="text-capitalize font-bold whitecolor text-center">Konektivitas</h1>
+                        <h1 class="text-capitalize font-bold whitecolor text-center">{{$slide->judul}}</h1>
                     </div>
-                    <!-- LAYER NR. 3 -->
-                    <div class="tp-caption tp-resizeme" data-x="['center','center','center','center']"
-                        data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                        data-voffset="['-10','-10','10','40']" data-width="none" data-height="none" data-type="text"
-                        data-textAlign="['center','center','center','center']" data-responsive_offset="on"
-                        data-start="1500"
-                        data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","mask":"x:0px;y:[100%];s:inherit;e:inherit;","speed":2000,"to":"o:1;","delay":1500,"ease":"Power4.easeInOut"},{"delay":"wait","speed":1000,"to":"y:[100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power2.easeInOut"}]'>
-                        <h1 class="text-capitalize font-xlight whitecolor text-center">seluruh wilayah</h1>
-                    </div>
-                    <!-- LAYER NR. 4 -->
-                    <div class="tp-caption tp-resizeme" data-x="['center','center','center','center']"
-                        data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                        data-voffset="['40','40','60','90']" data-width="none" data-height="none"
-                        data-whitespace="nowrap" data-type="text"
-                        data-textAlign="['center','center','center','center']" data-responsive_offset="on"
-                        data-start="2000"
-                        data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","mask":"x:0px;y:[100%];s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":2000,"ease":"Power4.easeInOut"},{"delay":"wait","speed":1000,"to":"y:[100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power2.easeInOut"}]'>
-                        <!-- <h4 class="whitecolor font-xlight text-center">The Best Multipurpose Multi Page Template in
-                            Market</h4> -->
-                    </div>
+
+                    @php $n++; @endphp
                 </li>
-                <!-- SLIDE 2 -->
-                <li data-index="rs-02" data-transition="fade" data-slotamount="default"
-                    data-easein="Power3.easeInOut" data-easeout="Power3.easeInOut" data-masterspeed="2000"
-                    data-fsmasterspeed="1500" data-param1="02">
-                    <!-- MAIN IMAGE -->
-                    <img src="{{ asset('assets/images/slider/hero02.jpg') }}" alt="" data-bgposition="center center" data-bgfit="cover"
-                        data-bgrepeat="no-repeat" data-bgparallax="10" class="rev-slidebg" data-no-retina>
-                    <div class="overlay overlay-dark opacity-6"></div>
-                    <!-- LAYER NR. 1 -->
-                    <div class="tp-caption tp-resizeme" data-x="['center','center','center','center']"
-                        data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                        data-voffset="['-130','-130','-110','-80']" data-width="none" data-height="none"
-                        data-type="text" data-textAlign="['center','center','center','center']"
-                        data-responsive_offset="on" data-start="1000"
-                        data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","mask":"x:0px;y:[100%];s:inherit;e:inherit;","speed":2000,"to":"o:1;","delay":1500,"ease":"Power4.easeInOut"},{"delay":"wait","speed":1000,"to":"y:[100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power2.easeInOut"}]'>
-                        <h1 class="text-capitalize font-xlight whitecolor text-center">Proses
-                        </h1>
-                    </div>
-                    <!-- LAYER NR. 2 -->
-                    <div class="tp-caption tp-resizeme" data-x="['center','center','center','center']"
-                        data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                        data-voffset="['-70','-70','-50','-20']" data-width="none" data-height="none"
-                        data-type="text" data-textAlign="['center','center','center','center']"
-                        data-responsive_offset="on" data-start="1000"
-                        data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","mask":"x:0px;y:[100%];s:inherit;e:inherit;","speed":2000,"to":"o:1;","delay":1500,"ease":"Power4.easeInOut"},{"delay":"wait","speed":1000,"to":"y:[100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power2.easeInOut"}]'>
-                        <h1 class="text-capitalize font-bold whitecolor text-center">Groundbreaking</h1>
-                    </div>
-                    <!-- LAYER NR. 3 -->
-                    <div class="tp-caption tp-resizeme" data-x="['center','center','center','center']"
-                        data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                        data-voffset="['-10','-10','10','40']" data-width="none" data-height="none" data-type="text"
-                        data-textAlign="['center','center','center','center']" data-responsive_offset="on"
-                        data-start="1500"
-                        data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","mask":"x:0px;y:[100%];s:inherit;e:inherit;","speed":2000,"to":"o:1;","delay":1500,"ease":"Power4.easeInOut"},{"delay":"wait","speed":1000,"to":"y:[100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power2.easeInOut"}]'>
-                        <h1 class="text-capitalize font-xlight whitecolor text-center">Dengan Vendor
-                        </h1>
-                    </div>
-                    <!-- LAYER NR. 4 -->
-                    <div class="tp-caption tp-resizeme" data-x="['center','center','center','center']"
-                        data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                        data-voffset="['40','40','60','90']" data-width="none" data-height="none"
-                        data-whitespace="nowrap" data-type="text"
-                        data-textAlign="['center','center','center','center']" data-responsive_offset="on"
-                        data-start="2000"
-                        data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","mask":"x:0px;y:[100%];s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":2000,"ease":"Power4.easeInOut"},{"delay":"wait","speed":1000,"to":"y:[100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power2.easeInOut"}]'>
-                        <!-- <h4 class="whitecolor font-xlight text-center">Responsive and Retina Ready for All Devices
-                        </h4> -->
-                    </div>
-                </li>
-                <!-- SLIDE 3 -->
-                <li data-index="rs-03" data-transition="fade" data-slotamount="default"
-                    data-easein="Power3.easeInOut" data-easeout="Power3.easeInOut" data-masterspeed="2000"
-                    data-fsmasterspeed="1500" data-param1="03">
-                    <!-- MAIN IMAGE -->
-                    <img src="{{ asset('assets/images/slider/hero03.jpg') }}" alt="" data-bgposition="center center" data-bgfit="cover"
-                        data-bgrepeat="no-repeat" data-bgparallax="10" class="rev-slidebg" data-no-retina>
-                    <div class="overlay overlay-dark opacity-7"></div>
-                    <!-- LAYER NR. 1 -->
-                    <div class="tp-caption tp-resizeme" data-x="['center','center','center','center']"
-                        data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                        data-voffset="['-130','-130','-110','-80']" data-width="none" data-height="none"
-                        data-type="text" data-textAlign="['center','center','center','center']"
-                        data-responsive_offset="on" data-start="1000"
-                        data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","mask":"x:0px;y:[100%];s:inherit;e:inherit;","speed":2000,"to":"o:1;","delay":1500,"ease":"Power4.easeInOut"},{"delay":"wait","speed":1000,"to":"y:[100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power2.easeInOut"}]'>
-                        <h1 class="text-capitalize font-xlight whitecolor text-center">membantu</h1>
-                    </div>
-                    <!-- LAYER NR. 2 -->
-                    <div class="tp-caption tp-resizeme" data-x="['center','center','center','center']"
-                        data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                        data-voffset="['-70','-70','-50','-20']" data-width="none" data-height="none"
-                        data-type="text" data-textAlign="['center','center','center','center']"
-                        data-responsive_offset="on" data-start="1000"
-                        data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","mask":"x:0px;y:[100%];s:inherit;e:inherit;","speed":2000,"to":"o:1;","delay":1500,"ease":"Power4.easeInOut"},{"delay":"wait","speed":1000,"to":"y:[100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power2.easeInOut"}]'>
-                        <h1 class="text-capitalize font-bold whitecolor text-center">Pembangunan
-                        </h1>
-                    </div>
-                    <!-- LAYER NR. 3 -->
-                    <div class="tp-caption tp-resizeme" data-x="['center','center','center','center']"
-                        data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                        data-voffset="['-10','-10','10','40']" data-width="none" data-height="none" data-type="text"
-                        data-textAlign="['center','center','center','center']" data-responsive_offset="on"
-                        data-start="1500"
-                        data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","mask":"x:0px;y:[100%];s:inherit;e:inherit;","speed":2000,"to":"o:1;","delay":1500,"ease":"Power4.easeInOut"},{"delay":"wait","speed":1000,"to":"y:[100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power2.easeInOut"}]'>
-                        <h1 class="text-capitalize font-xlight whitecolor text-center">Tata kelola</h1>
-                    </div>
-                    <!-- LAYER NR. 4 -->
-                    <div class="tp-caption tp-resizeme" data-x="['center','center','center','center']"
-                        data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                        data-voffset="['40','40','60','90']" data-width="none" data-height="none"
-                        data-whitespace="nowrap" data-type="text"
-                        data-textAlign="['center','center','center','center']" data-responsive_offset="on"
-                        data-start="2000"
-                        data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","mask":"x:0px;y:[100%];s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":2000,"ease":"Power4.easeInOut"},{"delay":"wait","speed":1000,"to":"y:[100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power2.easeInOut"}]'>
-                        <!-- <h4 class="whitecolor font-xlight text-center">Is a New Design Studio founded in NewYork
-                        </h4> -->
-                    </div>
-                </li>
+
+                @endforeach
+
             </ul>
         </div>
     </div>
@@ -245,41 +126,15 @@
     <div class="row">
         <div class="col-md-12">
             <div id="services-slider" class="owl-carousel">
+                @foreach ($fitur as $fit)
                 <div class="item">
                     <div class="service-box">
-                        <span class="bottom25"><i class="fas fa-road"></i></span>
-                        <h4 class="bottom10 text-nowrap"><a href="{{ url('progress-pekerjaan')}}">Progress Pekerjaan</a></h4>
-                        <p>Pantau semua proses pembangunan yang sedang dilakukan</p>
+                        <span class="bottom25"><i class="{{ $fit->icon }}"></i></span>
+                        <h4 class="bottom10 text-nowrap"><a href="{!! $fit->link !!}">{{ $fit->judul }}</a></h4>
+                        <p>{{ $fit->deskripsi }}</p>
                     </div>
                 </div>
-                <div class="item">
-                    <div class="service-box">
-                        <span class="bottom25"><i class="fas fa-text-width"></i></span>
-                        <h4 class="bottom10"><a href="javascript:void(0)">Pelebaran Jalan</a></h4>
-                        <p>Cek jalan mana saja yang sudah kami perlebar dan perbaiki</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="service-box">
-                        <span class="bottom25"><i class="fas fa-box-open"></i></span>
-                        <h4 class="bottom10"><a href="{{ url('paket-pekerjaan')}}">Paket Pekerjaan</a></h4>
-                        <p>projek pembangunan infrastruktur yang sudah kami selesaikan</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="service-box">
-                        <span class="bottom25"><i class="fas fa-bullhorn"></i></span>
-                        <h4 class="bottom10"><a href="#laporan">Pengaduan</a></h4>
-                        <p>Ada masalah dengan insfrastruktur di daerah anda? Segera lapor kepada kami!</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="service-box">
-                        <span class="bottom25"><i class="fas fa-map"></i></span>
-                        <h4 class="bottom10"><a href="#uptd">UPTD</a></h4>
-                        <p>Perkembangan pembangunan disetiap kabupaten/kota</p>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
@@ -351,108 +206,29 @@
                     <div data-filter="*" class="cbp-filter-item">
                         <span>All</span>
                     </div>
-                    <div data-filter=".uptd1" class="cbp-filter-item">
-                        <span>UPTD-I</span>
+                    @foreach ($uptd as $wil)
+                    <div data-filter=".{{$wil->slug}}" class="cbp-filter-item">
+                        <span>{{$wil->nama}}</span>
                     </div>
-                    <div data-filter=".uptd2" class="cbp-filter-item">
-                        <span>UPTD-II</span>
-                    </div>
-                    <div data-filter=".uptd3" class="cbp-filter-item">
-                        <span>UPTD-III</span>
-                    </div>
-                    <div data-filter=".uptd4" class="cbp-filter-item">
-                        <span>UPTD-IV</span>
-                    </div>
-                    <div data-filter=".uptd5" class="cbp-filter-item">
-                        <span>UPTD-V</span>
-                    </div>
-                    <div data-filter=".uptd6" class="cbp-filter-item">
-                        <span>UPTD-VI</span>
-                    </div>
+                    @endforeach
                 </div>
             </div>
             <div class="col-lg-12">
                 <div id="grid-mosaic" class="cbp cbp-l-grid-mosaic-flat">
-                    <!--Item 1-->
-                    <div class="cbp-item uptd1">
-                        <img src="{{ asset('assets/images/uptd/uptd1.jpg') }}" alt="">
+                    @foreach ($uptd as $wil)
+                    <div class="cbp-item {{$wil->slug}}">
+                        <img src="{!! url('storage/'.$wil->gambar) !!}" alt="">
                         <div class="gallery-hvr whitecolor">
                             <div class="center-box">
-                                <a href="{{ asset('assets/images/gallery-5.jpg') }}" class="opens" data-fancybox="gallery"
+                                <a href="{!! url('storage/'.$wil->gambar) !!}" class="opens" data-fancybox="gallery"
                                     title="Zoom In"> <i class="fa fa-search-plus"></i></a>
-                                <a href="{{ url('uptd/uptd1/') }}" class="opens" title="View Details"> <i
+                                <a href="{{ url('uptd/'.$wil->slug) }}" class="opens" title="View Details"> <i
                                         class="fas fa-link"></i></a>
-                                <h4 class="w-100">WILAYAH KAB.CIANJUR-KOTA/KAB.BOGOR-KOTA DEPOK-KOTA/KAB.BEKASI</h4>
+                                <h4 class="w-100">{{$wil->deskripsi}}</h4>
                             </div>
                         </div>
                     </div>
-                    <!--Item 2-->
-                    <div class="cbp-item uptd2">
-                        <img src="{{ asset('assets/images/uptd/uptd2.jpg') }}" alt="">
-                        <div class="gallery-hvr whitecolor">
-                            <div class="center-box">
-                                <a href="{{ asset('assets/images/gallery-7.jpg') }}" class="opens" data-fancybox="gallery"
-                                    title="Zoom In"> <i class="fa fa-search-plus"></i></a>
-                                <a href="{{ url('uptd/uptd2/') }}" class="opens" title="View Details"> <i
-                                        class="fas fa-link"></i></a>
-                                <h4 class="w-100">WILAYAH KOTA&KAB SUKABUMI</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <!--Item 3-->
-                    <div class="cbp-item uptd3">
-                        <img src="{{ asset('assets/images/uptd/uptd3.jpg') }}" alt="">
-                        <div class="gallery-hvr whitecolor">
-                            <div class="center-box">
-                                <a href="{{ asset('assets/images/gallery-11.jpg') }}" class="opens" data-fancybox="gallery"
-                                    title="Zoom In"> <i class="fa fa-search-plus"></i></a>
-                                <a href="{{ url('uptd/uptd3/') }}" class="opens" title="View Details"> <i
-                                        class="fas fa-link"></i></a>
-                                <h4 class="w-100">WILAYAH KOTA/KAB.BANDUNG-KOTA CIMAHI-KAB.BANDUNG BARAT-KAB.
-                                    SUBANG-KAB.PURWAKARTA-KAB.KARAWANG</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <!--Item 4-->
-                    <div class="cbp-item uptd4">
-                        <img src="{{ asset('assets/images/uptd/uptd4.jpeg') }}" alt="">
-                        <div class="gallery-hvr whitecolor">
-                            <div class="center-box">
-                                <a href="{{ asset('assets/images/gallery-6.jpg') }}" class="opens" data-fancybox="gallery"
-                                    title="Zoom In"> <i class="fa fa-search-plus"></i></a>
-                                <a href="{{ url('uptd/uptd4/') }}" class="opens" title="View Details"> <i
-                                        class="fas fa-link"></i></a>
-                                <h4 class="w-100">WILAYAH KAB.SUMEDANG-KAB.GARUT</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <!--Item 5-->
-                    <div class="cbp-item uptd5">
-                        <img src="{{ asset('assets/images/uptd/uptd5.jpg') }}" alt="">
-                        <div class="gallery-hvr whitecolor">
-                            <div class="center-box">
-                                <a href="{{ asset('assets/images/gallery-8.jpg') }}" class="opens" data-fancybox="gallery"
-                                    title="Zoom In"> <i class="fa fa-search-plus"></i></a>
-                                <a href="{{ url('uptd/uptd5/') }}" class="opens" title="View Details"> <i
-                                        class="fas fa-link"></i></a>
-                                <h4 class="w-100">WILAYAH KAB./KOTA TASIKMALAYA-KOTA
-                                    BANJAR-KAB.CIAMIS-KAB.PANGANDARAN-KAB.KUNINGAN</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <!--Item 6-->
-                    <div class="cbp-item uptd6">
-                        <img src="{{ asset('assets/images/uptd/uptd6.jpg') }}" alt="">
-                        <div class="gallery-hvr whitecolor">
-                            <div class="center-box">
-                                <a href="{{ asset('assets/images/gallery-9.jpg') }}" class="opens" data-fancybox="gallery"
-                                    title="Zoom In"> <i class="fa fa-search-plus"></i></a>
-                                <a href="{{ url('uptd/uptd6/') }}" class="opens" title="View Details"> <i
-                                        class="fas fa-link"></i></a>
-                                <h4 class="w-100">WILAYAH KOTA/KAB. CIREBON - KAB. MAJALENGKA- KAB. INDRAMAYU</h4>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
                 <!-- <div class="col-lg-12">
                     Load more itema from another html file using ajax

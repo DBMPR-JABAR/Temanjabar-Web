@@ -17,9 +17,12 @@ class LandingController extends Controller
     public function index()
     {
         $profil = DB::table('landing_profil')->where('id',1)->first();
+        $fitur = DB::table('landing_fitur')->get();
+        $uptd = DB::table('landing_uptd')->get();
+        $slideshow = DB::table('landing_slideshow')->get();
 
         // Compact mengubah variabel profil untuk dijadikan variabel yang dikirim
-        return view('landing.index', compact('profil'));
+        return view('landing.index', compact('profil', 'fitur', 'uptd', 'slideshow'));
     }
     public function login()
     {
