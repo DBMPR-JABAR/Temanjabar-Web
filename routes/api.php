@@ -18,6 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('progress-mingguan', 'ProgressController');
-Route::resource('kondisi-jalan', 'KondisiJalanController');
+Route::resource('progress-mingguan', 'API\ProgressController');
+Route::resource('kondisi-jalan', 'API\KondisiJalanController');
+Route::resource('aduan', 'API\AduanController');
+Route::resource('pembangunan', 'API\PembangunanController');
 
