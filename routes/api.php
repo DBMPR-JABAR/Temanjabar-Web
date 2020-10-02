@@ -14,9 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::post('auth', 'AuthController@loginAPI');
+Route::get('user', 'AuthController@getAuthUser')->middleware('jwt.auth');
+
+
 
 Route::resource('progress-mingguan', 'API\ProgressController');
 Route::resource('kondisi-jalan', 'API\KondisiJalanController');
