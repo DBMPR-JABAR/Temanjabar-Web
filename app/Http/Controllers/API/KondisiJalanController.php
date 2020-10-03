@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class KondisiJalanController extends Controller
 {
@@ -14,7 +15,7 @@ class KondisiJalanController extends Controller
      */
     public function index()
     {
-        $data = DB::table('master_kondisi_jalan')->get();
+        $data = DB::connection('pgsql')->table('TBL_UPTD_TRX_MASTER_KONDISI_JALAN')->get();
         return response()->json($data, 200);
     }
 

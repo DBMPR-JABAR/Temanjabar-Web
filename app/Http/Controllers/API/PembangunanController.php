@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Support\Facades\DB;
 
-class ProgressController extends Controller
+
+class PembangunanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +16,7 @@ class ProgressController extends Controller
      */
     public function index()
     {
-        $data = DB::table('progress_mingguan')->get();
+        $data = DB::connection('pgsql')->table('TBL_UPTD_TRX_PEMBANGUNAN')->get();
         return response()->json($data, 200);
     }
 
