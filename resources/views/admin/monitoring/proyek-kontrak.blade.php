@@ -174,6 +174,20 @@
                         <div class="card" style="box-shadow: none;">
                           <div class="card-header">
                             <h5>Detail Daftar Pekerjaan</h5>
+                            <ul class="filter-list mt-4">
+                              <li>
+                                <a href=""><button type="button" class="btn btn-primary">Semua <i class="feather icon-sliders"></i></button></a>
+                              </li>
+                              <li>
+                                <a href=""><button type="button" class="btn btn-success">Pemeliharaan Berkala</button></a>
+                              </li>
+                              <li>
+                                <a href=""><button type="button" class="btn btn-success">Pembangunan</button></a>
+                              </li>
+                              <li>
+                                <a href=""><button type="button" class="btn btn-success">Peningkatan</button></a>
+                              </li>
+                            </ul>
                           </div>
                           <div class="card-block">
                             <div class="table-responsive dt-responsive">
@@ -181,8 +195,8 @@
                                 <thead>
                                     <tr>
                                         <th>No.</th>
-                                        <th>Nama Paket</th>
-                                        <th>Status</th>
+                                        <th>Pekerja</th>
+                                        <th>Kategori</th>
                                         <th>Tanggal</th>
                                         <th>Jenis Pekerjaan</th>
                                         <th>Ruas Jalan</th>
@@ -190,28 +204,28 @@
                                         <th>Rencana</th>
                                         <th>Realisasi</th>
                                         <th>Deviasi</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
-
                                         <tr>
                                             <td>1</td>
-                                            <td>Paket Pekerjaan Peningkatan Jalan Ruas Jalan Cibadak - Cikidang - Pelabuhan Ratu </th>
-                                            <td style="color: green"><b>On Progress</b></td>
+                                            <td>Kuli </th>
+                                            <td><b>Pemeliharaan Berkala</b></td>
                                             <td>2019-10-20</td>
                                             <td>Hotmix</td>
                                             <td> Cibadak - Cikidang - Pelabuhan Ratu</td>
                                             <td>113+950 - 115+950</td>
-                                            <td>37.3470%</td>
-                                            <td>60.3160%</td>
-                                            <td>22.9690%</td>
+                                            <td>100.0000%</td>
+                                            <td>100.0000%</td>
+                                            <td>0.0000%</td>
+                                            <td><b class="text-primary">Finish</b></td>
                                         </tr>
 
                                         <tr>
                                             <td>2</td>
-                                            <td>Paket Pekerjaan Peningkatan Jalan Bts. Karawang/Purwakarta (Curug) - Purwakarta </th>
-                                            <td style="color: blue"><b>Finish</b></td>
+                                            <td>CDS Studio </th>
+                                            <td><b>Pembangunan</b></td>
                                             <td>2020-01-01</td>
                                             <td>Hotmix</td>
                                             <td> Bts. Karawang/Purwakarta (Curug) - Purwakarta</td>
@@ -219,19 +233,49 @@
                                             <td>100.0000%</td>
                                             <td>100.0000%</td>
                                             <td>0.0000%</td>
+                                            <td><b class="text-primary">Finish</b></td>
                                         </tr>
 
                                         <tr>
                                             <td>3</td>
-                                            <td>Paket Pekerjaan Perbaikan Badan Jalan Ruas Jalan Sp. Waluran - Malereng - Tamanjaya - Ciwaru Km.Bdg. </th>
-                                            <td style="color: red"><b>Off Progress</b></td>
+                                            <td>PT.Buana </th>
+                                            <td><b>Peningkatan</b></td>
                                             <td>2019-09-25</td>
                                             <td>box culvert</td>
                                             <td> Waluran-Malereng-Palangpang</td>
                                             <td>211+500</td>
-                                            <td> 2.0400%</td>
+                                            <td>100.0000%</td>
+                                            <td>100.0000%</td>
                                             <td>0.0000%</td>
-                                            <td> -2.0400%</td>
+                                            <td><b class="text-primary">Finish</b></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>4</td>
+                                            <td>Asakiwari </th>
+                                            <td><b>Peningkatan</b></td>
+                                            <td>2019-09-25</td>
+                                            <td>box culvert</td>
+                                            <td> Waluran-Malereng-Palangpang</td>
+                                            <td>211+500</td>
+                                            <td>100.0000%</td>
+                                            <td>100.0000%</td>
+                                            <td>0.0000%</td>
+                                            <td><b class="text-primary">Finish</b></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>5</td>
+                                            <td>Lingatama </th>
+                                            <td><b>Pembangunan</b></td>
+                                            <td>2019-09-25</td>
+                                            <td>box culvert</td>
+                                            <td> Waluran-Malereng-Palangpang</td>
+                                            <td>211+500</td>
+                                            <td>100.0000%</td>
+                                            <td>100.0000%</td>
+                                            <td>0.0000%</td>
+                                            <td><b class="text-primary">Finish</b></td>
                                         </tr>
                                   </tbody>
                               </table>
@@ -240,7 +284,120 @@
                         </div>
                     </div>
                     <div class="tab-pane" id="profile3" role="tabpanel">
+                        <!-- Chart -->
                         <div id="chartdivontrack" style="height:250px"></div>
+                        <!--  -->
+                        <div class="card" style="box-shadow: none;">
+                          <div class="card-header">
+                            <h5>Detail Daftar Pekerjaan</h5>
+                            <ul class="filter-list mt-4">
+                              <li>
+                                <a href=""><button type="button" class="btn btn-primary">Semua <i class="feather icon-sliders"></i></button></a>
+                              </li>
+                              <li>
+                                <a href=""><button type="button" class="btn btn-success">Pemeliharaan Berkala</button></a>
+                              </li>
+                              <li>
+                                <a href=""><button type="button" class="btn btn-success">Pembangunan</button></a>
+                              </li>
+                              <li>
+                                <a href=""><button type="button" class="btn btn-success">Peningkatan</button></a>
+                              </li>
+                            </ul>
+                          </div>
+                          <div class="card-block">
+                            <div class="table-responsive dt-responsive">
+                              <table id="detail" class="table table-striped table-bordered ">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Pekerja</th>
+                                        <th>Kategori</th>
+                                        <th>Tanggal</th>
+                                        <th>Jenis Pekerjaan</th>
+                                        <th>Ruas Jalan</th>
+                                        <th>Lokasi</th>
+                                        <th>Rencana</th>
+                                        <th>Realisasi</th>
+                                        <th>Deviasi</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Kuli </th>
+                                            <td><b>Pemeliharaan Berkala</b></td>
+                                            <td>2019-10-20</td>
+                                            <td>Hotmix</td>
+                                            <td> Cibadak - Cikidang - Pelabuhan Ratu</td>
+                                            <td>113+950 - 115+950</td>
+                                            <td>37.3470%</td>
+                                            <td>60.3160%</td>
+                                            <td>22.9690%</td>
+                                            <td><b class="text-success">On Progress</b></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>2</td>
+                                            <td>CDS Studio </th>
+                                            <td><b>Pembangunan</b></td>
+                                            <td>2020-01-01</td>
+                                            <td>Hotmix</td>
+                                            <td> Bts. Karawang/Purwakarta (Curug) - Purwakarta</td>
+                                            <td>113+950 - 115+950</td>
+                                            <td>37.3470%</td>
+                                            <td>60.3160%</td>
+                                            <td>22.9690%</td>
+                                            <td><b class="text-success">On Progress</b></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>3</td>
+                                            <td>PT.Buana </th>
+                                            <td><b>Peningkatan</b></td>
+                                            <td>2019-09-25</td>
+                                            <td>box culvert</td>
+                                            <td> Waluran-Malereng-Palangpang</td>
+                                            <td>113+950 - 115+950</td>
+                                            <td>37.3470%</td>
+                                            <td>60.3160%</td>
+                                            <td>22.9690%</td>
+                                            <td><b class="text-success">On Progress</b></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>4</td>
+                                            <td>Asakiwari </th>
+                                            <td><b>Peningkatan</b></td>
+                                            <td>2019-09-25</td>
+                                            <td>box culvert</td>
+                                            <td> Waluran-Malereng-Palangpang</td>
+                                            <td>113+950 - 115+950</td>
+                                            <td>37.3470%</td>
+                                            <td>60.3160%</td>
+                                            <td>22.9690%</td>
+                                            <td><b class="text-success">On Progress</b></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>5</td>
+                                            <td>Lingatama </th>
+                                            <td><b>Pembangunan</b></td>
+                                            <td>2019-09-25</td>
+                                            <td>box culvert</td>
+                                            <td> Waluran-Malereng-Palangpang</td>
+                                            <td>113+950 - 115+950</td>
+                                            <td>37.3470%</td>
+                                            <td>60.3160%</td>
+                                            <td>22.9690%</td>
+                                            <td><b class="text-success">On Progress</b></td>
+                                        </tr>
+                                  </tbody>
+                              </table>
+                            </div>
+                          </div>                        
+                        </div>
                      </div>
                     <div class="tab-pane" id="messages3" role="tabpanel">
                         <div id="chartdivalert" style="height:250px"></div>

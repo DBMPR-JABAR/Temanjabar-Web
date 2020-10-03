@@ -32,6 +32,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/admin_style.css')}} ">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/_admin/custom-scrollbar/css/jquery.mCustomScrollbar.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/scss/partials/menu/_pcmenu.scss') }}">
+    <!-- new by rahman -->
+    <link rel="stylesheet" href="{{ asset('assets/css/second_style.css') }}">
     @yield('head')
 </head>
 

@@ -45,7 +45,6 @@
                     </div>
                 </div>
             </section>
-
         </div><div class="card">
             <div class="card-block">
                 <div class="table-responsive dt-responsive">
