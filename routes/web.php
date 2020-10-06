@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 // {SiteURL}
 Route::get('/', 'LandingController@index');
-Route::get('login', 'LandingController@login');
+Route::get('login', 'LandingController@login')->name('login');
 Route::get('logout', 'AuthController@logout');
 
 Route::post('auth', 'AuthController@login');
