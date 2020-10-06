@@ -30,7 +30,7 @@ Temanjabar Website Repository
   DB_CONNECTION=mysql
   DB_HOST=127.0.0.1
   DB_PORT=3306
-  DB_DATABASE=temanjabar
+  DB_DATABASE=teman_jabar
   DB_USERNAME=root
   DB_PASSWORD=
   ```
@@ -40,7 +40,7 @@ Temanjabar Website Repository
   php artisan jwt:secret
   php artisan storage:link
   ```
-6. Import Database uptm3922_uptd1.sql ke server
+6. Import Database teman_jabar.sql ke server
 7. Untuk menyalakan virtual server run:
   ```
   php artisan serve
