@@ -219,7 +219,7 @@
                                             <td>100.0000%</td>
                                             <td>100.0000%</td>
                                             <td>0.0000%</td>
-                                            <td><b class="text-primary">Finish</b></td>
+                                            <td><h5><span class="badge badge-primary">Finish</span></h5></td>
                                         </tr>
 
                                         <tr>
@@ -233,7 +233,7 @@
                                             <td>100.0000%</td>
                                             <td>100.0000%</td>
                                             <td>0.0000%</td>
-                                            <td><b class="text-primary">Finish</b></td>
+                                            <td><h5><span class="badge badge-primary">Finish</span></h5></td>
                                         </tr>
 
                                         <tr>
@@ -247,7 +247,7 @@
                                             <td>100.0000%</td>
                                             <td>100.0000%</td>
                                             <td>0.0000%</td>
-                                            <td><b class="text-primary">Finish</b></td>
+                                            <td><h5><span class="badge badge-primary">Finish</span></h5></td>
                                         </tr>
 
                                         <tr>
@@ -261,7 +261,7 @@
                                             <td>100.0000%</td>
                                             <td>100.0000%</td>
                                             <td>0.0000%</td>
-                                            <td><b class="text-primary">Finish</b></td>
+                                            <td><h5><span class="badge badge-primary">Finish</span></h5></td>
                                         </tr>
 
                                         <tr>
@@ -275,12 +275,12 @@
                                             <td>100.0000%</td>
                                             <td>100.0000%</td>
                                             <td>0.0000%</td>
-                                            <td><b class="text-primary">Finish</b></td>
+                                            <td><h5><span class="badge badge-primary">Finish</span></h5></td>
                                         </tr>
                                   </tbody>
                               </table>
                             </div>
-                          </div>                        
+                          </div>
                         </div>
                     </div>
                     <div class="tab-pane" id="profile3" role="tabpanel">
@@ -396,7 +396,7 @@
                                   </tbody>
                               </table>
                             </div>
-                          </div>                        
+                          </div>
                         </div>
                      </div>
                     <div class="tab-pane" id="messages3" role="tabpanel">

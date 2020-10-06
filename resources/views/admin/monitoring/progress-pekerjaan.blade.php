@@ -69,7 +69,7 @@
                             <tr>
                                 <td>1</td>
                                 <td>Paket Pekerjaan Peningkatan Jalan Ruas Jalan Cibadak - Cikidang - Pelabuhan Ratu </th>
-                                <td style="color: green"><b>On Progress</b></td>
+                                <td><h5><span class="badge badge-success">On Progress</span></h5></td>
                                 <td>2019-10-20</td>
                                 <td>Hotmix</td>
                                 <td> Cibadak - Cikidang - Pelabuhan Ratu</td>
@@ -82,7 +82,7 @@
                             <tr>
                                 <td>2</td>
                                 <td>Paket Pekerjaan Peningkatan Jalan Bts. Karawang/Purwakarta (Curug) - Purwakarta </th>
-                                <td style="color: blue"><b>Finish</b></td>
+                                <td><h5><span class="badge badge-primary">Finish</span></h5></td>
                                 <td>2020-01-01</td>
                                 <td>Hotmix</td>
                                 <td> Bts. Karawang/Purwakarta (Curug) - Purwakarta</td>
@@ -95,7 +95,7 @@
                             <tr>
                                 <td>3</td>
                                 <td>Paket Pekerjaan Perbaikan Badan Jalan Ruas Jalan Sp. Waluran - Malereng - Tamanjaya - Ciwaru Km.Bdg. </th>
-                                <td style="color: red"><b>Off Progress</b></td>
+                                <td><h5><span class="badge badge-danger">Off Progress</span></h5></td>
                                 <td>2019-09-25</td>
                                 <td>box culvert</td>
                                 <td> Waluran-Malereng-Palangpang</td>
