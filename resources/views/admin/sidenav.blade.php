@@ -26,6 +26,11 @@
                         </a>
                     </li>
                     <li class=" ">
+                        <a href="{{ url('admin/monitoring/survey-kondisi-jalan') }}">
+                            <span class="pcoded-mtext">Survey Kondisi Jalan</span>
+                        </a>
+                    </li>
+                    <li class=" ">
                         <a href="{{ url('admin/monitoring/realisasi-keuangan') }}">
                             <span class="pcoded-mtext">Anggaran & Realisasi Keuangan</span>
                         </a>
