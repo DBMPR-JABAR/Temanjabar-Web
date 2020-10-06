@@ -40,7 +40,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     // {SiteURL}/admin/monitoring/*
     Route::group(['prefix' => 'monitoring'], function () {
         Route::view('progress-pekerjaan', 'admin.monitoring.progress-pekerjaan');
+
         Route::view('survey-kondisi-jalan', 'admin.monitoring.survey-kondisi-jalan');
+        Route::view('survey-kondisi-jalan/{uptd}', 'admin.monitoring.survey-kondisi-jalan-uptd')->name('kondisiJalanUPTD');
+        Route::view('survey-kondisi-jalan/{uptd}/{jalan}', 'admin.monitoring.survey-kondisi-jalan-uptd-detail')->name('kondisiJalanUPTDDetail');
+
         Route::view('proyek-kontrak', 'admin.monitoring.proyek-kontrak')->name('monitoring-kontrak');
         Route::get('laporan-kerusakan', 'MonitoringController@getLaporan');
         Route::view('realisasi-keuangan', 'admin.monitoring.realisasi-keuangan');

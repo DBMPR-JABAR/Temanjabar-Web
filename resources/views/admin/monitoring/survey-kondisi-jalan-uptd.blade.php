@@ -7,7 +7,7 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Monitoring Survey Kondisi Jalan</h4>
+                <h4>Monitoring Survey Kondisi Jalan - UPTD 3</h4>
              </div>
         </div>
     </div>
@@ -17,7 +17,8 @@
                 <li class="breadcrumb-item">
                     <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
                 </li>
-                <li class="breadcrumb-item"><a href="#!">Survey Kondisi Jalan</a> </li>
+                <li class="breadcrumb-item"><a href="{{url('admin/monitoring/survey-kondisi-jalan')}}">Survey Kondisi Jalan</a> </li>
+                <li class="breadcrumb-item"><a href="#!">UPTD 3</a> </li>
             </ul>
         </div>
     </div>
@@ -64,12 +65,12 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
 </script>
 <script>
     var points = [
-        ['UPTD 1', -6.806124, 107.145195, 12, `{{ route('kondisiJalanUPTD','uptd1') }}`],
-        ['UPTD 2', -6.930913, 106.937304, 11, `{{ route('kondisiJalanUPTD','uptd2') }}`],
-        ['UPTD 3', -6.9147444,107.6098111, 10, `{{ route('kondisiJalanUPTD','uptd3') }}`],
-        ['UPTD 4', -6.953272, 107.942720, 9, `{{ route('kondisiJalanUPTD','uptd4') }}`],
-        ['UPTD 5', -7.461755, 108.386391, 8, `{{ route('kondisiJalanUPTD','uptd5') }}`],
-        ['UPTD 6', -6.741323, 108.364521, 7, `{{ route('kondisiJalanUPTD','uptd6') }}`]
+        ['Tamblong', -6.9147444,107.6098111, 12, `{{ route('kondisiJalanUPTDDetail',['uptd3','tamblong']) }}`],
+        ['Pasopati', -6.9, 107.6, 11, `{{ route('kondisiJalanUPTDDetail',['uptd3','pasopati']) }}`],
+        ['Arcamanik', -6.913244, 107.666, 10, `{{ route('kondisiJalanUPTDDetail',['uptd3','arcamanik']) }}`],
+        ['Cimahi', -6.9147444, 107.5098111, 9, `{{ route('kondisiJalanUPTDDetail',['uptd3','cimahi']) }}`],
+        ['Lembang', -6.8147444, 107.6098111, 8, `{{ route('kondisiJalanUPTDDetail',['uptd3','lembang']) }}`],
+        ['Banjaran', -7.0147444, 107.6098111, 7, `{{ route('kondisiJalanUPTDDetail',['uptd3','banjaran']) }}`]
     ];
 
     function setMarkers(map, locations) {
@@ -81,7 +82,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
         for (var i = 0; i < locations.length; i++) {
             // var flag = new google.maps.MarkerImage('markers/' + (i + 1) + '.png',
             // new google.maps.Size(17, 19),
-            // new google.maps.Point(0,0),
+            // new   google.maps.Point(0,0),
             // new google.maps.Point(0, 19));
 
             var place = locations[i];
@@ -102,7 +103,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
     function initMap() {
         var options = {
             center:new google.maps.LatLng(-6.9032739,107.5731165),
-            zoom:9,
+            zoom:10,
             mapTypeId:google.maps.MapTypeId.ROADMAP
         };
         var map = new google.maps.Map(document.getElementById("googleMap"),options);
