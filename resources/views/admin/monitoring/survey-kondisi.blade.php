@@ -30,7 +30,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
 </script>
 <script>
         // fungsi initialize untuk mempersiapkan peta
-       /* function initialize() {
+        function initialize() {
         var options = {
             center:new google.maps.LatLng(-6.9032739,107.5731165),
             zoom:8,
@@ -42,7 +42,6 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
         var marker = new google.maps.Marker({
             position: new google.maps.LatLng(-6.9147444,107.6098111), // longitude latitude
             map: map,
-            url: "http://www.google.com",
             title: 'Bandung'
         });
         var marker2 = new google.maps.Marker({
@@ -72,65 +71,15 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
         });
         var infowindow = new google.maps.InfoWindow({
           content: info,
-          url: "{{ url('admin/monitoring/survey-kondisi') }}",
           position: marker
         });
         marker.addListener('click', function() {
           // tampilkan info window di atas marker
-          infowindow.open(map, marker.url);
+          infowindow.open(map, marker);
         });
-        google.maps.event.addListener(marker, 'click', function() {
-            window.open(marker.url);
-        });
-
-        }*/
-
-        var points = [
-            ['name1', -6.9147444, 107.6098111, 12, 'www.google.com'],
-            ['name2', 59.941412822085645, 30.263564729357767, 11, 'www.google.com'],
-            ['name3', 59.939177197629455, 30.273554411974955, 10, 'www.google.com']
-        ];
-
-    function setMarkers(map, locations) {
-        var shape = {
-            coord: [1, 1, 1, 20, 18, 20, 18 , 1],
-            type: 'poly'
-        };
-
-        for (var i = 0; i < locations.length; i++) {
-            var flag = new google.maps.MarkerImage('markers/' + (i + 1) + '.png',
-            new google.maps.Size(17, 19),
-            new google.maps.Point(0,0),
-            new google.maps.Point(0, 19));
-
-            var place = locations[i];
-            var myLatLng = new google.maps.LatLng(place[1], place[2]);
-            var marker = new google.maps.Marker({
-                position: myLatLng,
-                map: map,
-                icon: flag,
-                shape: shape,
-                title: place[0],
-                zIndex: place[3],
-                url: place[4]
-            });
-            google.maps.event.addListener(marker, 'click', function() {
-                window.location.href = this.url;
-                });
-            }
         }
-
-    function initialize() {
-        var myOptions = {
-            center: new google.maps.LatLng(59.91823239768787, 30.243222856188822),
-            zoom: 12,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        var map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
-        setMarkers(map, points);
-    }
         // event jendela di-load  
-        //google.maps.event.addDomListener(window, 'load', initialize);
+        google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 <!--chart-->
 <style>
@@ -320,7 +269,7 @@ selector.axis = dateAxis;
 
                                 <div class="col-12 px-0">
                                     <div class="w-100">
-                                    <div id="map_canvas" style="width:100%;height:400px;"></div>
+                                    <div id="googleMap" style="width:100%;height:400px;"></div>
                                     </div>
                                 </div>
                             </div>
