@@ -15,7 +15,7 @@ class AuthController extends Controller
     private $response;
 
     public function __construct() {
-        $this->middleware('jwt.auth', ['except' => ['login']]);
+        $this->middleware('jwt.auth', ['except' => ['login','register','resetPassword']]);
         $this->response = [
             'status' => 'false',
             'data' => []
@@ -47,7 +47,7 @@ class AuthController extends Controller
             $validator = Validator::make($req->all(), [
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
-                'password' => 'required|string|min:6|confirmed',
+                'password' => 'required|string|min:6',
             ]);
 
             if($validator->fails()){
@@ -63,8 +63,7 @@ class AuthController extends Controller
 
 
             $this->response['status'] = 'success';
-            $this->response['data']['token'] = $this->getToken(JWTAuth::fromUser($user));
-            $this->response['data']['user'] = $user;
+            $this->response['data'] = true;
 
             return response()->json($this->response,200);
 
@@ -73,6 +72,31 @@ class AuthController extends Controller
             return response()->json($this->response,500);
         }
     }
+    public function resetPassword(Request $req)
+    {
+        try {
+            $validator = Validator::make($req->all(), [
+                'email' => 'required|string|email|max:255|exists:users',
+            ]);
+            if($validator->fails()){
+                $this->response['data']['error'] = $validator->errors();
+                return response()->json($this->response, 400);
+            }
+
+            // TODO: Send Email
+
+            $this->response['status'] = 'success';
+            $this->response['data'] = true;
+
+            return response()->json($this->response,200);
+
+        } catch (\Exception $e) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response,500);
+        }
+    }
+
+
     public function getUser()
     {
         try {
@@ -84,7 +108,6 @@ class AuthController extends Controller
             return response()->json($this->response, 500);
         }
     }
-
     protected function getToken($token)
     {
         return [
