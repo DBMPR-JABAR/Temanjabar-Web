@@ -130,17 +130,10 @@
         </div>
     </div>
     <!-- task, page, download counter  end -->
-      <div class="col-xl-12 col-md-12">
-        <div class="card">
-          <div class="card-block">
-            <div id="chartdiv2" style="height:250px"></div>
-          </div>
-        </div>
-      </div>
+
     <!-- visitor start -->
     <div class="col-xl-12 col-md-12">
         <div class="card">
-     
             <div class="card-header">
                 <h5>Daftar Penyelesaian Pekerjaan Kontraktor</h5>
 
@@ -152,7 +145,6 @@
                     </ul>
                 </div>
             </div>
-            
             <div class="card-block">
 
                 <ul class="nav nav-tabs md-tabs" role="tablist">
@@ -227,7 +219,7 @@
                                             <td>100.0000%</td>
                                             <td>100.0000%</td>
                                             <td>0.0000%</td>
-                                            <td><h5><span class="badge badge-primary">Finish</span></h5></td>
+                                            <td><b class="text-primary">Finish</b></td>
                                         </tr>
 
                                         <tr>
@@ -241,7 +233,7 @@
                                             <td>100.0000%</td>
                                             <td>100.0000%</td>
                                             <td>0.0000%</td>
-                                            <td><h5><span class="badge badge-primary">Finish</span></h5></td>
+                                            <td><b class="text-primary">Finish</b></td>
                                         </tr>
 
                                         <tr>
@@ -255,7 +247,7 @@
                                             <td>100.0000%</td>
                                             <td>100.0000%</td>
                                             <td>0.0000%</td>
-                                            <td><h5><span class="badge badge-primary">Finish</span></h5></td>
+                                            <td><b class="text-primary">Finish</b></td>
                                         </tr>
 
                                         <tr>
@@ -269,7 +261,7 @@
                                             <td>100.0000%</td>
                                             <td>100.0000%</td>
                                             <td>0.0000%</td>
-                                            <td><h5><span class="badge badge-primary">Finish</span></h5></td>
+                                            <td><b class="text-primary">Finish</b></td>
                                         </tr>
 
                                         <tr>
@@ -283,12 +275,12 @@
                                             <td>100.0000%</td>
                                             <td>100.0000%</td>
                                             <td>0.0000%</td>
-                                            <td><h5><span class="badge badge-primary">Finish</span></h5></td>
+                                            <td><b class="text-primary">Finish</b></td>
                                         </tr>
                                   </tbody>
                               </table>
                             </div>
-                          </div>
+                          </div>                        
                         </div>
                     </div>
                     <div class="tab-pane" id="profile3" role="tabpanel">
@@ -404,7 +396,7 @@
                                   </tbody>
                               </table>
                             </div>
-                          </div>
+                          </div>                        
                         </div>
                      </div>
                     <div class="tab-pane" id="messages3" role="tabpanel">
@@ -696,122 +688,5 @@
       }
     });
 
-</script>
-
-<script>
-am4core.ready(function() {
-
-// Themes begin
-am4core.useTheme(am4themes_animated);
-// Themes end
-
-
-
-var chart2 = am4core.create('chartdiv2', am4charts.XYChart)
-chart2.colors.step = 2;
-
-chart2.legend = new am4charts.Legend()
-chart2.legend.position = 'top'
-chart2.legend.paddingBottom = 20
-chart2.legend.labels.template.maxWidth = 95
-
-var xAxis = chart2.xAxes.push(new am4charts.CategoryAxis())
-xAxis.dataFields.category = 'category'
-xAxis.renderer.cellStartLocation = 0.1
-xAxis.renderer.cellEndLocation = 0.9
-xAxis.renderer.grid.template.location = 0;
-
-var yAxis = chart2.yAxes.push(new am4charts.ValueAxis());
-yAxis.min = 0;
-
-function createSeries(value, name) {
-    var series = chart2.series.push(new am4charts.ColumnSeries())
-    series.dataFields.valueY = value
-    series.dataFields.categoryX = 'category'
-    series.name = name
-
-    series.events.on("hidden", arrangeColumns);
-    series.events.on("shown", arrangeColumns);
-
-    var bullet = series.bullets.push(new am4charts.LabelBullet())
-    bullet.interactionsEnabled = false
-    bullet.dy = 30;
-    bullet.label.text = '{valueY}'
-    bullet.label.fill = am4core.color('#ffffff')
-
-    return series;
-}
-
-chart2.data = [
-    {
-        category: 'UPTD 1',
-        first: 40,
-        second: 55,
-        third: 60
-    },
-    {
-        category: 'UPTD 2',
-        first: 30,
-        second: 78,
-        third: 69
-    },
-    {
-        category: 'UPTD 3',
-        first: 27,
-        second: 40,
-        third: 45
-    },
-    {
-        category: 'UPTD 4',
-        first: 50,
-        second: 33,
-        third: 22
-    }
-]
-
-
-createSeries('first', 'Pagu Anggaran');
-createSeries('second', 'Nilai Kontrak');
-createSeries('third', 'Total Sisa Lelang');
-
-function arrangeColumns() {
-
-    var series = chart2.series.getIndex(0);
-
-    var w = 1 - xAxis.renderer.cellStartLocation - (1 - xAxis.renderer.cellEndLocation);
-    if (series.dataItems.length > 1) {
-        var x0 = xAxis.getX(series.dataItems.getIndex(0), "categoryX");
-        var x1 = xAxis.getX(series.dataItems.getIndex(1), "categoryX");
-        var delta = ((x1 - x0) / chart2.series.length) * w;
-        if (am4core.isNumber(delta)) {
-            var middle = chart2.series.length / 2;
-
-            var newIndex = 0;
-            chart2.series.each(function(series) {
-                if (!series.isHidden && !series.isHiding) {
-                    series.dummyData = newIndex;
-                    newIndex++;
-                }
-                else {
-                    series.dummyData = chart2.series.indexOf(series);
-                }
-            })
-            var visibleCount = newIndex;
-            var newMiddle = visibleCount / 2;
-
-            chart2.series.each(function(series) {
-                var trueIndex = chart2.series.indexOf(series);
-                var newIndex = series.dummyData;
-
-                var dx = (newIndex - trueIndex + middle - newMiddle) * delta
-
-                series.animate({ property: "dx", to: dx }, series.interpolationDuration, series.interpolationEasing);
-                series.bulletsContainer.animate({ property: "dx", to: dx }, series.interpolationDuration, series.interpolationEasing);
-            })
-        }
-    }
-}
-
-}); // end am4core.ready()
 </script>
 @endsection
