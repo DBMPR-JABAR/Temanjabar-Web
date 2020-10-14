@@ -35,6 +35,11 @@
                             <span class="pcoded-mtext">Anggaran & Realisasi Keuangan</span>
                         </a>
                     </li>
+                    <li class=" ">
+                        <a href="{{ url('admin/monitoring/kemantapan-jalan') }}">
+                            <span class="pcoded-mtext">Kemantapan Jalan</span>
+                        </a>
+                    </li>
                     {{-- <li class="">
                         <a href="{{ url('admin/monitoring/audit-keuangan') }}">
                             <span class="pcoded-mtext">Audit Keuangan (Pending)</span>
