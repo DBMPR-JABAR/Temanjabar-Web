@@ -26,14 +26,84 @@
 @endsection
 
 @section('page-body')
+ 
+
+
+
+
+
+ 
 <div class="row">
+<div class="col-lg-12">
+                                                <div class="card">
+                                                 
+                                                    <div class="card-block accordion-block">
+                                                        <div id="accordion" role="tablist" aria-multiselectable="true">
+                                                            <div class="accordion-panel">
+                                                                <div class="accordion-heading" role="tab" id="headingOne">
+                                                                    <h3 class="card-title accordion-title">
+                                                                    <a class="accordion-msg" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                                        Filter
+                                                                    </a>
+                                                                </h3>
+                                                                </div>
+                                                                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                                                    <div class="accordion-content accordion-desc">
+  
+                                                                    <div class="card-block">
+                                                    <div class="row">
+                                                        <div class="col-sm-12 col-xl-3 m-b-30">
+                                                            <h4 class="sub-title">Tahun</h4>
+                                                            <select name="select" class="form-control form-control-primary">
+                                                                <option value="opt1">-</option>
+                                                                <option value="opt2">2019</option>
+                                                                <option value="opt3">2020</option> 
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-12 col-xl-3 m-b-30">
+                                                            <h4 class="sub-title">UPTD</h4>
+                                                            <select name="select" class="form-control form-control-primary">
+                                                                <option value="opt1">Semua</option>
+                                                                <option value="opt2">UPTD 1 Sukabumi</option>
+                                                                <option value="pembangunan">UPTD 2 ....</option>
+                                                                <option value="peningkatan">UPTD 3 </option>
+                                                                <option value="peningkatan">UPTD 4 </option>
+                                                                <option value="peningkatan">UPTD 5 </option>
+                                                                <option value="peningkatan">UPTD 6  </option>  
+                                                            </select>
+                                                        </div><div class="col-sm-12 col-xl-3 m-b-30">
+                                                            <h4 class="sub-title">Kegiatan</h4>
+                                                            <select name="select" class="form-control form-control-primary">
+                                                                <option value="opt1">Semua</option>
+                                                                <option value="opt2">Pemeliharaan berkala</option>
+                                                                <option value="pembangunan">Pembangunan</option>
+                                                                <option value="peningkatan">Peningkatan</option>  
+                                                            </select>
+                                                        </div>
+                                                        
+                                                       
+                                                         
+                                                      </div>
+                                                  </div>
+                                                                  </div>
+                                                                </div>
+                                                            </div>
+                                                         </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+ 
+
     <!-- task, page, download counter  start -->
     <div class="col-xl-3 col-md-6">
+    
         <div class="card">
+        
             <div class="card-block">
                 <div class="row align-items-center">
-                    <div class="col-8">
-                        <h4 class="text-c-yellow f-w-600">20</h4>
+                    <div class="col-8"><a href="#">
+                        <h4 class="text-c-yellow f-w-600">20</h4></a>
                         <h6 class="text-muted m-b-0">Critical Contract</h6>
                     </div>
                     <div class="col-4 text-right">
@@ -58,8 +128,8 @@
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
-                    <div class="col-8">
-                        <h4 class="text-c-green f-w-600">40</h4>
+                    <div class="col-8"><a href="#">
+                        <h4 class="text-c-green f-w-600">40</h4> </a>
                         <h6 class="text-muted m-b-0">On Progress</h6>
                     </div>
                     <div class="col-4 text-right">
@@ -83,8 +153,8 @@
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
-                    <div class="col-8">
-                        <h4 class="text-c-pink f-w-600">145</h4>
+                    <div class="col-8"><a href="#">
+                        <h4 class="text-c-pink f-w-600">145</h4></a>
                         <h6 class="text-muted m-b-0">Off Progress</h6>
                     </div>
                     <div class="col-4 text-right">
@@ -172,23 +242,7 @@
                         <div id="chartdiv" style="height:250px"></div>
                         <!--  -->
                         <div class="card" style="box-shadow: none;">
-                          <div class="card-header">
-                            <h5>Detail Daftar Pekerjaan</h5>
-                            <ul class="filter-list mt-4">
-                              <li>
-                                <a href=""><button type="button" class="btn btn-primary">Semua <i class="feather icon-sliders"></i></button></a>
-                              </li>
-                              <li>
-                                <a href=""><button type="button" class="btn btn-success">Pemeliharaan Berkala</button></a>
-                              </li>
-                              <li>
-                                <a href=""><button type="button" class="btn btn-success">Pembangunan</button></a>
-                              </li>
-                              <li>
-                                <a href=""><button type="button" class="btn btn-success">Peningkatan</button></a>
-                              </li>
-                            </ul>
-                          </div>
+                          
                           <div class="card-block">
                             <div class="table-responsive dt-responsive">
                               <table id="detail" class="table table-striped table-bordered ">
