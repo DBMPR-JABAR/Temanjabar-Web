@@ -7,7 +7,7 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Peta Jabar Distribusi Progress Pekerjaan</h4>
+                <h4>Peta Jabar Distribusi Proyek Kontrak</h4>
              </div>
         </div>
     </div>
@@ -17,7 +17,7 @@
                 <li class="breadcrumb-item">
                     <a href="index.html"> <i class="feather icon-home"></i> </a>
                 </li>
-                <li class="breadcrumb-item"><a href="#!">Progress Pekerjaan</a> </li>
+                <li class="breadcrumb-item"><a href="#!">Supervisi Proyek Kontrak</a> </li>
             </ul>
         </div>
     </div>
