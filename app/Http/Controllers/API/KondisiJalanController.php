@@ -8,6 +8,15 @@ use Illuminate\Support\Facades\DB;
 
 class KondisiJalanController extends Controller
 {
+
+    private $response;
+    public function __construct() {
+        $this->response = [
+            'status' => 'false',
+            'data' => []
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,8 +24,15 @@ class KondisiJalanController extends Controller
      */
     public function index()
     {
-        $data = DB::connection('pgsql')->table('TBL_UPTD_TRX_MASTER_KONDISI_JALAN')->get();
-        return response()->json($data, 200);
+        try {
+            $data = DB::connection('pgsql')->table('TBL_UPTD_TRX_MASTER_KONDISI_JALAN')->get();
+            $this->response['status'] = 'success';
+            $this->response['data']['items'] = $data;
+            return response()->json($this->response, 200);
+        } catch (\Exception $e) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
     }
 
     /**

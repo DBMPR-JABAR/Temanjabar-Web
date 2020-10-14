@@ -20,12 +20,12 @@
                         <div class="input-group">
                             <span class="input-group-addon search-close"><i class="feather icon-x"></i></span>
                             <input type="text" class="form-control">
-                            <span class="input-group-addon search-btn"><i class="feather icon-search"></i></span>
+                            <span class="input-group-addon search-btn" data-toggle="tooltip" data-placement="bottom" title="Cari data"><i class="feather icon-search"></i></span>
                         </div>
                     </div>
                 </li>
                 <li>
-                    <a href="#!" onclick="javascript:toggleFullScreen()">
+                    <a href="#!" onclick="javascript:toggleFullScreen()"  data-toggle="tooltip" data-placement="bottom" title="Tampilkan Secara layar penuh">
                         <i class="feather icon-maximize full-screen"></i>
                     </a>
                 </li>
@@ -33,7 +33,7 @@
             <ul class="nav-right">
                 <li class="header-notification">
                     <div class="dropdown-primary dropdown">
-                        <div class="dropdown-toggle" data-toggle="dropdown">
+                        <div class="dropdown-toggle" data-toggle="dropdown"  data-toggle="tooltip" data-placement="bottom" title="Pemberitahuan Terbaru">
                             <i class="feather icon-bell"></i>
                             <span class="badge bg-c-pink">5</span>
                         </div>
@@ -77,7 +77,7 @@
                 </li>
                 <li class="header-notification">
                     <div class="dropdown-primary dropdown">
-                        <div class="displayChatbox dropdown-toggle" data-toggle="dropdown">
+                        <div class="displayChatbox dropdown-toggle" data-toggle="dropdown"  data-toggle="tooltip" data-placement="bottom" title="Pesan masuk">
                             <i class="feather icon-message-square"></i>
                             <span class="badge bg-c-green">3</span>
                         </div>
@@ -133,10 +133,6 @@
                 <div class="chat-inner-header">
                     <div class="back_chatBox">
                         <div class="right-icon-control">
-                            <input type="text" class="form-control  search-text" placeholder="Search Friend" id="search-friends">
-                            <div class="form-icon">
-                                <i class="icofont icofont-search"></i>
-                            </div>
                         </div>
                     </div>
                 </div>

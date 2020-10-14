@@ -18,13 +18,21 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::post('auth', 'AuthController@loginAPI');
-Route::get('user', 'AuthController@getAuthUser')->middleware('jwt.auth');
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('login', 'API\AuthController@login');
+    Route::post('logout', 'API\AuthController@logout');
+    Route::post('register', 'API\AuthController@register');
+    Route::post('reset-password', 'API\AuthController@resetPassword');
+    Route::post('refresh', 'API\AuthController@refresh');
+    Route::post('user', 'API\AuthController@getUser');
+});
 
 
+Route::group(['middleware' => ['jwt.auth']], function () {
+    Route::resource('progress-mingguan', 'API\ProgressController');
+    Route::resource('kondisi-jalan', 'API\KondisiJalanController');
+    Route::resource('aduan', 'API\AduanController');
+    Route::resource('pembangunan', 'API\PembangunanController');
+});
 
-Route::resource('progress-mingguan', 'API\ProgressController');
-Route::resource('kondisi-jalan', 'API\KondisiJalanController');
-Route::resource('aduan', 'API\AduanController');
-Route::resource('pembangunan', 'API\PembangunanController');
 
