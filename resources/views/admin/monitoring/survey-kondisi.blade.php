@@ -15,7 +15,7 @@
         <div class="page-header-breadcrumb">
             <ul class="breadcrumb-title">
                 <li class="breadcrumb-item">
-                    <a href="index.html"> <i class="feather icon-home"></i> </a>
+                    <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
                 </li>
                 <li class="breadcrumb-item"><a href="#!">Survey Kondisi Jalan</a> </li>
             </ul>
@@ -37,7 +37,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
             mapTypeId:google.maps.MapTypeId.ROADMAP
         };
         var info = 'UPTD 1';
-        
+
         var map = new google.maps.Map(document.getElementById("googleMap"), options);
         var marker = new google.maps.Marker({
             position: new google.maps.LatLng(-6.9147444,107.6098111), // longitude latitude
@@ -78,7 +78,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
           infowindow.open(map, marker);
         });
         }
-        // event jendela di-load  
+        // event jendela di-load
         google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 <!--chart-->
@@ -256,7 +256,7 @@ selector.axis = dateAxis;
 
 }); // end am4core.ready()
 </script>
-    
+
 <div class="row">
     <div class="col-sm-12">
         <div class="card">

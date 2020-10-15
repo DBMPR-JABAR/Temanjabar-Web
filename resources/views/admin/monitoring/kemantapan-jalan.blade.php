@@ -16,7 +16,7 @@
         <div class="page-header-breadcrumb">
             <ul class="breadcrumb-title">
                 <li class="breadcrumb-item">
-                    <a href="index.html"> <i class="feather icon-home"></i> </a>
+                    <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
                 </li>
                 <li class="breadcrumb-item"><a href="#!">Kemantapan Jalan</a> </li>
             </ul>
@@ -104,7 +104,6 @@
             </div>
         </div>
     </div>
-   
 
 
 
@@ -115,7 +114,8 @@
 
 
 
- 
+
+
     <!-- task, page, download counter  start -->
     <div class="col-xl-3 col-md-6">
         <div class="card">
@@ -218,7 +218,7 @@
             </div>
         </div>
     </div>
-   
+
     <!-- task, page, download counter  end -->
     <div class="col-xl-12 col-md-12">
         <div class="card">
@@ -262,10 +262,10 @@
             <div style="height:600px"  id="chartdivInfo1"></div>
 
 
-          
+
                 <!-- Tab panes -->
-                 
-                     
+
+
                 </div>
 
 
