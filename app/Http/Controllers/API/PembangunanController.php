@@ -27,6 +27,7 @@ class PembangunanController extends Controller
     {
         try {
             $data = Pembangunan::all();
+            // $data = Pembangunan::find(1)->progressMingguan;
             $this->response['status'] = 'success';
             $this->response['data']['items'] = $data;
             return response()->json($this->response, 200);

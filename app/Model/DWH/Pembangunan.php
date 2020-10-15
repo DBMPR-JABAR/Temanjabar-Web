@@ -8,4 +8,16 @@ class Pembangunan extends Model
 {
     protected $connection = 'dwh';
     protected $table = 'TBL_UPTD_TRX_PEMBANGUNAN';
+    protected $primaryKey = 'KODE_PAKET';
+    protected $appends = ['PROGRESS_MINGGUAN'];
+
+    public function progressMingguan()
+    {
+        return $this->hasMany('App\Model\DWH\ProgressMingguan', 'NAMA_PAKET', 'NAMA_PAKET');
+    }
+
+    public function getProgressMingguanAttribute()
+    {
+        return $this->progressMingguan();
+    }
 }
