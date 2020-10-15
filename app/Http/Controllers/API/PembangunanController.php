@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Model\DWH\Pembangunan;
 
 
 class PembangunanController extends Controller
@@ -25,7 +26,7 @@ class PembangunanController extends Controller
     public function index()
     {
         try {
-            $data = DB::connection('pgsql')->table('TBL_UPTD_TRX_PEMBANGUNAN')->get();
+            $data = Pembangunan::all();
             $this->response['status'] = 'success';
             $this->response['data']['items'] = $data;
             return response()->json($this->response, 200);

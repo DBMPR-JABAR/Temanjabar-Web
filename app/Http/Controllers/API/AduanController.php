@@ -24,7 +24,7 @@ class AduanController extends Controller
     public function index()
     {
         try {
-            $data = DB::connection('pgsql')->table('TBL_UPTD_TRX_ADUAN')->get();
+            $data = DB::connection('dwh')->table('TBL_UPTD_TRX_ADUAN')->get();
             $this->response['status'] = 'success';
             $this->response['data']['items'] = $data;
             return response()->json($this->response, 200);

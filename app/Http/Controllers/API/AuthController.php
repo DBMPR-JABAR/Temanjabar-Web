@@ -38,7 +38,8 @@ class AuthController extends Controller
         }
 
         $this->response['status'] = 'success';
-        $this->response['data'] = $this->getToken($token);
+        $this->response['data']['token'] = $this->getToken($token);
+        $this->response['data']['user'] = auth('api')->user();
         return response()->json($this->response, 200);
     }
     public function register(Request $req)

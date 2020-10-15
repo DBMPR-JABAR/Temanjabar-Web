@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Model\DWH\ProgressMingguan;
+use Illuminate\Support\Carbon;
 
 class ProgressController extends Controller
 {
@@ -24,7 +26,7 @@ class ProgressController extends Controller
     public function index()
     {
         try {
-            $data = DB::connection('pgsql')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN')->get();
+            $data = ProgressMingguan::all();
             $this->response['status'] = 'success';
             $this->response['data']['items'] = $data;
             return response()->json($this->response, 200);
