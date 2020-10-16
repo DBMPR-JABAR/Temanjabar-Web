@@ -34,6 +34,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::resource('aduan', 'API\AduanController');
     Route::resource('pembangunan', 'API\PembangunanController');
     Route::resource('proyek-kontrak', 'API\ProyekController');
+    Route::get('progress-mingguan/status/{status}', 'API\ProgressController@showStatus');
 });
 
 Route::fallback(function(){

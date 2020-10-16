@@ -43,6 +43,14 @@ class ProgressController extends Controller
         return new GeneralResource(ProgressMingguan::findOrFail($id));
     }
 
+    public function showStatus($status)
+    {
+        $progress = ProgressMingguan::get()->filter(function($item) use ($status) {
+            return $item->STATUS_PROYEK === $status;
+        });
+        return (new GeneralResource($progress));
+    }
+
     /**
      * Update the specified resource in storage.
      *
