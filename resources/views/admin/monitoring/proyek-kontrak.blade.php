@@ -16,7 +16,7 @@
         <div class="page-header-breadcrumb">
             <ul class="breadcrumb-title">
                 <li class="breadcrumb-item">
-                    <a href="index.html"> <i class="feather icon-home"></i> </a>
+                    <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
                 </li>
                 <li class="breadcrumb-item"><a href="#!">Proyek Kontrak</a> </li>
             </ul>
@@ -26,17 +26,17 @@
 @endsection
 
 @section('page-body')
- 
 
 
 
 
 
- 
+
+
 <div class="row">
 <div class="col-lg-12">
                                                 <div class="card">
-                                                 
+
                                                     <div class="card-block accordion-block">
                                                         <div id="accordion" role="tablist" aria-multiselectable="true">
                                                             <div class="accordion-panel">
@@ -49,7 +49,7 @@
                                                                 </div>
                                                                 <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                                                                     <div class="accordion-content accordion-desc">
-  
+
                                                                     <div class="card-block">
                                                     <div class="row">
                                                         <div class="col-sm-12 col-xl-3 m-b-30">
@@ -57,7 +57,7 @@
                                                             <select name="select" class="form-control form-control-primary">
                                                                 <option value="opt1">-</option>
                                                                 <option value="opt2">2019</option>
-                                                                <option value="opt3">2020</option> 
+                                                                <option value="opt3">2020</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-sm-12 col-xl-3 m-b-30">
@@ -69,7 +69,7 @@
                                                                 <option value="peningkatan">UPTD 3 </option>
                                                                 <option value="peningkatan">UPTD 4 </option>
                                                                 <option value="peningkatan">UPTD 5 </option>
-                                                                <option value="peningkatan">UPTD 6  </option>  
+                                                                <option value="peningkatan">UPTD 6  </option>
                                                             </select>
                                                         </div><div class="col-sm-12 col-xl-3 m-b-30">
                                                             <h4 class="sub-title">Kegiatan</h4>
@@ -77,12 +77,12 @@
                                                                 <option value="opt1">Semua</option>
                                                                 <option value="opt2">Pemeliharaan berkala</option>
                                                                 <option value="pembangunan">Pembangunan</option>
-                                                                <option value="peningkatan">Peningkatan</option>  
+                                                                <option value="peningkatan">Peningkatan</option>
                                                             </select>
                                                         </div>
-                                                        
-                                                       
-                                                         
+
+
+
                                                       </div>
                                                   </div>
                                                                   </div>
@@ -93,13 +93,13 @@
                                                 </div>
                                             </div>
 
- 
+
 
     <!-- task, page, download counter  start -->
     <div class="col-xl-3 col-md-6">
-    
+
         <div class="card">
-        
+
             <div class="card-block">
                 <div class="row align-items-center">
                     <div class="col-8"><a href="#">
@@ -250,7 +250,7 @@
                         <div id="chartdiv" style="height:250px"></div>
                         <!--  -->
                         <div class="card" style="box-shadow: none;">
-                          
+
                           <div class="card-block">
                             <div class="table-responsive dt-responsive">
                               <table id="detail" class="table table-striped table-bordered ">

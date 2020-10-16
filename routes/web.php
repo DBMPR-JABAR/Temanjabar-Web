@@ -32,7 +32,6 @@ Route::group(['prefix' => 'uptd'], function () {
 
 // {SiteURL}/admin/*
 Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
-    // Route::view('/', 'admin.home');
     Route::get('/', function () {
         return redirect(route('monitoring-kontrak'));
     });
@@ -50,7 +49,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::view('realisasi-keuangan', 'admin.monitoring.realisasi-keuangan');
         Route::view('audit-keuangan', 'admin.monitoring.audit-keuangan');
         Route::view('kemantapan-jalan', 'admin.monitoring.kemantapan-jalan');
-         
+
     });
 
     // {SiteURL}/admin/rekomendasi/*

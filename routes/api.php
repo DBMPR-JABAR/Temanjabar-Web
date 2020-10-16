@@ -33,6 +33,13 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::resource('kondisi-jalan', 'API\KondisiJalanController');
     Route::resource('aduan', 'API\AduanController');
     Route::resource('pembangunan', 'API\PembangunanController');
+    Route::resource('proyek-kontrak', 'API\ProyekController');
 });
 
-
+Route::fallback(function(){
+    return response()->json([
+        'status' => 'false',
+        'data' => [
+            'message' => 'Page Not Found']
+        ], 404);
+});

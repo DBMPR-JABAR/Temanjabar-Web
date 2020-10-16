@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Model\DWH\KondisiJalan;
 
 class KondisiJalanController extends Controller
 {
@@ -25,7 +26,7 @@ class KondisiJalanController extends Controller
     public function index()
     {
         try {
-            $data = DB::connection('pgsql')->table('TBL_UPTD_TRX_MASTER_KONDISI_JALAN')->get();
+            $data = KondisiJalan::all();
             $this->response['status'] = 'success';
             $this->response['data']['items'] = $data;
             return response()->json($this->response, 200);

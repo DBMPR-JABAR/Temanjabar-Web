@@ -16,7 +16,7 @@
         <div class="page-header-breadcrumb">
             <ul class="breadcrumb-title">
                 <li class="breadcrumb-item">
-                    <a href="index.html"> <i class="feather icon-home"></i> </a>
+                    <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
                 </li>
                 <li class="breadcrumb-item"><a href="#!">Realisasi Anggaran</a> </li>
             </ul>

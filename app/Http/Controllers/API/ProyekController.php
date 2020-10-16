@@ -3,19 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProyekResource;
+use App\Model\DWH\Pembangunan;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class AduanController extends Controller
+class ProyekController extends Controller
 {
-    private $response;
-    public function __construct() {
-        $this->response = [
-            'status' => 'false',
-            'data' => []
-        ];
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -23,15 +16,7 @@ class AduanController extends Controller
      */
     public function index()
     {
-        try {
-            $data = DB::connection('dwh')->table('TBL_UPTD_TRX_ADUAN')->get();
-            $this->response['status'] = 'success';
-            $this->response['data']['items'] = $data;
-            return response()->json($this->response, 200);
-        } catch (\Exception $e) {
-            $this->response['data']['message'] = 'Internal Error';
-            return response()->json($this->response, 500);
-        }
+        return (ProyekResource::collection(Pembangunan::all())->additional(['status' => 'success']));
     }
 
     /**
@@ -53,7 +38,7 @@ class AduanController extends Controller
      */
     public function show($id)
     {
-        //
+        return (new ProyekResource(Pembangunan::findOrFail($id)));
     }
 
     /**
