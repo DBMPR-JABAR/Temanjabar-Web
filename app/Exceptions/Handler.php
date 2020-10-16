@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Throwable;
@@ -52,6 +53,7 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         if($request->expectsJson()){
+
             if($exception instanceof UnauthorizedHttpException) {
                 $response = [
                     'status' => 'false',
@@ -60,6 +62,14 @@ class Handler extends ExceptionHandler
                     ]
                 ];
                 return response()->json($response, 200);
+            }
+
+            if ($exception instanceof ModelNotFoundException) {
+                return response()->json([
+                    'status' => 'false',
+                    'data' => [
+                        'message' => 'Entry for '.str_replace('App\\Model\\', '', $exception->getModel()).' not found']
+                    ], 200);
             }
         }
 

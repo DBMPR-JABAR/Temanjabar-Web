@@ -22,15 +22,15 @@ class ProgressMingguan extends Model
     public function getStatusProyekAttribute(){
         if($this->DEVIASI == 0) return "FINISH";
 
-        $condDeviasi = $this->DEVIASI > -5;         // True jika deviasi > -5
+        $condDeviasi = $this->DEVIASI > -5;          // True jika deviasi > -5
         $condDeadline = $this->DEADLINE >= now();    // True jika Waktu Masih Ada, False jika lewat deadline
 
         // Jika Waktu Masih Ada dan Deviasi > -5
-        if($condDeviasi && $condDeadline == true){
+        if($condDeviasi && $condDeadline){
             return "ON PROGRESS";
         }else{
             // Jika Waktu Masih Ada, Tapi Deviasi <= -5
-            $status = ($condDeadline == true) ? 'CRITICAL CONTRACT' : 'OFF PROGRESS';
+            $status = ($condDeadline) ? 'CRITICAL CONTRACT' : 'OFF PROGRESS';
             return $status;
         }
     }

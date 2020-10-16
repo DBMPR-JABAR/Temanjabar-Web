@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\GeneralCollection;
-use App\Http\Resources\GeneralResource;
-use Illuminate\Http\Request;
+use App\Http\Resources\ProyekResource;
 use App\Model\DWH\Pembangunan;
+use Illuminate\Http\Request;
 
-class PembangunanController extends Controller
+class ProyekController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +16,7 @@ class PembangunanController extends Controller
      */
     public function index()
     {
-        return (new GeneralResource(Pembangunan::all()));
+        return (ProyekResource::collection(Pembangunan::all())->additional(['status' => 'success']));
     }
 
     /**
@@ -39,7 +38,7 @@ class PembangunanController extends Controller
      */
     public function show($id)
     {
-        return new GeneralResource(Pembangunan::find($id));
+        return (new ProyekResource(Pembangunan::findOrFail($id)));
     }
 
     /**
