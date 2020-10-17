@@ -44,7 +44,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::view('survey-kondisi-jalan/{uptd}', 'admin.monitoring.survey-kondisi-jalan-uptd')->name('kondisiJalanUPTD');
         Route::view('survey-kondisi-jalan/{uptd}/{jalan}', 'admin.monitoring.survey-kondisi-jalan-uptd-detail')->name('kondisiJalanUPTDDetail');
 
-        Route::view('proyek-kontrak', 'admin.monitoring.proyek-kontrak')->name('monitoring-kontrak');
+        Route::get('proyek-kontrak', 'MonitoringController@getProyekKontrak')->name('monitoring-kontrak');
+       // Route::view('proyek-kontrak', 'admin.monitoring.proyek-kontrak')->name('monitoring-kontrak');
+        Route::get('proyek-kontrak/status/{status} ', 'MonitoringController@getProyekDetail');
         Route::get('laporan-kerusakan', 'MonitoringController@getLaporan');
         Route::view('realisasi-keuangan', 'admin.monitoring.realisasi-keuangan');
         Route::view('audit-keuangan', 'admin.monitoring.audit-keuangan');

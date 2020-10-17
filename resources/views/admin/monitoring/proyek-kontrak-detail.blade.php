@@ -208,75 +208,21 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                     @foreach ($proyekdetail as $data)
                                         <tr>
                                             <td>1</td>
-                                            <td>Kuli </th>
-                                            <td><b>Pemeliharaan Berkala</b></td>
-                                            <td>2019-10-20</td>
-                                            <td>Hotmix</td>
-                                            <td> Cibadak - Cikidang - Pelabuhan Ratu</td>
-                                            <td>113+950 - 115+950</td>
-                                            <td>100.0000%</td>
-                                            <td>100.0000%</td>
-                                            <td>0.0000%</td>
-                                            <td><b class="text-primary">Finish</b></td>
+                                            <td>{{$data->PENYEDIA_JASA}} </th>
+                                            <td><b>{{$data->KEGIATAN}}</b></td>
+                                            <td>{{$data->TANGGAL}}</td>
+                                            <td>{{$data->JENIS_PEKERJAAN}}</td>
+                                            <td>{{$data->RUAS_JALAN}}</td>
+                                            <td>{{$data->LOKASI}}</td>
+                                            <td>{{$data->RENCANA}}</td>
+                                            <td>{{$data->REALISASI}}</td>
+                                            <td>{{$data->DEVIASI}}</td>
+                                            <td>{{{$data->STATUS}}}</b></td>
                                         </tr>
-
-                                        <tr>
-                                            <td>2</td>
-                                            <td>CDS Studio </th>
-                                            <td><b>Pembangunan</b></td>
-                                            <td>2020-01-01</td>
-                                            <td>Hotmix</td>
-                                            <td> Bts. Karawang/Purwakarta (Curug) - Purwakarta</td>
-                                            <td>Km. Jkt. 100+500 - Km. Jkt. 101+300</td>
-                                            <td>100.0000%</td>
-                                            <td>100.0000%</td>
-                                            <td>0.0000%</td>
-                                            <td><b class="text-primary">Finish</b></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>3</td>
-                                            <td>PT.Buana </th>
-                                            <td><b>Peningkatan</b></td>
-                                            <td>2019-09-25</td>
-                                            <td>box culvert</td>
-                                            <td> Waluran-Malereng-Palangpang</td>
-                                            <td>211+500</td>
-                                            <td>100.0000%</td>
-                                            <td>100.0000%</td>
-                                            <td>0.0000%</td>
-                                            <td><b class="text-primary">Finish</b></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>4</td>
-                                            <td>Asakiwari </th>
-                                            <td><b>Peningkatan</b></td>
-                                            <td>2019-09-25</td>
-                                            <td>box culvert</td>
-                                            <td> Waluran-Malereng-Palangpang</td>
-                                            <td>211+500</td>
-                                            <td>100.0000%</td>
-                                            <td>100.0000%</td>
-                                            <td>0.0000%</td>
-                                            <td><b class="text-primary">Finish</b></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>5</td>
-                                            <td>Lingatama </th>
-                                            <td><b>Pembangunan</b></td>
-                                            <td>2019-09-25</td>
-                                            <td>box culvert</td>
-                                            <td> Waluran-Malereng-Palangpang</td>
-                                            <td>211+500</td>
-                                            <td>100.0000%</td>
-                                            <td>100.0000%</td>
-                                            <td>0.0000%</td>
-                                            <td><b class="text-primary">Finish</b></td>
-                                        </tr>
+                                      @endforeach
                                   </tbody>
                               </table>
                             </div>

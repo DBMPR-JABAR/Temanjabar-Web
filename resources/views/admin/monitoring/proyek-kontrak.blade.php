@@ -35,18 +35,17 @@
 
 <div class="row">
 <div class="col-lg-12">
-                                                <div class="card">
-
-                                                    <div class="card-block accordion-block">
-                                                        <div id="accordion" role="tablist" aria-multiselectable="true">
-                                                            <div class="accordion-panel">
-                                                                <div class="accordion-heading" role="tab" id="headingOne">
-                                                                    <h3 class="card-title accordion-title">
-                                                                    <a class="accordion-msg" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                                        Filter
-                                                                    </a>
-                                                                </h3>
-                                                                </div>
+   <div class="card">
+     <div class="card-block accordion-block">
+        <div id="accordion" role="tablist" aria-multiselectable="true">
+            <div class="accordion-panel">
+                  <div class="accordion-heading" role="tab" id="headingOne">
+                     <h3 class="card-title accordion-title">
+                     <a class="accordion-msg" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      Filter
+                     </a>
+                     </h3>
+                    </div>
                                                                 <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                                                                     <div class="accordion-content accordion-desc">
 
@@ -97,12 +96,10 @@
 
     <!-- task, page, download counter  start -->
     <div class="col-xl-3 col-md-6">
-
         <div class="card">
-
             <div class="card-block">
                 <div class="row align-items-center">
-                    <div class="col-8"><a href="#">
+                    <div class="col-8"><a href="{{url('admin/monitoring/proyek-kontrak/status/CRITICAL CONTACT')}}">
                         <h4 class="text-c-yellow f-w-600">20</h4></a>
                         <h6 class="text-muted m-b-0">Critical Contract</h6>
                     </div>
@@ -128,7 +125,7 @@
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
-                    <div class="col-8"><a href="#">
+                    <div class="col-8"><a href="{{url('admin/monitoring/proyek-kontrak/status/ON PROGRESS')}}">
                         <h4 class="text-c-green f-w-600">40</h4> </a>
                         <h6 class="text-muted m-b-0">On Progress</h6>
                     </div>
@@ -153,7 +150,7 @@
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
-                    <div class="col-8"><a href="#">
+                    <div class="col-8"><a href="{{url('admin/monitoring/proyek-kontrak/status/OFF PROGRESS')}}">
                         <h4 class="text-c-pink f-w-600">145</h4></a>
                         <h6 class="text-muted m-b-0">Off Progress</h6>
                     </div>
@@ -178,7 +175,7 @@
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
-                    <div class="col-8">
+                    <div class="col-8"><a href="{{url('admin/monitoring/proyek-kontrak/status/FINISH')}}">
                         <h4 class="text-c-blue f-w-600">500</h4>
                         <h6 class="text-muted m-b-0">Finish</h6>
                     </div>
@@ -199,10 +196,11 @@
             </div>
         </div>
     </div>
+    </div>
     <!-- task, page, download counter  end -->
       <div class="col-xl-12 col-md-12">
         <div class="card">
-          <div class="card-block">
+          <div class="card-block accordion-block">
             <div id="chartdiv2" style="height:250px"></div>
           </div>
         </div>
@@ -270,75 +268,21 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                @foreach ($proyekkontrak as $data)
                                         <tr>
-                                            <td>1</td>
-                                            <td>Kuli </th>
-                                            <td><b>Pemeliharaan Berkala</b></td>
-                                            <td>2019-10-20</td>
-                                            <td>Hotmix</td>
-                                            <td> Cibadak - Cikidang - Pelabuhan Ratu</td>
-                                            <td>113+950 - 115+950</td>
-                                            <td>100.0000%</td>
-                                            <td>100.0000%</td>
-                                            <td>0.0000%</td>
-                                            <td><h5><span class="badge badge-primary">Finish</span></h5></td>
+                                            <td>{{$data->id}}</td>
+                                            <td>{{$data->penyedia_jasa}} </th>
+                                            <td><b>{{$data->kegiatan}}</b></td>
+                                            <td>{{$data->tanggal}}</td>
+                                            <td>{{$data->jenis_pekerjaan}}</td>
+                                            <td>{{$data->ruas_jalan}}</td>
+                                            <td>{{$data->lokasi}}</td>
+                                            <td>{{$data->rencana}}</td>
+                                            <td>{{$data->realisasi}}</td>
+                                            <td>{{$data->deviasi}}</td>
+                                            <td>{{$data->status}}</td>
                                         </tr>
-
-                                        <tr>
-                                            <td>2</td>
-                                            <td>CDS Studio </th>
-                                            <td><b>Pembangunan</b></td>
-                                            <td>2020-01-01</td>
-                                            <td>Hotmix</td>
-                                            <td> Bts. Karawang/Purwakarta (Curug) - Purwakarta</td>
-                                            <td>Km. Jkt. 100+500 - Km. Jkt. 101+300</td>
-                                            <td>100.0000%</td>
-                                            <td>100.0000%</td>
-                                            <td>0.0000%</td>
-                                            <td><h5><span class="badge badge-primary">Finish</span></h5></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>3</td>
-                                            <td>PT.Buana </th>
-                                            <td><b>Peningkatan</b></td>
-                                            <td>2019-09-25</td>
-                                            <td>box culvert</td>
-                                            <td> Waluran-Malereng-Palangpang</td>
-                                            <td>211+500</td>
-                                            <td>100.0000%</td>
-                                            <td>100.0000%</td>
-                                            <td>0.0000%</td>
-                                            <td><h5><span class="badge badge-primary">Finish</span></h5></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>4</td>
-                                            <td>Asakiwari </th>
-                                            <td><b>Peningkatan</b></td>
-                                            <td>2019-09-25</td>
-                                            <td>box culvert</td>
-                                            <td> Waluran-Malereng-Palangpang</td>
-                                            <td>211+500</td>
-                                            <td>100.0000%</td>
-                                            <td>100.0000%</td>
-                                            <td>0.0000%</td>
-                                            <td><h5><span class="badge badge-primary">Finish</span></h5></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>5</td>
-                                            <td>Lingatama </th>
-                                            <td><b>Pembangunan</b></td>
-                                            <td>2019-09-25</td>
-                                            <td>box culvert</td>
-                                            <td> Waluran-Malereng-Palangpang</td>
-                                            <td>211+500</td>
-                                            <td>100.0000%</td>
-                                            <td>100.0000%</td>
-                                            <td>0.0000%</td>
-                                            <td><h5><span class="badge badge-primary">Finish</span></h5></td>
-                                        </tr>
+                                      @endforeach
                                   </tbody>
                               </table>
                             </div>
