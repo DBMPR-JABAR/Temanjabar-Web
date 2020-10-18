@@ -16,7 +16,7 @@
         <div class="page-header-breadcrumb">
             <ul class="breadcrumb-title">
                 <li class="breadcrumb-item">
-                    <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
+                    <a href="index.html"> <i class="feather icon-home"></i> </a>
                 </li>
                 <li class="breadcrumb-item"><a href="#!">Proyek Kontrak</a> </li>
             </ul>
@@ -26,81 +26,14 @@
 @endsection
 
 @section('page-body')
-
-
-
-
-
-
-
 <div class="row">
-<div class="col-lg-12">
-   <div class="card">
-     <div class="card-block accordion-block">
-        <div id="accordion" role="tablist" aria-multiselectable="true">
-            <div class="accordion-panel">
-                  <div class="accordion-heading" role="tab" id="headingOne">
-                     <h3 class="card-title accordion-title">
-                     <a class="accordion-msg" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                      Filter
-                     </a>
-                     </h3>
-                    </div>
-                                                                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                                                                    <div class="accordion-content accordion-desc">
-
-                                                                    <div class="card-block">
-                                                    <div class="row">
-                                                        <div class="col-sm-12 col-xl-3 m-b-30">
-                                                            <h4 class="sub-title">Tahun</h4>
-                                                            <select name="select" class="form-control form-control-primary">
-                                                                <option value="opt1">-</option>
-                                                                <option value="opt2">2019</option>
-                                                                <option value="opt3">2020</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-sm-12 col-xl-3 m-b-30">
-                                                            <h4 class="sub-title">UPTD</h4>
-                                                            <select name="select" class="form-control form-control-primary">
-                                                                <option value="opt1">Semua</option>
-                                                                <option value="opt2">UPTD 1 Sukabumi</option>
-                                                                <option value="pembangunan">UPTD 2 ....</option>
-                                                                <option value="peningkatan">UPTD 3 </option>
-                                                                <option value="peningkatan">UPTD 4 </option>
-                                                                <option value="peningkatan">UPTD 5 </option>
-                                                                <option value="peningkatan">UPTD 6  </option>
-                                                            </select>
-                                                        </div><div class="col-sm-12 col-xl-3 m-b-30">
-                                                            <h4 class="sub-title">Kegiatan</h4>
-                                                            <select name="select" class="form-control form-control-primary">
-                                                                <option value="opt1">Semua</option>
-                                                                <option value="opt2">Pemeliharaan berkala</option>
-                                                                <option value="pembangunan">Pembangunan</option>
-                                                                <option value="peningkatan">Peningkatan</option>
-                                                            </select>
-                                                        </div>
-
-
-
-                                                      </div>
-                                                  </div>
-                                                                  </div>
-                                                                </div>
-                                                            </div>
-                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-
     <!-- task, page, download counter  start -->
     <div class="col-xl-3 col-md-6">
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
-                    <div class="col-8"><a href="{{url('admin/monitoring/proyek-kontrak/status/CRITICAL CONTACT')}}">
-                        <h4 class="text-c-yellow f-w-600">20</h4></a>
+                    <div class="col-8">
+                        <h4 class="text-c-yellow f-w-600">20</h4>
                         <h6 class="text-muted m-b-0">Critical Contract</h6>
                     </div>
                     <div class="col-4 text-right">
@@ -125,8 +58,8 @@
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
-                    <div class="col-8"><a href="{{url('admin/monitoring/proyek-kontrak/status/ON PROGRESS')}}">
-                        <h4 class="text-c-green f-w-600">40</h4> </a>
+                    <div class="col-8">
+                        <h4 class="text-c-green f-w-600">40</h4>
                         <h6 class="text-muted m-b-0">On Progress</h6>
                     </div>
                     <div class="col-4 text-right">
@@ -150,8 +83,8 @@
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
-                    <div class="col-8"><a href="{{url('admin/monitoring/proyek-kontrak/status/OFF PROGRESS')}}">
-                        <h4 class="text-c-pink f-w-600">145</h4></a>
+                    <div class="col-8">
+                        <h4 class="text-c-pink f-w-600">145</h4>
                         <h6 class="text-muted m-b-0">Off Progress</h6>
                     </div>
                     <div class="col-4 text-right">
@@ -175,7 +108,7 @@
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
-                    <div class="col-8"><a href="{{url('admin/monitoring/proyek-kontrak/status/FINISH')}}">
+                    <div class="col-8">
                         <h4 class="text-c-blue f-w-600">500</h4>
                         <h6 class="text-muted m-b-0">Finish</h6>
                     </div>
@@ -196,19 +129,11 @@
             </div>
         </div>
     </div>
-    </div>
     <!-- task, page, download counter  end -->
-      <div class="col-xl-12 col-md-12">
-        <div class="card">
-          <div class="card-block accordion-block">
-            <div id="chartdiv2" style="height:250px"></div>
-          </div>
-        </div>
-      </div>
+
     <!-- visitor start -->
     <div class="col-xl-12 col-md-12">
         <div class="card">
-     
             <div class="card-header">
                 <h5>Daftar Penyelesaian Pekerjaan Kontraktor</h5>
 
@@ -220,7 +145,6 @@
                     </ul>
                 </div>
             </div>
-            
             <div class="card-block">
 
                 <ul class="nav nav-tabs md-tabs" role="tablist">
@@ -248,7 +172,23 @@
                         <div id="chartdiv" style="height:250px"></div>
                         <!--  -->
                         <div class="card" style="box-shadow: none;">
-
+                          <div class="card-header">
+                            <h5>Detail Daftar Pekerjaan</h5>
+                            <ul class="filter-list mt-4">
+                              <li>
+                                <a href=""><button type="button" class="btn btn-primary">Semua <i class="feather icon-sliders"></i></button></a>
+                              </li>
+                              <li>
+                                <a href=""><button type="button" class="btn btn-success">Pemeliharaan Berkala</button></a>
+                              </li>
+                              <li>
+                                <a href=""><button type="button" class="btn btn-success">Pembangunan</button></a>
+                              </li>
+                              <li>
+                                <a href=""><button type="button" class="btn btn-success">Peningkatan</button></a>
+                              </li>
+                            </ul>
+                          </div>
                           <div class="card-block">
                             <div class="table-responsive dt-responsive">
                               <table id="detail" class="table table-striped table-bordered ">
@@ -268,25 +208,25 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @foreach ($proyekkontrak as $data)
+                                     @foreach ($proyekdetail as $data)
                                         <tr>
-                                            <td>{{$data->id}}</td>
-                                            <td>{{$data->penyedia_jasa}} </th>
-                                            <td><b>{{$data->kegiatan}}</b></td>
-                                            <td>{{$data->tanggal}}</td>
-                                            <td>{{$data->jenis_pekerjaan}}</td>
-                                            <td>{{$data->ruas_jalan}}</td>
-                                            <td>{{$data->lokasi}}</td>
-                                            <td>{{$data->rencana}}</td>
-                                            <td>{{$data->realisasi}}</td>
-                                            <td>{{$data->deviasi}}</td>
-                                            <td>{{$data->status}}</td>
+                                            <td>1</td>
+                                            <td>{{$data->PENYEDIA_JASA}} </th>
+                                            <td><b>{{$data->KEGIATAN}}</b></td>
+                                            <td>{{$data->TANGGAL}}</td>
+                                            <td>{{$data->JENIS_PEKERJAAN}}</td>
+                                            <td>{{$data->RUAS_JALAN}}</td>
+                                            <td>{{$data->LOKASI}}</td>
+                                            <td>{{$data->RENCANA}}</td>
+                                            <td>{{$data->REALISASI}}</td>
+                                            <td>{{$data->DEVIASI}}</td>
+                                            <td>{{{$data->STATUS}}}</b></td>
                                         </tr>
                                       @endforeach
                                   </tbody>
                               </table>
                             </div>
-                          </div>
+                          </div>                        
                         </div>
                     </div>
                     <div class="tab-pane" id="profile3" role="tabpanel">
@@ -402,7 +342,7 @@
                                   </tbody>
                               </table>
                             </div>
-                          </div>
+                          </div>                        
                         </div>
                      </div>
                     <div class="tab-pane" id="messages3" role="tabpanel">
@@ -694,122 +634,5 @@
       }
     });
 
-</script>
-
-<script>
-am4core.ready(function() {
-
-// Themes begin
-am4core.useTheme(am4themes_animated);
-// Themes end
-
-
-
-var chart2 = am4core.create('chartdiv2', am4charts.XYChart)
-chart2.colors.step = 2;
-
-chart2.legend = new am4charts.Legend()
-chart2.legend.position = 'top'
-chart2.legend.paddingBottom = 20
-chart2.legend.labels.template.maxWidth = 95
-
-var xAxis = chart2.xAxes.push(new am4charts.CategoryAxis())
-xAxis.dataFields.category = 'category'
-xAxis.renderer.cellStartLocation = 0.1
-xAxis.renderer.cellEndLocation = 0.9
-xAxis.renderer.grid.template.location = 0;
-
-var yAxis = chart2.yAxes.push(new am4charts.ValueAxis());
-yAxis.min = 0;
-
-function createSeries(value, name) {
-    var series = chart2.series.push(new am4charts.ColumnSeries())
-    series.dataFields.valueY = value
-    series.dataFields.categoryX = 'category'
-    series.name = name
-
-    series.events.on("hidden", arrangeColumns);
-    series.events.on("shown", arrangeColumns);
-
-    var bullet = series.bullets.push(new am4charts.LabelBullet())
-    bullet.interactionsEnabled = false
-    bullet.dy = 30;
-    bullet.label.text = '{valueY}'
-    bullet.label.fill = am4core.color('#ffffff')
-
-    return series;
-}
-
-chart2.data = [
-    {
-        category: 'UPTD 1',
-        first: 40,
-        second: 55,
-        third: 60
-    },
-    {
-        category: 'UPTD 2',
-        first: 30,
-        second: 78,
-        third: 69
-    },
-    {
-        category: 'UPTD 3',
-        first: 27,
-        second: 40,
-        third: 45
-    },
-    {
-        category: 'UPTD 4',
-        first: 50,
-        second: 33,
-        third: 22
-    }
-]
-
-
-createSeries('first', 'Pagu Anggaran');
-createSeries('second', 'Nilai Kontrak');
-createSeries('third', 'Total Sisa Lelang');
-
-function arrangeColumns() {
-
-    var series = chart2.series.getIndex(0);
-
-    var w = 1 - xAxis.renderer.cellStartLocation - (1 - xAxis.renderer.cellEndLocation);
-    if (series.dataItems.length > 1) {
-        var x0 = xAxis.getX(series.dataItems.getIndex(0), "categoryX");
-        var x1 = xAxis.getX(series.dataItems.getIndex(1), "categoryX");
-        var delta = ((x1 - x0) / chart2.series.length) * w;
-        if (am4core.isNumber(delta)) {
-            var middle = chart2.series.length / 2;
-
-            var newIndex = 0;
-            chart2.series.each(function(series) {
-                if (!series.isHidden && !series.isHiding) {
-                    series.dummyData = newIndex;
-                    newIndex++;
-                }
-                else {
-                    series.dummyData = chart2.series.indexOf(series);
-                }
-            })
-            var visibleCount = newIndex;
-            var newMiddle = visibleCount / 2;
-
-            chart2.series.each(function(series) {
-                var trueIndex = chart2.series.indexOf(series);
-                var newIndex = series.dummyData;
-
-                var dx = (newIndex - trueIndex + middle - newMiddle) * delta
-
-                series.animate({ property: "dx", to: dx }, series.interpolationDuration, series.interpolationEasing);
-                series.bulletsContainer.animate({ property: "dx", to: dx }, series.interpolationDuration, series.interpolationEasing);
-            })
-        }
-    }
-}
-
-}); // end am4core.ready()
 </script>
 @endsection
