@@ -39,7 +39,7 @@ class PembangunanController extends Controller
      */
     public function show($id)
     {
-        return new GeneralResource(Pembangunan::find($id));
+        return new GeneralResource(Pembangunan::findOrFail($id));
     }
 
     /**

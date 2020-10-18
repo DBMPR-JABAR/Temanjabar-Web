@@ -7,6 +7,7 @@ use App\Http\Resources\GeneralCollection;
 use App\Http\Resources\GeneralResource;
 use Illuminate\Http\Request;
 use App\Model\DWH\ProgressMingguan;
+use Illuminate\Support\Str;
 
 class ProgressController extends Controller
 {
@@ -43,10 +44,20 @@ class ProgressController extends Controller
         return new GeneralResource(ProgressMingguan::findOrFail($id));
     }
 
+    public function showStatusCount($status)
+    {
+        $trimStatus = Str::replaceFirst('-', ' ', $status);
+        $progress = ProgressMingguan::count()->filter(function($item) use ($trimStatus) {
+            return $item->STATUS_PROYEK === $trimStatus;
+        });
+        return (new GeneralResource($progress));
+    }
+
     public function showStatus($status)
     {
-        $progress = ProgressMingguan::get()->filter(function($item) use ($status) {
-            return $item->STATUS_PROYEK === $status;
+        $trimStatus = Str::replaceFirst('-', ' ', $status);
+        $progress = ProgressMingguan::get()->filter(function($item) use ($trimStatus) {
+            return $item->STATUS_PROYEK === $trimStatus;
         });
         return (new GeneralResource($progress));
     }
