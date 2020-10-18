@@ -139,7 +139,7 @@ class AuthController extends Controller
                 $to_name = $user->name;
                 $data = [
                     'name' => $to_name,
-                    'otp' => $kode_otp
+                    'kode_otp' => $kode_otp
                 ];
                 try {
                     Mail::send('mail.sendOTP', $data, function($message) use ($to_name, $to_email) {
