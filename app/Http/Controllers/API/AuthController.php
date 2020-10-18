@@ -192,6 +192,7 @@ class AuthController extends Controller
             $this->response['status'] = 'success';
             $this->response['data']['otp'] = $kode_otp;
             $this->response['data']['message'] = 'Kode OTP Terkirim';
+            return response()->json($this->response, 200);
         }catch(\Exception $e){
             $this->response['data']['message'] = 'Internal Error';
             return response()->json($this->response, 500);
