@@ -25,6 +25,10 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('reset-password', 'API\AuthController@resetPassword');
     Route::post('refresh', 'API\AuthController@refresh');
     Route::post('user', 'API\AuthController@getUser');
+
+    Route::post('loginOTP', 'API\AuthController@loginOTP');
+    Route::post('verifyOTP', 'API\AuthController@verifyOTP');
+    Route::post('resendOTPMail', 'API\AuthController@resendOTPMail');
 });
 
 
@@ -35,6 +39,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::resource('pembangunan', 'API\PembangunanController');
     Route::resource('proyek-kontrak', 'API\ProyekController');
     Route::get('progress-mingguan/status/{status}', 'API\ProgressController@showStatus');
+    Route::get('progress-mingguan/status/{status}/count', 'API\ProgressController@showStatusCount');
 });
 
 Route::fallback(function(){

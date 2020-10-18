@@ -9,13 +9,14 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Facades\Validator;
 use App\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
     private $response;
 
     public function __construct() {
-        $this->middleware('jwt.auth', ['except' => ['login','register','resetPassword']]);
+        $this->middleware('jwt.auth', ['except' => ['login', 'register', 'resetPassword', 'loginOTP', 'sendOTPMail', 'resendOTPMail','verifyOTP']]);
         $this->response = [
             'status' => 'false',
             'data' => []
@@ -25,15 +26,13 @@ class AuthController extends Controller
     public function login(Request $req)
     {
         $credentials = $req->only('email', 'password');
-
-
         try {
             if (!$token = auth('api')->attempt($credentials)) {
-                $this->response['data']['error'] = 'invalid_credentials';
+                $this->response['data']['message'] = 'invalid_credentials';
                 return response()->json($this->response, 200);
             }
         } catch (JWTException $e) {
-            $this->response['data']['error'] = 'could_not_create_token';
+            $this->response['data']['message'] = 'could_not_create_token';
             return response()->json($this->response, 500);
         }
 
@@ -97,7 +96,6 @@ class AuthController extends Controller
         }
     }
 
-
     public function getUser()
     {
         try {
@@ -126,5 +124,95 @@ class AuthController extends Controller
             $this->response['data']['message'] = 'Internal Error';
             return response()->json($this->response, 500);
         }
+    }
+
+    public function loginOTP(Request $req)
+    {
+        $user = User::where('email',$req->email)->first();
+        try {
+            if($user && Hash::check($req->password, $user->password)){
+                $kode_otp = rand(100000, 999999);
+                $user->kode_otp = $kode_otp;
+                $user->save();
+
+                $to_email = $user->email;
+                $to_name = $user->name;
+                $data = [
+                    'name' => $to_name,
+                    'otp' => $kode_otp
+                ];
+                try {
+                    Mail::send('mail.sendOTP', $data, function($message) use ($to_name, $to_email) {
+                        $message->to($to_email, $to_name)->subject('Kode OTP Temanjabar');
+                        // $message->to('priyayidimas@upi.edu', 'Dimas Anom Priyayi')->subject('Kode OTP Temanjabar');
+                        $message->from(env('MAIL_USERNAME'),env('MAIL_FROM_NAME'));
+                    });
+                    $this->response['status'] = 'success';
+                    $this->response['data']['otp'] = $kode_otp;
+                    $this->response['data']['message'] = 'Kode OTP Terkirim';
+                    return response()->json($this->response, 200);
+                }catch(\Exception $e){
+                    $this->response['data']['message'] = 'Internal Error';
+                    return response()->json($this->response, 500);
+                }
+            }else{
+                throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException("User Email or Password Mismatch");
+            }
+        }catch(\Exception $e){
+            if($e instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException){
+                $this->response['data']['message'] = 'User Email or Password Mismatch';
+                return response()->json($this->response, 200);
+            }else{
+                $this->response['data']['message'] = 'Internal Error';
+                return response()->json($this->response, 500);
+            }
+        }
+    }
+
+    public function resendOTPMail(Request $req){
+        $kode_otp = rand(100000, 999999);
+
+        $user = User::where('email',$req->email)->first();
+        $user->kode_otp = $kode_otp;
+        $user->save();
+
+        $to_email = $user->email;
+        $to_name = $user->name;
+
+        $data = [
+            'name' => $to_name,
+            'otp' => $kode_otp
+        ];
+        try {
+            Mail::send('mail.sendOTP', $data, function($message) use ($to_name, $to_email) {
+                $message->to($to_email, $to_name)->subject('Kode OTP Temanjabar');
+                $message->from(env('MAIL_USERNAME'),env('MAIL_FROM_NAME'));
+            });
+
+            $this->response['status'] = 'success';
+            $this->response['data']['otp'] = $kode_otp;
+            $this->response['data']['message'] = 'Kode OTP Terkirim';
+        }catch(\Exception $e){
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
+
+    public function verifyOTP(Request $req){
+        try {
+            $user = User::where('email',$req->email)->where('kode_otp',$req->kode_otp)->first();
+            if(!$user || !$token = auth('api')->login($user)) {
+                $this->response['data']['message'] = 'Invalid OTP';
+                return response()->json($this->response, 200);
+            }
+        } catch (JWTException $e) {
+            $this->response['data']['message'] = 'could_not_create_token';
+            return response()->json($this->response, 500);
+        }
+
+        $this->response['status'] = 'success';
+        $this->response['data']['token'] = $this->getToken($token);
+        $this->response['data']['user'] = auth('api')->user();
+        return response()->json($this->response, 200);
     }
 }

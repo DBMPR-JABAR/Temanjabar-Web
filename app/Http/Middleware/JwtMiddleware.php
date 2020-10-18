@@ -5,6 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Exception;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Illuminate\Support\Facades\Auth;
 
 class JwtMiddleware
 {
@@ -17,7 +19,8 @@ class JwtMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $response = [
+        $response = $next($request);
+        $responseData = [
             'status' => 'false',
             'data' => []
         ];
@@ -27,16 +30,23 @@ class JwtMiddleware
             $user = JWTAuth::parseToken()->authenticate();
         } catch (Exception $e) {
             if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException){
-                $response['data']['message'] = 'Token is Invalid';
+                $responseData['data']['message'] = 'Token is Invalid';
             }else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException){
-                $response['data']['message'] = 'Token is Expired';
+                try {
+                    $refreshed = JWTAuth::refresh(JWTAuth::getToken());
+                    $response->header('Authorization', 'Bearer ' . $refreshed);
+                } catch (JWTException $e) {
+                    $responseData['data']['message'] = 'Cannot Generated New Token';
+                }
+                $user = JWTAuth::setToken($refreshed)->toUser();
             }else{
-                $response['data']['message'] = 'Authorization Token not found';
+                $responseData['data']['message'] = 'Authorization Token not found';
                 $code = 500;
             }
-            return response()->json($response, $code);
+            return response()->json($responseData, $code);
         }
 
-        return $next($request);
+        Auth::guard('api')->login($user, false);
+        return $response;
     }
 }
