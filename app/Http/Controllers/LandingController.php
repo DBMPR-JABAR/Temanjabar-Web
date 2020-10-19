@@ -47,7 +47,7 @@ class LandingController extends Controller
         $color = 'success';
         $msg = 'Berhasil menambahkan laporan, tanggapan akan dikirim melalui email anda';
 
-        $data = $req->except(['_token', 'agreed']);
+        $data = $req->except(['_token', 'agreed', 'gambar']);
         $data['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
 
         DB::table('monitoring_laporan_masyarakat')->insert($data);

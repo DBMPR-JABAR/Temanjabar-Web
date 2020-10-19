@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Crypt;
 
 class AuthController extends Controller
 {
@@ -36,6 +37,11 @@ class AuthController extends Controller
             return response()->json($this->response, 500);
         }
 
+        if(!auth('api')->user()->email_verified_at){
+            auth('api')->logout();
+            $this->response['data']['message'] = 'Email Not Verified';
+            return response()->json($this->response, 200);
+        }
         $this->response['status'] = 'success';
         $this->response['data']['token'] = $this->getToken($token);
         $this->response['data']['user'] = auth('api')->user();
@@ -44,6 +50,7 @@ class AuthController extends Controller
     public function register(Request $req)
     {
         try {
+            // Data Validation
             $validator = Validator::make($req->all(), [
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
@@ -55,15 +62,30 @@ class AuthController extends Controller
                 return response()->json($this->response, 400);
             }
 
+            // Create User Data
             $user = User::create([
                 'name' => $req->get('name'),
                 'email' => $req->get('email'),
                 'password' => Hash::make($req->get('password')),
+                'role' => 'masyarakat'
             ]);
 
+            // Send Email Verification
+            $to_email = $user->email;
+            $to_name = $user->name;
+            $data = [
+                'name' => $user->name,
+                'link' => url('verify-email/'.Crypt::encrypt($user->id))
+            ];
+            Mail::send('mail.sendVerificationMail', $data, function($message) use ($to_name, $to_email) {
+                $message->to($to_email, $to_name)->subject('Verifikasi Akun Temanjabar');
 
+                $message->from(env('MAIL_USERNAME'),env('MAIL_FROM_NAME'));
+            });
+
+            // Response
             $this->response['status'] = 'success';
-            $this->response['data'] = true;
+            $this->response['data']['message'] = 'Email Verifikasi Dikirim';
 
             return response()->json($this->response,200);
 
@@ -131,6 +153,10 @@ class AuthController extends Controller
         $user = User::where('email',$req->email)->first();
         try {
             if($user && Hash::check($req->password, $user->password)){
+                if(!$user->email_verified_at){
+                    $this->response['data']['message'] = 'Email Not Verified';
+                    return response()->json($this->response, 200);
+                }
                 $kode_otp = rand(100000, 999999);
                 $user->kode_otp = $kode_otp;
                 $user->save();

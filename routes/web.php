@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'LandingController@index');
 Route::get('login', 'LandingController@login')->name('login');
 Route::get('logout', 'AuthController@logout');
+Route::get('verify-email/{token}', 'AuthController@verifyEmail');
 
 Route::post('auth', 'AuthController@login');
 
