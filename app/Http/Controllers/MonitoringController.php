@@ -14,6 +14,12 @@ class MonitoringController extends Controller
         return view('admin.monitoring.laporan-kerusakan',compact('laporan'));
     }
 
+    public function getMainDashboard()
+    {
+       $proyekkontrak = DB::table('progress_mingguan')->get();
+       return view('admin.monitoring.dashboard');
+    }
+
      // TODO: Proyek Kontrak
      public function getProyekKontrak()
      {
