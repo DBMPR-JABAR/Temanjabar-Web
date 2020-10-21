@@ -10,6 +10,12 @@
                     <span class="pcoded-mtext">Monitoring</span>
                 </a>
                 <ul class="pcoded-submenu">
+                <li class=" ">
+                        <a href="{{ url('admin/monitoring/main-dashboard') }}">
+                            <span class="pcoded-mtext">Main Dashboard</span>
+                        </a>
+                         
+                    </li>
                     <li class=" ">
                         <a href="{{ url('admin/monitoring/progress-pekerjaan') }}">
                             <span class="pcoded-mtext">Map Progress Pekerjaan</span>
