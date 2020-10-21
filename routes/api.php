@@ -38,15 +38,17 @@ Route::group(['prefix' => 'auth'], function () {
 
 
 Route::group(['middleware' => ['jwt.auth']], function () {
-    Route::resource('progress-mingguan', 'API\ProgressController');
     Route::resource('kondisi-jalan', 'API\KondisiJalanController');
     Route::resource('laporan-masyarakat', 'API\LaporanMasyarakatController');
-    Route::resource('pembangunan', 'API\PembangunanController');
-    Route::resource('proyek-kontrak', 'API\ProyekController');
-
-    Route::get('progress-mingguan/status/{status}', 'API\ProgressController@showStatus');
-    Route::get('progress-mingguan/status/{status}/count', 'API\ProgressController@showStatusCount');
 });
+
+
+Route::resource('pembangunan', 'API\PembangunanController');
+Route::resource('proyek-kontrak', 'API\ProyekController');
+Route::resource('paket-pekerjaan', 'API\PaketController');
+Route::resource('progress-mingguan', 'API\ProgressController');
+Route::get('progress-mingguan/status/{status}', 'API\ProgressController@showStatus');
+Route::get('progress-mingguan/status/{status}/count', 'API\ProgressController@showStatusCount');
 
 Route::fallback(function(){
     return response()->json([

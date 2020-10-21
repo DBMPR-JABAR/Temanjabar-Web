@@ -3,15 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\GeneralCollection;
-use App\Http\Resources\GeneralResource;
 use Illuminate\Http\Request;
-use App\Model\DWH\ProgressMingguan;
-use Illuminate\Support\Str;
+use App\Http\Resources\GeneralResource;
+use App\Model\DWH\Paket;
 
-class ProgressController extends Controller
+class PaketController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -19,8 +16,7 @@ class ProgressController extends Controller
      */
     public function index()
     {
-        // return (new GeneralResource(ProgressMingguan::all()));
-        return (new GeneralResource(ProgressMingguan::where('LAT','<>','0')->get()));
+        return (new GeneralResource(Paket::all()));
     }
 
     /**
@@ -42,25 +38,7 @@ class ProgressController extends Controller
      */
     public function show($id)
     {
-        return new GeneralResource(ProgressMingguan::findOrFail($id));
-    }
-
-    public function showStatusCount($status)
-    {
-        $trimStatus = Str::replaceFirst('-', ' ', $status);
-        $progress = ProgressMingguan::count()->filter(function($item) use ($trimStatus) {
-            return $item->STATUS_PROYEK === $trimStatus;
-        });
-        return (new GeneralResource($progress));
-    }
-
-    public function showStatus($status)
-    {
-        $trimStatus = Str::replaceFirst('-', ' ', $status);
-        $progress = ProgressMingguan::get()->filter(function($item) use ($trimStatus) {
-            return $item->STATUS_PROYEK === $trimStatus;
-        });
-        return (new GeneralResource($progress));
+        return (new GeneralResource(Paket::findOrFail($id)));
     }
 
     /**
