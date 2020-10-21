@@ -283,7 +283,7 @@ class AuthController extends Controller
         ];
         try {
             Mail::send('mail.sendOTP', $data, function($message) use ($to_name, $to_email) {
-                $message->to($to_email, $to_name)->subject('Verifikasi OTP Temanjabar');
+                $message->to($to_email, $to_name)->subject('Verifikasi OTP Akun Temanjabar');
                 $message->from(env('MAIL_USERNAME'),env('MAIL_FROM_NAME'));
             });
 
