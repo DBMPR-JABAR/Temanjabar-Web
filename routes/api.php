@@ -21,12 +21,17 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login', 'API\AuthController@login');
     Route::post('logout', 'API\AuthController@logout');
-    Route::post('register', 'API\AuthController@register');
+    Route::post('registerMail', 'API\AuthController@register');
     Route::post('reset-password', 'API\AuthController@resetPassword');
     Route::post('refresh', 'API\AuthController@refresh');
     Route::post('user', 'API\AuthController@getUser');
 
+    // Login OTP
     Route::post('loginOTP', 'API\AuthController@loginOTP');
+    Route::post('verifyOTPLogin', 'API\AuthController@verifyOTPLogin');
+
+    // Register
+    Route::post('register', 'API\AuthController@registerOTP');
     Route::post('verifyOTP', 'API\AuthController@verifyOTP');
     Route::post('resendOTPMail', 'API\AuthController@resendOTPMail');
 });

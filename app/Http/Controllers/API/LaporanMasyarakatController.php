@@ -44,6 +44,7 @@ class LaporanMasyarakatController extends Controller
                 $request->gambar->storeAs('public/',$path);
                 $laporanMasyarakat['gambar'] = $path;
             }
+            $laporanMasyarakat->status = 'Submitted';
             $laporanMasyarakat->save();
             $this->response['status'] = 'success';
             $this->response['data']['id'] = $laporanMasyarakat->id;
