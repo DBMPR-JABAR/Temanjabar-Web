@@ -16,7 +16,7 @@ class MonitoringController extends Controller
 
     public function getMainDashboard()
     {
-        //$category = DB::connection('dwh')->select("");
+     //   $category = DB::connection('dwh')->select("");
 
        $proyekkontrak = DB::table('progress_mingguan')->get();
        return view('admin.monitoring.dashboard');
