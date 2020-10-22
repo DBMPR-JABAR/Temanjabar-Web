@@ -152,111 +152,113 @@
       "esri/views/MapView",
       "esri/request",
       "esri/geometry/Point",
-      "esri/Graphic"
+      "esri/Graphic",
     ], function (Map, MapView, esriRequest, Point, Graphic) {
-      var map = new Map({
+      const map = new Map({
         basemap: "hybrid"
       });
 
-      var view = new MapView({
+      const view = new MapView({
         container: "viewDiv",
         map: map,
         center: [107.6191, -6.9175], // longitude, latitude
         zoom: 8
       });
 
-      var symbol = {
+      const symbol = {
         type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
         url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
         width: "19px",
         height: "36px"
       };
 
-      var popupTemplate = {
+      const popupTemplate = {
         title: "{NAMA_PAKET}",
         content: [
             {
-            type: "fields",
-            fieldInfos: [
-                {
-                fieldName: "TANGGAL",
-                label: "Tanggal"
-                },
-                {
-                fieldName: "WAKTU_KONTRAK",
-                label: "Waktu Kontrak"
-                },
-                {
-                fieldName: "TERPAKAI",
-                label: "Terpakai"
-                },
-                {
-                fieldName: "JENIS_PEKERJAAN",
-                label: "Jenis Pekerjaan"
-                },
-                {
-                fieldName: "RUAS_JALAN",
-                label: "Ruas Jalan"
-                },
-                {
-                fieldName: "LAT",
-                label: "Latitude"
-                },
-                {
-                fieldName: "LNG",
-                label: "Longitude"
-                },
-                {
-                fieldName: "LOKASI",
-                label: "Lokasi"
-                },
-                {
-                fieldName: "SUP",
-                label: "SUP"
-                },
-                {
-                fieldName: "RENCANA",
-                label: "Rencana"
-                },
-                {
-                fieldName: "REALISASI",
-                label: "Realisasi"
-                },
-                {
-                fieldName: "DEVIASI",
-                label: "Deviasi"
-                },
-                {
-                fieldName: "NILAI_KONTRAK",
-                label: "Nilai Kontrak"
-                },
-                {
-                fieldName: "PENYEDIA_JASA",
-                label: "Penyedia Jasa"
-                },
-                {
-                fieldName: "KEGIATAN",
-                label: "Kegiatan"
-                },
-                {
-                fieldName: "STATUS_PROYEK",
-                label: "Status"
-                },
-                {
-                fieldName: "UPTD",
-                label: "UPTD"
-                }
-            ]
+              type: "fields",
+              fieldInfos: [
+                  {
+                    fieldName: "TANGGAL",
+                    label: "Tanggal"
+                  },
+                  {
+                    fieldName: "WAKTU_KONTRAK",
+                    label: "Waktu Kontrak"
+                  },
+                  {
+                    fieldName: "TERPAKAI",
+                    label: "Terpakai"
+                  },
+                  {
+                    fieldName: "JENIS_PEKERJAAN",
+                    label: "Jenis Pekerjaan"
+                  },
+                  {
+                    fieldName: "RUAS_JALAN",
+                    label: "Ruas Jalan"
+                  },
+                  {
+                    fieldName: "LAT",
+                    label: "Latitude"
+                  },
+                  {
+                    fieldName: "LNG",
+                    label: "Longitude"
+                  },
+                  {
+                    fieldName: "LOKASI",
+                    label: "Lokasi"
+                  },
+                  {
+                    fieldName: "SUP",
+                    label: "SUP"
+                  },
+                  {
+                    fieldName: "RENCANA",
+                    label: "Rencana"
+                  },
+                  {
+                    fieldName: "REALISASI",
+                    label: "Realisasi"
+                  },
+                  {
+                    fieldName: "DEVIASI",
+                    label: "Deviasi"
+                  },
+                  {
+                    fieldName: "NILAI_KONTRAK",
+                    label: "Nilai Kontrak"
+                  },
+                  {
+                    fieldName: "PENYEDIA_JASA",
+                    label: "Penyedia Jasa"
+                  },
+                  {
+                    fieldName: "KEGIATAN",
+                    label: "Kegiatan"
+                  },
+                  {
+                    fieldName: "STATUS_PROYEK",
+                    label: "Status"
+                  },
+                  {
+                    fieldName: "UPTD",
+                    label: "UPTD"
+                  }
+              ]
             }
         ]
       };
 
-      var url = "http://localhost:8000/api/progress-mingguan";
-      esriRequest(url, {
+
+
+      const url = "http://localhost:8000/api/progress-mingguan";
+      const requestProgress = esriRequest(url, {
         responseType: "json",
       }).then(function(response){
-        var json = response.data;
-        var data = json.data;
+        const json = response.data;
+        const data = json.data;
         data.forEach(item => {
             var point = new Point(item.LNG, item.LAT);
             view.graphics.add(new Graphic({
@@ -265,11 +267,13 @@
                 attributes: item,
                 popupTemplate: popupTemplate
             }));
+
         });
 
       }).catch(function (error) {
         console.log(error);
       });
+
 
     });
 </script>
