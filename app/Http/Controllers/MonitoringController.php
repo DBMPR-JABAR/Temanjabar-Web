@@ -21,6 +21,11 @@ class MonitoringController extends Controller
        $proyekkontrak = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN')->get();
        return view('admin.monitoring.dashboard',compact('proyekkontrak'));
     }
+    public function getSup($uptd = ""){
+        $message = $uptd;
+        echo json_encode($message);
+        exit;
+    }
 
      // TODO: Proyek Kontrak
      public function getProyekKontrak()

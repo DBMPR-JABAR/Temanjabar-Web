@@ -54,7 +54,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::view('realisasi-keuangan', 'admin.monitoring.realisasi-keuangan');
         Route::view('audit-keuangan', 'admin.monitoring.audit-keuangan');
         Route::view('kemantapan-jalan', 'admin.monitoring.kemantapan-jalan');
-
+        Route::get('/getSup/{uptd}','MonitoringController@getSup');
     });
 
     // {SiteURL}/admin/rekomendasi/*
