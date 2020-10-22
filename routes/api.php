@@ -42,7 +42,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::resource('laporan-masyarakat', 'API\LaporanMasyarakatController');
 });
 
-
+Route::resource('ruas-jalan', 'API\RuasJalanController');
 Route::resource('pembangunan', 'API\PembangunanController');
 Route::resource('proyek-kontrak', 'API\ProyekController');
 Route::resource('paket-pekerjaan', 'API\PaketController');

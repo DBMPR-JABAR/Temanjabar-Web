@@ -155,7 +155,7 @@
       "esri/Graphic"
     ], function (Map, MapView, esriRequest, Point, Graphic) {
       var map = new Map({
-        basemap: "hybrid"
+        basemap: "streets-navigation-vector"
       });
 
       var view = new MapView({
@@ -251,7 +251,7 @@
         ]
       };
 
-      var url = "http://localhost:8000/api/progress-mingguan";
+      var url = "http://localhost:8000/api/ruas-jalan";
       esriRequest(url, {
         responseType: "json",
       }).then(function(response){

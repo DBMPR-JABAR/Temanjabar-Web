@@ -107,3 +107,4 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
 Route::view('coba-map', 'debug.coba-map');
 Route::view('map-progress-mingguan', 'debug.map-progress-mingguan');
+Route::view('map-ruas-jalan', 'debug.map-ruas-jalan');
