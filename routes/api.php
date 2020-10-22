@@ -50,6 +50,9 @@ Route::resource('progress-mingguan', 'API\ProgressController');
 Route::get('progress-mingguan/status/{status}', 'API\ProgressController@showStatus');
 Route::get('progress-mingguan/status/{status}/count', 'API\ProgressController@showStatusCount');
 
+Route::resource('jembatan', 'API\JembatanController');
+Route::resource('kemandoran', 'API\KemandoranController');
+
 Route::fallback(function(){
     return response()->json([
         'status' => 'false',
