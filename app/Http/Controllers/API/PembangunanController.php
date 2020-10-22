@@ -20,6 +20,11 @@ class PembangunanController extends Controller
         return (new GeneralResource(Pembangunan::all()));
     }
 
+    public function showByType($category)
+    {
+        return (new GeneralResource(Pembangunan::where('KATEGORI','LIKE',$category.'%')->get()));
+    }
+
     /**
      * Store a newly created resource in storage.
      *

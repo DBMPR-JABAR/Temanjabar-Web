@@ -18,14 +18,14 @@ class MonitoringController extends Controller
     {
      //   $category = DB::connection('dwh')->select("");
 
-       $proyekkontrak = DB::table('progress_mingguan')->get();
-       return view('admin.monitoring.dashboard');
+       $proyekkontrak = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN')->get();
+       return view('admin.monitoring.dashboard',compact('proyekkontrak'));
     }
 
      // TODO: Proyek Kontrak
      public function getProyekKontrak()
      {
-        $proyekkontrak = DB::table('progress_mingguan')->get();
+        $proyekkontrak = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN')->get();
         return view('admin.monitoring.proyek-kontrak',compact('proyekkontrak'));
      }
 
@@ -36,5 +36,5 @@ class MonitoringController extends Controller
         });
         return view('admin.monitoring.proyek-kontrak-detail',compact('proyekdetail'));
      }
-    
+
 }

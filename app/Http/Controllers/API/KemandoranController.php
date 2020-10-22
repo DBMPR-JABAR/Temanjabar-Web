@@ -18,6 +18,10 @@ class KemandoranController extends Controller
     {
         return (new GeneralResource(Kemandoran::all()));
     }
+    public function showByType($category)
+    {
+        return (new GeneralResource(Kemandoran::where('KATEGORI','LIKE',$category.'%')->get()));
+    }
 
     /**
      * Store a newly created resource in storage.

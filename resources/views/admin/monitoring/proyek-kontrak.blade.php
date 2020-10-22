@@ -208,7 +208,7 @@
     <!-- visitor start -->
     <div class="col-xl-12 col-md-12">
         <div class="card">
-     
+
             <div class="card-header">
                 <h5>Daftar Penyelesaian Pekerjaan Kontraktor</h5>
 
@@ -220,7 +220,7 @@
                     </ul>
                 </div>
             </div>
-            
+
             <div class="card-block">
 
                 <ul class="nav nav-tabs md-tabs" role="tablist">
@@ -270,17 +270,17 @@
                                 <tbody>
                                 @foreach ($proyekkontrak as $data)
                                         <tr>
-                                            <td>{{$data->id}}</td>
-                                            <td>{{$data->penyedia_jasa}} </th>
-                                            <td><b>{{$data->kegiatan}}</b></td>
-                                            <td>{{$data->tanggal}}</td>
-                                            <td>{{$data->jenis_pekerjaan}}</td>
-                                            <td>{{$data->ruas_jalan}}</td>
-                                            <td>{{$data->lokasi}}</td>
-                                            <td>{{$data->rencana}}</td>
-                                            <td>{{$data->realisasi}}</td>
-                                            <td>{{$data->deviasi}}</td>
-                                            <td>{{$data->status}}</td>
+                                            <td>{{$data->ID}}</td>
+                                            <td>{{$data->PENYEDIA_JASA}} </th>
+                                            <td><b>{{$data->KEGIATAN}}</b></td>
+                                            <td>{{$data->TANGGAL}}</td>
+                                            <td>{{$data->JENIS_PEKERJAAN}}</td>
+                                            <td>{{$data->RUAS_JALAN}}</td>
+                                            <td>{{$data->LOKASI}}</td>
+                                            <td>{{$data->RENCANA}}</td>
+                                            <td>{{$data->REALISASI}}</td>
+                                            <td>{{$data->DEVIASI}}</td>
+                                            <td>{{$data->STATUS}}</td>
                                         </tr>
                                       @endforeach
                                   </tbody>
