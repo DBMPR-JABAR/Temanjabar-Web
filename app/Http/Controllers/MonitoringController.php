@@ -21,6 +21,11 @@ class MonitoringController extends Controller
        $proyekkontrak = DB::table('progress_mingguan')->get();
        return view('admin.monitoring.dashboard');
     }
+    public function getSup($uptd = ""){
+        $message = $uptd;
+        echo json_encode($message);
+        exit;
+    }
 
      // TODO: Proyek Kontrak
      public function getProyekKontrak()

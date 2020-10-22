@@ -53,7 +53,7 @@
                                                     <div class="row">
                                                     <div class="col-sm-12 col-xl-3 m-b-30">
                                                             <h4 class="sub-title">UPTD</h4>
-                                                            <select name="select" class="form-control form-control-primary">
+                                                            <select name="select" id="uptd" class="form-control form-control-primary">
                                                                 <option value="">Semua</option>
                                                                 <option value="uptd1">UPTD 1</option>
                                                                 <option value="uptd2">UPTD 2 ....</option>
@@ -130,6 +130,33 @@
 </div>
 @endsection
 @section('script')
+<script>
+$(document).ready(function(){
+  $("#uptd").change(function(){
+    var value = this.value;
+    $.ajax({
+        type: 'GET', //THIS NEEDS TO BE GET
+        url: '/getSup/'+value,
+        dataType: 'json',
+        success: function (data) {
+            console.log(data);
+            container.html('');
+            $.each(data, function(index, item) {
+            container.html(''); //clears container for new data
+            $.each(data, function(i, item) {
+                  container.append('<div class="row"><div class="ten columns"><div class="editbuttoncont"><button class="btntimestampnameedit" data-seek="' + item.timestamp_time + '">' +  new Date(item.timestamp_time * 1000).toUTCString().match(/(\d\d:\d\d:\d\d)/)[0] +' - '+ item.timestamp_name +'</button></div></div> <div class="one columns"><form action="'+ item.timestamp_id +'/deletetimestamp" method="POST">' + '{!! csrf_field() !!}' +'<input type="hidden" name="_method" value="DELETE"><button class="btntimestampdelete"><i aria-hidden="true" class="fa fa-trash buttonicon"></i></button></form></div></div>');
+          });
+                container.append('<br>');
+            });
+        },error:function(){ 
+             console.log(data);
+        }
+    });
+
+  });
+});
+
+</script>
 <script async defer
 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCXljmPJFUg&callback=initMap">
 </script>
