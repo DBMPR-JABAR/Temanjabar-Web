@@ -39,95 +39,92 @@
 <div class="row">
 <div class="col-lg-12">
    <div class="card">
-     <div class="card-block accordion-block">
-        <div id="accordion" role="tablist" aria-multiselectable="true">
-            <div class="accordion-panel">
-                  <div class="accordion-heading" role="tab" id="headingOne">
-                     <h3 class="card-title accordion-title">
-                     <a class="accordion-msg" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                      Filter
-                     </a>
-                     </h3>
+        <div class="card-block accordion-block">
+            <div id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="accordion-panel">
+                    <div class="accordion-heading" role="tab" id="headingOne">
+                        <h3 class="card-title accordion-title">
+                            <a class="accordion-msg" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Filter
+                            </a>
+                        </h3>
                     </div>
-                                                                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                                                                    <div class="accordion-content accordion-desc">
+                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="accordion-content accordion-desc">
+                            <div class="card-block">
+                                <div class="row">
+                                    <div class="col-sm-12 col-xl-3 m-b-30">
+                                        <h4 class="sub-title">UPTD</h4>
+                                        <select name="select" id="uptd" class="form-control form-control-primary">
+                                            <option value="">Semua</option>
+                                            <option value="uptd1">UPTD 1</option>
+                                            <option value="uptd2">UPTD 2 ....</option>
+                                            <option value="uptd3">UPTD 3 </option>
+                                            <option value="uptd4">UPTD 4 </option>
+                                            <option value="uptd5">UPTD 5 </option>
+                                            <option value="uptd6">UPTD 6  </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-12 col-xl-3 m-b-30">
+                                        <h4 class="sub-title">SPP</h4>
+                                        <select name="select" class="form-control form-control-primary">
+                                            <option value="opt1">-</option>
+                                            <option value="opt2">SPP KAB/KOTA SMI-1</option>
+                                            <option value="opt3">SPP KAB SMI-2</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-12 col-xl-3 m-b-30">
+                                        <h4 class="sub-title">Kegiatan</h4>
+                                        <select name="select" class="form-control form-control-primary">
+                                            <option value="opt1">Semua</option>
+                                            <option value="opt2">Ruas Jalam</option>
+                                            <option value="opt2">Jembatan</option>
+                                            <option value="pembangunan">Pemeliharaan</option>
+                                            <option value="pembangunan">Peningkatan</option>
+                                            <option value="pembangunan">Pembangunan</option>
 
-                                                                    <div class="card-block">
-                                                    <div class="row">
-                                                    <div class="col-sm-12 col-xl-3 m-b-30">
-                                                            <h4 class="sub-title">UPTD</h4>
-                                                            <select name="select" id="uptd" class="form-control form-control-primary">
-                                                                <option value="">Semua</option>
-                                                                <option value="uptd1">UPTD 1</option>
-                                                                <option value="uptd2">UPTD 2 ....</option>
-                                                                <option value="uptd3">UPTD 3 </option>
-                                                                <option value="uptd4">UPTD 4 </option>
-                                                                <option value="uptd5">UPTD 5 </option>
-                                                                <option value="uptd6">UPTD 6  </option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-sm-12 col-xl-3 m-b-30">
-                                                            <h4 class="sub-title">SPP</h4>
-                                                            <select name="select" class="form-control form-control-primary">
-                                                                <option value="opt1">-</option>
-                                                                <option value="opt2">SPP KAB/KOTA SMI-1</option>
-                                                                <option value="opt3">SPP KAB SMI-2</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-sm-12 col-xl-3 m-b-30">
-                                                            <h4 class="sub-title">Kegiatan</h4>
-                                                            <select name="select" class="form-control form-control-primary">
-                                                                <option value="opt1">Semua</option>
-                                                                <option value="opt2">Ruas Jalam</option>
-                                                                <option value="opt2">Jembatan</option>
-                                                                <option value="pembangunan">Pemeliharaan</option>
-                                                                <option value="pembangunan">Peningkatan</option>
-                                                                <option value="pembangunan">Pembangunan</option>
+                                            <option value="peningkatan">Peningkatan</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-12 col-xl-3 m-b-30">
+                                        <h4 class="sub-title">Proyek Kontrak</h4>
+                                        <select name="select" class="form-control form-control-primary">
+                                        <option value="opt1">Semua</option>
+                                            <option value="opt1">On-Progress</option>
+                                            <option value="opt2">Critical Contract</option>
+                                            <option value="opt2">Off Progress</option>
+                                            <option value="pembangunan">Finish</option>
 
-                                                                <option value="peningkatan">Peningkatan</option>
-                                                            </select>
-                                                        </div>
+                                        </select>
+                                    </div>
 
-                                                        <div class="col-sm-12 col-xl-3 m-b-30">
-                                                            <h4 class="sub-title">Proyek Kontrak</h4>
-                                                            <select name="select" class="form-control form-control-primary">
-                                                            <option value="opt1">Semua</option>
-                                                                <option value="opt1">On-Progress</option>
-                                                                <option value="opt2">Critical Contract</option>
-                                                                <option value="opt2">Off Progress</option>
-                                                                <option value="pembangunan">Finish</option>
-
-                                                            </select>
-                                                        </div>
-
-                                                      </div>
-                                                  </div>
-                                                                  </div>
-                                                                </div>
-                                                            </div>
-                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-xl-12 col-md-12">
-                                                <div class="card">
-                                                    <div class="card-header">
-                                                        <h5>Maps</h5>
-                                                        <span class="text-muted">  </span>
-                                                        <div class="card-header-right">
-                                                            <ul class="list-unstyled card-option">
-                                                                <li><i class="feather icon-maximize full-card"></i></li>
-                                                                <li><i class="feather icon-minus minimize-card"></i></li>
-                                                                <li><i class="feather icon-trash-2 close-card"></i></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-block">
-                                                        <div id="viewDiv" style="width:100%;height:600px;padding: 0;margin: 0;"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="col-xl-12 col-md-12">
+        <div class="card">
+            <div class="card-header" style="padding-bottom: 3px">
+                <h5>Maps</h5>
+                <span class="text-muted">  </span>
+                <div class="card-header-right">
+                    <ul class="list-unstyled card-option">
+                        <li><i class="feather icon-maximize full-card"></i></li>
+                        <li><i class="feather icon-minus minimize-card"></i></li>
+                        <li><i class="feather icon-trash-2 close-card"></i></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-block">
+                <div id="viewDiv" style="width:100%;height:600px;padding: 0;margin: 0;"></div>
+            </div>
+        </div>
+    </div>
 
 
 </div>
@@ -220,8 +217,12 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
       "esri/geometry/Point",
       "esri/Graphic",
       "esri/layers/GraphicsLayer",
-      "esri/layers/GroupLayer"
-    ], function (Map, MapView, esriRequest, Point, Graphic, GraphicsLayer, GroupLayer) {
+      "esri/layers/GroupLayer",
+      "esri/tasks/RouteTask",
+      "esri/tasks/support/RouteParameters",
+      "esri/tasks/support/FeatureSet"
+    ], function (Map, MapView, esriRequest, Point, Graphic, GraphicsLayer,
+                 GroupLayer, RouteTask, RouteParameters, FeatureSet) {
       const baseUrl = "{{url('/')}}";
       const map = new Map({
         basemap: "hybrid"
@@ -240,6 +241,104 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
       const peningkatanLayer = new GraphicsLayer();
       const rehabilitasiLayer = new GraphicsLayer();
       const pembangunanLayer = new GraphicsLayer();
+
+      const ruasjalanLayer = new GraphicsLayer();
+      const ruteLayer = new GraphicsLayer();
+
+      const routeTask = new RouteTask({
+         url: "https://utility.arcgis.com/usrsvcs/appservices/jIlAfJHiHhBaObcX/rest/services/World/Route/NAServer/Route_World/solve"
+        // url: "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World"
+      });
+
+      // Jembatan
+      const urlRuasjalan = baseUrl + "/api/ruas-jalan";
+      const requestRuasjalan = esriRequest(urlRuasjalan, {
+        responseType: "json"
+      }).then(function (response) {
+
+        var json = response.data;
+        var data = json.data;
+
+        var symbol = {
+            type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
+            url: baseUrl + "/assets/images/marker/jalan.png",
+            width: "32px",
+            height: "32px"
+        };
+        var popupTemplate = {
+            title: "{NAMA_JALAN}",
+            content: [{
+            type: "fields",
+            fieldInfos: [
+                {
+                  fieldName: "LAT_AWAL",
+                  label: "Latitude 0"
+                },
+                {
+                  fieldName: "LONG_AWAL",
+                  label: "Longitude 0"
+                },
+                {
+                  fieldName: "LAT_AKHIR",
+                  label: "Latitude 1"
+                },
+                {
+                  fieldName: "LONG_AKHIR",
+                  label: "Longitude 1"
+                },
+                {
+                  fieldName: "SUP",
+                  label: "SUP"
+                },
+                {
+                  fieldName: "UPTD",
+                  label: "UPTD"
+                }
+            ]}
+        ]};
+
+        data.forEach(item => {
+            var pointAwal = new Point(item.LONG_AWAL, item.LAT_AWAL);
+            var pointAkhir = new Point(item.LONG_AKHIR, item.LAT_AKHIR);
+            var markerAwal = new Graphic({
+                geometry: pointAwal,
+                symbol: symbol,
+                attributes: item,
+                popupTemplate: popupTemplate
+            });
+            var markerAkhir = new Graphic({
+                geometry: pointAkhir,
+                symbol: symbol,
+                attributes: item,
+                popupTemplate: popupTemplate
+            });
+
+            ruasjalanLayer.graphics.add(markerAwal);
+            ruasjalanLayer.graphics.add(markerAkhir);
+
+            var featureSet = new FeatureSet({
+                features: [markerAwal, markerAkhir]
+            });
+            var routeParams = new RouteParameters({
+                stops: featureSet
+            });
+            routeTask.solve(routeParams).then(function(data) {
+                data.routeResults.forEach(function(result) {
+                    result.route.symbol = {
+                        type: "simple-line",
+                        color: [5, 150, 255],
+                        width: 3
+                    };
+                    result.route.attributes = item;
+                    result.route.popupTemplate = popupTemplate;
+                    ruasjalanLayer.graphics.add(result.route);
+                });
+            });
+        });
+
+      }).catch(function (error) {
+        console.log(error);
+      });
 
       // Jembatan
       const urlJembatan = baseUrl + "/api/jembatan";
@@ -771,6 +870,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
 
       groupLayer.add(progressLayer);
       groupLayer.add(jembatanLayer);
+      groupLayer.add(ruasjalanLayer);
       groupLayer.add(kemandoranLayer);
       groupLayer.add(rehabilitasiLayer);
       groupLayer.add(peningkatanLayer)
