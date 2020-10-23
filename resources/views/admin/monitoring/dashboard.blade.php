@@ -222,6 +222,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
       "esri/layers/GraphicsLayer",
       "esri/layers/GroupLayer"
     ], function (Map, MapView, esriRequest, Point, Graphic, GraphicsLayer, GroupLayer) {
+      const baseUrl = "{{url('/')}}";
       const map = new Map({
         basemap: "hybrid"
       });
@@ -241,7 +242,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
       const pembangunanLayer = new GraphicsLayer();
 
       // Jembatan
-      const urlJembatan = "http://localhost:8000/api/jembatan";
+      const urlJembatan = baseUrl + "/api/jembatan";
       const requestJembatan = esriRequest(urlJembatan, {
         responseType: "json"
       }).then(function (response) {
@@ -251,7 +252,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
 
         var symbol = {
             type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
-            url: "http://localhost:8000/assets/images/marker/jembatan.png",
+            url: baseUrl + "/assets/images/marker/jembatan.png",
             width: "32px",
             height: "32px"
         };
@@ -310,7 +311,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
       });
 
       // Progress Mingguan
-      const urlProgress = "http://localhost:8000/api/progress-mingguan";
+      const urlProgress = baseUrl + "/api/progress-mingguan";
       const requestProgress = esriRequest(urlProgress, {
         responseType: "json",
       }).then(function(response){
@@ -319,7 +320,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
 
         var symbol = {
             type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
-            url: "http://localhost:8000/assets/images/marker/pembangunan.png",
+            url: baseUrl + "/assets/images/marker/pembangunan.png",
             width: "32px",
             height: "32px"
         };
@@ -413,7 +414,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
       });
 
       // Kemandoran --> Pemeliharaan
-      const urlKemandoran = "http://localhost:8000/api/kemandoran/";
+      const urlKemandoran = baseUrl + "/api/kemandoran/";
       const requestKemandoran = esriRequest(urlProgress, {
         responseType: "json",
       }).then(function(response){
@@ -422,7 +423,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
 
         var symbol = {
             type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
-            url: "http://localhost:8000/assets/images/marker/pemeliharaan.png",
+            url: baseUrl + "/assets/images/marker/pemeliharaan.png",
             width: "32px",
             height: "32px"
         };
@@ -492,7 +493,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
       });
 
       // Pembangunan --> Peningkatan
-      const urlPeningkatan = "http://localhost:8000/api/pembangunan/category/pn";
+      const urlPeningkatan = baseUrl + "/api/pembangunan/category/pn";
       const requestPeningkatan = esriRequest(urlPeningkatan, {
         responseType: "json",
       }).then(function(response){
@@ -501,7 +502,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
 
         var symbol = {
             type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
-            url: "http://localhost:8000/assets/images/marker/peningkatan.png",
+            url: baseUrl + "/assets/images/marker/peningkatan.png",
             width: "32px",
             height: "32px"
         };
@@ -583,7 +584,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
       });
 
       // Pembangunan --> Rehabilitasi
-      const urlRehabilitasi = "http://localhost:8000/api/pembangunan/category/rb";
+      const urlRehabilitasi = baseUrl + "/api/pembangunan/category/rb";
       const requestRehabilitasi = esriRequest(urlRehabilitasi, {
         responseType: "json",
       }).then(function(response){
@@ -592,7 +593,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
 
         var symbol = {
             type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
-            url: "http://localhost:8000/assets/images/marker/rehabilitasi.png",
+            url: baseUrl + "/assets/images/marker/rehabilitasi.png",
             width: "32px",
             height: "32px"
         };
@@ -675,7 +676,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
       });
 
       // Pembangunan --> Pembangunan
-      const urlPembangunan = "http://localhost:8000/api/pembangunan/category/pb";
+      const urlPembangunan = baseUrl + "/api/pembangunan/category/pb";
       const requestPembangunan = esriRequest(urlPembangunan, {
         responseType: "json",
       }).then(function(response){
@@ -684,7 +685,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
 
         var symbol = {
             type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
-            url: "http://localhost:8000/assets/images/marker/pembangunan.png",
+            url: baseUrl + "/assets/images/marker/pembangunan.png",
             width: "32px",
             height: "32px"
         };
