@@ -18,20 +18,20 @@
         }
         #showFilter{
           position: absolute;
-          top: 15%;
-          left: 1.1%;
+          top: 80px;
+          left: 15px;
         }
         #showFilter button {
-          width: 24px;
-          height: 24px;
+          width: 32px;
+          height: 32px;
           background-color: white;
           border: none;
           cursor: pointer;
         }
         #filter {
           position: absolute;
-          top: 15%;
-          left: 1.1%;
+          top: 80px;
+          left: 15px;
           min-width: 300px;
           transform: translate(-350px, 0);
           transition: transform 0.3s ease-in-out;
@@ -42,6 +42,15 @@
       #filter .container {
         padding: 20px 30px;
       }
+      #filter .form-group > *{
+          font-size: 12.5px;
+      }
+      #logo {
+        display: block;
+        position: absolute;
+        top: 30px;
+        right: 30px;
+      }
     </style>
     <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
 </head>
@@ -51,6 +60,9 @@
       <button data-toggle="tooltip" data-placement="right" title="Fitur Filter">
         <i class="feather icon-filter"></i>
       </button>
+    </div>
+    <div id="logo">
+        <img width="200" class="img-fluid" src="{{ asset('assets/images/brand/text_putih.png')}}" alt="Logo DBMPR">
     </div>
     <div id="filter" class="bg-light">
         <div class="container">
