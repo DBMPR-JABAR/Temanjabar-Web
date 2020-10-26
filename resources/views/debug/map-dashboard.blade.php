@@ -53,6 +53,7 @@
       }
     </style>
     <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 </head>
 <body>
     <div id="viewDiv"></div>
@@ -81,10 +82,8 @@
             </div>
             <div class="form-group">
               <label for="exampleFormControlSelect1">SPP</label>
-              <select class="form-control" id="exampleFormControlSelect1">
-                <option value="opt1">-</option>
-                <option value="opt2">SPP KAB/KOTA SMI-1</option>
-                <option value="opt3">SPP KAB SMI-2</option>
+              <select class="form-control" id="spp_filter">
+                <option value="">-</option> 
               </select>
             </div>
             <div class="form-group">
@@ -140,7 +139,7 @@
   event.stopPropagation();
   })
 </script>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="https://js.arcgis.com/4.17/"></script>
@@ -689,9 +688,47 @@ $(document).ready(function () {
         });
 
         $(document).ready(function(){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
             $("#uptd").change(function(){
                 var uptd = this.value;
                 getMapData(uptd,"hybrid");
+                option = "<option value=''>Semua </option>"; 
+                $.ajax({
+                    type:"POST",
+                    url: "{{ route('getSupData.filter') }}",
+                    data: {uptd:uptd},
+                     success: function(response){ 
+                        $("#spp_filter").empty();
+                      
+                        var len = 0;
+             if(response['data'] != null){
+               len = response['data'].length;
+             }
+
+             if(len > 0){
+               // Read data and create <option >
+             
+                 
+               for(var i=0; i<len; i++){
+
+                 var id = response['data'][i].SUP;
+                 var name = response['data'][i].SUP;
+                 option = "<option value='"+id+"'>"+name+"</option>"; 
+
+                 $("#spp_filter").append(option); 
+               }
+             }
+
+
+
+                    }
+                });
+
                 console.log(uptd);
             });
             $("#basemap").change(function(){
