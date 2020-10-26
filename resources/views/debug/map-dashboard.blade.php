@@ -96,6 +96,17 @@
                 <option value="pembangunan">Finish</option>
               </select>
             </div>
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">Basemap</label>
+              <select class="form-control" id="basemap">
+                <option value="streets">Street</option>
+                <option value="hybrid">Hybrid</option>
+                <option value="satellite">Satelite</option>
+                <option value="topo">Topo</option>
+                <option value="gray">Gray</option>
+                <option value="national-geographic">National Geographic</option>
+              </select>
+            </div>
           </form>
         </div>
     </div>
@@ -124,7 +135,9 @@
 <script>
 $(document).ready(function () {
     console.log($("#uptd").val());
-    function getMapData(uptd){
+    function getMapData(uptd,bmData){
+        var bmData = (typeof bmData === "undefined") ?"hybrid" : bmData;
+       
         require([
         "esri/Map",
         "esri/views/MapView",
@@ -140,7 +153,7 @@ $(document).ready(function () {
                     GroupLayer, RouteTask, RouteParameters, FeatureSet) {
         const baseUrl = "{{url('/')}}";
         const map = new Map({
-            basemap: "hybrid"
+            basemap: bmData
         });
 
         const view = new MapView({
@@ -666,8 +679,13 @@ $(document).ready(function () {
         $(document).ready(function(){
             $("#uptd").change(function(){
                 var uptd = this.value;
-                getMapData(uptd);
+                getMapData(uptd,"hybrid");
                 console.log(uptd);
+            });
+            $("#basemap").change(function(){
+                var basemap = this.value;
+                 getMapData("",basemap);
+                //map.setBasemap(basemap);
             });
         });
     }
