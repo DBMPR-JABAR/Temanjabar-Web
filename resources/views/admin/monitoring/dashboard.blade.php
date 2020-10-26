@@ -107,6 +107,13 @@
         </div>
     </div>
 </div>
+    <div class="col-xl-12 col-md-12 mb-4">
+      <a href="{{ url('admin/map-dashboard') }}">
+        <button class="btn btn-primary">Lihat Dalam Mode Pengamatan
+        <i class="feather icon-airplay"></i>
+        </button>
+      </a>
+    </div>
     <div class="col-xl-12 col-md-12">
         <div class="card">
             <div class="card-header" style="padding-bottom: 3px">
@@ -125,9 +132,8 @@
             </div>
         </div>
     </div>
-
-
 </div>
+
 @endsection
 @section('script')
 <script>

@@ -12,6 +12,7 @@
             margin: 0;
             height: 100%;
             width: 100%;
+            z-index: -1;
         }
     </style>
     <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
