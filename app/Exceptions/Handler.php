@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Session\TokenMismatchException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Throwable;
 
@@ -71,6 +72,10 @@ class Handler extends ExceptionHandler
                         'message' => 'Entry for '.str_replace('App\\Model\\', '', $exception->getModel()).' not found']
                     ], 200);
             }
+        }else{
+           if($exception instanceof TokenMismatchException){
+               return redirect()->route('login');
+           }
         }
 
         return parent::render($request, $exception);
