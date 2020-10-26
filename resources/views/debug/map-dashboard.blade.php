@@ -26,6 +26,7 @@
           height: 32px;
           background-color: white;
           border: none;
+          outline: none;
           cursor: pointer;
         }
         #filter {
@@ -51,6 +52,19 @@
         top: 30px;
         right: 30px;
       }
+      #fullscreen{
+          position: absolute;
+          top: 113px;
+          left: 15px;
+        }
+        #fullscreen button {
+            width: 32px;
+          height: 32px;
+          background-color: white;
+          border: none;
+          outline: none;
+          cursor: pointer;
+        }
     </style>
     <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -61,6 +75,11 @@
       <button data-toggle="tooltip" data-placement="right" title="Fitur Filter">
         <i class="feather icon-filter"></i>
       </button>
+    </div>
+    <div id="fullscreen">
+        <button data-toggle="tooltip" data-placement="right" title="Fullscreen / Normal">
+            <i class="feather icon-maximize full-card"></i>
+        </button>
     </div>
     <div id="logo">
         <img width="200" class="img-fluid" src="{{ asset('assets/images/brand/text_putih.png')}}" alt="Logo DBMPR">
@@ -137,6 +156,29 @@
   mainElement.addEventListener("click", event => {
   drawerElement.classList.remove("open");
   event.stopPropagation();
+  })
+
+  //toggle fullscreen
+  function getFullscreenElement() {
+      return document.fullscreenElement
+        || document.webkitFullscreenElement
+        || document.mozFullscreenElement
+        || document.msFullscreenElement;
+  }
+
+  function toggleFullscreen() {
+      if(getFullscreenElement()) {
+        document.exitFullscreen();
+      } else {
+        document.documentElement.requestFullscreen().catch((e) => {
+          console.log(e);
+        });
+      }
+  }
+
+  const fullScreenElemn =  document.querySelector('#fullscreen');
+  fullScreenElemn.addEventListener('click', () => {
+    toggleFullscreen();
   })
 </script>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
