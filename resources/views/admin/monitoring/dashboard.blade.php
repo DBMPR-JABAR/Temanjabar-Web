@@ -189,7 +189,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
 </script> --}}
 <script src="https://js.arcgis.com/4.17/"></script>
 <script>
- 
+
     require([
       "esri/Map",
       "esri/views/MapView",
@@ -226,10 +226,10 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
       const ruteLayer = new GraphicsLayer();
 
       const routeTask = new RouteTask({
-         url: "https://utility.arcgis.com/usrsvcs/appservices/jIlAfJHiHhBaObcX/rest/services/World/Route/NAServer/Route_World/solve"
+         url: "https://utility.arcgis.com/usrsvcs/appservices/AzkCUV7fdmgx72RP/rest/services/World/Route/NAServer/Route_World/solve"
         // url: "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World"
       });
-     
+
 
   const urlRuasjalan = baseUrl + "/api/ruas-jalan";
       const requestRuasjalan = esriRequest(urlRuasjalan, {
@@ -237,8 +237,8 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
       }).then(function (response) {
 
         var json = response.data;
-        var data =  json.data;    
-          
+        var data =  json.data;
+
         var symbol = {
             type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
             url: baseUrl + "/assets/images/marker/jalan.png",
@@ -278,7 +278,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
         ]};
 
         data.forEach(item => {
-          
+
             var pointAwal = new Point(item.LONG_AWAL, item.LAT_AWAL);
             var pointAkhir = new Point(item.LONG_AKHIR, item.LAT_AKHIR);
             var markerAwal = new Graphic({
@@ -315,7 +315,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
                     ruasjalanLayer.graphics.add(result.route);
                 });
             });
-           
+
         });
 
       }).catch(function (error) {
@@ -849,7 +849,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
         console.log(error);
       });
 
-      const groupLayer = new GroupLayer(); 
+      const groupLayer = new GroupLayer();
 
 
       groupLayer.add(progressLayer);
@@ -859,7 +859,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
       groupLayer.add(rehabilitasiLayer);
       groupLayer.add(peningkatanLayer)
       groupLayer.add(pembangunanLayer);
-      
+
       map.add(groupLayer);
     });
 
@@ -868,9 +868,9 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCX
 
 
 
- 
-  
-function getMapData(uptd){  
+
+
+function getMapData(uptd){
        // Jembatan
        require([
       "esri/Map",
@@ -896,7 +896,7 @@ function getMapData(uptd){
         center: [107.6191, -6.9175], // longitude, latitude
         zoom: 8
       });
-       
+
       const jembatanLayer = new GraphicsLayer();
       const pembangunanLayer = new GraphicsLayer();
       const ruasjalanLayer = new GraphicsLayer();
@@ -904,7 +904,7 @@ function getMapData(uptd){
       const ruteLayer = new GraphicsLayer();
       const rehabilitasiLayer = new GraphicsLayer();
       const routeTask = new RouteTask({
-         url: "https://utility.arcgis.com/usrsvcs/appservices/jIlAfJHiHhBaObcX/rest/services/World/Route/NAServer/Route_World/solve"
+         url: "https://utility.arcgis.com/usrsvcs/appservices/AzkCUV7fdmgx72RP/rest/services/World/Route/NAServer/Route_World/solve"
         // url: "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World"
       });
       //ruas jalan
@@ -914,8 +914,8 @@ function getMapData(uptd){
       }).then(function (response) {
 
         var json = response.data;
-        var data =  json.data;    
-          
+        var data =  json.data;
+
         var symbol = {
             type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
             url: baseUrl + "/assets/images/marker/jalan.png",
@@ -955,8 +955,8 @@ function getMapData(uptd){
         ]};
 
         data.forEach(item => {
-          if(item.UPTD === uptd) { 
-         
+          if(item.UPTD === uptd) {
+
             var pointAwal = new Point(item.LONG_AWAL, item.LAT_AWAL);
             var pointAkhir = new Point(item.LONG_AKHIR, item.LAT_AKHIR);
             var markerAwal = new Graphic({
@@ -1081,8 +1081,8 @@ function getMapData(uptd){
 
 
         data.forEach(item => {
-          if(uptd!==""){ 
-            if(  item.UPTD === uptd) { 
+          if(uptd!==""){
+            if(  item.UPTD === uptd) {
             var point = new Point(item.LNG, item.LAT);
             pembangunanLayer.graphics.add(new Graphic({
                 geometry: point,
@@ -1100,7 +1100,7 @@ function getMapData(uptd){
             }));
           }
         });
-         
+
       }).catch(function (error) {
         console.log(error);
       });
@@ -1186,8 +1186,8 @@ function getMapData(uptd){
         ]};
 
         data.forEach(item => {
-          if(uptd!==""){ 
-            if(  item.UPTD === uptd) { 
+          if(uptd!==""){
+            if(  item.UPTD === uptd) {
             var point = new Point(item.LNG, item.LAT);
             peningkatanLayer.graphics.add(new Graphic({
                 geometry: point,
@@ -1204,7 +1204,7 @@ function getMapData(uptd){
                 attributes: item,
                 popupTemplate: popupTemplate
             }));
-            
+
           }
         });
       }).catch(function (error) {
@@ -1290,9 +1290,9 @@ function getMapData(uptd){
         ]};
 
 
-        data.forEach(item => { 
-          if(uptd!=="") { 
-            if(  item.UPTD === uptd)  { 
+        data.forEach(item => {
+          if(uptd!=="") {
+            if(  item.UPTD === uptd)  {
             var point = new Point(item.LNG, item.LAT);
             rehabilitasiLayer.graphics.add(new Graphic({
                 geometry: point,
@@ -1372,8 +1372,8 @@ function getMapData(uptd){
         ]};
 
         data.forEach(item => {
-          if(uptd!==""){ 
-            if(  item.UPTD === uptd) { 
+          if(uptd!==""){
+            if(  item.UPTD === uptd) {
             var point = new Point(item.LNG, item.LAT);
             jembatanLayer.graphics.add(new Graphic({
                 geometry: point,
@@ -1397,25 +1397,25 @@ function getMapData(uptd){
       });
 
       const groupLayer = new GroupLayer();
-      
-      
+
+
       groupLayer.add(ruasjalanLayer);
       groupLayer.add(pembangunanLayer);
       groupLayer.add(peningkatanLayer);
       groupLayer.add(rehabilitasiLayer);
       groupLayer.add(jembatanLayer);
-      
+
       map.add(groupLayer);
       });
-     }  
-     
+     }
+
     $(document).ready(function(){
       $("#uptd").change(function(){
-      var uptd = this.value; 
-      getMapData(uptd);  
+      var uptd = this.value;
+      getMapData(uptd);
     });
 });
 </script>
- 
+
 
 @endsection
