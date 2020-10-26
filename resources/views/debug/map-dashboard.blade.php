@@ -3,6 +3,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/icon/feather/css/feather.css') }}">
     <title>ArcGIS API for JavaScript Tutorials: Create a JavaScript starter app</title>
     <style>
         html,
@@ -14,12 +16,110 @@
             width: 100%;
             z-index: -1;
         }
+        #showFilter{
+          position: absolute;
+          top: 15%;
+          left: 1.1%;
+        }
+        #showFilter button {
+          width: 32px;
+          height: 32px;
+          background-color: white;
+          border: none;
+          cursor: pointer;
+        }
+        #filter {
+          position: absolute;
+          top: 15%;
+          left: 1.1%;
+          min-width: 300px;
+          transform: translate(-350px, 0);
+          transition: transform 0.3s ease-in-out;
+        }
+        #filter.open {
+          transform: translate(0, 0);
+        }
+      #filter .container {
+        padding: 20px 30px;
+      }
     </style>
     <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
 </head>
 <body>
     <div id="viewDiv"></div>
+    <div id="showFilter">
+      <button data-toggle="tooltip" data-placement="right" title="Fitur Filter">
+        <i class="feather icon-filter"></i>
+      </button>
+    </div>
+    <div id="filter" class="bg-light">
+        <div class="container">
+          <form>
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">UPTD</label>
+              <select class="form-control" id="exampleFormControlSelect1">
+                <option value="">Semua</option>
+                <option value="uptd1">UPTD 1</option>
+                <option value="uptd2">UPTD 2</option>
+                <option value="uptd3">UPTD 3</option>
+                <option value="uptd4">UPTD 4</option>
+                <option value="uptd5">UPTD 5</option>
+                <option value="uptd6">UPTD 6</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">SPP</label>
+              <select class="form-control" id="exampleFormControlSelect1">
+                <option value="opt1">-</option>
+                <option value="opt2">SPP KAB/KOTA SMI-1</option>
+                <option value="opt3">SPP KAB SMI-2</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">Kegiatan</label>
+              <select class="form-control" id="exampleFormControlSelect1">
+                <option value="opt1">Semua</option>
+                <option value="opt2">Ruas Jalam</option>
+                <option value="opt2">Jembatan</option>
+                <option value="pembangunan">Pemeliharaan</option>
+                <option value="pembangunan">Peningkatan</option>
+                <option value="pembangunan">Pembangunan</option>
+                <option value="peningkatan">Peningkatan</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">Proyek Kontrak</label>
+              <select class="form-control" id="exampleFormControlSelect1">
+                <option value="opt1">On-Progress</option>
+                <option value="opt2">Critical Contract</option>
+                <option value="opt2">Off Progress</option>
+                <option value="pembangunan">Finish</option>
+              </select>
+            </div>
+          </form>
+        </div>
+    </div>
 </body>
+<script>
+  // tonggle filter
+  const hamburgerButtonElement = document.querySelector("#showFilter");
+  const drawerElement = document.querySelector("#filter");
+  const mainElement = document.querySelector("#viewDiv");
+  
+  hamburgerButtonElement.addEventListener("click", event => {
+  drawerElement.classList.toggle("open");
+  event.stopPropagation();
+  });
+  
+  
+  mainElement.addEventListener("click", event => {
+  drawerElement.classList.remove("open");
+  event.stopPropagation();
+  })
+</script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="https://js.arcgis.com/4.17/"></script>
 <script>
     require([
@@ -39,7 +139,7 @@
         container: "viewDiv",
         map: map,
         center: [107.6191, -6.9175], // longitude, latitude
-        zoom: 8
+        zoom: 9
       });
 
       const jembatanLayer = new GraphicsLayer();

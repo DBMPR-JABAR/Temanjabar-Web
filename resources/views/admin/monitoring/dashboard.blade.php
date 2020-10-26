@@ -82,7 +82,6 @@
                                             <option value="pembangunan">Pemeliharaan</option>
                                             <option value="pembangunan">Peningkatan</option>
                                             <option value="pembangunan">Pembangunan</option>
-
                                             <option value="peningkatan">Peningkatan</option>
                                         </select>
                                     </div>
