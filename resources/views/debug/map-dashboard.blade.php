@@ -7,6 +7,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/icon/feather/css/feather.css') }}">
     <title>Map Dashboard</title>
     <style>
+   
+
         html,
         body,
         #viewDiv {
@@ -56,6 +58,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 </head>
 <body>
+<div class="ldBar" data-value="100">
+</div>
+
     <div id="viewDiv"></div>
     <div id="showFilter">
       <button data-toggle="tooltip" data-placement="right" title="Fitur Filter">
@@ -66,6 +71,7 @@
         <img width="200" class="img-fluid" src="{{ asset('assets/images/brand/text_putih.png')}}" alt="Logo DBMPR">
     </div>
     <div id="filter" class="bg-light">
+    <div id="preloader" style="display:none">Loading...</div>
         <div class="container">
           <form>
             <div class="form-group">
@@ -82,7 +88,7 @@
             </div>
             <div class="form-group">
               <label for="exampleFormControlSelect1">SPP</label>
-              <select class="form-control" id="spp_filter">
+              <select class="form-control"  id="spp_filter">
                 <option value="">-</option> 
               </select>
             </div>
@@ -110,8 +116,9 @@
             <div class="form-group">
               <label for="exampleFormControlSelect1">Basemap</label>
               <select class="form-control" id="basemap">
+              <option value="">-</option>
                 <option value="streets">Street</option>
-                <option value="hybrid">Hybrid</option>
+                <option value="hybrid" selected>Hybrid</option>
                 <option value="satellite">Satelite</option>
                 <option value="topo">Topo</option>
                 <option value="gray">Gray</option>
@@ -143,12 +150,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="https://js.arcgis.com/4.17/"></script>
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/loading-bar/dist/loading-bar.css') }} "/>
+<script type="text/javascript" src="{{ asset('assets/vendor/loading-bar/dist/loading-bar.js') }}"></script>
+ 
+
 <script>
 $(document).ready(function () {
     console.log($("#uptd").val());
-    function getMapData(uptd,bmData){
+    function getMapData(uptd,bmData,sppData){
         var bmData = (typeof bmData === "undefined") ?"hybrid" : bmData;
-       
+        var sppData = (typeof sppData === "undefined") ? "" : sppData;
         require([
         "esri/Map",
         "esri/views/MapView",
@@ -192,14 +203,21 @@ $(document).ready(function () {
             responseType: "json"
         }).then(function (response) {
 
-            var json = response.data;
-            var data =  json.data;
-
+            var json = response.data; 
+                 
+                 if(uptd!=="" ){  
+                var data =  json.data.filter(function(d) { return d.UPTD ==  uptd });
+                 } else{
+                    var data =  json.data;
+                }
+                    
+ 
+ 
             var symbol = {
                 type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
                 url: baseUrl + "/assets/images/marker/jalan.png",
-                width: "24px",
-                height: "24px"
+                width: "20px",
+                height: "20px"
             };
             var popupTemplate = {
                 title: "{NAMA_JALAN}",
@@ -232,9 +250,9 @@ $(document).ready(function () {
                     }
                 ]}
             ]};
-
+ 
             data.forEach(item => {
-            if(item.UPTD === uptd) {
+               
 
                 var pointAwal = new Point(item.LONG_AWAL, item.LAT_AWAL);
                 var pointAkhir = new Point(item.LONG_AKHIR, item.LAT_AKHIR);
@@ -272,7 +290,7 @@ $(document).ready(function () {
                         ruasjalanLayer.graphics.add(result.route);
                     });
                 });
-            }
+ 
             });
 
         }).catch(function (error) {
@@ -286,13 +304,19 @@ $(document).ready(function () {
             responseType: "json",
         }).then(function(response){
             var json = response.data;
-            var data = json.data;
+            if(uptd!==""){  
+                var data =  json.data.filter(function(d) { return d.UPTD ==  uptd });
+                } else{
+                    var data =  json.data;
+                }
+   
+                
 
             var symbol = {
                 type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
                 url: baseUrl + "/assets/images/marker/pembangunan.png",
-                width: "24px",
-                height: "24px"
+                width: "20px",
+                height: "20px"
             };
             var popupTemplate = {
                 title: "{NAMA_PAKET}",
@@ -360,24 +384,14 @@ $(document).ready(function () {
 
 
             data.forEach(item => {
-            if(uptd!==""){
-                if(  item.UPTD === uptd) {
-                var point = new Point(item.LNG, item.LAT);
+                 var point = new Point(item.LNG, item.LAT);
                 pembangunanLayer.graphics.add(new Graphic({
                     geometry: point,
                     symbol: symbol,
                     attributes: item,
                     popupTemplate: popupTemplate
                 }));
-            }} else{
-                var point = new Point(item.LNG, item.LAT);
-                pembangunanLayer.graphics.add(new Graphic({
-                    geometry: point,
-                    symbol: symbol,
-                    attributes: item,
-                    popupTemplate: popupTemplate
-                }));
-            }
+            
             });
 
         }).catch(function (error) {
@@ -392,13 +406,17 @@ $(document).ready(function () {
             responseType: "json",
         }).then(function(response){
             var json = response.data;
-            var data = json.data;
+            if(uptd!==""){  
+                var data =  json.data.filter(function(d) { return d.UPTD ==  uptd });
+                } else{
+                    var data =  json.data;
+                }
 
             var symbol = {
                 type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
                 url: baseUrl + "/assets/images/marker/peningkatan.png",
-                width: "24px",
-                height: "24px"
+                width: "20px",
+                height: "20px"
             };
             var popupTemplate = {
                 title: "{NAMA_PAKET}",
@@ -463,28 +481,20 @@ $(document).ready(function () {
                     }
                 ]}
             ]};
-
+ 
             data.forEach(item => {
-            if(uptd!==""){
-                if(  item.UPTD === uptd) {
-                var point = new Point(item.LNG, item.LAT);
-                peningkatanLayer.graphics.add(new Graphic({
-                    geometry: point,
-                    symbol: symbol,
-                    attributes: item,
-                    popupTemplate: popupTemplate
-                }));
-                }
-            }else{
-                var point = new Point(item.LNG, item.LAT);
-                peningkatanLayer.graphics.add(new Graphic({
-                    geometry: point,
-                    symbol: symbol,
-                    attributes: item,
-                    popupTemplate: popupTemplate
-                }));
+            
+               
 
-            }
+                var point = new Point(item.LNG, item.LAT);
+                peningkatanLayer.graphics.add(new Graphic({
+                    geometry: point,
+                    symbol: symbol,
+                    attributes: item,
+                    popupTemplate: popupTemplate
+                }));
+                 
+             
             });
         }).catch(function (error) {
             console.log(error);
@@ -496,13 +506,17 @@ $(document).ready(function () {
             responseType: "json",
         }).then(function(response){
             var json = response.data;
-            var data = json.data;
+            if(uptd!==""){  
+                var data =  json.data.filter(function(d) { return d.UPTD ==  uptd });
+                } else{
+                    var data =  json.data;
+                }
 
             var symbol = {
                 type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
                 url: baseUrl + "/assets/images/marker/rehabilitasi.png",
-                width: "24px",
-                height: "24px"
+                width: "20px",
+                height: "20px"
             };
             var popupTemplate = {
                 title: "{NAMA_PAKET}",
@@ -566,29 +580,19 @@ $(document).ready(function () {
                     label: "UPTD"
                     }
                 ]}
-            ]};
-
+            ]}; 
 
             data.forEach(item => {
-            if(uptd!=="") {
-                if(  item.UPTD === uptd)  {
-                var point = new Point(item.LNG, item.LAT);
+                
+
+                 var point = new Point(item.LNG, item.LAT);
                 rehabilitasiLayer.graphics.add(new Graphic({
                     geometry: point,
                     symbol: symbol,
                     attributes: item,
                     popupTemplate: popupTemplate
                 }));
-                }
-                }  else{
-                var point = new Point(item.LNG, item.LAT);
-                rehabilitasiLayer.graphics.add(new Graphic({
-                    geometry: point,
-                    symbol: symbol,
-                    attributes: item,
-                    popupTemplate: popupTemplate
-                }));
-                }
+              
             });
         }).catch(function (error) {
             console.log(error);
@@ -602,13 +606,20 @@ $(document).ready(function () {
         }).then(function (response) {
 
             var json = response.data;
-            var data = json.data;
+            var data = null;
+            if(uptd!=="" ){  
+                 data =  json.data.filter(function(d) { return d.UPTD ==  uptd });
+                  
+            } else{
+                    var data =  json.data;
+                }
+
 
             var symbol = {
                 type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
                 url: baseUrl + "/assets/images/marker/jembatan.png",
-                width: "24px",
-                height: "24px"
+                width: "20px",
+                height: "20px"
             };
             var popupTemplate = {
                 title: "{NAMA_JEMBATAN}",
@@ -648,27 +659,17 @@ $(document).ready(function () {
                     label: "UPTD"
                     }
                 ]}
-            ]};
-
+            ]}; 
             data.forEach(item => {
-            if(uptd!==""){
-                if(  item.UPTD === uptd) {
-                var point = new Point(item.LNG, item.LAT);
+                 
+                 var point = new Point(item.LNG, item.LAT);
                 jembatanLayer.graphics.add(new Graphic({
                     geometry: point,
                     symbol: symbol,
                     attributes: item,
                     popupTemplate: popupTemplate
                 }));
-                }}else{
-                var point = new Point(item.LNG, item.LAT);
-                jembatanLayer.graphics.add(new Graphic({
-                    geometry: point,
-                    symbol: symbol,
-                    attributes: item,
-                    popupTemplate: popupTemplate
-                }));
-                }
+              
             });
 
         }).catch(function (error) {
@@ -693,9 +694,17 @@ $(document).ready(function () {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-
+            $("#spp_filter").change(function(){
+            var spp = this.value;
+            var uptd = $("#uptd").val();
+            var basemap = $("#basemap").val();
+             
+            getMapData(uptd,basemap,spp);
+            });
             $("#uptd").change(function(){
-                var uptd = this.value;
+                var uptd = this.value; 
+               $("#preloader").show(); 
+
                 getMapData(uptd,"hybrid");
                 option = "<option value=''>Semua </option>"; 
                 $.ajax({
@@ -704,36 +713,34 @@ $(document).ready(function () {
                     data: {uptd:uptd},
                      success: function(response){ 
                         $("#spp_filter").empty();
-                      
                         var len = 0;
-             if(response['data'] != null){
-               len = response['data'].length;
-             }
+                    if(response['data'] != null){
+                    len = response['data'].length;
+                    }
 
-             if(len > 0){
-               // Read data and create <option >
-             
-                 
-               for(var i=0; i<len; i++){
+                    if(len > 0){
+                    // Read data and create <option >
+                    
+                        
+                    for(var i=0; i<len; i++){
 
-                 var id = response['data'][i].SUP;
-                 var name = response['data'][i].SUP;
-                 option = "<option value='"+id+"'>"+name+"</option>"; 
+                        var id = response['data'][i].SUP;
+                        var name = response['data'][i].SUP;
+                        option = "<option value='"+id+"'>"+name+"</option>"; 
 
-                 $("#spp_filter").append(option); 
-               }
-             }
-
-
-
+                        $("#spp_filter").append(option); 
+                       }
+                    }
+                  
                     }
                 });
-
-                console.log(uptd);
+                $("#preloader").hide(); 
+               
             });
             $("#basemap").change(function(){
                 var basemap = this.value;
-                 getMapData("",basemap);
+                var uptd = $("#uptd").val();
+                 getMapData(uptd,basemap);
                 //map.setBasemap(basemap);
             });
         });
