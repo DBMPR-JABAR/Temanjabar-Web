@@ -11,16 +11,16 @@
                 </a>
                 <ul class="pcoded-submenu">
                 <li class=" ">
-                        <a href="{{ url('admin/monitoring/main-dashboard') }}">
-                            <span class="pcoded-mtext">Main Dashboard</span>
+                        <a href="{{ url('admin/map-dashboard') }}">
+                            <span class="pcoded-mtext">Map Dashboard</span>
                         </a>
                          
                     </li>
-                    <li class=" ">
+                  <!--  <li class=" ">
                         <a href="{{ url('admin/monitoring/progress-pekerjaan') }}">
                             <span class="pcoded-mtext">Map Progress Pekerjaan</span>
                         </a>
-                    </li>
+                    </li> -->
                     <li class=" ">
                         <a href="{{ url('admin/monitoring/proyek-kontrak') }}">
                             <span class="pcoded-mtext">Proyek Kontrak</span>

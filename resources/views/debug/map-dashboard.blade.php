@@ -47,6 +47,7 @@
       }
       #filter .form-group > *{
           font-size: 12.5px;
+          margin:0px;
       }
       #logo {
         display: block;
@@ -67,13 +68,15 @@
           outline: none;
           cursor: pointer;
         }
+        .form-group {
+  margin-bottom: 1px; */
+}
     </style>
     <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 </head>
 <body>
-<div class="ldBar" data-value="100">
-</div>
+ 
 
     <div id="viewDiv"></div>
     <div id="showFilter">
@@ -90,8 +93,9 @@
         <img width="200" class="img-fluid" src="{{ asset('assets/images/brand/text_putih.png')}}" alt="Logo DBMPR">
     </div>
     <div id="filter" class="bg-light">
-    <div id="preloader" style="display:none">Loading...</div>
-        <div class="container">
+            <div class="container">
+            <div id="preloader" style="display:none">Loading...</div>
+
           <form>
             <div class="form-group">
               <label for="uptd">UPTD</label>
@@ -144,6 +148,19 @@
                 <option value="national-geographic">National Geographic</option>
               </select>
             </div>
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">Zoom</label>
+              <select class="form-control" id="basemap">
+              <option value="">-</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option> 
+              </select>
+            </div>
+
           </form>
         </div>
     </div>
@@ -192,8 +209,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="https://js.arcgis.com/4.17/"></script>
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/loading-bar/dist/loading-bar.css') }} "/>
-<script type="text/javascript" src="{{ asset('assets/vendor/loading-bar/dist/loading-bar.js') }}"></script>
  
 
 <script>
@@ -202,6 +217,7 @@ $(document).ready(function () {
     function getMapData(uptd,bmData,sppData){
         var bmData = (typeof bmData === "undefined") ?"hybrid" : bmData;
         var sppData = (typeof sppData === "undefined") ? "" : sppData;
+      
         require([
         "esri/Map",
         "esri/views/MapView",
@@ -233,10 +249,10 @@ $(document).ready(function () {
         const peningkatanLayer = new GraphicsLayer();
         const ruteLayer = new GraphicsLayer();
         const rehabilitasiLayer = new GraphicsLayer();
-        const routeTask = new RouteTask({
-            url: "https://utility.arcgis.com/usrsvcs/appservices/AzkCUV7fdmgx72RP/rest/services/World/Route/NAServer/Route_World/solve"
+      //  const routeTask = new RouteTask({
+        //    url: "https://utility.arcgis.com/usrsvcs/appservices/AzkCUV7fdmgx72RP/rest/services/World/Route/NAServer/Route_World/solve"
             // url: "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World"
-        });
+        //});
 
 
         //ruas jalan
@@ -246,14 +262,9 @@ $(document).ready(function () {
         }).then(function (response) {
 
             var json = response.data; 
-                 
-                 if(uptd!=="" ){  
-                var data =  json.data.filter(function(d) { return d.UPTD ==  uptd });
-                 } else{
-                    var data =  json.data;
-                }
                     
- 
+                 var data = json.data;   
+                    
  
             var symbol = {
                 type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
@@ -294,7 +305,7 @@ $(document).ready(function () {
             ]};
  
             data.forEach(item => {
-               
+            if(item.UPTD === uptd) {
 
                 var pointAwal = new Point(item.LONG_AWAL, item.LAT_AWAL);
                 var pointAkhir = new Point(item.LONG_AKHIR, item.LAT_AKHIR);
@@ -332,13 +343,12 @@ $(document).ready(function () {
                         ruasjalanLayer.graphics.add(result.route);
                     });
                 });
- 
+            }
             });
 
         }).catch(function (error) {
             console.log(error);
         });
-
 
         // Pembangunan --> Pembangunan
         const urlPembangunan = baseUrl + "/api/pembangunan/category/pb";
@@ -348,9 +358,7 @@ $(document).ready(function () {
             var json = response.data;
             if(uptd!==""){  
                 var data =  json.data.filter(function(d) { return d.UPTD ==  uptd });
-                } else{
-                    var data =  json.data;
-                }
+                }  
    
                 
 
@@ -450,9 +458,7 @@ $(document).ready(function () {
             var json = response.data;
             if(uptd!==""){  
                 var data =  json.data.filter(function(d) { return d.UPTD ==  uptd });
-                } else{
-                    var data =  json.data;
-                }
+                }  
 
             var symbol = {
                 type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
@@ -550,15 +556,13 @@ $(document).ready(function () {
             var json = response.data;
             if(uptd!==""){  
                 var data =  json.data.filter(function(d) { return d.UPTD ==  uptd });
-                } else{
-                    var data =  json.data;
-                }
+                }  
 
             var symbol = {
                 type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
                 url: baseUrl + "/assets/images/marker/rehabilitasi.png",
-                width: "20px",
-                height: "20px"
+                width: "25px",
+                height: "25px"
             };
             var popupTemplate = {
                 title: "{NAMA_PAKET}",
@@ -624,17 +628,14 @@ $(document).ready(function () {
                 ]}
             ]}; 
 
-            data.forEach(item => {
-                
-
+            data.forEach(item => {  
                  var point = new Point(item.LNG, item.LAT);
                 rehabilitasiLayer.graphics.add(new Graphic({
                     geometry: point,
                     symbol: symbol,
                     attributes: item,
                     popupTemplate: popupTemplate
-                }));
-              
+                })); 
             });
         }).catch(function (error) {
             console.log(error);
@@ -650,13 +651,8 @@ $(document).ready(function () {
             var json = response.data;
             var data = null;
             if(uptd!=="" ){  
-                 data =  json.data.filter(function(d) { return d.UPTD ==  uptd });
-                  
-            } else{
-                    var data =  json.data;
-                }
-
-
+                 data =  json.data.filter(function(d) { return d.UPTD ==  uptd });    
+            }   
             var symbol = {
                 type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
                 url: baseUrl + "/assets/images/marker/jembatan.png",
@@ -745,9 +741,10 @@ $(document).ready(function () {
             });
             $("#uptd").change(function(){
                 var uptd = this.value; 
+                var basemap = $("#basemap").val();
                $("#preloader").show(); 
 
-                getMapData(uptd,"hybrid");
+                getMapData(uptd,basemap);
                 option = "<option value=''>Semua </option>"; 
                 $.ajax({
                     type:"POST",
@@ -773,10 +770,10 @@ $(document).ready(function () {
                         $("#spp_filter").append(option); 
                        }
                     }
-                  
+                    $("#preloader").hide(); 
                     }
                 });
-                $("#preloader").hide(); 
+                
                
             });
             $("#basemap").change(function(){
@@ -788,6 +785,7 @@ $(document).ready(function () {
         });
     }
     getMapData("");
+
 });
 </script>
 </html>

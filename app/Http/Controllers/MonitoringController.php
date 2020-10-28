@@ -23,7 +23,7 @@ class MonitoringController extends Controller
     }
     public function getSupData(Request $request){
         $uptd = $request['uptd']; 
-       $supData['data'] = DB::connection('dwh')->table('tbl_uptd_trx_pembangunan')
+       $supData['data'] = DB::connection('dwh')->table('TBL_UPTD_TRX_PEMBANGUNAN')
                    ->select('SUP')  
               ->where('UPTD', '=', $uptd)->distinct()->get();
                return response()->json($supData);
