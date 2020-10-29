@@ -12,7 +12,7 @@
                 <ul class="pcoded-submenu">
                 <li class=" ">
                         <a href="{{ url('admin/map-dashboard') }}">
-                            <span class="pcoded-mtext">Map Dashboard</span>
+                            <span class="pcoded-mtext">Excutive Dashboard</span>
                         </a>
                          
                     </li>
