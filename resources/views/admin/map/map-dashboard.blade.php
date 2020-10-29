@@ -43,26 +43,26 @@
         #filter.open {
           transform: translate(0, 0);
         }
-      #filter .container {
-        padding: 20px 30px;
-      }
-      #filter .form-group > *{
-          font-size: 12.5px;
-          margin:0px;
-      }
-      #logo {
-        display: block;
-        position: absolute;
-        top: 30px;
-        right: 30px;
-      }
-      #fullscreen{
+        #filter .container {
+            padding: 20px 30px;
+        }
+        #filter .form-group > *{
+            font-size: 12.5px;
+            margin:0px;
+        }
+        #logo {
+            display: block;
+            position: absolute;
+            top: 30px;
+            right: 30px;
+        }
+        #fullscreen{
           position: absolute;
           top: 113px;
           left: 15px;
         }
         #fullscreen button {
-            width: 32px;
+          width: 32px;
           height: 32px;
           background-color: white;
           border: none;
@@ -70,15 +70,13 @@
           cursor: pointer;
         }
         .form-group {
-  margin-bottom: 1px; */
-}
+          margin-bottom: 1px; */
+        }
     </style>
     <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 </head>
 <body>
-
-
     <div id="viewDiv"></div>
     <div id="showFilter">
       <button data-toggle="tooltip" data-placement="right" title="Fitur Filter">
@@ -94,9 +92,8 @@
         <img width="200" class="img-fluid" src="{{ asset('assets/images/brand/text_putih.png')}}" alt="Logo DBMPR">
     </div>
     <div id="filter" class="bg-light">
-            <div class="container">
-            <div id="preloader" style="display:none">Loading...</div>
-
+          <div class="container">
+          <div id="preloader" style="display:none">Loading...</div>
           <form>
             <div class="form-group">
               <label for="uptd">UPTD</label>
@@ -210,8 +207,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="https://js.arcgis.com/4.17/"></script>
-
-
 <script>
 $(document).ready(function () {
     console.log($("#uptd").val());

@@ -36,9 +36,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('/', function () {
         return redirect(route('monitoring-kontrak'));
     });
-    
-    Route::view('map-dashboard', 'debug.map-dashboard');
-    Route::post('getSupData', 'MonitoringController@getSupData')->name('getSupData.filter'); 
+
+    Route::view('map-dashboard', 'admin.map.map-dashboard');
+    Route::post('getSupData', 'MonitoringController@getSupData')->name('getSupData.filter');
     // {SiteURL}/admin/monitoring/*
     Route::group(['prefix' => 'monitoring'], function () {
         Route::view('progress-pekerjaan', 'admin.monitoring.progress-pekerjaan');
@@ -107,6 +107,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
 });
 
+Route::view('debug/map-dashboard', 'debug.map-dashboard');
 Route::view('coba-map', 'debug.coba-map');
 Route::view('map-progress-mingguan', 'debug.map-progress-mingguan');
 Route::view('map-ruas-jalan', 'debug.map-ruas-jalan');

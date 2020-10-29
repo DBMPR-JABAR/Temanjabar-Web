@@ -55,6 +55,8 @@ Route::resource('kemandoran', 'API\KemandoranController');
 Route::get('pembangunan/category/{category}', 'API\PembangunanController@showByType');
 Route::get('kemandoran/category/{category}', 'API\KemandoranController@showByType');
 
+Route::post('map/dashboard/filter', 'API\MapDashboardController@filter');
+
 Route::fallback(function(){
     return response()->json([
         'status' => 'false',
