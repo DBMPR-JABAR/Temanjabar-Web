@@ -70,8 +70,21 @@
           cursor: pointer;
         }
         .form-group {
-  margin-bottom: 1px; */
-}
+            margin-bottom: 1px; */
+        }
+        #back {
+            position: absolute;
+            top: 146px;
+            left: 15px;
+        }
+        #back button {
+            width: 32px;
+          height: 32px;
+          background-color: white;
+          border: none;
+          outline: none;
+          cursor: pointer;
+        }
     </style>
     <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -90,6 +103,13 @@
             <i class="feather icon-maximize full-card"></i>
         </button>
     </div>
+    <div id="back">
+        <a href="{{ url('/admin/monitoring/proyek-kontrak') }}">
+            <button data-toggle="tooltip" data-placement="right" title="Kembali kehalaman Sebelumnya">
+                <i class="feather icon-arrow-left"></i>
+            </button>
+        </a>
+    </div>
     <div id="logo">
         <img width="200" class="img-fluid" src="{{ asset('assets/images/brand/text_putih.png')}}" alt="Logo DBMPR">
     </div>
@@ -99,16 +119,41 @@
 
           <form>
             <div class="form-group">
-              <label for="uptd">UPTD</label>
-              <select class="form-control" id="uptd">
-                <option value="">Semua</option>
-                <option value="uptd1">UPTD 1</option>
-                <option value="uptd2">UPTD 2</option>
-                <option value="uptd3">UPTD 3</option>
-                <option value="uptd4">UPTD 4</option>
-                <option value="uptd5">UPTD 5</option>
-                <option value="uptd6">UPTD 6</option>
-              </select>
+                <div class="row mb-3">
+                    <button class="btn btn-warning btn-block" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        UPTD
+                    </button>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="collapse" id="collapseExample">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                                <label class="form-check-label" for="inlineCheckbox1">I</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                                <label class="form-check-label" for="inlineCheckbox2">II</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                                <label class="form-check-label" for="inlineCheckbox3">III</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="option4">
+                                <label class="form-check-label" for="inlineCheckbox4">IV</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="option5">
+                                <label class="form-check-label" for="inlineCheckbox5">V</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox6" value="option6">
+                                <label class="form-check-label" for="inlineCheckbox6">VI</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
               <label for="exampleFormControlSelect1">SPP</label>
