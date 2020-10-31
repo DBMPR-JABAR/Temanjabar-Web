@@ -7,6 +7,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/icon/feather/css/feather.css') }}">
     <title>Map Dashboard</title>
     <style>
+   
+
         html,
         body,
         #viewDiv {
@@ -26,6 +28,7 @@
           height: 32px;
           background-color: white;
           border: none;
+          outline: none;
           cursor: pointer;
         }
         #filter {
@@ -44,6 +47,7 @@
       }
       #filter .form-group > *{
           font-size: 12.5px;
+          margin:0px;
       }
       #logo {
         display: block;
@@ -51,21 +55,47 @@
         top: 30px;
         right: 30px;
       }
+      #fullscreen{
+          position: absolute;
+          top: 113px;
+          left: 15px;
+        }
+        #fullscreen button {
+            width: 32px;
+          height: 32px;
+          background-color: white;
+          border: none;
+          outline: none;
+          cursor: pointer;
+        }
+        .form-group {
+  margin-bottom: 1px; */
+}
     </style>
     <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 </head>
 <body>
+ 
+
     <div id="viewDiv"></div>
     <div id="showFilter">
       <button data-toggle="tooltip" data-placement="right" title="Fitur Filter">
         <i class="feather icon-filter"></i>
       </button>
     </div>
+    <div id="fullscreen">
+        <button data-toggle="tooltip" data-placement="right" title="Fullscreen / Normal">
+            <i class="feather icon-maximize full-card"></i>
+        </button>
+    </div>
     <div id="logo">
         <img width="200" class="img-fluid" src="{{ asset('assets/images/brand/text_putih.png')}}" alt="Logo DBMPR">
     </div>
     <div id="filter" class="bg-light">
-        <div class="container">
+            <div class="container">
+            <div id="preloader" style="display:none">Loading...</div>
+
           <form>
             <div class="form-group">
               <label for="uptd">UPTD</label>
@@ -81,10 +111,8 @@
             </div>
             <div class="form-group">
               <label for="exampleFormControlSelect1">SPP</label>
-              <select class="form-control" id="exampleFormControlSelect1">
-                <option value="opt1">-</option>
-                <option value="opt2">SPP KAB/KOTA SMI-1</option>
-                <option value="opt3">SPP KAB SMI-2</option>
+              <select class="form-control"  id="spp_filter">
+                <option value="">-</option> 
               </select>
             </div>
             <div class="form-group">
@@ -111,14 +139,28 @@
             <div class="form-group">
               <label for="exampleFormControlSelect1">Basemap</label>
               <select class="form-control" id="basemap">
+              <option value="">-</option>
                 <option value="streets">Street</option>
-                <option value="hybrid">Hybrid</option>
+                <option value="hybrid" selected>Hybrid</option>
                 <option value="satellite">Satelite</option>
                 <option value="topo">Topo</option>
                 <option value="gray">Gray</option>
                 <option value="national-geographic">National Geographic</option>
               </select>
             </div>
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">Zoom</label>
+              <select class="form-control" id="basemap">
+              <option value="">-</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option> 
+              </select>
+            </div>
+
           </form>
         </div>
     </div>
@@ -139,17 +181,43 @@
   drawerElement.classList.remove("open");
   event.stopPropagation();
   })
+
+  //toggle fullscreen
+  function getFullscreenElement() {
+      return document.fullscreenElement
+        || document.webkitFullscreenElement
+        || document.mozFullscreenElement
+        || document.msFullscreenElement;
+  }
+
+  function toggleFullscreen() {
+      if(getFullscreenElement()) {
+        document.exitFullscreen();
+      } else {
+        document.documentElement.requestFullscreen().catch((e) => {
+          console.log(e);
+        });
+      }
+  }
+
+  const fullScreenElemn =  document.querySelector('#fullscreen');
+  fullScreenElemn.addEventListener('click', () => {
+    toggleFullscreen();
+  })
 </script>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="https://js.arcgis.com/4.17/"></script>
+ 
+
 <script>
 $(document).ready(function () {
     console.log($("#uptd").val());
-    function getMapData(uptd,bmData){
+    function getMapData(uptd,bmData,sppData){
         var bmData = (typeof bmData === "undefined") ?"hybrid" : bmData;
-       
+        var sppData = (typeof sppData === "undefined") ? "" : sppData;
+      
         require([
         "esri/Map",
         "esri/views/MapView",
@@ -181,10 +249,10 @@ $(document).ready(function () {
         const peningkatanLayer = new GraphicsLayer();
         const ruteLayer = new GraphicsLayer();
         const rehabilitasiLayer = new GraphicsLayer();
-        const routeTask = new RouteTask({
-            url: "https://utility.arcgis.com/usrsvcs/appservices/AzkCUV7fdmgx72RP/rest/services/World/Route/NAServer/Route_World/solve"
+      //  const routeTask = new RouteTask({
+        //    url: "https://utility.arcgis.com/usrsvcs/appservices/AzkCUV7fdmgx72RP/rest/services/World/Route/NAServer/Route_World/solve"
             // url: "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World"
-        });
+        //});
 
 
         //ruas jalan
@@ -193,14 +261,16 @@ $(document).ready(function () {
             responseType: "json"
         }).then(function (response) {
 
-            var json = response.data;
-            var data =  json.data;
-
+            var json = response.data; 
+                    
+                 var data = json.data;   
+                    
+ 
             var symbol = {
                 type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
                 url: baseUrl + "/assets/images/marker/jalan.png",
-                width: "24px",
-                height: "24px"
+                width: "20px",
+                height: "20px"
             };
             var popupTemplate = {
                 title: "{NAMA_JALAN}",
@@ -233,7 +303,7 @@ $(document).ready(function () {
                     }
                 ]}
             ]};
-
+ 
             data.forEach(item => {
             if(item.UPTD === uptd) {
 
@@ -280,20 +350,23 @@ $(document).ready(function () {
             console.log(error);
         });
 
-
         // Pembangunan --> Pembangunan
         const urlPembangunan = baseUrl + "/api/pembangunan/category/pb";
         const requestPembangunan = esriRequest(urlPembangunan, {
             responseType: "json",
         }).then(function(response){
             var json = response.data;
-            var data = json.data;
+            if(uptd!==""){  
+                var data =  json.data.filter(function(d) { return d.UPTD ==  uptd });
+                }  
+   
+                
 
             var symbol = {
                 type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
                 url: baseUrl + "/assets/images/marker/pembangunan.png",
-                width: "24px",
-                height: "24px"
+                width: "20px",
+                height: "20px"
             };
             var popupTemplate = {
                 title: "{NAMA_PAKET}",
@@ -361,24 +434,14 @@ $(document).ready(function () {
 
 
             data.forEach(item => {
-            if(uptd!==""){
-                if(  item.UPTD === uptd) {
-                var point = new Point(item.LNG, item.LAT);
+                 var point = new Point(item.LNG, item.LAT);
                 pembangunanLayer.graphics.add(new Graphic({
                     geometry: point,
                     symbol: symbol,
                     attributes: item,
                     popupTemplate: popupTemplate
                 }));
-            }} else{
-                var point = new Point(item.LNG, item.LAT);
-                pembangunanLayer.graphics.add(new Graphic({
-                    geometry: point,
-                    symbol: symbol,
-                    attributes: item,
-                    popupTemplate: popupTemplate
-                }));
-            }
+            
             });
 
         }).catch(function (error) {
@@ -393,13 +456,15 @@ $(document).ready(function () {
             responseType: "json",
         }).then(function(response){
             var json = response.data;
-            var data = json.data;
+            if(uptd!==""){  
+                var data =  json.data.filter(function(d) { return d.UPTD ==  uptd });
+                }  
 
             var symbol = {
                 type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
                 url: baseUrl + "/assets/images/marker/peningkatan.png",
-                width: "24px",
-                height: "24px"
+                width: "20px",
+                height: "20px"
             };
             var popupTemplate = {
                 title: "{NAMA_PAKET}",
@@ -464,28 +529,20 @@ $(document).ready(function () {
                     }
                 ]}
             ]};
-
+ 
             data.forEach(item => {
-            if(uptd!==""){
-                if(  item.UPTD === uptd) {
-                var point = new Point(item.LNG, item.LAT);
-                peningkatanLayer.graphics.add(new Graphic({
-                    geometry: point,
-                    symbol: symbol,
-                    attributes: item,
-                    popupTemplate: popupTemplate
-                }));
-                }
-            }else{
-                var point = new Point(item.LNG, item.LAT);
-                peningkatanLayer.graphics.add(new Graphic({
-                    geometry: point,
-                    symbol: symbol,
-                    attributes: item,
-                    popupTemplate: popupTemplate
-                }));
+            
+               
 
-            }
+                var point = new Point(item.LNG, item.LAT);
+                peningkatanLayer.graphics.add(new Graphic({
+                    geometry: point,
+                    symbol: symbol,
+                    attributes: item,
+                    popupTemplate: popupTemplate
+                }));
+                 
+             
             });
         }).catch(function (error) {
             console.log(error);
@@ -497,13 +554,15 @@ $(document).ready(function () {
             responseType: "json",
         }).then(function(response){
             var json = response.data;
-            var data = json.data;
+            if(uptd!==""){  
+                var data =  json.data.filter(function(d) { return d.UPTD ==  uptd });
+                }  
 
             var symbol = {
                 type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
                 url: baseUrl + "/assets/images/marker/rehabilitasi.png",
-                width: "24px",
-                height: "24px"
+                width: "25px",
+                height: "25px"
             };
             var popupTemplate = {
                 title: "{NAMA_PAKET}",
@@ -567,29 +626,16 @@ $(document).ready(function () {
                     label: "UPTD"
                     }
                 ]}
-            ]};
+            ]}; 
 
-
-            data.forEach(item => {
-            if(uptd!=="") {
-                if(  item.UPTD === uptd)  {
-                var point = new Point(item.LNG, item.LAT);
+            data.forEach(item => {  
+                 var point = new Point(item.LNG, item.LAT);
                 rehabilitasiLayer.graphics.add(new Graphic({
                     geometry: point,
                     symbol: symbol,
                     attributes: item,
                     popupTemplate: popupTemplate
-                }));
-                }
-                }  else{
-                var point = new Point(item.LNG, item.LAT);
-                rehabilitasiLayer.graphics.add(new Graphic({
-                    geometry: point,
-                    symbol: symbol,
-                    attributes: item,
-                    popupTemplate: popupTemplate
-                }));
-                }
+                })); 
             });
         }).catch(function (error) {
             console.log(error);
@@ -603,13 +649,15 @@ $(document).ready(function () {
         }).then(function (response) {
 
             var json = response.data;
-            var data = json.data;
-
+            var data = null;
+            if(uptd!=="" ){  
+                 data =  json.data.filter(function(d) { return d.UPTD ==  uptd });    
+            }   
             var symbol = {
                 type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
                 url: baseUrl + "/assets/images/marker/jembatan.png",
-                width: "24px",
-                height: "24px"
+                width: "20px",
+                height: "20px"
             };
             var popupTemplate = {
                 title: "{NAMA_JEMBATAN}",
@@ -649,27 +697,17 @@ $(document).ready(function () {
                     label: "UPTD"
                     }
                 ]}
-            ]};
-
+            ]}; 
             data.forEach(item => {
-            if(uptd!==""){
-                if(  item.UPTD === uptd) {
-                var point = new Point(item.LNG, item.LAT);
+                 
+                 var point = new Point(item.LNG, item.LAT);
                 jembatanLayer.graphics.add(new Graphic({
                     geometry: point,
                     symbol: symbol,
                     attributes: item,
                     popupTemplate: popupTemplate
                 }));
-                }}else{
-                var point = new Point(item.LNG, item.LAT);
-                jembatanLayer.graphics.add(new Graphic({
-                    geometry: point,
-                    symbol: symbol,
-                    attributes: item,
-                    popupTemplate: popupTemplate
-                }));
-                }
+              
             });
 
         }).catch(function (error) {
@@ -689,19 +727,65 @@ $(document).ready(function () {
         });
 
         $(document).ready(function(){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $("#spp_filter").change(function(){
+            var spp = this.value;
+            var uptd = $("#uptd").val();
+            var basemap = $("#basemap").val();
+             
+            getMapData(uptd,basemap,spp);
+            });
             $("#uptd").change(function(){
-                var uptd = this.value;
-                getMapData(uptd,"hybrid");
-                console.log(uptd);
+                var uptd = this.value; 
+                var basemap = $("#basemap").val();
+               $("#preloader").show(); 
+
+                getMapData(uptd,basemap);
+                option = "<option value=''>Semua </option>"; 
+                $.ajax({
+                    type:"POST",
+                    url: "{{ route('getSupData.filter') }}",
+                    data: {uptd:uptd},
+                     success: function(response){ 
+                        $("#spp_filter").empty();
+                        var len = 0;
+                    if(response['data'] != null){
+                    len = response['data'].length;
+                    }
+
+                    if(len > 0){
+                    // Read data and create <option >
+                    
+                        
+                    for(var i=0; i<len; i++){
+
+                        var id = response['data'][i].SUP;
+                        var name = response['data'][i].SUP;
+                        option = "<option value='"+id+"'>"+name+"</option>"; 
+
+                        $("#spp_filter").append(option); 
+                       }
+                    }
+                    $("#preloader").hide(); 
+                    }
+                });
+                
+               
             });
             $("#basemap").change(function(){
                 var basemap = this.value;
-                 getMapData("",basemap);
+                var uptd = $("#uptd").val();
+                 getMapData(uptd,basemap);
                 //map.setBasemap(basemap);
             });
         });
     }
     getMapData("");
+
 });
 </script>
 </html>

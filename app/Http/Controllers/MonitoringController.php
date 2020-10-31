@@ -21,10 +21,14 @@ class MonitoringController extends Controller
        $proyekkontrak = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN')->get();
        return view('admin.monitoring.dashboard',compact('proyekkontrak'));
     }
-    public function getSup($uptd = ""){
-        $message = $uptd;
-        echo json_encode($message);
-        exit;
+    public function getSupData(Request $request){
+        $uptd = $request['uptd']; 
+       $supData['data'] = DB::connection('dwh')->table('TBL_UPTD_TRX_PEMBANGUNAN')
+                   ->select('SUP')  
+              ->where('UPTD', '=', $uptd)->distinct()->get();
+               return response()->json($supData);
+        // return view('admin.monitoring.uptd-sup',compact('supData'));
+
     }
 
      // TODO: Proyek Kontrak
