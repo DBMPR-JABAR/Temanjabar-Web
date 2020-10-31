@@ -42,4 +42,5 @@ class MonitoringController extends Controller
         return view('admin.monitoring.proyek-kontrak-detail',compact('proyekdetail'));
      }
 
+
 }

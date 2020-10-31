@@ -46,55 +46,54 @@
                      </a>
                      </h3>
                     </div>
-                                                                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                                                                    <div class="accordion-content accordion-desc">
+                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="accordion-content accordion-desc">
 
-                                                                    <div class="card-block">
-                                                    <div class="row">
-                                                        <div class="col-sm-12 col-xl-3 m-b-30">
-                                                            <h4 class="sub-title">Tahun</h4>
-                                                            <select name="select" class="form-control form-control-primary">
-                                                                <option value="opt1">-</option>
-                                                                <option value="opt2">2019</option>
-                                                                <option value="opt3">2020</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-sm-12 col-xl-3 m-b-30">
-                                                            <h4 class="sub-title">UPTD</h4>
-                                                            <select name="select" class="form-control form-control-primary">
-                                                                <option value="opt1">Semua</option>
-                                                                <option value="opt2">UPTD 1 Sukabumi</option>
-                                                                <option value="pembangunan">UPTD 2 ....</option>
-                                                                <option value="peningkatan">UPTD 3 </option>
-                                                                <option value="peningkatan">UPTD 4 </option>
-                                                                <option value="peningkatan">UPTD 5 </option>
-                                                                <option value="peningkatan">UPTD 6  </option>
-                                                            </select>
-                                                        </div><div class="col-sm-12 col-xl-3 m-b-30">
-                                                            <h4 class="sub-title">Kegiatan</h4>
-                                                            <select name="select" class="form-control form-control-primary">
-                                                                <option value="opt1">Semua</option>
-                                                                <option value="opt2">Pemeliharaan berkala</option>
-                                                                <option value="pembangunan">Pembangunan</option>
-                                                                <option value="peningkatan">Peningkatan</option>
-                                                            </select>
-                                                        </div>
-
-
-
-                                                      </div>
-                                                  </div>
-                                                                  </div>
-                                                                </div>
-                                                            </div>
-                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                          <div class="card-block">
+                             <div class="row">
+                                <div class="col-sm-12 col-xl-3 m-b-30">
+                                   <h4 class="sub-title">Tahun</h4>
+                                   <select name="select" class="form-control form-control-primary">
+                                      <option value="opt1">-</option>
+                                      <option value="opt2">2019</option>
+                                      <option value="opt3">2020</option>
+                                    </select>
+                                 </div>
+                              <div class="col-sm-12 col-xl-3 m-b-30">
+                                   <h4 class="sub-title">UPTD</h4>
+                                   <select name="select" id="uptd"class="form-control form-control-primary">
+                                        <option value="opt1">Semua</option>
+                                        <option value="opt2">UPTD 1 Sukabumi</option>
+                                         <option value="pembangunan">UPTD 2 ....</option>
+                                         <option value="peningkatan">UPTD 3 </option>
+                                         <option value="peningkatan">UPTD 4 </option>
+                                         <option value="peningkatan">UPTD 5 </option>
+                                         <option value="peningkatan">UPTD 6  </option>
+                                    </select>
+                              </div>
+                              <div class="col-sm-12 col-xl-3 m-b-30">
+                                   <h4 class="sub-title">Kegiatan</h4>
+                                   <select name="select" class="form-control form-control-primary">
+                                       <option value="opt1">Semua</option>
+                                        <option value="opt2">Pemeliharaan berkala</option>
+                                        <option value="pembangunan">Pembangunan</option>
+                                        <option value="peningkatan">Peningkatan</option>
+                                   </select>
+                               </div>
+                             </div>
+                           </div>
+                          </div>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+             </div>
+           </div>
 
 
 
     <!-- task, page, download counter  start -->
+    
     <div class="col-xl-3 col-md-6">
         <div class="card">
             <div class="card-block">
@@ -126,7 +125,7 @@
             <div class="card-block">
                 <div class="row align-items-center">
                     <div class="col-8"><a href="{{url('admin/monitoring/proyek-kontrak/status/ON PROGRESS')}}">
-                        <h4 class="text-c-green f-w-600">40</h4> </a>
+                        <h4 class="text-c-green f-w-600">50</h4> </a>
                         <h6 class="text-muted m-b-0">On Progress</h6>
                     </div>
                     <div class="col-4 text-right">
@@ -176,7 +175,7 @@
             <div class="card-block">
                 <div class="row align-items-center">
                     <div class="col-8"><a href="{{url('admin/monitoring/proyek-kontrak/status/FINISH')}}">
-                        <h4 class="text-c-blue f-w-600">500</h4>
+                        <h4 class="text-c-blue f-w-600">100</h4></a>
                         <h6 class="text-muted m-b-0">Finish</h6>
                     </div>
                     <div class="col-4 text-right">
@@ -197,14 +196,15 @@
         </div>
     </div>
     </div>
+ 
     <!-- task, page, download counter  end -->
       <div class="col-xl-12 col-md-12">
         <div class="card">
-          <div class="card-block accordion-block">
+          <div class="card-block">
             <div id="chartdiv2" style="height:250px"></div>
           </div>
         </div>
-      </div>
+      </div>  
     <!-- visitor start -->
     <div class="col-xl-12 col-md-12">
         <div class="card">
@@ -247,9 +247,25 @@
                         <!-- chart -->
                         <div id="chartdiv" style="height:250px"></div>
                         <!--  -->
-                        <div class="card" style="box-shadow: none;">
 
-                          <div class="card-block">
+                    </div>
+                    <div class="tab-pane" id="profile3" role="tabpanel">
+                        <!-- Chart -->
+                        <div id="chartdivontrack" style="height:250px"></div>
+                        <!--  -->
+                       
+                     </div>
+                    <div class="tab-pane" id="messages3" role="tabpanel">
+                        <div id="chartdivalert" style="height:250px"></div>
+                     </div>
+                    <div class="tab-pane" id="settings3" role="tabpanel">
+                        <div id="chartdivselesai" style="height:250px"></div>
+                    </div>
+                </div>
+
+                <div class="card" style="box-shadow: none;">
+
+                <div class="card-block">
                             <div class="table-responsive dt-responsive">
                               <table id="detail" class="table table-striped table-bordered ">
                                 <thead>
@@ -287,147 +303,42 @@
                               </table>
                             </div>
                           </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane" id="profile3" role="tabpanel">
-                        <!-- Chart -->
-                        <div id="chartdivontrack" style="height:250px"></div>
-                        <!--  -->
-                        <div class="card" style="box-shadow: none;">
-                          <div class="card-header">
-                            <h5>Detail Daftar Pekerjaan</h5>
-                            <ul class="filter-list mt-4">
-                              <li>
-                                <a href=""><button type="button" class="btn btn-primary">Semua <i class="feather icon-sliders"></i></button></a>
-                              </li>
-                              <li>
-                                <a href=""><button type="button" class="btn btn-success">Pemeliharaan Berkala</button></a>
-                              </li>
-                              <li>
-                                <a href=""><button type="button" class="btn btn-success">Pembangunan</button></a>
-                              </li>
-                              <li>
-                                <a href=""><button type="button" class="btn btn-success">Peningkatan</button></a>
-                              </li>
-                            </ul>
-                          </div>
-                          <div class="card-block">
-                            <div class="table-responsive dt-responsive">
-                              <table id="detail" class="table table-striped table-bordered ">
-                                <thead>
-                                    <tr>
-                                        <th>No.</th>
-                                        <th>Pekerja</th>
-                                        <th>Kategori</th>
-                                        <th>Tanggal</th>
-                                        <th>Jenis Pekerjaan</th>
-                                        <th>Ruas Jalan</th>
-                                        <th>Lokasi</th>
-                                        <th>Rencana</th>
-                                        <th>Realisasi</th>
-                                        <th>Deviasi</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Kuli </th>
-                                            <td><b>Pemeliharaan Berkala</b></td>
-                                            <td>2019-10-20</td>
-                                            <td>Hotmix</td>
-                                            <td> Cibadak - Cikidang - Pelabuhan Ratu</td>
-                                            <td>113+950 - 115+950</td>
-                                            <td>37.3470%</td>
-                                            <td>60.3160%</td>
-                                            <td>22.9690%</td>
-                                            <td><b class="text-success">On Progress</b></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>2</td>
-                                            <td>CDS Studio </th>
-                                            <td><b>Pembangunan</b></td>
-                                            <td>2020-01-01</td>
-                                            <td>Hotmix</td>
-                                            <td> Bts. Karawang/Purwakarta (Curug) - Purwakarta</td>
-                                            <td>113+950 - 115+950</td>
-                                            <td>37.3470%</td>
-                                            <td>60.3160%</td>
-                                            <td>22.9690%</td>
-                                            <td><b class="text-success">On Progress</b></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>3</td>
-                                            <td>PT.Buana </th>
-                                            <td><b>Peningkatan</b></td>
-                                            <td>2019-09-25</td>
-                                            <td>box culvert</td>
-                                            <td> Waluran-Malereng-Palangpang</td>
-                                            <td>113+950 - 115+950</td>
-                                            <td>37.3470%</td>
-                                            <td>60.3160%</td>
-                                            <td>22.9690%</td>
-                                            <td><b class="text-success">On Progress</b></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>4</td>
-                                            <td>Asakiwari </th>
-                                            <td><b>Peningkatan</b></td>
-                                            <td>2019-09-25</td>
-                                            <td>box culvert</td>
-                                            <td> Waluran-Malereng-Palangpang</td>
-                                            <td>113+950 - 115+950</td>
-                                            <td>37.3470%</td>
-                                            <td>60.3160%</td>
-                                            <td>22.9690%</td>
-                                            <td><b class="text-success">On Progress</b></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>5</td>
-                                            <td>Lingatama </th>
-                                            <td><b>Pembangunan</b></td>
-                                            <td>2019-09-25</td>
-                                            <td>box culvert</td>
-                                            <td> Waluran-Malereng-Palangpang</td>
-                                            <td>113+950 - 115+950</td>
-                                            <td>37.3470%</td>
-                                            <td>60.3160%</td>
-                                            <td>22.9690%</td>
-                                            <td><b class="text-success">On Progress</b></td>
-                                        </tr>
-                                  </tbody>
-                              </table>
-                            </div>
-                          </div>
-                        </div>
-                     </div>
-                    <div class="tab-pane" id="messages3" role="tabpanel">
-                        <div id="chartdivalert" style="height:250px"></div>
-                     </div>
-                    <div class="tab-pane" id="settings3" role="tabpanel">
-                        <div id="chartdivselesai" style="height:250px"></div>
-                    </div>
-                </div>
-
-
-
-
-            </div>
-        </div>
-    </div>
+                      </div>
+                 </div>
+              </div>
+          </div>
 
      <!-- sale order start -->
-</div>
+      </div>
 @endsection
 
 @section('script')
 <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+
+<script>
+$(document).ready(function () {
+  data.forEach(item => {
+            if(uptd!==""){
+                if(  item.UPTD === uptd) {
+                $data
+                }));
+                }
+            }else{
+                var point = new Point(item.LNG, item.LAT);
+                peningkatanLayer.graphics.add(new Graphic({
+                    geometry: point,
+                    symbol: symbol,
+                    attributes: item,
+                    popupTemplate: popupTemplate
+                }));
+
+            }
+            });
+}
+
+</script>
 <script>
     am4core.ready(function() {
 
