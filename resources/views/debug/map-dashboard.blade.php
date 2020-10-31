@@ -5,6 +5,12 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/icon/feather/css/feather.css') }}">
+    <!-- chosen -->
+    <!-- choosen -->
+    <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/prism.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/chosen.css') }}">
+    
     <title>Map Dashboard</title>
     <style>
    
@@ -35,8 +41,8 @@
           position: absolute;
           top: 80px;
           left: 15px;
-          min-width: 300px;
-          transform: translate(-350px, 0);
+          max-width: 450px;
+          transform: translate(-600px, 0);
           transition: transform 0.3s ease-in-out;
         }
         #filter.open {
@@ -118,94 +124,122 @@
 
           <form>
             <div class="form-group">
-                <div class="row mb-3">
-                    <button class="btn btn-warning btn-block" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                        UPTD
-                    </button>
-                </div>
                 <div class="row">
                     <div class="col-12">
-                        <div class="collapse" id="collapseExample">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                                <label class="form-check-label" for="inlineCheckbox1">I</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                                <label class="form-check-label" for="inlineCheckbox2">II</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
-                                <label class="form-check-label" for="inlineCheckbox3">III</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="option4">
-                                <label class="form-check-label" for="inlineCheckbox4">IV</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="option5">
-                                <label class="form-check-label" for="inlineCheckbox5">V</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="inlineCheckbox6" value="option6">
-                                <label class="form-check-label" for="inlineCheckbox6">VI</label>
-                            </div>
-                        </div>
+                        <label for="uptdSpp">UPTD dan SPP</label>
+                    </div>
+                    <div class="col-12">
+                        <select id="uptdSpp" data-placeholder="Pilih UPTD dengan SPP" class="chosen-select" multiple tabindex="6">
+                            <option value=""></option>
+                            <optgroup label="UPTD I">
+                                <option>Dallas Cowboys</option>
+                                <option>New York Giants</option>
+                                <option>Philadelphia Eagles</option>
+                            <option>Washington Redskins</option>
+                            </optgroup>
+                            <optgroup label="UPTD II">
+                                <option>Dallas Cowboys</option>
+                                <option>New York Giants</option>
+                                <option>Philadelphia Eagles</option>
+                            <option>Washington Redskins</option>
+                            </optgroup>
+                            <optgroup label="UPTD III">
+                                <option>Dallas Cowboys</option>
+                                <option>New York Giants</option>
+                                <option>Philadelphia Eagles</option>
+                            <option>Washington Redskins</option>
+                            </optgroup>
+                            <optgroup label="UPTD IV">
+                                <option>Dallas Cowboys</option>
+                                <option>New York Giants</option>
+                                <option>Philadelphia Eagles</option>
+                            <option>Washington Redskins</option>
+                            </optgroup>
+                            <optgroup label="UPTD V">
+                                <option>Dallas Cowboys</option>
+                                <option>New York Giants</option>
+                                <option>Philadelphia Eagles</option>
+                            <option>Washington Redskins</option>
+                            </optgroup>
+                            <optgroup label="UPTD VI">
+                                <option>Dallas Cowboys</option>
+                                <option>New York Giants</option>
+                                <option>Philadelphia Eagles</option>
+                            <option>Washington Redskins</option>
+                            </optgroup>
+                        </select>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-              <label for="exampleFormControlSelect1">SPP</label>
-              <select class="form-control"  id="spp_filter">
-                <option value="">-</option> 
-              </select>
+                <div class="row">
+                    <div class="col-12">
+                        <label for="kegiatan">Kegiatan</label>
+                    </div>
+                    <div class="col-12">
+                        <select data-placeholder="Pilih kegiatan" multiple class="chosen-select" tabindex="8" id="kegiatan">
+                            <option value="opt1">Semua</option>
+                            <option value="opt2">Ruas Jalam</option>
+                            <option value="opt2">Jembatan</option>
+                            <option value="pembangunan">Pemeliharaan</option>
+                            <option value="pembangunan">Peningkatan</option>
+                            <option value="pembangunan">Pembangunan</option>
+                            <option value="peningkatan">Peningkatan</option>
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
-              <label for="exampleFormControlSelect1">Kegiatan</label>
-              <select class="form-control" id="exampleFormControlSelect1">
-                <option value="opt1">Semua</option>
-                <option value="opt2">Ruas Jalam</option>
-                <option value="opt2">Jembatan</option>
-                <option value="pembangunan">Pemeliharaan</option>
-                <option value="pembangunan">Peningkatan</option>
-                <option value="pembangunan">Pembangunan</option>
-                <option value="peningkatan">Peningkatan</option>
-              </select>
+                <div class="row">
+                    <div class="col-12">
+                        <label for="proyek">Proyek Kontrak</label>
+                    </div>    
+                    <div class="col-12">
+                        <select class="chosen-select form-control" id="proyek" data-placeholder="Pilih kegiatan" multiple tabindex="4">
+                            <option value="opt1">On-Progress</option>
+                            <option value="opt2">Critical Contract</option>
+                            <option value="opt2">Off Progress</option>
+                            <option value="pembangunan">Finish</option>
+                        </select>
+                    </div>    
+                </div>
             </div>
             <div class="form-group">
-              <label for="exampleFormControlSelect1">Proyek Kontrak</label>
-              <select class="form-control" id="exampleFormControlSelect1">
-                <option value="opt1">On-Progress</option>
-                <option value="opt2">Critical Contract</option>
-                <option value="opt2">Off Progress</option>
-                <option value="pembangunan">Finish</option>
-              </select>
+                <div class="row">
+                    <div class="col-12">
+                        <label for="basemap">Basemap</label>
+                    </div>
+                    <div class="col-12">
+                        <select data-placeholder="Basemap..." class="select" tabindex="1">
+                            <option value="">-</option>
+                            <option value="streets">Street</option>
+                            <option value="hybrid" selected>Hybrid</option>
+                            <option value="satellite">Satelite</option>
+                            <option value="topo">Topo</option>
+                            <option value="gray">Gray</option>
+                            <option value="national-geographic">National Geographic</option>
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
-              <label for="exampleFormControlSelect1">Basemap</label>
-              <select class="form-control" id="basemap">
-              <option value="">-</option>
-                <option value="streets">Street</option>
-                <option value="hybrid" selected>Hybrid</option>
-                <option value="satellite">Satelite</option>
-                <option value="topo">Topo</option>
-                <option value="gray">Gray</option>
-                <option value="national-geographic">National Geographic</option>
-              </select>
+                <div class="row">
+                    <div class="col-12">
+                        <label for="exampleFormControlSelect1">Zoom</label>
+                    </div>
+                    <div class="col-9">
+                        <select class="form-control" id="basemap">
+                        <option value="">-</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option> 
+                        </select>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-              <label for="exampleFormControlSelect1">Zoom</label>
-              <select class="form-control" id="basemap">
-              <option value="">-</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option> 
-              </select>
-            </div>
-
           </form>
         </div>
     </div>
@@ -250,6 +284,13 @@
     toggleFullscreen();
   })
 </script>
+
+<!-- chosen -->
+<script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/jquery-3.2.1.min.js') }}" type="text/javascript"></script>
+<script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/chosen.jquery.js') }}" type="text/javascript"></script>
+<script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/prism.js') }}" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/init.js') }}" type="text/javascript" charset="utf-8"></script>
+
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

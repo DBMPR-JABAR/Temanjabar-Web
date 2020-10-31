@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="{{ asset('assets/scss/partials/menu/_pcmenu.scss') }}">
     <!-- new by rahman -->
     <link rel="stylesheet" href="{{ asset('assets/css/second_style.css') }}">
+
     @yield('head')
 </head>
 
@@ -198,8 +199,9 @@
 <script src="{{ asset('assets/vendor/_admin/extras/js/pcoded.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/_admin/extras/js/vartical-layout.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/_admin/custom-scrollbar/js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
-    <!-- Custom js -->
-    <script type="text/javascript" src="{{ asset('assets/js/admin_script.min.js') }}"></script>
+    
+<!-- Custom js -->
+<script type="text/javascript" src="{{ asset('assets/js/admin_script.min.js') }}"></script>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
