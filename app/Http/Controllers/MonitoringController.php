@@ -23,10 +23,20 @@ class MonitoringController extends Controller
     }
     public function getSupData(Request $request){
         $uptd = $request['uptd']; 
-       $supData['data'] = DB::connection('dwh')->table('TBL_UPTD_TRX_PEMBANGUNAN')
-                   ->select('SUP')  
-              ->where('UPTD', '=', $uptd)->distinct()->get();
-               return response()->json($supData);
+          
+
+       $query = DB::connection('dwh')->table('TBL_UPTD_TRX_PEMBANGUNAN')->select('SUP','UPTD');
+        
+       for($i=0;$i<count($uptd);$i++){   
+        $query->orWhere('UPTD', '=', $uptd[$i]);
+    }
+    
+        $queryUPTD = 
+ 
+    //}
+    $supData['data']['uptd'] =  $uptd;
+    $supData['data']['spp'] =  $query->distinct()->get();
+        return response()->json($supData);
         // return view('admin.monitoring.uptd-sup',compact('supData'));
 
     }
