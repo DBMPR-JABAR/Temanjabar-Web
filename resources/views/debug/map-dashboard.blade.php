@@ -6,8 +6,7 @@
     <link rel="icon" href="{{ asset('assets/images/favicon/favicon.ico') }}" type="image/x-icon">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/icon/feather/css/feather.css') }}">
-    <!-- chosen -->
-    <!-- choosen -->
+
     <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/prism.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/chosen.css') }}">
@@ -96,8 +95,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 </head>
 <body>
-
-
     <div id="viewDiv"></div>
     <div id="showFilter">
       <button data-toggle="tooltip" data-placement="right" title="Fitur Filter">
@@ -124,25 +121,18 @@
             <div id="preloader" style="display:none">Loading...</div>
 
           <form>
-          <div class="form-group">
+            <div class="form-group">
                 <div class="row">
                     <div class="col-12">
                         <label for="kegiatan">UPTD</label>
                     </div>
                     <div class="col-12">
                         <select data-placeholder="Pilih UPTD" multiple class="chosen-select chosen-select-uptd" id="uptd">
-                            <option value="uptd1">UPTD 1</option>
-                            <option value="uptd2">UPTD 2</option>
-                            <option value="uptd3">UPTD 3</option>
-                            <option value="uptd4">UPTD 4</option>
-                            <option value="uptd5">UPTD 5</option>
-                            <option value="uptd6">UPTD 6</option>
-                             </select>
+                            <option value=""></option>
+                        </select>
                     </div>
                 </div>
             </div>
-
-
             <div class="form-group">
                 <div class="row">
                     <div class="col-12">
@@ -151,7 +141,7 @@
                     <div class="col-12">
                         <select id="spp_filter" data-placeholder="Pilih UPTD dengan SPP"  class="chosen-select" multiple tabindex="6">
                             <option value=""></option>
-                          </select>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -162,8 +152,7 @@
                     </div>
                     <div class="col-12">
                         <select data-placeholder="Pilih kegiatan" multiple class="chosen-select" tabindex="8" id="kegiatan">
-                            <option value="">Semua</option>
-                            <option value="ruas_jalan">Ruas Jalan</option>
+                            <option value="ruasjalan">Ruas Jalan</option>
                             <option value="pembangunan">Pembangunan</option>
                             <option value="peningkatan">Peningkatan</option>
                             <option value="rehabilitasi">Rehabilitasi</option>
@@ -180,10 +169,10 @@
                     </div>
                     <div class="col-12">
                         <select class="chosen-select form-control" id="proyek" data-placeholder="Pilih kegiatan" multiple tabindex="4">
-                            <option value="opt1">On-Progress</option>
-                            <option value="opt2">Critical Contract</option>
-                            <option value="opt2">Off Progress</option>
-                            <option value="pembangunan">Finish</option>
+                            <option value="onprogress">On-Progress</option>
+                            <option value="critical">Critical Contract</option>
+                            <option value="offprogress">Off Progress</option>
+                            <option value="finish">Finish</option>
                         </select>
                     </div>
                 </div>
@@ -195,7 +184,6 @@
                     </div>
                     <div class="col-12">
                         <select data-placeholder="Basemap..." class="chosen-select form-control" id="basemap" tabindex="-1">
-                            <option value="">-</option>
                             <option value="streets">Street</option>
                             <option value="hybrid" selected>Hybrid</option>
                             <option value="satellite">Satelite</option>
@@ -213,7 +201,6 @@
                     </div>
                     <div class="col-9">
                         <select class="chosen-select form-control" id="zoom">
-                        <option value="">-</option>
                             <option value="5">5</option>
                             <option value="6">6</option>
                             <option value="7">7</option>
@@ -280,25 +267,921 @@
 <script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/prism.js') }}" type="text/javascript" charset="utf-8"></script>
 
 <script>
-$(document).ready(function () {
-    console.log($("#uptd").val());
-    function getMapData(uptd,bmData,sppData){
-        var bmData = (typeof bmData === "undefined") ?"hybrid" : bmData;
+    function fillSUP(uptd){
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                type:"POST",
+                url: "{{ route('api.supdata') }}",
+                data: {uptd:uptd},
+                success: function(response){
+                    $("#spp_filter").empty();
+                    let len = ''; let spp = '';
+                    if(response['data'] != null){
+                        len = response['data']['uptd'];
+                        spp = response['data']['spp'];
+                    }
+                    if(len.length > 0){
+                        // Read data and create <option>
+                        let select = '';
+                        for(let i=0; i<len.length; i++){
+                            select += '<optgroup label='+len[i]+'>' ;
+                            select +='';
+                            for(let j=0; j<spp.length; j++){
+                                if(len[i] == spp[j].UPTD) {
+                                    select +='<option value="'+spp[j].SUP+'" selected>'+spp[j].SUP+'</option>';
+                                }
+                            }
+                            select +='</optgroup>';
+                        }
+
+                        $('#spp_filter').html(select).trigger('liszt:updated');
+                        $('#spp_filter').trigger("chosen:updated");
+                        // $('#spp_filter .chosen-select').append("<li id='spp_filter" + id + "' class='active-result' style>" +name+ "</li>");
+                    }
+                    $("#preloader").hide();
+                    return resolve($("#spp_filter").val());
+                }
+            });
+        });
+    }
+    async function getSUPData() {
+        const uptd =   $("#uptd").val();
+        let data = [];
+        $("#preloader").show();
+        // getMapData(uptd,basemap);
+        // option = "";
+        if (uptd.length == 0){
+            $("#spp_filter").empty();
+            $('#spp_filter').trigger("chosen:updated");
+        }else{
+            data = await fillSUP(uptd);
+        }
+        return data;
+    }
+    function initFilter(){
+        $("#uptd").empty();
+        select = "";
+        for(let i=1; i <= 6; i++){
+            select += `<option value="uptd${i}">UPTD ${i}</option>`;
+        }
+        $('#uptd').html(select).trigger('liszt:updated');
+        $('#uptd').trigger("chosen:updated");
+
+        $("#spp_filter").empty();
+        $('#spp_filter').trigger("chosen:updated");
+
+        $("#kegiatan").empty();
+        kegiatan = `<option value="ruasjalan">Ruas Jalan</option>
+                    <option value="pembangunan">Pembangunan</option>
+                    <option value="peningkatan">Peningkatan</option>
+                    <option value="rehabilitasi">Rehabilitasi</option>
+                    <option value="pemeliharaan">Pemeliharaan</option>
+                    <option value="jembatan">Jembatan</option>`;
+        $('#kegiatan').html(kegiatan).trigger('liszt:updated');
+        $('#kegiatan').trigger("chosen:updated");
+
+        $("#proyek").empty();
+        proyek = `<option value="onprogress">On-Progress</option>
+                    <option value="criticalprogress">Critical Contract</option>
+                    <option value="offprogress">Off Progress</option>
+                    <option value="finishprogress">Finish</option>`;
+        $('#proyek').html(proyek).trigger('liszt:updated');
+        $('#proyek').trigger("chosen:updated");
+
+    }
+    function difference(array1, array2) {
+        let result = [];
+        for (let i = 0; i < array1.length; i++) {
+            if (array2.indexOf(array1[i]) === -1) {
+                result.push(array1[i]);
+            }
+        }
+        return result;
+    }
+    $(document).ready(function () {
+        initFilter();
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        const config = {
+            '.chosen-select'           : {},
+            '.chosen-select-deselect'  : { allow_single_deselect: true },
+            '.chosen-select-no-single' : { disable_search_threshold: 10 },
+            '.chosen-select-no-results': { no_results_text: 'Oops, nothing found!' },
+            '.chosen-select-rtl'       : { rtl: true },
+            '.chosen-select-width'     : { width: '95%' }
+        };
+        for (let selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+        $("#spp_filter, #kegiatan").chosen().change(function(){
+            const sup = $("#spp_filter").val();
+            const kegiatan = $("#kegiatan").val();
+            kegiatan.push("progressmingguan");
+            getMapData(sup, kegiatan);
+        });
+
+        $("#uptd").chosen().change(async function(){
+            const sup = await getSUPData();
+            const kegiatan = $("#kegiatan").val();
+            kegiatan.push("progressmingguan");
+            getMapData(sup, kegiatan);
+        });
+
+
+
+        function getMapData(sup, kegiatan) {
+            require([
+                "esri/Map",
+                "esri/views/MapView",
+                "esri/request",
+                "esri/geometry/Point",
+                "esri/Graphic",
+                "esri/layers/GraphicsLayer",
+                "esri/layers/GroupLayer",
+                "esri/tasks/RouteTask",
+                "esri/tasks/support/RouteParameters",
+                "esri/tasks/support/FeatureSet"
+            ], function (Map, MapView, esriRequest, Point, Graphic, GraphicsLayer,
+                        GroupLayer, RouteTask, RouteParameters, FeatureSet) {
+
+                // Map Initialization
+                const baseUrl = "{{url('/')}}";
+                const map = new Map({
+                    basemap: "hybrid"
+                });
+                const view = new MapView({
+                    container: "viewDiv",
+                    map: map,
+                    center: [107.6191, -6.9175], // longitude, latitude
+                    zoom: 8
+                });
+
+                // Layering
+                let ruteLayer = new GraphicsLayer();
+                let ruasjalanLayer = new GraphicsLayer();
+                let jembatanLayer = new GraphicsLayer();
+                let pembangunanLayer = new GraphicsLayer();
+                let peningkatanLayer = new GraphicsLayer();
+                let rehabilitasiLayer = new GraphicsLayer();
+                let pemeliharaanLayer = new GraphicsLayer();
+                let progressLayer = new GraphicsLayer();
+                let allProgressLayer = new GroupLayer();
+
+                // Request API
+                const requestUrl = baseUrl + '/api/map/dashboard/data';
+                const requestBody = new FormData();
+                for (i in kegiatan) { requestBody.append("kegiatan[]",kegiatan[i]); }
+                for (i in sup) { requestBody.append("sup[]",sup[i]); }
+
+                const requestApi = esriRequest(requestUrl, {
+                    responseType: "json",
+                    method: "post",
+                    body: requestBody
+                }).then(function (response) {
+                    const json = response.data;
+                    const data = json.data;
+                    if(json.status === "success"){
+                        ruasjalanLayer = addRuasJalan(data.ruasjalan, ruasjalanLayer);
+                        pembangunanLayer = addPembangunan(data.pembangunan, pembangunanLayer);
+                        peningkatanLayer = addPeningkatan(data.peningkatan, peningkatanLayer);
+                        rehabilitasiLayer = addRehabilitasi(data.rehabilitasi, rehabilitasiLayer);
+                        jembatanLayer = addJembatan(data.jembatan, jembatanLayer);
+                        pemeliharaanLayer = addPemeliharaan(data.pemeliharaan, pemeliharaanLayer);
+
+                        allProgressLayer = addProgressGroup(data.progressmingguan);
+                        map.add(allProgressLayer);
+
+                        $("#proyek").chosen().change(function() {
+                            const proyek = $("#proyek").val();
+                            const allProyek = ["onprogress","criticalprogress","offprogress","finishprogress"];
+                            const diff = difference(allProyek, proyek);
+
+                            for(i in proyek){
+                                allProgressLayer.findLayerById(proyek[i]).visible = true;
+                            }
+                            for(i in diff){
+                                allProgressLayer.findLayerById(diff[i]).visible = false;
+                            }
+                        });
+                    }
+                }).catch(function(error){
+                    console.log(error);
+                });
+
+
+
+                // Creating Group Layer
+                const groupLayer = new GroupLayer();
+                groupLayer.add(jembatanLayer);
+                groupLayer.add(ruasjalanLayer);
+                groupLayer.add(pemeliharaanLayer);
+                groupLayer.add(pembangunanLayer);
+                groupLayer.add(peningkatanLayer);
+                groupLayer.add(rehabilitasiLayer);
+                map.add(groupLayer);
+
+
+                $("#basemap").change(function(){
+                    const basemap = this.value;
+                    map.basemap = basemap;
+                });
+                $("#zoom").change(function(){
+                    const zoom = this.value;
+                    view.zoom = zoom;
+                });
+
+
+                function addPembangunan(pembangunan, layer) {
+                    const symbol = {
+                        type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
+                        url: baseUrl + "/assets/images/marker/pembangunan.png",
+                        width: "28px",
+                        height: "28px"
+                    };
+                    const popupTemplate = {
+                        title: "{NAMA_PAKET}",
+                        content: [{
+                        type: "fields",
+                        fieldInfos: [
+                            {
+                                fieldName: "NOMOR_KONTRAK",
+                                label: "Nomor Kontrak"
+                            },
+                            {
+                                fieldName: "TGL_KONTRAK",
+                                label: "Tanggal Kontrak"
+                            },
+                            {
+                                fieldName: "WAKTU_PELAKSANAAN_HK",
+                                label: "Waktu Kontrak (Hari Kerja)"
+                            },
+                            {
+                                fieldName: "KEGIATAN",
+                                label: "Jenis Pekerjaan"
+                            },
+                            {
+                                fieldName: "JENIS_PENANGANAN",
+                                label: "Jenis Penanganan"
+                            },
+                            {
+                                fieldName: "RUAS_JALAN",
+                                label: "Ruas Jalan"
+                            },
+                            {
+                                fieldName: "LAT",
+                                label: "Latitude"
+                            },
+                            {
+                                fieldName: "LNG",
+                                label: "Longitude"
+                            },
+                            {
+                                fieldName: "LOKASI",
+                                label: "Lokasi"
+                            },
+                            {
+                                fieldName: "SUP",
+                                label: "SUP"
+                            },
+                            {
+                                fieldName: "NILAI_KONTRAK",
+                                label: "Nilai Kontrak"
+                            },
+                            {
+                                fieldName: "PAGU_ANGGARAN",
+                                label: "Pagu Anggaran"
+                            },
+                            {
+                                fieldName: "PENYEDIA_JASA",
+                                label: "Penyedia Jasa"
+                            },
+                            {
+                                fieldName: "UPTD",
+                                label: "UPTD"
+                            }
+                        ]}
+                    ]};
+                    pembangunan.forEach(item => {
+                        let point = new Point(item.LNG, item.LAT);
+                        layer.graphics.add(new Graphic({
+                            geometry: point,
+                            symbol: symbol,
+                            attributes: item,
+                            popupTemplate: popupTemplate
+                        }));
+                    });
+                    return layer;
+                }
+                function addPeningkatan(peningkatan, layer) {
+                    const symbol = {
+                        type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
+                        url: baseUrl + "/assets/images/marker/peningkatan.png",
+                        width: "28px",
+                        height: "28px"
+                    };
+                    const popupTemplate = {
+                        title: "{NAMA_PAKET}",
+                        content: [{
+                        type: "fields",
+                        fieldInfos: [
+                            {
+                                fieldName: "NOMOR_KONTRAK",
+                                label: "Nomor Kontrak"
+                            },
+                            {
+                                fieldName: "TGL_KONTRAK",
+                                label: "Tanggal Kontrak"
+                            },
+                            {
+                                fieldName: "WAKTU_PELAKSANAAN_HK",
+                                label: "Waktu Kontrak (Hari Kerja)"
+                            },
+                            {
+                                fieldName: "KEGIATAN",
+                                label: "Jenis Pekerjaan"
+                            },
+                            {
+                                fieldName: "JENIS_PENANGANAN",
+                                label: "Jenis Penanganan"
+                            },
+                            {
+                                fieldName: "RUAS_JALAN",
+                                label: "Ruas Jalan"
+                            },
+                            {
+                                fieldName: "LAT",
+                                label: "Latitude"
+                            },
+                            {
+                                fieldName: "LNG",
+                                label: "Longitude"
+                            },
+                            {
+                                fieldName: "LOKASI",
+                                label: "Lokasi"
+                            },
+                            {
+                                fieldName: "SUP",
+                                label: "SUP"
+                            },
+                            {
+                                fieldName: "NILAI_KONTRAK",
+                                label: "Nilai Kontrak"
+                            },
+                            {
+                                fieldName: "PAGU_ANGGARAN",
+                                label: "Pagu Anggaran"
+                            },
+                            {
+                                fieldName: "PENYEDIA_JASA",
+                                label: "Penyedia Jasa"
+                            },
+                            {
+                                fieldName: "UPTD",
+                                label: "UPTD"
+                            }
+                        ]}
+                    ]};
+                    peningkatan.forEach(item => {
+                        let point = new Point(item.LNG, item.LAT);
+                        layer.graphics.add(new Graphic({
+                            geometry: point,
+                            symbol: symbol,
+                            attributes: item,
+                            popupTemplate: popupTemplate
+                        }));
+                        console.log("PEMBANGAN");
+                    });
+                    return layer;
+                }
+                function addRehabilitasi(rehabilitasi, layer) {
+                    const symbol = {
+                        type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
+                        url: baseUrl + "/assets/images/marker/rehabilitasi.png",
+                        width: "32px",
+                        height: "32px"
+                    };
+                    const popupTemplate = {
+                        title: "{NAMA_PAKET}",
+                        content: [{
+                        type: "fields",
+                        fieldInfos: [
+                            {
+                                fieldName: "NOMOR_KONTRAK",
+                                label: "Nomor Kontrak"
+                            },
+                            {
+                                fieldName: "TGL_KONTRAK",
+                                label: "Tanggal Kontrak"
+                            },
+                            {
+                                fieldName: "WAKTU_PELAKSANAAN_HK",
+                                label: "Waktu Kontrak (Hari Kerja)"
+                            },
+                            {
+                                fieldName: "KEGIATAN",
+                                label: "Jenis Pekerjaan"
+                            },
+                            {
+                                fieldName: "JENIS_PENANGANAN",
+                                label: "Jenis Penanganan"
+                            },
+                            {
+                                fieldName: "RUAS_JALAN",
+                                label: "Ruas Jalan"
+                            },
+                            {
+                                fieldName: "LAT",
+                                label: "Latitude"
+                            },
+                            {
+                                fieldName: "LNG",
+                                label: "Longitude"
+                            },
+                            {
+                                fieldName: "LOKASI",
+                                label: "Lokasi"
+                            },
+                            {
+                                fieldName: "SUP",
+                                label: "SUP"
+                            },
+                            {
+                                fieldName: "NILAI_KONTRAK",
+                                label: "Nilai Kontrak"
+                            },
+                            {
+                                fieldName: "PAGU_ANGGARAN",
+                                label: "Pagu Anggaran"
+                            },
+                            {
+                                fieldName: "PENYEDIA_JASA",
+                                label: "Penyedia Jasa"
+                            },
+                            {
+                                fieldName: "UPTD",
+                                label: "UPTD"
+                            }
+                        ]}
+                    ]};
+                    rehabilitasi.forEach(item => {
+                        let point = new Point(item.LNG, item.LAT);
+                        layer.graphics.add(new Graphic({
+                            geometry: point,
+                            symbol: symbol,
+                            attributes: item,
+                            popupTemplate: popupTemplate
+                        }));
+                    });
+                    return layer;
+                }
+                function addJembatan(jembatan, layer) {
+                    const symbol = {
+                        type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
+                        url: baseUrl + "/assets/images/marker/jembatan.png",
+                        width: "24px",
+                        height: "24px"
+                    };
+                    const popupTemplate = {
+                        title: "{NAMA_JEMBATAN}",
+                        content: [{
+                        type: "fields",
+                        fieldInfos: [
+                            {
+                                fieldName: "PANJANG",
+                                label: "Panjang"
+                            },
+                            {
+                                fieldName: "LEBAR",
+                                label: "Lebar"
+                            },
+                            {
+                                fieldName: "RUAS_JALAN",
+                                label: "Ruas Jalan"
+                            },
+                            {
+                                fieldName: "LAT",
+                                label: "Latitude"
+                            },
+                            {
+                                fieldName: "LNG",
+                                label: "Longitude"
+                            },
+                            {
+                                fieldName: "LOKASI",
+                                label: "Lokasi"
+                            },
+                            {
+                                fieldName: "SUP",
+                                label: "SUP"
+                            },
+                            {
+                                fieldName: "UPTD",
+                                label: "UPTD"
+                            }
+                        ]}
+                    ]};
+                    jembatan.forEach(item => {
+                        let point = new Point(item.LNG, item.LAT);
+                        layer.graphics.add(new Graphic({
+                            geometry: point,
+                            symbol: symbol,
+                            attributes: item,
+                            popupTemplate: popupTemplate
+                        }));
+                    });
+                    return layer;
+                }
+                function addPemeliharaan(pemeliharaan, layer) {
+                    const symbol = {
+                        type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
+                        url: baseUrl + "/assets/images/marker/pemeliharaan.png",
+                        width: "28px",
+                        height: "28px"
+                    };
+                    const popupTemplate = {
+                        title: "{RUAS_JALAN}",
+                        content: [{
+                        type: "fields",
+                        fieldInfos: [
+                            {
+                                fieldName: "TANGGAL",
+                                label: "Tanggal"
+                            },
+                            {
+                                fieldName: "JENIS_PEKERJAAN",
+                                label: "Jenis Pekerjaan"
+                            },
+                            {
+                                fieldName: "NAMA_MANDOR",
+                                label: "Nama Mandor"
+                            },
+                            {
+                                fieldName: "PANJANG",
+                                label: "Panjang "
+                            },
+                            {
+                                fieldName: "PERALATAN",
+                                label: "Peralatan"
+                            },
+                            {
+                                fieldName: "LAT",
+                                label: "Latitude"
+                            },
+                            {
+                                fieldName: "LNG",
+                                label: "Longitude"
+                            },
+                            {
+                                fieldName: "LOKASI",
+                                label: "Lokasi"
+                            },
+                            {
+                                fieldName: "SUP",
+                                label: "SUP"
+                            },
+                            {
+                                fieldName: "UPTD",
+                                label: "UPTD"
+                            }
+                        ]}
+                    ]};
+                    pemeliharaan.forEach(item => {
+                        let point = new Point(item.LNG, item.LAT);
+                        layer.graphics.add(new Graphic({
+                            geometry: point,
+                            symbol: symbol,
+                            attributes: item,
+                            popupTemplate: popupTemplate
+                        }));
+                    });
+                    return layer;
+                }
+                function addRuasJalan(ruasjalan, layer) {
+                    const symbol = {
+                        type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
+                        url: baseUrl + "/assets/images/marker/jalan.png",
+                        width: "28px",
+                        height: "28px"
+                    };
+                    const popupTemplate = {
+                        title: "{NAMA_JALAN}",
+                        content: [{
+                        type: "fields",
+                        fieldInfos: [
+                            {
+                                fieldName: "LAT_AWAL",
+                                label: "Latitude 0"
+                            },
+                            {
+                                fieldName: "LONG_AWAL",
+                                label: "Longitude 0"
+                            },
+                            {
+                                fieldName: "LAT_AKHIR",
+                                label: "Latitude 1"
+                            },
+                            {
+                                fieldName: "LONG_AKHIR",
+                                label: "Longitude 1"
+                            },
+                            {
+                                fieldName: "SUP",
+                                label: "SUP"
+                            },
+                            {
+                                fieldName: "UPTD",
+                                label: "UPTD"
+                            }
+                        ]}
+                    ]};
+                    ruasjalan.forEach(item => {
+                        let point = new Point(item.LONG_AWAL, item.LAT_AWAL);
+                        layer.graphics.add(new Graphic({
+                            geometry: point,
+                            symbol: symbol,
+                            attributes: item,
+                            popupTemplate: popupTemplate
+                        }));
+
+                        point = new Point(item.LONG_AKHIR, item.LAT_AKHIR);
+                        layer.graphics.add(new Graphic({
+                            geometry: point,
+                            symbol: symbol,
+                            attributes: item,
+                            popupTemplate: popupTemplate
+                        }));
+                    });
+                    return layer;
+                }
+                function addProgressGroup(progress) {
+                    const layerGroup = new GroupLayer();
+                    const onProgress = new GraphicsLayer({id: "onprogress", visible: false});
+                    const offProgress = new GraphicsLayer({id: "offprogress", visible: false});
+                    const criticalProgress = new GraphicsLayer({id: "criticalprogress", visible: false});
+                    const finishProgress = new GraphicsLayer({id: "finishprogress", visible: false});
+
+                    const symbol = {
+                        type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
+                        url: baseUrl + "/assets/images/marker/pembangunan.png",
+                        width: "24px",
+                        height: "24px"
+                    };
+                    const popupTemplate = {
+                        title: "{NAMA_PAKET}",
+                        content: [
+                            {
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "TANGGAL",
+                                    label: "Tanggal"
+                                },
+                                {
+                                    fieldName: "WAKTU_KONTRAK",
+                                    label: "Waktu Kontrak"
+                                },
+                                {
+                                    fieldName: "TERPAKAI",
+                                    label: "Terpakai"
+                                },
+                                {
+                                    fieldName: "JENIS_PEKERJAAN",
+                                    label: "Jenis Pekerjaan"
+                                },
+                                {
+                                    fieldName: "RUAS_JALAN",
+                                    label: "Ruas Jalan"
+                                },
+                                {
+                                    fieldName: "LAT",
+                                    label: "Latitude"
+                                },
+                                {
+                                    fieldName: "LNG",
+                                    label: "Longitude"
+                                },
+                                {
+                                    fieldName: "LOKASI",
+                                    label: "Lokasi"
+                                },
+                                {
+                                    fieldName: "SUP",
+                                    label: "SUP"
+                                },
+                                {
+                                    fieldName: "RENCANA",
+                                    label: "Rencana"
+                                },
+                                {
+                                    fieldName: "REALISASI",
+                                    label: "Realisasi"
+                                },
+                                {
+                                    fieldName: "DEVIASI",
+                                    label: "Deviasi"
+                                },
+                                {
+                                    fieldName: "NILAI_KONTRAK",
+                                    label: "Nilai Kontrak"
+                                },
+                                {
+                                    fieldName: "PENYEDIA_JASA",
+                                    label: "Penyedia Jasa"
+                                },
+                                {
+                                    fieldName: "KEGIATAN",
+                                    label: "Kegiatan"
+                                },
+                                {
+                                    fieldName: "STATUS_PROYEK",
+                                    label: "Status"
+                                },
+                                {
+                                    fieldName: "UPTD",
+                                    label: "UPTD"
+                                }
+                            ]
+                            }
+                        ]
+                    };
+                    progress.forEach(item => {
+                        let point = new Point(item.LNG, item.LAT);
+                        switch(item.STATUS_PROYEK){
+                            case "ON PROGRESS":
+                                onProgress.graphics.add(new Graphic({
+                                    geometry: point,
+                                    symbol: symbol,
+                                    attributes: item,
+                                    popupTemplate: popupTemplate
+                                }));
+                                break;
+                            case "CRITICAL CONTRACT":
+                                criticalProgress.graphics.add(new Graphic({
+                                    geometry: point,
+                                    symbol: symbol,
+                                    attributes: item,
+                                    popupTemplate: popupTemplate
+                                }));
+                                break;
+                            case "OFF PROGRESS":
+                                offProgress.graphics.add(new Graphic({
+                                    geometry: point,
+                                    symbol: symbol,
+                                    attributes: item,
+                                    popupTemplate: popupTemplate
+                                }));
+                                break;
+                            case "FINISH":
+                                finishProgress.graphics.add(new Graphic({
+                                    geometry: point,
+                                    symbol: symbol,
+                                    attributes: item,
+                                    popupTemplate: popupTemplate
+                                }));
+                                break;
+                            default:
+                                break;
+                        }
+                    });
+
+                    layerGroup.add(onProgress);
+                    layerGroup.add(offProgress);
+                    layerGroup.add(criticalProgress);
+                    layerGroup.add(finishProgress);
+
+                    return layerGroup;
+                }
+                function addProgress(progress, layer) {
+                    const symbol = {
+                        type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
+                        url: baseUrl + "/assets/images/marker/pembangunan.png",
+                        width: "24px",
+                        height: "24px"
+                    };
+                    const popupTemplate = {
+                        title: "{NAMA_PAKET}",
+                        content: [
+                            {
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "TANGGAL",
+                                    label: "Tanggal"
+                                },
+                                {
+                                    fieldName: "WAKTU_KONTRAK",
+                                    label: "Waktu Kontrak"
+                                },
+                                {
+                                    fieldName: "TERPAKAI",
+                                    label: "Terpakai"
+                                },
+                                {
+                                    fieldName: "JENIS_PEKERJAAN",
+                                    label: "Jenis Pekerjaan"
+                                },
+                                {
+                                    fieldName: "RUAS_JALAN",
+                                    label: "Ruas Jalan"
+                                },
+                                {
+                                    fieldName: "LAT",
+                                    label: "Latitude"
+                                },
+                                {
+                                    fieldName: "LNG",
+                                    label: "Longitude"
+                                },
+                                {
+                                    fieldName: "LOKASI",
+                                    label: "Lokasi"
+                                },
+                                {
+                                    fieldName: "SUP",
+                                    label: "SUP"
+                                },
+                                {
+                                    fieldName: "RENCANA",
+                                    label: "Rencana"
+                                },
+                                {
+                                    fieldName: "REALISASI",
+                                    label: "Realisasi"
+                                },
+                                {
+                                    fieldName: "DEVIASI",
+                                    label: "Deviasi"
+                                },
+                                {
+                                    fieldName: "NILAI_KONTRAK",
+                                    label: "Nilai Kontrak"
+                                },
+                                {
+                                    fieldName: "PENYEDIA_JASA",
+                                    label: "Penyedia Jasa"
+                                },
+                                {
+                                    fieldName: "KEGIATAN",
+                                    label: "Kegiatan"
+                                },
+                                {
+                                    fieldName: "STATUS_PROYEK",
+                                    label: "Status"
+                                },
+                                {
+                                    fieldName: "UPTD",
+                                    label: "UPTD"
+                                }
+                            ]
+                            }
+                        ]
+                    };
+                    progress.forEach(item => {
+                        let point = new Point(item.LNG, item.LAT);
+                        layer.graphics.add(new Graphic({
+                            geometry: point,
+                            symbol: symbol,
+                            attributes: item,
+                            popupTemplate: popupTemplate
+                        }));
+                    });
+                    return layer;
+                }
+
+            });
+
+        }
+
+        getMapData("","");
+    });
+</script>
+{{-- <script>
+    function getMapData(uptd,bmData,sppData, zoomData){
+
+        var bmData = (typeof bmData === "undefined") ? "hybrid" : bmData;
         var sppData = (typeof sppData === "undefined") ? "" : sppData;
+        var zoomData = (typeof zoomData === "undefined") ? 8 : zoomData;
 
         require([
-        "esri/Map",
-        "esri/views/MapView",
-        "esri/request",
-        "esri/geometry/Point",
-        "esri/Graphic",
-        "esri/layers/GraphicsLayer",
-        "esri/layers/GroupLayer",
-        "esri/tasks/RouteTask",
-        "esri/tasks/support/RouteParameters",
-        "esri/tasks/support/FeatureSet"
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/request",
+            "esri/geometry/Point",
+            "esri/Graphic",
+            "esri/layers/GraphicsLayer",
+            "esri/layers/GroupLayer",
+            "esri/tasks/RouteTask",
+            "esri/tasks/support/RouteParameters",
+            "esri/tasks/support/FeatureSet"
         ], function (Map, MapView, esriRequest, Point, Graphic, GraphicsLayer,
                     GroupLayer, RouteTask, RouteParameters, FeatureSet) {
+
         const baseUrl = "{{url('/')}}";
         const map = new Map({
             basemap: bmData
@@ -308,7 +1191,7 @@ $(document).ready(function () {
             container: "viewDiv",
             map: map,
             center: [107.6191, -6.9175], // longitude, latitude
-            zoom: 8
+            zoom: zoomData
         });
 
         const jembatanLayer = new GraphicsLayer();
@@ -317,11 +1200,12 @@ $(document).ready(function () {
         const peningkatanLayer = new GraphicsLayer();
         const ruteLayer = new GraphicsLayer();
         const rehabilitasiLayer = new GraphicsLayer();
-      //  const routeTask = new RouteTask({
-        //    url: "https://utility.arcgis.com/usrsvcs/appservices/AzkCUV7fdmgx72RP/rest/services/World/Route/NAServer/Route_World/solve"
-            // url: "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World"
-        //});
-
+        /*
+            const routeTask = new RouteTask({
+                url: "https://utility.arcgis.com/usrsvcs/appservices/AzkCUV7fdmgx72RP/rest/services/World/Route/NAServer/Route_World/solve"
+                url: "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World"
+            });
+        */
 
         //ruas jalan
         const urlRuasjalan = baseUrl + "/api/ruas-jalan";
@@ -330,8 +1214,7 @@ $(document).ready(function () {
         }).then(function (response) {
 
             var json = response.data;
-
-                 var data = json.data;
+            var data = json.data;
 
 
             var symbol = {
@@ -502,7 +1385,7 @@ $(document).ready(function () {
 
 
             data.forEach(item => {
-                 var point = new Point(item.LNG, item.LAT);
+                var point = new Point(item.LNG, item.LAT);
                 pembangunanLayer.graphics.add(new Graphic({
                     geometry: point,
                     symbol: symbol,
@@ -515,8 +1398,6 @@ $(document).ready(function () {
         }).catch(function (error) {
             console.log(error);
         });
-
-
 
         // Pembangunan --> Peningkatan
         const urlPeningkatan = baseUrl + "/api/pembangunan/category/pn";
@@ -697,7 +1578,7 @@ $(document).ready(function () {
             ]};
 
             data.forEach(item => {
-                 var point = new Point(item.LNG, item.LAT);
+                var point = new Point(item.LNG, item.LAT);
                 rehabilitasiLayer.graphics.add(new Graphic({
                     geometry: point,
                     symbol: symbol,
@@ -709,7 +1590,6 @@ $(document).ready(function () {
             console.log(error);
         });
 
-
         // Jembatan
         const urlJembatan = baseUrl + "/api/jembatan";
         const requestJembatan = esriRequest(urlJembatan, {
@@ -719,7 +1599,7 @@ $(document).ready(function () {
             var json = response.data;
             var data = null;
             if(uptd!=="" ){
-                 data =  json.data.filter(function(d) { return d.UPTD ==  uptd });
+                data =  json.data.filter(function(d) { return d.UPTD ==  uptd });
             }
             var symbol = {
                 type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
@@ -768,7 +1648,7 @@ $(document).ready(function () {
             ]};
             data.forEach(item => {
 
-                 var point = new Point(item.LNG, item.LAT);
+                var point = new Point(item.LNG, item.LAT);
                 jembatanLayer.graphics.add(new Graphic({
                     geometry: point,
                     symbol: symbol,
@@ -784,7 +1664,6 @@ $(document).ready(function () {
 
         const groupLayer = new GroupLayer();
 
-
         groupLayer.add(ruasjalanLayer);
         groupLayer.add(pembangunanLayer);
         groupLayer.add(peningkatanLayer);
@@ -794,99 +1673,7 @@ $(document).ready(function () {
         map.add(groupLayer);
         });
 
-        $(document).ready(function(){
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $("#spp_filter").change(function(){
-            var spp = this.value;
-            var uptd = $("#uptd").val();
-            var basemap = $("#basemap").val();
-
-            getMapData(uptd,basemap,spp);
-            });
-
-            var config = {
-                '.chosen-select'           : {},
-                '.chosen-select-deselect'  : { allow_single_deselect: true },
-                '.chosen-select-no-single' : { disable_search_threshold: 10 },
-                '.chosen-select-no-results': { no_results_text: 'Oops, nothing found!' },
-                '.chosen-select-rtl'       : { rtl: true },
-                '.chosen-select-width'     : { width: '95%' }
-                }
-                for (var selector in config) {
-                $(selector).chosen(config[selector]);
-
-                }
-
-      $("#uptd").chosen().change(function(){
-        var uptd_filter=  $("#uptd").val();
-        var uptd =   uptd_filter;
-        var basemap = $("#basemap").val();
-        $("#preloader").show();
-
-            getMapData(uptd,basemap);
-            option = "<option value=''>Semua </option>";
-            $.ajax({
-                type:"POST",
-                url: "{{ route('getSupData.filter') }}",
-                data: {uptd:uptd},
-                success: function(response){
-                    $("#spp_filter").empty();
-                    var len = ''; var spp = '';
-                        if(response['data'] != null){
-                        len = response['data']['uptd'];
-                        spp = response['data']['spp'];
-                        }
-                     if(len.length > 0){
-                    // Read data and create <option >
-                        var select = '';
-                        for(var i=0; i<len.length; i++){
-                            select += '<optgroup label='+len[i]+'>' ;
-                            select +='';
-                            for(var j=0; j<spp.length; j++){
-                                if(len[i] == spp[j].UPTD) {
-                                select +='<option value="'+spp[j].SUP+'">'+spp[j].SUP+'</option>';
-                                }
-                            }
-                            select +='</optgroup>';
-                        }
-
-                    $('#spp_filter').html(select).trigger('liszt:updated');
-                    $('#spp_filter').trigger("chosen:updated");
-                         //$('#spp_filter .chosen-select').append("<li id='spp_filter" + id + "' class='active-result' style>" +name+ "</li>");
-                    }
-                    $("#preloader").hide();
-                }
-
-
-
-
-            });
-        });
-
-
-
-
-
-
-
-
-
-            //$("#uptd").chosen().change({
-
-            $("#basemap").change(function(){
-                var basemap = this.value;
-                var uptd = $("#uptd").val();
-                 getMapData(uptd,basemap);
-                //map.setBasemap(basemap);
-            });
-        });
     }
     getMapData("");
-
-});
-</script>
+</script> --}}
 </html>

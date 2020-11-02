@@ -38,7 +38,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     });
 
     Route::view('map-dashboard', 'admin.map.map-dashboard');
-    Route::post('getSupData', 'MonitoringController@getSupData')->name('getSupData.filter');
     // {SiteURL}/admin/monitoring/*
     Route::group(['prefix' => 'monitoring'], function () {
         Route::view('progress-pekerjaan', 'admin.monitoring.progress-pekerjaan');
@@ -106,6 +105,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     });
 
 });
+
+Route::post('getSupData', 'MonitoringController@getSupData')->name('getSupData.filter');
 
 Route::view('debug/map-dashboard', 'debug.map-dashboard');
 Route::view('debug/map-filter', 'debug.map-filter');

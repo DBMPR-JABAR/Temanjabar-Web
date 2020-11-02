@@ -252,7 +252,6 @@
       };
 
 
-
       const url = "http://localhost:8000/api/progress-mingguan";
       const requestProgress = esriRequest(url, {
         responseType: "json",

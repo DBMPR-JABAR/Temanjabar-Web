@@ -6,7 +6,13 @@
     <link rel="icon" href="{{ asset('assets/images/favicon/favicon.ico') }}" type="image/x-icon">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/icon/feather/css/feather.css') }}">
-    <title>Temanjabar &middot; Map Dashboard</title>
+    <!-- chosen -->
+    <!-- choosen -->
+    <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/prism.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/chosen.css') }}">
+
+    <title>Map Dashboard</title>
     <style>
 
 
@@ -36,33 +42,33 @@
           position: absolute;
           top: 80px;
           left: 15px;
-          min-width: 300px;
-          transform: translate(-350px, 0);
+          max-width: 450px;
+          transform: translate(-600px, 0);
           transition: transform 0.3s ease-in-out;
         }
         #filter.open {
           transform: translate(0, 0);
         }
-        #filter .container {
-            padding: 20px 30px;
-        }
-        #filter .form-group > *{
-            font-size: 12.5px;
-            margin:0px;
-        }
-        #logo {
-            display: block;
-            position: absolute;
-            top: 30px;
-            right: 30px;
-        }
-        #fullscreen{
+      #filter .container {
+        padding: 20px 30px;
+      }
+      #filter .form-group > *{
+          font-size: 12.5px;
+          margin:0px;
+      }
+      #logo {
+        display: block;
+        position: absolute;
+        top: 30px;
+        right: 30px;
+      }
+      #fullscreen{
           position: absolute;
           top: 113px;
           left: 15px;
         }
         #fullscreen button {
-          width: 32px;
+            width: 32px;
           height: 32px;
           background-color: white;
           border: none;
@@ -70,13 +76,28 @@
           cursor: pointer;
         }
         .form-group {
-          margin-bottom: 1px; */
+            margin-bottom: 1px; */
+        }
+        #back {
+            position: absolute;
+            top: 146px;
+            left: 15px;
+        }
+        #back button {
+            width: 32px;
+          height: 32px;
+          background-color: white;
+          border: none;
+          outline: none;
+          cursor: pointer;
         }
     </style>
     <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 </head>
 <body>
+
+
     <div id="viewDiv"></div>
     <div id="showFilter">
       <button data-toggle="tooltip" data-placement="right" title="Fitur Filter">
@@ -88,77 +109,121 @@
             <i class="feather icon-maximize full-card"></i>
         </button>
     </div>
+    <div id="back">
+        <a href="{{ url('/admin/monitoring/proyek-kontrak') }}">
+            <button data-toggle="tooltip" data-placement="right" title="Kembali kehalaman Sebelumnya">
+                <i class="feather icon-arrow-left"></i>
+            </button>
+        </a>
+    </div>
     <div id="logo">
         <img width="200" class="img-fluid" src="{{ asset('assets/images/brand/text_putih.png')}}" alt="Logo DBMPR">
     </div>
     <div id="filter" class="bg-light">
-          <div class="container">
-          <div id="preloader" style="display:none">Loading...</div>
+            <div class="container">
+            <div id="preloader" style="display:none">Loading...</div>
+
           <form>
-            <div class="form-group">
-              <label for="uptd">UPTD</label>
-              <select class="form-control" id="uptd">
-                <option value="">Semua</option>
-                <option value="uptd1">UPTD 1</option>
-                <option value="uptd2">UPTD 2</option>
-                <option value="uptd3">UPTD 3</option>
-                <option value="uptd4">UPTD 4</option>
-                <option value="uptd5">UPTD 5</option>
-                <option value="uptd6">UPTD 6</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="exampleFormControlSelect1">SPP</label>
-              <select class="form-control"  id="spp_filter">
-                <option value="">-</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="exampleFormControlSelect1">Kegiatan</label>
-              <select class="form-control" id="exampleFormControlSelect1">
-                <option value="opt1">Semua</option>
-                <option value="opt2">Ruas Jalam</option>
-                <option value="opt2">Jembatan</option>
-                <option value="pembangunan">Pemeliharaan</option>
-                <option value="pembangunan">Peningkatan</option>
-                <option value="pembangunan">Pembangunan</option>
-                <option value="peningkatan">Peningkatan</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="exampleFormControlSelect1">Proyek Kontrak</label>
-              <select class="form-control" id="exampleFormControlSelect1">
-                <option value="opt1">On-Progress</option>
-                <option value="opt2">Critical Contract</option>
-                <option value="opt2">Off Progress</option>
-                <option value="pembangunan">Finish</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="exampleFormControlSelect1">Basemap</label>
-              <select class="form-control" id="basemap">
-              <option value="">-</option>
-                <option value="streets">Street</option>
-                <option value="hybrid" selected>Hybrid</option>
-                <option value="satellite">Satelite</option>
-                <option value="topo">Topo</option>
-                <option value="gray">Gray</option>
-                <option value="national-geographic">National Geographic</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="exampleFormControlSelect1">Zoom</label>
-              <select class="form-control" id="basemap">
-              <option value="">-</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-              </select>
+          <div class="form-group">
+                <div class="row">
+                    <div class="col-12">
+                        <label for="kegiatan">UPTD</label>
+                    </div>
+                    <div class="col-12">
+                        <select data-placeholder="Pilih UPTD" multiple class="chosen-select chosen-select-uptd" id="uptd">
+                            <option value="uptd1">UPTD 1</option>
+                            <option value="uptd2">UPTD 2</option>
+                            <option value="uptd3">UPTD 3</option>
+                            <option value="uptd4">UPTD 4</option>
+                            <option value="uptd5">UPTD 5</option>
+                            <option value="uptd6">UPTD 6</option>
+                             </select>
+                    </div>
+                </div>
             </div>
 
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-12">
+                        <label for="uptdSpp">SPP / SUP</label>
+                    </div>
+                    <div class="col-12">
+                        <select id="spp_filter" data-placeholder="Pilih UPTD dengan SPP"  class="chosen-select" multiple tabindex="6">
+                            <option value=""></option>
+                          </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-12">
+                        <label for="kegiatan">Kegiatan</label>
+                    </div>
+                    <div class="col-12">
+                        <select data-placeholder="Pilih kegiatan" multiple class="chosen-select" tabindex="8" id="kegiatan">
+                            <option value="">Semua</option>
+                            <option value="ruas_jalan">Ruas Jalan</option>
+                            <option value="pembangunan">Pembangunan</option>
+                            <option value="peningkatan">Peningkatan</option>
+                            <option value="rehabilitasi">Rehabilitasi</option>
+                            <option value="jembatan">Jembatan</option>
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-12">
+                        <label for="proyek">Proyek Kontrak</label>
+                    </div>
+                    <div class="col-12">
+                        <select class="chosen-select form-control" id="proyek" data-placeholder="Pilih kegiatan" multiple tabindex="4">
+                            <option value="opt1">On-Progress</option>
+                            <option value="opt2">Critical Contract</option>
+                            <option value="opt2">Off Progress</option>
+                            <option value="pembangunan">Finish</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-12">
+                        <label for="basemap">Basemap</label>
+                    </div>
+                    <div class="col-12">
+                        <select data-placeholder="Basemap..." class="chosen-select form-control" id="basemap" tabindex="-1">
+                            <option value="">-</option>
+                            <option value="streets">Street</option>
+                            <option value="hybrid" selected>Hybrid</option>
+                            <option value="satellite">Satelite</option>
+                            <option value="topo">Topo</option>
+                            <option value="gray">Gray</option>
+                            <option value="national-geographic">National Geographic</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-12">
+                        <label for="exampleFormControlSelect1">Zoom</label>
+                    </div>
+                    <div class="col-9">
+                        <select class="chosen-select form-control" id="zoom">
+                        <option value="">-</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8" selected>8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
           </form>
         </div>
     </div>
@@ -203,10 +268,17 @@
     toggleFullscreen();
   })
 </script>
+
+<!-- chosen -->
+
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="https://js.arcgis.com/4.17/"></script>
+
+<script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/chosen.jquery.js') }}" type="text/javascript"></script>
+<script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/prism.js') }}" type="text/javascript" charset="utf-8"></script>
+
 <script>
 $(document).ready(function () {
     console.log($("#uptd").val());
@@ -735,43 +807,76 @@ $(document).ready(function () {
 
             getMapData(uptd,basemap,spp);
             });
-            $("#uptd").change(function(){
-                var uptd = this.value;
-                var basemap = $("#basemap").val();
-               $("#preloader").show();
 
-                getMapData(uptd,basemap);
-                option = "<option value=''>Semua </option>";
-                $.ajax({
-                    type:"POST",
-                    url: "{{ route('getSupData.filter') }}",
-                    data: {uptd:uptd},
-                     success: function(response){
-                        $("#spp_filter").empty();
-                        var len = 0;
-                    if(response['data'] != null){
-                    len = response['data'].length;
-                    }
+            var config = {
+                '.chosen-select'           : {},
+                '.chosen-select-deselect'  : { allow_single_deselect: true },
+                '.chosen-select-no-single' : { disable_search_threshold: 10 },
+                '.chosen-select-no-results': { no_results_text: 'Oops, nothing found!' },
+                '.chosen-select-rtl'       : { rtl: true },
+                '.chosen-select-width'     : { width: '95%' }
+                }
+                for (var selector in config) {
+                $(selector).chosen(config[selector]);
 
-                    if(len > 0){
+                }
+
+      $("#uptd").chosen().change(function(){
+        var uptd_filter=  $("#uptd").val();
+        var uptd =   uptd_filter;
+        var basemap = $("#basemap").val();
+        $("#preloader").show();
+
+            getMapData(uptd,basemap);
+            option = "<option value=''>Semua </option>";
+            $.ajax({
+                type:"POST",
+                url: "{{ route('getSupData.filter') }}",
+                data: {uptd:uptd},
+                success: function(response){
+                    $("#spp_filter").empty();
+                    var len = ''; var spp = '';
+                        if(response['data'] != null){
+                        len = response['data']['uptd'];
+                        spp = response['data']['spp'];
+                        }
+                     if(len.length > 0){
                     // Read data and create <option >
+                        var select = '';
+                        for(var i=0; i<len.length; i++){
+                            select += '<optgroup label='+len[i]+'>' ;
+                            select +='';
+                            for(var j=0; j<spp.length; j++){
+                                if(len[i] == spp[j].UPTD) {
+                                select +='<option value="'+spp[j].SUP+'">'+spp[j].SUP+'</option>';
+                                }
+                            }
+                            select +='</optgroup>';
+                        }
 
-
-                    for(var i=0; i<len; i++){
-
-                        var id = response['data'][i].SUP;
-                        var name = response['data'][i].SUP;
-                        option = "<option value='"+id+"'>"+name+"</option>";
-
-                        $("#spp_filter").append(option);
-                       }
+                    $('#spp_filter').html(select).trigger('liszt:updated');
+                    $('#spp_filter').trigger("chosen:updated");
+                         //$('#spp_filter .chosen-select').append("<li id='spp_filter" + id + "' class='active-result' style>" +name+ "</li>");
                     }
                     $("#preloader").hide();
-                    }
-                });
+                }
+
+
 
 
             });
+        });
+
+
+
+
+
+
+
+
+
+            //$("#uptd").chosen().change({
+
             $("#basemap").change(function(){
                 var basemap = this.value;
                 var uptd = $("#uptd").val();

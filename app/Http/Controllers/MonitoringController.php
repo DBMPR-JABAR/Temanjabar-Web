@@ -22,23 +22,15 @@ class MonitoringController extends Controller
        return view('admin.monitoring.dashboard',compact('proyekkontrak'));
     }
     public function getSupData(Request $request){
-        $uptd = $request['uptd']; 
-          
+        $uptd = $request['uptd'];
+        $query = DB::connection('dwh')->table('TBL_UPTD_TRX_PEMBANGUNAN')->select('SUP','UPTD');
 
-       $query = DB::connection('dwh')->table('TBL_UPTD_TRX_PEMBANGUNAN')->select('SUP','UPTD');
-        
-       for($i=0;$i<count($uptd);$i++){   
-        $query->orWhere('UPTD', '=', $uptd[$i]);
-    }
-    
-        $queryUPTD = 
- 
-    //}
-    $supData['data']['uptd'] =  $uptd;
-    $supData['data']['spp'] =  $query->distinct()->get();
+        for($i=0;$i<count($uptd);$i++){
+            $query->orWhere('UPTD', '=', $uptd[$i]);
+        }
+        $supData['data']['uptd'] =  $uptd;
+        $supData['data']['spp'] =  $query->distinct()->get();
         return response()->json($supData);
-        // return view('admin.monitoring.uptd-sup',compact('supData'));
-
     }
 
      // TODO: Proyek Kontrak

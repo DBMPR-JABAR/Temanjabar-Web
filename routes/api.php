@@ -55,7 +55,7 @@ Route::resource('kemandoran', 'API\KemandoranController');
 Route::get('pembangunan/category/{category}', 'API\PembangunanController@showByType');
 Route::get('kemandoran/category/{category}', 'API\KemandoranController@showByType');
 
-Route::post('map/dashboard/sup', 'API\MapDashboardController@getSUP');
+Route::post('map/dashboard/sup', 'API\MapDashboardController@getSUP')->name('api.supdata');
 Route::post('map/dashboard/filter', 'API\MapDashboardController@filter');
 Route::post('map/dashboard/data', 'API\MapDashboardController@getData');
 Route::post('map/dashboard/data-proyek', 'API\MapDashboardController@getDataProyek');
