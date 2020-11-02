@@ -1,7 +1,16 @@
 @extends('admin.t_index')
 
 @section('title') Admin Dashboard @endsection
-
+<link rel="stylesheet" type="text/css" href="{{ asset('assets\vendor\datatables.net-bs4\css\dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets\vendor\data-table\css\buttons.dataTables.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets\vendor\datatables.net-responsive-bs4\css\responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets\vendor\data-table\extensions\responsive\css\responsive.dataTables.css') }}">
+   <style>
+     table.table-bordered tbody td {
+    word-break: break-word;
+    vertical-align: top;
+}
+     </style>
 @section('page-header')
 <div class="row align-items-end">
     <div class="col-lg-8">
@@ -100,7 +109,7 @@
             <div class="card-block">
                 <div class="row align-items-center">
                     <div class="col-8"><a href="{{url('admin/monitoring/proyek-kontrak/status/CRITICAL CONTACT')}}">
-                        <h4 class="text-c-yellow f-w-600">20</h4></a>
+                        <h4 class="text-c-yellow f-w-600">{{$countCritical}}</h4></a>
                         <h6 class="text-muted m-b-0">Critical Contract</h6>
                     </div>
                     <div class="col-4 text-right">
@@ -126,7 +135,7 @@
             <div class="card-block">
                 <div class="row align-items-center">
                     <div class="col-8"><a href="{{url('admin/monitoring/proyek-kontrak/status/ON PROGRESS')}}">
-                        <h4 class="text-c-green f-w-600">40</h4> </a>
+                        <h4 class="text-c-green f-w-600">{{ $countOnProgress }}</h4> </a>
                         <h6 class="text-muted m-b-0">On Progress</h6>
                     </div>
                     <div class="col-4 text-right">
@@ -151,7 +160,7 @@
             <div class="card-block">
                 <div class="row align-items-center">
                     <div class="col-8"><a href="{{url('admin/monitoring/proyek-kontrak/status/OFF PROGRESS')}}">
-                        <h4 class="text-c-pink f-w-600">145</h4></a>
+                        <h4 class="text-c-pink f-w-600">{{$countOffProgress}}</h4></a>
                         <h6 class="text-muted m-b-0">Off Progress</h6>
                     </div>
                     <div class="col-4 text-right">
@@ -176,7 +185,7 @@
             <div class="card-block">
                 <div class="row align-items-center">
                     <div class="col-8"><a href="{{url('admin/monitoring/proyek-kontrak/status/FINISH')}}">
-                        <h4 class="text-c-blue f-w-600">500</h4>
+                        <h4 class="text-c-blue f-w-600">{{$countFinish}}</h4>
                         <h6 class="text-muted m-b-0">Finish</h6>
                     </div>
                     <div class="col-4 text-right">
@@ -251,14 +260,15 @@
 
                           <div class="card-block">
                             <div class="table-responsive dt-responsive">
-                              <table id="detail" class="table table-striped table-bordered ">
+                              <table id="proyekContract" style="width:100%;font-size:12px" class="table table-striped table-bordered ">
                                 <thead>
                                     <tr>
-                                        <th>No.</th>
-                                        <th>Pekerja</th>
-                                        <th>Kategori</th>
+                                        <th style="width:5%">No.</th>
                                         <th>Tanggal</th>
-                                        <th>Jenis Pekerjaan</th>
+                                        <th style="width:10px">Nama Paket</th>
+                                        <th>Penyedia Jasa</th>
+                                        <th>Kategori</th>
+                                        <th style="width:5%">Jenis Pekerjaan</th>
                                         <th>Ruas Jalan</th>
                                         <th>Lokasi</th>
                                         <th>Rencana</th>
@@ -268,19 +278,22 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @foreach ($proyekkontrak as $data)
+                                <?php $number = 1 ?>
+                                @foreach ($listProjectContract as $data)
                                         <tr>
-                                            <td>{{$data->ID}}</td>
-                                            <td>{{$data->PENYEDIA_JASA}} </th>
+                                        <td>{{$number++}}</td>
+                                        <td>{{ $data->TANGGAL }}</td>
+                                        <td style="width:10px">{{$data->NAMA_PAKET}} </th>
+                                              
+                                        <td>{{$data->PENYEDIA_JASA}} </th>
                                             <td><b>{{$data->KEGIATAN}}</b></td>
-                                            <td>{{$data->TANGGAL}}</td>
                                             <td>{{$data->JENIS_PEKERJAAN}}</td>
                                             <td>{{$data->RUAS_JALAN}}</td>
                                             <td>{{$data->LOKASI}}</td>
                                             <td>{{$data->RENCANA}}</td>
                                             <td>{{$data->REALISASI}}</td>
                                             <td>{{$data->DEVIASI}}</td>
-                                            <td>{{$data->STATUS}}</td>
+                                            <td></td>
                                         </tr>
                                       @endforeach
                                   </tbody>
@@ -319,8 +332,8 @@
                                         <th>No.</th>
                                         <th>Pekerja</th>
                                         <th>Kategori</th>
-                                        <th>Tanggal</th>
-                                        <th>Jenis Pekerjaan</th>
+                                        <th>Tgl Kontrak</th>
+                                         <th>Jenis Pekerjaan</th>
                                         <th>Ruas Jalan</th>
                                         <th>Lokasi</th>
                                         <th>Rencana</th>
@@ -330,76 +343,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Kuli </th>
-                                            <td><b>Pemeliharaan Berkala</b></td>
-                                            <td>2019-10-20</td>
-                                            <td>Hotmix</td>
-                                            <td> Cibadak - Cikidang - Pelabuhan Ratu</td>
-                                            <td>113+950 - 115+950</td>
-                                            <td>37.3470%</td>
-                                            <td>60.3160%</td>
-                                            <td>22.9690%</td>
-                                            <td><b class="text-success">On Progress</b></td>
-                                        </tr>
+                                
 
-                                        <tr>
-                                            <td>2</td>
-                                            <td>CDS Studio </th>
-                                            <td><b>Pembangunan</b></td>
-                                            <td>2020-01-01</td>
-                                            <td>Hotmix</td>
-                                            <td> Bts. Karawang/Purwakarta (Curug) - Purwakarta</td>
-                                            <td>113+950 - 115+950</td>
-                                            <td>37.3470%</td>
-                                            <td>60.3160%</td>
-                                            <td>22.9690%</td>
-                                            <td><b class="text-success">On Progress</b></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>3</td>
-                                            <td>PT.Buana </th>
-                                            <td><b>Peningkatan</b></td>
-                                            <td>2019-09-25</td>
-                                            <td>box culvert</td>
-                                            <td> Waluran-Malereng-Palangpang</td>
-                                            <td>113+950 - 115+950</td>
-                                            <td>37.3470%</td>
-                                            <td>60.3160%</td>
-                                            <td>22.9690%</td>
-                                            <td><b class="text-success">On Progress</b></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>4</td>
-                                            <td>Asakiwari </th>
-                                            <td><b>Peningkatan</b></td>
-                                            <td>2019-09-25</td>
-                                            <td>box culvert</td>
-                                            <td> Waluran-Malereng-Palangpang</td>
-                                            <td>113+950 - 115+950</td>
-                                            <td>37.3470%</td>
-                                            <td>60.3160%</td>
-                                            <td>22.9690%</td>
-                                            <td><b class="text-success">On Progress</b></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>5</td>
-                                            <td>Lingatama </th>
-                                            <td><b>Pembangunan</b></td>
-                                            <td>2019-09-25</td>
-                                            <td>box culvert</td>
-                                            <td> Waluran-Malereng-Palangpang</td>
-                                            <td>113+950 - 115+950</td>
-                                            <td>37.3470%</td>
-                                            <td>60.3160%</td>
-                                            <td>22.9690%</td>
-                                            <td><b class="text-success">On Progress</b></td>
-                                        </tr>
-                                  </tbody>
+                                   </tbody>
                               </table>
                             </div>
                           </div>
@@ -428,6 +374,10 @@
 <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+   
+<script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}" ></script>
+<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive-custom.js') }}"></script>
+
 <script>
     am4core.ready(function() {
 
