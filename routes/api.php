@@ -22,7 +22,8 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('login', 'API\AuthController@login');
     Route::post('logout', 'API\AuthController@logout');
     Route::post('registerMail', 'API\AuthController@register');
-    Route::post('reset-password', 'API\AuthController@resetPassword');
+    Route::post('reset-password', 'API\AuthController@resetPasswordMail');
+    Route::post('new-password', 'API\AuthController@resetPassword');
     Route::post('refresh', 'API\AuthController@refresh');
     Route::post('user', 'API\AuthController@getUser');
 
@@ -37,10 +38,10 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 
-Route::group(['middleware' => ['jwt.auth']], function () {
-    Route::resource('kondisi-jalan', 'API\KondisiJalanController');
-    Route::resource('laporan-masyarakat', 'API\LaporanMasyarakatController');
-});
+// Route::group(['middleware' => ['jwt.auth']], function () {
+// });
+Route::resource('kondisi-jalan', 'API\KondisiJalanController');
+Route::resource('laporan-masyarakat', 'API\LaporanMasyarakatController');
 
 Route::resource('ruas-jalan', 'API\RuasJalanController');
 Route::resource('pembangunan', 'API\PembangunanController');
@@ -54,6 +55,11 @@ Route::resource('jembatan', 'API\JembatanController');
 Route::resource('kemandoran', 'API\KemandoranController');
 Route::get('pembangunan/category/{category}', 'API\PembangunanController@showByType');
 Route::get('kemandoran/category/{category}', 'API\KemandoranController@showByType');
+
+Route::post('map/dashboard/sup', 'API\MapDashboardController@getSUP')->name('api.supdata');
+Route::post('map/dashboard/filter', 'API\MapDashboardController@filter');
+Route::post('map/dashboard/data', 'API\MapDashboardController@getData');
+Route::post('map/dashboard/data-proyek', 'API\MapDashboardController@getDataProyek');
 
 Route::fallback(function(){
     return response()->json([

@@ -1,7 +1,16 @@
 @extends('admin.t_index')
 
 @section('title') Admin Dashboard @endsection
-
+<link rel="stylesheet" type="text/css" href="{{ asset('assets\vendor\datatables.net-bs4\css\dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets\vendor\data-table\css\buttons.dataTables.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets\vendor\datatables.net-responsive-bs4\css\responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets\vendor\data-table\extensions\responsive\css\responsive.dataTables.css') }}">
+   <style>
+     table.table-bordered tbody td {
+    word-break: break-word;
+    vertical-align: top;
+}
+     </style>
 @section('page-header')
 <div class="row align-items-end">
     <div class="col-lg-8">
@@ -99,7 +108,7 @@
             <div class="card-block">
                 <div class="row align-items-center">
                     <div class="col-8"><a href="{{url('admin/monitoring/proyek-kontrak/status/CRITICAL CONTACT')}}">
-                        <h4 class="text-c-yellow f-w-600">20</h4></a>
+                        <h4 class="text-c-yellow f-w-600">{{$countCritical}}</h4></a>
                         <h6 class="text-muted m-b-0">Critical Contract</h6>
                     </div>
                     <div class="col-4 text-right">
@@ -150,7 +159,7 @@
             <div class="card-block">
                 <div class="row align-items-center">
                     <div class="col-8"><a href="{{url('admin/monitoring/proyek-kontrak/status/OFF PROGRESS')}}">
-                        <h4 class="text-c-pink f-w-600">145</h4></a>
+                        <h4 class="text-c-pink f-w-600">{{$countOffProgress}}</h4></a>
                         <h6 class="text-muted m-b-0">Off Progress</h6>
                     </div>
                     <div class="col-4 text-right">
@@ -267,14 +276,15 @@
 
                 <div class="card-block">
                             <div class="table-responsive dt-responsive">
-                              <table id="detail" class="table table-striped table-bordered ">
+                              <table id="proyekContract" style="width:100%;font-size:12px" class="table table-striped table-bordered ">
                                 <thead>
                                     <tr>
-                                        <th>No.</th>
-                                        <th>Pekerja</th>
-                                        <th>Kategori</th>
+                                        <th style="width:5%">No.</th>
                                         <th>Tanggal</th>
-                                        <th>Jenis Pekerjaan</th>
+                                        <th style="width:10px">Nama Paket</th>
+                                        <th>Penyedia Jasa</th>
+                                        <th>Kategori</th>
+                                        <th style="width:5%">Jenis Pekerjaan</th>
                                         <th>Ruas Jalan</th>
                                         <th>Lokasi</th>
                                         <th>Rencana</th>
@@ -284,19 +294,22 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @foreach ($proyekkontrak as $data)
+                                <?php $number = 1 ?>
+                                @foreach ($listProjectContract as $data)
                                         <tr>
-                                            <td>{{$data->ID}}</td>
-                                            <td>{{$data->PENYEDIA_JASA}} </th>
+                                        <td>{{$number++}}</td>
+                                        <td>{{ $data->TANGGAL }}</td>
+                                        <td style="width:10px">{{$data->NAMA_PAKET}} </th>
+                                              
+                                        <td>{{$data->PENYEDIA_JASA}} </th>
                                             <td><b>{{$data->KEGIATAN}}</b></td>
-                                            <td>{{$data->TANGGAL}}</td>
                                             <td>{{$data->JENIS_PEKERJAAN}}</td>
                                             <td>{{$data->RUAS_JALAN}}</td>
                                             <td>{{$data->LOKASI}}</td>
                                             <td>{{$data->RENCANA}}</td>
                                             <td>{{$data->REALISASI}}</td>
                                             <td>{{$data->DEVIASI}}</td>
-                                            <td>{{$data->STATUS}}</td>
+                                            <td></td>
                                         </tr>
                                       @endforeach
                                   </tbody>
@@ -316,29 +329,10 @@
 <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+   
+<script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}" ></script>
+<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive-custom.js') }}"></script>
 
-<script>
-$(document).ready(function () {
-  data.forEach(item => {
-            if(uptd!==""){
-                if(  item.UPTD === uptd) {
-                $data
-                }));
-                }
-            }else{
-                var point = new Point(item.LNG, item.LAT);
-                peningkatanLayer.graphics.add(new Graphic({
-                    geometry: point,
-                    symbol: symbol,
-                    attributes: item,
-                    popupTemplate: popupTemplate
-                }));
-
-            }
-            });
-}
-
-</script>
 <script>
     am4core.ready(function() {
 

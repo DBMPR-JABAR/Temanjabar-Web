@@ -1,6 +1,9 @@
 @extends('admin.t_index')
 
 @section('title') Laporan Kerusakan @endsection
+@section('head')
+<link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
+@endsection
 
 @section('page-header')
 <div class="row align-items-end">
@@ -39,9 +42,7 @@
                 </div>
             </div>
             <div class="card-block">
-                <div class="mapping">
-                    <iframe style="display:block; width: 100%; height: 60vh;" src="https://talikuat-bima-jabar.com/temanjabar/mob/dinas/progress.php" frameborder="0"></iframe>
-                </div>
+                <div id="viewDiv" style="width:100%;height:600px;padding: 0;margin: 0;"></div>
             </div>
         </div>
         <div class="card">
@@ -92,4 +93,107 @@
         </div>
     </div>
 </div>
+@endsection
+@section('script')
+<script src="https://js.arcgis.com/4.17/"></script>
+<script>
+    require([
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/request",
+      "esri/geometry/Point",
+      "esri/Graphic",
+    ], function (Map, MapView, esriRequest, Point, Graphic) {
+      const baseUrl = "{{url('')}}";
+
+      const map = new Map({
+        basemap: "hybrid"
+      });
+
+      const view = new MapView({
+        container: "viewDiv",
+        map: map,
+        center: [107.6191, -6.9175], // longitude, latitude
+        zoom: 8
+      });
+
+      const symbol = {
+        type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
+        url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+        width: "19px",
+        height: "36px"
+      };
+
+      const popupTemplate = {
+        title: "{jenis}",
+        content: [
+            {
+              type: "fields",
+              fieldInfos: [
+                  {
+                    fieldName: "nama",
+                    label: "Pelapor"
+                  },
+                  {
+                    fieldName: "email",
+                    label: "Email Pelapor"
+                  },
+                  {
+                    fieldName: "deskripsi",
+                    label: "Deskripsi"
+                  },
+                  {
+                    fieldName: "gambar",
+                    label: "Gambar"
+                  },
+                  {
+                    fieldName: "status",
+                    label: "Status Pelaporan"
+                  },
+                  {
+                    fieldName: "created_at",
+                    label: "Tanggal Dilaporkan"
+                  },
+                  {
+                    fieldName: "lat",
+                    label: "Latitude"
+                  },
+                  {
+                    fieldName: "long",
+                    label: "Longitude"
+                  },
+                  {
+                    fieldName: "uptd_id",
+                    label: "UPTD"
+                  }
+              ]
+            }
+        ]
+      };
+
+
+      const url = baseUrl + "/api/laporan-masyarakat";
+      const requestLaporan = esriRequest(url, {
+        responseType: "json",
+      }).then(function(response){
+        const json = response.data;
+        const data = json.data;
+        data.forEach(item => {
+            var point = new Point(item.long, item.lat);
+            view.graphics.add(new Graphic({
+                geometry: point,
+                symbol: symbol,
+                attributes: item,
+                popupTemplate: popupTemplate
+            }));
+
+        });
+
+      }).catch(function (error) {
+        console.log(error);
+      });
+
+
+    });
+</script>
 @endsection
