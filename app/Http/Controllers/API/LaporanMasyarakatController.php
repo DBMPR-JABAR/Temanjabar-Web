@@ -23,8 +23,11 @@ class LaporanMasyarakatController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if($request->has("skip")){
+            return (new GeneralResource(LaporanMasyarakat::skip($request->skip)->take($request->take)->get()));
+        }
         return (new GeneralResource(LaporanMasyarakat::all()));
     }
 
