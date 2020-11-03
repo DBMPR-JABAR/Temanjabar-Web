@@ -134,7 +134,7 @@
             <div class="card-block">
                 <div class="row align-items-center">
                     <div class="col-8"><a href="{{url('admin/monitoring/proyek-kontrak/status/ON PROGRESS')}}">
-                        <h4 class="text-c-green f-w-600">50</h4> </a>
+                        <h4 class="text-c-green f-w-600">{{$countOnProgress}}</h4> </a>
                         <h6 class="text-muted m-b-0">On Progress</h6>
                     </div>
                     <div class="col-4 text-right">
@@ -184,7 +184,7 @@
             <div class="card-block">
                 <div class="row align-items-center">
                     <div class="col-8"><a href="{{url('admin/monitoring/proyek-kontrak/status/FINISH')}}">
-                        <h4 class="text-c-blue f-w-600">100</h4></a>
+                        <h4 class="text-c-blue f-w-600">{{$countFinish}}</h4></a>
                         <h6 class="text-muted m-b-0">Finish</h6>
                     </div>
                     <div class="col-4 text-right">
