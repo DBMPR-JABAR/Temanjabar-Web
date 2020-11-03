@@ -47,32 +47,49 @@ class MonitoringController extends Controller
 
         $queryCritical = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN')
             ->select('NAMA_PAKET', 'TANGGAL', 'PENYEDIA_JASA', 'KEGIATAN', 'RUAS_JALAN', 'LOKASI', 'RENCANA', 'REALISASI', 'DEVIASI', 'JENIS_PEKERJAAN', 'UPTD');
-        $query->whereIn('TANGGAL', function ($querySubTanggal) {
+        $queryCritical->whereIn('TANGGAL', function ($querySubTanggal) {
             $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
         });
         $queryOnProgress = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
-        $query->whereIn('TANGGAL', function ($querySubTanggal) {
+        $queryOnProgress->whereIn('TANGGAL', function ($querySubTanggal) {
             $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
-        });
+        }); 
         $queryoffProgress = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
-        $query->whereIn('TANGGAL', function ($querySubTanggal) {
+        $queryoffProgress->whereIn('TANGGAL', function ($querySubTanggal) {
             $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
         });
 
         $queryfinish = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN')
             ->select('NAMA_PAKET', 'TANGGAL', 'PENYEDIA_JASA', 'KEGIATAN', 'RUAS_JALAN', 'LOKASI', 'RENCANA', 'REALISASI', 'DEVIASI', 'JENIS_PEKERJAAN', 'UPTD');
-        $query->whereIn('TANGGAL', function ($querySubTanggal) {
+        $queryfinish->whereIn('TANGGAL', function ($querySubTanggal) {
             $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
         });
 
-        $critical = $queryCritical->where('DEVIASI', '<', -5);
-        $onprogress = $queryOnProgress->where('DEVIASI', '>', -5);
-        $offProgress = $queryoffProgress->where('DEVIASI', '<', -5);
+
+        $anggaranUPTD = DB::connection('dwh')->table('TBL_UPTD_TRX_PEMBANGUNAN')
+        ->select('UPTD', DB::raw('SUM(PAGU_ANGGARAN) AS PAGU_ANGGARAN'), DB::raw('SUM(NILAI_KONTRAK) AS NILAI_KONTRAK'), DB::raw('SUM(TOTAL_SISA_LELANG) AS TOTAL_SISA_LELANG'))
+                        ->groupBy('UPTD')->get(); 
+        $anggaranData= array();
+        foreach($anggaranUPTD as $anggaran){
+            $anggaranData[] =' 
+                "'.$anggaran->UPTD.'": {
+                  "pagu ": '.$anggaran->PAGU_ANGGARAN.',
+                  "Kontrak": '.$anggaran->NILAI_KONTRAK.',
+                  "Sisa": '.$anggaran->TOTAL_SISA_LELANG.'  
+                }';
+              
+        } 
+        $deviasi = -5;
+
+        $critical = $queryCritical->where('DEVIASI', '<', $deviasi);
+        $onprogress = $queryOnProgress->where('DEVIASI', '>', $deviasi);
+        $offProgress = $queryoffProgress->where('DEVIASI', '<', $deviasi);
         $finish = $queryfinish->where('DEVIASI', '=', '0');
         $listProjectContract = $query->get();
         $countCritical = $critical->get()->count();
         $countOnProgress = $onprogress->get()->count();
-        $countOffProgress = $offProgress->get()->count();
+        $countOffProgress = $offProgress->get()->count(); 
+        //echo "<script>alert('".$countOnProgress."')</script>";
         $countFinish = $finish->get()->count();
         return view('admin.monitoring.proyek-kontrak',
             ['listProjectContract' => $listProjectContract,
@@ -80,6 +97,7 @@ class MonitoringController extends Controller
                 'countOnProgress' => $countOnProgress,
                 'countOffProgress' => $countOffProgress,
                 'countFinish' => $countFinish,
+                'anggaranData' => implode(",",$anggaranData)
             ]);
     }
 
