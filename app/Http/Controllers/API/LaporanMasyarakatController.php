@@ -42,7 +42,7 @@ class LaporanMasyarakatController extends Controller
             if($request->gambar != null){
                 $path = 'laporan_masyarakat/'.date("YmdHis").'_'.$request->gambar->getClientOriginalName();
                 $request->gambar->storeAs('public/',$path);
-                $laporanMasyarakat['gambar'] = $path;
+                $laporanMasyarakat['gambar'] = url('storage/'.$path);
             }
             $laporanMasyarakat->status = 'Submitted';
             $laporanMasyarakat->save();
