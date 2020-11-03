@@ -265,7 +265,7 @@ class AuthController extends Controller
             // Data Validation
             $validator = Validator::make($req->all(), [
                 'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
+                'email' => 'required|string|email|max:255',
                 'password' => 'required|string|min:6',
             ]);
 
@@ -276,8 +276,20 @@ class AuthController extends Controller
 
             $kode_otp = rand(100000, 999999);
 
+
+            $existing = User::where('email',$req->email)->first();
+            if($existing){
+                if(!$existing->email_verified_at){
+                    $user = $existing;
+                }else{
+                    $this->response['data']['message'] = 'User Exists';
+                    return response()->json($this->response,200);
+                }
+            }else{
+                $user = new User;
+            }
+
             // Create User Data
-            $user = new User;
             $user->name = $req->get('name');
             $user->email = $req->get('email');
             $user->password = Hash::make($req->get('password'));

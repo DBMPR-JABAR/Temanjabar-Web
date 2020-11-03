@@ -38,10 +38,10 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 
-Route::group(['middleware' => ['jwt.auth']], function () {
-    Route::resource('kondisi-jalan', 'API\KondisiJalanController');
-    Route::resource('laporan-masyarakat', 'API\LaporanMasyarakatController');
-});
+// Route::group(['middleware' => ['jwt.auth']], function () {
+// });
+Route::resource('kondisi-jalan', 'API\KondisiJalanController');
+Route::resource('laporan-masyarakat', 'API\LaporanMasyarakatController');
 
 Route::resource('ruas-jalan', 'API\RuasJalanController');
 Route::resource('pembangunan', 'API\PembangunanController');

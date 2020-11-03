@@ -182,7 +182,7 @@
 
 
 <script type="text/javascript" src="{{ asset('assets/vendor/jquery/js/jquery.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/vendor/jquery-ui/js/jquery-ui.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/vendor/_admin/jquery-ui/js/jquery-ui.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/vendor/popper.js/js/popper.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
 <!-- jquery slimscroll js -->
@@ -199,7 +199,7 @@
 <script src="{{ asset('assets/vendor/_admin/extras/js/pcoded.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/_admin/extras/js/vartical-layout.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/_admin/custom-scrollbar/js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
-    
+
 <!-- Custom js -->
 <script type="text/javascript" src="{{ asset('assets/js/admin_script.min.js') }}"></script>
 
