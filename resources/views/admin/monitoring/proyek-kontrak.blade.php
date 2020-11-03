@@ -184,7 +184,7 @@
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
-                    <div class="col-8"><a href="{{url('admin/monitoring/proyek-kontrak/status/FINISH')}}">
+                    <div class="col-8"> 
                         <h4 class="text-c-blue f-w-600">{{$countFinish}}</h4>
                         <h6 class="text-muted m-b-0">Finish</h6>
                     </div>
@@ -205,17 +205,30 @@
             </div>
         </div>
     </div>
-    </div>
+    
     <!-- task, page, download counter  end -->
-      <div class="col-xl-12 col-md-12">
+    <div class="col-xl-12 col-md-12">
         <div class="card">
-          <div class="card-block accordion-block">
-            <div id="chartdiv2" style="height:250px"></div>
+        
+        <div class="card-header">
+                <h5>Anggaran Proyek Kontrak</h5>
+
+                <div class="card-header-right">
+                    <ul class="list-unstyled card-option">
+                        <li><i class="feather icon-maximize full-card"></i></li>
+                        <li><i class="feather icon-minus minimize-card"></i></li>
+                        <li><i class="feather icon-trash-2 close-card"></i></li>
+                    </ul>
+                </div>
+        </div> 
+          <div class="card-block"> 
+          Pagu : Pagu Anggaran, Kontrak = Nilai Kontrak, Sisa = Sisa Lelang
+            <div id="chartdiv2" style="height:350px"></div>
           </div>
         </div>
       </div>
-    <!-- visitor start -->
-    <div class="col-xl-12 col-md-12">
+    
+      <div class="col-xl-12 col-md-12">
         <div class="card">
 
             <div class="card-header">
@@ -366,6 +379,9 @@
         </div>
     </div>
 
+    </div>
+    <!-- visitor start -->
+    
      <!-- sale order start -->
 </div>
 @endsection
@@ -646,6 +662,9 @@
 
 </script>
 
+ 
+
+
 <script>
 am4core.ready(function() {
 
@@ -653,113 +672,164 @@ am4core.ready(function() {
 am4core.useTheme(am4themes_animated);
 // Themes end
 
+var chart = am4core.create("chartdiv2", am4charts.XYChart);
+
+// some extra padding for range labels
+chart.paddingBottom = 50;
+
+chart.cursor = new am4charts.XYCursor();
+chart.scrollbarX = new am4core.Scrollbar();
+
+// will use this to store colors of the same items
+var colors = {};
+
+var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+categoryAxis.dataFields.category = "category";
+categoryAxis.renderer.minGridDistance = 60;
+categoryAxis.renderer.grid.template.location = 0;
+categoryAxis.dataItems.template.text = "{realName}";
+categoryAxis.adapter.add("tooltipText", function(tooltipText, target){
+  return categoryAxis.tooltipDataItem.dataContext.realName;
+})
+
+var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+valueAxis.tooltip.disabled = true;
+valueAxis.min = 0;
+
+// single column series for all data
+var columnSeries = chart.series.push(new am4charts.ColumnSeries());
+columnSeries.columns.template.width = am4core.percent(80);
+columnSeries.tooltipText = "{provider}: {realName}, {valueY}";
+columnSeries.dataFields.categoryX = "category";
+columnSeries.dataFields.valueY = "value";
+
+// second value axis for quantity
+var valueAxis2 = chart.yAxes.push(new am4charts.ValueAxis());
+valueAxis2.renderer.opposite = true;
+valueAxis2.syncWithAxis = valueAxis;
+valueAxis2.tooltip.disabled = true;
+
+// quantity line series
+var lineSeries = chart.series.push(new am4charts.LineSeries());
+lineSeries.tooltipText = "{valueY}";
+lineSeries.dataFields.categoryX = "category";
+lineSeries.dataFields.valueY = "quantity";
+lineSeries.yAxis = valueAxis2;
+lineSeries.bullets.push(new am4charts.CircleBullet());
+lineSeries.stroke = chart.colors.getIndex(13);
+lineSeries.fill = lineSeries.stroke;
+lineSeries.strokeWidth = 2;
+lineSeries.snapTooltip = true;
+
+// when data validated, adjust location of data item based on count
+lineSeries.events.on("datavalidated", function(){
+ lineSeries.dataItems.each(function(dataItem){
+   // if count divides by two, location is 0 (on the grid)
+   if(dataItem.dataContext.count / 2 == Math.round(dataItem.dataContext.count / 2)){
+   dataItem.setLocation("categoryX", 0);
+   }
+   // otherwise location is 0.5 (middle)
+   else{
+    dataItem.setLocation("categoryX", 0.5);
+   }
+ })
+})
+
+// fill adapter, here we save color value to colors object so that each time the item has the same name, the same color is used
+columnSeries.columns.template.adapter.add("fill", function(fill, target) {
+ var name = target.dataItem.dataContext.realName;
+ if (!colors[name]) {
+   colors[name] = chart.colors.next();
+ }
+ target.stroke = colors[name];
+ return colors[name];
+})
 
 
-var chart2 = am4core.create('chartdiv2', am4charts.XYChart)
-chart2.colors.step = 2;
+var rangeTemplate = categoryAxis.axisRanges.template;
+rangeTemplate.tick.disabled = false;
+rangeTemplate.tick.location = 0;
+rangeTemplate.tick.strokeOpacity = 0.6;
+rangeTemplate.tick.length = 60;
+rangeTemplate.grid.strokeOpacity = 0.5;
+rangeTemplate.label.tooltip = new am4core.Tooltip();
+rangeTemplate.label.tooltip.dy = -10;
+rangeTemplate.label.cloneTooltip = false;
 
-chart2.legend = new am4charts.Legend()
-chart2.legend.position = 'top'
-chart2.legend.paddingBottom = 20
-chart2.legend.labels.template.maxWidth = 95
+///// DATA
+var chartData = [];
+var lineSeriesData = [];
 
-var xAxis = chart2.xAxes.push(new am4charts.CategoryAxis())
-xAxis.dataFields.category = 'category'
-xAxis.renderer.cellStartLocation = 0.1
-xAxis.renderer.cellEndLocation = 0.9
-xAxis.renderer.grid.template.location = 0;
+var data = {<?php echo $anggaranData; ?>}
+ 
+// process data ant prepare it for the chart
+for (var providerName in data) {
+ var providerData = data[providerName];
 
-var yAxis = chart2.yAxes.push(new am4charts.ValueAxis());
-yAxis.min = 0;
+ // add data of one provider to temp array
+ var tempArray = [];
+ var count = 0;
+ // add items
+ for (var itemName in providerData) {
+   if(itemName != "quantity"){
+   count++;
+   // we generate unique category for each column (providerName + "_" + itemName) and store realName
+   tempArray.push({ category: providerName + "_" + itemName, realName: itemName, value: providerData[itemName], provider: providerName})
+   }
+ }
+ // sort temp array
+ tempArray.sort(function(a, b) {
+   if (a.value > b.value) {
+   return 1;
+   }
+   else if (a.value < b.value) {
+   return -1
+   }
+   else {
+   return 0;
+   }
+ })
 
-function createSeries(value, name) {
-    var series = chart2.series.push(new am4charts.ColumnSeries())
-    series.dataFields.valueY = value
-    series.dataFields.categoryX = 'category'
-    series.name = name
+ // add quantity and count to middle data item (line series uses it)
+ var lineSeriesDataIndex = Math.floor(count / 2);
+ tempArray[lineSeriesDataIndex].quantity = providerData.quantity;
+ tempArray[lineSeriesDataIndex].count = count;
+ // push to the final data
+ am4core.array.each(tempArray, function(item) {
+   chartData.push(item);
+ })
 
-    series.events.on("hidden", arrangeColumns);
-    series.events.on("shown", arrangeColumns);
+ // create range (the additional label at the bottom)
+ var range = categoryAxis.axisRanges.create();
+ range.category = tempArray[0].category;
+ range.endCategory = tempArray[tempArray.length - 1].category;
+ range.label.text = tempArray[0].provider;
+ range.label.dy = 30;
+ range.label.truncate = true;
+ range.label.fontWeight = "bold";
+ range.label.tooltipText = tempArray[0].provider;
 
-    var bullet = series.bullets.push(new am4charts.LabelBullet())
-    bullet.interactionsEnabled = false
-    bullet.dy = 30;
-    bullet.label.text = '{valueY}'
-    bullet.label.fill = am4core.color('#ffffff')
-
-    return series;
+ range.label.adapter.add("maxWidth", function(maxWidth, target){
+   var range = target.dataItem;
+   var startPosition = categoryAxis.categoryToPosition(range.category, 0);
+   var endPosition = categoryAxis.categoryToPosition(range.endCategory, 1);
+   var startX = categoryAxis.positionToCoordinate(startPosition);
+   var endX = categoryAxis.positionToCoordinate(endPosition);
+   return endX - startX;
+ })
 }
 
-chart2.data = [
-    {
-        category: 'UPTD 1',
-        first: 40,
-        second: 55,
-        third: 60
-    },
-    {
-        category: 'UPTD 2',
-        first: 30,
-        second: 78,
-        third: 69
-    },
-    {
-        category: 'UPTD 3',
-        first: 27,
-        second: 40,
-        third: 45
-    },
-    {
-        category: 'UPTD 4',
-        first: 50,
-        second: 33,
-        third: 22
-    }
-]
+chart.data = chartData;
 
 
-createSeries('first', 'Pagu Anggaran');
-createSeries('second', 'Nilai Kontrak');
-createSeries('third', 'Total Sisa Lelang');
-
-function arrangeColumns() {
-
-    var series = chart2.series.getIndex(0);
-
-    var w = 1 - xAxis.renderer.cellStartLocation - (1 - xAxis.renderer.cellEndLocation);
-    if (series.dataItems.length > 1) {
-        var x0 = xAxis.getX(series.dataItems.getIndex(0), "categoryX");
-        var x1 = xAxis.getX(series.dataItems.getIndex(1), "categoryX");
-        var delta = ((x1 - x0) / chart2.series.length) * w;
-        if (am4core.isNumber(delta)) {
-            var middle = chart2.series.length / 2;
-
-            var newIndex = 0;
-            chart2.series.each(function(series) {
-                if (!series.isHidden && !series.isHiding) {
-                    series.dummyData = newIndex;
-                    newIndex++;
-                }
-                else {
-                    series.dummyData = chart2.series.indexOf(series);
-                }
-            })
-            var visibleCount = newIndex;
-            var newMiddle = visibleCount / 2;
-
-            chart2.series.each(function(series) {
-                var trueIndex = chart2.series.indexOf(series);
-                var newIndex = series.dummyData;
-
-                var dx = (newIndex - trueIndex + middle - newMiddle) * delta
-
-                series.animate({ property: "dx", to: dx }, series.interpolationDuration, series.interpolationEasing);
-                series.bulletsContainer.animate({ property: "dx", to: dx }, series.interpolationDuration, series.interpolationEasing);
-            })
-        }
-    }
-}
+// last tick
+var range = categoryAxis.axisRanges.create();
+range.category = chart.data[chart.data.length - 1].category;
+range.label.disabled = true;
+range.tick.location = 1;
+range.grid.location = 1;
 
 }); // end am4core.ready()
 </script>
+
 @endsection
