@@ -9,6 +9,8 @@ use App\Model\DWH\RuasJalan;
 use App\Model\DWH\Kemandoran;
 use App\Model\DWH\ProgressMingguan;
 use App\Model\DWH\Jembatan;
+use App\Model\DWH\VehicleCounting;
+
 use Illuminate\Support\Facades\DB;
 
 class MapDashboardController extends Controller
@@ -48,6 +50,7 @@ class MapDashboardController extends Controller
             $this->response['data']['peningkatan'] = [];
             $this->response['data']['pemeliharaan'] = [];
             $this->response['data']['rehabilitasi'] = [];
+            $this->response['data']['vehiclecounting'] = [];
 
             if ($request->has('kegiatan')) {
                 if(in_array('jembatan', $request->kegiatan)){
@@ -77,6 +80,10 @@ class MapDashboardController extends Controller
                 if(in_array('progressmingguan', $request->kegiatan)){
                     $data = ProgressMingguan::whereIn('SUP',$request->sup)->get();
                     $this->response['data']['progressmingguan'] = $data;
+                }
+                if(in_array('vehiclecounting', $request->kegiatan)){
+                    $data = VehicleCounting::whereIn('SUP',$request->sup)->get();
+                    $this->response['data']['vehiclecounting'] = $data;
                 }
 
             }

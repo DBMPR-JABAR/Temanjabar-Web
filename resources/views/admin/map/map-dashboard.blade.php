@@ -336,6 +336,7 @@
                     <option value="peningkatan">Peningkatan</option>
                     <option value="rehabilitasi">Rehabilitasi</option>
                     <option value="pemeliharaan">Pemeliharaan</option>
+                    <option value="vehiclecounting">Vehicle Counting</option>
                     <option value="jembatan">Jembatan</option>`;
         $('#kegiatan').html(kegiatan).trigger('liszt:updated');
         $('#kegiatan').trigger("chosen:updated");
@@ -430,6 +431,7 @@
                 let rehabilitasiLayer = new GraphicsLayer();
                 let pemeliharaanLayer = new GraphicsLayer();
                 let progressLayer = new GraphicsLayer();
+                let vehiclecountingLayer = new GraphicsLayer();
                 let allProgressLayer = new GroupLayer();
 
                 // Request API
@@ -452,6 +454,7 @@
                         rehabilitasiLayer = addRehabilitasi(data.rehabilitasi, rehabilitasiLayer);
                         jembatanLayer = addJembatan(data.jembatan, jembatanLayer);
                         pemeliharaanLayer = addPemeliharaan(data.pemeliharaan, pemeliharaanLayer);
+                        vehiclecountingLayer = addVehicleCounting(data.vehiclecounting, vehiclecountingLayer);
 
                         allProgressLayer = addProgressGroup(data.progressmingguan);
                         map.add(allProgressLayer);
@@ -483,6 +486,7 @@
                 groupLayer.add(pembangunanLayer);
                 groupLayer.add(peningkatanLayer);
                 groupLayer.add(rehabilitasiLayer);
+                groupLayer.add(vehiclecountingLayer);
                 map.add(groupLayer);
 
 
@@ -1144,6 +1148,74 @@
                     };
                     progress.forEach(item => {
                         let point = new Point(item.LNG, item.LAT);
+                        layer.graphics.add(new Graphic({
+                            geometry: point,
+                            symbol: symbol,
+                            attributes: item,
+                            popupTemplate: popupTemplate
+                        }));
+                    });
+                    return layer;
+                }
+                function addVehicleCounting(vehiclecounting, layer) {
+                    const symbol = {
+                        type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
+                        url: baseUrl + "/assets/images/marker/vehiclecounting.png",
+                        width: "24px",
+                        height: "24px"
+                    };
+                    const popupTemplate = {
+                        title: "{RUAS_JALAN}",
+                        content: [
+                            {
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "LAT",
+                                    label: "Latitude"
+                                },
+                                {
+                                    fieldName: "LONG",
+                                    label: "Longitude"
+                                },
+                                {
+                                    fieldName: "GAMBAR",
+                                    label: "Gambar"
+                                },
+                                {
+                                    fieldName: "JUMLAH_MOBIL",
+                                    label: "Jumlah Mobil"
+                                },
+                                {
+                                    fieldName: "JUMLAH_MOTOR",
+                                    label: "Jumlah Motor"
+                                },
+                                {
+                                    fieldName: "JUMLAH_BIS",
+                                    label: "Jumlah Bis"
+                                },
+                                {
+                                    fieldName: "JUMLAH_TRUK_BOX",
+                                    label: "Jumlah Truk Box"
+                                },
+                                {
+                                    fieldName: "JUMLAH_TRUK_TRAILER",
+                                    label: "Jumlah Truk Trailer"
+                                },
+                                {
+                                    fieldName: "SUP",
+                                    label: "SUP"
+                                },
+                                {
+                                    fieldName: "UPTD",
+                                    label: "UPTD"
+                                }
+                            ]
+                            }
+                        ]
+                    };
+                    vehiclecounting.forEach(item => {
+                        let point = new Point(item.LONG, item.LAT);
                         layer.graphics.add(new Graphic({
                             geometry: point,
                             symbol: symbol,
