@@ -38,13 +38,12 @@ class VehicleCountingController extends Controller
     {
         try {
             $vehicleCounting = new VehicleCounting;
-            // $vehicleCounting->fill($request->except(['GAMBAR']));
-            // if($request->GAMBAR != null){
-            //     $path = 'vehicle_counting/'.date("YmdHis").'_'.$request->GAMBAR->getClientOriginalName();
-            //     $request->GAMBAR->storeAs('public/',$path);
-            //     $vehicleCounting['GAMBAR'] = url('storage/'.$path);
-            // }
-            $vehicleCounting->fill($request->all());
+            $vehicleCounting->fill($request->except(['GAMBAR']));
+            if($request->GAMBAR != null){
+                $path = 'vehicle_counting/'.date("YmdHis").'_'.$request->GAMBAR->getClientOriginalName();
+                $request->GAMBAR->storeAs('public/',$path);
+                $vehicleCounting['GAMBAR'] = url('storage/'.$path);
+            }
             $vehicleCounting->save();
             $this->response['status'] = 'success';
             $this->response['data']['ID'] = $vehicleCounting->id;
