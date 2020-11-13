@@ -22,6 +22,7 @@ class MapDashboardController extends Controller
             'data' => []
         ];
     }
+
     public function getSUP(Request $request)
     {
         try {
@@ -142,7 +143,6 @@ class MapDashboardController extends Controller
         }
     }
 
-
     public function filter(Request $request)
     {
         try {
@@ -152,6 +152,31 @@ class MapDashboardController extends Controller
             $this->response['data']['jembatan'] = $jembatan;
             return response()->json($this->response, 200);
         } catch (\Exception $th) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
+
+    public function showPerbaikan(Request $request)
+    {
+        try {
+            $lat = $request->lat;
+            $long = $request->long;
+            $notId = $request->exclude;
+
+            // 100m Radius
+            $qDistance = "(SQRT(POW(LNG - ($long), 2) + pow(LAT - ($lat), 2)) * 1.1 * 100 * 1000)";
+            $data = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN')
+                    ->select("ID", "RUAS_JALAN", "KEGIATAN", "LAT", "LNG", DB::raw("$qDistance AS DISTANCE"))
+                    ->whereRaw("$qDistance <= 100000");
+
+            if($notId) $data->whereNotIn("ID",$notId);
+
+            $this->response['status'] = "success";
+            $this->response['data']['count'] = $data->count();
+            $this->response['data']['perbaikan'] = $data->get();
+            return response()->json($this->response, 200);
+        }catch (\Exception $th) {
             $this->response['data']['message'] = 'Internal Error';
             return response()->json($this->response, 500);
         }
