@@ -1168,49 +1168,63 @@
                         title: "{RUAS_JALAN}",
                         content: [
                             {
-                            type: "fields",
-                            fieldInfos: [
-                                {
-                                    fieldName: "LAT",
-                                    label: "Latitude"
-                                },
-                                {
-                                    fieldName: "LONG",
-                                    label: "Longitude"
-                                },
-                                {
-                                    fieldName: "GAMBAR",
-                                    label: "Gambar"
-                                },
-                                {
-                                    fieldName: "JUMLAH_MOBIL",
-                                    label: "Jumlah Mobil"
-                                },
-                                {
-                                    fieldName: "JUMLAH_MOTOR",
-                                    label: "Jumlah Motor"
-                                },
-                                {
-                                    fieldName: "JUMLAH_BIS",
-                                    label: "Jumlah Bis"
-                                },
-                                {
-                                    fieldName: "JUMLAH_TRUK_BOX",
-                                    label: "Jumlah Truk Box"
-                                },
-                                {
-                                    fieldName: "JUMLAH_TRUK_TRAILER",
-                                    label: "Jumlah Truk Trailer"
-                                },
-                                {
-                                    fieldName: "SUP",
-                                    label: "SUP"
-                                },
-                                {
-                                    fieldName: "UPTD",
-                                    label: "UPTD"
-                                }
-                            ]
+                                type: "fields",
+                                fieldInfos: [
+                                    {
+                                        fieldName: "LAT",
+                                        label: "Latitude"
+                                    },
+                                    {
+                                        fieldName: "LONG",
+                                        label: "Longitude"
+                                    },
+                                    {
+                                        fieldName: "JUMLAH_MOBIL",
+                                        label: "Jumlah Mobil"
+                                    },
+                                    {
+                                        fieldName: "JUMLAH_MOTOR",
+                                        label: "Jumlah Motor"
+                                    },
+                                    {
+                                        fieldName: "JUMLAH_BIS",
+                                        label: "Jumlah Bis"
+                                    },
+                                    {
+                                        fieldName: "JUMLAH_TRUK_BOX",
+                                        label: "Jumlah Truk Box"
+                                    },
+                                    {
+                                        fieldName: "JUMLAH_TRUK_TRAILER",
+                                        label: "Jumlah Truk Trailer"
+                                    },
+                                    {
+                                        fieldName: "SUP",
+                                        label: "SUP"
+                                    },
+                                    {
+                                        fieldName: "UPTD",
+                                        label: "UPTD"
+                                    },
+                                    {
+                                        fieldName: "CREATED_AT",
+                                        label: "Terakhir Diperbarui"
+                                    },
+                                ]
+                            },
+                            {
+                                type: "media",
+                                mediaInfos: [
+                                    {
+                                        title: "<b>Foto Aktual</b>",
+                                        type: "image",
+                                        caption: "{CREATED_AT}",
+                                        value: {
+                                        sourceURL:
+                                            "{GAMBAR}"
+                                        }
+                                    }
+                                ]
                             }
                         ]
                     };

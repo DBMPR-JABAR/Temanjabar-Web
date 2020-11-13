@@ -143,10 +143,6 @@
                     label: "Deskripsi"
                   },
                   {
-                    fieldName: "gambar",
-                    label: "Gambar"
-                  },
-                  {
                     fieldName: "status",
                     label: "Status Pelaporan"
                   },
@@ -167,6 +163,20 @@
                     label: "UPTD"
                   }
               ]
+            },
+            {
+                type: "media",
+                mediaInfos: [
+                    {
+                        title: "<b>Foto Kondisi</b>",
+                        type: "image",
+                        caption: "diunggah oleh user",
+                        value: {
+                        sourceURL:
+                            "{gambar}"
+                        }
+                    }
+                ]
             }
         ]
       };
