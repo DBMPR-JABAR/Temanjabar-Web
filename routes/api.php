@@ -41,8 +41,8 @@ Route::group(['prefix' => 'auth'], function () {
 Route::group(['middleware' => ['jwt.auth']], function () {
     Route::resource('laporan-masyarakat', 'API\LaporanMasyarakatController');
 
+    Route::post('perbaikan-jalan', 'API\MapDashboardController@showPerbaikan');
 });
-Route::post('perbaikan-jalan', 'API\MapDashboardController@showPerbaikan');
 Route::resource('kondisi-jalan', 'API\KondisiJalanController');
 
 Route::resource('ruas-jalan', 'API\RuasJalanController');
