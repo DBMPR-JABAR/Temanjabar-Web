@@ -182,7 +182,7 @@
       };
 
 
-      const url = baseUrl + "/api/laporan-masyarakat";
+      const url = baseUrl + "/api/map/laporan-masyarakat";
       const requestLaporan = esriRequest(url, {
         responseType: "json",
       }).then(function(response){

@@ -10,6 +10,8 @@ use App\Model\DWH\Kemandoran;
 use App\Model\DWH\ProgressMingguan;
 use App\Model\DWH\Jembatan;
 use App\Model\DWH\VehicleCounting;
+use App\Http\Resources\GeneralResource;
+use App\Model\Transactional\LaporanMasyarakat;
 
 use Illuminate\Support\Facades\DB;
 
@@ -155,6 +157,11 @@ class MapDashboardController extends Controller
             $this->response['data']['message'] = 'Internal Error';
             return response()->json($this->response, 500);
         }
+    }
+
+    public function showLaporan()
+    {
+        return (new GeneralResource(LaporanMasyarakat::all()));
     }
 
     public function showPerbaikan(Request $request)
