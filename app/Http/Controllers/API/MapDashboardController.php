@@ -168,7 +168,7 @@ class MapDashboardController extends Controller
             $qDistance = "(SQRT(POW(LNG - ($long), 2) + pow(LAT - ($lat), 2)) * 1.1 * 100 * 1000)";
             $data = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN')
                     ->select("ID", "RUAS_JALAN", "KEGIATAN", "LAT", "LNG", DB::raw("$qDistance AS DISTANCE"))
-                    ->whereRaw("$qDistance <= 100000");
+                    ->whereRaw("$qDistance <= 100");
 
             if($notId) $data->whereNotIn("ID",$notId);
 
