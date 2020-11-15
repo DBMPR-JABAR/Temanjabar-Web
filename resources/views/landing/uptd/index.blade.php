@@ -6,6 +6,8 @@
 {{-- <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/style.css') }}"> --}}
 {{-- <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/prism.css') }}"> --}}
 <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/chosen.css') }}">
+<link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
+<meta name="csrf-token" content="{{ csrf_token() }}" />
 @endsection
 
 @section('body')

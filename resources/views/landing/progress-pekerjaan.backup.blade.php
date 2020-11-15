@@ -1,19 +1,5 @@
 @extends('landing.template')
-@section('title') | Paket Pekerjaan @endsection
-@section('head')
-<link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
-@endsection
 @section('body')
-<!--PreLoader-->
-<div class="loader">
-    <div class="loader-inner">
-        <div class="cssload-loader"></div>
-    </div>
-</div>
-<!--PreLoader Ends-->
-<!-- header -->
-
-<!--Page Header-->
 <section id="main-banner-page" class="position-relative page-header service-detail-header section-nav-smooth parallax">
     <div class="overlay overlay-dark opacity-7 z-index-1"></div>
     <div class="container">
@@ -21,17 +7,17 @@
             <div class="col-lg-12 offset-lg-2">
                 <div class="page-titles whitecolor text-center padding_top padding_bottom">
                     <h2 class="font-xlight">Pemetaan</h2>
-                    <h2 class="font-bold">Paket Pekerjaan</h2>
+                    <h2 class="font-bold">Progress Pekerjaan</h2>
                 </div>
             </div>
         </div>
         <div class="gradient-bg title-wrap">
             <div class="row">
                 <div class="col-lg-12 col-md-12 whitecolor">
-                    <h3 class="float-left">Paket Pekerjaan</h3>
+                    <h3 class="float-left">Progress Pekerjaan</h3>
                     <ul class="breadcrumb top10 bottom10 float-right">
                         <li class="breadcrumb-item hover-light"><a href="{{ url('')}}">Home</a></li>
-                        <li class="breadcrumb-item hover-light">Paket Pekerjaan</li>
+                        <li class="breadcrumb-item hover-light">Progress Pekerjaan</li>
                     </ul>
                 </div>
             </div>
@@ -93,11 +79,11 @@
 
                         <div class="col-lg-12 col-md-12">
                             <div class="widget heading_space text-center text-md-left">
-                                <h3 class="darkcolor font-normal bottom15">Paket Pekerjaan</h3>
-                                <p class="bottom30">Berikut merupakan pemetaan dari paket pekerjaan projek pembangunan infrasutruktur yang sudah dikerjakan oleh DBMPR.</p>
+                                <h3 class="darkcolor font-normal bottom15">Progress Pekerjaan</h3>
+                                <p class="bottom30">Berikut merupakan pemetaan dari progress pekerjaan projek pembangunan infrasutruktur yang sudah dikerjakan oleh DBMPR.</p>
                                 <div class="col-12 px-0">
                                     <div class="w-100">
-                                        <div class="full-map short-map" id="viewDiv" style="max-height: 567px"></div>
+                                        <iframe src="http://talikuat-bima-jabar.com/temanjabar/mob/dinas/progress.php" title="Progress Pekerjaan" width="100%" height="300"></iframe>
                                     </div>
                                 </div>
                             </div>
@@ -111,109 +97,4 @@
     <!-- content ends -->
 
 </main>
-@endsection
-@section('script')
-<script src="https://js.arcgis.com/4.17/"></script>
-<script>
-    require([
-      "esri/Map",
-      "esri/views/MapView",
-      "esri/request",
-      "esri/geometry/Point",
-      "esri/Graphic",
-    ], function (Map, MapView, esriRequest, Point, Graphic) {
-      const baseUrl = "{{url('')}}";
-
-      const map = new Map({
-        basemap: "hybrid"
-      });
-      const view = new MapView({
-        container: "viewDiv",
-        map: map,
-        center: [107.6191, -6.9175], // longitude, latitude
-        zoom: 8
-      });
-
-      const symbol = {
-        type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
-        url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
-        width: "19px",
-        height: "36px"
-      };
-      const popupTemplate = {
-        title: "{KETERANGAN}",
-        content: [
-            {
-              type: "fields",
-              fieldInfos: [
-                  {
-                    fieldName: "LAT_AWAL",
-                    label: "Latitude Awal"
-                  },
-                  {
-                    fieldName: "LONG_AWAL",
-                    label: "Longitude AWal"
-                  },
-                  {
-                    fieldName: "LAT_AKHIR",
-                    label: "Latitude Akhir"
-                  },
-                  {
-                    fieldName: "LONG_AKHIR",
-                    label: "Longitude AKhir"
-                  },
-                  {
-                    fieldName: "UPTD",
-                    label: "UPTD"
-                  }
-              ]
-            },
-            {
-                type: "media",
-                mediaInfos: [
-                    {
-                        title: "<b>Foto Kondisi</b>",
-                        type: "image",
-                        caption: "diunggah oleh user",
-                        value: {
-                        sourceURL:
-                            "{gambar}"
-                        }
-                    }
-                ]
-            }
-        ]
-      };
-
-      const url = baseUrl + "/api/paket-pekerjaan";
-      const requestLaporan = esriRequest(url, {
-        responseType: "json",
-      }).then(function(response){
-        const json = response.data;
-        const data = json.data;
-        data.forEach(item => {
-            var pointAwal = new Point(item.LONG_AWAL, item.LAT_AWAL);
-            view.graphics.add(new Graphic({
-                geometry: pointAwal,
-                symbol: symbol,
-                attributes: item,
-                popupTemplate: popupTemplate
-            }));
-
-            var pointAkhir = new Point(item.LONG_AKHIR, item.LAT_AKHIR);
-            view.graphics.add(new Graphic({
-                geometry: pointAkhir,
-                symbol: symbol,
-                attributes: item,
-                popupTemplate: popupTemplate
-            }));
-        });
-
-      }).catch(function (error) {
-        console.log(error);
-      });
-
-
-    });
-</script>
 @endsection
