@@ -70,10 +70,11 @@ class LandingController extends Controller
 
     }
 
-    public function uptd()
+    public function uptd($slug)
     {
         $profil = DB::table('landing_profil')->where('id',1)->first();
-        return view('landing.uptd.index',compact('profil'));
+        $uptd = DB::table('landing_uptd')->where('slug',$slug)->first();
+        return view('landing.uptd.index',compact('profil', 'uptd'));
     }
 
 // Lokasi: Admin Dashboard

@@ -28,7 +28,7 @@ Route::post('tambah-pesan', 'LandingController@createPesan');
 
 // {SiteURL}/uptd/*
 Route::group(['prefix' => 'uptd'], function () {
-    Route::get('uptd1', 'LandingController@uptd');
+    Route::get('/{slug}', 'LandingController@uptd');
 });
 
 // {SiteURL}/admin/*
@@ -105,6 +105,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     });
 
 });
+Route::get('map/laporan-masyarakat', 'MonitoringController@getLaporanAPI')->name('api.laporan');
 
 Route::post('getSupData', 'MonitoringController@getSupData')->name('getSupData.filter');
 

@@ -15,6 +15,11 @@ class ProgressMingguan extends Model
         'TANGGAL','DEADLINE'
     ];
 
+    public function pembangunan()
+    {
+        return $this->belongsTo('App\Model\DWH\Pembangunan', 'NAMA_PAKET', 'NAMA_PAKET');
+    }
+
     public function getDeadlineAttribute(){
         return $this->TANGGAL->addDays($this->WAKTU_KONTRAK);
     }

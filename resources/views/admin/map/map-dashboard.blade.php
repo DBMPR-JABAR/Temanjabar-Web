@@ -117,101 +117,100 @@
         <img width="200" class="img-fluid" src="{{ asset('assets/images/brand/text_putih.png')}}" alt="Logo DBMPR">
     </div>
     <div id="filter" class="bg-light">
-            <div class="container">
-            <div id="preloader" style="display:none">Loading...</div>
+        <div class="container">
+        <div id="preloader" style="display:none">Loading...</div>
+            <form>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="kegiatan">UPTD</label>
+                        </div>
+                        <div class="col-12">
+                            <select data-placeholder="Pilih UPTD" multiple class="chosen-select chosen-select-uptd" id="uptd">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="uptdSpp">SPP / SUP</label>
+                        </div>
+                        <div class="col-12">
+                            <select id="spp_filter" data-placeholder="Pilih UPTD dengan SPP"  class="chosen-select" multiple tabindex="6">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="kegiatan">Kegiatan</label>
+                        </div>
+                        <div class="col-12">
+                            <select data-placeholder="Pilih kegiatan" multiple class="chosen-select" tabindex="8" id="kegiatan">
+                                <option value="ruasjalan">Ruas Jalan</option>
+                                <option value="pembangunan">Pembangunan</option>
+                                <option value="peningkatan">Peningkatan</option>
+                                <option value="rehabilitasi">Rehabilitasi</option>
+                                <option value="jembatan">Jembatan</option>
 
-          <form>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-12">
-                        <label for="kegiatan">UPTD</label>
-                    </div>
-                    <div class="col-12">
-                        <select data-placeholder="Pilih UPTD" multiple class="chosen-select chosen-select-uptd" id="uptd">
-                            <option value=""></option>
-                        </select>
+                            </select>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-12">
-                        <label for="uptdSpp">SPP / SUP</label>
-                    </div>
-                    <div class="col-12">
-                        <select id="spp_filter" data-placeholder="Pilih UPTD dengan SPP"  class="chosen-select" multiple tabindex="6">
-                            <option value=""></option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-12">
-                        <label for="kegiatan">Kegiatan</label>
-                    </div>
-                    <div class="col-12">
-                        <select data-placeholder="Pilih kegiatan" multiple class="chosen-select" tabindex="8" id="kegiatan">
-                            <option value="ruasjalan">Ruas Jalan</option>
-                            <option value="pembangunan">Pembangunan</option>
-                            <option value="peningkatan">Peningkatan</option>
-                            <option value="rehabilitasi">Rehabilitasi</option>
-                            <option value="jembatan">Jembatan</option>
-
-                        </select>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="proyek">Proyek Kontrak</label>
+                        </div>
+                        <div class="col-12">
+                            <select class="chosen-select form-control" id="proyek" data-placeholder="Pilih kegiatan" multiple tabindex="4">
+                                <option value="onprogress">On-Progress</option>
+                                <option value="critical">Critical Contract</option>
+                                <option value="offprogress">Off Progress</option>
+                                <option value="finish">Finish</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-12">
-                        <label for="proyek">Proyek Kontrak</label>
-                    </div>
-                    <div class="col-12">
-                        <select class="chosen-select form-control" id="proyek" data-placeholder="Pilih kegiatan" multiple tabindex="4">
-                            <option value="onprogress">On-Progress</option>
-                            <option value="critical">Critical Contract</option>
-                            <option value="offprogress">Off Progress</option>
-                            <option value="finish">Finish</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-12">
-                        <label for="basemap">Basemap</label>
-                    </div>
-                    <div class="col-12">
-                        <select data-placeholder="Basemap..." class="chosen-select form-control" id="basemap" tabindex="-1">
-                            <option value="streets">Street</option>
-                            <option value="hybrid" selected>Hybrid</option>
-                            <option value="satellite">Satelite</option>
-                            <option value="topo">Topo</option>
-                            <option value="gray">Gray</option>
-                            <option value="national-geographic">National Geographic</option>
-                        </select>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="basemap">Basemap</label>
+                        </div>
+                        <div class="col-12">
+                            <select data-placeholder="Basemap..." class="chosen-select form-control" id="basemap" tabindex="-1">
+                                <option value="streets">Street</option>
+                                <option value="hybrid" selected>Hybrid</option>
+                                <option value="satellite">Satelite</option>
+                                <option value="topo">Topo</option>
+                                <option value="gray">Gray</option>
+                                <option value="national-geographic">National Geographic</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-12">
-                        <label for="exampleFormControlSelect1">Zoom</label>
-                    </div>
-                    <div class="col-9">
-                        <select class="chosen-select form-control" id="zoom">
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8" selected>8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                        </select>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="exampleFormControlSelect1">Zoom</label>
+                        </div>
+                        <div class="col-9">
+                            <select class="chosen-select form-control" id="zoom">
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8" selected>8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-            </div>
-          </form>
+            </form>
         </div>
     </div>
 </body>

@@ -66,26 +66,8 @@
                             <th>Foto Kondisi</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach ($laporan as $data)
-                        <tr>
-                            <td>
-                                <b>{{$data->nama}}</b> <br>
-                                {{$data->nik}} <br>
-                                {{$data->telp}} <br>
-                                {{$data->email}} <br>
-                            </td>
-                            <td>{{$data->uptd_id}}</td>
-                            <td>{{$data->jenis}}</td>
-                            <td>
-                                {{$data->lat}} <br>
-                                {{$data->long}}
-                            </td>
-                            <td>
-                                <img src="{!! $data->gambar !!}" class="img-fluid rounded" alt="" style="max-width: 224px;">
-                            </td>
-                        </tr>
-                        @endforeach
+                    <tbody id="bodyLaporan">
+
                     </tbody>
                 </table>
 
@@ -109,7 +91,6 @@
       const map = new Map({
         basemap: "hybrid"
       });
-
       const view = new MapView({
         container: "viewDiv",
         map: map,
@@ -123,7 +104,6 @@
         width: "19px",
         height: "36px"
       };
-
       const popupTemplate = {
         title: "{jenis}",
         content: [
@@ -182,22 +162,46 @@
       };
 
 
-      const url = baseUrl + "/api/map/laporan-masyarakat";
+      const url = baseUrl + "/map/laporan-masyarakat";
       const requestLaporan = esriRequest(url, {
         responseType: "json",
       }).then(function(response){
         const json = response.data;
         const data = json.data;
-        data.forEach(item => {
-            var point = new Point(item.long, item.lat);
-            view.graphics.add(new Graphic({
-                geometry: point,
-                symbol: symbol,
-                attributes: item,
-                popupTemplate: popupTemplate
-            }));
-
-        });
+        const table = document.getElementById('bodyLaporan');
+        let i = 1;
+        if(data.length == 0){
+            table.innerHTML =   `<tr>
+                                    <td colspan="5">Data Kosong</td>
+                                </tr>`;
+        }else{
+            data.forEach(item => {
+                var point = new Point(item.long, item.lat);
+                view.graphics.add(new Graphic({
+                    geometry: point,
+                    symbol: symbol,
+                    attributes: item,
+                    popupTemplate: popupTemplate
+                }));
+                table.innerHTML +=  `<tr>
+                                        <td>
+                                            <b>${item.nama}</b> <br>
+                                            ${item.nik} <br>
+                                            ${item.telp} <br>
+                                            ${item.email} <br>
+                                        </td>
+                                        <td>UPTD ${item.uptd_id}</td>
+                                        <td>${item.jenis}</td>
+                                        <td>
+                                            ${item.lat} <br>
+                                            ${item.long}
+                                        </td>
+                                        <td>
+                                            <img src="${item.gambar}" class="img-fluid rounded" alt="" style="max-width: 224px;">
+                                        </td>
+                                    </tr>`;
+            });
+        }
 
       }).catch(function (error) {
         console.log(error);

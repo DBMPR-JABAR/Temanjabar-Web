@@ -9,15 +9,25 @@ use Illuminate\Support\Facades\Auth;
 
 class MonitoringController extends Controller
 {
+
     public function getLaporan()
     {
+        return view('admin.monitoring.laporan-kerusakan');
+    }
+    public function getLaporanAPI()
+    {
+        $response = [
+            'status' => 'false',
+            'data' => []
+        ];
         $laporan = DB::table('monitoring_laporan_masyarakat');
         if(Auth::user()->internalRole->uptd){
             $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
             $laporan = $laporan->where('uptd_id',$uptd_id);
         }
         $laporan = $laporan->get();
-        return view('admin.monitoring.laporan-kerusakan', compact('laporan'));
+        $response['data'] = $laporan;
+        return response()->json($response, 200);
     }
 
     public function getMainDashboard()
@@ -45,35 +55,48 @@ class MonitoringController extends Controller
 
         $query = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN')
             ->select('NAMA_PAKET', 'TANGGAL', 'PENYEDIA_JASA', 'KEGIATAN', 'RUAS_JALAN', 'LOKASI', 'RENCANA', 'REALISASI', 'DEVIASI', 'JENIS_PEKERJAAN', 'UPTD');
-        $query->whereIn('TANGGAL', function ($querySubTanggal) {
-            $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('TBL_UPTD_TRX_PROGRESS_MINGGUAN')
-            ;
+        $query = $query->whereIn('TANGGAL', function ($querySubTanggal) {
+            $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
         });
 
         $queryCritical = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN')
             ->select('NAMA_PAKET', 'TANGGAL', 'PENYEDIA_JASA', 'KEGIATAN', 'RUAS_JALAN', 'LOKASI', 'RENCANA', 'REALISASI', 'DEVIASI', 'JENIS_PEKERJAAN', 'UPTD');
-        $queryCritical->whereIn('TANGGAL', function ($querySubTanggal) {
+        $queryCritical = $queryCritical->whereIn('TANGGAL', function ($querySubTanggal) {
             $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
         });
+
         $queryOnProgress = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
-        $queryOnProgress->whereIn('TANGGAL', function ($querySubTanggal) {
+        $queryOnProgress = $queryOnProgress->whereIn('TANGGAL', function ($querySubTanggal) {
             $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
         });
+
         $queryoffProgress = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
-        $queryoffProgress->whereIn('TANGGAL', function ($querySubTanggal) {
+        $queryoffProgress = $queryoffProgress->whereIn('TANGGAL', function ($querySubTanggal) {
             $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
         });
 
         $queryfinish = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN')
             ->select('NAMA_PAKET', 'TANGGAL', 'PENYEDIA_JASA', 'KEGIATAN', 'RUAS_JALAN', 'LOKASI', 'RENCANA', 'REALISASI', 'DEVIASI', 'JENIS_PEKERJAAN', 'UPTD');
-        $queryfinish->whereIn('TANGGAL', function ($querySubTanggal) {
+        $queryfinish = $queryfinish->whereIn('TANGGAL', function ($querySubTanggal) {
             $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
         });
 
 
         $anggaranUPTD = DB::connection('dwh')->table('TBL_UPTD_TRX_PEMBANGUNAN')
-        ->select('UPTD', DB::raw('SUM(PAGU_ANGGARAN) AS PAGU_ANGGARAN'), DB::raw('SUM(NILAI_KONTRAK) AS NILAI_KONTRAK'), DB::raw('SUM(TOTAL_SISA_LELANG) AS TOTAL_SISA_LELANG'))
-                        ->groupBy('UPTD')->get();
+                        ->select('UPTD', DB::raw('SUM(PAGU_ANGGARAN) AS PAGU_ANGGARAN'), DB::raw('SUM(NILAI_KONTRAK) AS NILAI_KONTRAK'), DB::raw('SUM(TOTAL_SISA_LELANG) AS TOTAL_SISA_LELANG'));
+
+        $deviasi = -5;
+
+        if(Auth::user()->internalRole->uptd){
+            $query = $query->where('UPTD', Auth::user()->internalRole->uptd);
+            $queryCritical = $queryCritical->where('UPTD', Auth::user()->internalRole->uptd);
+            $queryOnProgress = $queryOnProgress->where('UPTD', Auth::user()->internalRole->uptd);
+            $queryoffProgress = $queryoffProgress->where('UPTD', Auth::user()->internalRole->uptd);
+            $queryfinish = $queryfinish->where('UPTD', Auth::user()->internalRole->uptd);
+            $anggaranUPTD = $anggaranUPTD->where('UPTD', Auth::user()->internalRole->uptd);
+        }
+
+        $anggaranUPTD = $anggaranUPTD->groupBy('UPTD')->get();
         $anggaranData= array();
         foreach($anggaranUPTD as $anggaran){
             $anggaranData[] ='
@@ -84,18 +107,18 @@ class MonitoringController extends Controller
                 }';
 
         }
-        $deviasi = -5;
 
         $critical = $queryCritical->where('DEVIASI', '<', $deviasi);
         $onprogress = $queryOnProgress->where('DEVIASI', '>', $deviasi);
         $offProgress = $queryoffProgress->where('DEVIASI', '<', $deviasi);
         $finish = $queryfinish->where('DEVIASI', '=', '0');
+
         $listProjectContract = $query->get();
-        $countCritical = $critical->get()->count();
-        $countOnProgress = $onprogress->get()->count();
-        $countOffProgress = $offProgress->get()->count();
-        //echo "<script>alert('".$countOnProgress."')</script>";
-        $countFinish = $finish->get()->count();
+
+        $countCritical = $critical->count();
+        $countOnProgress = $onprogress->count();
+        $countOffProgress = $offProgress->count();
+        $countFinish = $finish->count();
         return view('admin.monitoring.proyek-kontrak',
             ['listProjectContract' => $listProjectContract,
                 'countCritical' => $countCritical,
