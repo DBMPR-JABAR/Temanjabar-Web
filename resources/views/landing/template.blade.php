@@ -84,11 +84,11 @@
                     <div class="footer_panel padding_bottom_half bottom20 pl-0 pl-lg-5">
                         <h3 class="whitecolor bottom25">Navigasi</h3>
                         <ul class="links">
-                            <li><a href="#home" class="pagescroll">Beranda</a></li>
-                            <li><a href="#about" class="pagescroll scrollupto">Tentang Kami</a></li>
-                            <li><a href="#portfolio" class="pagescroll">UPTD</a></li>
-                            <li><a href="#ourfaq" class="pagescroll">Pengaduan</a></li>
-                            <li><a href="#stayconnect1"" class=" pagescroll">Kontak</a></li>
+                            <li><a href="{{url('/')}}#home" class="pagescroll">Beranda</a></li>
+                            <li><a href="{{url('/')}}#about" class="pagescroll scrollupto">Tentang Kami</a></li>
+                            <li><a href="{{url('/')}}#portfolio" class="pagescroll">UPTD</a></li>
+                            <li><a href="{{url('/')}}#ourfaq" class="pagescroll">Pengaduan</a></li>
+                            <li><a href="{{url('/')}}#stayconnect1"" class=" pagescroll">Kontak</a></li>
                         </ul>
                     </div>
                 </div>

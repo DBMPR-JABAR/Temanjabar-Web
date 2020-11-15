@@ -7,6 +7,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class LandingController extends Controller
 {
@@ -67,6 +68,12 @@ class LandingController extends Controller
 
         return redirect('/#kontak')->with(['color' => $color,'pesan-msg' => $msg]);
 
+    }
+
+    public function uptd()
+    {
+        $profil = DB::table('landing_profil')->where('id',1)->first();
+        return view('landing.uptd.index',compact('profil'));
     }
 
 // Lokasi: Admin Dashboard
@@ -212,7 +219,11 @@ class LandingController extends Controller
     // TODO: UPTD
     public function getUPTD()
     {
-        $uptd = DB::table('landing_uptd')->get();
+        $uptd = DB::table('landing_uptd');
+        if (Auth::user()->internalRole->uptd) {
+            $uptd = $uptd->where('slug',Auth::user()->internalRole->uptd);
+        }
+        $uptd = $uptd->get();
         return view('admin.landing.uptd.index',compact('uptd'));
     }
     public function editUPTD($id)
@@ -223,7 +234,7 @@ class LandingController extends Controller
     public function createUPTD(Request $req)
     {
         $uptd = $req->except('_token','gambar');
-        $uptd['slug'] = Str::slug($req->nama);
+        $uptd['slug'] = Str::slug($req->nama, '');
 
         if($req->gambar != null){
             $path = 'landing/uptd/'.Str::snake(date("YmdHis").' '.$req->gambar->getClientOriginalName());
@@ -240,7 +251,7 @@ class LandingController extends Controller
     public function updateUPTD(Request $req)
     {
         $uptd = $req->except('_token','gambar','id');
-        $uptd['slug'] = Str::slug($req->nama);
+        $uptd['slug'] = Str::slug($req->nama, '');
 
         $old = DB::table('landing_uptd')->where('id',1)->first();
 

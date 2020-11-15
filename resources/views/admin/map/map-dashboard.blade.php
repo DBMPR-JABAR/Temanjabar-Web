@@ -320,9 +320,14 @@
     }
     function initFilter(){
         $("#uptd").empty();
+        const roleUptd = `{{ Auth::user()->internalRole->uptd }}`;
         select = "";
-        for(let i=1; i <= 6; i++){
-            select += `<option value="uptd${i}">UPTD ${i}</option>`;
+        if(roleUptd == ""){
+            for(let i=1; i <= 6; i++){
+                select += `<option value="uptd${i}">UPTD ${i}</option>`;
+            }
+        }else{
+            select += `<option value="${roleUptd}">UPTD ${roleUptd.replace('uptd','')}</option>`;
         }
         $('#uptd').html(select).trigger('liszt:updated');
         $('#uptd').trigger("chosen:updated");

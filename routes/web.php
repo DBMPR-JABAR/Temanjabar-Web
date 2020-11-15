@@ -28,7 +28,7 @@ Route::post('tambah-pesan', 'LandingController@createPesan');
 
 // {SiteURL}/uptd/*
 Route::group(['prefix' => 'uptd'], function () {
-    Route::view('uptd1', 'landing.uptd.uptd1');
+    Route::get('uptd1', 'LandingController@uptd');
 });
 
 // {SiteURL}/admin/*

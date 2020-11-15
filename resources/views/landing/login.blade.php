@@ -40,7 +40,7 @@
                            <input name="password" class="form-control" type="password" placeholder="Password:" required id="loginPass">
                         </div>
                      </div>
-                     <div class="col-md-12 col-sm-12">
+                     {{-- <div class="col-md-12 col-sm-12">
                         <div class="form-group bottom35">
                            <div class="form-check text-right">
                               <input class="form-check-input" checked type="checkbox" value="" id="rememberMe">
@@ -50,10 +50,10 @@
                            </div>
 
                         </div>
-                     </div>
+                     </div> --}}
                      <div class="col-sm-12">
                         <button type="submit" class="button gradient-btn btnprimary">Login</button>
-                        <p class="top20 log-meta"> Don't have an account? <a href="sign-up.html">Sign Up Now</a> </p>
+                        {{-- <p class="top20 log-meta"> Don't have an account? <a href="sign-up.html">Sign Up Now</a> </p> --}}
                      </div>
                   </div>
                </form>

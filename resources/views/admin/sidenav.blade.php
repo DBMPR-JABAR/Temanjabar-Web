@@ -12,9 +12,9 @@
                 <ul class="pcoded-submenu">
                 <li class=" ">
                         <a href="{{ url('admin/map-dashboard') }}">
-                            <span class="pcoded-mtext">Excutive Dashboard</span>
+                            <span class="pcoded-mtext">Executive Dashboard</span>
                         </a>
-                         
+
                     </li>
                   <!--  <li class=" ">
                         <a href="{{ url('admin/monitoring/progress-pekerjaan') }}">
@@ -178,6 +178,7 @@
                     <span class="pcoded-mtext">Landing Page</span>
                 </a>
                 <ul class="pcoded-submenu">
+                    @if (!Auth::user()->internalRole->uptd)
                     <li class=" ">
                         <a href="{{ url('admin/landing-page/profil') }}">
                             <span class="pcoded-mtext">Profil</span>
@@ -193,6 +194,7 @@
                             <span class="pcoded-mtext">Fitur</span>
                         </a>
                     </li>
+                    @endif
                     <li class=" ">
                         <a href="{{ url('admin/landing-page/uptd') }}">
                             <span class="pcoded-mtext">UPTD</span>

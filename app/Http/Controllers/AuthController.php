@@ -17,6 +17,10 @@ class AuthController extends Controller
         if (!$auth) {
             return back()->with(['msg' => 'Email atau Password Salah', 'color' => 'danger']);
         }
+        if(Auth::user()->role == 'masyarakat'){
+            Auth::logout();
+            return back()->with(['msg' => 'Silahkan Login Di Smartphone Untuk Mengakses Fitur Masyarakat', 'color' => 'danger']);
+        }
         return redirect('admin');
     }
     public function logout()

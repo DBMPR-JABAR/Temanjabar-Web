@@ -177,11 +177,12 @@ class MapDashboardController extends Controller
                     ->select("ID", "RUAS_JALAN", "KEGIATAN", "LAT", "LNG", DB::raw("$qDistance AS DISTANCE"))
                     ->whereRaw("$qDistance <= 100");
 
-            if($notId) $data->whereNotIn("ID",$notId);
+            if($notId) $data = $data->whereNotIn("ID",$notId);
+
+            $data = $data->orderBy("DISTANCE");
 
             $this->response['status'] = "success";
-            $this->response['data']['count'] = $data->count();
-            $this->response['data']['perbaikan'] = $data->get();
+            $this->response['data'] = $data->first();
             return response()->json($this->response, 200);
         }catch (\Exception $th) {
             $this->response['data']['message'] = 'Internal Error';

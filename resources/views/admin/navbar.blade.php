@@ -31,7 +31,7 @@
                 </li>
             </ul>
             <ul class="nav-right">
-                <li class="header-notification">
+                {{-- <li class="header-notification">
                     <div class="dropdown-primary dropdown">
                         <div class="dropdown-toggle" data-toggle="dropdown"  data-toggle="tooltip" data-placement="bottom" title="Pemberitahuan Terbaru">
                             <i class="feather icon-bell"></i>
@@ -82,11 +82,11 @@
                             <span class="badge bg-c-green">3</span>
                         </div>
                     </div>
-                </li>
+                </li> --}}
                 <li class="user-profile header-notification">
                     <div class="dropdown-primary dropdown">
                         <div class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="{{ asset('assets/images/avatar-4.jpg') }}" class="img-radius" alt="User-Profile-Image">
+                            {{-- <img src="{{ asset('assets/images/avatar-4.jpg') }}" class="img-radius" alt="User-Profile-Image"> --}}
                             <span>{{ Auth::user()->name }}</span>
                             <i class="feather icon-chevron-down"></i>
                         </div>
@@ -111,6 +111,12 @@
                                     <i class="feather icon-lock"></i> Lock Screen
                                 </a>
                             </li> --}}
+                            <li>
+                                <a href="#" class="py-0">
+                                    {{ Auth::user()->email }} <br>
+                                    {{ Auth::user()->internalRole->role }}
+                                </a>
+                            </li>
                             <li>
                                 <a href="{{ url('logout') }}">
                                     <i class="feather icon-log-out"></i> Logout

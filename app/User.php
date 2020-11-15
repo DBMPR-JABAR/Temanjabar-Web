@@ -47,4 +47,14 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function pegawai()
+    {
+        return $this->hasOne('App\Model\Transactional\Pegawai', 'user_id');
+    }
+
+    public function internalRole()
+    {
+        return $this->belongsTo('App\Model\Transactional\Role', 'internal_role_id');
+    }
 }
