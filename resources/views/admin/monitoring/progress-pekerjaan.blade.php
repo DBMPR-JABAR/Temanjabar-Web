@@ -28,96 +28,146 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="card">
-            <section id="our-services" class="pt-5 bglight">
-                <div class="container">
-                    <div class="row whitebox top15">
-
-                        <div class="col-lg-12 col-md-12">
-                            <div class="widget heading_space text-center text-md-left">
-
-                                <div class="col-12 px-0">
-                                    <div class="w-100">
-                                        <iframe style="border:0px" src="https://talikuat-bima-jabar.com/temanjabar/mob/dinas/progress.php" title="Progress Pekerjaan" width="100%" height="400"></iframe>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div><div class="card">
             <div class="card-block">
-                <div class="table-responsive dt-responsive">
-                    <table id="kontraktor" class="table table-striped table-bordered ">
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Nama Paket</th>
-                                <th>Status</th>
-                                <th>Tanggal</th>
-                                <th>Jenis Pekerjaan</th>
-                                <th>Ruas Jalan</th>
-                                <th>Lokasi</th>
-                                <th>Rencana</th>
-                                <th>Realisasi</th>
-                                <th>Deviasi</th>
-                            </tr>
-                        </thead>
-                     <tbody>
-
-
-                            <tr>
-                                <td>1</td>
-                                <td>Paket Pekerjaan Peningkatan Jalan Ruas Jalan Cibadak - Cikidang - Pelabuhan Ratu </th>
-                                <td><h5><span class="badge badge-success">On Progress</span></h5></td>
-                                <td>2019-10-20</td>
-                                <td>Hotmix</td>
-                                <td> Cibadak - Cikidang - Pelabuhan Ratu</td>
-                                <td>113+950 - 115+950</td>
-                                <td>37.3470%</td>
-                                <td>60.3160%</td>
-                                <td>22.9690%</td>
-                            </tr>
-
-                            <tr>
-                                <td>2</td>
-                                <td>Paket Pekerjaan Peningkatan Jalan Bts. Karawang/Purwakarta (Curug) - Purwakarta </th>
-                                <td><h5><span class="badge badge-primary">Finish</span></h5></td>
-                                <td>2020-01-01</td>
-                                <td>Hotmix</td>
-                                <td> Bts. Karawang/Purwakarta (Curug) - Purwakarta</td>
-                                <td>Km. Jkt. 100+500 - Km. Jkt. 101+300</td>
-                                <td>100.0000%</td>
-                                <td>100.0000%</td>
-                                <td>0.0000%</td>
-                            </tr>
-
-                            <tr>
-                                <td>3</td>
-                                <td>Paket Pekerjaan Perbaikan Badan Jalan Ruas Jalan Sp. Waluran - Malereng - Tamanjaya - Ciwaru Km.Bdg. </th>
-                                <td><h5><span class="badge badge-danger">Off Progress</span></h5></td>
-                                <td>2019-09-25</td>
-                                <td>box culvert</td>
-                                <td> Waluran-Malereng-Palangpang</td>
-                                <td>211+500</td>
-                                <td> 2.0400%</td>
-                                <td>0.0000%</td>
-                                <td> -2.0400%</td>
-                            </tr>
-
-
-                     </tbody>
-                     </table>
-                </div>
+                <div id="viewDiv" style="width:100%;height:600px;padding: 0;margin: 0;"></div>
             </div>
-        </div>
     </div>
 </div>
 @endsection
 
 @section('script')
-{{-- <script async defer
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBSpJ4v4aOY7DEg4QAIwcSFCXljmPJFUg&callback=initMap">
-</script> --}}
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgIfLQi8KTxTJahilcem6qHusV-V6XXjw"></script>
+<script src="https://js.arcgis.com/4.17/"></script>
+<script>
+    require([
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/request",
+      "esri/geometry/Point",
+      "esri/Graphic",
+    ], function (Map, MapView, esriRequest, Point, Graphic) {
+      const baseUrl = "{{url('')}}";
+
+      const map = new Map({
+        basemap: "hybrid"
+      });
+      const view = new MapView({
+        container: "viewDiv",
+        map: map,
+        center: [107.6191, -6.9175], // longitude, latitude
+        zoom: 8
+      });
+
+      const symbol = {
+        type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
+        url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+        width: "19px",
+        height: "36px"
+      };
+      const popupTemplate = {
+        title: "{jenis}",
+        content: [
+            {
+              type: "fields",
+              fieldInfos: [
+                  {
+                    fieldName: "NAMA_PAKET",
+                    label: "Nama Paket"
+                  },
+                  {
+                    fieldName: "STATUS",
+                    label: "Status"
+                  },
+                  {
+                    fieldName: "TANGGAL",
+                    label: "Tanggal"
+                  },
+                  {
+                    fieldName: "JENIS_PEKERJAAN",
+                    label: "Jenis Pekerjaan"
+                  },
+                  {
+                    fieldName: "RUAS_JALAN",
+                    label: "Ruas Jalan"
+                  },
+                  {
+                    fieldName: "LOKASI",
+                    label: "Lokasi"
+                  },
+                  {
+                    fieldName: "RENCANA",
+                    label: "Rencana"
+                  },
+                  {
+                    fieldName: "REALISASI",
+                    label: "Realisasi"
+                  },
+                  {
+                    fieldName: "DEVIASI",
+                    label: "Deviasi"
+                  }
+              ]
+            }
+        ]
+      };
+
+
+      const url = baseUrl + "/api/progress-mingguan";
+      const requestProgressPekerjaan = esriRequest(url, {
+        responseType: "json",
+      }).then(function(response){
+        const json = response.data;
+        const data = json.data;
+        let i = 1;
+        if(data.length == 0){
+            table.innerHTML =   `<tr>
+                                    <td colspan="5">Data Kosong</td>
+                                </tr>`;
+        }else{
+            data.forEach(item => {
+                var point = new Point(item.LNG, item.LAT);
+                view.graphics.add(new Graphic({
+                    geometry: point,
+                    symbol: symbol,
+                    attributes: item,
+                    popupTemplate: popupTemplate
+                }));
+                table.innerHTML +=  `<tr>
+                                        <td>
+                                            <b>${item.NAMA_PAKET}</b>
+                                        </td>
+                                        <td>
+                                            ${item.STATUS} 
+                                        </td>
+                                        <td>
+                                            ${item.TANGGAL}
+                                        </td>
+                                        <td>
+                                            ${item.JENIS_PEKERJAAN} 
+                                        </td>
+                                        <td> 
+                                            ${item.RUAS_JALAN}
+                                        </td>
+                                        <td>
+                                            ${item.LOKASI}
+                                        </td>
+                                        <td>
+                                            ${item.RENCANA}
+                                        </td>
+                                        <td>
+                                            ${item.REALISASI}
+                                        </td>
+                                        <td>
+                                            ${item.DEVIASI}
+                                        </td>
+                                    </tr>`;
+            });
+        }
+
+      }).catch(function (error) {
+        console.log(error);
+      });
+
+
+    });
+</script>
 @endsection

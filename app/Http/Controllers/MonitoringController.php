@@ -14,6 +14,10 @@ class MonitoringController extends Controller
     {
         return view('admin.monitoring.laporan-kerusakan');
     }
+    public function getProgressPekerjaan()
+    {
+        return view('admin.monitoring.progress-pekerjaan');
+    }
     public function getLaporanAPI()
     {
         $response = [

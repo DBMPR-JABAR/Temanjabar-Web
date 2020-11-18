@@ -40,7 +40,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::view('map-dashboard', 'admin.map.map-dashboard');
     // {SiteURL}/admin/monitoring/*
     Route::group(['prefix' => 'monitoring'], function () {
-        Route::view('progress-pekerjaan', 'admin.monitoring.progress-pekerjaan');
+        Route::get('progress-pekerjaan', 'MonitoringController@getProgressPekerjaan');
 
         Route::view('survey-kondisi-jalan', 'admin.monitoring.survey-kondisi-jalan');
         Route::view('survey-kondisi-jalan/{uptd}', 'admin.monitoring.survey-kondisi-jalan-uptd')->name('kondisiJalanUPTD');

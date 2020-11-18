@@ -16,11 +16,11 @@
                         </a>
 
                     </li>
-                  <!--  <li class=" ">
+                 <li class=" ">
                         <a href="{{ url('admin/monitoring/progress-pekerjaan') }}">
                             <span class="pcoded-mtext">Map Progress Pekerjaan</span>
                         </a>
-                    </li> -->
+                    </li> 
                     <li class=" ">
                         <a href="{{ url('admin/monitoring/proyek-kontrak') }}">
                             <span class="pcoded-mtext">Proyek Kontrak</span>
