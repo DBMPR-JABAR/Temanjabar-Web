@@ -169,6 +169,11 @@ class MapDashboardController extends Controller
         return (new GeneralResource(LaporanMasyarakat::all()));
     }
 
+    public function showKemantapanJalan()
+    {
+        return (new GeneralResource(KemantapanJalan::all()));
+    }
+
     public function showPerbaikan(Request $request)
     {
         try {

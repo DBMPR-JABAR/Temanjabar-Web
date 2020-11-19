@@ -40,8 +40,18 @@ Route::group(['prefix' => 'auth'], function () {
 
 Route::group(['middleware' => ['jwt.auth']], function () {
     Route::resource('laporan-masyarakat', 'API\LaporanMasyarakatController');
+    Route::get('laporan-masyarakat/progress/{id}', 'API\LaporanMasyarakatController@getOnProgress');
+    Route::get('laporan-masyarakat/status/{status}', 'API\LaporanMasyarakatController@getListLaporan');
+
+    Route::get('utils/petugas', 'API\LaporanMasyarakatController@getPetugas');
+    Route::get('utils/lokasi', 'API\LaporanMasyarakatController@getLokasi');
+    Route::get('utils/uptd', 'API\LaporanMasyarakatController@getUPTD');
+    Route::get('utils/jenis-laporan', 'API\LaporanMasyarakatController@getJenisLaporan');
+    Route::get('utils/notifikasi', 'API\LaporanMasyarakatController@getNotifikasi');
+
 
     Route::post('perbaikan-jalan', 'API\MapDashboardController@showPerbaikan');
+    Route::get('kemantapan-jalan', 'API\MapDashboardController@showKemantapanJalan');
 });
 Route::resource('kondisi-jalan', 'API\KondisiJalanController');
 

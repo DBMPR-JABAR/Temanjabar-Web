@@ -19,6 +19,11 @@ class ProyekController extends Controller
         return (ProyekResource::collection(Pembangunan::all())->additional(['status' => 'success']));
     }
 
+    public function by($status)
+    {
+        # code...
+    }
+
     /**
      * Store a newly created resource in storage.
      *
