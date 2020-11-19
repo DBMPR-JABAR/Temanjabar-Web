@@ -1,16 +1,17 @@
 @extends('admin.t_index')
 
 @section('title') Admin Dashboard @endsection
-<link rel="stylesheet" type="text/css" href="{{ asset('assets\vendor\datatables.net-bs4\css\dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets\vendor\data-table\css\buttons.dataTables.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets\vendor\datatables.net-responsive-bs4\css\responsive.bootstrap4.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets\vendor\data-table\extensions\responsive\css\responsive.dataTables.css') }}">
-   <style>
-     table.table-bordered tbody td {
-    word-break: break-word;
-    vertical-align: top;
-}
-     </style>
+@section('name')
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/buttons.dataTables.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/data-table/extensions/responsive/css/responsive.dataTables.css') }}">
+<style>
+    table.table-bordered tbody td {
+        word-break: break-word;
+        vertical-align: top;
+    }
+</style>
+@endsection
 @section('page-header')
 <div class="row align-items-end">
     <div class="col-lg-8">

@@ -1,7 +1,9 @@
 @extends('admin.t_index')
 
 @section('title') Admin Dashboard @endsection
-
+@section('head')
+<link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
+@endsection
 @section('page-header')
 <div class="row align-items-end">
     <div class="col-lg-8">
@@ -136,15 +138,15 @@
                                             <b>${item.NAMA_PAKET}</b>
                                         </td>
                                         <td>
-                                            ${item.STATUS} 
+                                            ${item.STATUS}
                                         </td>
                                         <td>
                                             ${item.TANGGAL}
                                         </td>
                                         <td>
-                                            ${item.JENIS_PEKERJAAN} 
+                                            ${item.JENIS_PEKERJAAN}
                                         </td>
-                                        <td> 
+                                        <td>
                                             ${item.RUAS_JALAN}
                                         </td>
                                         <td>

@@ -54,7 +54,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::get('laporan-kerusakan', 'MonitoringController@getLaporan');
         Route::view('realisasi-keuangan', 'admin.monitoring.realisasi-keuangan');
         Route::view('audit-keuangan', 'admin.monitoring.audit-keuangan');
-        Route::view('kemantapan-jalan', 'admin.monitoring.kemantapan-jalan');
+
+        Route::get('kemantapan-jalan', 'MonitoringController@getKemantapanJalan');
+        // Route::view('kemantapan-jalan-detail', 'admin.monitoring.kemantapan-jalan-detail');
         Route::get('/getSup/{uptd}','MonitoringController@getSup');
     });
 
@@ -106,6 +108,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
 });
 Route::get('map/laporan-masyarakat', 'MonitoringController@getLaporanAPI')->name('api.laporan');
+Route::get('map/kemantapan-jalan', 'MonitoringController@getKemantapanJalanAPI')->name('api.kemantapanjalan');
 
 Route::post('getSupData', 'MonitoringController@getSupData')->name('getSupData.filter');
 

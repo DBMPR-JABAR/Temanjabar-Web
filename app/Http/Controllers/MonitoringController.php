@@ -6,6 +6,8 @@ use App\Model\DWH\ProgressMingguan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\GeneralResource;
+use App\Model\DWH\KemantapanJalan;
 
 class MonitoringController extends Controller
 {
@@ -17,6 +19,19 @@ class MonitoringController extends Controller
     public function getProgressPekerjaan()
     {
         return view('admin.monitoring.progress-pekerjaan');
+    }
+    public function getKemantapanJalan()
+    {
+        $luas = KemantapanJalan::sum('LUAS');
+        $kondisi['SANGAT_BAIK'] = KemantapanJalan::sum('SANGAT_BAIK');
+        $kondisi['BAIK'] = KemantapanJalan::sum('BAIK');
+        $kondisi['SEDANG'] = KemantapanJalan::sum('SEDANG');
+        $kondisi['JELEK'] = KemantapanJalan::sum('JELEK');
+        $kondisi['PARAH'] = KemantapanJalan::sum('PARAH');
+        $kondisi['SANGAT_PARAH'] = KemantapanJalan::sum('SANGAT_PARAH');
+        $kondisi['HANCUR'] = KemantapanJalan::sum('HANCUR');
+
+        return view('admin.monitoring.kemantapan-jalan',compact('luas','kondisi'));
     }
     public function getLaporanAPI()
     {
@@ -32,6 +47,11 @@ class MonitoringController extends Controller
         $laporan = $laporan->get();
         $response['data'] = $laporan;
         return response()->json($response, 200);
+    }
+
+    public function getKemantapanJalanAPI()
+    {
+        return (new GeneralResource(KemantapanJalan::all()));
     }
 
     public function getMainDashboard()

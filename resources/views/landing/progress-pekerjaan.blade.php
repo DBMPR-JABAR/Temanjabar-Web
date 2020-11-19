@@ -1,4 +1,7 @@
 @extends('landing.template')
+@section('head')
+<link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
+@endsection
 @section('body')
 <section id="main-banner-page" class="position-relative page-header service-detail-header section-nav-smooth parallax">
     <div class="overlay overlay-dark opacity-7 z-index-1"></div>
@@ -83,7 +86,7 @@
                                 <p class="bottom30">Berikut merupakan pemetaan dari progress pekerjaan projek pembangunan infrasutruktur yang sudah dikerjakan oleh DBMPR.</p>
                                 <div class="col-12 px-0">
                                     <div class="w-100">
-                                        <iframe src="http://talikuat-bima-jabar.com/temanjabar/mob/dinas/progress.php" title="Progress Pekerjaan" width="100%" height="300"></iframe>
+                                        <div class="full-map short-map" id="viewDiv" style="max-height: 567px"></div>
                                     </div>
                                 </div>
                             </div>
@@ -97,4 +100,103 @@
     <!-- content ends -->
 
 </main>
+@endsection
+@section('script')
+<script src="https://js.arcgis.com/4.17/"></script>
+<script>
+    require([
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/request",
+      "esri/geometry/Point",
+      "esri/Graphic",
+    ], function (Map, MapView, esriRequest, Point, Graphic) {
+      const baseUrl = "{{url('')}}";
+
+      const map = new Map({
+        basemap: "hybrid"
+      });
+      const view = new MapView({
+        container: "viewDiv",
+        map: map,
+        center: [107.6191, -6.9175], // longitude, latitude
+        zoom: 8
+      });
+
+      const symbol = {
+        type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
+        url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+        width: "19px",
+        height: "36px"
+      };
+      const popupTemplate = {
+        title: "{JENIS_PEKERJAAN}",
+        content: [
+            {
+              type: "fields",
+              fieldInfos: [
+                  {
+                    fieldName: "NAMA_PAKET",
+                    label: "Nama Paket"
+                  },
+                  {
+                    fieldName: "STATUS",
+                    label: "Status"
+                  },
+                  {
+                    fieldName: "TANGGAL",
+                    label: "Tanggal"
+                  },
+                  {
+                    fieldName: "JENIS_PEKERJAAN",
+                    label: "Jenis Pekerjaan"
+                  },
+                  {
+                    fieldName: "RUAS_JALAN",
+                    label: "Ruas Jalan"
+                  },
+                  {
+                    fieldName: "LOKASI",
+                    label: "Lokasi"
+                  },
+                  {
+                    fieldName: "RENCANA",
+                    label: "Rencana"
+                  },
+                  {
+                    fieldName: "REALISASI",
+                    label: "Realisasi"
+                  },
+                  {
+                    fieldName: "DEVIASI",
+                    label: "Deviasi"
+                  }
+              ]
+            }
+        ]
+      };
+
+      const url = baseUrl + "/api/progress-mingguan";
+      const requestLaporan = esriRequest(url, {
+        responseType: "json",
+      }).then(function(response){
+        const json = response.data;
+        const data = json.data;
+        data.forEach(item => {
+            var point = new Point(item.LNG, item.LAT);
+            view.graphics.add(new Graphic({
+                geometry: point,
+                symbol: symbol,
+                attributes: item,
+                popupTemplate: popupTemplate
+            }));
+        });
+
+      }).catch(function (error) {
+        console.log(error);
+      });
+
+
+    });
+</script>
 @endsection

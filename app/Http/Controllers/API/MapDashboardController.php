@@ -11,6 +11,7 @@ use App\Model\DWH\ProgressMingguan;
 use App\Model\DWH\Jembatan;
 use App\Model\DWH\VehicleCounting;
 use App\Http\Resources\GeneralResource;
+use App\Model\DWH\KemantapanJalan;
 use App\Model\Transactional\LaporanMasyarakat;
 
 use Illuminate\Support\Facades\DB;
@@ -54,6 +55,7 @@ class MapDashboardController extends Controller
             $this->response['data']['pemeliharaan'] = [];
             $this->response['data']['rehabilitasi'] = [];
             $this->response['data']['vehiclecounting'] = [];
+            $this->response['data']['kemantapanjalan'] = [];
 
             if ($request->has('kegiatan')) {
                 if(in_array('jembatan', $request->kegiatan)){
@@ -88,7 +90,10 @@ class MapDashboardController extends Controller
                     $data = VehicleCounting::whereIn('SUP',$request->sup)->get();
                     $this->response['data']['vehiclecounting'] = $data;
                 }
-
+                if(in_array('kemantapanjalan', $request->kegiatan)){
+                    $data = KemantapanJalan::whereIn('SUP',$request->sup)->get();
+                    $this->response['data']['kemantapanjalan'] = $data;
+                }
             }
 
             return response()->json($this->response, 200);

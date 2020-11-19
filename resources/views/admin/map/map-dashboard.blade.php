@@ -341,6 +341,7 @@
                     <option value="rehabilitasi">Rehabilitasi</option>
                     <option value="pemeliharaan">Pemeliharaan</option>
                     <option value="vehiclecounting">Vehicle Counting</option>
+                    <option value="kemantapanjalan">Kemantapan Jalan</option>
                     <option value="jembatan">Jembatan</option>`;
         $('#kegiatan').html(kegiatan).trigger('liszt:updated');
         $('#kegiatan').trigger("chosen:updated");
@@ -436,6 +437,7 @@
                 let pemeliharaanLayer = new GraphicsLayer();
                 let progressLayer = new GraphicsLayer();
                 let vehiclecountingLayer = new GraphicsLayer();
+                let kemantapanjalanLayer = new GraphicsLayer();
                 let allProgressLayer = new GroupLayer();
 
                 // Request API
@@ -459,6 +461,7 @@
                         jembatanLayer = addJembatan(data.jembatan, jembatanLayer);
                         pemeliharaanLayer = addPemeliharaan(data.pemeliharaan, pemeliharaanLayer);
                         vehiclecountingLayer = addVehicleCounting(data.vehiclecounting, vehiclecountingLayer);
+                        kemantapanjalanLayer = addKemantapanJalan(data.kemantapanjalan, kemantapanjalanLayer);
 
                         allProgressLayer = addProgressGroup(data.progressmingguan);
                         map.add(allProgressLayer);
@@ -491,6 +494,7 @@
                 groupLayer.add(peningkatanLayer);
                 groupLayer.add(rehabilitasiLayer);
                 groupLayer.add(vehiclecountingLayer);
+                groupLayer.add(kemantapanjalanLayer);
                 map.add(groupLayer);
 
 
@@ -1236,6 +1240,106 @@
                         let point = new Point(item.LONG, item.LAT);
                         layer.graphics.add(new Graphic({
                             geometry: point,
+                            symbol: symbol,
+                            attributes: item,
+                            popupTemplate: popupTemplate
+                        }));
+                    });
+                    return layer;
+                }
+                function addKemantapanJalan(kemantapanjalan, layer) {
+                    const symbol = {
+                        type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
+                        url: baseUrl + "/assets/images/marker/kemantapanjalan.png",
+                        width: "24px",
+                        height: "24px"
+                    };
+                    const popupTemplate = {
+                        title: "{RUAS_JALAN}",
+                        content: [
+                            {
+                                type: "fields",
+                                fieldInfos: [
+                                    {
+                                        fieldName: "NO_RUAS",
+                                        label: "Nomor Ruas"
+                                    },
+                                    {
+                                        fieldName: "SUB_RUAS",
+                                        label: "Sub Ruas"
+                                    },
+                                    {
+                                        fieldName: "SUFFIX",
+                                        label: "Suffix"
+                                    },
+                                    {
+                                        fieldName: "BULAN",
+                                        label: "Bulan"
+                                    },
+                                    {
+                                        fieldName: "TAHUN",
+                                        label: "Tahun"
+                                    },
+                                    {
+                                        fieldName: "KOTA_KAB",
+                                        label: "Kota/Kabupaten"
+                                    },
+                                    {
+                                        fieldName: "LAT_AWAL",
+                                        label: "Latitude Awal"
+                                    },
+                                    {
+                                        fieldName: "LONG_AWAL",
+                                        label: "Longitude Awal"
+                                    },
+                                    {
+                                        fieldName: "LAT_AKHIR",
+                                        label: "Latitude Akhir"
+                                    },
+                                    {
+                                        fieldName: "LONG_AKHIR",
+                                        label: "Longitude Akhir"
+                                    },
+                                    {
+                                        fieldName: "KETERANGAN",
+                                        label: "Keterangan"
+                                    },
+                                    {
+                                        fieldName: "SUP",
+                                        label: "SPP/ SUP"
+                                    },
+                                    {
+                                        fieldName: "UPTD",
+                                        label: "UPTD"
+                                    }
+                                ]
+                            },
+                            {
+                                type: "media",
+                                mediaInfos: [
+                                    {
+                                        title: "<b>Kondisi Jalan</b>",
+                                        type: "pie-chart",
+                                        caption: "Dari Luas Jalan {LUAS} m2",
+                                        value: {
+                                            fields: ["SANGAT_BAIK","BAIK","SEDANG","JELEK","PARAH","SANGAT_PARAH"]
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    };
+                    kemantapanjalan.forEach(item => {
+                        var point0 = new Point(item.LONG_AWAL, item.LAT_AWAL);
+                        layer.graphics.add(new Graphic({
+                            geometry: point0,
+                            symbol: symbol,
+                            attributes: item,
+                            popupTemplate: popupTemplate
+                        }));
+                        var point1 = new Point(item.LONG_AKHIR, item.LAT_AKHIR);
+                        layer.graphics.add(new Graphic({
+                            geometry: point1,
                             symbol: symbol,
                             attributes: item,
                             popupTemplate: popupTemplate
