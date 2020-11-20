@@ -15,8 +15,9 @@ class ProgressLaporanResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'idPetugas' => $this->idPetugas,
-            'petugas' => $this->petugas,
+            'pegawai_id' => $this->pegawai->id,
+            'no_petugas' => $this->pegawai->no_pegawai,
+            'petugas' => $this->pegawai->nama,
             'perkembangan' => $this->perkembangan,
             'persentase' => $this->persentase,
             'dokumentasi' => $this->dokumentasi

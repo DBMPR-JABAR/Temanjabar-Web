@@ -9,6 +9,7 @@ use App\Http\Resources\GeneralResource;
 use App\Http\Resources\NotificationResource;
 use App\Http\Resources\ProgressLaporanResource;
 use App\Http\Resources\StatusLaporanResource;
+use App\Model\Transactional\LaporanProgress;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -73,6 +74,42 @@ class LaporanMasyarakatController extends Controller
         return new GeneralResource(LaporanMasyarakat::findOrFail($id));
     }
 
+    public function approve(Request $request)
+    {
+        try {
+            $data = LaporanMasyarakat::find($request->id);
+            $data->status = "Progress";
+            $data->save();
+
+            $this->response['status'] = 'success';
+            $this->response['data']['id'] = $data->id;
+            return response()->json($this->response, 200);
+        } catch (\Exception $th) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
+
+    public function createProgress(Request $request)
+    {
+        try {
+            $progress = new LaporanProgress;
+            $progress->fill($request->except(['dokumentasi']));
+            if($request->dokumentasi != null){
+                $path = 'laporan_masyarakat_progress/'.date("YmdHis").'_'.$request->dokumentasi->getClientOriginalName();
+                $request->dokumentasi->storeAs('public/',$path);
+                $progress['dokumentasi'] = url('storage/'.$path);
+            }
+            $progress->save();
+            $this->response['status'] = 'success';
+            $this->response['data']['id'] = $progress->id;
+            return response()->json($this->response, 200);
+        } catch (\Exception $th) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
+
     public function getPetugas()
     {
         try {
@@ -90,7 +127,7 @@ class LaporanMasyarakatController extends Controller
     public function getOnProgress($id)
     {
         try {
-            $data = DB::table('monitoring_laporan_petugas')->where('laporan_id',$id)->get();
+            $data = LaporanProgress::where('laporan_id',$id)->get();
             return (ProgressLaporanResource::collection($data)->additional(['status' => 'success']));
         }catch(\Exception $e){
             $this->response['data']['message'] = 'Internal Error';
@@ -98,17 +135,20 @@ class LaporanMasyarakatController extends Controller
         }
     }
 
-    public function getListLaporan($status)
+    public function getListLaporan(Request $request, $status)
     {
         try {
-            $data = LaporanMasyarakat::where('status',$status)->get();
+            if($request->has("skip")){
+                $data = LaporanMasyarakat::where('status',$status)->skip($request->skip)->take($request->take)->get();
+            }else{
+                $data = LaporanMasyarakat::where('status',$status)->get();
+            }
             return (StatusLaporanResource::collection($data)->additional(['status' => 'success']));
         }catch(\Exception $e){
             $this->response['data']['message'] = 'Internal Error';
             return response()->json($this->response, 500);
         }
     }
-
     public function getJenisLaporan()
     {
         try {
@@ -126,9 +166,12 @@ class LaporanMasyarakatController extends Controller
     public function getNotifikasi()
     {
         try {
-            $data = DB::table('utils_notifikasi')->where('user_id',auth('api')->user()->id)
-                                                 ->orderBy('created_at','desc')->get();
-            return (NotificationResource::collection($data)->additional(['status' => 'success']));
+            $data = DB::table('utils_notifikasi')->where('role',auth('api')->user()->role)
+                                                 ->orderBy('created_at','desc');
+            if($data->count() > 0){
+                return (NotificationResource::collection($data->get())->additional(['status' => 'success']));
+            }
+            return response()->json($this->response, 500);
         }catch(\Exception $e){
             $this->response['data']['message'] = 'Internal Error';
             return response()->json($this->response, 500);
