@@ -45,6 +45,8 @@ class LaporanMasyarakatController extends Controller
     public function store(Request $request)
     {
         try {
+            $rand = rand(100000,999999);
+            $kode = "P-".$rand;
             $laporanMasyarakat = new LaporanMasyarakat;
             $laporanMasyarakat->fill($request->except(['gambar']));
             if($request->gambar != null){
@@ -52,6 +54,7 @@ class LaporanMasyarakatController extends Controller
                 $request->gambar->storeAs('public/',$path);
                 $laporanMasyarakat['gambar'] = url('storage/'.$path);
             }
+            $laporanMasyarakat->nomorPengaduan = $kode;
             $laporanMasyarakat->status = 'Submitted';
             $laporanMasyarakat->save();
             $this->response['status'] = 'success';
