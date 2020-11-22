@@ -49,10 +49,10 @@
           transform: translate(0, 0);
         }
         #filter .container {
-        padding: 20px 30px;
+        padding: 20px;
         }
-         #filter .form-group > *{
-          font-size: 12.5px;
+        #filter .form-group > *{
+          font-size: 13px;
           margin:0px;
         }
         #logo {
@@ -97,8 +97,8 @@
 <body>
     <div id="viewDiv"></div>
     <div id="showFilter">
-      <button data-toggle="tooltip" data-placement="right" title="Fitur Filter">
-        <i class="feather icon-filter"></i>
+      <button class="btnListIcon" data-toggle="tooltip" data-placement="right" title="Fitur Filter">
+        <i class="feather icon-list"></i>
       </button>
     </div>
     <div id="fullscreen">
@@ -116,99 +116,66 @@
     <div id="logo">
         <img width="200" class="img-fluid" src="{{ asset('assets/images/brand/text_putih.png')}}" alt="Logo DBMPR">
     </div>
-    <div id="filter" class="bg-light">
+    <div id="filter" class="bg-white">
         <div class="container">
-        <div id="preloader" style="display:none">Loading...</div>
+        <div id="preloader" style="display:none">
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+            </div>
+        </div>
             <form>
                 <div class="form-group">
-                    <div class="row">
-                        <div class="col-12">
-                            <label for="kegiatan">UPTD</label>
-                        </div>
-                        <div class="col-12">
-                            <select data-placeholder="Pilih UPTD" multiple class="chosen-select chosen-select-uptd" id="uptd">
-                                <option value=""></option>
-                            </select>
-                        </div>
-                    </div>
+                    <label for="kegiatan"><i class="feather icon-target text-primary"></i> UPTD</label>
+                    <select class="form-control chosen-select chosen-select-uptd" id="uptd" multiple data-placeholder="Pilih UPTD">
+                        <option value=""></option>
+                    </select>
                 </div>
                 <div class="form-group">
-                    <div class="row">
-                        <div class="col-12">
-                            <label for="uptdSpp">SPP / SUP</label>
-                        </div>
-                        <div class="col-12">
-                            <select id="spp_filter" data-placeholder="Pilih UPTD dengan SPP"  class="chosen-select" multiple tabindex="6">
-                                <option value=""></option>
-                            </select>
-                        </div>
-                    </div>
+                    <label for="uptdSpp"><i class="feather icon-corner-down-right text-danger"></i> SPP / SUP</label>
+                    <select id="spp_filter" data-placeholder="Pilih UPTD dengan SPP"  class="chosen-select" multiple tabindex="6">
+                        <option value=""></option>
+                    </select>
                 </div>
                 <div class="form-group">
-                    <div class="row">
-                        <div class="col-12">
-                            <label for="kegiatan">Kegiatan</label>
-                        </div>
-                        <div class="col-12">
-                            <select data-placeholder="Pilih kegiatan" multiple class="chosen-select" tabindex="8" id="kegiatan">
-                                <option value="ruasjalan">Ruas Jalan</option>
-                                <option value="pembangunan">Pembangunan</option>
-                                <option value="peningkatan">Peningkatan</option>
-                                <option value="rehabilitasi">Rehabilitasi</option>
-                                <option value="jembatan">Jembatan</option>
-
-                            </select>
-                        </div>
-                    </div>
+                    <label for="kegiatan"><i class="feather icon-activity text-warning"></i> Kegiatan</label>
+                    <select data-placeholder="Pilih kegiatan" multiple class="chosen-select" tabindex="8" id="kegiatan">
+                        <option value="ruasjalan">Ruas Jalan</option>
+                        <option value="pembangunan">Pembangunan</option>
+                        <option value="peningkatan">Peningkatan</option>
+                        <option value="rehabilitasi">Rehabilitasi</option>
+                        <option value="jembatan">Jembatan</option>
+                    </select>
                 </div>
                 <div class="form-group">
-                    <div class="row">
-                        <div class="col-12">
-                            <label for="proyek">Proyek Kontrak</label>
-                        </div>
-                        <div class="col-12">
-                            <select class="chosen-select form-control" id="proyek" data-placeholder="Pilih kegiatan" multiple tabindex="4">
-                                <option value="onprogress">On-Progress</option>
-                                <option value="critical">Critical Contract</option>
-                                <option value="offprogress">Off Progress</option>
-                                <option value="finish">Finish</option>
-                            </select>
-                        </div>
-                    </div>
+                    <label for="proyek"><i class="feather icon-calendar text-success"></i> Proyek Kontrak</label>
+                    <select class="chosen-select form-control" id="proyek" data-placeholder="Pilih kegiatan" multiple tabindex="4">
+                        <option value="onprogress">On-Progress</option>
+                        <option value="critical">Critical Contract</option>
+                        <option value="offprogress">Off Progress</option>
+                        <option value="finish">Finish</option>
+                    </select>
                 </div>
+                <!-- <div class="form-group">
+                    <label for="basemap">Basemap</label>
+                    <select data-placeholder="Basemap..." class="chosen-select form-control" id="basemap" tabindex="-1">
+                        <option value="streets">Street</option>
+                        <option value="hybrid" selected>Hybrid</option>
+                        <option value="satellite">Satelite</option>
+                        <option value="topo">Topo</option>
+                        <option value="gray">Gray</option>
+                        <option value="national-geographic">National Geographic</option>
+                    </select>
+                </div> -->
                 <div class="form-group">
-                    <div class="row">
-                        <div class="col-12">
-                            <label for="basemap">Basemap</label>
-                        </div>
-                        <div class="col-12">
-                            <select data-placeholder="Basemap..." class="chosen-select form-control" id="basemap" tabindex="-1">
-                                <option value="streets">Street</option>
-                                <option value="hybrid" selected>Hybrid</option>
-                                <option value="satellite">Satelite</option>
-                                <option value="topo">Topo</option>
-                                <option value="gray">Gray</option>
-                                <option value="national-geographic">National Geographic</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-12">
-                            <label for="exampleFormControlSelect1">Zoom</label>
-                        </div>
-                        <div class="col-9">
-                            <select class="chosen-select form-control" id="zoom">
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8" selected>8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                        </div>
-                    </div>
+                    <label for="exampleFormControlSelect1"><i class="feather icon-zoom-in"></i> Zoom</label>
+                    <select class="chosen-select form-control" id="zoom">
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8" selected>8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
                 </div>
             </form>
         </div>
@@ -220,15 +187,19 @@
   const drawerElement = document.querySelector("#filter");
   const mainElement = document.querySelector("#viewDiv");
 
+  //create chevron elmn
+  let chevron = document.createElement('i');
+  chevron.setAttribute('class', 'feather icon-chevrons-right')
+
   hamburgerButtonElement.addEventListener("click", event => {
-  drawerElement.classList.toggle("open");
-  event.stopPropagation();
+      drawerElement.classList.toggle("open");
+      event.stopPropagation();
   });
 
 
   mainElement.addEventListener("click", event => {
-  drawerElement.classList.remove("open");
-  event.stopPropagation();
+    drawerElement.classList.remove("open");
+    event.stopPropagation();
   })
 
   //toggle fullscreen
@@ -287,7 +258,7 @@
                             select +='';
                             for(let j=0; j<spp.length; j++){
                                 if(len[i] == spp[j].UPTD) {
-                                    select +='<option value="'+spp[j].SUP+'" selected>'+spp[j].SUP+'</option>';
+                                    select +='<option '+ 'value="'+spp[j].SUP+'" selected>'+spp[j].SUP+'</option>';
                                 }
                             }
                             select +='</optgroup>';
@@ -374,7 +345,7 @@
         });
 
         const config = {
-            '.chosen-select'           : {},
+            '.chosen-select'           : { width: '100%', padding: '0'},
             '.chosen-select-deselect'  : { allow_single_deselect: true },
             '.chosen-select-no-single' : { disable_search_threshold: 10 },
             '.chosen-select-no-results': { no_results_text: 'Oops, nothing found!' },
