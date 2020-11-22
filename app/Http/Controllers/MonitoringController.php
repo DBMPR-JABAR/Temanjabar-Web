@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\GeneralResource;
 use App\Model\DWH\KemantapanJalan;
+use DateTime;
+
 
 class MonitoringController extends Controller
 {
@@ -79,77 +81,134 @@ class MonitoringController extends Controller
 
         $query = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN')
             ->select('NAMA_PAKET', 'TANGGAL', 'PENYEDIA_JASA', 'KEGIATAN', 'RUAS_JALAN', 'LOKASI', 'RENCANA', 'REALISASI', 'DEVIASI', 'JENIS_PEKERJAAN', 'UPTD');
-        $query = $query->whereIn('TANGGAL', function ($querySubTanggal) {
-            $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
+        $query->whereIn('TANGGAL', function ($querySubTanggal) {
+            $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('TBL_UPTD_TRX_PROGRESS_MINGGUAN')
+            ;
         });
 
         $queryCritical = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN')
             ->select('NAMA_PAKET', 'TANGGAL', 'PENYEDIA_JASA', 'KEGIATAN', 'RUAS_JALAN', 'LOKASI', 'RENCANA', 'REALISASI', 'DEVIASI', 'JENIS_PEKERJAAN', 'UPTD');
-        $queryCritical = $queryCritical->whereIn('TANGGAL', function ($querySubTanggal) {
+        $queryCritical->whereIn('TANGGAL', function ($querySubTanggal) {
             $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
         });
-
         $queryOnProgress = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
-        $queryOnProgress = $queryOnProgress->whereIn('TANGGAL', function ($querySubTanggal) {
+        $queryOnProgress->whereIn('TANGGAL', function ($querySubTanggal) {
             $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
         });
-
         $queryoffProgress = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
-        $queryoffProgress = $queryoffProgress->whereIn('TANGGAL', function ($querySubTanggal) {
+        $queryoffProgress->whereIn('TANGGAL', function ($querySubTanggal) {
             $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
         });
 
         $queryfinish = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN')
             ->select('NAMA_PAKET', 'TANGGAL', 'PENYEDIA_JASA', 'KEGIATAN', 'RUAS_JALAN', 'LOKASI', 'RENCANA', 'REALISASI', 'DEVIASI', 'JENIS_PEKERJAAN', 'UPTD');
-        $queryfinish = $queryfinish->whereIn('TANGGAL', function ($querySubTanggal) {
+        $queryfinish->whereIn('TANGGAL', function ($querySubTanggal) {
             $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
         });
 
+        //       SELECT a.kegiatan, c.tgl, b.tgl_kontrak,b.NILAI_KONTRAK, c.volume as rencana,  d.volume as realisasi, c.harga_satuan, c.satuan, c.jumlah_harga
+        //FROM `TBL_TALIKUAT_TRX_JADUAL2` as a
+        //LEFT JOIN TBL_TALIKUAT_TRX_DATA_UMUM as b ON a.id_data_umum = b.ID
+        //LEFT JOIN TBL_TALIKUAT_TRX_DETAIL_JADUAL as c ON c.id = a.id
+        //LEFT JOIN TBL_TALIKUAT_TRX_DETAIL_LAPORAN_HARIAN_PEKERJAAN as d ON d.id_kegiatan = c.id_jadual
+        //GROUP BY  c.id_jadual
 
-        $anggaranUPTD = DB::connection('dwh')->table('TBL_UPTD_TRX_PEMBANGUNAN')
-                        ->select('UPTD', DB::raw('SUM(PAGU_ANGGARAN) AS PAGU_ANGGARAN'), DB::raw('SUM(NILAI_KONTRAK) AS NILAI_KONTRAK'), DB::raw('SUM(TOTAL_SISA_LELANG) AS TOTAL_SISA_LELANG'));
+//$ProyekKontrakDetail = DB::connection('dwh')->table('tbl_talikuat_trx_detail_jadual')
+        //                                      ->select( 'ID_JADUAL')
+        //                                      ->where('TGL','<>','')->get();
+        //$today = date('Y-m-d');
+        $ProyekKontrakData = array();
+//foreach($ProyekKontrakDetail as $detail){
+        //$ProyekKontrak = DB::connection('dwh')->table('TBL_TALIKUAT_TRX_JADUAL2 as a')
+        //     ->select( 'c.ID_JADUAL','a.KEGIATAN','c.TGL' , 'b.tgl_kontrak','c.VOLUME as RENCANA','d.VOLUME as REALISASI','a.KONSULTAN')
+        //   ->join('TBL_TALIKUAT_TRX_DATA_UMUM as b', 'a.id_data_umum', '=', 'b.ID')
+        // ->join('TBL_TALIKUAT_TRX_DETAIL_JADUAL as c', 'c.ID', '=', 'a.ID')
+        //->join('TBL_TALIKUAT_TRX_DETAIL_LAPORAN_HARIAN_PEKERJAAN as d', 'd.id_kegiatan', '=', 'c.id_jadual')
+        //->where('c.ID_JADUAL','=',$detail->ID_JADUAL)
+        //->take(1)->get();
+    
+    $listProyekKontrak = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN as A')
+            ->select(DB::raw('(SELECT MIN(TANGGAL)  FROM TBL_UPTD_TRX_PROGRESS_MINGGUAN WHERE NAMA_PAKET = A.NAMA_PAKET)  as DATE_FROM ' ),
+                     DB::raw('(SELECT MAX(TANGGAL)  FROM TBL_UPTD_TRX_PROGRESS_MINGGUAN WHERE NAMA_PAKET =  A.NAMA_PAKET ) as DATE_TO ' ),  
+                                'A.ID', 'A.NAMA_PAKET', 'A.TANGGAL', 'A.PENYEDIA_JASA', 'A.KEGIATAN', 'A.RUAS_JALAN', 'A.LOKASI', 'A.RENCANA', 'A.REALISASI', 'A.DEVIASI', 'A.JENIS_PEKERJAAN', 'A.UPTD',
+                                DB::raw('DATEDIFF((SELECT MIN(TANGGAL)  FROM TBL_UPTD_TRX_PROGRESS_MINGGUAN WHERE NAMA_PAKET = A.NAMA_PAKET) ,(SELECT MAX(TANGGAL)  FROM TBL_UPTD_TRX_PROGRESS_MINGGUAN WHERE NAMA_PAKET =  A.NAMA_PAKET )) as SELISIH')   
+                                
+                                )
+            ->get();
+     
+    foreach ($listProyekKontrak as $proyek) {
+        $d = new DateTime($proyek->DATE_FROM);
+      
+            $ProyekKontrakData[] = "
+                {
+                name: '" . $proyek->NAMA_PAKET . "',
+                data: [{
+                    name: '" . $proyek->NAMA_PAKET . "',
+                    id: '" . $proyek->ID . "',
+                    owner:  '" . $proyek->PENYEDIA_JASA . "'
+                    },
+                        {
+                        name: 'Rencana " . $proyek->DATE_FROM . "-".$proyek->DATE_TO."',
+                        id: 'Rencana" . $proyek->ID . "',
+                        parent: '" . $proyek->ID . "',
+                        start:" . strtotime($proyek->DATE_FROM) . "  ,
+                        end:" .  strtotime($proyek->DATE_TO) . "+ ( ".$proyek->SELISIH." * day) ,
+                        completed: { amount: (" . (!empty($proyek->RENCANA) ? ($proyek->RENCANA / 100) : 0) . ")  }
+                    },{
+                        name: 'Realisasi',
+                        id: 'Realisasi" . $proyek->ID . "',
+                        dependency: 'Rencana" . $proyek->ID . "',
+                        parent: '" . $proyek->ID . "',
+                        start: " . strtotime($proyek->DATE_FROM) . " ,
+                        end: " . strtotime($proyek->DATE_TO) . "+ ( ".$proyek->SELISIH." * day) ,
+                        completed: { amount: (" . (!empty($proyek->REALISASI) ? ($proyek->REALISASI / 100) : 0) . ") }
+                    }]
 
-        $deviasi = -5;
+                } ";
+     } 
+        // echo $ProyekKontrakData;
+         $queryPaket = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN')
+            ->select('NAMA_PAKET', 'TANGGAL', 'PENYEDIA_JASA', 'KEGIATAN', 'RUAS_JALAN', 'LOKASI', 'RENCANA', 'REALISASI', 'DEVIASI', 'JENIS_PEKERJAAN', 'UPTD');
+        $queryPaket->whereIn('TANGGAL', function ($querySubTanggal) {
+            $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
+        });
+        $listQueryPaket = $queryPaket->get();
+        // $listQueryPaket =$queryPaket->toSql();
+        //dd($listQueryPaket);
 
-        if(Auth::user()->internalRole->uptd){
-            $query = $query->where('UPTD', Auth::user()->internalRole->uptd);
-            $queryCritical = $queryCritical->where('UPTD', Auth::user()->internalRole->uptd);
-            $queryOnProgress = $queryOnProgress->where('UPTD', Auth::user()->internalRole->uptd);
-            $queryoffProgress = $queryoffProgress->where('UPTD', Auth::user()->internalRole->uptd);
-            $queryfinish = $queryfinish->where('UPTD', Auth::user()->internalRole->uptd);
-            $anggaranUPTD = $anggaranUPTD->where('UPTD', Auth::user()->internalRole->uptd);
-        }
-
-        $anggaranUPTD = $anggaranUPTD->groupBy('UPTD')->get();
-        $anggaranData= array();
-        foreach($anggaranUPTD as $anggaran){
-            $anggaranData[] ='
-                "'.$anggaran->UPTD.'": {
-                  "pagu ": '.$anggaran->PAGU_ANGGARAN.',
-                  "Kontrak": '.$anggaran->NILAI_KONTRAK.',
-                  "Sisa": '.$anggaran->TOTAL_SISA_LELANG.'
+        $paketData = array();
+        foreach ($listQueryPaket as $paket) {
+            $paketData[] = '
+                 {
+                  "paket": "' . $paket->NAMA_PAKET . '" ,
+                  "rencana": ' . $paket->RENCANA . ' ,
+                  "realisasi": ' . $paket->REALISASI . '
                 }';
 
         }
+        //   print_r(implode(',',$paketData));
+        $deviasi = -5;
 
         $critical = $queryCritical->where('DEVIASI', '<', $deviasi);
         $onprogress = $queryOnProgress->where('DEVIASI', '>', $deviasi);
         $offProgress = $queryoffProgress->where('DEVIASI', '<', $deviasi);
         $finish = $queryfinish->where('DEVIASI', '=', '0');
-
         $listProjectContract = $query->get();
-
-        $countCritical = $critical->count();
-        $countOnProgress = $onprogress->count();
-        $countOffProgress = $offProgress->count();
-        $countFinish = $finish->count();
+        $countCritical = $critical->get()->count();
+        $countOnProgress = $onprogress->get()->count();
+        $countOffProgress = $offProgress->get()->count();
+        //echo "<script>alert('".$countOnProgress."')</script>";
+        $countFinish = $finish->get()->count();
         return view('admin.monitoring.proyek-kontrak',
             ['listProjectContract' => $listProjectContract,
                 'countCritical' => $countCritical,
                 'countOnProgress' => $countOnProgress,
                 'countOffProgress' => $countOffProgress,
                 'countFinish' => $countFinish,
-                'anggaranData' => implode(",",$anggaranData)
+                'proyekKontrak' => implode(",", $ProyekKontrakData),
+                'today' => date('Y-m-d'),
+                'anggaranData' => ""
+
             ]);
     }
 

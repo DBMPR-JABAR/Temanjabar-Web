@@ -1,16 +1,17 @@
 @extends('admin.t_index')
 
 @section('title') Admin Dashboard @endsection
-<link rel="stylesheet" type="text/css" href="{{ asset('assets\vendor\datatables.net-bs4\css\dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets\vendor\data-table\css\buttons.dataTables.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets\vendor\datatables.net-responsive-bs4\css\responsive.bootstrap4.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets\vendor\data-table\extensions\responsive\css\responsive.dataTables.css') }}">
-   <style>
-     table.table-bordered tbody td {
-    word-break: break-word;
-    vertical-align: top;
-}
-     </style>
+@section('name')
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/buttons.dataTables.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/data-table/extensions/responsive/css/responsive.dataTables.css') }}">
+<style>
+    table.table-bordered tbody td {
+        word-break: break-word;
+        vertical-align: top;
+    }
+</style>
+@endsection
 @section('page-header')
 <div class="row align-items-end">
     <div class="col-lg-8">
@@ -35,12 +36,6 @@
 @endsection
 
 @section('page-body')
-
-
-
-
-
-
 
 <div class="row">
 <div class="col-lg-12">
@@ -211,7 +206,7 @@
         <div class="card">
 
         <div class="card-header">
-                <h5>Rencana Dan Realisasi Proyek Kontrak</h5>
+                <h5>Anggaran Proyek Kontrak</h5>
 
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
@@ -222,8 +217,8 @@
                 </div>
         </div>
           <div class="card-block">
-          <div id="container" ></div>
-
+          Pagu : Pagu Anggaran, Kontrak = Nilai Kontrak, Sisa = Sisa Lelang
+            <div id="chartdiv2" style="height:350px"></div>
           </div>
         </div>
       </div>
@@ -291,7 +286,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <?php $number = 1?>
+                                <?php $number = 1 ?>
                                 @foreach ($listProjectContract as $data)
                                         <tr>
                                         <td>{{$number++}}</td>
@@ -387,83 +382,449 @@
 @endsection
 
 @section('script')
-<script src="https://code.highcharts.com/gantt/highcharts-gantt.js"></script>
-<script src="https://code.highcharts.com/gantt/modules/exporting.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+
+<script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}" ></script>
+<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive-custom.js') }}"></script>
+
 <script>
-		 //var today = new Date(),
-  var today = new Date(<?php echo $today; ?>),
-    day = 1000 * 60 * 60 * 24,
-    // Utility functions
-    dateFormat = Highcharts.dateFormat,
-    defined = Highcharts.defined,
-    isObject = Highcharts.isObject,
-    reduce = Highcharts.reduce;
+    am4core.ready(function() {
 
-// Set to 00:00:00:000 today
-today.setUTCHours(0);
-today.setUTCMinutes(0);
-today.setUTCSeconds(0);
-today.setUTCMilliseconds(0);
-today = today.getTime();
-Highcharts.ganttChart('container', {
-    series: [ <?php echo $proyekKontrak; ?>],
-    tooltip: {
-        pointFormatter: function () {
+    // Themes begin
+    am4core.useTheme(am4themes_animated);
+    // Themes end
 
-            var point = this,
-                format = '%Y-%m-%d',
-                options = point.options,
-                completed = options.completed,
-                amount = isObject(completed) ? completed.amount : completed,
-                //status = ((amount || 0) * 100) + '%',
-                status = ((amount || 0) * 100) + '%',
-                lines;
+    // Create chart instance
+    var chart = am4core.create("chartdiv", am4charts.XYChart);
 
-            lines = [{
-                value: point.name,
-                style: 'font-weight: bold;'
-            }, {
-                title: 'Start',
-                value: dateFormat(format, point.start)
-            }, {
-                visible: !options.milestone,
-                title: 'End',
-                value: dateFormat(format, point.end)
-            }, {
-                title: 'Completed',
-                value: status
-            }, {
-                title: 'Owner',
-                value: options.owner || 'unassigned'
-            }];
+    // Add data
+    chart.data = [
 
-            return reduce(lines, function (str, line) {
-                var s = '',
-                    style = (
-                        defined(line.style) ? line.style : 'font-size: 0.8em;'
-                    );
-                if (line.visible !== false) {
-                    s = (
-                        '<span style="' + style + '">' +
-                        (defined(line.title) ? line.title + ': ' : '') +
-                        (defined(line.value) ? line.value : '') +
-                        '</span><br/>'
-                    );
-                }
-                return str + s;
-            }, '');
+      {
+        "region": "OnTrack",
+        "state": "Lingatama",
+        "sales": 16
+      },
+      {
+        "region": "OnTrack",
+        "state": "Asakiwari",
+        "sales": 10
+      },
+      {
+        "region": "OnTrack",
+        "state": "PT.Buana",
+        "sales": 9
+      },
+      {
+        "region": "OnTrack",
+        "state": "CDS Studio",
+        "sales": 22
+      },
+
+      {
+        "region": "OnTrack",
+        "state": "Kuli",
+        "sales": 4
+      }
+    ];
+
+    // Create axes
+    var yAxis = chart.yAxes.push(new am4charts.CategoryAxis());
+    yAxis.dataFields.category = "state";
+    yAxis.renderer.grid.template.location = 0;
+    yAxis.renderer.labels.template.fontSize = 10;
+    yAxis.renderer.minGridDistance = 10;
+
+    var xAxis = chart.xAxes.push(new am4charts.ValueAxis());
+
+    // Create series
+    var series = chart.series.push(new am4charts.ColumnSeries());
+    series.dataFields.valueX = "sales";
+    series.dataFields.categoryY = "state";
+    series.columns.template.tooltipText = "{categoryY}: [bold]{valueX}[/]";
+    series.columns.template.strokeWidth = 0;
+    series.columns.template.adapter.add("fill", function(fill, target) {
+      if (target.dataItem) {
+        switch(target.dataItem.dataContext.region) {
+          case "Selesai":
+            return chart.colors.getIndex(0);
+            break;
+          case "Off Progress":
+            return chart.colors.getIndex(1);
+            break;
+          case "Crtitical Contract":
+            return chart.colors.getIndex(2);
+            break;
+          case "OnTrack":
+            return "#2196f3";
+            break;
         }
-    },
-    title: {
-        text: ' '
-    },
-    xAxis: {
-        currentDateIndicator: true,
-        min: today - 3 * day,
-        max: today + 110 * day
-    }
-});
-	</script>
+      }
+      return fill;
+    });
 
+    var axisBreaks = {};
+    var legendData = [];
+
+    // Add ranges
+
+
+
+    chart.cursor = new am4charts.XYCursor();
+
+
+    var legend = new am4charts.Legend();
+    legend.position = "right";
+    legend.scrollable = true;
+    legend.valign = "top";
+    legend.reverseOrder = true;
+
+    chart.legend = legend;
+    legend.data = legendData;
+
+    legend.itemContainers.template.events.on("toggled", function(event){
+      var name = event.target.dataItem.dataContext.name;
+      var axisBreak = axisBreaks[name];
+      if(event.target.isActive){
+        axisBreak.animate({property:"breakSize", to:0}, 1000, am4core.ease.cubicOut);
+        yAxis.dataItems.each(function(dataItem){
+          if(dataItem.dataContext.region == name){
+            dataItem.hide(1000, 500);
+          }
+        })
+        series.dataItems.each(function(dataItem){
+          if(dataItem.dataContext.region == name){
+            dataItem.hide(1000, 0, 0, ["valueX"]);
+          }
+        })
+      }
+      else{
+        axisBreak.animate({property:"breakSize", to:1}, 1000, am4core.ease.cubicOut);
+        yAxis.dataItems.each(function(dataItem){
+          if(dataItem.dataContext.region == name){
+            dataItem.show(1000);
+          }
+        })
+
+        series.dataItems.each(function(dataItem){
+          if(dataItem.dataContext.region == name){
+            dataItem.show(1000, 0, ["valueX"]);
+          }
+        })
+      }
+    })
+
+    }); // end am4core.ready()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    var chart2 = am4core.create("chartdivontrack", am4charts.XYChart);
+
+    // Add data
+    chart2.data = [
+
+      {
+        "region": "OnTrack",
+        "state": "Lingatama",
+        "sales": 1
+      },
+      {
+        "region": "OnTrack",
+        "state": "Asakiwari",
+        "sales": 3
+      },
+      {
+        "region": "OnTrack",
+        "state": "PT.Buana",
+        "sales": 7
+      },
+      {
+        "region": "OnTrack",
+        "state": "CDS Studio",
+        "sales": 2
+      },
+
+      {
+        "region": "OnTrack",
+        "state": "Kuli",
+        "sales": 4
+      }
+    ];
+
+    // Create axes
+    var yAxis2 = chart2.yAxes.push(new am4charts.CategoryAxis());
+    yAxis2.dataFields.category = "state";
+    yAxis2.renderer.grid.template.location = 0;
+    yAxis2.renderer.labels.template.fontSize = 10;
+    yAxis2.renderer.minGridDistance = 10;
+
+    var xAxis = chart2.xAxes.push(new am4charts.ValueAxis());
+
+    // Create series
+    var series = chart2.series.push(new am4charts.ColumnSeries());
+    series.dataFields.valueX = "sales";
+    series.dataFields.categoryY = "state";
+    series.columns.template.tooltipText = "{categoryY}: [bold]{valueX}[/]";
+    series.columns.template.strokeWidth = 0;
+    series.columns.template.adapter.add("fill", function(fill, target) {
+      if (target.dataItem) {
+        switch(target.dataItem.dataContext.region) {
+          case "Selesai":
+            return chart2.colors.getIndex(0);
+            break;
+          case "Off Progress":
+            return chart2.colors.getIndex(1);
+            break;
+          case "Crtitical Contract":
+            return chart2.colors.getIndex(2);
+            break;
+          case "OnTrack":
+            return "#0df3a3";
+            break;
+        }
+      }
+      return fill;
+    });
+
+    var axisBreaks = {};
+    var legendData = [];
+
+    // Add ranges
+
+
+
+    chart.cursor = new am4charts.XYCursor();
+
+
+    var legend = new am4charts.Legend();
+    legend.position = "right";
+    legend.scrollable = true;
+    legend.valign = "top";
+    legend.reverseOrder = true;
+
+    chart.legend = legend;
+    legend.data = legendData;
+
+    legend.itemContainers.template.events.on("toggled", function(event){
+      var name = event.target.dataItem.dataContext.name;
+      var axisBreak = axisBreaks[name];
+      if(event.target.isActive){
+        axisBreak.animate({property:"breakSize", to:0}, 1000, am4core.ease.cubicOut);
+        yAxis.dataItems.each(function(dataItem){
+          if(dataItem.dataContext.region == name){
+            dataItem.hide(1000, 500);
+          }
+        })
+        series.dataItems.each(function(dataItem){
+          if(dataItem.dataContext.region == name){
+            dataItem.hide(1000, 0, 0, ["valueX"]);
+          }
+        })
+      }
+      else{
+        axisBreak.animate({property:"breakSize", to:1}, 1000, am4core.ease.cubicOut);
+        yAxis.dataItems.each(function(dataItem){
+          if(dataItem.dataContext.region == name){
+            dataItem.show(1000);
+          }
+        })
+
+        series.dataItems.each(function(dataItem){
+          if(dataItem.dataContext.region == name){
+            dataItem.show(1000, 0, ["valueX"]);
+          }
+        })
+      }
+    });
+
+</script>
+
+
+
+
+<script>
+    am4core.ready(function() {
+
+    // Themes begin
+    am4core.useTheme(am4themes_animated);
+    // Themes end
+
+    var chart = am4core.create("chartdiv2", am4charts.XYChart);
+
+    // some extra padding for range labels
+    chart.paddingBottom = 50;
+
+    chart.cursor = new am4charts.XYCursor();
+    chart.scrollbarX = new am4core.Scrollbar();
+
+    // will use this to store colors of the same items
+    var colors = {};
+
+    var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+    categoryAxis.dataFields.category = "category";
+    categoryAxis.renderer.minGridDistance = 60;
+    categoryAxis.renderer.grid.template.location = 0;
+    categoryAxis.dataItems.template.text = "{realName}";
+    categoryAxis.adapter.add("tooltipText", function(tooltipText, target){
+    return categoryAxis.tooltipDataItem.dataContext.realName;
+    })
+
+    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+    valueAxis.tooltip.disabled = true;
+    valueAxis.min = 0;
+
+    // single column series for all data
+    var columnSeries = chart.series.push(new am4charts.ColumnSeries());
+    columnSeries.columns.template.width = am4core.percent(80);
+    columnSeries.tooltipText = "{provider}: {realName}, {valueY}";
+    columnSeries.dataFields.categoryX = "category";
+    columnSeries.dataFields.valueY = "value";
+
+    // second value axis for quantity
+    var valueAxis2 = chart.yAxes.push(new am4charts.ValueAxis());
+    valueAxis2.renderer.opposite = true;
+    valueAxis2.syncWithAxis = valueAxis;
+    valueAxis2.tooltip.disabled = true;
+
+    // quantity line series
+    var lineSeries = chart.series.push(new am4charts.LineSeries());
+    lineSeries.tooltipText = "{valueY}";
+    lineSeries.dataFields.categoryX = "category";
+    lineSeries.dataFields.valueY = "quantity";
+    lineSeries.yAxis = valueAxis2;
+    lineSeries.bullets.push(new am4charts.CircleBullet());
+    lineSeries.stroke = chart.colors.getIndex(13);
+    lineSeries.fill = lineSeries.stroke;
+    lineSeries.strokeWidth = 2;
+    lineSeries.snapTooltip = true;
+
+    // when data validated, adjust location of data item based on count
+    lineSeries.events.on("datavalidated", function(){
+    lineSeries.dataItems.each(function(dataItem){
+    // if count divides by two, location is 0 (on the grid)
+    if(dataItem.dataContext.count / 2 == Math.round(dataItem.dataContext.count / 2)){
+    dataItem.setLocation("categoryX", 0);
+    }
+    // otherwise location is 0.5 (middle)
+    else{
+        dataItem.setLocation("categoryX", 0.5);
+    }
+    })
+    })
+
+    // fill adapter, here we save color value to colors object so that each time the item has the same name, the same color is used
+    columnSeries.columns.template.adapter.add("fill", function(fill, target) {
+    var name = target.dataItem.dataContext.realName;
+    if (!colors[name]) {
+    colors[name] = chart.colors.next();
+    }
+    target.stroke = colors[name];
+    return colors[name];
+    })
+
+
+    var rangeTemplate = categoryAxis.axisRanges.template;
+    rangeTemplate.tick.disabled = false;
+    rangeTemplate.tick.location = 0;
+    rangeTemplate.tick.strokeOpacity = 0.6;
+    rangeTemplate.tick.length = 60;
+    rangeTemplate.grid.strokeOpacity = 0.5;
+    rangeTemplate.label.tooltip = new am4core.Tooltip();
+    rangeTemplate.label.tooltip.dy = -10;
+    rangeTemplate.label.cloneTooltip = false;
+
+    ///// DATA
+    var chartData = [];
+    var lineSeriesData = [];
+
+    var data = {<?php echo $anggaranData; ?>}
+
+    // process data ant prepare it for the chart
+    for (var providerName in data) {
+    var providerData = data[providerName];
+
+    // add data of one provider to temp array
+    var tempArray = [];
+    var count = 0;
+    // add items
+    for (var itemName in providerData) {
+    if(itemName != "quantity"){
+    count++;
+    // we generate unique category for each column (providerName + "_" + itemName) and store realName
+    tempArray.push({ category: providerName + "_" + itemName, realName: itemName, value: providerData[itemName], provider: providerName})
+    }
+    }
+    // sort temp array
+    tempArray.sort(function(a, b) {
+    if (a.value > b.value) {
+    return 1;
+    }
+    else if (a.value < b.value) {
+    return -1
+    }
+    else {
+    return 0;
+    }
+    })
+
+    // add quantity and count to middle data item (line series uses it)
+    var lineSeriesDataIndex = Math.floor(count / 2);
+    tempArray[lineSeriesDataIndex].quantity = providerData.quantity;
+    tempArray[lineSeriesDataIndex].count = count;
+    // push to the final data
+    am4core.array.each(tempArray, function(item) {
+    chartData.push(item);
+    })
+
+    // create range (the additional label at the bottom)
+    var range = categoryAxis.axisRanges.create();
+    range.category = tempArray[0].category;
+    range.endCategory = tempArray[tempArray.length - 1].category;
+    range.label.text = tempArray[0].provider;
+    range.label.dy = 30;
+    range.label.truncate = true;
+    range.label.fontWeight = "bold";
+    range.label.tooltipText = tempArray[0].provider;
+
+    range.label.adapter.add("maxWidth", function(maxWidth, target){
+    var range = target.dataItem;
+    var startPosition = categoryAxis.categoryToPosition(range.category, 0);
+    var endPosition = categoryAxis.categoryToPosition(range.endCategory, 1);
+    var startX = categoryAxis.positionToCoordinate(startPosition);
+    var endX = categoryAxis.positionToCoordinate(endPosition);
+    return endX - startX;
+    })
+    }
+
+    chart.data = chartData;
+
+
+    // last tick
+    var range = categoryAxis.axisRanges.create();
+    range.category = chart.data[chart.data.length - 1].category;
+    range.label.disabled = true;
+    range.tick.location = 1;
+    range.grid.location = 1;
+
+    }); // end am4core.ready()
+</script>
 
 @endsection
