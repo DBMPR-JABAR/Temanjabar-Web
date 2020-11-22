@@ -26,8 +26,8 @@
         }
         #showFilter{
           position: absolute;
-          top: 80px;
-          left: 15px;
+          top: 15px;
+          right: 15px;
         }
         #showFilter button {
           width: 32px;
@@ -38,33 +38,33 @@
           cursor: pointer;
         }
         #filter {
-          position: absolute;
-          top: 80px;
-          left: 15px;
+          position: fixed;
+          top: 15px;
+          right: 55px;
           max-width: 450px;
-          transform: translate(-600px, 0);
+          transform: translate(1200px, 0);
           transition: transform 0.3s ease-in-out;
         }
         #filter.open {
           transform: translate(0, 0);
         }
-      #filter .container {
+        #filter .container {
         padding: 20px 30px;
-      }
-      #filter .form-group > *{
+        }
+         #filter .form-group > *{
           font-size: 12.5px;
           margin:0px;
-      }
-      #logo {
+        }
+        #logo {
         display: block;
         position: absolute;
         top: 30px;
-        right: 30px;
-      }
-      #fullscreen{
+        right: 80px;
+        }
+        #fullscreen{
           position: absolute;
-          top: 113px;
-          left: 15px;
+          top: 47.5px;
+          right: 15px;
         }
         #fullscreen button {
             width: 32px;
@@ -79,8 +79,8 @@
         }
         #back {
             position: absolute;
-            top: 146px;
-            left: 15px;
+            top: 80px;
+            right: 15px;
         }
         #back button {
             width: 32px;
