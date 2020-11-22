@@ -130,15 +130,21 @@ class MonitoringController extends Controller
     $listProyekKontrak = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN as A')
             ->select(DB::raw('(SELECT MIN(TANGGAL)  FROM TBL_UPTD_TRX_PROGRESS_MINGGUAN WHERE NAMA_PAKET = A.NAMA_PAKET)  as DATE_FROM ' ),
                      DB::raw('(SELECT MAX(TANGGAL)  FROM TBL_UPTD_TRX_PROGRESS_MINGGUAN WHERE NAMA_PAKET =  A.NAMA_PAKET ) as DATE_TO ' ),  
-                                'A.ID', 'A.NAMA_PAKET', 'A.TANGGAL', 'A.PENYEDIA_JASA', 'A.KEGIATAN', 'A.RUAS_JALAN', 'A.LOKASI', 'A.RENCANA', 'A.REALISASI', 'A.DEVIASI', 'A.JENIS_PEKERJAAN', 'A.UPTD',
+                             'A.ID', 'A.NAMA_PAKET', 'A.TANGGAL', 'A.PENYEDIA_JASA', 'A.KEGIATAN', 'A.RUAS_JALAN', 'A.LOKASI', 'A.RENCANA', 'A.REALISASI', 'A.DEVIASI', 'A.JENIS_PEKERJAAN', 'A.UPTD',
                                 DB::raw('DATEDIFF((SELECT MIN(TANGGAL)  FROM TBL_UPTD_TRX_PROGRESS_MINGGUAN WHERE NAMA_PAKET = A.NAMA_PAKET) ,(SELECT MAX(TANGGAL)  FROM TBL_UPTD_TRX_PROGRESS_MINGGUAN WHERE NAMA_PAKET =  A.NAMA_PAKET )) as SELISIH')   
                                 
                                 )
             ->get();
      
     foreach ($listProyekKontrak as $proyek) {
-        $d = new DateTime($proyek->DATE_FROM);
+     
+      $date_from = date_create($proyek->DATE_FROM);
+      $date_to = date_create($proyek->DATE_TO);
       
+     
+     
+        
+
             $ProyekKontrakData[] = "
                 {
                 name: '" . $proyek->NAMA_PAKET . "',
@@ -148,19 +154,19 @@ class MonitoringController extends Controller
                     owner:  '" . $proyek->PENYEDIA_JASA . "'
                     },
                         {
-                        name: 'Rencana " . $proyek->DATE_FROM . "-".$proyek->DATE_TO."',
+                        name: 'Rencana  " . $proyek->DATE_FROM . "-".$proyek->DATE_TO."',
                         id: 'Rencana" . $proyek->ID . "',
                         parent: '" . $proyek->ID . "',
-                        start:" . strtotime($proyek->DATE_FROM) . "  ,
-                        end:" .  strtotime($proyek->DATE_TO) . "+ ( ".$proyek->SELISIH." * day) ,
-                        completed: { amount: (" . (!empty($proyek->RENCANA) ? ($proyek->RENCANA / 100) : 0) . ")  }
+                        start: Date.UTC(".date_format($date_from,"Y").", ".date_format($date_from,"m").", ".date_format($date_from,"d") ."),   
+                        end: Date.UTC(".date_format($date_to,"Y").", ".date_format($date_to,"m").", ".date_format($date_to,"d")."),
+                          completed: { amount: (" . (!empty($proyek->RENCANA) ? ($proyek->RENCANA / 100) : 0) . ")  }
                     },{
                         name: 'Realisasi',
                         id: 'Realisasi" . $proyek->ID . "',
                         dependency: 'Rencana" . $proyek->ID . "',
                         parent: '" . $proyek->ID . "',
-                        start: " . strtotime($proyek->DATE_FROM) . " ,
-                        end: " . strtotime($proyek->DATE_TO) . "+ ( ".$proyek->SELISIH." * day) ,
+                        start: Date.UTC(".date_format($date_from,"Y").", ".date_format($date_from,"m").", ".date_format($date_from,"d")."),   
+                        end: Date.UTC(".date_format($date_to,"Y").", ".date_format($date_to,"m").", ".date_format($date_to,"d")."),
                         completed: { amount: (" . (!empty($proyek->REALISASI) ? ($proyek->REALISASI / 100) : 0) . ") }
                     }]
 

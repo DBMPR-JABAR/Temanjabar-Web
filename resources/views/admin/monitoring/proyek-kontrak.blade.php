@@ -406,6 +406,28 @@ today.setUTCSeconds(0);
 today.setUTCMilliseconds(0);
 today = today.getTime();
 Highcharts.ganttChart('container', {
+    navigator: {
+        enabled: true,
+        liveRedraw: true,
+        series: {
+            type: 'gantt',
+            pointPlacement: 0.5,
+            pointPadding: 0.25
+        },
+        yAxis: {
+            min: 0,
+            max: 3,
+            reversed: true,
+            categories: []
+        }
+    },
+    scrollbar: {
+        enabled: true
+    },
+    rangeSelector: {
+        enabled: true,
+        selected: 0
+    },
     series: [ <?php echo $proyekKontrak; ?>],
     tooltip: {
         pointFormatter: function () {
