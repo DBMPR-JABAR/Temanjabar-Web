@@ -51,9 +51,10 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::get('utils/jenis-laporan', 'API\LaporanMasyarakatController@getJenisLaporan');
     Route::get('utils/notifikasi', 'API\LaporanMasyarakatController@getNotifikasi');
 
-
     Route::post('perbaikan-jalan', 'API\MapDashboardController@showPerbaikan');
-    Route::get('kemantapan-jalan', 'API\MapDashboardController@showKemantapanJalan');
+    Route::get('kemantapan-jalan', 'API\RuasJalanController@getKemantapanJalan');
+    Route::get('kemantapan-jalan/{id}', 'API\RuasJalanController@getDetailKemantapanJalan');
+    Route::get('kemantapan-jalan-rekap', 'API\RuasJalanController@getRekapKemantapanJalan');
 });
 Route::resource('kondisi-jalan', 'API\KondisiJalanController');
 

@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\DetailKerusakanJalanResource;
 use Illuminate\Http\Request;
 use App\Model\Transactional\LaporanMasyarakat;
 use App\Http\Resources\GeneralResource;
+use App\Http\Resources\GetPetugasResource;
+use App\Http\Resources\GetUPTDResource;
+use App\Http\Resources\KerusakanJalanResource;
 use App\Http\Resources\NotificationResource;
 use App\Http\Resources\ProgressLaporanResource;
 use App\Http\Resources\StatusLaporanResource;
@@ -31,9 +35,9 @@ class LaporanMasyarakatController extends Controller
     public function index(Request $request)
     {
         if($request->has("skip")){
-            return (new GeneralResource(LaporanMasyarakat::skip($request->skip)->take($request->take)->get()));
+            return (KerusakanJalanResource::collection(LaporanMasyarakat::skip($request->skip)->take($request->take)->get())->additional(['status' => 'success']));
         }
-        return (new GeneralResource(LaporanMasyarakat::all()));
+        return (KerusakanJalanResource::collection(LaporanMasyarakat::all())->additional(['status' => 'success']));
     }
 
     /**
@@ -74,7 +78,7 @@ class LaporanMasyarakatController extends Controller
      */
     public function show($id)
     {
-        return new GeneralResource(LaporanMasyarakat::findOrFail($id));
+        return new DetailKerusakanJalanResource(LaporanMasyarakat::findOrFail($id));
     }
 
     public function approve(Request $request)
@@ -104,6 +108,9 @@ class LaporanMasyarakatController extends Controller
                 $progress['dokumentasi'] = url('storage/'.$path);
             }
             $progress->save();
+            if($progress->persentase >= 100){
+                $progress->laporan()->update(['status' => 'Done']);
+            }
             $this->response['status'] = 'success';
             $this->response['data']['id'] = $progress->id;
             return response()->json($this->response, 200);
@@ -118,9 +125,7 @@ class LaporanMasyarakatController extends Controller
         try {
             $data = DB::table('user_pegawai')->get();
 
-            $this->response['status'] = 'success';
-            $this->response['data'] = $data;
-            return response()->json($this->response, 200);
+            return (GetPetugasResource::collection($data)->additional(['status' => 'success']));
         }catch(\Exception $e){
             $this->response['data']['message'] = 'Internal Error';
             return response()->json($this->response, 500);
@@ -130,7 +135,7 @@ class LaporanMasyarakatController extends Controller
     public function getOnProgress($id)
     {
         try {
-            $data = LaporanProgress::where('laporan_id',$id)->get();
+            $data = LaporanProgress::where('laporan_id',$id)->latest()->get();
             return (ProgressLaporanResource::collection($data)->additional(['status' => 'success']));
         }catch(\Exception $e){
             $this->response['data']['message'] = 'Internal Error';
@@ -184,11 +189,9 @@ class LaporanMasyarakatController extends Controller
     public function getUPTD()
     {
         try {
-            $lokasi = DB::table('landing_uptd')->get();
+            $data = DB::table('landing_uptd')->get();
 
-            $this->response['status'] = 'success';
-            $this->response['data'] = $lokasi;
-            return response()->json($this->response, 200);
+            return (GetUPTDResource::collection($data)->additional(['status' => 'success']));
         }catch(\Exception $e){
             $this->response['data']['message'] = 'Internal Error';
             return response()->json($this->response, 500);

@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProgressLaporanResource extends JsonResource
+class KerusakanJalanResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,13 +15,10 @@ class ProgressLaporanResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'tanggal' => $this->tanggal,
-            'pegawai_id' => $this->pegawai->id,
-            'no_petugas' => $this->pegawai->no_pegawai,
-            'petugas' => $this->pegawai->nama,
-            'perkembangan' => $this->perkembangan,
-            'persentase' => $this->persentase,
-            'dokumentasi' => $this->dokumentasi
+            "id" => $this->id,
+            "latitude" => $this->lat,
+            "longitude" => $this->long,
+            "keterangan" => $this->jenis
         ];
     }
     public function with($request)
