@@ -26,8 +26,8 @@
         }
         #showFilter{
           position: absolute;
-          top: 80px;
-          left: 15px;
+          top: 15px;
+          right: 15px;
         }
         #showFilter button {
           width: 32px;
@@ -38,33 +38,46 @@
           cursor: pointer;
         }
         #filter {
-          position: absolute;
-          top: 80px;
-          left: 15px;
-          max-width: 450px;
-          transform: translate(-600px, 0);
+          position: fixed;
+          padding: 20px;
+          top: 15px;
+          right: 55px;
+          width: 300px;
+          max-height: 500px;
+          overflow-y: scroll;
+          transform: translate(1200px, 0);
           transition: transform 0.3s ease-in-out;
         }
         #filter.open {
           transform: translate(0, 0);
         }
-      #filter .container {
-        padding: 20px 30px;
-      }
-      #filter .form-group > *{
-          font-size: 12.5px;
+        #filter .form-group > *{
+          font-size: 13px;
           margin:0px;
-      }
-      #logo {
+        }
+        #logo {
         display: block;
         position: absolute;
         top: 30px;
-        right: 30px;
-      }
-      #fullscreen{
+        right: 80px;
+        }
+        #showBaseMaps {
+            position: absolute;
+          top: 47.5px;
+          right: 15px;
+        }
+        #showBaseMaps button {
+            width: 32px;
+          height: 32px;
+          background-color: white;
+          border: none;
+          outline: none;
+          cursor: pointer;
+        }
+        #fullscreen{
           position: absolute;
-          top: 113px;
-          left: 15px;
+          top: 81px;
+          right: 15px;
         }
         #fullscreen button {
             width: 32px;
@@ -79,8 +92,8 @@
         }
         #back {
             position: absolute;
-            top: 146px;
-            left: 15px;
+            top: 114px;
+            right: 15px;
         }
         #back button {
             width: 32px;
@@ -90,6 +103,45 @@
           outline: none;
           cursor: pointer;
         }
+        #baseMaps {
+          position: fixed;
+          padding: 15px;
+          top: 15px;
+          right: 55px;
+          width: 320px;
+          max-height: 500px;
+          transform: translate(1200px, 0);
+          transition: transform 0.3s ease-in-out;
+          overflow-y: scroll;
+
+        }
+        #baseMaps.open {
+          transform: translate(0, 0);
+        }
+        #baseMaps .listMaps ul.row {
+            display: flex;
+        }
+        #baseMaps .listMaps ul li{
+            padding: 0;
+            margin: 5px;
+            list-style: none;
+        }
+        #baseMaps .listMaps ul li button{
+            border: 1px solid #222;
+            padding: 0;
+        }
+        #baseMaps .listMaps ul li button:hover {
+            border: 3px solid green;
+        }
+        #baseMaps .listMaps ul li button:focus {
+            border: 3px solid green;
+        }
+        #baseMaps .listMaps ul li img{
+            display: block;
+            width: 84px;
+            background-position: center;
+            object-fit: cover;
+        }
     </style>
     <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -98,8 +150,13 @@
     <div id="viewDiv"></div>
     <div id="showFilter">
       <button data-toggle="tooltip" data-placement="right" title="Fitur Filter">
-        <i class="feather icon-filter"></i>
+        <i class="feather icon-list"></i>
       </button>
+    </div>
+    <div id="showBaseMaps">
+        <button data-toggle="tooltip" data-placement="right" title="Fitur Filter">
+            <i class="feather icon-map"></i>
+        </button>
     </div>
     <div id="fullscreen">
         <button data-toggle="tooltip" data-placement="right" title="Fullscreen / Normal">
@@ -116,119 +173,182 @@
     <div id="logo">
         <img width="200" class="img-fluid" src="{{ asset('assets/images/brand/text_putih.png')}}" alt="Logo DBMPR">
     </div>
-    <div id="filter" class="bg-light">
-        <div class="container">
-        <div id="preloader" style="display:none">Loading...</div>
-            <form>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-12">
-                            <label for="kegiatan">UPTD</label>
-                        </div>
-                        <div class="col-12">
-                            <select data-placeholder="Pilih UPTD" multiple class="chosen-select chosen-select-uptd" id="uptd">
-                                <option value=""></option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-12">
-                            <label for="uptdSpp">SPP / SUP</label>
-                        </div>
-                        <div class="col-12">
-                            <select id="spp_filter" data-placeholder="Pilih UPTD dengan SPP"  class="chosen-select" multiple tabindex="6">
-                                <option value=""></option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-12">
-                            <label for="kegiatan">Kegiatan</label>
-                        </div>
-                        <div class="col-12">
-                            <select data-placeholder="Pilih kegiatan" multiple class="chosen-select" tabindex="8" id="kegiatan">
-                                <option value="ruasjalan">Ruas Jalan</option>
-                                <option value="pembangunan">Pembangunan</option>
-                                <option value="peningkatan">Peningkatan</option>
-                                <option value="rehabilitasi">Rehabilitasi</option>
-                                <option value="jembatan">Jembatan</option>
-
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-12">
-                            <label for="proyek">Proyek Kontrak</label>
-                        </div>
-                        <div class="col-12">
-                            <select class="chosen-select form-control" id="proyek" data-placeholder="Pilih kegiatan" multiple tabindex="4">
-                                <option value="onprogress">On-Progress</option>
-                                <option value="critical">Critical Contract</option>
-                                <option value="offprogress">Off Progress</option>
-                                <option value="finish">Finish</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-12">
-                            <label for="basemap">Basemap</label>
-                        </div>
-                        <div class="col-12">
-                            <select data-placeholder="Basemap..." class="chosen-select form-control" id="basemap" tabindex="-1">
-                                <option value="streets">Street</option>
-                                <option value="hybrid" selected>Hybrid</option>
-                                <option value="satellite">Satelite</option>
-                                <option value="topo">Topo</option>
-                                <option value="gray">Gray</option>
-                                <option value="national-geographic">National Geographic</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-12">
-                            <label for="exampleFormControlSelect1">Zoom</label>
-                        </div>
-                        <div class="col-9">
-                            <select class="chosen-select form-control" id="zoom">
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8" selected>8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </form>
+    <div id="filter" class="bg-white">
+        <div id="preloader" style="display:none">
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+            </div>
         </div>
+        <form class="py-3">
+            <div class="row">
+                <div class="col">
+                    <button type="button" class="btn btn-sm btn-block btn-secondary clustering">Disable Clustering</button>
+                </div>
+            </div>
+            <hr>
+            <div class="form-group">
+                <label for="kegiatan"><i class="feather icon-target text-primary"></i> UPTD</label>
+                <select class="form-control chosen-select chosen-select-uptd" id="uptd" multiple data-placeholder="Pilih UPTD">
+                    <option value=""></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="uptdSpp"><i class="feather icon-corner-down-right text-danger"></i> SPP / SUP</label>
+                <select id="spp_filter" data-placeholder="Pilih UPTD dengan SPP"  class="chosen-select" multiple tabindex="6">
+                    <option value=""></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="kegiatan"><i class="feather icon-activity text-warning"></i> Kegiatan</label>
+                <select data-placeholder="Pilih kegiatan" multiple class="chosen-select" tabindex="8" id="kegiatan">
+                    <option value="ruasjalan">Ruas Jalan</option>
+                    <option value="pembangunan">Pembangunan</option>
+                    <option value="peningkatan">Peningkatan</option>
+                    <option value="rehabilitasi">Rehabilitasi</option>
+                    <option value="jembatan">Jembatan</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="proyek"><i class="feather icon-calendar text-success"></i> Proyek Kontrak</label>
+                <select class="chosen-select form-control" id="proyek" data-placeholder="Pilih kegiatan" multiple tabindex="4">
+                    <option value="onprogress">On-Progress</option>
+                    <option value="critical">Critical Contract</option>
+                    <option value="offprogress">Off Progress</option>
+                    <option value="finish">Finish</option>
+                </select>
+            </div>
+            <!-- <div class="form-group">
+                <label for="basemap">Basemap</label>
+                <select data-placeholder="Basemap..." class="chosen-select form-control" id="basemap" tabindex="-1">
+                    <option value="streets">Street</option>
+                    <option value="hybrid" selected>Hybrid</option>
+                    <option value="satellite">Satelite</option>
+                    <option value="topo">Topo</option>
+                    <option value="gray">Gray</option>
+                    <option value="national-geographic">National Geographic</option>
+                </select>
+            </div> -->
+            <div class="form-group">
+                <label for="exampleFormControlSelect1"><i class="feather icon-zoom-in"></i> Zoom</label>
+                <select class="chosen-select form-control" id="zoom">
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8" selected>8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+            </div>
+        </form>
+    </div>
+    <div id="baseMaps" class="bg-white">
+            <div class="row">
+                <div class="col">
+                    <h6>Tipe Maps</h6>
+                </div>
+                <div class="col p-0">
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-success active">
+                            <input type="radio" name="options" id="option1" autocomplete="off" checked>2D
+                        </label>
+                        <label class="btn btn-success">
+                            <input type="radio" name="options" id="option2" autocomplete="off"> 3D
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="listMaps">
+                <div class="row mb-4">
+                    <div class="col">
+                       <h6>Tampilan jenis maps</h6>
+                    </div>
+                </div>
+                <ul class="row">
+                    <li>
+                        <button>
+                            <img _ngcontent-btg-c5="" alt="Rupa Bumi Indonesia" title="Rupa Bumi Indonesia" 
+                            src="https://portal.ina-sdi.or.id/arcgis/rest/services/RBI/Basemap/MapServer/info/thumbnail">
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img _ngcontent-pmm-c5="" alt="Cartodb Light All" title="Cartodb Light All" 
+                            src="https://satupeta-dev.digitalservice.id/assets/img/basemap-thumbnail/cartodb_light.png">
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img _ngcontent-vgg-c5="" alt="Cartodb Dark All" title="Cartodb Dark All" 
+                            src="https://satupeta-dev.digitalservice.id/assets/img/basemap-thumbnail/cartodb_dark.png">
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img _ngcontent-vgg-c5="" alt="National Geographic" title="National Geographic" 
+                            src="https://js.arcgis.com/4.14/esri/images/basemap/national-geographic.jpg">
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img _ngcontent-lqn-c5="" alt="Topographic" title="Topographic" 
+                            src="https://satupeta-dev.digitalservice.id/assets/img/basemap-thumbnail/topo.png"></button></li>
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img _ngcontent-lqn-c5="" alt="Dark Gray" title="Dark Gray" 
+                            src="https://js.arcgis.com/4.14/esri/images/basemap/dark-gray.jpg">
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img _ngcontent-lqn-c5="" alt="Open Street Map" title="Open Street Map" 
+                            src="https://js.arcgis.com/4.14/esri/images/basemap/osm.jpg">
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img _ngcontent-lqn-c5="" alt="Imagery" title="Imagery" 
+                            src="https://js.arcgis.com/4.14/esri/images/basemap/hybrid.jpg">
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img _ngcontent-lqn-c5="" alt="Terrain" title="Terrain" 
+                            src="https://js.arcgis.com/4.14/esri/images/basemap/terrain.jpg">
+                        </button>
+                    </li>
+                </ul>
+            </div>
     </div>
 </body>
 <script>
   // tonggle filter
-  const hamburgerButtonElement = document.querySelector("#showFilter");
-  const drawerElement = document.querySelector("#filter");
+  const showFilterElmnt = document.querySelector("#showFilter");
+  const filter = document.querySelector("#filter");
   const mainElement = document.querySelector("#viewDiv");
+  const showBaseMapsElmnt = document.querySelector("#showBaseMaps");
+  const baseMaps = document.querySelector("#baseMaps");
 
-  hamburgerButtonElement.addEventListener("click", event => {
-  drawerElement.classList.toggle("open");
-  event.stopPropagation();
+  //create chevron elmn
+  let chevron = document.createElement('i');
+  chevron.setAttribute('class', 'feather icon-chevrons-right')
+
+  showFilterElmnt.addEventListener("click", event => {
+      filter.classList.toggle("open");
+      event.stopPropagation();
   });
 
+  showBaseMapsElmnt.addEventListener("click", event => {
+      baseMaps.classList.toggle("open");
+      event.stopPropagation();
+  });
 
   mainElement.addEventListener("click", event => {
-  drawerElement.classList.remove("open");
-  event.stopPropagation();
+    filter.classList.remove("open");
+    baseMaps.classList.remove("open");
+    event.stopPropagation();
   })
 
   //toggle fullscreen
@@ -253,6 +373,9 @@
   fullScreenElemn.addEventListener('click', () => {
     toggleFullscreen();
   })
+
+<!-- enable clustering -->
+  const clusteringElmn = document.querySelector('.clustering');
 </script>
 
 <!-- chosen -->
@@ -287,7 +410,7 @@
                             select +='';
                             for(let j=0; j<spp.length; j++){
                                 if(len[i] == spp[j].UPTD) {
-                                    select +='<option value="'+spp[j].SUP+'" selected>'+spp[j].SUP+'</option>';
+                                    select +='<option '+ 'value="'+spp[j].SUP+'" selected>'+spp[j].SUP+'</option>';
                                 }
                             }
                             select +='</optgroup>';
@@ -374,7 +497,7 @@
         });
 
         const config = {
-            '.chosen-select'           : {},
+            '.chosen-select'           : { width: '100%', padding: '0'},
             '.chosen-select-deselect'  : { allow_single_deselect: true },
             '.chosen-select-no-single' : { disable_search_threshold: 10 },
             '.chosen-select-no-results': { no_results_text: 'Oops, nothing found!' },
