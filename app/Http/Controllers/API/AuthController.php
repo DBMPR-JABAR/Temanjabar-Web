@@ -17,7 +17,7 @@ class AuthController extends Controller
     private $response;
 
     public function __construct() {
-        $this->middleware('jwt.auth')->only(['getToken', 'getUser', 'refresh']);
+        $this->middleware('jwt.auth')->only(['getToken', 'getUser', 'refresh','newPassword']);
         $this->response = [
             'status' => 'false',
             'data' => []
@@ -87,6 +87,35 @@ class AuthController extends Controller
             $this->response['status'] = 'success';
             $this->response['data']['message'] = 'Email Verifikasi Dikirim';
 
+            return response()->json($this->response,200);
+
+        } catch (\Exception $e) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response,500);
+        }
+    }
+
+    public function newPassword(Request $req)
+    {
+        try {
+            $validator = Validator::make($req->all(), [
+                'passwordOld' => 'required|string|min:6',
+                'passwordNew' => 'required|string|min:6',
+            ]);
+            if($validator->fails()){
+                $this->response['data']['error'] = $validator->errors();
+                return response()->json($this->response, 200);
+            }
+
+            $user = User::where('id',auth()->user()->id)->first();
+            if(Hash::check($req->passwordOld, $user->password)){
+                $user->password = Hash::make($req->get('passwordNew'));
+                $user->save();
+                $this->response['data']['message'] = "Berhasil Mengubah Password";
+            }else{
+                $this->response['data']['message'] = "Password Lama Salah";
+            }
+            $this->response['status'] = 'success';
             return response()->json($this->response,200);
 
         } catch (\Exception $e) {

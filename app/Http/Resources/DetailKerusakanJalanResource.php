@@ -22,8 +22,8 @@ class DetailKerusakanJalanResource extends JsonResource
             "emailPelapor" => $this->email,
             "uptd" => $this->uptd->nama,
             "kategori_laporan" => $this->jenis,
-            "latitude" => $this->lat,
-            "longitude" => $this->long,
+            "latitude" => 0+$this->lat,
+            "longitude" => 0+$this->long,
             "foto_kondisi" => $this->gambar
         ];
     }

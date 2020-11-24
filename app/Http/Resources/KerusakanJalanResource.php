@@ -16,8 +16,8 @@ class KerusakanJalanResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "latitude" => $this->lat,
-            "longitude" => $this->long,
+            "latitude" => 0+$this->lat,
+            "longitude" => 0+$this->long,
             "keterangan" => $this->jenis
         ];
     }

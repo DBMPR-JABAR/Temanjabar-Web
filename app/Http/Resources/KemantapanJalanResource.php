@@ -16,8 +16,8 @@ class KemantapanJalanResource extends JsonResource
     {
         return [
             "id" => $this->ID_KEMANTAPAN,
-            "latitude" => $this->LAT_AWAL,
-            "longitude" => $this->LONG_AWAL
+            "latitude" => 0+$this->LAT_AWAL,
+            "longitude" => 0+$this->LONG_AWAL
         ];
     }
     public function with($request)

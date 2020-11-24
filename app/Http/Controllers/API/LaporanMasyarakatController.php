@@ -120,6 +120,18 @@ class LaporanMasyarakatController extends Controller
         }
     }
 
+    public function getAll()
+    {
+        try {
+            $data = DB::table('user_pegawai')->get();
+
+            return (GetPetugasResource::collection($data)->additional(['status' => 'success']));
+        }catch(\Exception $e){
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
+
     public function getPetugas()
     {
         try {

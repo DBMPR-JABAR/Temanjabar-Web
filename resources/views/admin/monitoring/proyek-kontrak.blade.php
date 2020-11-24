@@ -481,11 +481,11 @@ Highcharts.ganttChart('container', {
     },
     xAxis: {
         currentDateIndicator: true,
-        min: today - 3 * day,
-        max: today + 110 * day
+        // min: today - 3 * day,
+        // max: today + 110 * day
     }
 });
-	</script>
+</script>
 
 
 @endsection
