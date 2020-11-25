@@ -227,7 +227,7 @@
           </div>
         </div>
       </div>
-
+{{--
       <div class="col-xl-12 col-md-12">
         <div class="card">
 
@@ -377,7 +377,7 @@
 
             </div>
         </div>
-    </div>
+      </div> --}}
 
     </div>
     <!-- visitor start -->
