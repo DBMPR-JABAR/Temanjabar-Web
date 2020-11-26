@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\GeneralResource;
 use App\Model\DWH\VehicleCounting;
+use Illuminate\Support\Facades\Storage;
 
 class VehicleCountingController extends Controller
 {
@@ -40,16 +41,38 @@ class VehicleCountingController extends Controller
             $vehicleCounting = new VehicleCounting;
             $vehicleCounting->fill($request->except(['GAMBAR']));
             if($request->GAMBAR != null){
-                $path = 'vehicle_counting/'.date("YmdHis").'_'.$request->GAMBAR->getClientOriginalName();
-                $request->GAMBAR->storeAs('public/',$path);
-                $vehicleCounting['GAMBAR'] = url('storage/'.$path);
+                // $path = 'vehicle_counting/'.date("YmdHis").'_'.$request->GAMBAR->getClientOriginalName();
+                // $request->GAMBAR->storeAs('public/',$path);
+                // $vehicleCounting['GAMBAR'] = url('storage/'.$path);
+
+                if (preg_match('/^data:image\/(\w+);base64,/', $request->GAMBAR, $type)) {
+                    $random = rand(100000,999999);
+                    $img = substr($request->GAMBAR, strpos($request->GAMBAR, ',') + 1);
+                    $type = strtolower($type[1]); // jpg, png, gif
+
+                    if (!in_array($type, [ 'jpg', 'jpeg', 'gif', 'png' ])) {
+                        throw new \Exception('invalid image type');
+                    }
+                    $img = str_replace( ' ', '+', $img );
+                    $img = base64_decode($img);
+
+                    if ($img === false) {
+                        throw new \Exception('base64_decode failed');
+                    }
+                    $path = 'vehicle_counting/'.date("YmdHis").'_'.$random.'.'.$type;
+                    Storage::disk('public')->put($path, $img);
+                    $vehicleCounting['GAMBAR'] = url('storage/'.$path);
+                } else {
+                    throw new \Exception('did not match data URI with image data');
+                }
+
             }
             $vehicleCounting->save();
             $this->response['status'] = 'success';
             $this->response['data']['ID'] = $vehicleCounting->id;
             return response()->json($this->response, 200);
         } catch (\Exception $th) {
-            $this->response['data']['message'] = 'Internal Error';
+            $this->response['data']['message'] = $th->getMessage();
             return response()->json($this->response, 500);
         }
     }
