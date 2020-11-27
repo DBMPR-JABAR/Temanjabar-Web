@@ -62,7 +62,7 @@
                                     <div class="col-sm-12 col-xl-3 m-b-30">
                                         <h4 class="sub-title">Tahun</h4>
                                         <select id="filterTahun" name="tahun" class="form-control form-control-primary">
-                                            <option value="" selected>-</option>
+                                            <option value="">-</option>
                                             <option value="2019">2019</option>
                                             <option value="2020">2020</option>
                                             <option value="2021">2021</option>
@@ -75,7 +75,7 @@
                                     <div class="col-sm-12 col-xl-3 m-b-30">
                                         <h4 class="sub-title">UPTD</h4>
                                         <select id="filterUPTD" name="select" class="form-control form-control-primary">
-                                            <option value="" selected>Semua</option>
+                                            <option value="">Semua</option>
                                             <option value="uptd1">UPTD 1</option>
                                             <option value="uptd2">UPTD 2 </option>
                                             <option value="uptd3">UPTD 3 </option>
@@ -87,7 +87,7 @@
                                     <div class="col-sm-12 col-xl-3 m-b-30">
                                         <h4 class="sub-title">Kegiatan</h4>
                                         <select id="filterKegiatan" name="select" class="form-control form-control-primary">
-                                            <option value="" selected>Semua</option>
+                                            <option value="">Semua</option>
                                             <option value="pembangunan">Pembangunan</option>
                                             <option value="peningkatan">Peningkatan</option>
                                             <option value="rehabilitasi">Rehabilitasi</option>
@@ -389,12 +389,13 @@
 @endsection
 
 @section('script')
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/gantt/modules/gantt.js"></script>
+<script src="https://code.highcharts.com/gantt/highcharts-gantt.js"></script>
 <script src="https://code.highcharts.com/gantt/modules/exporting.js"></script>
 <script>
 
-var today = new Date(),
+    let series = <?php echo $proyekKontrak; ?>
+		 //var today = new Date(),
+  var today = new Date(<?php echo $today; ?>),
     day = 1000 * 60 * 60 * 24,
     // Utility functions
     dateFormat = Highcharts.dateFormat,
@@ -408,120 +409,85 @@ today.setUTCMinutes(0);
 today.setUTCSeconds(0);
 today.setUTCMilliseconds(0);
 today = today.getTime();
+Highcharts.ganttChart('container', {
+    navigator: {
+        enabled: true,
+        liveRedraw: true,
+        series: {
+            type: 'gantt',
+            pointPlacement: 0.5,
+            pointPadding: 0.25
+        },
+        yAxis: {
+            min: 0,
+            max: 3,
+            reversed: true,
+            categories: []
+        }
+    },
+    scrollbar: {
+        enabled: true
+    },
+    rangeSelector: {
+        enabled: true,
+        selected: 0
+    },
+    series: [ ],
+    tooltip: {
+        pointFormatter: function () {
 
-function proyekKontrak(data) {
-    console.log(data.length);
-    if(data.length > 0){
-        Highcharts.ganttChart('container', {
-            navigator: {
-                enabled: true,
-                liveRedraw: true,
-                series: {
-                    type: 'gantt',
-                    pointPlacement: 0.5,
-                    pointPadding: 0.25
-                },
-                yAxis: {
-                    min: 0,
-                    max: 3,
-                    reversed: true,
-                    categories: []
+            var point = this,
+                format = '%Y-%m-%d',
+                options = point.options,
+                completed = options.completed,
+                amount = isObject(completed) ? completed.amount : completed,
+                //status = ((amount || 0) * 100) + '%',
+                status = ((amount || 0) * 100) + '%',
+                lines;
+
+            lines = [{
+                value: point.name,
+                style: 'font-weight: bold;'
+            }, {
+                title: 'Start',
+                value: dateFormat(format, point.start)
+            }, {
+                visible: !options.milestone,
+                title: 'End',
+                value: dateFormat(format, point.end)
+            }, {
+                title: 'Completed',
+                value: status
+            }, {
+                title: 'Owner',
+                value: options.owner || 'unassigned'
+            }];
+
+            return reduce(lines, function (str, line) {
+                var s = '',
+                    style = (
+                        defined(line.style) ? line.style : 'font-size: 0.8em;'
+                    );
+                if (line.visible !== false) {
+                    s = (
+                        '<span style="' + style + '">' +
+                        (defined(line.title) ? line.title + ': ' : '') +
+                        (defined(line.value) ? line.value : '') +
+                        '</span><br/>'
+                    );
                 }
-            },
-            scrollbar: {
-                enabled: true
-            },
-            rangeSelector: {
-                enabled: true,
-                selected: 0
-            },
-            series: data,
-            tooltip: {
-                pointFormatter: function () {
-
-                    var point = this,
-                        format = '%Y-%m-%d',
-                        options = point.options,
-                        completed = options.completed,
-                        amount = isObject(completed) ? completed.amount : completed,
-                        //status = ((amount || 0) * 100) + '%',
-                        status = ((amount || 0) * 100) + '%',
-                        lines;
-
-                    lines = [{
-                        value: point.name,
-                        style: 'font-weight: bold;'
-                    }, {
-                        title: 'Start',
-                        value: dateFormat(format, point.start)
-                    }, {
-                        visible: !options.milestone,
-                        title: 'End',
-                        value: dateFormat(format, point.end)
-                    }, {
-                        title: 'Completed',
-                        value: status
-                    }, {
-                        title: 'Owner',
-                        value: options.owner || 'unassigned'
-                    }];
-
-                    return reduce(lines, function (str, line) {
-                        var s = '',
-                            style = (
-                                defined(line.style) ? line.style : 'font-size: 0.8em;'
-                            );
-                        if (line.visible !== false) {
-                            s = (
-                                '<span style="' + style + '">' +
-                                (defined(line.title) ? line.title + ': ' : '') +
-                                (defined(line.value) ? line.value : '') +
-                                '</span><br/>'
-                            );
-                        }
-                        return str + s;
-                    }, '');
-                }
-            },
-            title: {
-                text: ' '
-            },
-            xAxis: {
-                currentDateIndicator: true,
-                // min: today - 3 * day,
-                // max: today + 110 * day
-            }
-        });
-    }else{
-        $("#container").html(`<h5 class="text-center"> Data Tidak Ada </h5>`);
+                return str + s;
+            }, '');
+        }
+    },
+    title: {
+        text: ' '
+    },
+    xAxis: {
+        currentDateIndicator: true,
+        // min: today - 3 * day,
+        // max: today + 110 * day
     }
-}
-
-$(document).ready(function() {
-    const baseUrl = "{{url('')}}/map/proyek-kontrak";
-
-    let tahun = $("#filterTahun").val();
-    let uptd = $("#filterUPTD").val();
-    let kegiatan = $("#filterKegiatan").val();
-
-    $.get(baseUrl, { tahun: tahun, uptd: uptd, kegiatan: kegiatan},
-        function(response){
-            const data = response.data;
-            proyekKontrak(data);
-        });
-
-    $("#filterTahun, #filterUPTD, #filterKegiatan").change(function () {
-        tahun = $("#filterTahun").val();
-        uptd = $("#filterUPTD").val();
-        kegiatan = $("#filterKegiatan").val();
-
-        $.get(baseUrl, { tahun: tahun, uptd: uptd, kegiatan: kegiatan},
-        function(response){
-            const data = response.data;
-            proyekKontrak(data);
-        });
-    });
-
 });
 </script>
 

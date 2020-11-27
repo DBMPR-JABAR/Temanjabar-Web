@@ -10,20 +10,19 @@
                     <span class="pcoded-mtext">Monitoring</span>
                 </a>
                 <ul class="pcoded-submenu">
-                <li class=" ">
+                    <li class=" ">
                         <a href="{{ url('admin/map-dashboard') }}">
                             <span class="pcoded-mtext">Executive Dashboard</span>
                         </a>
-
                     </li>
-                 <li class=" ">
-                        <a href="{{ url('admin/monitoring/progress-pekerjaan') }}">
-                            <span class="pcoded-mtext">Map Progress Pekerjaan</span>
-                        </a>
-                    </li> 
                     <li class=" ">
                         <a href="{{ url('admin/monitoring/proyek-kontrak') }}">
                             <span class="pcoded-mtext">Proyek Kontrak</span>
+                        </a>
+                    </li>
+                    <li class=" ">
+                        <a href="{{ url('admin/monitoring/kemantapan-jalan') }}">
+                            <span class="pcoded-mtext">Kemantapan Jalan</span>
                         </a>
                     </li>
                     <li class=" ">
@@ -32,18 +31,13 @@
                         </a>
                     </li>
                     <li class=" ">
-                        <a href="{{ url('admin/monitoring/survey-kondisi-jalan') }}">
-                            <span class="pcoded-mtext">Survey Kondisi Jalan</span>
-                        </a>
-                    </li>
-                    <li class=" ">
                         <a href="{{ url('admin/monitoring/realisasi-keuangan') }}">
                             <span class="pcoded-mtext">Anggaran & Realisasi Keuangan</span>
                         </a>
                     </li>
                     <li class=" ">
-                        <a href="{{ url('admin/monitoring/kemantapan-jalan') }}">
-                            <span class="pcoded-mtext">Kemantapan Jalan</span>
+                        <a href="{{ url('admin/monitoring/survey-kondisi-jalan') }}">
+                            <span class="pcoded-mtext">Survey Kondisi Jalan</span>
                         </a>
                     </li>
                     {{-- <li class="">
