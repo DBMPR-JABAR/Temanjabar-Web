@@ -163,7 +163,7 @@ class MonitoringController extends Controller
                     },{
                         name: 'Realisasi',
                         id: 'Realisasi" . $proyek->ID . "',
-                        dependency: 'Rencana" . $proyek->ID . "',
+                       
                         parent: '" . $proyek->ID . "',
                         start: Date.UTC(".date_format($date_from,"Y").", ".date_format($date_from,"m").", ".date_format($date_from,"d")."),   
                         end: Date.UTC(".date_format($date_to,"Y").", ".date_format($date_to,"m").", ".date_format($date_to,"d")."),
