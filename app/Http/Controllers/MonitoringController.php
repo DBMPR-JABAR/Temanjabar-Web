@@ -126,20 +126,24 @@ class MonitoringController extends Controller
         //->join('TBL_TALIKUAT_TRX_DETAIL_LAPORAN_HARIAN_PEKERJAAN as d', 'd.id_kegiatan', '=', 'c.id_jadual')
         //->where('c.ID_JADUAL','=',$detail->ID_JADUAL)
         //->take(1)->get();
-
+    
     $listProyekKontrak = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN as A')
             ->select(DB::raw('(SELECT MIN(TANGGAL)  FROM TBL_UPTD_TRX_PROGRESS_MINGGUAN WHERE NAMA_PAKET = A.NAMA_PAKET)  as DATE_FROM ' ),
-                     DB::raw('(SELECT MAX(TANGGAL)  FROM TBL_UPTD_TRX_PROGRESS_MINGGUAN WHERE NAMA_PAKET =  A.NAMA_PAKET ) as DATE_TO ' ),
+                     DB::raw('(SELECT MAX(TANGGAL)  FROM TBL_UPTD_TRX_PROGRESS_MINGGUAN WHERE NAMA_PAKET =  A.NAMA_PAKET ) as DATE_TO ' ),  
                              'A.ID', 'A.NAMA_PAKET', 'A.TANGGAL', 'A.PENYEDIA_JASA', 'A.KEGIATAN', 'A.RUAS_JALAN', 'A.LOKASI', 'A.RENCANA', 'A.REALISASI', 'A.DEVIASI', 'A.JENIS_PEKERJAAN', 'A.UPTD',
-                                DB::raw('DATEDIFF((SELECT MIN(TANGGAL)  FROM TBL_UPTD_TRX_PROGRESS_MINGGUAN WHERE NAMA_PAKET = A.NAMA_PAKET) ,(SELECT MAX(TANGGAL)  FROM TBL_UPTD_TRX_PROGRESS_MINGGUAN WHERE NAMA_PAKET =  A.NAMA_PAKET )) as SELISIH')
-
+                             //   DB::raw('DATEDIFF((SELECT MIN(TANGGAL)  FROM TBL_UPTD_TRX_PROGRESS_MINGGUAN WHERE NAMA_PAKET = A.NAMA_PAKET) ,(SELECT MAX(TANGGAL)  FROM TBL_UPTD_TRX_PROGRESS_MINGGUAN WHERE NAMA_PAKET =  A.NAMA_PAKET )) as SELISIH')   
+                                
                                 )
             ->get();
-
+     
     foreach ($listProyekKontrak as $proyek) {
-
+     
       $date_from = date_create($proyek->DATE_FROM);
       $date_to = date_create($proyek->DATE_TO);
+      
+     
+     
+        
 
             $ProyekKontrakData[] = "
                 {
@@ -153,23 +157,29 @@ class MonitoringController extends Controller
                         name: 'Rencana  " . $proyek->DATE_FROM . "-".$proyek->DATE_TO."',
                         id: 'Rencana" . $proyek->ID . "',
                         parent: '" . $proyek->ID . "',
-                        start: Date.UTC(".date_format($date_from,"Y").", ".(date_format($date_from,"m")-1).", ".date_format($date_from,"d") ."),
-                        end: Date.UTC(".date_format($date_to,"Y").", ".(date_format($date_to,"m")-1).", ".date_format($date_to,"d")."),
+                        start: Date.UTC(".date_format($date_from,"Y").", ".date_format($date_from,"m").", ".date_format($date_from,"d") ."),   
+                        end: Date.UTC(".date_format($date_to,"Y").", ".date_format($date_to,"m").", ".date_format($date_to,"d")."),
                           completed: { amount: (" . (!empty($proyek->RENCANA) ? ($proyek->RENCANA / 100) : 0) . ")  }
                     },{
                         name: 'Realisasi',
                         id: 'Realisasi" . $proyek->ID . "',
                         dependency: 'Rencana" . $proyek->ID . "',
                         parent: '" . $proyek->ID . "',
-                        start: Date.UTC(".date_format($date_from,"Y").", ".(date_format($date_from,"m")-1).", ".date_format($date_from,"d")."),
-                        end: Date.UTC(".date_format($date_to,"Y").", ".(date_format($date_to,"m")-1).", ".date_format($date_to,"d")."),
+                        start: Date.UTC(".date_format($date_from,"Y").", ".date_format($date_from,"m").", ".date_format($date_from,"d")."),   
+                        end: Date.UTC(".date_format($date_to,"Y").", ".date_format($date_to,"m").", ".date_format($date_to,"d")."),
                         completed: { amount: (" . (!empty($proyek->REALISASI) ? ($proyek->REALISASI / 100) : 0) . ") }
-                    }]
+                    },
+                    {
+                         name : 'deviasi = ".$proyek->DEVIASI."',
+                         parent: '" . $proyek->ID . "',
+                          
+                    }
+                    ]
 
                 } ";
-     }
+     } 
         // echo $ProyekKontrakData;
-        $queryPaket = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN')
+         $queryPaket = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN')
             ->select('NAMA_PAKET', 'TANGGAL', 'PENYEDIA_JASA', 'KEGIATAN', 'RUAS_JALAN', 'LOKASI', 'RENCANA', 'REALISASI', 'DEVIASI', 'JENIS_PEKERJAAN', 'UPTD');
         $queryPaket->whereIn('TANGGAL', function ($querySubTanggal) {
             $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
