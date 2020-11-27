@@ -154,7 +154,7 @@ class MonitoringController extends Controller
                     owner:  '" . $proyek->PENYEDIA_JASA . "'
                     },
                         {
-                        name: 'Rencana  " . $proyek->DATE_FROM . "-".$proyek->DATE_TO."',
+                        name: 'Rencana  ',
                         id: 'Rencana" . $proyek->ID . "',
                         parent: '" . $proyek->ID . "',
                         start: Date.UTC(".date_format($date_from,"Y").", ".date_format($date_from,"m").", ".date_format($date_from,"d") ."),   
