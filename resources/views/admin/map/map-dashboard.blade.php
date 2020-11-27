@@ -180,12 +180,12 @@
             </div>
         </div>
         <form class="py-3">
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col">
                     <button type="button" class="btn btn-sm btn-block btn-secondary clustering">Disable Clustering</button>
                 </div>
             </div>
-            <hr>
+            <hr> --}}
             <div class="form-group">
                 <label for="kegiatan"><i class="feather icon-target text-primary"></i> UPTD</label>
                 <select class="form-control chosen-select chosen-select-uptd" id="uptd" multiple data-placeholder="Pilih UPTD">
@@ -256,8 +256,8 @@
                         </label>
                     </div>
                 </div>
-            </div> --}}
-            <hr>
+            </div>
+            <hr> --}}
             <div class="listMaps">
                 <div class="row mb-4">
                     <div class="col">
@@ -513,14 +513,14 @@
             const sup = $("#spp_filter").val();
             const kegiatan = $("#kegiatan").val();
             kegiatan.push("progressmingguan");
-            getMapData(sup, kegiatan, basemap);
+            getMapData(sup, kegiatan);
         });
 
         $("#uptd").chosen().change(async function(){
             const sup = await getSUPData();
             const kegiatan = $("#kegiatan").val();
             kegiatan.push("progressmingguan");
-            getMapData(sup, kegiatan, basemap);
+            getMapData(sup, kegiatan);
         });
 
         function getMapData(sup, kegiatan) {
@@ -541,7 +541,7 @@
                 // Map Initialization
                 const baseUrl = "{{url('/')}}";
                 const map = new Map({
-                    basemap: "hybrid"
+                    basemap: basemap
                 });
                 const view = new MapView({
                     container: "viewDiv",
@@ -622,7 +622,7 @@
 
 
                 $(".baseMapBtn").click(function(event){
-                    const basemap = $(this).data('map');
+                    basemap = $(this).data('map');
                     map.basemap = basemap;
                 });
 
