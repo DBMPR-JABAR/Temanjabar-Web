@@ -180,12 +180,12 @@
             </div>
         </div>
         <form class="py-3">
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col">
                     <button type="button" class="btn btn-sm btn-block btn-secondary clustering">Disable Clustering</button>
                 </div>
             </div>
-            <hr>
+            <hr> --}}
             <div class="form-group">
                 <label for="kegiatan"><i class="feather icon-target text-primary"></i> UPTD</label>
                 <select class="form-control chosen-select chosen-select-uptd" id="uptd" multiple data-placeholder="Pilih UPTD">
@@ -242,7 +242,7 @@
         </form>
     </div>
     <div id="baseMaps" class="bg-white">
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col">
                     <h6>Tipe Maps</h6>
                 </div>
@@ -257,7 +257,7 @@
                     </div>
                 </div>
             </div>
-            <hr>
+            <hr> --}}
             <div class="listMaps">
                 <div class="row mb-4">
                     <div class="col">
@@ -266,56 +266,56 @@
                 </div>
                 <ul class="row">
                     <li>
-                        <button>
+                        <button class="baseMapBtn" data-map="streets">
                             <img _ngcontent-btg-c5="" alt="Rupa Bumi Indonesia" title="Rupa Bumi Indonesia"
                             src="https://portal.ina-sdi.or.id/arcgis/rest/services/RBI/Basemap/MapServer/info/thumbnail">
                         </button>
                     </li>
                     <li>
-                        <button>
+                        <button class="baseMapBtn" data-map="gray">
                             <img _ngcontent-pmm-c5="" alt="Cartodb Light All" title="Cartodb Light All"
                             src="https://satupeta-dev.digitalservice.id/assets/img/basemap-thumbnail/cartodb_light.png">
                         </button>
                     </li>
                     <li>
-                        <button>
-                            <img _ngcontent-vgg-c5="" alt="Cartodb Dark All" title="Cartodb Dark All"
+                        <button class="baseMapBtn" data-map="streets-night-vector">
+                            <img _ngcontent-vgg-c5="" alt="Cartodb Dark All" title="Streets Night Vector"
                             src="https://satupeta-dev.digitalservice.id/assets/img/basemap-thumbnail/cartodb_dark.png">
                         </button>
                     </li>
                     <li>
-                        <button>
+                        <button class="baseMapBtn" data-map="national-geographic">
                             <img _ngcontent-vgg-c5="" alt="National Geographic" title="National Geographic"
                             src="https://js.arcgis.com/4.14/esri/images/basemap/national-geographic.jpg">
                         </button>
                     </li>
                     <li>
-                        <button>
+                        <button class="baseMapBtn" data-map="topo">
                             <img _ngcontent-lqn-c5="" alt="Topographic" title="Topographic"
                             src="https://satupeta-dev.digitalservice.id/assets/img/basemap-thumbnail/topo.png"></button></li>
                         </button>
                     </li>
                     <li>
-                        <button>
+                        <button class="baseMapBtn" data-map="dark-gray">
                             <img _ngcontent-lqn-c5="" alt="Dark Gray" title="Dark Gray"
                             src="https://js.arcgis.com/4.14/esri/images/basemap/dark-gray.jpg">
                         </button>
                     </li>
                     <li>
-                        <button>
+                        <button class="baseMapBtn" data-map="osm">
                             <img _ngcontent-lqn-c5="" alt="Open Street Map" title="Open Street Map"
                             src="https://js.arcgis.com/4.14/esri/images/basemap/osm.jpg">
                         </button>
                     </li>
                     <li>
-                        <button>
-                            <img _ngcontent-lqn-c5="" alt="Imagery" title="Imagery"
+                        <button class="baseMapBtn" data-map="hybrid">
+                            <img _ngcontent-lqn-c5="" alt="hybrid" title="hybrid"
                             src="https://js.arcgis.com/4.14/esri/images/basemap/hybrid.jpg">
                         </button>
                     </li>
                     <li>
-                        <button>
-                            <img _ngcontent-lqn-c5="" alt="Terrain" title="Terrain"
+                        <button class="baseMapBtn" data-map="terrain">
+                            <img _ngcontent-lqn-c5="" alt="terrain" title="terrain"
                             src="https://js.arcgis.com/4.14/esri/images/basemap/terrain.jpg">
                         </button>
                     </li>
@@ -496,6 +496,8 @@
             }
         });
 
+        let basemap = "hybrid";
+
         const config = {
             '.chosen-select'           : { width: '100%', padding: '0'},
             '.chosen-select-deselect'  : { allow_single_deselect: true },
@@ -540,7 +542,7 @@
                 // Map Initialization
                 const baseUrl = "{{url('/')}}";
                 const map = new Map({
-                    basemap: "hybrid"
+                    basemap: basemap
                 });
                 const view = new MapView({
                     container: "viewDiv",
@@ -627,8 +629,8 @@
                 groupLayer.add(kemantapanjalanLayer);
                 map.add(groupLayer);
 
-                $("#basemap").change(function(){
-                    const basemap = this.value;
+                $(".baseMapBtn").click(function(event){
+                    basemap = $(this).data('map');
                     map.basemap = basemap;
                 });
                 $("#zoom").change(function(){
