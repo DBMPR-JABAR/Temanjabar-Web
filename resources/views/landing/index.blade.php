@@ -295,13 +295,20 @@
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label for="nik" class="d-none"></label>
-                                    <input name="nik" class="form-control" type="text" placeholder="NIK:" required id="nik">
+                                    <input name="nik" class="form-control" type="number" placeholder="NIK:" required id="nik">
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <div class="form-group bottom35">
+                                    <label for="alamat" class="d-none"></label>
+                                    <input name="alamat" class="form-control" type="text" placeholder="Alamat" required
+                                        id="alamat">
                                 </div>
                             </div>
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label for="telp" class="d-none"></label>
-                                    <input name="telp" class="form-control" type="text" placeholder="Telp:" required id="telp">
+                                    <input name="telp" class="form-control" type="number" placeholder="Telp:" required id="telp">
                                 </div>
                             </div>
                             <div class="col-md-12 col-sm-12">
@@ -309,6 +316,14 @@
                                     <label for="registerEmail" class="d-none"></label>
                                     <input name="email" class="form-control" type="email" placeholder="Email:" required
                                         id="registerEmail">
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <div class="form-group bottom35">
+                                    <label class="my-1 mr-2" for="pilihanKeluhan">Lokasi</label>
+                                    <select name="jenis" class="custom-select my-1 mr-sm-2" id="pilihanKeluhan" required>
+                                        <option selected>Pilih...</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-12 col-sm-12">

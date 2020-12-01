@@ -1,10 +1,8 @@
 <nav class="pcoded-navbar">
     <div class="pcoded-inner-navbar main-menu">
         <div class="pcoded-navigatio-lavel">Dashboard Analysis</div>
-
-
         <ul class="pcoded-item pcoded-left-item">
-            <li class="pcoded-hasmenu">
+            <li class="pcoded-hasmenu pcoded-trigger">
                 <a href="javascript:void(0)">
                     <span class="pcoded-micon"><i class="ti-bar-chart"></i></span>
                     <span class="pcoded-mtext">Monitoring</span>
@@ -16,7 +14,7 @@
                         </a>
 
                     </li>
-                 <li class=" ">
+                 <li class="">
                         <a href="{{ url('admin/monitoring/progress-pekerjaan') }}">
                             <span class="pcoded-mtext">Map Progress Pekerjaan</span>
                         </a>
@@ -78,7 +76,7 @@
             </li>  --}}
         </ul>
         {{-- <div class="pcoded-navigatio-lavel">Data Utama</div>
-        <ul class="pcoded-item pcoded-left-item">
+        <ul class="pcoded-item pcoded-left-item pcoded-trigger">
             <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)">
                     <span class="pcoded-micon"><i class="feather icon-package"></i></span>
@@ -171,7 +169,7 @@
             </li>
         </ul> --}}
         <div class="pcoded-navigatio-lavel">Landing Page</div>
-        <ul class="pcoded-item pcoded-left-item">
+        <ul class="pcoded-item pcoded-left-item pcoded-trigger">
             <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)">
                     <span class="pcoded-micon"><i class="ti-home"></i></span>
@@ -211,3 +209,13 @@
         </ul>
     </div>
 </nav>
+
+<script>
+    const uls = document.querySelectorAll('.pcoded-item');
+    
+    uls.forEach(function(ul) {
+        ul.addEventListener('click', function() {
+            this.classList.remove('pcoded-trigger');
+        });
+    });
+</script>
