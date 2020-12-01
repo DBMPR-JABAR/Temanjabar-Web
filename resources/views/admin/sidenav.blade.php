@@ -71,7 +71,7 @@
             </li>  --}}
         </ul>
         {{-- <div class="pcoded-navigatio-lavel">Data Utama</div>
-        <ul class="pcoded-item pcoded-left-item">
+        <ul class="pcoded-item pcoded-left-item pcoded-trigger">
             <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)">
                     <span class="pcoded-micon"><i class="feather icon-package"></i></span>
@@ -204,3 +204,13 @@
         </ul>
     </div>
 </nav>
+
+<script>
+    const uls = document.querySelectorAll('.pcoded-item');
+    
+    uls.forEach(function(ul) {
+        ul.addEventListener('click', function() {
+            this.classList.remove('pcoded-trigger');
+        });
+    });
+</script>
