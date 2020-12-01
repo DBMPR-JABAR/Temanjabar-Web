@@ -88,7 +88,7 @@
           cursor: pointer;
         }
         .form-group {
-            margin-bottom: 1px;
+            margin-bottom: 1px; */
         }
         #back {
             position: absolute;
@@ -372,9 +372,9 @@
   const fullScreenElemn =  document.querySelector('#fullscreen');
   fullScreenElemn.addEventListener('click', () => {
     toggleFullscreen();
-  });
+  })
 
-// <!-- enable clustering -->
+<!-- enable clustering -->
   const clusteringElmn = document.querySelector('.clustering');
 </script>
 
@@ -534,10 +534,9 @@
                 "esri/layers/GroupLayer",
                 "esri/tasks/RouteTask",
                 "esri/tasks/support/RouteParameters",
-                "esri/tasks/support/FeatureSet",
-                "esri/layers/FeatureLayer" // dimz-add
+                "esri/tasks/support/FeatureSet"
             ], function (Map, MapView, esriRequest, Point, Graphic, GraphicsLayer,
-                        GroupLayer, RouteTask, RouteParameters, FeatureSet, FeatureLayer) { // dimz-add
+                        GroupLayer, RouteTask, RouteParameters, FeatureSet) {
 
                 // Map Initialization
                 const baseUrl = "{{url('/')}}";
@@ -552,15 +551,7 @@
                 });
 
                 // Layering
-
-                // dimz-add
-                // let ruasjalanLayer = new GraphicsLayer();
-                let rutejalanLayer = new FeatureLayer({
-                    // url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/SATUPETA_DBMPR/Jaringan_Jalan_25K/MapServer/2/"
-                    // url: "http://localhost:8080/geoserver/gsr/services/temanjabar/FeatureServer/0/",
-                    url: "http://citylab.itb.ac.id:8080/geoserver/gsr/services/temanjabar/FeatureServer/0/",
-                });
-                // end dimz-add
+                let ruteLayer = new GraphicsLayer();
                 let ruasjalanLayer = new GraphicsLayer();
                 let jembatanLayer = new GraphicsLayer();
                 let pembangunanLayer = new GraphicsLayer();
@@ -587,7 +578,6 @@
                     const data = json.data;
                     if(json.status === "success"){
                         ruasjalanLayer = addRuasJalan(data.ruasjalan, ruasjalanLayer);
-                        rutejalanLayer = addRuteJalan(data.ruasjalan, rutejalanLayer);
                         pembangunanLayer = addPembangunan(data.pembangunan, pembangunanLayer);
                         peningkatanLayer = addPeningkatan(data.peningkatan, peningkatanLayer);
                         rehabilitasiLayer = addRehabilitasi(data.rehabilitasi, rehabilitasiLayer);
@@ -616,10 +606,11 @@
                     console.log(error);
                 });
 
+
+
                 // Creating Group Layer
                 const groupLayer = new GroupLayer();
                 groupLayer.add(jembatanLayer);
-                if ($.inArray('ruasjalan', $('#kegiatan').val()) >= 0 && $('#uptd').val().length != 0) {groupLayer.add(rutejalanLayer);} // dimz-add
                 groupLayer.add(ruasjalanLayer);
                 groupLayer.add(pemeliharaanLayer);
                 groupLayer.add(pembangunanLayer);
@@ -629,10 +620,12 @@
                 groupLayer.add(kemantapanjalanLayer);
                 map.add(groupLayer);
 
+
                 $(".baseMapBtn").click(function(event){
                     basemap = $(this).data('map');
                     map.basemap = basemap;
                 });
+
                 $("#zoom").change(function(){
                     const zoom = this.value;
                     view.zoom = zoom;
@@ -947,6 +940,7 @@
                         width: "28px",
                         height: "28px"
                     };
+                    console.log(symbol.url);
                     const popupTemplate = {
                         title: "{RUAS_JALAN}",
                         content: [{
@@ -1005,8 +999,7 @@
                     });
                     return layer;
                 }
-                // dimz-edit
-                function addRuasJalan(ruasjalan, layer){
+                function addRuasJalan(ruasjalan, layer) {
                     const symbol = {
                         type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
                         url: baseUrl + "/assets/images/marker/jalan.png",
@@ -1035,20 +1028,15 @@
                                 label: "Longitude 1"
                             },
                             {
-                                fieldName: "UPTD",
-                                label: "UPTD"
-                            },
-                            {
                                 fieldName: "SUP",
                                 label: "SUP"
+                            },
+                            {
+                                fieldName: "UPTD",
+                                label: "UPTD"
                             }
-                        ]}],
-                        expressionInfos: [{
-                            name: "pjg_km",
-                            title: "Panjang Ruas (KM)",
-                            expression: "Round($feature.pjg_ruas_m / 1000, 2)"
-                        }]
-                    };
+                        ]}
+                    ]};
                     ruasjalan.forEach(item => {
                         let point = new Point(item.LONG_AWAL, item.LAT_AWAL);
                         layer.graphics.add(new Graphic({
@@ -1066,72 +1054,6 @@
                             popupTemplate: popupTemplate
                         }));
                     });
-                    return layer;
-                }
-                function addRuteJalan(rutejalan, layer) {
-                    const popupTemplate = {
-                        title: "{nm_ruas}",
-                        content: [{
-                        type: "fields",
-                        fieldInfos: [
-                            {
-                                fieldName: "LAT_AWAL",
-                                label: "Latitude 0"
-                            },
-                            {
-                                fieldName: "LONG_AWAL",
-                                label: "Longitude 0"
-                            },
-                            {
-                                fieldName: "LAT_AKHIR",
-                                label: "Latitude 1"
-                            },
-                            {
-                                fieldName: "LONG_AKHIR",
-                                label: "Longitude 1"
-                            },
-                            {
-                                fieldName: "kab_kota",
-                                label: "Kab/Kota"
-                            },
-                            {
-                                fieldName: "wil_uptd",
-                                label: "UPTD"
-                            },
-                            {
-                                fieldName: "nm_sppjj",
-                                label: "SUP"
-                            },
-                            {
-                                // fieldName: "pjg_ruas_m",
-                                // label: "Panjang Ruas (m)"
-                                fieldName: "expression/pjg_km",
-                            }
-                        ]}],
-                        expressionInfos: [{
-                            name: "pjg_km",
-                            title: "Panjang Ruas (KM)",
-                            expression: "Round($feature.pjg_ruas_m / 1000, 2)"
-                        }]
-                    };
-
-                    // dimz-add
-                    if ($.inArray('ruasjalan', $('#kegiatan').val()) >= 0 && $('#uptd').val().length != 0) {
-                        var uptdSel = $('#uptd').val();
-                        var whereUptd = 'uptd=' + uptdSel.shift().charAt(4);
-                        $.each(uptdSel, function(idx, elem) {
-                            whereUptd = whereUptd + ' OR uptd=' + elem.charAt(4);
-                        });
-                        layer.popupTemplate = popupTemplate;
-                        layer.definitionExpression = whereUptd;
-                    } else {
-                        layer.definitionExpression= '0=1';
-                    }
-
-                    // require(["esri/config"], function (esriConfig) {
-                    //     esriConfig.request.corsEnabledServers.push("localhost:8080");
-                    // });
-                    // end dimz-add
                     return layer;
                 }
                 function addProgressGroup(progress) {
@@ -1555,7 +1477,7 @@
 
         }
 
-        getMapData("","");
+        getMapData("","",basemap);
     });
 </script>
 {{-- <script>

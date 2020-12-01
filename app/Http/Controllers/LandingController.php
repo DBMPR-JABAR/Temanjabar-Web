@@ -146,7 +146,7 @@ class LandingController extends Controller
     {
         $slideshow = $req->except('_token','gambar','id');
 
-        $old = DB::table('landing_slideshow')->where('id',1)->first();
+        $old = DB::table('landing_slideshow')->where('id',$req->id)->first();
 
         if($req->gambar != null){
             $old->gambar ?? Storage::delete('public/'.$old->gambar);
@@ -254,7 +254,7 @@ class LandingController extends Controller
         $uptd = $req->except('_token','gambar','id');
         $uptd['slug'] = Str::slug($req->nama, '');
 
-        $old = DB::table('landing_uptd')->where('id',1)->first();
+        $old = DB::table('landing_uptd')->where('id',$req->id)->first();
 
         if($req->gambar != null){
             $old->gambar ?? Storage::delete('public/'.$old->gambar);

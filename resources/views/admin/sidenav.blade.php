@@ -1,47 +1,42 @@
 <nav class="pcoded-navbar">
     <div class="pcoded-inner-navbar main-menu">
         <div class="pcoded-navigatio-lavel">Dashboard Analysis</div>
+
         <ul class="pcoded-item pcoded-left-item">
-            <li class="pcoded-hasmenu pcoded-trigger">
+            <li class="pcoded-hasmenu {{(Request::segment(2) == 'monitoring') ? 'pcoded-trigger active' : ''}}">
                 <a href="javascript:void(0)">
                     <span class="pcoded-micon"><i class="ti-bar-chart"></i></span>
                     <span class="pcoded-mtext">Monitoring</span>
                 </a>
                 <ul class="pcoded-submenu">
-                <li class=" ">
+                    <li class="{{(Request::segment(3) == 'map-dashboard') ? 'active' : ''}}">
                         <a href="{{ url('admin/map-dashboard') }}">
                             <span class="pcoded-mtext">Executive Dashboard</span>
                         </a>
-
                     </li>
-                 <li class="">
-                        <a href="{{ url('admin/monitoring/progress-pekerjaan') }}">
-                            <span class="pcoded-mtext">Map Progress Pekerjaan</span>
-                        </a>
-                    </li> 
-                    <li class=" ">
+                    <li class="{{(Request::segment(3) == 'proyek-kontrak') ? 'active' : ''}}">
                         <a href="{{ url('admin/monitoring/proyek-kontrak') }}">
                             <span class="pcoded-mtext">Proyek Kontrak</span>
                         </a>
                     </li>
-                    <li class=" ">
+                    <li class="{{(Request::segment(3) == 'kemantapan-jalan') ? 'active' : ''}}">
+                        <a href="{{ url('admin/monitoring/kemantapan-jalan') }}">
+                            <span class="pcoded-mtext">Kemantapan Jalan</span>
+                        </a>
+                    </li>
+                    <li class="{{(Request::segment(3) == 'laporan-kerusakan') ? 'active' : ''}}">
                         <a href="{{ url('admin/monitoring/laporan-kerusakan') }}">
                             <span class="pcoded-mtext">Laporan Kerusakan</span>
                         </a>
                     </li>
-                    <li class=" ">
-                        <a href="{{ url('admin/monitoring/survey-kondisi-jalan') }}">
-                            <span class="pcoded-mtext">Survey Kondisi Jalan</span>
-                        </a>
-                    </li>
-                    <li class=" ">
+                    <li class="{{(Request::segment(3) == 'realisasi-keuangan') ? 'active' : ''}}">
                         <a href="{{ url('admin/monitoring/realisasi-keuangan') }}">
                             <span class="pcoded-mtext">Anggaran & Realisasi Keuangan</span>
                         </a>
                     </li>
-                    <li class=" ">
-                        <a href="{{ url('admin/monitoring/kemantapan-jalan') }}">
-                            <span class="pcoded-mtext">Kemantapan Jalan</span>
+                    <li class="{{(Request::segment(3) == 'survey-kondisi-jalan') ? 'active' : ''}}">
+                        <a href="{{ url('admin/monitoring/survey-kondisi-jalan') }}">
+                            <span class="pcoded-mtext">Survey Kondisi Jalan</span>
                         </a>
                     </li>
                     {{-- <li class="">
@@ -169,39 +164,39 @@
             </li>
         </ul> --}}
         <div class="pcoded-navigatio-lavel">Landing Page</div>
-        <ul class="pcoded-item pcoded-left-item pcoded-trigger">
-            <li class="pcoded-hasmenu">
+        <ul class="pcoded-item pcoded-left-item">
+            <li class="pcoded-hasmenu {{(Request::segment(2) == 'landing-page') ? 'pcoded-trigger active' : ''}}">
                 <a href="javascript:void(0)">
                     <span class="pcoded-micon"><i class="ti-home"></i></span>
                     <span class="pcoded-mtext">Landing Page</span>
                 </a>
                 <ul class="pcoded-submenu">
                     @if (!Auth::user()->internalRole->uptd)
-                    <li class=" ">
+                    <li class="{{(Request::segment(3) == 'profil') ? 'active' : ''}}">
                         <a href="{{ url('admin/landing-page/profil') }}">
                             <span class="pcoded-mtext">Profil</span>
                         </a>
                     </li>
-                    <li class=" ">
+                    <li class="{{(Request::segment(3) == 'slideshow') ? 'active' : ''}}">
                         <a href="{{ url('admin/landing-page/slideshow') }}">
                             <span class="pcoded-mtext">Slideshow</span>
                         </a>
                     </li>
-                    <li class=" ">
+                    <li class="{{(Request::segment(3) == 'fitur') ? 'active' : ''}}">
                         <a href="{{ url('admin/landing-page/fitur') }}">
                             <span class="pcoded-mtext">Fitur</span>
                         </a>
                     </li>
                     @endif
-                    <li class=" ">
+                    <li class="{{(Request::segment(3) == 'uptd') ? 'active' : ''}}">
                         <a href="{{ url('admin/landing-page/uptd') }}">
                             <span class="pcoded-mtext">UPTD</span>
                         </a>
                     </li>
                 </ul>
             </li>
-            <li class="">
-                <a href="{{ url('admin/landing-page/pesan') }}">
+            <li class="{{(Request::segment(2) == 'pesan') ? 'active' : ''}}">
+                <a href="{{ url('admin/pesan') }}">
                     <span class="pcoded-micon"><i class="ti-email"></i></span>
                     <span class="pcoded-mtext">Pesan</span>
                 </a>

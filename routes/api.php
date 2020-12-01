@@ -58,7 +58,6 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::get('kemantapan-jalan/{id}', 'API\RuasJalanController@getDetailKemantapanJalan');
     Route::get('kemantapan-jalan-rekap', 'API\RuasJalanController@getRekapKemantapanJalan');
 });
-Route::resource('kondisi-jalan', 'API\KondisiJalanController');
 
 Route::resource('ruas-jalan', 'API\RuasJalanController');
 Route::resource('pembangunan', 'API\PembangunanController');
@@ -68,8 +67,6 @@ Route::resource('progress-mingguan', 'API\ProgressController');
 Route::get('progress-mingguan/status/{status}', 'API\ProgressController@showStatus');
 Route::get('progress-mingguan/status/{status}/count', 'API\ProgressController@showStatusCount');
 
-Route::resource('jembatan', 'API\JembatanController');
-Route::resource('kemandoran', 'API\KemandoranController');
 Route::get('pembangunan/category/{category}', 'API\PembangunanController@showByType');
 Route::get('kemandoran/category/{category}', 'API\KemandoranController@showByType');
 

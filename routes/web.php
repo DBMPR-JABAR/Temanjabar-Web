@@ -36,6 +36,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('/', function () {
         return redirect(route('monitoring-kontrak'));
     });
+    Route::get('pesan', 'LandingController@getPesan');
+
 
     Route::view('map-dashboard', 'admin.map.map-dashboard');
     // {SiteURL}/admin/monitoring/*
@@ -102,11 +104,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
         });
 
-        Route::get('pesan', 'LandingController@getPesan');
 
     });
 
 });
+Route::get('map/proyek-kontrak', 'MonitoringController@getProyekKontrakAPI')->name('api.proyekkontrak');
+
 Route::get('map/laporan-masyarakat', 'MonitoringController@getLaporanAPI')->name('api.laporan');
 Route::get('map/kemantapan-jalan', 'MonitoringController@getKemantapanJalanAPI')->name('api.kemantapanjalan');
 
