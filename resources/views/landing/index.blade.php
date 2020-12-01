@@ -323,6 +323,9 @@
                                     <label class="my-1 mr-2" for="pilihanKeluhan">Lokasi</label>
                                     <select name="jenis" class="custom-select my-1 mr-sm-2" id="pilihanKeluhan" required>
                                         <option selected>Pilih...</option>
+                                        @foreach ($lokasi as $kabkota)
+                                        <option value="{{$kabkota->name}}">{{$kabkota->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -331,12 +334,9 @@
                                     <label class="my-1 mr-2" for="pilihanKeluhan">Keluhan</label>
                                     <select name="jenis" class="custom-select my-1 mr-sm-2" id="pilihanKeluhan" required>
                                         <option selected>Pilih...</option>
-                                        <option value="1">Kepuasan Masyarakat</option>
-                                        <option value="2">Jalan Berlubang</option>
-                                        <option value="3">Trotoar Rusak</option>
-                                        <option value="4">Jembatan Rusak</option>
-                                        <option value="5">Tiang/Kabel listrik menggangu</option>
-                                        <option value="6">Tidak ada akses jalan</option>
+                                        @foreach ($jenis_laporan as $laporan)
+                                        <option value="{{$laporan->id}}">{{$laporan->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
