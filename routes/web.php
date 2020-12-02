@@ -25,7 +25,8 @@ Route::get('paket-pekerjaan', 'LandingController@paketPekerjaan');
 Route::get('progress-pekerjaan', 'LandingController@progressPekerjaan');
 Route::post('tambah-laporan', 'LandingController@createLaporan');
 Route::post('tambah-pesan', 'LandingController@createPesan');
-
+Route::get('admin/master/ruas_jalan', 'MasterController@getRuasJalan')->name('admin.master.ruas_jalan');
+    
 // {SiteURL}/uptd/*
 Route::group(['prefix' => 'uptd'], function () {
     Route::get('/{slug}', 'LandingController@uptd');
@@ -37,8 +38,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         return redirect(route('monitoring-kontrak'));
     });
     Route::get('pesan', 'LandingController@getPesan');
-
-
+   
+   
     Route::view('map-dashboard', 'admin.map.map-dashboard');
     // {SiteURL}/admin/monitoring/*
     Route::group(['prefix' => 'monitoring'], function () {
@@ -69,6 +70,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::view('rekomendasi-perbaikan', 'admin.rekomendasi.rekomendasi-perbaikan');
     });
 
+   
     // {SiteURL}/admin/landing-page/
     Route::group(['prefix' => 'landing-page'], function () {
         // {SiteURL}/admin/landing-page/profil
@@ -120,3 +122,6 @@ Route::view('debug/map-filter', 'debug.map-filter');
 Route::view('coba-map', 'debug.coba-map');
 Route::view('map-progress-mingguan', 'debug.map-progress-mingguan');
 Route::view('map-ruas-jalan', 'debug.map-ruas-jalan');
+
+ 
+ 
