@@ -2,7 +2,10 @@
 
 @section('title') Admin Dashboard @endsection
 @section('head')
-    <link rel="stylesheet" href="{{ asset('assets/vendor/fontawesome/css/all.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/vendor/fontawesome/css/all.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/buttons.dataTables.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/data-table/extensions/responsive/css/responsive.dataTables.css') }}">
 @endsection
 
 @section('page-header')
@@ -44,7 +47,7 @@
             </div>
             <div class="card-block">
                 <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
-                <table class="table table-responsive">
+                <table id="dttable" class="table table-bordered table-responsive">
                     <thead>
                         <tr>
                             <th>Judul</th>
@@ -158,8 +161,15 @@
 </div>
 @endsection
 @section('script')
+<script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}" ></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}" ></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}" ></script>
+
+<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
 <script>
     $(document).ready(function () {
+        $("#dttable").DataTable();
         $('#delModal').on('show.bs.modal', function (event) {
             const link = $(event.relatedTarget);
             const id = link.data('id');
