@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\MasterData;
 
 use App\Http\Controllers\Controller;
-use App\Model\DWH\Jembatan;
+use App\Model\Transactional\Jembatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class JembatanController extends Controller
 {
@@ -25,10 +26,25 @@ class JembatanController extends Controller
         $jembatan = new Jembatan();
         if(Auth::user()->internalRole->uptd){
             $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
-            $laporan = $jembatan->where('UPTD',$uptd_id);
+            $laporan = $jembatan->where('uptd',$uptd_id);
         }
         $jembatan = $jembatan->get();
-        return view('admin.master.jembatan.index', compact('jembatan'));
+
+        $ruasJalan = DB::table('master_ruas_jalan');
+        if(Auth::user()->internalRole->uptd){
+            $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
+            $ruasJalan = $ruasJalan->where('uptd_id',$uptd_id);
+        }
+        $ruasJalan = $ruasJalan->get();
+
+        $sup = DB::table('utils_sup');
+        if(Auth::user()->internalRole->uptd){
+            $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
+            $sup = $sup->where('uptd_id',$uptd_id);
+        }
+        $sup = $sup->get();
+        
+        return view('admin.master.jembatan.index', compact('jembatan', 'ruasJalan', 'sup'));
     }
 
     /**
@@ -49,7 +65,23 @@ class JembatanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $jembatan = $request->except('_token','foto');
+
+        if($request->foto != null){
+            $path = 'jembatan/'.Str::snake(date("YmdHis").' '.$request->foto->getClientOriginalName());
+            $request->foto->storeAs('public/',$path);
+            $jembatan ['foto'] = $path;
+        }
+        if(Auth::user()->internalRole->uptd){
+            $jembatan['uptd_id'] = Auth::user()->internalRole->uptd;
+        }else {
+            $jembatan['uptd_id'] = "0";
+        }
+        DB::table('master_jembatan')->insert($jembatan);
+
+        $color = "success";
+        $msg = "Berhasil Menambah Data Jembatan";
+        return back()->with(compact('color','msg'));
     }
 
     /**
@@ -88,9 +120,9 @@ class JembatanController extends Controller
 
     public function delete($id)
     {        
-        $jembatan = new Jembatan();
+        $jembatan = DB::table('master_jembatan');
         $old = $jembatan->where('id',$id);
-        $old->first()->gambar ?? Storage::delete('public/'.$old->first()->gambar);
+        $old->first()->foto ?? Storage::delete('public/'.$old->first()->foto);
 
         $old->delete();
 
