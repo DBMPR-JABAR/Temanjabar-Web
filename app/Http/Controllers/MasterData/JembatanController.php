@@ -43,8 +43,10 @@ class JembatanController extends Controller
             $sup = $sup->where('uptd_id',$uptd_id);
         }
         $sup = $sup->get();
+
+        $uptd = DB::table('landing_uptd')->get();
         
-        return view('admin.master.jembatan.index', compact('jembatan', 'ruasJalan', 'sup'));
+        return view('admin.master.jembatan.index', compact('jembatan', 'ruasJalan', 'sup', 'uptd'));
     }
 
     /**
@@ -73,10 +75,11 @@ class JembatanController extends Controller
             $jembatan ['foto'] = $path;
         }
         if(Auth::user()->internalRole->uptd){
-            $jembatan['uptd_id'] = Auth::user()->internalRole->uptd;
+            $jembatan['uptd'] = Auth::user()->internalRole->uptd;
         }else {
-            $jembatan['uptd_id'] = "0";
+            $jembatan['uptd'] = "";
         }
+        $jembatan['kategori'] = "";
         $jembatan['created_by'] = Auth::user()->id;
         $jembatanModel = new Jembatan();
         $jembatanModel->insert($jembatan);
@@ -120,7 +123,9 @@ class JembatanController extends Controller
         }
         $sup = $sup->get();
 
-        return view('admin.master.jembatan.edit', compact('jembatan', 'ruasJalan', 'sup'));
+        $uptd = DB::table('landing_uptd')->get();
+
+        return view('admin.master.jembatan.edit', compact('jembatan', 'ruasJalan', 'sup', 'uptd'));
     }
 
     /**
