@@ -50,7 +50,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::view('survey-kondisi-jalan/{uptd}/{jalan}', 'admin.monitoring.survey-kondisi-jalan-uptd-detail')->name('kondisiJalanUPTDDetail');
 
         Route::get('proyek-kontrak', 'MonitoringController@getProyekKontrak')->name('monitoring-kontrak');
-       // Route::view('proyek-kontrak', 'admin.monitoring.proyek-kontrak')->name('monitoring-kontrak');
+        // Route::view('proyek-kontrak', 'admin.monitoring.proyek-kontrak')->name('monitoring-kontrak');
         Route::get('proyek-kontrak/status/{status} ', 'MonitoringController@getProyekDetail');
         Route::get('main-dashboard', 'MonitoringController@getMainDashboard');
 
@@ -60,7 +60,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
         Route::get('kemantapan-jalan', 'MonitoringController@getKemantapanJalan');
         // Route::view('kemantapan-jalan-detail', 'admin.monitoring.kemantapan-jalan-detail');
-        Route::get('/getSup/{uptd}','MonitoringController@getSup');
+        Route::get('/getSup/{uptd}', 'MonitoringController@getSup');
     });
 
     // {SiteURL}/admin/rekomendasi/*
@@ -104,8 +104,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('update', 'LandingController@updateUPTD')->name('updateLandingUPTD');
             Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
         });
-
-
     });
 
     Route::group(['prefix' => 'master-data'], function () {
@@ -117,6 +115,15 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             // Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
             Route::get('delete/{id}', 'MasterData\JembatanController@delete')->name('deleteJembatan');
         });
+
+        Route::group(['prefix' => 'ruas-jalan'], function () {
+            Route::get('/', 'MasterData\RuasJalanController@index')->name('getMasterRuasJalan');
+            Route::get('edit/{id}', 'MasterData\RuasJalanController@edit')->name('editMasterRuasJalan');
+            Route::post('create', 'MasterData\RuasJalanController@create')->name('createMasterRuasJalan');
+            Route::post('update', 'MasterData\RuasJalanController@update')->name('updateMasterRuasJalan');
+            // Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
+            Route::get('delete/{id}', 'MasterData\RuasJalanController@delete')->name('deleteRuasJalan');
+        });
         // Route::resource('jembatan', 'MasterData\JembatanController');
         Route::group(['prefix' => 'user'], function () {
             Route::get('/', 'MasterData\UserController@getUser')->name('getMasterUser');
@@ -126,7 +133,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             // Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
         });
     });
-
 });
 Route::get('map/proyek-kontrak', 'MonitoringController@getProyekKontrakAPI')->name('api.proyekkontrak');
 
@@ -140,5 +146,3 @@ Route::view('debug/map-filter', 'debug.map-filter');
 Route::view('coba-map', 'debug.coba-map');
 Route::view('map-progress-mingguan', 'debug.map-progress-mingguan');
 Route::view('map-ruas-jalan', 'debug.map-ruas-jalan');
-
-
