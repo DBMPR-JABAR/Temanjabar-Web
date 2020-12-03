@@ -77,7 +77,9 @@ class JembatanController extends Controller
         }else {
             $jembatan['uptd_id'] = "0";
         }
-        DB::table('master_jembatan')->insert($jembatan);
+        $jembatan['created_by'] = Auth::user()->id;
+        $jembatanModel = new Jembatan();
+        $jembatanModel->insert($jembatan);
 
         $color = "success";
         $msg = "Berhasil Menambah Data Jembatan";
@@ -92,7 +94,7 @@ class JembatanController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -103,7 +105,22 @@ class JembatanController extends Controller
      */
     public function edit($id)
     {
-        //
+        $jembatan = Jembatan::find($id);
+        $ruasJalan = DB::table('master_ruas_jalan');
+        if(Auth::user()->internalRole->uptd){
+            $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
+            $ruasJalan = $ruasJalan->where('uptd_id',$uptd_id);
+        }
+        $ruasJalan = $ruasJalan->get();
+
+        $sup = DB::table('utils_sup');
+        if(Auth::user()->internalRole->uptd){
+            $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
+            $sup = $sup->where('uptd_id',$uptd_id);
+        }
+        $sup = $sup->get();
+
+        return view('admin.master.jembatan.edit', compact('jembatan', 'ruasJalan', 'sup'));
     }
 
     /**
@@ -113,9 +130,26 @@ class JembatanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $jembatan = $request->except('_token','foto','id');
+
+        $old = DB::table('master_jembatan')->where('id',$request->id)->first();
+
+        if($request->foto != null){
+            $old->foto ?? Storage::delete('public/'.$old->foto);
+
+            $path = 'jembatan/'.Str::snake(date("YmdHis").' '.$request->foto->getClientOriginalName());
+            $request->foto->storeAs('public/',$path);
+            $jembatan ['foto'] = $path;
+        }
+
+        $jembatan['updated_by'] = Auth::user()->id;
+        DB::table('master_jembatan')->where('id',$request->id)->update($jembatan);
+
+        $color = "success";
+        $msg = "Berhasil Memperbaharui Data Jembatan";
+        return back()->with(compact('color','msg'));
     }
 
     public function delete($id)

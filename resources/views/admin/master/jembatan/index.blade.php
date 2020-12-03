@@ -87,7 +87,7 @@
                                 </td>
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/'.$data->foto) !!}" alt="" srcset=""></td>
                                 <td>
-                                <a href="#" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
+                                <a href="{{ route('editJembatan',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
                                 <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
                                 </td>
                             </tr>
@@ -162,35 +162,35 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Panjang</label>
                             <div class="col-md-10">
-                                <input name="panjang" type="text" class="form-control" required>
+                                <input name="panjang" type="number" class="form-control" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Lebar</label>
                             <div class="col-md-10">
-                                <input name="lebar" type="text" class="form-control" required>
+                                <input name="lebar" type="number" class="form-control" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Jumlah Bentang</label>
                             <div class="col-md-10">
-                                <input name="jumlah_bentang" type="text" class="form-control" required>
+                                <input name="jumlah_bentang" type="number" class="form-control" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Koordinat X (Lat)</label>
                             <div class="col-md-10">
-                                <input name="lat" type="text" class="form-control" required>
+                                <input name="lat" type="number" class="form-control" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Koordinat Y (Lon)</label>
                             <div class="col-md-10">
-                                <input name="lng" type="text" class="form-control" required>
+                                <input name="lng" type="number" class="form-control" required>
                             </div>
                         </div>
 

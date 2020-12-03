@@ -111,9 +111,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::group(['prefix' => 'master-data'], function () {
         Route::group(['prefix' => 'jembatan'], function () {
             Route::get('/', 'MasterData\JembatanController@index')->name('getMasterJembatan');
-            // Route::get('edit/{id}', 'LandingController@editUPTD')->name('editLandingUPTD');
+            Route::get('edit/{id}', 'MasterData\JembatanController@edit')->name('editJembatan');
             Route::post('create', 'MasterData\JembatanController@store')->name('createJembatan');
-            // Route::post('update', 'LandingController@updateUPTD')->name('updateLandingUPTD');
+            Route::post('update', 'MasterData\JembatanController@update')->name('updateJembatan');
             // Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
             Route::get('delete/{id}', 'MasterData\JembatanController@delete')->name('deleteJembatan');
         });

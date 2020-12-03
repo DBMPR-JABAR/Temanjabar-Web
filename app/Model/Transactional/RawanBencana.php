@@ -4,11 +4,11 @@ namespace App\Model\Transactional;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Jembatan extends Model
+class RawanBencana extends Model
 {
-    protected $table = "master_jembatan";
+    protected $table = "master_rawan_bencana";
 
-    public $timestamps = true;
+    public $timestamps = false;
 
     public function ruasJalan()
     {
