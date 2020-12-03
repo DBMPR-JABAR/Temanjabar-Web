@@ -125,6 +125,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             // Route::post('update', 'LandingController@updateUPTD')->name('updateLandingUPTD');
             // Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
         });
+
+        Route::group(['prefix' => 'rawanbencana'], function () {
+            Route::get('/', 'MasterData\RawanBencanaController@getData')->name('getDataBencana');
+            Route::get('edit/{id}', 'MasterData\RawanBencanaController@editData')->name('editDataBencana');
+            Route::post('update/{id}', 'MasterData\RawanBencanaController@updateData')->name('updateDataBencana');
+            Route::post('create', 'MasterData\RawanBencanaController@createData')->name('createDataBencana');
+            Route::get('delete/{id}', 'MasterData\RawanBencanaController@deleteData')->name('deleteDataBencana');
+        });
     });
 
 });
