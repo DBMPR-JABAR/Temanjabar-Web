@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\MasterData;
 
 use App\Http\Controllers\Controller;
+use App\Model\DWH\Jembatan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class JembatanController extends Controller
 {
@@ -14,7 +18,17 @@ class JembatanController extends Controller
      */
     public function index()
     {
-        //
+        $response = [
+            'status' => 'false',
+            'data' => []
+        ];
+        $jembatan = new Jembatan();
+        if(Auth::user()->internalRole->uptd){
+            $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
+            $laporan = $jembatan->where('UPTD',$uptd_id);
+        }
+        $jembatan = $jembatan->get();
+        return view('admin.master.jembatan.index', compact('jembatan'));
     }
 
     /**
@@ -72,14 +86,16 @@ class JembatanController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+    public function delete($id)
+    {        
+        $jembatan = new Jembatan();
+        $old = $jembatan->where('id',$id);
+        $old->first()->gambar ?? Storage::delete('public/'.$old->first()->gambar);
+
+        $old->delete();
+
+        $color = "success";
+        $msg = "Berhasil Menghapus Data Jembatan";
+        return redirect(route('getMasterJembatan'))->with(compact('color','msg'));
     }
 }

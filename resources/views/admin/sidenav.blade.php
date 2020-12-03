@@ -174,7 +174,7 @@
                 <ul class="pcoded-submenu">
                      <li class="{{(Request::segment(3) == 'profil') ? 'active' : ''}}">
                       
-                        <a href="{{ url('admin/landing-page/profil') }}">
+                        <a href="{{ url('admin/master-data/user') }}">
                             <span class="pcoded-mtext">User</span>
                         </a>
                     </li>
@@ -187,8 +187,14 @@
                     </li>
 
                     <li class="{{(Request::segment(3) == 'profil') ? 'active' : ''}}">
-                        <a href="{{ url('admin/landing-page/profil') }}">
+                        <a href="{{ url('admin/master-data/jembatan') }}">
                             <span class="pcoded-mtext">Jembatan</span>
+                        </a>
+                    </li>
+
+                    <li class="{{(Request::segment(3) == 'profil') ? 'active' : ''}}">
+                        <a href="{{ url('admin/master-data/rawanbencana') }}">
+                            <span class="pcoded-mtext">Rawan Bencana</span>
                         </a>
                     </li>
                     
