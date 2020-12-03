@@ -26,6 +26,8 @@ class RuasJalanController extends Controller
 
         $ruasJalan = DB::table('master_ruas_jalan');
         $uptd = DB::table('landing_uptd');
+        $sup = DB::table('utils_sup');
+
 
         if (Auth::user()->internalRole->uptd) {
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
@@ -33,7 +35,8 @@ class RuasJalanController extends Controller
         }
         $ruasJalan = $ruasJalan->get();
         $uptd = $uptd->get();
-        return view('admin.master.ruas_jalan.index', compact('ruasJalan', 'uptd'));
+        $sup = $sup->get();
+        return view('admin.master.ruas_jalan.index', compact('ruasJalan', 'uptd', 'sup'));
     }
 
     /**
