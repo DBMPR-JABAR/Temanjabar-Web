@@ -109,7 +109,22 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     });
 
     Route::group(['prefix' => 'master-data'], function () {
-        Route::resource('jembatan', 'MasterData\JembatanController');
+        Route::group(['prefix' => 'jembatan'], function () {
+            Route::get('/', 'MasterData\JembatanController@index')->name('getMasterJembatan');
+            // Route::get('edit/{id}', 'LandingController@editUPTD')->name('editLandingUPTD');
+            // Route::post('create', 'LandingController@createUPTD')->name('createLandingUPTD');
+            // Route::post('update', 'LandingController@updateUPTD')->name('updateLandingUPTD');
+            // Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
+            Route::get('delete/{id}', 'MasterData\JembatanController@delete')->name('deleteJembatan');
+        });
+        // Route::resource('jembatan', 'MasterData\JembatanController');
+        Route::group(['prefix' => 'user'], function () {
+            Route::get('/', 'MasterData\UserController@getUser')->name('getMasterUser');
+            // Route::get('edit/{id}', 'LandingController@editUPTD')->name('editLandingUPTD');
+            // Route::post('create', 'LandingController@createUPTD')->name('createLandingUPTD');
+            // Route::post('update', 'LandingController@updateUPTD')->name('updateLandingUPTD');
+            // Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
+        });
     });
 
 });
