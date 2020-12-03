@@ -74,17 +74,21 @@
                             @foreach ($jembatan as $data)
                             <tr>
                                 <td>{{$loop->index + 1}}</td>
-                                <td>{{$data->NAMA_JEMBATAN}}</td>
-                                <td>{{$data->LOKASI}}</td>
-                                <td>{{$data->LAT}}</td>
-                                <td>{{$data->LNG}}</td>
-                                <td>{{$data->PANJANG}}</td>
-                                <td>{{$data->LEBAR}}</td>
-                                <td>{{$data->id}}</td>
+                                <td>{{$data->nama_jembatan}}</td>
+                                <td>{{$data->lokasi}}</td>
+                                <td>{{$data->lat}}</td>
+                                <td>{{$data->lng}}</td>
+                                <td>{{$data->panjang}}</td>
+                                <td>{{$data->lebar}}</td>
+                                <td>
+                                    @if($data->ruasJalan)
+                                    {{$data->ruasJalan->nama_ruas_jalan}}
+                                    @endif
+                                </td>
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/'.$data->foto) !!}" alt="" srcset=""></td>
                                 <td>
-                                <a href="#" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
-                                <a href="#delModal" data-id="{{$data->ID}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
+                                <a href="{{ route('editJembatan',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
+                                <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
                                 </td>
                             </tr>
                             @endforeach
@@ -96,7 +100,128 @@
     </div>
 </div>
 <div class="modal-only">
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
 
+                <form action="{{route('createJembatan')}}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-header">
+                        <h4 class="modal-title">Tambah Data Jembatan</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Id Jembatan</label>
+                            <div class="col-md-10">
+                                <input name="id_jembatan" type="text" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Nama Jembatan</label>
+                            <div class="col-md-10">
+                                <input name="nama_jembatan" type="text" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Ruas Jalan</label>
+                            <div class="col-md-10">
+                                <select name="ruas_jalan_id" class="form-control" required>
+                                    <option>Pilih Ruas Jalan</option>
+                                    @foreach ($ruasJalan as $data)
+                                        <option value="{{$data->id}}">{{$data->nama_ruas_jalan}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">SUP</label>
+                            <div class="col-md-10">
+                                <select class="form-control" required name="sup_id">
+                                    <option>Pilih SUP</option>
+                                    @foreach ($sup as $data)
+                                        <option value="{{$data->id}}">{{$data->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Lokasi</label>
+                            <div class="col-md-10">
+                                <input name="lokasi" type="text" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Panjang</label>
+                            <div class="col-md-10">
+                                <input name="panjang" type="number" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Lebar</label>
+                            <div class="col-md-10">
+                                <input name="lebar" type="number" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Jumlah Bentang</label>
+                            <div class="col-md-10">
+                                <input name="jumlah_bentang" type="number" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Koordinat X (Lat)</label>
+                            <div class="col-md-10">
+                                <input name="lat" type="number" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Koordinat Y (Lon)</label>
+                            <div class="col-md-10">
+                                <input name="lng" type="number" class="form-control" required>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Keterangan</label>
+                            <div class="col-md-10">
+                                <input name="ket" type="text" class="form-control" required>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Foto Jembatan</label>
+                            <div class="col-md-6">
+                                <input name="foto" type="file" class="form-control">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary waves-effect waves-light ">Simpan</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
