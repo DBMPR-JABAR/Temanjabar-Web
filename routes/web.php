@@ -106,7 +106,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         });
 
 
-    });
+    }); 
 
     Route::group(['prefix' => 'master-data'], function () {
         Route::group(['prefix' => 'jembatan'], function () {

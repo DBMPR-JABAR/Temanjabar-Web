@@ -57,7 +57,7 @@
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered able-responsive">
                         <thead>
-                            <tr>
+                            <tr> 
                                 <th>No</th>
                                 <th>No Ruas</th>
                                 <th>Ruas Jalan</th>

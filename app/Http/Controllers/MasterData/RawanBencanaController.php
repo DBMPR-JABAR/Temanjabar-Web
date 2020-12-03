@@ -21,7 +21,7 @@ class RawanBencanaController extends Controller
         $response = [
             'status' => 'false',
             'data' => []
-        ];
+        ]; 
         $rawanbencana = new RawanBencana();
         if(Auth::user()->internalRole->uptd){
             $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
