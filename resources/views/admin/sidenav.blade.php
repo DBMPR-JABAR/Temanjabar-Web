@@ -41,12 +41,12 @@
                     </li>
                     {{-- <li class="">
                         <a href="{{ url('admin/monitoring/audit-keuangan') }}">
-                            <span class="pcoded-mtext">Audit Keuangan (Pending)</span>
-                        </a>
-                    </li> --}}
-                </ul>
-            </li>
-            {{-- <li class="pcoded-hasmenu">
+                    <span class="pcoded-mtext">Audit Keuangan (Pending)</span>
+                    </a>
+            </li> --}}
+        </ul>
+        </li>
+        {{-- <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)">
                     <span class="pcoded-micon"><i class="ti-stats-up"></i></span>
                     <span class="pcoded-mtext">Rekomendasi</span>
@@ -54,21 +54,21 @@
                 <ul class="pcoded-submenu">
                     <li class=" ">
                         <a href="{{ url('admin/rekomendasi/rekomendasi-kontraktor') }}">
-                            <span class="pcoded-mtext">Kontraktor Terbaik</span>
-                        </a>
-                    </li>
-                    <li class=" ">
-                        <a href="{{ url('admin/rekomendasi/rekomendasi-konsultan') }}">
-                            <span class="pcoded-mtext">Konsultan Terbaik</span>
-                        </a>
-                    </li>
-                    <li class=" ">
-                        <a href="{{ url('admin/rekomendasi/rekomendasi-perbaikan') }}">
-                            <span class="pcoded-mtext">Perbaikan Infrastruktur</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>  --}}
+        <span class="pcoded-mtext">Kontraktor Terbaik</span>
+        </a>
+        </li>
+        <li class=" ">
+            <a href="{{ url('admin/rekomendasi/rekomendasi-konsultan') }}">
+                <span class="pcoded-mtext">Konsultan Terbaik</span>
+            </a>
+        </li>
+        <li class=" ">
+            <a href="{{ url('admin/rekomendasi/rekomendasi-perbaikan') }}">
+                <span class="pcoded-mtext">Perbaikan Infrastruktur</span>
+            </a>
+        </li>
+        </ul>
+        </li> --}}
         </ul>
         {{-- <div class="pcoded-navigatio-lavel">Data Utama</div>
         <ul class="pcoded-item pcoded-left-item pcoded-trigger">
@@ -172,16 +172,19 @@
                     <span class="pcoded-mtext">Manage</span>
                 </a>
                 <ul class="pcoded-submenu">
-                     <li class="{{(Request::segment(3) == 'profil') ? 'active' : ''}}">
-                      
+                    <li class="{{(Request::segment(3) == 'profil') ? 'active' : ''}}">
+
                         <a href="{{ url('admin/master-data/user') }}">
                             <span class="pcoded-mtext">User</span>
                         </a>
                     </li>
                     <li class="{{(Request::segment(3) == 'ruas_Jalan') ? 'active' : ''}}">
-                      
-                    <a href="{{ route('admin.master.ruas_jalan') }}">
+
+                        <!-- <a href="{{ route('admin.master.ruas_jalan') }}">
                         
+                            <span class="pcoded-mtext">Ruas Jalan</span>
+                        </a> -->
+                        <a href="{{ url('admin/master-data/ruas-jalan') }}">
                             <span class="pcoded-mtext">Ruas Jalan</span>
                         </a>
                     </li>
@@ -197,11 +200,12 @@
                             <span class="pcoded-mtext">Rawan Bencana</span>
                         </a>
                     </li>
-                    
 
-                    </ul>
-                    </li>
-                    </ul>
+
+
+                </ul>
+            </li>
+        </ul>
         <div class="pcoded-navigatio-lavel">Landing Page</div>
         <ul class="pcoded-item pcoded-left-item">
             <li class="pcoded-hasmenu {{(Request::segment(2) == 'landing-page') ? 'pcoded-trigger active' : ''}}">
