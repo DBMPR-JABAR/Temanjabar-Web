@@ -195,6 +195,13 @@
                         </a>
                     </li>
 
+                    <li class="{{(Request::segment(3) == 'profil') ? 'active' : ''}}">
+                        <a href="{{ url('admin/master-data/rawanbencana') }}">
+                            <span class="pcoded-mtext">Rawan Bencana</span>
+                        </a>
+                    </li>
+
+
 
                 </ul>
             </li>
