@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Carbon;
 
 class ProyekResource extends JsonResource
 {
@@ -15,15 +16,12 @@ class ProyekResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'KODE_PAKET' => $this->KODE_PAKET,
-            'NOMOR_KONTRAK' => $this->NOMOR_KONTRAK,
-            'NAMA_PAKET' => $this->NAMA_PAKET,
-            'TGL_KONTRAK' => $this->TGL_KONTRAK,
-            'WAKTU_PELAKSANAAN_BLN' => $this->WAKTU_PELAKSANAAN_BLN,
-            'WAKTU_PELAKSANAAN_HK' => $this->WAKTU_PELAKSANAAN_HK,
-            'TOTAL_SISA_LELANG' => $this->TOTAL_SISA_LELANG,
-            'UPTD' => $this->UPTD,
-            'PROGRESS_MINGGUAN' => GeneralResource::collection($this->progressMingguan)
+            "nama_paket" => $this->NAMA_PAKET,
+            "date_from" => Carbon::parse($this->DATE_FROM)->format('d-m-Y'),
+            "date_to" => Carbon::parse($this->DATE_TO)->format('d-m-Y'),
+            "rencana" => (float) $this->RENCANA,
+            "realisasi" => (float) $this->REALISASI,
+            "deviasi" => (float) $this->DEVIASI
         ];
     }
 

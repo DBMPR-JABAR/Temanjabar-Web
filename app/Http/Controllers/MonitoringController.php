@@ -79,46 +79,23 @@ class MonitoringController extends Controller
 
     public function getProyekKontrak()
     {
+        $finishquery = DB::connection('dwh')->table('vw_uptd_trx_proyek_kontrak')
+            ->select('NAMA_PAKET', 'TANGGAL', 'PENYEDIA_JASA', 'KEGIATAN', 'RUAS_JALAN', 'LOKASI', 'RENCANA', 'REALISASI', 'DEVIASI', 'JENIS_PEKERJAAN', 'UPTD','STATUS_PROYEK');
+        // $finishquery->whereIn('TANGGAL', function ($querySubTanggal) {
+        //     $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('vw_uptd_trx_proyek_kontrak');
+        // });
 
+        $criticalquery = clone $finishquery;
+        $onprogressquery = clone $finishquery;
 
-        $queryCritical = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN')
-            ->select('NAMA_PAKET', 'TANGGAL', 'PENYEDIA_JASA', 'KEGIATAN', 'RUAS_JALAN', 'LOKASI', 'RENCANA', 'REALISASI', 'DEVIASI', 'JENIS_PEKERJAAN', 'UPTD');
-        $queryCritical->whereIn('TANGGAL', function ($querySubTanggal) {
-            $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
-        });
-        $queryOnProgress = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
-        $queryOnProgress->whereIn('TANGGAL', function ($querySubTanggal) {
-            $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
-        });
-        $queryoffProgress = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
-        $queryoffProgress->whereIn('TANGGAL', function ($querySubTanggal) {
-            $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
-        });
+        $criticalCount = $criticalquery->whereRaw('BINARY STATUS_PROYEK = "CRITICAL CONTRACT"')->count();
+        $onprogressCount = $onprogressquery->whereRaw('BINARY STATUS_PROYEK = "ON PROGRESS"')->count();
+        $finishCount = $finishquery->whereRaw('BINARY STATUS_PROYEK = "FINISH"')->count();
 
-        $queryfinish = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN')
-            ->select('NAMA_PAKET', 'TANGGAL', 'PENYEDIA_JASA', 'KEGIATAN', 'RUAS_JALAN', 'LOKASI', 'RENCANA', 'REALISASI', 'DEVIASI', 'JENIS_PEKERJAAN', 'UPTD');
-        $queryfinish->whereIn('TANGGAL', function ($querySubTanggal) {
-            $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
-        });
-
-
-
-        $deviasi = -5;
-
-        $critical = $queryCritical->where('DEVIASI', '<', $deviasi);
-        $onprogress = $queryOnProgress->where('DEVIASI', '>', $deviasi);
-        $offProgress = $queryoffProgress->where('DEVIASI', '<', $deviasi);
-        $finish = $queryfinish->where('DEVIASI', '=', '0');
-
-        $countCritical = $critical->get()->count();
-        $countOnProgress = $onprogress->get()->count();
-        $countOffProgress = $offProgress->get()->count();
-        $countFinish = $finish->get()->count();
         return view('admin.monitoring.proyek-kontrak',
-            [   'countCritical' => $countCritical,
-                'countOnProgress' => $countOnProgress,
-                'countOffProgress' => $countOffProgress,
-                'countFinish' => $countFinish,
+            [   'countCritical' => $criticalCount,
+                'countOnProgress' => $onprogressCount,
+                'countFinish' => $finishCount,
                 'today' => date('Y-m-d'),
                 'anggaranData' => ""
             ]);
