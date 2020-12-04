@@ -59,12 +59,11 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Id Jalan</th>
                                 <th>Nama Ruas Jalan</th>
                                 <th>Sup</th>
                                 <th>Lokasi</th>
                                 <th>Panjang</th>
-                                <th>Status Awal</th>
-                                <th>Status Akhir</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -72,12 +71,11 @@
                             @foreach ($ruasJalan as $data)
                             <tr>
                                 <td>{{$loop->index + 1}}</td>
+                                <td>{{$data->id_ruas_jalan}}</td>
                                 <td>{{$data->nama_ruas_jalan}}</td>
                                 <td>{{$data->sup}}</td>
                                 <td>{{$data->lokasi}}</td>
                                 <td>{{$data->panjang}}</td>
-                                <td>{{$data->sta_awal}}</td>
-                                <td>{{$data->sta_akhir}}</td>
                                 <td>
                                     <a href="{{ route('editMasterRuasJalan',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
                                     <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
@@ -219,20 +217,25 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">UPTD</label>
-                            <div class="col-md-9">
+                        <?php
 
-                                <select class="form-control select2" name="uptd_id" style="min-width: 100%;">
-                                    <!-- <option value="" selected>- Event Name -</option> -->
-                                    <?php
-                                    foreach ($uptd as $uptdData) { ?>
+                        use Illuminate\Support\Facades\Auth;
+
+                        if (Auth::user()->internalRole->uptd) {
+                            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd); ?>
+                            <input name="uptd" type="number" class="form-control" value="{{$uptd_id}}" hidden>
+                        <?php } else { ?>
+                            <div class=" form-group row">
+                                <label class="col-md-3 col-form-label">UPTD</label>
+                                <div class="col-md-9">
+                                    <select class="form-control select2" name="uptd" style="min-width: 100%;">
+                                        @foreach ($uptd as $uptdData)
                                         <option value="<?php echo $uptdData->id; ?>"><?php echo $uptdData->nama; ?></option>
-                                    <?php } ?>
-                                </select>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-
+                        <?php    } ?>
                     </div>
 
                     <div class="modal-footer">

@@ -62,7 +62,17 @@
                     <div class=" form-group row">
                         <label class="col-md-2 col-form-label">SUP</label>
                         <div class="col-md-10">
-                            <input name="sup" type="text" class="form-control" required value="{{$ruasJalan->sup}}">
+                            <select class="form-control select2" name="sup" style="min-width: 100%;">
+                                <!-- <option value="" selected>- Event Name -</option> -->
+
+                                @foreach ($sup as $supData)
+                                @if($supData->name == $ruasJalan->sup)
+                                <option value="<?php echo $supData->name; ?>" selected><?php echo $supData->name; ?></option>
+                                @else
+                                <option value="<?php echo $supData->name; ?>"><?php echo $supData->name; ?></option>
+                                @endif
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
@@ -122,12 +132,29 @@
                         </div>
                     </div>
 
-                    <div class=" form-group row">
-                        <label class="col-md-2 col-form-label">UPTD</label>
-                        <div class="col-md-10">
-                            <input name="uptd_id" type="number" class="form-control" required value="{{$ruasJalan->uptd_id}}">
+                    <?php
+
+                    use Illuminate\Support\Facades\Auth;
+
+                    if (Auth::user()->internalRole->uptd) {
+                        $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd); ?>
+                        <input name="uptd" type="number" class="form-control" value="{{$uptd_id}}" hidden>
+                    <?php } else { ?>
+                        <div class=" form-group row">
+                            <label class="col-md-2 col-form-label">UPTD</label>
+                            <div class="col-md-10">
+                                <select class=" form-control select2" name="uptd" style="min-width: 100%;">
+                                    @foreach ($uptd as $uptdData)
+                                    @if($ruasJalan->uptd_id == $uptdData->id)
+                                    <option value="<?php echo $uptdData->id; ?>" selected><?php echo $uptdData->nama; ?></option>
+                                    @else
+                                    <option value="<?php echo $uptdData->id; ?>"><?php echo $uptdData->nama; ?></option>
+                                    @endif
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
-                    </div>
+                    <?php    } ?>
 
                     <button type="submit" class="btn btn-mat btn-success">Simpan Perubahan</button>
                 </form>

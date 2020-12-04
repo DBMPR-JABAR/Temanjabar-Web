@@ -142,13 +142,31 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         });
     });
 
-     Route::group(['prefix' => 'input-data'], function () {
+    Route::group(['prefix' => 'input-data'], function () {
         Route::group(['prefix' => 'pekerjaan'], function () {
             Route::get('/', 'MasterData\PekerjaanController@getData')->name('getDataBencana');
             Route::get('edit/{id}', 'MasterData\PekerjaanController@editData')->name('editDataBencana');
             Route::post('update/{id}', 'MasterData\PekerjaanController@updateData')->name('updateDataBencana');
             Route::post('create', 'MasterData\PekerjaanController@createData')->name('createDataBencana');
             Route::get('delete/{id}', 'MasterData\PekerjaanController@deleteData')->name('deleteDataBencana');
+        });
+
+        Route::group(['prefix' => 'kondisi-jalan'], function () {
+            Route::get('/', 'InputData\KondisiJalanController@index')->name('getIDKondisiJalan');
+            Route::get('edit/{id}', 'InputData\KondisiJalanController@edit')->name('editIDKondisiJalan');
+            Route::get('add', 'InputData\KondisiJalanController@add')->name('addIDKondisiJalan');
+            Route::post('create', 'InputData\KondisiJalanController@create')->name('createIDKondisiJalan');
+            Route::post('update', 'InputData\KondisiJalanController@update')->name('updateIDKondisiJalan');
+            Route::get('delete/{id}', 'InputData\KondisiJalanController@delete')->name('deleteIDKondisiJalan');
+        });
+
+        Route::group(['prefix' => 'data-paket'], function () {
+            Route::get('/', 'InputData\DataPaketController@index')->name('getIDDataPaket');
+            Route::get('edit/{id}', 'InputData\DataPaketController@edit')->name('editIDDataPaket');
+            Route::post('create', 'InputData\DataPaketController@create')->name('createIDDataPaket');
+            Route::get('add', 'InputData\DataPaketController@add')->name('addIDDataPaket');
+            Route::post('update', 'InputData\DataPaketController@update')->name('updateIDDataPaket');
+            Route::get('delete/{id}', 'InputData\DataPaketController@delete')->name('deleteIDDataPaket');
         });
     });
 });
