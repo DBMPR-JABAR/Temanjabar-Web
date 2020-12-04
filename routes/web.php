@@ -149,6 +149,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('create', 'MasterData\PekerjaanController@createData')->name('createDataBencana');
             Route::get('delete/{id}', 'MasterData\PekerjaanController@deleteData')->name('deleteDataBencana');
         });
+
+        Route::group(['prefix' => 'keuangan'], function () {
+            Route::get('/', 'InputData\KeuanganController@index')->name('getKeuangan');
+            Route::get('edit/{id}', 'InputData\KeuanganController@edit')->name('editKeuangan');
+            Route::post('update', 'InputData\KeuanganController@update')->name('updateKeuangan');
+            Route::get('delete/{id}', 'MasterData\PekerjaanController@deleteData')->name('deleteDataBencana');
+        });
     });
 });
 Route::get('map/proyek-kontrak', 'MonitoringController@getProyekKontrakAPI')->name('api.proyekkontrak');

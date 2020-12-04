@@ -19,13 +19,9 @@ class JembatanController extends Controller
      */
     public function index()
     {
-        $response = [
-            'status' => 'false',
-            'data' => []
-        ];
         $jembatan = new Jembatan();
         if(Auth::user()->internalRole->uptd){
-            $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
+            $uptd_id = Auth::user()->internalRole->uptd;
             $laporan = $jembatan->where('uptd',$uptd_id);
         }
         $jembatan = $jembatan->get();
@@ -74,7 +70,7 @@ class JembatanController extends Controller
             $request->foto->storeAs('public/',$path);
             $jembatan ['foto'] = $path;
         }
-        
+
         $jembatan['kategori'] = "";
         $jembatan['created_by'] = Auth::user()->id;
         $jembatanModel = new Jembatan();

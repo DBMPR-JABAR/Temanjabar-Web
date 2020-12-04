@@ -215,14 +215,17 @@
                 </a>
                 <ul class="pcoded-submenu">
                     <li class="{{(Request::segment(3) == 'pekerjaan') ? 'active' : ''}}">
-
                         <a href="{{ url('admin/input-data/pekerjaan') }}">
                             <span class="pcoded-mtext">Pekerjaan</span>
                         </a>
                     </li>
-                  
-
-
+                </ul>
+                <ul class="pcoded-submenu">
+                    <li class="{{(Request::segment(3) == 'pekerjaan') ? 'active' : ''}}">
+                        <a href="{{ url('admin/input-data/keuangan') }}">
+                            <span class="pcoded-mtext">List Data</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
         </ul>
