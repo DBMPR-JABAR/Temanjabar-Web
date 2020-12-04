@@ -26,14 +26,19 @@ class RuasJalanController extends Controller
 
         $ruasJalan = DB::table('master_ruas_jalan');
         $uptd = DB::table('landing_uptd');
+        $sup = DB::table('utils_sup');
+
 
         if (Auth::user()->internalRole->uptd) {
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
-            $laporan = $ruasJalan->where('UPTD', $uptd_id);
+            // $laporan = $ruasJalan->where('UPTD', $uptd_id);
+            $sup = $sup->where('uptd_id', $uptd_id);
+            $uptd = $uptd->where('slug', Auth::user()->internalRole->uptd);
         }
         $ruasJalan = $ruasJalan->get();
         $uptd = $uptd->get();
-        return view('admin.master.ruas_jalan.index', compact('ruasJalan', 'uptd'));
+        $sup = $sup->get();
+        return view('admin.master.ruas_jalan.index', compact('ruasJalan', 'uptd', 'sup'));
     }
 
     /**
@@ -95,7 +100,9 @@ class RuasJalanController extends Controller
     public function edit($id)
     {
         $ruasJalan = DB::table('master_ruas_jalan')->where('id', $id)->first();
-        return view('admin.master.ruas_jalan.edit', compact('ruasJalan'));
+        $sup = DB::table('utils_sup')->get();
+        $uptd = DB::table('landing_uptd')->get();
+        return view('admin.master.ruas_jalan.edit', compact('ruasJalan', 'sup', 'uptd'));
     }
 
     /**

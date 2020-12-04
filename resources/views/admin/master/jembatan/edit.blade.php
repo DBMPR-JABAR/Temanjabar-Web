@@ -44,102 +44,119 @@
                     @csrf
                     <input type="hidden" name="id" value="{{$jembatan->id}}">
 
-
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Id Jembatan</label>
-                            <div class="col-md-10">
-                                <input name="id_jembatan" type="text" class="form-control" value="{{$jembatan->id_jembatan}}" required>
-                            </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Id Jembatan</label>
+                        <div class="col-md-10">
+                            <input name="id_jembatan" type="text" class="form-control" value="{{$jembatan->id_jembatan}}" required>
                         </div>
+                    </div>
 
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Nama Jembatan</label>
-                            <div class="col-md-10">
-                                <input name="nama_jembatan" type="text" class="form-control" value="{{$jembatan->nama_jembatan}}" required>
-                            </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Nama Jembatan</label>
+                        <div class="col-md-10">
+                            <input name="nama_jembatan" type="text" class="form-control" value="{{$jembatan->nama_jembatan}}" required>
                         </div>
+                    </div>
 
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Ruas Jalan</label>
+                        <div class="col-md-10">
+                            <select name="ruas_jalan" class="form-control" required>
+                                <option value="{{$jembatan->ruas_jalan}}">{{$jembatan->ruas_jalan}}</option>
+                                <option></option>
+                                @foreach ($ruasJalan as $data)
+                                    <option value="{{$data->nama_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">SUP</label>
+                        <div class="col-md-10">
+                            <select class="form-control" required name="sup">
+                                <option value="{{$jembatan->sup}}">{{$jembatan->sup}}</option>
+                                <option></option>
+                                @foreach ($sup as $data)
+                                    <option value="{{$data->name}}" >{{$data->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Lokasi</label>
+                        <div class="col-md-10">
+                            <input name="lokasi" type="text" class="form-control" required value="{{$jembatan->lokasi}}">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Panjang</label>
+                        <div class="col-md-10">
+                            <input name="panjang" type="text" class="form-control" required value="{{$jembatan->panjang}}">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Lebar</label>
+                        <div class="col-md-10">
+                            <input name="lebar" type="text" class="form-control" required value="{{$jembatan->lebar}}">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Jumlah Bentang</label>
+                        <div class="col-md-10">
+                            <input name="jumlah_bentang" type="text" class="form-control" required value="{{$jembatan->jumlah_bentang}}">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Koordinat X (Lat)</label>
+                        <div class="col-md-10">
+                            <input name="lat" type="text" class="form-control" required value="{{$jembatan->lat}}">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Koordinat Y (Lon)</label>
+                        <div class="col-md-10">
+                            <input name="lng" type="text" class="form-control" required value="{{$jembatan->lng}}">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Keterangan</label>
+                        <div class="col-md-10">
+                            <input name="ket" type="text" class="form-control" required value="{{$jembatan->ket}}">
+                        </div>
+                    </div>
+
+                    @if(Auth::user()->internalRole->uptd)
+                    <input type="hidden" name="uptd_id" value="{{$jembatan->uptd_id}}">
+                    @else
                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Ruas Jalan</label>
+                            <label class="col-md-2 col-form-label">UPTD</label>
                             <div class="col-md-10">
-                                <select name="ruas_jalan_id" class="form-control" required>
-                                    <option>Pilih Ruas Jalan</option>
-                                    @foreach ($ruasJalan as $data)
-                                        <option value="{{$data->id}}" @if($data->id == $jembatan->ruas_jalan_id) selected @endif>{{$data->nama_ruas_jalan}}</option>
+                                <select class="form-control" required name="uptd">
+                                    <option>Pilih UPTD</option>
+                                    @foreach ($uptd as $data)
+                                        <option value="{{$data->slug}}" @if($data->slug==$jembatan->uptd) selected @endif>{{$data->nama}}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
+                    @endif
 
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">SUP</label>
-                            <div class="col-md-10">
-                                <select class="form-control" required name="sup_id">
-                                    <option>Pilih SUP</option>
-                                    @foreach ($sup as $data)
-                                        <option value="{{$data->id}}" @if($data->id == $jembatan->sup_id) selected @endif >{{$data->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Foto Jembatan</label>
+                        <div class="col-md-6">
+                            <input name="foto" type="file" class="form-control">
+                            <small class="form-text text-muted">Kosongkan jika tidak akan merubah foto jembatan</small>
                         </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Lokasi</label>
-                            <div class="col-md-10">
-                                <input name="lokasi" type="text" class="form-control" required value="{{$jembatan->lokasi}}">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Panjang</label>
-                            <div class="col-md-10">
-                                <input name="panjang" type="text" class="form-control" required value="{{$jembatan->panjang}}">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Lebar</label>
-                            <div class="col-md-10">
-                                <input name="lebar" type="text" class="form-control" required value="{{$jembatan->lebar}}">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Jumlah Bentang</label>
-                            <div class="col-md-10">
-                                <input name="jumlah_bentang" type="text" class="form-control" required value="{{$jembatan->jumlah_bentang}}">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Koordinat X (Lat)</label>
-                            <div class="col-md-10">
-                                <input name="lat" type="text" class="form-control" required value="{{$jembatan->lat}}">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Koordinat Y (Lon)</label>
-                            <div class="col-md-10">
-                                <input name="lng" type="text" class="form-control" required value="{{$jembatan->lng}}">
-                            </div>
-                        </div>
-
-
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Keterangan</label>
-                            <div class="col-md-10">
-                                <input name="ket" type="text" class="form-control" required value="{{$jembatan->ket}}">
-                            </div>
-                        </div>
-
-
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Foto Jembatan</label>
-                            <div class="col-md-6">
-                                <input name="foto" type="file" class="form-control">
-                            </div>
-                        </div>
+                    </div>
 
                     <button type="submit" class="btn btn-mat btn-success">Simpan Perubahan</button>
                 </form>

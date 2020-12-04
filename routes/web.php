@@ -121,16 +121,15 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('edit/{id}', 'MasterData\RuasJalanController@edit')->name('editMasterRuasJalan');
             Route::post('create', 'MasterData\RuasJalanController@create')->name('createMasterRuasJalan');
             Route::post('update', 'MasterData\RuasJalanController@update')->name('updateMasterRuasJalan');
-            // Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
             Route::get('delete/{id}', 'MasterData\RuasJalanController@delete')->name('deleteRuasJalan');
         });
-        // Route::resource('jembatan', 'MasterData\JembatanController');
+
         Route::group(['prefix' => 'user'], function () {
-            Route::get('/', 'MasterData\UserController@getUser')->name('getMasterUser');
-            // Route::get('edit/{id}', 'LandingController@editUPTD')->name('editLandingUPTD');
-            // Route::post('create', 'LandingController@createUPTD')->name('createLandingUPTD');
-            // Route::post('update', 'LandingController@updateUPTD')->name('updateLandingUPTD');
-            // Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
+            Route::get('/', 'MasterData\UserController@index')->name('getMasterUser');
+            Route::get('edit/{id}', 'MasterData\UserController@edit')->name('editUser');
+            Route::post('create', 'MasterData\UserController@store')->name('createUser');
+            Route::post('update', 'MasterData\UserController@update')->name('updateUser');
+            Route::get('delete/{id}', 'MasterData\UserController@delete')->name('deleteUser');
         });
 
         Route::group(['prefix' => 'rawanbencana'], function () {
@@ -140,6 +139,55 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('create', 'MasterData\RawanBencanaController@createData')->name('createDataBencana');
             Route::get('delete/{id}', 'MasterData\RawanBencanaController@deleteData')->name('deleteDataBencana');
         });
+    });
+
+    Route::group(['prefix' => 'input-data'], function () {
+        Route::group(['prefix' => 'pekerjaan'], function () {
+            Route::get('/', 'InputData\PekerjaanController@getData')->name('getDataPekerjaan');
+            Route::get('edit/{id}', 'InputData\PekerjaanController@editData')->name('editDataPekerjaan');
+            Route::post('update/{id}', 'InputData\PekerjaanController@updateData')->name('updateDataPekerjaan');
+            Route::post('create', 'InputData\PekerjaanController@createData')->name('createDataPekerjaan');
+            Route::get('delete/{id}', 'InputData\PekerjaanController@deleteData')->name('deleteDataPekerjaan');
+        });
+
+        Route::group(['prefix' => 'progresskerja'], function () {
+            Route::get('/', 'InputData\ProgressPekerjaanController@getDataProgress')->name('getDataProgress');
+            Route::get('edit/{id}', 'InputData\ProgressPekerjaanController@editDataProgress')->name('editDataProgress');
+            Route::post('update/{id}', 'InputData\ProgressPekerjaanController@updateDataProgress')->name('updateDataProgress');
+            Route::post('create', 'InputData\ProgressPekerjaanController@createDataProgress')->name('createDataProgress');
+            Route::get('delete/{id}', 'InputData\ProgressPekerjaanController@deleteDataProgress')->name('deleteDataProgress');
+        });
+
+        Route::group(['prefix' => 'keuangan'], function () {
+            Route::get('/', 'InputData\KeuanganController@index')->name('getKeuangan');
+            Route::get('edit/{id}', 'InputData\KeuanganController@edit')->name('editKeuangan');
+            Route::post('update', 'InputData\KeuanganController@update')->name('updateKeuangan');
+            Route::get('delete/{id}', 'MasterData\PekerjaanController@deleteData')->name('deleteDataBencana');
+        });
+
+        Route::group(['prefix' => 'kondisi-jalan'], function () {
+            Route::get('/', 'InputData\KondisiJalanController@index')->name('getIDKondisiJalan');
+            Route::get('edit/{id}', 'InputData\KondisiJalanController@edit')->name('editIDKondisiJalan');
+            Route::get('add', 'InputData\KondisiJalanController@add')->name('addIDKondisiJalan');
+            Route::post('create', 'InputData\KondisiJalanController@create')->name('createIDKondisiJalan');
+            Route::post('update', 'InputData\KondisiJalanController@update')->name('updateIDKondisiJalan');
+            Route::get('delete/{id}', 'InputData\KondisiJalanController@delete')->name('deleteIDKondisiJalan');
+        });
+
+        Route::group(['prefix' => 'data-paket'], function () {
+            Route::get('/', 'InputData\DataPaketController@index')->name('getIDDataPaket');
+            Route::get('edit/{id}', 'InputData\DataPaketController@edit')->name('editIDDataPaket');
+            Route::post('create', 'InputData\DataPaketController@create')->name('createIDDataPaket');
+            Route::get('add', 'InputData\DataPaketController@add')->name('addIDDataPaket');
+            Route::post('update', 'InputData\DataPaketController@update')->name('updateIDDataPaket');
+            Route::get('delete/{id}', 'InputData\DataPaketController@delete')->name('deleteIDDataPaket');
+        });
+    });
+
+    Route::group(['prefix' => 'lapor'], function () {
+        Route::get('/', 'LaporController@index')->name('getLapor');
+        Route::get('/add', 'LaporController@create')->name('addLapor');
+        Route::post('/create', 'LaporController@store')->name('createLapor');
     });
 });
 Route::get('map/proyek-kontrak', 'MonitoringController@getProyekKontrakAPI')->name('api.proyekkontrak');
