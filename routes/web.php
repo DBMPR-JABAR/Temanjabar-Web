@@ -157,6 +157,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('delete/{id}', 'MasterData\PekerjaanController@deleteData')->name('deleteDataBencana');
         });
     });
+
+    Route::group(['prefix' => 'lapor'], function () {
+        Route::get('/', 'LaporController@index')->name('getLapor');
+        Route::get('/add', 'LaporController@create')->name('addLapor');
+        Route::post('/create', 'LaporController@store')->name('createLapor');
+    });
 });
 Route::get('map/proyek-kontrak', 'MonitoringController@getProyekKontrakAPI')->name('api.proyekkontrak');
 

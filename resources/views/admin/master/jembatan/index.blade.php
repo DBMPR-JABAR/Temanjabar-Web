@@ -196,7 +196,7 @@
                             </div>
                         </div>
                         @if(Auth::user()->internalRole->uptd)
-                            <input type="hidden" name="uptd_id" value="{{str_replace('uptd','',Auth::user()->internalRole->uptd)}}">
+                            <input type="hidden" name="uptd" value="{{Auth::user()->internalRole->uptd)}}">
                         @else
                             <div class="form-group row">
                                 <label class="col-md-2 col-form-label">UPTD</label>

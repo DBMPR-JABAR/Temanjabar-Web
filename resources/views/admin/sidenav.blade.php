@@ -228,6 +228,35 @@
                     </li>
                 </ul>
             </li>
+
+            <li class="pcoded-hasmenu {{(Request::segment(2) == 'landing-page') ? 'pcoded-trigger active' : ''}}">
+                <a href="javascript:void(0)">
+                    <span class="pcoded-micon"><i class="ti-home"></i></span>
+                    <span class="pcoded-mtext">Lapor</span>
+                </a>
+                <ul class="pcoded-submenu">
+                    <li class="{{(Request::segment(3) == 'pekerjaan') ? 'active' : ''}}">
+                        <a href="{{ url('admin/lapor/add') }}">
+                            <span class="pcoded-mtext">Input Laporan</span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="pcoded-submenu">
+                    <li class="{{(Request::segment(3) == 'pekerjaan') ? 'active' : ''}}">
+                        <a href="#">
+                            <span class="pcoded-mtext">Daftar Lapor</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="pcoded-submenu">
+                    <li class="{{(Request::segment(3) == 'pekerjaan') ? 'active' : ''}}">
+                        <a href="#">
+                            <span class="pcoded-mtext">Quick Response</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
         </ul>
         <div class="pcoded-navigatio-lavel">Landing Page</div>
         <ul class="pcoded-item pcoded-left-item">
