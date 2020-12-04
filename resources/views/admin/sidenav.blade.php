@@ -219,8 +219,16 @@
                             <span class="pcoded-mtext">Pekerjaan</span>
                         </a>
                     </li>
-                </ul>
-                <ul class="pcoded-submenu">
+                    <li class="{{(Request::segment(3) == 'kondisi-jalan') ? 'active' : ''}}">
+                        <a href="{{ url('admin/input-data/kondisi-jalan') }}">
+                            <span class="pcoded-mtext">Kondisi Jalan</span>
+                        </a>
+                    </li>
+                    <li class="{{(Request::segment(3) == 'data-paket') ? 'active' : ''}}">
+                        <a href="{{ url('admin/input-data/data-paket') }}">
+                            <span class="pcoded-mtext">Data Paket</span>
+                        </a>
+                    </li>
                     <li class="{{(Request::segment(3) == 'pekerjaan') ? 'active' : ''}}">
                         <a href="{{ url('admin/input-data/keuangan') }}">
                             <span class="pcoded-mtext">List Data</span>
@@ -240,16 +248,11 @@
                             <span class="pcoded-mtext">Input Laporan</span>
                         </a>
                     </li>
-                </ul>
-                <ul class="pcoded-submenu">
                     <li class="{{(Request::segment(3) == 'pekerjaan') ? 'active' : ''}}">
                         <a href="#">
                             <span class="pcoded-mtext">Daftar Lapor</span>
                         </a>
                     </li>
-                </ul>
-
-                <ul class="pcoded-submenu">
                     <li class="{{(Request::segment(3) == 'pekerjaan') ? 'active' : ''}}">
                         <a href="#">
                             <span class="pcoded-mtext">Quick Response</span>
