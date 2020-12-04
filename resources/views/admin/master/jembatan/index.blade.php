@@ -80,11 +80,7 @@
                                 <td>{{$data->lng}}</td>
                                 <td>{{$data->panjang}}</td>
                                 <td>{{$data->lebar}}</td>
-                                <td>
-                                    @if($data->ruasJalan)
-                                    {{$data->ruasJalan->nama_ruas_jalan}}
-                                    @endif
-                                </td>
+                                <td>{{$data->ruas_jalan}}</td>
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/'.$data->foto) !!}" alt="" srcset=""></td>
                                 <td>
                                 <a href="{{ route('editJembatan',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
@@ -131,10 +127,10 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Ruas Jalan</label>
                             <div class="col-md-10">
-                                <select name="ruas_jalan_id" class="form-control" required>
+                                <select name="ruas_jalan" class="form-control" required>
                                     <option>Pilih Ruas Jalan</option>
                                     @foreach ($ruasJalan as $data)
-                                        <option value="{{$data->id}}">{{$data->nama_ruas_jalan}}</option>
+                                        <option value="{{$data->nama_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -143,10 +139,10 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">SUP</label>
                             <div class="col-md-10">
-                                <select class="form-control" required name="sup_id">
+                                <select class="form-control" required name="sup">
                                     <option>Pilih SUP</option>
                                     @foreach ($sup as $data)
-                                        <option value="{{$data->id}}">{{$data->name}}</option>
+                                        <option value="{{$data->name}}">{{$data->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -162,38 +158,36 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Panjang</label>
                             <div class="col-md-10">
-                                <input name="panjang" type="number" class="form-control" required>
+                                <input name="panjang" type="number" class="form-control" step="any" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Lebar</label>
                             <div class="col-md-10">
-                                <input name="lebar" type="number" class="form-control" required>
+                                <input name="lebar" type="number" class="form-control" step="any" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Jumlah Bentang</label>
                             <div class="col-md-10">
-                                <input name="jumlah_bentang" type="number" class="form-control" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Koordinat X (Lat)</label>
                             <div class="col-md-10">
-                                <input name="lat" type="number" class="form-control" required>
+                                <input name="lat" type="number" class="form-control"  required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Koordinat Y (Lon)</label>
                             <div class="col-md-10">
-                                <input name="lng" type="number" class="form-control" required>
+                                <input name="lng" type="number" class="form-control" step="any" required>
                             </div>
                         </div>
-
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Keterangan</label>
@@ -201,8 +195,21 @@
                                 <input name="ket" type="text" class="form-control" required>
                             </div>
                         </div>
-
-
+                        @if(Auth::user()->internalRole->uptd)
+                            <input type="hidden" name="uptd" value="{{Auth::user()->internalRole->uptd)}}">
+                        @else
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label">UPTD</label>
+                                <div class="col-md-10">
+                                    <select class="form-control" required name="uptd">
+                                        <option>Pilih UPTD</option>
+                                        @foreach ($uptd as $data)
+                                            <option value="{{$data->slug}}">{{$data->nama}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        @endif
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Foto Jembatan</label>
                             <div class="col-md-6">
@@ -245,7 +252,6 @@
             </div>
         </div>
     </div>
-
 </div>
 @endsection
 @section('script')

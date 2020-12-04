@@ -1229,7 +1229,7 @@ INSERT INTO `master_jembatan` (`ID`, `ID_JEMBATAN`, `NAMA_JEMBATAN`, `LAT`, `LNG
 -- Indexes for table `master_jembatan`
 --
 ALTER TABLE `master_jembatan`
-  ADD PRIMARY KEY (`ID`) USING BTREE;
+  ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -1239,4 +1239,4 @@ ALTER TABLE `master_jembatan`
 -- AUTO_INCREMENT for table `master_jembatan`
 --
 ALTER TABLE `master_jembatan`
-  MODIFY `ID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1170;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1170;

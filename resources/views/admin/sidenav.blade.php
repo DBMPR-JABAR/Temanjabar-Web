@@ -216,7 +216,6 @@
                 <ul class="pcoded-submenu">
                     <div class="pcoded-navigatio-lavel">Pemeliharaan</div>
                     <li class="{{(Request::segment(3) == 'pekerjaan') ? 'active' : ''}}">
-
                         <a href="{{ url('admin/input-data/pekerjaan') }}">
                             <span class="pcoded-mtext">Pekerjaan</span>
                         </a>
@@ -240,6 +239,35 @@
                         </a>
                     </li>
                     <div class="pcoded-navigatio-lavel">Keuangan</div>
+                    <li class="{{(Request::segment(3) == 'keuangan') ? 'active' : ''}}">
+                        <a href="{{ url('admin/input-data/keuangan') }}">
+                            <span class="pcoded-mtext">List Data</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="pcoded-hasmenu {{(Request::segment(2) == 'landing-page') ? 'pcoded-trigger active' : ''}}">
+                <a href="javascript:void(0)">
+                    <span class="pcoded-micon"><i class="ti-home"></i></span>
+                    <span class="pcoded-mtext">Lapor</span>
+                </a>
+                <ul class="pcoded-submenu">
+                    <li class="{{(Request::segment(3) == 'pekerjaan') ? 'active' : ''}}">
+                        <a href="{{ url('admin/lapor/add') }}">
+                            <span class="pcoded-mtext">Input Laporan</span>
+                        </a>
+                    </li>
+                    <li class="{{(Request::segment(3) == 'pekerjaan') ? 'active' : ''}}">
+                        <a href="#">
+                            <span class="pcoded-mtext">Daftar Lapor</span>
+                        </a>
+                    </li>
+                    <li class="{{(Request::segment(3) == 'pekerjaan') ? 'active' : ''}}">
+                        <a href="#">
+                            <span class="pcoded-mtext">Quick Response</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
         </ul>
