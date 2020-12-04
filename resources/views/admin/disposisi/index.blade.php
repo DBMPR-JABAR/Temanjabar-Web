@@ -84,7 +84,10 @@
                                 <td>{{$data->no_surat}}</td>
                                 <td>{{$data->tgl_surat}}</td> 
                                 <td>
-                                
+                                 @php   $inouts = \App\Model\Transactional\DisposisiPenanggungJawab::where('disposisi_code',$data->disposisi_code)->get() @endphp 
+                                @foreach($inouts as $inout)
+                                <span class="badge  bg-success"> {{!empty($inout->user_role_id) ?  $inout->user_role_id : "-"  }}</span><br/>
+                                @endforeach
                                 </td>
                                 <td>{{$data->tanggal_penyelesaian}}</td>
                                 <td>{{$data->status}}</td>

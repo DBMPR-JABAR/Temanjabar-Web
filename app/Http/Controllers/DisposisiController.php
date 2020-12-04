@@ -62,7 +62,6 @@ class DisposisiController extends Controller
         $data['disposisi_instruksi_id'] = $jenis[$i];
         DB::table('disposisi_jenis_instruksi')->insert($data); 
         }
-
     }
 
     public function generateCode(){
