@@ -152,7 +152,14 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">SUP</label>
                             <div class="col-md-9">
-                                <input name="sup" type="text" class="form-control" required>
+
+                                <select class="form-control select2" name="sup" style="min-width: 100%;">
+                                    <!-- <option value="" selected>- Event Name -</option> -->
+                                    <?php
+                                    foreach ($sup as $supData) { ?>
+                                        <option value="<?php echo $supData->id; ?>"><?php echo $supData->name; ?></option>
+                                    <?php } ?>
+                                </select>
                             </div>
                         </div>
 
@@ -224,10 +231,6 @@
                                     <?php } ?>
                                 </select>
                             </div>
-                            <!-- <label class="col-md-3 col-form-label">UPTD</label>
-                            <div class="col-md-9">
-                                <input name="uptd_id" type="number" class="form-control" required>
-                            </div> -->
                         </div>
 
                     </div>

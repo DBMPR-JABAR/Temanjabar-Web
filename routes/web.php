@@ -140,6 +140,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('delete/{id}', 'MasterData\RawanBencanaController@deleteData')->name('deleteDataBencana');
         });
     });
+
+     Route::group(['prefix' => 'input-data'], function () {
+        Route::group(['prefix' => 'pekerjaan'], function () {
+            Route::get('/', 'MasterData\PekerjaanController@getData')->name('getDataBencana');
+            Route::get('edit/{id}', 'MasterData\PekerjaanController@editData')->name('editDataBencana');
+            Route::post('update/{id}', 'MasterData\PekerjaanController@updateData')->name('updateDataBencana');
+            Route::post('create', 'MasterData\PekerjaanController@createData')->name('createDataBencana');
+            Route::get('delete/{id}', 'MasterData\PekerjaanController@deleteData')->name('deleteDataBencana');
+        });
+    });
 });
 Route::get('map/proyek-kontrak', 'MonitoringController@getProyekKontrakAPI')->name('api.proyekkontrak');
 

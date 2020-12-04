@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\MasterData;
+namespace App\Http\Controllers\InputData;
 
 use App\Http\Controllers\Controller;
-use App\Model\DWH\RawanBencana;
+// use App\Model\DWH\RawanBencana;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class RawanBencanaController extends Controller
+class PekerjaanController extends Controller
 {
     /**
      * Display a listing of the resource.

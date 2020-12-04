@@ -108,7 +108,8 @@
                     </div>
 
                     <div class="modal-body">
-                        <input name="uptd_id" type="hidden" class="form-control" required value="{{Auth::user()->internalRole->uptd}}">
+                        <!-- <input name="uptd_id" type="hidden" class="form-control" required value="{{Auth::user()->internalRole->uptd}}"> -->
+
                         <div class="form-group row">
                         <label class="col-md-2 col-form-label">No Ruas</label>
                         <div class="col-md-10">
@@ -121,7 +122,7 @@
                         <div class="col-md-10">
                             <select name="ruas_jalan" class="form-control" required>
                                 @foreach ($ruas as $data)
-                                <option value="{{$data->id}}">{{$data->nama_ruas_jalan}}</option>
+                                <option value="{{$data->nama_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -149,6 +150,21 @@
                             </select>
                         </div>
                     </div>
+
+                    @if (Auth::user()->internalRole->uptd)
+                        <input type="hidden" name="uptd_id" value="{{Auth::user()->internalRole->uptd}}">
+                    @else
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Uptd</label>
+                       <div class="col-md-10">
+                            <select class="form-control" name="uptd_id">
+                                @foreach ($uptd as $data)
+                                <option value="{{$data->id}}">{{$data->nama}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    @endif
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Keterangan</label>
