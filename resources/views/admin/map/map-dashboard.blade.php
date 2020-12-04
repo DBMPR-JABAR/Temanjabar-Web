@@ -551,11 +551,13 @@
                     zoom: 8
                 });
 
+                const gsvrUrl = "{{ env('GEOSERVER') }}";
+
                 // dimz-add
                 let rutejalanLayer = new FeatureLayer({
                     // url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/SATUPETA_DBMPR/Jaringan_Jalan_25K/MapServer/2/"
                     // url: "http://localhost:8080/geoserver/gsr/services/temanjabar/FeatureServer/0/",
-                    url: "http://citylab.itb.ac.id:8080/geoserver/gsr/services/temanjabar/FeatureServer/0/",
+                    url: gsvrUrl+"/geoserver/gsr/services/temanjabar/FeatureServer/0/",
                 });
                 // end dimz-add
                 let jembatanLayer = new GraphicsLayer();
