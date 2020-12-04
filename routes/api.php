@@ -57,6 +57,11 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::get('kemantapan-jalan', 'API\RuasJalanController@getKemantapanJalan');
     Route::get('kemantapan-jalan/{id}', 'API\RuasJalanController@getDetailKemantapanJalan');
     Route::get('kemantapan-jalan-rekap', 'API\RuasJalanController@getRekapKemantapanJalan');
+
+    Route::get('proyek-kontrak', 'API\ProyekController@index');
+    Route::get('proyek-kontrak/count', 'API\ProyekController@count');
+    Route::get('proyek-kontrak/status/{status}', 'API\ProyekController@getByStatus');
+
 });
 
 Route::resource('ruas-jalan', 'API\RuasJalanController');

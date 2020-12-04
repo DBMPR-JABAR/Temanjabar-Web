@@ -164,6 +164,34 @@
             </li>
         </ul> --}}
 
+        <div class="pcoded-navigatio-lavel">Disposisi</div>
+        <ul class="pcoded-item pcoded-left-item">
+            <li class="pcoded-hasmenu {{(Request::segment(2) == 'landing-page') ? 'pcoded-trigger active' : ''}}">
+                <a href="javascript:void(0)">
+                    <span class="pcoded-micon"><i class="ti-home"></i></span>
+                    <span class="pcoded-mtext">Disposisi</span>
+                </a>
+                <ul class="pcoded-submenu">
+                    <li class="{{(Request::segment(3) == 'profil') ? 'active' : ''}}">
+
+                        <a href="{{ url('admin/disposisi') }}">
+                            <span class="pcoded-mtext">Daftar Disposisi </span>
+                        </a>
+                    </li>
+                    <li class="{{(Request::segment(3) == 'ruas_Jalan') ? 'active' : ''}}">
+
+                        <!-- <a href="{{ route('admin.master.ruas_jalan') }}">
+                        
+                            <span class="pcoded-mtext">Ruas Jalan</span>
+                        </a> -->
+                        <a href="{{ url('admin/master-data/ruas-jalan') }}">
+                            <span class="pcoded-mtext">Ruas Jalan</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+       </ul>
+
         <div class="pcoded-navigatio-lavel">Manage</div>
         <ul class="pcoded-item pcoded-left-item">
             <li class="pcoded-hasmenu {{(Request::segment(2) == 'landing-page') ? 'pcoded-trigger active' : ''}}">
