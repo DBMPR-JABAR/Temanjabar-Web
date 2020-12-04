@@ -144,11 +144,19 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
     Route::group(['prefix' => 'input-data'], function () {
         Route::group(['prefix' => 'pekerjaan'], function () {
-            Route::get('/', 'MasterData\PekerjaanController@getData')->name('getDataBencana');
-            Route::get('edit/{id}', 'MasterData\PekerjaanController@editData')->name('editDataBencana');
-            Route::post('update/{id}', 'MasterData\PekerjaanController@updateData')->name('updateDataBencana');
-            Route::post('create', 'MasterData\PekerjaanController@createData')->name('createDataBencana');
-            Route::get('delete/{id}', 'MasterData\PekerjaanController@deleteData')->name('deleteDataBencana');
+            Route::get('/', 'InputData\PekerjaanController@getData')->name('getDataPekerjaan');
+            Route::get('edit/{id}', 'InputData\PekerjaanController@editData')->name('editDataPekerjaan');
+            Route::post('update/{id}', 'InputData\PekerjaanController@updateData')->name('updateDataPekerjaan');
+            Route::post('create', 'InputData\PekerjaanController@createData')->name('createDataPekerjaan');
+            Route::get('delete/{id}', 'InputData\PekerjaanController@deleteData')->name('deleteDataPekerjaan');
+        });
+
+        Route::group(['prefix' => 'progresskerja'], function () {
+            Route::get('/', 'InputData\ProgressPekerjaanController@getDataProgress')->name('getDataProgress');
+            Route::get('edit/{id}', 'InputData\ProgressPekerjaanController@editDataProgress')->name('editDataProgress');
+            Route::post('update/{id}', 'InputData\ProgressPekerjaanController@updateDataProgress')->name('updateDataProgress');
+            Route::post('create', 'InputData\ProgressPekerjaanController@createDataProgress')->name('createDataProgress');
+            Route::get('delete/{id}', 'InputData\ProgressPekerjaanController@deleteDataProgress')->name('deleteDataProgress');
         });
 
         Route::group(['prefix' => 'kondisi-jalan'], function () {
