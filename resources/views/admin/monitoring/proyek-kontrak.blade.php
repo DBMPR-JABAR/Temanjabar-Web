@@ -75,13 +75,18 @@
                                     <div class="col-sm-12 col-xl-3 m-b-30">
                                         <h4 class="sub-title">UPTD</h4>
                                         <select id="filterUPTD" name="select" class="form-control form-control-primary">
+                                            @if (Auth::user()->internalRole->uptd)
+                                            <option value="{{Auth::user()->internalRole->uptd}}" selected>UPTD {{str_replace('uptd','',Auth::user()->internalRole->uptd)}}</option>
+                                            @else
                                             <option value="" selected>Semua</option>
+                                            <option value="">Dinas</option>
                                             <option value="uptd1">UPTD 1</option>
-                                            <option value="uptd2">UPTD 2 </option>
-                                            <option value="uptd3">UPTD 3 </option>
-                                            <option value="uptd4">UPTD 4 </option>
-                                            <option value="uptd5">UPTD 5 </option>
-                                            <option value="uptd6">UPTD 6 </option>
+                                            <option value="uptd2">UPTD 2</option>
+                                            <option value="uptd3">UPTD 3</option>
+                                            <option value="uptd4">UPTD 4</option>
+                                            <option value="uptd5">UPTD 5</option>
+                                            <option value="uptd6">UPTD 6</option>
+                                            @endif
                                         </select>
                                     </div>
                                     <div class="col-sm-12 col-xl-3 m-b-30">

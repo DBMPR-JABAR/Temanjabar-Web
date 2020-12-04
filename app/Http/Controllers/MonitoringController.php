@@ -80,12 +80,6 @@ class MonitoringController extends Controller
     public function getProyekKontrak()
     {
 
-        $query = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN')
-            ->select('NAMA_PAKET', 'TANGGAL', 'PENYEDIA_JASA', 'KEGIATAN', 'RUAS_JALAN', 'LOKASI', 'RENCANA', 'REALISASI', 'DEVIASI', 'JENIS_PEKERJAAN', 'UPTD');
-        $query->whereIn('TANGGAL', function ($querySubTanggal) {
-            $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('TBL_UPTD_TRX_PROGRESS_MINGGUAN')
-            ;
-        });
 
         $queryCritical = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN')
             ->select('NAMA_PAKET', 'TANGGAL', 'PENYEDIA_JASA', 'KEGIATAN', 'RUAS_JALAN', 'LOKASI', 'RENCANA', 'REALISASI', 'DEVIASI', 'JENIS_PEKERJAAN', 'UPTD');
@@ -109,38 +103,19 @@ class MonitoringController extends Controller
 
 
 
-        $queryPaket = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN')
-            ->select('NAMA_PAKET', 'TANGGAL', 'PENYEDIA_JASA', 'KEGIATAN', 'RUAS_JALAN', 'LOKASI', 'RENCANA', 'REALISASI', 'DEVIASI', 'JENIS_PEKERJAAN', 'UPTD');
-        $queryPaket->whereIn('TANGGAL', function ($querySubTanggal) {
-            $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
-        });
-        $listQueryPaket = $queryPaket->get();
-
-        $paketData = array();
-        foreach ($listQueryPaket as $paket) {
-            $paketData[] = '
-                 {
-                  "paket": "' . $paket->NAMA_PAKET . '" ,
-                  "rencana": ' . $paket->RENCANA . ' ,
-                  "realisasi": ' . $paket->REALISASI . '
-                }';
-
-        }
-
         $deviasi = -5;
 
         $critical = $queryCritical->where('DEVIASI', '<', $deviasi);
         $onprogress = $queryOnProgress->where('DEVIASI', '>', $deviasi);
         $offProgress = $queryoffProgress->where('DEVIASI', '<', $deviasi);
         $finish = $queryfinish->where('DEVIASI', '=', '0');
-        $listProjectContract = $query->get();
+
         $countCritical = $critical->get()->count();
         $countOnProgress = $onprogress->get()->count();
         $countOffProgress = $offProgress->get()->count();
         $countFinish = $finish->get()->count();
         return view('admin.monitoring.proyek-kontrak',
-            ['listProjectContract' => $listProjectContract,
-                'countCritical' => $countCritical,
+            [   'countCritical' => $countCritical,
                 'countOnProgress' => $countOnProgress,
                 'countOffProgress' => $countOffProgress,
                 'countFinish' => $countFinish,

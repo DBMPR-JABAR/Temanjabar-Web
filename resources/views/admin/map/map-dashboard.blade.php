@@ -1062,7 +1062,7 @@
                             type: "simple",  // autocasts as new SimpleRenderer()
                             symbol: {
                                 type: "simple-line",  // autocasts as new SimpleLineSymbol()
-                                color: "blue",
+                                color: "green",
                                 width: "2px",
                                 style: "solid",
                                 marker: { // autocasts from LineSymbolMarker
@@ -1072,6 +1072,7 @@
                                 }
                             }
                         }
+
                     } else {
                         layer.definitionExpression= '0=1';
                     }
