@@ -220,9 +220,16 @@
                             <span class="pcoded-mtext">Pekerjaan</span>
                         </a>
                     </li>
-                  
-
-
+                    <li class="{{(Request::segment(3) == 'kondisi-jalan') ? 'active' : ''}}">
+                        <a href="{{ url('admin/input-data/kondisi-jalan') }}">
+                            <span class="pcoded-mtext">Kondisi Jalan</span>
+                        </a>
+                    </li>
+                    <li class="{{(Request::segment(3) == 'data-paket') ? 'active' : ''}}">
+                        <a href="{{ url('admin/input-data/data-paket') }}">
+                            <span class="pcoded-mtext">Data Paket</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
         </ul>
