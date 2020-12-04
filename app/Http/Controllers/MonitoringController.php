@@ -118,6 +118,7 @@ class MonitoringController extends Controller
             $date_to = Carbon::parse($proyek->DATE_TO);
 
             $ProyekKontrakData = [
+                "colors" => ["#f2f4f5"],
                 "name" => $proyek->NAMA_PAKET,
                 "data" => [
                     [
@@ -132,6 +133,7 @@ class MonitoringController extends Controller
                         "start" => $date_from->getPreciseTimestamp(3),
                         "end" => $date_to->getPreciseTimestamp(3),
                         "completed" => [
+                            "fill" => "#7CB5EC",
                             "amount" => (!empty($proyek->RENCANA) ? ($proyek->RENCANA / 100) : 0)
                         ]
                     ],
@@ -142,6 +144,7 @@ class MonitoringController extends Controller
                         "start" => $date_from->getPreciseTimestamp(3),
                         "end" => $date_to->getPreciseTimestamp(3),
                         "completed" => [
+                            "fill" => "#7CB5EC",
                             "amount" => (!empty($proyek->REALISASI) ? ($proyek->REALISASI / 100) : 0)
                         ]
                     ],
