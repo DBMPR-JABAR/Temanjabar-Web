@@ -121,16 +121,15 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('edit/{id}', 'MasterData\RuasJalanController@edit')->name('editMasterRuasJalan');
             Route::post('create', 'MasterData\RuasJalanController@create')->name('createMasterRuasJalan');
             Route::post('update', 'MasterData\RuasJalanController@update')->name('updateMasterRuasJalan');
-            // Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
             Route::get('delete/{id}', 'MasterData\RuasJalanController@delete')->name('deleteRuasJalan');
         });
-        // Route::resource('jembatan', 'MasterData\JembatanController');
+
         Route::group(['prefix' => 'user'], function () {
-            Route::get('/', 'MasterData\UserController@getUser')->name('getMasterUser');
-            // Route::get('edit/{id}', 'LandingController@editUPTD')->name('editLandingUPTD');
-            // Route::post('create', 'LandingController@createUPTD')->name('createLandingUPTD');
-            // Route::post('update', 'LandingController@updateUPTD')->name('updateLandingUPTD');
-            // Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
+            Route::get('/', 'MasterData\UserController@index')->name('getMasterUser');
+            Route::get('edit/{id}', 'MasterData\UserController@edit')->name('editUser');
+            Route::post('create', 'MasterData\UserController@store')->name('createUser');
+            Route::post('update', 'MasterData\UserController@update')->name('updateUser');
+            Route::get('delete/{id}', 'MasterData\UserController@delete')->name('deleteUser');
         });
 
         Route::group(['prefix' => 'rawanbencana'], function () {

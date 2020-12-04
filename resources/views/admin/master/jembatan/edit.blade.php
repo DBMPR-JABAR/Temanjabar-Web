@@ -140,10 +140,10 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">UPTD</label>
                             <div class="col-md-10">
-                                <select class="form-control" required name="uptd_id">
+                                <select class="form-control" required name="uptd">
                                     <option>Pilih UPTD</option>
                                     @foreach ($uptd as $data)
-                                        <option value="{{$data->id}}" @if($data->id==$jembatan->uptd_id) selected @endif>{{$data->nama}}</option>
+                                        <option value="{{$data->slug}}" @if($data->slug==$jembatan->uptd) selected @endif>{{$data->nama}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -154,6 +154,7 @@
                         <label class="col-md-2 col-form-label">Foto Jembatan</label>
                         <div class="col-md-6">
                             <input name="foto" type="file" class="form-control">
+                            <small class="form-text text-muted">Kosongkan jika tidak akan merubah foto jembatan</small>
                         </div>
                     </div>
 

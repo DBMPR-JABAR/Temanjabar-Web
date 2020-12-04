@@ -201,10 +201,10 @@
                             <div class="form-group row">
                                 <label class="col-md-2 col-form-label">UPTD</label>
                                 <div class="col-md-10">
-                                    <select class="form-control" required name="uptd_id">
+                                    <select class="form-control" required name="uptd">
                                         <option>Pilih UPTD</option>
                                         @foreach ($uptd as $data)
-                                            <option value="{{$data->id}}">{{$data->nama}}</option>
+                                            <option value="{{$data->slug}}">{{$data->nama}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -252,7 +252,6 @@
             </div>
         </div>
     </div>
-
 </div>
 @endsection
 @section('script')

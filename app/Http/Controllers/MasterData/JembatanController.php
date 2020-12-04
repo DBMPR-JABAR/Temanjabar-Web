@@ -74,11 +74,7 @@ class JembatanController extends Controller
             $request->foto->storeAs('public/',$path);
             $jembatan ['foto'] = $path;
         }
-        if(Auth::user()->internalRole->uptd){
-            $jembatan['uptd'] = Auth::user()->internalRole->uptd;
-        }else {
-            $jembatan['uptd'] = "";
-        }
+        
         $jembatan['kategori'] = "";
         $jembatan['created_by'] = Auth::user()->id;
         $jembatanModel = new Jembatan();

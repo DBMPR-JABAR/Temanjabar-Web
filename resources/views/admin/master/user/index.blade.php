@@ -42,23 +42,9 @@
 @section('page-body')
 <div class="row">
     <div class="col-sm-12">
-        <!-- <div class="card">
-            <div class="card-header">
-                <h5>Pemetaan Kerusakan Infrastruktur</h5>
-                <div class="card-header-right">
-                    <ul class="list-unstyled card-option">
-                        <li><i class="feather icon-maximize full-card"></i></li>
-                        <li><i class="feather icon-minus minimize-card"></i></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="card-block">
-                <div id="viewDiv" style="width:100%;height:600px;padding: 0;margin: 0;"></div>
-            </div>
-        </div> -->
         <div class="card">
             <div class="card-header">
-                <h5>Tabel Laporan Masyarakat</h5>
+                <h5>Tabel User</h5>
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
                         <li><i class="feather icon-maximize full-card"></i></li>
@@ -67,22 +53,151 @@
                 </div>
             </div>
             <div class="card-block">
+                <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th>Pelapor</th>
-                                <th>UPTD</th>
-                                <th>Kategori Laporan</th>
-                                <th>Lokasi</th>
-                                <th>Foto Kondisi</th>
+                                <th>No</th>
+                                <th>Email</th>
+                                <th>Nama Lengkap</th>
+                                <th>NIP</th>
+                                <th>SUP</th>
+                                <th>Jabatan</th>
+                                <th>No. Tlp</th>
+                                <th>Blokir</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="bodyLaporan">
-
+                        <tbody>
+                            @foreach ($users as $data)
+                            <tr>
+                                <td>{{$loop->index + 1}}</td>
+                                <td>{{$data->email}}</td>
+                                <td>{{$data->name}}</td>
+                                <td>@if($data->pegawai) {{$data->pegawai->no_pegawai}} @endif</td>
+                                <td>{{$data->sup}}</td>
+                                <td>{{$data->name}}</td>
+                                <td>@if($data->pegawai) {{$data->pegawai->no_tlp}} @endif</td>
+                                <td>{{$data->blokir}}
+                                </td>
+                                <td>
+                                <a href="{{ route('editUser',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
+                                <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
+                                </td>
+                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-only">
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+
+                <form action="{{route('createUser')}}" method="post" >
+                    @csrf
+                    <div class="modal-header">
+                        <h4 class="modal-title">Tambah Data User</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Email</label>
+                            <div class="col-md-10">
+                                <input name="email" type="email" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Password</label>
+                            <div class="col-md-10">
+                                <input name="password" type="password" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Nama Lengkap</label>
+                            <div class="col-md-10">
+                                <input name="name" type="text" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">NIP</label>
+                            <div class="col-md-10">
+                                <input name="no_pegawai" type="text" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">No. Telp/HP</label>
+                            <div class="col-md-10">
+                                <input name="no_tlp" type="text" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">SPP</label>
+                            <div class="col-md-10">
+                                <select class="form-control" required name="sup">
+                                    <option>Pilih SPP</option>
+                                    @foreach ($sup as $data)
+                                        <option value="{{$data->name}}">{{$data->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Pilih Jabatan</label>
+                            <div class="col-md-10">
+                                <select class="form-control" required name="internal_role_id">
+                                    <option>Pilih Jabatan</option>
+                                    @foreach ($role as $data)
+                                        <option value="{{$data->id}}">{{$data->role}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary waves-effect waves-light ">Simpan</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h4 class="modal-title">Hapus Data User</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <p>Apakah anda yakin ingin menghapus data ini?</p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                        <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Hapus</a>
+                    </div>
+
             </div>
         </div>
     </div>
@@ -98,115 +213,15 @@
 <script>
 
     $(document).ready(function () {
-        require([
-            "esri/request",
-        ], function ( esriRequest) {
-            const baseUrl = "{{url('')}}";
-
-            const popupTemplate = {
-                title: "{jenis}",
-                content: [
-                    {
-                    type: "fields",
-                    fieldInfos: [
-                        {
-                            fieldName: "nama",
-                            label: "Pelapor"
-                        },
-                        {
-                            fieldName: "email",
-                            label: "Email Pelapor"
-                        },
-                        {
-                            fieldName: "deskripsi",
-                            label: "Deskripsi"
-                        },
-                        {
-                            fieldName: "status",
-                            label: "Status Pelaporan"
-                        },
-                        {
-                            fieldName: "created_at",
-                            label: "Tanggal Dilaporkan"
-                        },
-                        {
-                            fieldName: "lat",
-                            label: "Latitude"
-                        },
-                        {
-                            fieldName: "long",
-                            label: "Longitude"
-                        },
-                        {
-                            fieldName: "uptd_id",
-                            label: "UPTD"
-                        }
-                    ]
-                    },
-                    {
-                        type: "media",
-                        mediaInfos: [
-                            {
-                                title: "<b>Foto Kondisi</b>",
-                                type: "image",
-                                caption: "diunggah oleh user",
-                                value: {
-                                sourceURL:
-                                    "{gambar}"
-                                }
-                            }
-                        ]
-                    }
-                ]
-            };
-
-
-            const url = baseUrl + "/map/laporan-masyarakat";
-            const requestLaporan = esriRequest(url, {
-                responseType: "json",
-            }).then(function(response){
-                const json = response.data;
-                const data = json.data;
-                const table = document.getElementById('bodyLaporan');
-                let i = 1;
-                if(data.length == 0){
-                    table.innerHTML =   `<tr>
-                                            <td colspan="5">Data Kosong</td>
-                                        </tr>`;
-                }else{
-                    data.forEach(item => {
-                        var point = new Point(item.long, item.lat);
-                        view.graphics.add(new Graphic({
-                            geometry: point,
-                            symbol: symbol,
-                            attributes: item,
-                            popupTemplate: popupTemplate
-                        }));
-                        table.innerHTML +=  `<tr>
-                                                <td>
-                                                    <b>${item.nama}</b> <br>
-                                                    ${item.nik} <br>
-                                                    ${item.telp} <br>
-                                                    ${item.email} <br>
-                                                </td>
-                                                <td>UPTD ${item.uptd_id}</td>
-                                                <td>${item.jenis}</td>
-                                                <td>
-                                                    ${item.lat} <br>
-                                                    ${item.long}
-                                                </td>
-                                                <td>
-                                                    <img src="${item.gambar}" class="img-fluid rounded" alt="" style="max-width: 224px;">
-                                                </td>
-                                            </tr>`;
-                    });
-                }
-                $("#dttable").DataTable();
-            }).catch(function (error) {
-                console.log(error);
-            });
-
-
+        $("#dttable").DataTable();
+        $('#delModal').on('show.bs.modal', function (event) {
+            const link = $(event.relatedTarget);
+            const id = link.data('id');
+            console.log(id);
+            const url = `{{ url('admin/master-data/user/delete') }}/` + id;
+            console.log(url);
+            const modal = $(this);
+            modal.find('.modal-footer #delHref').attr('href',url);
         });
     });
 </script>
