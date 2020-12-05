@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Http\Controllers; 
-use Illuminate\Support\Facades\DB; 
+namespace App\Http\Controllers;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
@@ -28,15 +28,15 @@ class DisposisiController extends Controller
     {
 
         $disposisi = DB::table('disposisi')->get();
-        $disposisi_kepada = ""; 
+        $disposisi_kepada = "";
         $jenis_instruksi_select = "";
-        $user_role = DB::table('user_role')->select('id', 'keterangan');         
-        $listUserRole = $user_role->get(); 
+        $user_role = DB::table('user_role')->select('id', 'keterangan');
+        $listUserRole = $user_role->get();
         foreach ($listUserRole as $role) {
-            $disposisi_kepada .= '<option value="' . $role->id . '">' . $role->keterangan . '</option>';
+            $disposisi_kepada = $disposisi_kepada.'<option value="' . $role->id . '">' . $role->keterangan . '</option>';
         }
-        $jenisInstruksi = DB::table('master_disposisi_instruksi')->select('id', 'jenis_instruksi');         
-        $listJenisInstruksi = $jenisInstruksi->get(); 
+        $jenisInstruksi = DB::table('master_disposisi_instruksi')->select('id', 'jenis_instruksi');
+        $listJenisInstruksi = $jenisInstruksi->get();
         foreach ($listJenisInstruksi as $instruksi) {
             $jenis_instruksi_select .= '<option value="' . $instruksi->id . '">' . $instruksi->jenis_instruksi . '</option>';
         }
@@ -49,29 +49,29 @@ class DisposisiController extends Controller
             ]);
     }
     public function saveTargetDisposisi($target,$code){
-        for($i = 0; $i< count($target); $i++) { 
+        for($i = 0; $i< count($target); $i++) {
         $data['disposisi_code'] = $code;
         $data['user_role_id'] = $target[$i];
-        DB::table('disposisi_penanggung_jawab')->insert($data); 
+        DB::table('disposisi_penanggung_jawab')->insert($data);
         }
 
     }
     public function saveJenisInstruksi($jenis,$code){
-        for($i = 0; $i< count($jenis); $i++) { 
-        $data['disposisi_code'] = $code; 
-        $data['disposisi_instruksi_id'] = $jenis[$i];
-        DB::table('disposisi_jenis_instruksi')->insert($data); 
+        for($i = 0; $i< count($jenis); $i++) {
+            $data['disposisi_code'] = $code;
+            $data['disposisi_instruksi_id'] = $jenis[$i];
+            DB::table('disposisi_jenis_instruksi')->insert($data);
         }
     }
 
     public function generateCode(){
         //$count = DB::table('visit_reservation')->count();
         $max = DB::table('disposisi')->max('id');
-        $code = date('ymd').''.$max+1;
+        $code = date('ymd').''.($max+1);
         return $code;
     }
     public function create(Request $request)
-    { 
+    {
         //
         if($request->file != null){
             $path = 'disposisi/'.Str::snake(date("YmdHis").'/'.	$request->tgl_surat.'/'.$request->file->getClientOriginalName());
@@ -79,17 +79,17 @@ class DisposisiController extends Controller
             $disposisi ['file'] = $path;
         }
         $code = $this->generateCode();
-        
+
         $disposisi['disposisi_code'] = $code;
         $disposisi['dari'] = $request->dari;
         $disposisi['perihal'] = $request->perihal;
-        $disposisi['tgl_surat'] = $request->tgl_surat; 
-        $disposisi['no_surat'] = $request->no_surat; 
+        $disposisi['tgl_surat'] = $request->tgl_surat;
+        $disposisi['no_surat'] = $request->no_surat;
         $disposisi['tanggal_penyelesaian'] = $request->tanggal_penyelesaian;
-        $disposisi['status'] ='1'; 
+        $disposisi['status'] ='1';
         $disposisi['created_by'] = Auth::user()->id;
-        $disposisi['created_date'] = date("YmdHis"); 
-        DB::table('disposisi')->insert($disposisi); 
+        $disposisi['created_date'] = date("YmdHis");
+        DB::table('disposisi')->insert($disposisi);
         $this->saveTargetDisposisi($request->target_disposisi,$code);
         $this->saveJenisInstruksi($request->jenis_instruksi,$code);
 
