@@ -87,7 +87,7 @@ class DisposisiController extends Controller
     }
 
     public function getDetailDisposisi($id){
-        echo "tes";
+         
         $detail_disposisi = DB::table('disposisi as a')
         ->distinct()              
         ->select('a.id','a.disposisi_code','a.dari','a.perihal','a.tgl_surat','a.no_surat','a.tanggal_penyelesaian','a.status','a.file','a.created_date','a.created_by')
