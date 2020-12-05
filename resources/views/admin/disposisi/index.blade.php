@@ -5,8 +5,6 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/buttons.dataTables.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/data-table/extensions/responsive/css/responsive.dataTables.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/style.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/prism.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/chosen.css') }}">
 <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
 
@@ -83,10 +81,10 @@
                                 <td>{{$data->perihal}}</td>
                                 <td>{{$data->no_surat}}</td>
                                 <td>{{$data->tgl_surat}}</td> 
-                                <td>
+                                <td> 
                                  @php   $inouts = \App\Model\Transactional\DisposisiPenanggungJawab::where('disposisi_code',$data->disposisi_code)->get() @endphp 
                                 @foreach($inouts as $inout)
-                                <span class="badge  bg-success"> {{!empty($inout->user_role_id) ?  $inout->user_role_id : "-"  }}</span><br/>
+                                <span > {{!empty($inout->keterangan_role->keterangan) ?  $inout->keterangan_role->keterangan: "-"  }}</span><br/>
                                 @endforeach
                                 </td>
                                 <td>{{$data->tanggal_penyelesaian}}</td>
@@ -205,20 +203,7 @@
                             </div>
                         </div>
  
-
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">UPTD</label>
-                            <div class="col-md-9">
-
-                                <select class="form-control select2" name="uptd_id" style="min-width: 100%;">
-                             
-                                </select>
-                            </div>
-                            <!-- <label class="col-md-3 col-form-label">UPTD</label>
-                            <div class="col-md-9">
-                                <input name="uptd_id" type="number" class="form-control" required>
-                            </div> -->
-                        </div>
+ 
 
                     </div>
 
