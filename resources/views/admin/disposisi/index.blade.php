@@ -1,6 +1,6 @@
 @extends('admin.t_index')
 
-@section('title') Ruas Jalan @endsection
+@section('title') Kirim Disposisi  @endsection
 @section('head')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/buttons.dataTables.min.css') }}">
@@ -62,7 +62,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Dari</th>
+                                <th>Surat Dari</th>
                                 <th>Perihal</th>
                                  <th>No Surat</th>
                                  <th>Tgl Surat</th>
@@ -80,14 +80,22 @@
                                 <td>{{$data->dari}}</td>
                                 <td>{{$data->perihal}}</td>
                                 <td>{{$data->no_surat}}</td>
-                                <td>{{$data->tgl_surat}}</td> 
+                                <td>
+                                <?php $date_tgl_surat = date_create($data->tgl_surat);?>
+
+                                {{ date_format($date_tgl_surat, 'd-m-Y')}}</td> 
                                 <td> 
                                  @php   $inouts = \App\Model\Transactional\DisposisiPenanggungJawab::where('disposisi_code',$data->disposisi_code)->get() @endphp 
                                 @foreach($inouts as $inout)
                                 <span > {{!empty($inout->keterangan_role->keterangan) ?  $inout->keterangan_role->keterangan: "-"  }}</span><br/>
                                 @endforeach
                                 </td>
-                                <td>{{$data->tanggal_penyelesaian}}</td>
+                                <td>
+                                <?php
+                                 $date_tanggal_penyelesaian = date_create($data->tanggal_penyelesaian);?>
+                                 
+                                {{ date_format($date_tanggal_penyelesaian, 'd-m-Y') }}
+                                </td>
                                 <td><?php 
 
                                     if($data->status == "1")  {  
@@ -101,14 +109,15 @@
                                     } 
                                 
                                  ?></td>
-                                <td>{{$data->created_date}}</td>
+                                <td>
+                                <?php $date_create_date = date_create($data->created_date);?>
+                                {{ date_format($date_create_date, 'd-m-Y H:i:s')}}
+                                    </td>
                                 <td> 
-                                <a type="button" href="{{ route('getdetailDisposisi',$data->id) }}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Detil</a>
-                                
-       
-                                     <a href="{{ route('editMasterRuasJalan',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
-                                    <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
-                                </td>
+                                <a type="button" href="{{ route('getdetailDisposisi',$data->id) }}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Rincian</a>
+                                <a type="button" href="#"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Edit</a> 
+                                <a type="button"href="#delModal"  data-toggle="modal" data-id="{{$data->id}}"     class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Hapus</a>       
+                                                             </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -125,7 +134,7 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h4 class="modal-title">Hapus Data Ruas Jalan</h4>
+                    <h4 class="modal-title">Hapus Data Disposisi</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -289,7 +298,7 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h4 class="modal-title">Hapus Data Ruas Jalan</h4>
+                    <h4 class="modal-title">Hapus Data Disposisi</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

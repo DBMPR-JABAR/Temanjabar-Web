@@ -1,6 +1,6 @@
 @extends('admin.t_index')
 
-@section('title') Ruas Jalan @endsection
+@section('title') Disposisi Masuk @endsection
 @section('head')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/buttons.dataTables.min.css') }}">
@@ -79,14 +79,22 @@
                                 <td>{{$data->pengirim}}</td>
                                 <td>{{$data->perihal}}</td>
                                 <td>{{$data->no_surat}}</td>
-                                <td>{{$data->tgl_surat}}</td> 
+                                <td>
+                                <?php $date_tgl_surat = date_create($data->tgl_surat);?>
+
+                                {{ date_format($date_tgl_surat, 'd-m-Y')}}</td>
                                 <td> 
                                  @php   $inouts = \App\Model\Transactional\DisposisiPenanggungJawab::where('disposisi_code',$data->disposisi_code)->get() @endphp 
                                 @foreach($inouts as $inout)
                                 <span > {{!empty($inout->keterangan_role->keterangan) ?  $inout->keterangan_role->keterangan: "-"  }}</span><br/>
                                 @endforeach
                                 </td>
-                                <td>{{$data->tanggal_penyelesaian}}</td>
+                                <td>
+                                <?php
+                                 $date_tanggal_penyelesaian = date_create($data->tanggal_penyelesaian);?>
+                                 
+                                {{ date_format($date_tanggal_penyelesaian, 'd-m-Y') }}
+                                </td>
                                 <td><?php 
 
                                     if($data->status == "1")  {  
@@ -100,19 +108,22 @@
                                     } 
                                 
                                  ?></td>
-                                <td>{{$data->created_date}}</td>
+                                <td>
+                                <?php $date_create_date = date_create($data->created_date);?>
+                                {{ date_format($date_create_date, 'd-m-Y H:i:s')}}
+                                    </td>
                                 <td> 
-                                <a type="button" href=" "  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Detil</a>
+                                <a type="button" href="{{ route('getdetailDisposisi',$data->id) }}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Rincian</a>
                                 <?php if($data->status == '1')  { ?> 
                                 <a   data-id="{{$data->id}}"  data-toggle="modal" class="btn btn-primary btn-mini waves-effect waves-light" href="#acceptModal"><i class="icofont icofont-check-circled"></i>Accepted</a>
                                 <a   href="#disposisiModal" data-id="{{$data->id}}"  data-toggle="modal" class="btn btn-primary btn-mini waves-effect waves-light" ><i class="icofont icofont-exchange"></i>Disposisi</a>
                               
                                 <?php } ?>
                                 <?php if($data->status == '2')  { ?> 
+                                    <a   data-id="{{$data->id}}"  data-toggle="modal" class="btn btn-primary btn-mini waves-effect waves-light" href="#progressModal"><i class="icofont icofont-check-circled"></i>Lapor Progress</a>
+
                                    <?php } ?>
-                                     <a href="{{ route('editMasterRuasJalan',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
-                                    <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
-                                </td>
+                                      </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -168,6 +179,71 @@
                     <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
                     <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Terima</a>
                 </div>
+
+            </div>
+        </div>
+    </div>
+
+     
+    <div class="modal fade" id="progressModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+
+                <form action="{{route('createTindakLanjut')}}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-header">
+                        <h4 class="modal-title">Laporkan Progress Tindak Lanjut</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body p-5">
+
+                    <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Tindak Lanjut</label>
+                            <div class="col-md-9">
+                                <input type="hidden" name="disposisi_id" id="disposisi_id" />  
+                               <input name="dari" type="text" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Status</label>
+                            <div class="col-md-6">
+                                    <select name="status" class="form-control" id="status">
+                                    <option value=""></option>
+                                    <option value="3">On Progres</option>
+                                    <option value="4">Finish</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                     <input type="number" name="persentase" id="persentase" class="form-control" />  
+                                </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Keterangan</label>
+                            <div class="col-md-9">
+                                <textarea name="ketarangan"  class="form-control" required></textarea>
+                            </div>
+                        </div>
+                         
+                           <div class="form-group row">
+                            <label class="col-md-3 col-form-label">File Lampiran</label>
+                            <div class="col-md-9">
+                                <input name="file" type="file"  class="form-control" required>
+                            </div>
+                        </div>
+ 
+ 
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary waves-effect waves-light ">Simpan</button>
+                    </div>
+
+                </form>
 
             </div>
         </div>
@@ -355,6 +431,13 @@
             console.log(url);
             const modal = $(this);
             modal.find('.modal-footer #delHref').attr('href', url);
+        });
+
+        $('#progressModal').on('show.bs.modal', function(event) {
+            const link = $(event.relatedTarget);
+             const id = link.data('id');
+            alert(id);
+           $(this).attr("disposisi_id",id);
         });
 
         $('#acceptModal').on('show.bs.modal', function(event) {

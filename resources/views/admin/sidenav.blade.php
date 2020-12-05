@@ -172,20 +172,19 @@
                     <span class="pcoded-mtext">Disposisi</span>
                 </a>
                 <ul class="pcoded-submenu">
-                    <li class="{{(Request::segment(3) == 'profil') ? 'active' : ''}}">
+                    <li class="{{(Request::segment(3) == 'kirim') ? 'active' : ''}}">
 
                         <a href="{{ url('admin/disposisi') }}">
                             <span class="pcoded-mtext">  Kirim Disposisi </span>
                         </a>
 
                     </li>
-                    <li class="{{(Request::segment(3) == 'profil') ? 'active' : ''}}">
-
-
-<a href="{{ url('admin/disposisi/masuk') }}">
-    <span class="pcoded-mtext">  Disposisi Masuk</span>
-</a>
-</li>
+                    <li class="{{(Request::segment(3) == 'masuk') ? 'active' : ''}}"> 
+                    <a href="{{ url('admin/disposisi/masuk') }}"> <span class="pcoded-mtext">  Disposisi Masuk</span> </a>  
+                        </li>
+                        <li class="{{(Request::segment(3) == 'tindaklanjut') ? 'active' : ''}}"> 
+                    <a href="{{ url('admin/disposisi/tindaklanjut') }}"> <span class="pcoded-mtext">  Disposisi Tindak Lanjut</span> </a>  
+                        </li>
                 </ul>
             </li>
        </ul>

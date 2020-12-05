@@ -32,6 +32,7 @@ class DisposisiController extends Controller
                       ->join('disposisi_penanggung_jawab as b','b.disposisi_code','=','a.disposisi_code')
                       ->join('users as c','a.created_by','=','c.id')
                       ->where('b.user_role_id','=',Auth::user()->internal_role_id  ) 
+                      ->orderBy('a.id','DESC')
                       ->get();
 
         $disposisi_kepada = ""; 
@@ -55,6 +56,26 @@ class DisposisiController extends Controller
                
             ]);
     }
+    public function getDisposisiTindakLanjut(){
+        $tindaklanjut = DB::table('disposisi_tindak_lanjut as b')
+        ->distinct()              
+        ->select('b.id','b.tindak_lanjut','b.status as status_tindak_lanjut','b.prosentase','b.keterangan as keterangan_tl', 'a.disposisi_code','a.dari','a.perihal','c.name as pengirim','a.tgl_surat','a.no_surat','a.tanggal_penyelesaian','a.status','a.file','a.created_date','a.created_by')
+                      ->join('disposisi as a','a.id','=','b.disposisi_id')
+                      ->join('users as c','a.created_by','=','c.id')
+                      ->where('b.created_by','=',Auth::user()->id  ) 
+                      ->orderBy('b.id','DESC')
+                      ->get();
+
+        
+       
+
+        return view('admin.disposisi.tindaklanjut',
+            [
+                'tindaklanjut' => $tindaklanjut  
+               
+            ]);
+    }
+
     public function getDaftarDisposisi()
     {
 
@@ -63,7 +84,8 @@ class DisposisiController extends Controller
         ->select('a.id','a.disposisi_code','a.dari','a.perihal','a.tgl_surat','a.no_surat','a.tanggal_penyelesaian','a.status','a.file','a.created_date','a.created_by')
                       ->join('disposisi_penanggung_jawab as b','b.disposisi_code','=','a.disposisi_code')
                       ->where('a.created_by','=', Auth::user()->id) 
-                      ->orWhere('b.user_role_id','=',Auth::user()->role_id ) 
+                      //->orWhere('b.user_role_id','=',Auth::user()->role_id ) 
+                      ->orderBy('a.id','DESC')
                       ->get();
         $disposisi_kepada = ""; 
         $jenis_instruksi_select = "";
@@ -90,8 +112,9 @@ class DisposisiController extends Controller
          
         $detail_disposisi = DB::table('disposisi as a')
         ->distinct()              
-        ->select('a.id','a.disposisi_code','a.dari','a.perihal','a.tgl_surat','a.no_surat','a.tanggal_penyelesaian','a.status','a.file','a.created_date','a.created_by')
+        ->select('a.id','a.disposisi_code','c.name as pengirim','a.dari','a.perihal','a.tgl_surat','a.no_surat','a.tanggal_penyelesaian','a.status','a.file','a.created_date','a.created_by')
                       ->join('disposisi_penanggung_jawab as b','b.disposisi_code','=','a.disposisi_code')
+                      ->join('users as c','a.created_by','=','c.id')
                       ->where('a.id','=', $id) 
                       ->first();
 
@@ -106,7 +129,8 @@ class DisposisiController extends Controller
         return view('admin.disposisi.detail',
                 [
                     'detail_disposisi' => $detail_disposisi,
-                    'penanggung_jawab' =>  $penanggung_jawab
+                    'penanggung_jawab' =>  $penanggung_jawab,
+                  
                 ]);              
     }
     public function getAcceptedRequest($id){
@@ -150,7 +174,7 @@ class DisposisiController extends Controller
     { 
         //
         if($request->file != null){
-            $path = 'disposisi/'.Str::snake(date("YmdHis").'/'.	$request->tgl_surat.'/'.$request->file->getClientOriginalName());
+            $path = 'disposisi/'.Str::snake(date("YmdHis").'/'.$request->file->getClientOriginalName());
             $request->file->storeAs('public/',$path);
             $disposisi ['file'] = $path;
         }
@@ -171,6 +195,28 @@ class DisposisiController extends Controller
 
         $color = "success";
         $msg = "Berhasil Menambah Data Disposisi";
+        return back()->with(compact('color', 'msg'));
+    }
+
+    public function createTindakLanjut(Request $request)
+    { 
+        //
+        if($request->file != null){
+            $path = 'disposisi/tindak_lanjut/'.Str::snake(date("YmdHis").'/'.$request->file->getClientOriginalName());
+            $request->file->storeAs('public/',$path);
+            $disposisi ['file'] = $path;
+        }
+        $disposisi['disposisi_id'] = $request->disposisi_id;
+        $disposisi['tindaklanjut'] = $request->tindaklanjut;
+        $disposisi['status'] = $request->status;
+        $disposisi['keterangan'] = $request->keterangan; 
+        $disposisi['prosentase'] = $request->prosentase; 
+         $disposisi['created_by'] = Auth::user()->id;
+        $disposisi['created_date'] = date("YmdHis"); 
+        DB::table('disposisi_tindak_lanjut')->insert($disposisi); 
+ 
+        $color = "success";
+        $msg = "Berhasil Menambah Data Tindak Lanjut";
         return back()->with(compact('color', 'msg'));
     }
 

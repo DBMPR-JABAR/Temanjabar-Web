@@ -1,6 +1,6 @@
 @extends('admin.t_index')
 
-@section('title') Ruas Jalan @endsection
+@section('title') Rincian Disposisi @endsection
 @section('head')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/buttons.dataTables.min.css') }}">
@@ -63,7 +63,8 @@
                                                                     <div class="tab-pane active" id="Detail" role="tabpanel">
                                                                     <table class="table table-striped table-bordered nowrap dataTable">
                                                              <tr><td>	Disposisi Code</td><td>{{$detail_disposisi->disposisi_code}}</td></tr>
-                                                             <tr><td>	Dari</td><td>{{$detail_disposisi->dari}}</td></tr>
+                                                             <tr><td>	Pemberi Disposisi</td><td>{{$detail_disposisi->pengirim}}</td></tr>
+                                                             <tr><td>	Surat dari</td><td>{{$detail_disposisi->dari}}</td></tr>
                                                              <tr><td>	Perihal</td><td>{{$detail_disposisi->perihal}}</td></tr>
                                                              <tr><td>	Tanggal Surat</td><td>{{$detail_disposisi->tgl_surat}}</td></tr>
 
@@ -82,8 +83,9 @@
 </table>
                                                                 </div>
                                                                     <div class="tab-pane" id="lampiran" role="tabpanel">
-                                                                        <p class="m-0">2.Cras consequat in enim ut efficitur. Nulla posuere elit quis auctor interdum praesent sit amet nulla vel enim amet. Donec convallis tellus neque, et imperdiet felis amet.</p>
-                                                                    </div>
+                                                                    <?php $ex = explode(".",$detail_disposisi->file);  ?> 
+                                                                    <iframe src=" {{  asset('storage/'.$detail_disposisi->file)  }}" id="pdf_display_frame" width="100%" height="600px"></iframe>
+                                                                     </div>
 
                                                                 </div>
 
@@ -132,218 +134,9 @@
         </div>
     </div>
 </div>
-<div class="modal-only">
-
-    <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h4 class="modal-title">Hapus Data Ruas Jalan</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <p>Apakah anda yakin ingin menghapus data ini?</p>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                    <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Hapus</a>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="acceptModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h4 class="modal-title">Disposisi Diterima?</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <p>Apakah anda yakin menerima disposisi ini?</p>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                    <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Terima</a>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-
-    <div class="modal fade" id="disposisiModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h4 class="modal-title">Disposisi Diterima?</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <p>Apakah anda yakin menerima disposisi ini?</p>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                    <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Terima</a>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-
-
-</div>
-
-<div class="modal-only">
-    <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-
-                <form action="{{route('saveInsertDisposisi')}}" method="post" enctype="multipart/form-data">
-                    @csrf
-                    <div class="modal-header">
-                        <h4 class="modal-title">Tambah Disposisi</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-
-                    <div class="modal-body p-5">
-
-                    <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Dari</label>
-                            <div class="col-md-9">
-                                <input name="dari" type="text" class="form-control" required>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Perihal</label>
-                            <div class="col-md-9">
-                                <textarea name="perihal" type="text" class="form-control" required></textarea>                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Tgl Surat</label>
-                            <div class="col-md-9">
-                                <input name="tgl_surat" type="date" class="form-control" required>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">No Surat</label>
-                            <div class="col-md-9">
-                                <input name="no_surat" type="text" class="form-control" required>
-                            </div>
-                        </div>
-
-
-
-
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Tanggal Penyelesaian</label>
-                            <div class="col-md-9">
-                                <input name="tanggal_penyelesaian" type="date" class="form-control" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">File Lampiran</label>
-                            <div class="col-md-9">
-                                <input name="file" type="file"  class="form-control" required>
-                            </div>
-                        </div>
-
-
-
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary waves-effect waves-light ">Simpan</button>
-                    </div>
-
-                </form>
-
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h4 class="modal-title">Hapus Data Ruas Jalan</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <p>Apakah anda yakin ingin menghapus data ini?</p>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                    <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Hapus</a>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    </li>
-</div>
+ 
+ 
 @endsection
 @section('script')
-<script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}"></script>
-<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}"></script>
-
-<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
-<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/chosen.jquery.js') }}" type="text/javascript"></script>
-
-<script>
-    $(document).ready(function() {
-        $(".chosen-select").chosen( { width: '100%' } );
-        $(".chosen-jenis-instruksi").chosen( { width: '100%' } );
-        $("#dttable").DataTable();
-        $('#delModal').on('show.bs.modal', function(event) {
-            const link = $(event.relatedTarget);
-            const id = link.data('id');
-            console.log(id);
-            const url = `{{ url('admin/master-data/ruas-jalan/delete') }}/` + id;
-            console.log(url);
-            const modal = $(this);
-            modal.find('.modal-footer #delHref').attr('href', url);
-        });
-
-        $('#acceptModal').on('show.bs.modal', function(event) {
-            const link = $(event.relatedTarget);
-            const id = link.data('id');
-
-            console.log(id);
-            const url = `{{ url('admin/disposisi/accepted') }}/` + id;
-            console.log(url);
-            const modal = $(this);
-            modal.find('.modal-footer #delHref').attr('href', url);
-        });
-
-    });
-</script>
+ 
 @endsection
