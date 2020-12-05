@@ -109,8 +109,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
     Route::group(['prefix' => 'disposisi'], function () {
         Route::get('/', 'DisposisiController@getDaftarDisposisi')->name('daftar-disposisi');
+        Route::get('masuk', 'DisposisiController@getInboxDisposisi')->name('disposisi-masuk');
+         
         Route::post('create', 'DisposisiController@create')->name('saveInsertDisposisi');
-
+        Route::get('accepted/{id}', 'DisposisiController@getAcceptedRequest')->name('getAcceptedRequest');
+        Route::get('detail/disposisi/{id}', 'DisposisiController@getdetailDisposisi')->name('getdetailDisposisi');
+        
     });
     Route::group(['prefix' => 'master-data'], function () {
         Route::group(['prefix' => 'jembatan'], function () {
