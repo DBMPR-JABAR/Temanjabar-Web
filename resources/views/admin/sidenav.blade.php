@@ -181,7 +181,7 @@
                     <li class="{{(Request::segment(3) == 'ruas_Jalan') ? 'active' : ''}}">
 
                         <!-- <a href="{{ route('admin.master.ruas_jalan') }}">
-                        
+
                             <span class="pcoded-mtext">Ruas Jalan</span>
                         </a> -->
                         <a href="{{ url('admin/master-data/ruas-jalan') }}">
@@ -209,7 +209,7 @@
                     <li class="{{(Request::segment(3) == 'ruas_Jalan') ? 'active' : ''}}">
 
                         <!-- <a href="{{ route('admin.master.ruas_jalan') }}">
-                        
+
                             <span class="pcoded-mtext">Ruas Jalan</span>
                         </a> -->
                         <a href="{{ url('admin/master-data/ruas-jalan') }}">
@@ -270,6 +270,12 @@
                 <a href="{{ url('admin/pesan') }}">
                     <span class="pcoded-micon"><i class="ti-email"></i></span>
                     <span class="pcoded-mtext">Pesan</span>
+                </a>
+            </li>
+            <li class="{{(Request::segment(2) == 'log') ? 'active' : ''}}">
+                <a href="{{ url('admin/log') }}">
+                    <span class="pcoded-micon"><i class="ti-email"></i></span>
+                    <span class="pcoded-mtext">Log</span>
                 </a>
             </li>
         </ul>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\Transactional\Log;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,11 +22,14 @@ class AuthController extends Controller
             Auth::logout();
             return back()->with(['msg' => 'Silahkan Login Di Smartphone Untuk Mengakses Fitur Masyarakat', 'color' => 'danger']);
         }
+        Log::create(['activity' => 'Login', 'description' => 'User '.Auth::user()->name.' Logged In']);
         return redirect('admin');
     }
     public function logout()
     {
+        Log::create(['activity' => 'Logout', 'description' => 'User '.Auth::user()->name.' Logged Out']);
         Auth::logout();
+
         return redirect('/');
     }
     public function verifyEmail($token)

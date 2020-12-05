@@ -13,8 +13,8 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Pesan</h4>
-                <span>Pesan yang dikirim oleh user di Landing Page</span>
+                <h4>Log</h4>
+                <span>Log Autentikasi User</span>
             </div>
         </div>
     </div>
@@ -24,7 +24,7 @@
                 <li class="breadcrumb-item">
                     <a href="{{ url('admin') }}"> <i class="feather icon-home"></i> </a>
                 </li>
-                <li class="breadcrumb-item"><a href="#!">Pesan</a> </li>
+                <li class="breadcrumb-item"><a href="#!">Log</a> </li>
             </ul>
         </div>
     </div>
@@ -37,7 +37,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h5>Pesan Masyarakat</h5>
+                <h5>User Log</h5>
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
                         <li><i class="feather icon-maximize full-card"></i></li>
@@ -50,21 +50,17 @@
                 <table id="dttable" class="table table-bordered table-responsive">
                     <thead>
                         <tr>
-                            <th>Identitas</th>
-                            <th>Pesan</th>
-                            <th>Dikirim</th>
-                            <th>Aksi</th>
+                            <th>Aktivitas</th>
+                            <th>Deskripsi</th>
+                            <th>Timestamp</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($pesan as $psn)
+                        @foreach ($logs as $log)
                         <tr>
-                            <td>
-                                {{$psn->nama}} <br> {{$psn->email}}
-                            </td>
-                            <td>{{$psn->pesan}}</td>
-                            <td>{{Carbon\Carbon::parse($psn->created_at)->format('d/m/Y H:i')}}</td>
-                            <td><a href="mailto:{{$psn->email}}" class="btn btn-mat btn-primary"> Tanggapi </a></td>
+                            <td>{{$log->activity}}</td>
+                            <td>{{$log->description}}</td>
+                            <td>{{Carbon\Carbon::parse($log->created_at)->format('d/m/Y H:i')}}</td>
                         </tr>
                         @endforeach
                     </tbody>
