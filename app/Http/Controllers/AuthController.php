@@ -22,12 +22,12 @@ class AuthController extends Controller
             Auth::logout();
             return back()->with(['msg' => 'Silahkan Login Di Smartphone Untuk Mengakses Fitur Masyarakat', 'color' => 'danger']);
         }
-        Log::create(['activity' => 'Login', 'description' => 'User '.Auth::user()->name.' Logged In']);
+        Log::create(['activity' => 'Login', 'description' => 'User '.Auth::user()->name.' Logged In To Web']);
         return redirect('admin');
     }
     public function logout()
     {
-        Log::create(['activity' => 'Logout', 'description' => 'User '.Auth::user()->name.' Logged Out']);
+        Log::create(['activity' => 'Logout', 'description' => 'User '.Auth::user()->name.' Logged Out From Web']);
         Auth::logout();
 
         return redirect('/');
