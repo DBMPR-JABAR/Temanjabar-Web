@@ -25,8 +25,8 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Kirim Disposisi </h4>
-                
+                <h4>Detail Disposisi </h4>
+
             </div>
         </div>
     </div>
@@ -45,9 +45,82 @@
 
 @section('page-body')
 <div class="row">
+<div class="col-xl-8 col-md-12">
+                                                <div class="card">
+                                                    
+                                                    <div class="card-block-big">
+                                                    <ul class="nav nav-tabs  tabs" role="tablist">
+                                                                    <li class="nav-item">
+                                                                        <a class="nav-link active" data-toggle="tab" href="#Detail" role="tab">Detail</a>
+                                                                    </li>
+                                                                    <li class="nav-item">
+                                                                        <a class="nav-link" data-toggle="tab" href="#lampiran" role="tab">Lampiran</a>
+                                                                    </li>
+
+                                                                </ul>
+                                                                <!-- Tab panes -->
+                                                                <div class="tab-content tabs card-block">
+                                                                    <div class="tab-pane active" id="Detail" role="tabpanel">
+                                                                    <table class="table table-striped table-bordered nowrap dataTable">
+                                                             <tr><td>	Disposisi Code</td><td>{{$detail_disposisi->disposisi_code}}</td></tr>
+                                                             <tr><td>	Dari</td><td>{{$detail_disposisi->dari}}</td></tr>
+                                                             <tr><td>	Perihal</td><td>{{$detail_disposisi->perihal}}</td></tr>
+                                                             <tr><td>	Tanggal Surat</td><td>{{$detail_disposisi->tgl_surat}}</td></tr>
+
+                                                             <tr><td>	No Surat</td><td>{{$detail_disposisi->no_surat}}</td></tr>
+                                                             <tr><td>	Tanggal Penyelesaian</td><td>{{$detail_disposisi->tanggal_penyelesaian}}</td></tr>
+                                                             <tr><td>	Status</td><td>{{$detail_disposisi->status}}</td></tr>
+                                                             <tr><td>	Disposisi Kepada</td><td>
+                                                             @php   $inouts = \App\Model\Transactional\DisposisiPenanggungJawab::where('disposisi_code',$detail_disposisi->disposisi_code)->get() @endphp
+                                @foreach($inouts as $inout)
+                                <span > {{!empty($inout->keterangan_role->keterangan) ?  $inout->keterangan_role->keterangan: "-"  }}</span><br/>
+                                @endforeach
+
+                                                             </td></tr>
+
+                                                             <tr><td>	Created Date</td><td>{{$detail_disposisi->created_date}}</td></tr>
+</table>
+                                                                </div>
+                                                                    <div class="tab-pane" id="lampiran" role="tabpanel">
+                                                                        <p class="m-0">2.Cras consequat in enim ut efficitur. Nulla posuere elit quis auctor interdum praesent sit amet nulla vel enim amet. Donec convallis tellus neque, et imperdiet felis amet.</p>
+                                                                    </div>
+
+                                                                </div>
+
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-md-12">
+                                                <div class="card feed-card">
+                                                    <div class="card-header">
+                                                      
+                                                    </div>
+                                                    <div class="row card-block">
+                                                    <div class="col-md-12 col-lg-12">
+                                                        <h6 class="sub-title">History</h6>
+                                                    <ul class="basic-list">
+                                                    @foreach($penanggung_jawab as $pj)
+                                                    <?php $date = date_create($pj->created_date);?>
+                                                     
+                                                        <li><p> <?php echo $pj->name . '(' . $pj->keterangan . ') menerima disposisi tanggal ' . date_format($date, 'd-m-Y H:i:s') ?></p> </li>
+                                                        @endforeach
+
+
+                                                                </ul>
+</div></div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- statustic-card start -->
+
+
+
     <div class="col-sm-12">
         <div class="card">
-            <div class="card-header"> 
+            <div class="card-header">
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
                         <li><i class="feather icon-maximize full-card"></i></li>
@@ -55,66 +128,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="card-block">
-                <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Kirim</a>
-                <div class="dt-responsive table-responsive">
-                    <table id="dttable" class="table table-striped table-bordered able-responsive">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Dari</th>
-                                <th>Perihal</th>
-                                 <th>No Surat</th>
-                                 <th>Tgl Surat</th>
-                                <th>Disposisi</th>
-                                <th>Tgl Deadline</th>
-                                <th>Status</th> 
-                                <th>Created Date</th> 
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="bodyJembatan">
-                            @foreach ($disposisi as $data)
-                            <tr>
-                                <td>{{$loop->index + 1}}</td>
-                                <td>{{$data->dari}}</td>
-                                <td>{{$data->perihal}}</td>
-                                <td>{{$data->no_surat}}</td>
-                                <td>{{$data->tgl_surat}}</td> 
-                                <td> 
-                                 @php   $inouts = \App\Model\Transactional\DisposisiPenanggungJawab::where('disposisi_code',$data->disposisi_code)->get() @endphp 
-                                @foreach($inouts as $inout)
-                                <span > {{!empty($inout->keterangan_role->keterangan) ?  $inout->keterangan_role->keterangan: "-"  }}</span><br/>
-                                @endforeach
-                                </td>
-                                <td>{{$data->tanggal_penyelesaian}}</td>
-                                <td><?php 
-
-                                    if($data->status == "1")  {  
-                                        echo "Submitted";
-                                    } else if($data->status == "2") { 
-                                        echo "Accepted";
-                                    }  else if($data->status == "3") { 
-                                        echo "On Progress";
-                                    } else if($data->status == "4") { 
-                                        echo "Finish";
-                                    } 
-                                
-                                 ?></td>
-                                <td>{{$data->created_date}}</td>
-                                <td> 
-                                <a type="button" href="{{ route('getdetailDisposisi',$data->id) }}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Detil</a>
-                                
-       
-                                     <a href="{{ route('editMasterRuasJalan',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
-                                    <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            
         </div>
     </div>
 </div>
@@ -237,23 +251,8 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Disposisikan Kepada</label>
-                            <div class="col-md-9">
-                            <select data-placeholder="Disposisikan Kepada..." class="chosen-select" multiple  name="target_disposisi[]" tabindex="4">
-                                 <?php echo $disposisi_kepada;?>
-                            </select>
-                            </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Jenis Instruksi</label>
-                            <div class="col-md-9">
-                            <select data-placeholder="Jenis Instruksi..." class="chosen-jenis-instruksi" multiple name="jenis_instruksi[]" tabindex="4">
-                                 <?php echo $jenis_instruksi_select;?>
-                            </select>
-                            </div>
-                        </div>
+
 
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Tanggal Penyelesaian</label>
@@ -268,8 +267,8 @@
                                 <input name="file" type="file"  class="form-control" required>
                             </div>
                         </div>
- 
- 
+
+
 
                     </div>
 
@@ -337,7 +336,7 @@
         $('#acceptModal').on('show.bs.modal', function(event) {
             const link = $(event.relatedTarget);
             const id = link.data('id');
-           
+
             console.log(id);
             const url = `{{ url('admin/disposisi/accepted') }}/` + id;
             console.log(url);

@@ -25,7 +25,7 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Kirim Disposisi </h4>
+                <h4>Disposisi Masuk </h4>
                 
             </div>
         </div>
@@ -55,14 +55,13 @@
                     </ul>
                 </div>
             </div>
-            <div class="card-block">
-                <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Kirim</a>
+            <div class="card-block"> 
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered able-responsive">
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Dari</th>
+                                <th>Pengirim</th>
                                 <th>Perihal</th>
                                  <th>No Surat</th>
                                  <th>Tgl Surat</th>
@@ -77,7 +76,7 @@
                             @foreach ($disposisi as $data)
                             <tr>
                                 <td>{{$loop->index + 1}}</td>
-                                <td>{{$data->dari}}</td>
+                                <td>{{$data->pengirim}}</td>
                                 <td>{{$data->perihal}}</td>
                                 <td>{{$data->no_surat}}</td>
                                 <td>{{$data->tgl_surat}}</td> 
@@ -103,9 +102,14 @@
                                  ?></td>
                                 <td>{{$data->created_date}}</td>
                                 <td> 
-                                <a type="button" href="{{ route('getdetailDisposisi',$data->id) }}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Detil</a>
-                                
-       
+                                <a type="button" href=" "  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Detil</a>
+                                <?php if($data->status == '1')  { ?> 
+                                <a   data-id="{{$data->id}}"  data-toggle="modal" class="btn btn-primary btn-mini waves-effect waves-light" href="#acceptModal"><i class="icofont icofont-check-circled"></i>Accepted</a>
+                                <a   href="#disposisiModal" data-id="{{$data->id}}"  data-toggle="modal" class="btn btn-primary btn-mini waves-effect waves-light" ><i class="icofont icofont-exchange"></i>Disposisi</a>
+                              
+                                <?php } ?>
+                                <?php if($data->status == '2')  { ?> 
+                                   <?php } ?>
                                      <a href="{{ route('editMasterRuasJalan',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
                                     <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
                                 </td>
@@ -156,7 +160,8 @@
                 </div>
 
                 <div class="modal-body">
-                    <p>Apakah anda yakin menerima disposisi ini?</p>
+                    
+
                 </div>
 
                 <div class="modal-footer">
@@ -168,22 +173,34 @@
         </div>
     </div>
 
-
     <div class="modal fade" id="disposisiModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-
+            <form action="{{route('saveInsertDisposisi')}}" method="post" enctype="multipart/form-data">
+                    @csrf
                 <div class="modal-header">
-                    <h4 class="modal-title">Disposisi Diterima?</h4>
+                    <h4 class="modal-title">Disposisi Diteruskan Kepada</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
 
                 <div class="modal-body">
-                    <p>Apakah anda yakin menerima disposisi ini?</p>
-                </div>
+                        
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Disposisikan Kepada</label>
+                            <div class="col-md-9">
+                            <input type="hidden" id="disposisi_id" name="disposisi_id" />
+                            <input type="hidden" id="user_id" name="user_id" /> 
+                            <select data-placeholder="Disposisikan Kepada..." class="chosen-select" multiple  name="target_disposisi[]" tabindex="4">
+                                 <?php echo $disposisi_kepada;?>
+                            </select>
+                            </div>
+                        </div>
+                        
 
+                </div>
+</form>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
                     <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Terima</a>
@@ -193,6 +210,8 @@
         </div>
     </div>
 
+
+     
 
 
 </div>
@@ -283,6 +302,10 @@
             </div>
         </div>
     </div>
+
+
+
+    
 
     <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
