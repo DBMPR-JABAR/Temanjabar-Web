@@ -703,33 +703,7 @@
                                     fieldName: "UPTD",
                                     label: "UPTD"
                                 }
-                            ]},
-                            {
-                            type: "media",
-                            mediaInfos: [
-                                {
-                                    title: "<b>Foto Pekerjaan</b>",
-                                    type: "image",
-                                    value: {
-                                        sourceURL:
-                                            baseUrl + "/assets/images/sample/sample.png"
-                                    }
-                                }
-                            ]
-                            },
-                            {
-                                title: "<b>Video Pekerjaan</b>",
-                                type: "custom",
-                                outFields: ["*"],
-                                creator: function(graphic) {
-                                    return `
-                                    <div class="esri-feature-media__item">
-                                        <video controls class="esri-feature-media__item">
-                                            <source src="${baseUrl}/assets/videos/sample.mp4" type="video/mp4">
-                                        </video>
-                                    </div>`;
-                                }
-                            }
+                            ]}
                     ]};
                     pembangunan.forEach(item => {
                         let point = new Point(item.LNG, item.LAT);
@@ -811,32 +785,6 @@
                                     label: "UPTD"
                                 }
                             ]
-                        },
-                        {
-                            type: "media",
-                            mediaInfos: [
-                                {
-                                    title: "<b>Foto Pekerjaan</b>",
-                                    type: "image",
-                                    value: {
-                                        sourceURL:
-                                            baseUrl + "/assets/images/sample/sample.png"
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            title: "<b>Video Pekerjaan</b>",
-                            type: "custom",
-                            outFields: ["*"],
-                            creator: function(graphic) {
-                                return `
-                                <div class="esri-feature-media__item">
-                                    <video controls class="esri-feature-media__item">
-                                        <source src="${baseUrl}/assets/videos/sample.mp4" type="video/mp4">
-                                    </video>
-                                </div>`;
-                            }
                         }
                     ]};
                     peningkatan.forEach(item => {
@@ -919,33 +867,7 @@
                                     fieldName: "UPTD",
                                     label: "UPTD"
                                 }
-                            ]},
-                            {
-                                type: "media",
-                                mediaInfos: [
-                                    {
-                                        title: "<b>Foto Pekerjaan</b>",
-                                        type: "image",
-                                        value: {
-                                            sourceURL:
-                                                baseUrl + "/assets/images/sample/sample.png"
-                                        }
-                                    }
-                                ]
-                            },
-                        {
-                            title: "<b>Video Pekerjaan</b>",
-                            type: "custom",
-                            outFields: ["*"],
-                            creator: function(graphic) {
-                                return `
-                                <div class="esri-feature-media__item">
-                                    <video controls class="esri-feature-media__item">
-                                        <source src="${baseUrl}/assets/videos/sample.mp4" type="video/mp4">
-                                    </video>
-                                </div>`;
-                            }
-                        }
+                            ]}
                     ]};
                     rehabilitasi.forEach(item => {
                         let point = new Point(item.LNG, item.LAT);
@@ -1002,7 +924,20 @@
                                 fieldName: "UPTD",
                                 label: "UPTD"
                             }
-                        ]}
+                        ]},
+                            {
+                                type: "media",
+                                mediaInfos: [
+                                    {
+                                        title: "<b>Foto Pekerjaan</b>",
+                                        type: "image",
+                                        value: {
+                                            sourceURL:
+                                                baseUrl + "/assets/images/sample/sample.png"
+                                        }
+                                    }
+                                ]
+                            }
                     ]};
                     jembatan.forEach(item => {
                         let point = new Point(item.LNG, item.LAT);
@@ -1067,7 +1002,33 @@
                                 fieldName: "UPTD",
                                 label: "UPTD"
                             }
-                        ]}
+                        ]},
+                            {
+                            type: "media",
+                            mediaInfos: [
+                                {
+                                    title: "<b>Foto Pekerjaan</b>",
+                                    type: "image",
+                                    value: {
+                                        sourceURL:
+                                            baseUrl + "/assets/images/sample/sample.png"
+                                    }
+                                }
+                            ]
+                            },
+                            {
+                                title: "<b>Video Pekerjaan</b>",
+                                type: "custom",
+                                outFields: ["*"],
+                                creator: function(graphic) {
+                                    return `
+                                    <div class="esri-feature-media__item">
+                                        <video controls class="esri-feature-media__item">
+                                            <source src="${baseUrl}/assets/videos/sample.mp4" type="video/mp4">
+                                        </video>
+                                    </div>`;
+                                }
+                            }
                     ]};
                     pemeliharaan.forEach(item => {
                         let point = new Point(item.LNG, item.LAT);
@@ -1250,6 +1211,32 @@
                                     label: "UPTD"
                                 }
                             ]
+                            },
+                            {
+                            type: "media",
+                            mediaInfos: [
+                                {
+                                    title: "<b>Foto Pekerjaan</b>",
+                                    type: "image",
+                                    value: {
+                                        sourceURL:
+                                            baseUrl + "/assets/images/sample/sample.png"
+                                    }
+                                }
+                            ]
+                            },
+                            {
+                                title: "<b>Video Pekerjaan</b>",
+                                type: "custom",
+                                outFields: ["*"],
+                                creator: function(graphic) {
+                                    return `
+                                    <div class="esri-feature-media__item">
+                                        <video controls class="esri-feature-media__item">
+                                            <source src="${baseUrl}/assets/videos/sample.mp4" type="video/mp4">
+                                        </video>
+                                    </div>`;
+                                }
                             }
                         ]
                     };

@@ -82,7 +82,7 @@ class ProyekController extends Controller
                         ]
                     ],
                     [
-                        "name"  => "Deviasi = ".$proyek->DEVIASI,
+                        "name"  => "<span style='font-size:1em; font-weight:bold'>Deviasi = ".$proyek->DEVIASI."</span>",
                         "parent" => $proyek->ID,
                     ]
                 ]
@@ -90,25 +90,5 @@ class ProyekController extends Controller
             array_push($proyekKontrak, $ProyekKontrakData);
         }
         return response()->json(["data" => $proyekKontrak], 200);
-    }
-
-    public function getTargetRealisasiAPI(Request $request)
-    {
-        $uptdList = DB::connection('dwh')->table('TBL_XLS_REKAP_TARGET_REALISASI_KEUANGAN');
-
-        if ($request->uptd != "") $uptdList = $uptdList->where('UPTD', '=', $request->uptd);
-        if ($request->tahun != "") $uptdList = $uptdList->whereYear('TAHUN', '=', $request->tahun);
-
-        $dataAll = [];
-
-
-        foreach ($uptdList->get() as $data) {
-            $dataArr = [$data->JANUARI, $data->FEBRUARI, $data->MARET, $data->APRIL, $data->MEI,
-                        $data->JUNI, $data->JULI, $data->AGUSTUS, $data->SEPTEMBER, $data->OKTOBER,
-                        $data->NOVEMBER, $data->DESEMBER];
-            $dataAll[$data->JUDUL][$data->SUB] = $dataArr;
-        }
-
-        return response()->json(["data" => $dataAll], 200);
     }
 }
