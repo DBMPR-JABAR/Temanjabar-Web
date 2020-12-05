@@ -31,6 +31,10 @@ class ProyekController extends Controller
             ->select(DB::raw('(SELECT MIN(TANGGAL)  FROM TBL_UPTD_TRX_PROGRESS_MINGGUAN WHERE NAMA_PAKET = A.NAMA_PAKET)  as DATE_FROM'),
                      DB::raw('(SELECT MAX(TANGGAL)  FROM TBL_UPTD_TRX_PROGRESS_MINGGUAN WHERE NAMA_PAKET =  A.NAMA_PAKET ) as DATE_TO'),
                              'A.ID', 'A.NAMA_PAKET', 'A.TANGGAL', 'A.PENYEDIA_JASA', 'A.KEGIATAN', 'A.RUAS_JALAN', 'A.LOKASI', 'A.RENCANA', 'A.REALISASI', 'A.DEVIASI', 'A.JENIS_PEKERJAAN', 'A.UPTD');
+            if($request->has('q')){
+                $proyekKontrak = $proyekKontrak->where('NAMA_PAKET','LIKE',"%$request->q%");
+            }
+
             if($request->has("skip")){
                 $proyekKontrak = $proyekKontrak->skip($request->skip)->take($request->take);
             }
