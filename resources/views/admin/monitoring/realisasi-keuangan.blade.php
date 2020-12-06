@@ -148,7 +148,7 @@
 
 <script>
 
-    function chart(data){
+    function chart(data, uptd, tahun){
         console.log(data.KEUANGAN);
         if(data.KEUANGAN){
             let realisasi = [];
@@ -167,7 +167,9 @@
                     type: 'column'
                 },
                 colors: ["#7cb5ec", "#90ed7d"],
-                title: "Target dan Realisasi",
+                title: {
+                    text: "Target dan Realisasi Keuangan UPTD "+(uptd.replace('uptd',''))+" Tahun "+tahun
+                },
                 xAxis: {
                     categories: [
                         'Jan',
@@ -224,7 +226,9 @@
                     type: 'column'
                 },
                 colors: ["#f7a35c", "#8085e9"],
-                title: "Target dan Realisasi Fisik",
+                title: {
+                    text: "Target dan Realisasi Fisik UPTD "+(uptd.replace('uptd',''))+" Tahun "+tahun
+                },
                 xAxis: {
                     categories: [
                         'Jan',
@@ -280,7 +284,9 @@
                     type: 'column'
                 },
                 colors: ["#e4d354", "#2b908f"],
-                title: "Target dan Realisasi Fisik",
+                title: {
+                    text: "Deviasi Keuangan dan Fisik UPTD "+(uptd.replace('uptd',''))+" Tahun "+tahun
+                },
                 xAxis: {
                     categories: [
                         'Jan',
@@ -336,8 +342,6 @@
         let tahun = $("#filterTahun").val();
         let uptd = $("#filterUPTD").val();
 
-        console.log(tahun);
-
         Highcharts.setOptions({
             lang: {
                 decimalPoint: ',',
@@ -348,7 +352,7 @@
         $.get(baseUrl, { tahun: tahun, uptd: uptd},
             function(response){
                 const data = response.data;
-                chart(data);
+                chart(data, uptd, tahun);
             });
 
         $("#filterTahun, #filterUPTD").change(function () {
@@ -358,7 +362,7 @@
             $.get(baseUrl, { tahun: tahun, uptd: uptd},
             function(response){
                 const data = response.data;
-                chart(data);
+                chart(data, uptd, tahun);
             });
         });
     });
