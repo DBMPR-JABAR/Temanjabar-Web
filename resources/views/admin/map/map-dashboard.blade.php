@@ -645,78 +645,90 @@
                     const popupTemplate = {
                         title: "{NAMA_PAKET}",
                         content: [{
-                        type: "fields",
-                        fieldInfos: [
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "NOMOR_KONTRAK",
+                                    label: "Nomor Kontrak"
+                                },
+                                {
+                                    fieldName: "TGL_KONTRAK",
+                                    label: "Tanggal Kontrak"
+                                },
+                                {
+                                    fieldName: "WAKTU_PELAKSANAAN_HK",
+                                    label: "Waktu Kontrak (Hari Kerja)"
+                                },
+                                {
+                                    fieldName: "KEGIATAN",
+                                    label: "Jenis Pekerjaan"
+                                },
+                                {
+                                    fieldName: "JENIS_PENANGANAN",
+                                    label: "Jenis Penanganan"
+                                },
+                                {
+                                    fieldName: "RUAS_JALAN",
+                                    label: "Ruas Jalan"
+                                },
+                                {
+                                    fieldName: "LAT",
+                                    label: "Latitude"
+                                },
+                                {
+                                    fieldName: "LNG",
+                                    label: "Longitude"
+                                },
+                                {
+                                    fieldName: "LOKASI",
+                                    label: "Lokasi"
+                                },
+                                {
+                                    fieldName: "SUP",
+                                    label: "SUP"
+                                },
+                                {
+                                    fieldName: "NILAI_KONTRAK",
+                                    label: "Nilai Kontrak"
+                                },
+                                {
+                                    fieldName: "PAGU_ANGGARAN",
+                                    label: "Pagu Anggaran"
+                                },
+                                {
+                                    fieldName: "PENYEDIA_JASA",
+                                    label: "Penyedia Jasa"
+                                },
+                                {
+                                    fieldName: "UPTD",
+                                    label: "UPTD"
+                                }
+                            ]},
                             {
-                                fieldName: "NOMOR_KONTRAK",
-                                label: "Nomor Kontrak"
-                            },
-                            {
-                                fieldName: "TGL_KONTRAK",
-                                label: "Tanggal Kontrak"
-                            },
-                            {
-                                fieldName: "WAKTU_PELAKSANAAN_HK",
-                                label: "Waktu Kontrak (Hari Kerja)"
-                            },
-                            {
-                                fieldName: "KEGIATAN",
-                                label: "Jenis Pekerjaan"
-                            },
-                            {
-                                fieldName: "JENIS_PENANGANAN",
-                                label: "Jenis Penanganan"
-                            },
-                            {
-                                fieldName: "RUAS_JALAN",
-                                label: "Ruas Jalan"
-                            },
-                            {
-                                fieldName: "LAT",
-                                label: "Latitude"
-                            },
-                            {
-                                fieldName: "LNG",
-                                label: "Longitude"
-                            },
-                            {
-                                fieldName: "LOKASI",
-                                label: "Lokasi"
-                            },
-                            {
-                                fieldName: "SUP",
-                                label: "SUP"
-                            },
-                            {
-                                fieldName: "NILAI_KONTRAK",
-                                label: "Nilai Kontrak"
-                            },
-                            {
-                                fieldName: "PAGU_ANGGARAN",
-                                label: "Pagu Anggaran"
-                            },
-                            {
-                                fieldName: "PENYEDIA_JASA",
-                                label: "Penyedia Jasa"
-                            },
-                            {
-                                fieldName: "UPTD",
-                                label: "UPTD"
-                            }
-                        ]},
-                        {
-                                type: "media",
-                                mediaInfos: [
-                                    {
-                                        title: "<b>Foto Aktual</b>",
-                                        type: "image",
-                                        caption: "{CREATED_AT}",
-                                        value: {
+                            type: "media",
+                            mediaInfos: [
+                                {
+                                    title: "<b>Foto Pekerjaan</b>",
+                                    type: "image",
+                                    value: {
                                         sourceURL:
                                             baseUrl + "/assets/images/sample/sample.png"
-                                        }
                                     }
-                                ]
+                                }
+                            ]
+                            },
+                            {
+                                title: "<b>Video Pekerjaan</b>",
+                                type: "custom",
+                                outFields: ["*"],
+                                creator: function(graphic) {
+                                    return `
+                                    <div class="esri-feature-media__item">
+                                        <video controls class="esri-feature-media__item">
+                                            <source src="${baseUrl}/assets/videos/sample.mp4" type="video/mp4">
+                                        </video>
+                                    </div>`;
+                                }
                             }
                     ]};
                     pembangunan.forEach(item => {
@@ -740,79 +752,92 @@
                     const popupTemplate = {
                         title: "{NAMA_PAKET}",
                         content: [{
-                        type: "fields",
-                        fieldInfos: [
-                            {
-                                fieldName: "NOMOR_KONTRAK",
-                                label: "Nomor Kontrak"
-                            },
-                            {
-                                fieldName: "TGL_KONTRAK",
-                                label: "Tanggal Kontrak"
-                            },
-                            {
-                                fieldName: "WAKTU_PELAKSANAAN_HK",
-                                label: "Waktu Kontrak (Hari Kerja)"
-                            },
-                            {
-                                fieldName: "KEGIATAN",
-                                label: "Jenis Pekerjaan"
-                            },
-                            {
-                                fieldName: "JENIS_PENANGANAN",
-                                label: "Jenis Penanganan"
-                            },
-                            {
-                                fieldName: "RUAS_JALAN",
-                                label: "Ruas Jalan"
-                            },
-                            {
-                                fieldName: "LAT",
-                                label: "Latitude"
-                            },
-                            {
-                                fieldName: "LNG",
-                                label: "Longitude"
-                            },
-                            {
-                                fieldName: "LOKASI",
-                                label: "Lokasi"
-                            },
-                            {
-                                fieldName: "SUP",
-                                label: "SUP"
-                            },
-                            {
-                                fieldName: "NILAI_KONTRAK",
-                                label: "Nilai Kontrak"
-                            },
-                            {
-                                fieldName: "PAGU_ANGGARAN",
-                                label: "Pagu Anggaran"
-                            },
-                            {
-                                fieldName: "PENYEDIA_JASA",
-                                label: "Penyedia Jasa"
-                            },
-                            {
-                                fieldName: "UPTD",
-                                label: "UPTD"
-                            }
-                        ]},
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "NOMOR_KONTRAK",
+                                    label: "Nomor Kontrak"
+                                },
+                                {
+                                    fieldName: "TGL_KONTRAK",
+                                    label: "Tanggal Kontrak"
+                                },
+                                {
+                                    fieldName: "WAKTU_PELAKSANAAN_HK",
+                                    label: "Waktu Kontrak (Hari Kerja)"
+                                },
+                                {
+                                    fieldName: "KEGIATAN",
+                                    label: "Jenis Pekerjaan"
+                                },
+                                {
+                                    fieldName: "JENIS_PENANGANAN",
+                                    label: "Jenis Penanganan"
+                                },
+                                {
+                                    fieldName: "RUAS_JALAN",
+                                    label: "Ruas Jalan"
+                                },
+                                {
+                                    fieldName: "LAT",
+                                    label: "Latitude"
+                                },
+                                {
+                                    fieldName: "LNG",
+                                    label: "Longitude"
+                                },
+                                {
+                                    fieldName: "LOKASI",
+                                    label: "Lokasi"
+                                },
+                                {
+                                    fieldName: "SUP",
+                                    label: "SUP"
+                                },
+                                {
+                                    fieldName: "NILAI_KONTRAK",
+                                    label: "Nilai Kontrak"
+                                },
+                                {
+                                    fieldName: "PAGU_ANGGARAN",
+                                    label: "Pagu Anggaran"
+                                },
+                                {
+                                    fieldName: "PENYEDIA_JASA",
+                                    label: "Penyedia Jasa"
+                                },
+                                {
+                                    fieldName: "UPTD",
+                                    label: "UPTD"
+                                }
+                            ]
+                        },
                         {
-                                type: "media",
-                                mediaInfos: [
-                                    {
-                                        title: "<b>Foto Aktual</b>",
-                                        type: "image",
-                                        caption: "{CREATED_AT}",
-                                        value: {
+                            type: "media",
+                            mediaInfos: [
+                                {
+                                    title: "<b>Foto Pekerjaan</b>",
+                                    type: "image",
+                                    value: {
                                         sourceURL:
                                             baseUrl + "/assets/images/sample/sample.png"
-                                        }
                                     }
-                                ]
+                                }
+                            ]
+                        },
+                        {
+                            title: "<b>Video Pekerjaan</b>",
+                            type: "custom",
+                            outFields: ["*"],
+                            creator: function(graphic) {
+                                return `
+                                <div class="esri-feature-media__item">
+                                    <video controls class="esri-feature-media__item">
+                                        <source src="${baseUrl}/assets/videos/sample.mp4" type="video/mp4">
+                                    </video>
+                                </div>`;
                             }
+                        }
                     ]};
                     peningkatan.forEach(item => {
                         let point = new Point(item.LNG, item.LAT);
@@ -836,79 +861,91 @@
                     const popupTemplate = {
                         title: "{NAMA_PAKET}",
                         content: [{
-                        type: "fields",
-                        fieldInfos: [
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "NOMOR_KONTRAK",
+                                    label: "Nomor Kontrak"
+                                },
+                                {
+                                    fieldName: "TGL_KONTRAK",
+                                    label: "Tanggal Kontrak"
+                                },
+                                {
+                                    fieldName: "WAKTU_PELAKSANAAN_HK",
+                                    label: "Waktu Kontrak (Hari Kerja)"
+                                },
+                                {
+                                    fieldName: "KEGIATAN",
+                                    label: "Jenis Pekerjaan"
+                                },
+                                {
+                                    fieldName: "JENIS_PENANGANAN",
+                                    label: "Jenis Penanganan"
+                                },
+                                {
+                                    fieldName: "RUAS_JALAN",
+                                    label: "Ruas Jalan"
+                                },
+                                {
+                                    fieldName: "LAT",
+                                    label: "Latitude"
+                                },
+                                {
+                                    fieldName: "LNG",
+                                    label: "Longitude"
+                                },
+                                {
+                                    fieldName: "LOKASI",
+                                    label: "Lokasi"
+                                },
+                                {
+                                    fieldName: "SUP",
+                                    label: "SUP"
+                                },
+                                {
+                                    fieldName: "NILAI_KONTRAK",
+                                    label: "Nilai Kontrak"
+                                },
+                                {
+                                    fieldName: "PAGU_ANGGARAN",
+                                    label: "Pagu Anggaran"
+                                },
+                                {
+                                    fieldName: "PENYEDIA_JASA",
+                                    label: "Penyedia Jasa"
+                                },
+                                {
+                                    fieldName: "UPTD",
+                                    label: "UPTD"
+                                }
+                            ]},
                             {
-                                fieldName: "NOMOR_KONTRAK",
-                                label: "Nomor Kontrak"
-                            },
-                            {
-                                fieldName: "TGL_KONTRAK",
-                                label: "Tanggal Kontrak"
-                            },
-                            {
-                                fieldName: "WAKTU_PELAKSANAAN_HK",
-                                label: "Waktu Kontrak (Hari Kerja)"
-                            },
-                            {
-                                fieldName: "KEGIATAN",
-                                label: "Jenis Pekerjaan"
-                            },
-                            {
-                                fieldName: "JENIS_PENANGANAN",
-                                label: "Jenis Penanganan"
-                            },
-                            {
-                                fieldName: "RUAS_JALAN",
-                                label: "Ruas Jalan"
-                            },
-                            {
-                                fieldName: "LAT",
-                                label: "Latitude"
-                            },
-                            {
-                                fieldName: "LNG",
-                                label: "Longitude"
-                            },
-                            {
-                                fieldName: "LOKASI",
-                                label: "Lokasi"
-                            },
-                            {
-                                fieldName: "SUP",
-                                label: "SUP"
-                            },
-                            {
-                                fieldName: "NILAI_KONTRAK",
-                                label: "Nilai Kontrak"
-                            },
-                            {
-                                fieldName: "PAGU_ANGGARAN",
-                                label: "Pagu Anggaran"
-                            },
-                            {
-                                fieldName: "PENYEDIA_JASA",
-                                label: "Penyedia Jasa"
-                            },
-                            {
-                                fieldName: "UPTD",
-                                label: "UPTD"
-                            }
-                        ]},
-                        {
                                 type: "media",
                                 mediaInfos: [
                                     {
-                                        title: "<b>Foto Aktual</b>",
+                                        title: "<b>Foto Pekerjaan</b>",
                                         type: "image",
-                                        caption: "{CREATED_AT}",
                                         value: {
-                                        sourceURL:
-                                            baseUrl + "/assets/images/sample/sample.png"
+                                            sourceURL:
+                                                baseUrl + "/assets/images/sample/sample.png"
                                         }
                                     }
                                 ]
+                            },
+                        {
+                            title: "<b>Video Pekerjaan</b>",
+                            type: "custom",
+                            outFields: ["*"],
+                            creator: function(graphic) {
+                                return `
+                                <div class="esri-feature-media__item">
+                                    <video controls class="esri-feature-media__item">
+                                        <source src="${baseUrl}/assets/videos/sample.mp4" type="video/mp4">
+                                    </video>
+                                </div>`;
                             }
+                        }
                     ]};
                     rehabilitasi.forEach(item => {
                         let point = new Point(item.LNG, item.LAT);
