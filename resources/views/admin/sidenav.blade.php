@@ -226,6 +226,11 @@
                             <span class="pcoded-mtext">Kondisi Jalan</span>
                         </a>
                     </li>
+                    <li class="{{(Request::segment(3) == 'rekap') ? 'active' : ''}}">
+                        <a href="{{ url('admin/input-data/rekap') }}">
+                            <span class="pcoded-mtext">Rekap</span>
+                        </a>
+                    </li>
                     <div class="pcoded-navigatio-lavel">Pembangunan</div>
                     <li class="{{(Request::segment(3) == 'progresskerja') ? 'active' : ''}}">
 
