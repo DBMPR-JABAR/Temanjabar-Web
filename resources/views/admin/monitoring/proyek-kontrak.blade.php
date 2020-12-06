@@ -94,12 +94,12 @@
                                         </select>
                                     </div>
                                     <div class="col-sm-12 col-xl-3 m-b-30">
-                                        <h4 class="sub-title">From</h4>
+                                        <h4 class="sub-title">Dari</h4>
                                         <input type="date" id="filterDateFrom" name="dateFrom" class="form-control form-control-primary">
                                         </input>
                                     </div>
                                     <div class="col-sm-12 col-xl-3 m-b-30">
-                                        <h4 class="sub-title">To</h4>
+                                        <h4 class="sub-title">Ke</h4>
                                         <input type="date" id="filterDateTo" name="dateTo" class="form-control form-control-primary">
                                         </input>
                                     </div>
