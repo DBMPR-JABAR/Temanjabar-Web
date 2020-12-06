@@ -91,7 +91,7 @@ class DisposisiController extends Controller
                       ->get();
         $disposisi_kepada = ""; 
         $jenis_instruksi_select = "";
-        $user_role = DB::table('user_role')->select('id', 'keterangan');         
+        $user_role = DB::table('user_role')->select('id', 'keterangan') ->where('parent_id', Auth::user()->internal_role_id);         
         $listUserRole = $user_role->get(); 
         foreach ($listUserRole as $role) {
             $disposisi_kepada .= '<option value="' . $role->id . '">' . $role->keterangan . '</option>';
