@@ -79,14 +79,22 @@
                                 <td>{{$data->pengirim}}</td>
                                 <td>{{$data->perihal}}</td>
                                 <td>{{$data->no_surat}}</td>
-                                <td>{{$data->tgl_surat}}</td> 
+                                <td>
+                                <?php $date_tgl_surat = date_create($data->tgl_surat);?>
+
+                                {{ date_format($date_tgl_surat, 'd-m-Y')}}</td>
                                 <td> 
                                  @php   $inouts = \App\Model\Transactional\DisposisiPenanggungJawab::where('disposisi_code',$data->disposisi_code)->get() @endphp 
                                 @foreach($inouts as $inout)
                                 <span > {{!empty($inout->keterangan_role->keterangan) ?  $inout->keterangan_role->keterangan: "-"  }}</span><br/>
                                 @endforeach
                                 </td>
-                                <td>{{$data->tanggal_penyelesaian}}</td>
+                                <td>
+                                <?php
+                                 $date_tanggal_penyelesaian = date_create($data->tanggal_penyelesaian);?>
+                                 
+                                {{ date_format($date_tanggal_penyelesaian, 'd-m-Y') }}
+                                </td>
                                 <td><?php 
 
                                     if($data->status == "1")  {  
@@ -100,7 +108,10 @@
                                     } 
                                 
                                  ?></td>
-                                <td>{{$data->created_date}}</td>
+                                <td>
+                                <?php $date_create_date = date_create($data->created_date);?>
+                                {{ date_format($date_create_date, 'd-m-Y H:i:s')}}
+                                    </td>
                                 <td> 
                                 <a type="button" href=" "  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Detil</a>
                                 <?php if($data->status == '1')  { ?> 

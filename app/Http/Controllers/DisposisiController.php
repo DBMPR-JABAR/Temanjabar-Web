@@ -63,7 +63,8 @@ class DisposisiController extends Controller
         ->select('a.id','a.disposisi_code','a.dari','a.perihal','a.tgl_surat','a.no_surat','a.tanggal_penyelesaian','a.status','a.file','a.created_date','a.created_by')
                       ->join('disposisi_penanggung_jawab as b','b.disposisi_code','=','a.disposisi_code')
                       ->where('a.created_by','=', Auth::user()->id) 
-                      ->orWhere('b.user_role_id','=',Auth::user()->role_id ) 
+                      //->orWhere('b.user_role_id','=',Auth::user()->role_id ) 
+                      ->orderBy('a.id','DESC')
                       ->get();
         $disposisi_kepada = ""; 
         $jenis_instruksi_select = "";
