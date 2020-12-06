@@ -1,10 +1,6 @@
 @extends('admin.t_index')
 
 @section('title') Admin Dashboard @endsection
-<link rel="stylesheet" type="text/css" href="{{ asset('assets\vendor\datatables.net-bs4\css\dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets\vendor\data-table\css\buttons.dataTables.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets\vendor\datatables.net-responsive-bs4\css\responsive.bootstrap4.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets\vendor\data-table\extensions\responsive\css\responsive.dataTables.css') }}">
    <style>
      table.table-bordered tbody td {
     word-break: break-word;

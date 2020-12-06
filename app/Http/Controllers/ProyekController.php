@@ -91,4 +91,24 @@ class ProyekController extends Controller
         }
         return response()->json(["data" => $proyekKontrak], 200);
     }
+
+    public function getTargetRealisasiAPI(Request $request)
+    {
+        $uptdList = DB::connection('dwh')->table('TBL_XLS_REKAP_TARGET_REALISASI_KEUANGAN');
+
+        if ($request->uptd != "") $uptdList = $uptdList->where('UPTD', '=', $request->uptd);
+        if ($request->tahun != "") $uptdList = $uptdList->whereYear('TAHUN', '=', $request->tahun);
+
+        $dataAll = [];
+
+
+        foreach ($uptdList->get() as $data) {
+            $dataArr = [$data->JANUARI, $data->FEBRUARI, $data->MARET, $data->APRIL, $data->MEI,
+                        $data->JUNI, $data->JULI, $data->AGUSTUS, $data->SEPTEMBER, $data->OKTOBER,
+                        $data->NOVEMBER, $data->DESEMBER];
+            $dataAll[$data->JUDUL][$data->SUB] = $dataArr;
+        }
+
+        return response()->json(["data" => $dataAll], 200);
+    }
 }
