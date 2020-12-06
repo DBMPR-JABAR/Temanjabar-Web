@@ -198,6 +198,28 @@ class DisposisiController extends Controller
         return back()->with(compact('color', 'msg'));
     }
 
+    public function createTindakLanjut(Request $request)
+    { 
+        //
+        if($request->file != null){
+            $path = 'disposisi/tindak_lanjut/'.Str::snake(date("YmdHis").'/'.$request->file->getClientOriginalName());
+            $request->file->storeAs('public/',$path);
+            $disposisi ['file'] = $path;
+        }
+        $disposisi['disposisi_id'] = $request->disposisi_id;
+        $disposisi['tindaklanjut'] = $request->tindaklanjut;
+        $disposisi['status'] = $request->status;
+        $disposisi['keterangan'] = $request->keterangan; 
+        $disposisi['prosentase'] = $request->prosentase; 
+         $disposisi['created_by'] = Auth::user()->id;
+        $disposisi['created_date'] = date("YmdHis"); 
+        DB::table('disposisi_tindak_lanjut')->insert($disposisi); 
+ 
+        $color = "success";
+        $msg = "Berhasil Menambah Data Tindak Lanjut";
+        return back()->with(compact('color', 'msg'));
+    }
+
 
 
 }

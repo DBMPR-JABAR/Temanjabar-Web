@@ -189,7 +189,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
 
-                <form action="{{route('saveInsertDisposisi')}}" method="post" enctype="multipart/form-data">
+                <form action="{{route('createTindakLanjut')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-header">
                         <h4 class="modal-title">Laporkan Progress Tindak Lanjut</h4>
@@ -203,7 +203,8 @@
                     <div class="form-group row">
                             <label class="col-md-3 col-form-label">Tindak Lanjut</label>
                             <div class="col-md-9">
-                                <input name="dari" type="text" class="form-control" required>
+                                <input type="hidden" name="disposisi_id" id="disposisi_id" />  
+                               <input name="dari" type="text" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -430,6 +431,13 @@
             console.log(url);
             const modal = $(this);
             modal.find('.modal-footer #delHref').attr('href', url);
+        });
+
+        $('#progressModal').on('show.bs.modal', function(event) {
+            const link = $(event.relatedTarget);
+             const id = link.data('id');
+            alert(id);
+           $(this).attr("disposisi_id",id);
         });
 
         $('#acceptModal').on('show.bs.modal', function(event) {

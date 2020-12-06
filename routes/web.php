@@ -112,6 +112,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::get('masuk', 'DisposisiController@getInboxDisposisi')->name('disposisi-masuk');
         Route::get('tindaklanjut', 'DisposisiController@getDisposisiTindakLanjut')->name('disposisi-tindak-lanjut');
          
+        Route::post('createTindakLanjut', 'DisposisiController@createTindakLanjut')->name('createTindakLanjut');
         Route::post('create', 'DisposisiController@create')->name('saveInsertDisposisi');
         Route::get('accepted/{id}', 'DisposisiController@getAcceptedRequest')->name('getAcceptedRequest');
         Route::get('detail/disposisi/{id}', 'DisposisiController@getdetailDisposisi')->name('getdetailDisposisi');
