@@ -1,6 +1,6 @@
 @extends('admin.t_index')
 
-@section('title') Ruas Jalan @endsection
+@section('title') Rincian Disposisi @endsection
 @section('head')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/buttons.dataTables.min.css') }}">
@@ -63,7 +63,8 @@
                                                                     <div class="tab-pane active" id="Detail" role="tabpanel">
                                                                     <table class="table table-striped table-bordered nowrap dataTable">
                                                              <tr><td>	Disposisi Code</td><td>{{$detail_disposisi->disposisi_code}}</td></tr>
-                                                             <tr><td>	Dari</td><td>{{$detail_disposisi->dari}}</td></tr>
+                                                             <tr><td>	Pemberi Disposisi</td><td>{{$detail_disposisi->pengirim}}</td></tr>
+                                                             <tr><td>	Surat dari</td><td>{{$detail_disposisi->dari}}</td></tr>
                                                              <tr><td>	Perihal</td><td>{{$detail_disposisi->perihal}}</td></tr>
                                                              <tr><td>	Tanggal Surat</td><td>{{$detail_disposisi->tgl_surat}}</td></tr>
 

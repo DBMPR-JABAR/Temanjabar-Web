@@ -32,6 +32,7 @@ class DisposisiController extends Controller
                       ->join('disposisi_penanggung_jawab as b','b.disposisi_code','=','a.disposisi_code')
                       ->join('users as c','a.created_by','=','c.id')
                       ->where('b.user_role_id','=',Auth::user()->internal_role_id  ) 
+                      ->orderBy('a.id','DESC')
                       ->get();
 
         $disposisi_kepada = ""; 
@@ -55,6 +56,26 @@ class DisposisiController extends Controller
                
             ]);
     }
+    public function getDisposisiTindakLanjut(){
+        $tindaklanjut = DB::table('disposisi_tindak_lanjut as b')
+        ->distinct()              
+        ->select('b.id','b.tindak_lanjut','b.status as status_tindak_lanjut','b.prosentase','b.keterangan as keterangan_tl', 'a.disposisi_code','a.dari','a.perihal','c.name as pengirim','a.tgl_surat','a.no_surat','a.tanggal_penyelesaian','a.status','a.file','a.created_date','a.created_by')
+                      ->join('disposisi as a','a.id','=','b.disposisi_id')
+                      ->join('users as c','a.created_by','=','c.id')
+                      ->where('b.created_by','=',Auth::user()->id  ) 
+                      ->orderBy('b.id','DESC')
+                      ->get();
+
+        
+       
+
+        return view('admin.disposisi.tindaklanjut',
+            [
+                'tindaklanjut' => $tindaklanjut  
+               
+            ]);
+    }
+
     public function getDaftarDisposisi()
     {
 
@@ -91,8 +112,9 @@ class DisposisiController extends Controller
          
         $detail_disposisi = DB::table('disposisi as a')
         ->distinct()              
-        ->select('a.id','a.disposisi_code','a.dari','a.perihal','a.tgl_surat','a.no_surat','a.tanggal_penyelesaian','a.status','a.file','a.created_date','a.created_by')
+        ->select('a.id','a.disposisi_code','c.name as pengirim','a.dari','a.perihal','a.tgl_surat','a.no_surat','a.tanggal_penyelesaian','a.status','a.file','a.created_date','a.created_by')
                       ->join('disposisi_penanggung_jawab as b','b.disposisi_code','=','a.disposisi_code')
+                      ->join('users as c','a.created_by','=','c.id')
                       ->where('a.id','=', $id) 
                       ->first();
 
