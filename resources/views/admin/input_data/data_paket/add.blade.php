@@ -126,7 +126,7 @@
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Waktu Pelaksanaan (Bulan)</label>
                         <div class="col-md-9">
-                            <input name="waktu_pelaksanaan_bln" type="text" class="form-control" required>
+                            <input name="waktu_pelaksanaan_bln" type="number" step="0.01" class="form-control" required>
                         </div>
                     </div>
                     <hr class="mt-5">
@@ -140,14 +140,14 @@
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Koordinat X</label>
                         <div class="col-md-9">
-                            <input name="lat" type="text" class="form-control" required>
+                            <input name="lat" type="number" step="0.01" class="form-control" required>
                         </div>
                     </div>
 
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Koordinat Y</label>
                         <div class="col-md-9">
-                            <input name="lng" type="text" class="form-control" required>
+                            <input name="lng" type="number" step="0.01" class="form-control" required>
                         </div>
                     </div>
                     <hr>
@@ -160,21 +160,21 @@
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Koordinat X</label>
                         <div class="col-md-9">
-                            <input name="lat1" type="text" class="form-control" required>
+                            <input name="lat1" type="number" step="0.01" class="form-control" required>
                         </div>
                     </div>
 
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Koordinat Y</label>
                         <div class="col-md-9">
-                            <input name="lng1" type="text" class="form-control" required>
+                            <input name="lng1" type="number" step="0.01" class="form-control" required>
                         </div>
                     </div>
                     <hr class="mb-5">
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Titik / Segmen</label>
                         <div class="col-md-9">
-                            <input name="titik_segmen1" type="text" class="form-control" required>
+                            <input name="titik_segmen1" type="number" class="form-control" required>
                         </div>
                     </div>
 
@@ -217,21 +217,21 @@
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Tanggal Kontrak</label>
                         <div class="col-md-9">
-                            <input name="tgl_kontrak" type="date" step="0.01" class="form-control">
+                            <input name="tgl_kontrak" type="date" class="form-control">
                         </div>
                     </div>
 
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Nilai Kontrak</label>
                         <div class="col-md-9">
-                            <input name="nilai_kontrak" type="text" class="form-control" required>
+                            <input name="nilai_kontrak" type="number" step="0.01" class="form-control" required>
                         </div>
                     </div>
 
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Nilai Tambahan 10%</label>
                         <div class="col-md-9">
-                            <input name="nilai_tambahan" type="text" class="form-control" required>
+                            <input name="nilai_tambahan" type="number" step="0.01" class="form-control" required>
                         </div>
                     </div>
 
