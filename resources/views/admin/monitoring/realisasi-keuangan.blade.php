@@ -27,6 +27,61 @@
 
 @section('page-body')
 <div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-block accordion-block">
+                <div id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="accordion-panel">
+                        <div class="accordion-heading" role="tab" id="headingOne">
+                            <h3 class="card-title accordion-title">
+                                <a class="accordion-msg" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Filter
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                            <div class="accordion-content accordion-desc">
+                                <div class="card-block">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-xl-3 m-b-30">
+                                            <h4 class="sub-title">Tahun</h4>
+                                            <select id="filterTahun" name="tahun" class="form-control form-control-primary">
+                                                <option value="2019">2019</option>
+                                                <option value="2020" selected>2020</option>
+                                                <option value="2021">2021</option>
+                                                <option value="2022">2022</option>
+                                                <option value="2023">2023</option>
+                                                <option value="2024">2024</option>
+                                                <option value="2025">2025</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-12 col-xl-3 m-b-30">
+                                            <h4 class="sub-title">UPTD</h4>
+                                            <select id="filterUPTD" name="select" class="form-control form-control-primary">
+                                                @if (Auth::user()->internalRole->uptd)
+                                                <option value="{{Auth::user()->internalRole->uptd}}" selected>UPTD {{str_replace('uptd','',Auth::user()->internalRole->uptd)}}</option>
+                                                @else
+                                                <option value="uptd1" selected>UPTD 1</option>
+                                                <option value="uptd2">UPTD 2</option>
+                                                <option value="uptd3">UPTD 3</option>
+                                                <option value="uptd4">UPTD 4</option>
+                                                <option value="uptd5">UPTD 5</option>
+                                                <option value="uptd6">UPTD 6</option>
+                                                @endif
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
@@ -41,7 +96,7 @@
                 </div>
             </div>
             <div class="card-block">
-                <div style="height:600px"  id="chartdivInfo1"></div>
+                <div id="chartKeuangan"></div>
             </div>
         </div>
     </div>
@@ -59,7 +114,7 @@
                 </div>
             </div>
             <div class="card-block">
-                <div style="height:600px"  id="chartdivInfo1"></div>
+                <div id="chartFisik"></div>
             </div>
         </div>
     </div>
@@ -77,7 +132,7 @@
                 </div>
             </div>
             <div class="card-block">
-                <div style="height:600px"  id="chartdivInfo1"></div>
+                <div id="chartDeviasi"></div>
             </div>
         </div>
     </div>
@@ -86,90 +141,228 @@
 @endsection
 
 @section('script')
-<script src="https://cdn.amcharts.com/lib/4/core.js"></script>
-<script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
-<script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
 <script>
-    am4core.ready(function() {
-        am4core.useTheme(am4themes_animated);
-        var chart = am4core.create("chartdivInfo1", am4charts.XYChart3D);
-        chart.data = [{
-            "country": "UPTD I",
-            "visits": 80
-            }, {
-            "country": "UPTD II",
-            "visits": 72
-            }, {
-            "country": "UPTD III",
-            "visits": 80.5
-            }, {
-            "country": "UPTD IV",
-            "visits": 82.3
-            }, {
-            "country": "UPTD V",
-            "visits": 69.5
-            }, {
-            "country": "UPTD LAB",
-            "visits": 56.3
-            }, {
-            "country": "SEKRETARIAT",
-            "visits": 70
-            }, {
-            "country": "BIADANG JASA KONSTRUKSI",
-            "visits": 72.5
-            }, {
-            "country": "BIDANG TEKNIK JALAN",
-            "visits": 81.5
-            }, {
-            "country": "BIDANG PEMELIRAHAAN DAN PEMBANGUNAN JALAN",
-            "visits": 82.3
-            }, {
-            "country": "BIDANG PENATAAN RUANG",
-            "visits": 71.8
-            }  ];
 
-        // Create axes
-        let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-        categoryAxis.dataFields.category = "country";
-        categoryAxis.renderer.labels.template.rotation = 270;
-        categoryAxis.renderer.labels.template.hideOversized = false;
-        categoryAxis.renderer.minGridDistance = 20;
-        categoryAxis.renderer.labels.template.horizontalCenter = "right";
-        categoryAxis.renderer.labels.template.verticalCenter = "middle";
-        categoryAxis.tooltip.label.rotation = 270;
-        categoryAxis.tooltip.label.horizontalCenter = "right";
-        categoryAxis.tooltip.label.verticalCenter = "middle";
+    function chart(data){
+        console.log(data.KEUANGAN);
+        if(data.KEUANGAN){
+            let realisasi = [];
+            data.KEUANGAN.REALISASI_P.forEach((val,i) => {
+                realisasi.push({y: val, amount: data.KEUANGAN.REALISASI[i]});
+            });
 
-        let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-        valueAxis.title.text = "Penyerapan (%)";
-        valueAxis.title.fontWeight = "bold";
+            let target = [];
+            data.KEUANGAN.TARGET_P.forEach((val,i) => {
+                target.push({y: val, amount: data.KEUANGAN.TARGET[i]});
+            });
 
-        // Create series
-        var series = chart.series.push(new am4charts.ColumnSeries3D());
-        series.dataFields.valueY = "visits";
-        series.dataFields.categoryX = "country";
-        series.name = "Visits";
-        series.columns.template.fillOpacity = .8;
 
-        var columnTemplate = series.columns.template;
-        columnTemplate.strokeWidth = 2;
-        columnTemplate.strokeOpacity = 1;
-        columnTemplate.stroke = am4core.color("#FFFFFF");
+            Highcharts.chart('chartKeuangan', {
+                chart: {
+                    type: 'column'
+                },
+                colors: ["#7cb5ec", "#90ed7d"],
+                title: "Target dan Realisasi",
+                xAxis: {
+                    categories: [
+                        'Jan',
+                        'Feb',
+                        'Mar',
+                        'Apr',
+                        'May',
+                        'Jun',
+                        'Jul',
+                        'Aug',
+                        'Sep',
+                        'Oct',
+                        'Nov',
+                        'Dec'
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Persen (%)'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:,.2f}%</b></td></tr>' +
+                        '<td style="padding:0"><b>{point.amount:,.0f}</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Target',
+                    data: target
+                }, {
+                    name: 'Realisasi',
+                    data: realisasi
+                }]
+            });
+        }else{
+            $("#chartKeuangan").html(`<h5 class="text-center"> Data Tidak Ada </h5>`);
+        }
 
-        columnTemplate.adapter.add("fill", function(fill, target) {
-        return chart.colors.getIndex(target.dataItem.index);
-        })
+        if(data.FISIK){
+            Highcharts.chart('chartFisik', {
+                chart: {
+                    type: 'column'
+                },
+                colors: ["#f7a35c", "#8085e9"],
+                title: "Target dan Realisasi Fisik",
+                xAxis: {
+                    categories: [
+                        'Jan',
+                        'Feb',
+                        'Mar',
+                        'Apr',
+                        'May',
+                        'Jun',
+                        'Jul',
+                        'Aug',
+                        'Sep',
+                        'Oct',
+                        'Nov',
+                        'Dec'
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Persen (%)'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:,.2f}%</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Target',
+                    data: data.FISIK.TARGET
+                }, {
+                    name: 'Realisasi',
+                    data: data.FISIK.REALISASI
+                }]
+            });
+        }else{
+            $("#chartFisik").html(`<h5 class="text-center"> Data Tidak Ada </h5>`);
+        }
 
-        columnTemplate.adapter.add("stroke", function(stroke, target) {
-        return chart.colors.getIndex(target.dataItem.index);
-        })
+        if(data.DEVIASI){
+            Highcharts.chart('chartDeviasi', {
+                chart: {
+                    type: 'column'
+                },
+                colors: ["#e4d354", "#2b908f"],
+                title: "Target dan Realisasi Fisik",
+                xAxis: {
+                    categories: [
+                        'Jan',
+                        'Feb',
+                        'Mar',
+                        'Apr',
+                        'May',
+                        'Jun',
+                        'Jul',
+                        'Aug',
+                        'Sep',
+                        'Oct',
+                        'Nov',
+                        'Dec'
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Persen (%)'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:,.2f}%</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Keuangan',
+                    data: data.DEVIASI.KEUANGAN
+                }, {
+                    name: 'Fisik',
+                    data: data.DEVIASI.FISIK
+                }]
+            });
+        }else{
+            $("#chartDeviasi").html(`<h5 class="text-center"> Data Tidak Ada </h5>`);
+        }
+    }
 
-        chart.cursor = new am4charts.XYCursor();
-        chart.cursor.lineX.strokeOpacity = 0;
-        chart.cursor.lineY.strokeOpacity = 0;
+    $(document).ready(function () {
+        const baseUrl = "{{url('')}}/map/target-realisasi";
+        let tahun = $("#filterTahun").val();
+        let uptd = $("#filterUPTD").val();
 
-    }); // end am4core.ready()
+        console.log(tahun);
+
+        Highcharts.setOptions({
+            lang: {
+                decimalPoint: ',',
+                thousandsSep: '.'
+            }
+        });
+
+        $.get(baseUrl, { tahun: tahun, uptd: uptd},
+            function(response){
+                const data = response.data;
+                chart(data);
+            });
+
+        $("#filterTahun, #filterUPTD").change(function () {
+            tahun = $("#filterTahun").val();
+            uptd = $("#filterUPTD").val();
+
+            $.get(baseUrl, { tahun: tahun, uptd: uptd},
+            function(response){
+                const data = response.data;
+                chart(data);
+            });
+        });
+    });
 </script>
+
 
 @endsection
