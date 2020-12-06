@@ -41,6 +41,8 @@ class ProyekController extends Controller
         if ($request->tahun != "") $listProyekKontrak = $listProyekKontrak->whereYear('TANGGAL', '=', $request->tahun);
         if ($request->uptd != "") $listProyekKontrak = $listProyekKontrak->where('UPTD', '=', $request->uptd);
         if ($request->kegiatan != "") $listProyekKontrak = $listProyekKontrak->where('KEGIATAN', '=', $request->kegiatan);
+        if ($request->dateFrom != "") $listProyekKontrak = $listProyekKontrak->where('TANGGAL', '>=',date_create_from_format("Y-m-d",$request->dateFrom));
+        if ($request->dateTo != "") $listProyekKontrak = $listProyekKontrak->where('TANGGAL', '<=', date_create_from_format("Y-m-d",$request->dateFrom));
 
         $listProyekKontrak = $listProyekKontrak->get();
         $proyekKontrak = [];

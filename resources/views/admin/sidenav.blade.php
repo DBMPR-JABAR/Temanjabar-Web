@@ -175,19 +175,17 @@
                     <li class="{{(Request::segment(3) == 'profil') ? 'active' : ''}}">
 
                         <a href="{{ url('admin/disposisi') }}">
-                            <span class="pcoded-mtext">Daftar Disposisi </span>
+                            <span class="pcoded-mtext">  Kirim Disposisi </span>
                         </a>
-                    </li>
-                    <li class="{{(Request::segment(3) == 'ruas_Jalan') ? 'active' : ''}}">
 
-                        <!-- <a href="{{ route('admin.master.ruas_jalan') }}">
-
-                            <span class="pcoded-mtext">Ruas Jalan</span>
-                        </a> -->
-                        <a href="{{ url('admin/master-data/ruas-jalan') }}">
-                            <span class="pcoded-mtext">Ruas Jalan</span>
-                        </a>
                     </li>
+                    <li class="{{(Request::segment(3) == 'profil') ? 'active' : ''}}">
+
+
+<a href="{{ url('admin/disposisi/masuk') }}">
+    <span class="pcoded-mtext">  Disposisi Masuk</span>
+</a>
+</li>
                 </ul>
             </li>
        </ul>

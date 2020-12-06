@@ -25,7 +25,7 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Daftar Disposisi</h4>
+                <h4>Kirim Disposisi </h4>
                 
             </div>
         </div>
@@ -56,7 +56,7 @@
                 </div>
             </div>
             <div class="card-block">
-                <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
+                <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Kirim</a>
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered able-responsive">
                         <thead>
@@ -88,10 +88,25 @@
                                 @endforeach
                                 </td>
                                 <td>{{$data->tanggal_penyelesaian}}</td>
-                                <td>{{$data->status}}</td>
+                                <td><?php 
+
+                                    if($data->status == "1")  {  
+                                        echo "Submitted";
+                                    } else if($data->status == "2") { 
+                                        echo "Accepted";
+                                    }  else if($data->status == "3") { 
+                                        echo "On Progress";
+                                    } else if($data->status == "4") { 
+                                        echo "Finish";
+                                    } 
+                                
+                                 ?></td>
                                 <td>{{$data->created_date}}</td>
-                                <td>
-                                    <a href="{{ route('editMasterRuasJalan',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
+                                <td> 
+                                <a type="button" href="{{ route('getdetailDisposisi',$data->id) }}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Detil</a>
+                                
+       
+                                     <a href="{{ route('editMasterRuasJalan',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
                                     <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
                                 </td>
                             </tr>
@@ -128,6 +143,57 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="acceptModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">Disposisi Diterima?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <p>Apakah anda yakin menerima disposisi ini?</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                    <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Terima</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="disposisiModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">Disposisi Diterima?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <p>Apakah anda yakin menerima disposisi ini?</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                    <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Terima</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
 
 </div>
 
@@ -267,6 +333,18 @@
             const modal = $(this);
             modal.find('.modal-footer #delHref').attr('href', url);
         });
+
+        $('#acceptModal').on('show.bs.modal', function(event) {
+            const link = $(event.relatedTarget);
+            const id = link.data('id');
+           
+            console.log(id);
+            const url = `{{ url('admin/disposisi/accepted') }}/` + id;
+            console.log(url);
+            const modal = $(this);
+            modal.find('.modal-footer #delHref').attr('href', url);
+        });
+
     });
 </script>
 @endsection
