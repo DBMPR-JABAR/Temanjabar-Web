@@ -204,7 +204,7 @@
                             <label class="col-md-3 col-form-label">Tindak Lanjut</label>
                             <div class="col-md-9">
                                 <input type="hidden" name="disposisi_id" id="disposisi_id" />  
-                               <input name="dari" type="text" class="form-control" required>
+                               <input name="tindak_lanjut" type="text" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -223,7 +223,7 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Keterangan</label>
                             <div class="col-md-9">
-                                <textarea name="ketarangan"  class="form-control" required></textarea>
+                                <textarea name="keterangan"  class="form-control" required></textarea>
                             </div>
                         </div>
                          
@@ -436,8 +436,8 @@
         $('#progressModal').on('show.bs.modal', function(event) {
             const link = $(event.relatedTarget);
              const id = link.data('id');
-            alert(id);
-           $(this).attr("disposisi_id",id);
+           
+           $("#disposisi_id").attr("value",id);
         });
 
         $('#acceptModal').on('show.bs.modal', function(event) {

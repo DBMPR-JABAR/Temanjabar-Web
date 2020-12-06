@@ -53,6 +53,7 @@
                                                                     <li class="nav-item">
                                                                         <a class="nav-link active" data-toggle="tab" href="#Detail" role="tab">Detail</a>
                                                                     </li>
+                                                                   
                                                                     <li class="nav-item">
                                                                         <a class="nav-link" data-toggle="tab" href="#lampiran" role="tab">Lampiran</a>
                                                                     </li>
@@ -61,7 +62,7 @@
                                                                 <!-- Tab panes -->
                                                                 <div class="tab-content tabs card-block">
                                                                     <div class="tab-pane active" id="Detail" role="tabpanel">
-                                                                    <table class="table table-striped table-bordered nowrap dataTable">
+                                                                    <table style="padding:0;margin:0" class="table table-striped table-bordered nowrap dataTable">
                                                              <tr><td>	Disposisi Code</td><td>{{$detail_disposisi->disposisi_code}}</td></tr>
                                                              <tr><td>	Pemberi Disposisi</td><td>{{$detail_disposisi->pengirim}}</td></tr>
                                                              <tr><td>	Surat dari</td><td>{{$detail_disposisi->dari}}</td></tr>
@@ -72,15 +73,14 @@
                                                              <tr><td>	Tanggal Penyelesaian</td><td>{{$detail_disposisi->tanggal_penyelesaian}}</td></tr>
                                                              <tr><td>	Status</td><td>{{$detail_disposisi->status}}</td></tr>
                                                              <tr><td>	Disposisi Kepada</td><td>
-                                                             @php   $inouts = \App\Model\Transactional\DisposisiPenanggungJawab::where('disposisi_code',$detail_disposisi->disposisi_code)->get() @endphp
-                                @foreach($inouts as $inout)
-                                <span > {{!empty($inout->keterangan_role->keterangan) ?  $inout->keterangan_role->keterangan: "-"  }}</span><br/>
-                                @endforeach
-
+                                                              <?php echo $unitData ?>
                                                              </td></tr>
 
                                                              <tr><td>	Created Date</td><td>{{$detail_disposisi->created_date}}</td></tr>
 </table>
+                                                                </div>
+                                                                <div class="tab-pane" id="tindaklanjut" role="tabpanel">
+                                                              
                                                                 </div>
                                                                     <div class="tab-pane" id="lampiran" role="tabpanel">
                                                                     <?php $ex = explode(".",$detail_disposisi->file);  ?> 
@@ -111,7 +111,8 @@
 
 
                                                                 </ul>
-</div></div>
+
+</div></div>    
 
                                                     </div>
                                                 </div>
@@ -120,22 +121,69 @@
 
 
 
-    <div class="col-sm-12">
-        <div class="card">
-            <div class="card-header">
-                <div class="card-header-right">
-                    <ul class="list-unstyled card-option">
-                        <li><i class="feather icon-maximize full-card"></i></li>
-                        <li><i class="feather icon-minus minimize-card"></i></li>
-                    </ul>
-                </div>
-            </div>
-            
-        </div>
-    </div>
+     
 </div>
  
- 
+<div class="row">
+<div class="col-xl-12 col-md-12" >
+<div class="card feed-card">
+                                                    <div class="card-header">
+                                                      <h5> Tindak Lanjut </h5>
+                                                    </div>
+                                                    <div class="card-block"> 
+                <div class="dt-responsive table-responsive">
+<table id="dttable" class="table table-striped table-bordered able-responsive">
+                        <thead>
+                            <tr>
+                            <th>No</th>
+                            <th>Created Date</th>
+                                 <th>Unit</th>
+                                 <th>Tindak Lanjut</th>
+
+                                <th>Persentase</th>
+                                <th>Keterangan</th>
+                                <th>Status</th> 
+                                <th>Aksi</th> 
+                              
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach ($tindaklanjut as $data)
+                        <tr>
+                        <td>{{$loop->index + 1}}</td>
+                        <td>
+                                <?php $date_create_date = date_create($data->created_date);?>
+                                {{ date_format($date_create_date, 'd-m-Y H:i:s')}}
+                                    </td>
+                                <td> 
+                                {{ $data->penanggung_jawab}}<br/>
+                                @php   $roleData = \App\Model\Transactional\Role::where('id',$data->internal_role_id)->first() @endphp  
+                                <span > {{!empty($roleData->keterangan) ?  $roleData->keterangan: "-"  }}</span>
+                                 
+                                </td>
+                                <td>{{$data->tindak_lanjut}}</td>
+                                <td>{{$data->persentase}}%</td>
+                                <td>{{$data->keterangan_tl}}</td>
+                                 <td><?php 
+
+                                    if($data->status_tindak_lanjut == "3")  {  
+                                        echo "On Progress";
+                                    } else if($data->status_tindak_lanjut == "4") { 
+                                        echo "Finish";
+                                    }  
+                                
+                                 ?></td>
+                               
+                                 
+                                <td>download</td>
+                                </tr>
+                            @endforeach
+                         </tbody>
+                        </table>
+                        </div></div>
+                        </div>
+</div>
+</div>
 @endsection
 @section('script')
  

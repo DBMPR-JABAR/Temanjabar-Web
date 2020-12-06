@@ -59,12 +59,14 @@ class DisposisiController extends Controller
     public function getDisposisiTindakLanjut(){
         $tindaklanjut = DB::table('disposisi_tindak_lanjut as b')
         ->distinct()              
-        ->select('b.id','b.tindak_lanjut','b.status as status_tindak_lanjut','b.prosentase','b.keterangan as keterangan_tl', 'a.disposisi_code','a.dari','a.perihal','c.name as pengirim','a.tgl_surat','a.no_surat','a.tanggal_penyelesaian','a.status','a.file','a.created_date','a.created_by')
+        ->select('b.id','a.id as disposisi_id','b.tindak_lanjut','b.status as status_tindak_lanjut','b.persentase','b.keterangan as keterangan_tl', 'a.disposisi_code','a.dari','a.perihal','c.name as pengirim','a.tgl_surat','a.no_surat','a.tanggal_penyelesaian','a.status','a.file','a.created_date','a.created_by')
                       ->join('disposisi as a','a.id','=','b.disposisi_id')
                       ->join('users as c','a.created_by','=','c.id')
                       ->where('b.created_by','=',Auth::user()->id  ) 
                       ->orderBy('b.id','DESC')
                       ->get();
+
+                       
 
         
        
@@ -118,20 +120,55 @@ class DisposisiController extends Controller
                       ->where('a.id','=', $id) 
                       ->first();
 
+                      $tindaklanjut = DB::table('disposisi_tindak_lanjut as b')
+                      ->distinct()              
+                      ->select('b.id','a.id as disposisi_id','c.internal_role_id','c.name as penanggung_jawab','b.tindak_lanjut','b.status as status_tindak_lanjut','b.persentase','b.keterangan as keterangan_tl', 'a.disposisi_code','a.dari','a.perihal','c.name as pengirim','a.file','b.created_date','b.created_by')
+                                    ->join('disposisi as a','a.id','=','b.disposisi_id')
+                                    ->join('users as c','b.created_by','=','c.id')
+                              //      ->rightJoin('user_role as f','c.id','=','c.internal_role_id')
+                                    
+                                    ->where('a.id','=',$id  ) 
+                                    ->orderBy('b.id','DESC')
+                                    ->get();
+
       $penanggung_jawab = DB::table('disposisi_approved as a')              
       ->select( 'c.keterangan','b.name','a.created_date'  )
                      ->join('user_role as c','c.id','=','a.user_role_id')
                      ->join('users as b','b.id','=','a.user_id')
                     ->where('a.disposisi_id','=', $id) 
                     ->get();
+ $unit_responsible = DB::table('disposisi_penanggung_jawab  as a')              
+      ->select( 'c.keterangan', 'd.id as disposisi_id','a.user_role_id'   )
+                     ->join('user_role as c','c.id','=','a.user_role_id')
+                    
+                     ->join('disposisi as d','d.disposisi_code','=','a.disposisi_code')
+                    ->where('d.id','=', $id) 
+                    ->get();
 
+$unit = "";
+        foreach($unit_responsible as $pj){
+$unit.= "<span>".$pj->keterangan."</span>".$this->getPersentase($pj->disposisi_id, $pj->user_role_id)."<br/>";
+
+        }
 
         return view('admin.disposisi.detail',
                 [
+                    'tindaklanjut' => $tindaklanjut,
                     'detail_disposisi' => $detail_disposisi,
                     'penanggung_jawab' =>  $penanggung_jawab,
-                  
+                    'unitData' => $unit
                 ]);              
+    }
+
+    public function getPersentase($id, $role_id){
+        $tl = DB::table('disposisi_tindak_lanjut  as a')              
+      ->select( 'a.persentase', 'a.id' )
+      ->join('users as b','b.id','=','a.created_by')               
+      ->join('user_role as c','c.id','=','b.internal_role_id')
+      ->where('a.disposisi_id','=',$id) 
+       ->where('b.internal_role_id','=',$role_id)->orderBy('a.id','desc') ->first();
+return !empty($tl->persentase) ? "(".$tl->persentase."%)" : "(0%)";
+                    
     }
     public function getAcceptedRequest($id){
          
@@ -207,10 +244,10 @@ class DisposisiController extends Controller
             $disposisi ['file'] = $path;
         }
         $disposisi['disposisi_id'] = $request->disposisi_id;
-        $disposisi['tindaklanjut'] = $request->tindaklanjut;
+        $disposisi['tindak_lanjut'] = $request->tindak_lanjut;
         $disposisi['status'] = $request->status;
         $disposisi['keterangan'] = $request->keterangan; 
-        $disposisi['prosentase'] = $request->prosentase; 
+        $disposisi['persentase'] = $request->persentase; 
          $disposisi['created_by'] = Auth::user()->id;
         $disposisi['created_date'] = date("YmdHis"); 
         DB::table('disposisi_tindak_lanjut')->insert($disposisi); 
