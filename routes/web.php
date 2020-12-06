@@ -187,6 +187,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('update', 'InputData\DataPaketController@update')->name('updateIDDataPaket');
             Route::get('delete/{id}', 'InputData\DataPaketController@delete')->name('deleteIDDataPaket');
         });
+
+        Route::group(['prefix' => 'rekap'], function () {
+            Route::get('/', 'InputData\RekapController@index')->name('getDataRekap');
+            Route::get('edit/{id}', 'InputData\RekapController@editData')->name('editDataRekap');
+            Route::post('create', 'InputData\RekapController@createData')->name('createDataRekap');
+            Route::post('update', 'InputData\RekapController@updateData')->name('updateDataRekap');
+            Route::get('delete/{id}', 'InputData\RekapController@deleteData')->name('deleteDataRekap');
+        });
     });
 
     Route::group(['prefix' => 'lapor'], function () {
