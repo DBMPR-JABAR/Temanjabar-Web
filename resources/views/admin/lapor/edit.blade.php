@@ -17,7 +17,7 @@
                 <li class="breadcrumb-item">
                     <a href="{{ url('admin') }}"> <i class="feather icon-home"></i> </a>
                 </li>
-                <li class="breadcrumb-item"><a href="{{ route('getKeuangan') }}">Laporan</a> </li>
+                <li class="breadcrumb-item"><a href="{{ route('getLapor') }}">Laporan</a> </li>
                 <li class="breadcrumb-item"><a href="#">Edit</a> </li>
             </ul>
         </div>
