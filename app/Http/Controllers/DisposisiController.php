@@ -106,7 +106,8 @@ class DisposisiController extends Controller
         return view('admin.disposisi.detail',
                 [
                     'detail_disposisi' => $detail_disposisi,
-                    'penanggung_jawab' =>  $penanggung_jawab
+                    'penanggung_jawab' =>  $penanggung_jawab,
+                  
                 ]);              
     }
     public function getAcceptedRequest($id){
@@ -150,7 +151,7 @@ class DisposisiController extends Controller
     { 
         //
         if($request->file != null){
-            $path = 'disposisi/'.Str::snake(date("YmdHis").'/'.	$request->tgl_surat.'/'.$request->file->getClientOriginalName());
+            $path = 'disposisi/'.Str::snake(date("YmdHis").'/'.$request->file->getClientOriginalName());
             $request->file->storeAs('public/',$path);
             $disposisi ['file'] = $path;
         }
