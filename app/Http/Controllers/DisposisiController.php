@@ -252,6 +252,9 @@ return !empty($tl->persentase) ? "(".$tl->persentase."%)" : "(0%)";
         $disposisi['created_date'] = date("YmdHis"); 
         DB::table('disposisi_tindak_lanjut')->insert($disposisi); 
  
+        $datad['status'] = '3';
+        DB::table('disposisi')->where('id',$request->disposisi_id)->update($datad); 
+
         $color = "success";
         $msg = "Berhasil Menambah Data Tindak Lanjut";
         return back()->with(compact('color', 'msg'));

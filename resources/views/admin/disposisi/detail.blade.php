@@ -71,7 +71,23 @@
 
                                                              <tr><td>	No Surat</td><td>{{$detail_disposisi->no_surat}}</td></tr>
                                                              <tr><td>	Tanggal Penyelesaian</td><td>{{$detail_disposisi->tanggal_penyelesaian}}</td></tr>
-                                                             <tr><td>	Status</td><td>{{$detail_disposisi->status}}</td></tr>
+                                                             <tr><td>	Status</td><td>
+                                                             <?php 
+                                                             
+                                    if($detail_disposisi->status == "1")  {  
+                                        echo '<button class="  btn btn-inverse btn-mini btn-round">Submitted</button> ';
+                                    } else if($detail_disposisi->status == "2") { 
+                                        echo '<button class="btn btn-info btn-mini btn-round">Accepted</button> ';
+                                    }  else if($detail_disposisi->status == "3") { 
+                                        echo '<button class="btn btn-success  btn-mini btn-round">On Progress</button> ';
+                                       
+                                    } else if($detail_disposisi->status == "4") { 
+                                        echo "Finish";
+                                        echo '<button class="btn btn-primary  btn-mini btn-round">Finish</button> ';
+                                      
+                                    } 
+                                    ?>
+ </td></tr>
                                                              <tr><td>	Disposisi Kepada</td><td>
                                                               <?php echo $unitData ?>
                                                              </td></tr>
