@@ -22,7 +22,8 @@ class JembatanController extends Controller
         $jembatan = new Jembatan();
         if(Auth::user()->internalRole->uptd){
             $uptd_id = Auth::user()->internalRole->uptd;
-            $laporan = $jembatan->where('uptd',$uptd_id);
+            // var_dump($uptd_id);
+            $jembatan = $jembatan->where('uptd',$uptd_id);
         }
         $jembatan = $jembatan->get();
 

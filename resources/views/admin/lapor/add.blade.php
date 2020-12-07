@@ -17,7 +17,7 @@
                 <li class="breadcrumb-item">
                     <a href="{{ url('admin') }}"> <i class="feather icon-home"></i> </a>
                 </li>
-                <li class="breadcrumb-item"><a href="{{ route('getKeuangan') }}">Laporan</a> </li>
+                <li class="breadcrumb-item"><a href="{{ route('getLapor') }}">Laporan</a> </li>
                 <li class="breadcrumb-item"><a href="#">Tambah</a> </li>
             </ul>
         </div>
@@ -46,7 +46,7 @@
                         <div class="col-md-10">
                             <input name="nama" type="text" class="form-control" required>
                         </div>
-                    </div>  
+                    </div>
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Tanggal</label>
@@ -89,7 +89,7 @@
                             <select name="ruas_jalan" class="form-control" required>
                                 <option>Pilih Ruas Jalan</option>
                                 @foreach ($ruasJalan as $data)
-                                    <option value="{{$data->nama_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
+                                <option value="{{$data->nama_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -115,7 +115,7 @@
                             <input name="permasalahan" type="text" class="form-control" required>
                         </div>
                     </div>
-                    
+
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Foto</label>
                         <div class="col-md-6">
@@ -124,19 +124,19 @@
                     </div>
 
                     @if(Auth::user()->internalRole->uptd)
-                        <input type="hidden" name="uptd_id" value="{{str_replace('uptd','',Auth::user()->internalRole->uptd)}}">
+                    <input type="hidden" name="uptd_id" value="{{str_replace('uptd','',Auth::user()->internalRole->uptd)}}">
                     @else
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">UPTD</label>
-                            <div class="col-md-10">
-                                <select class="form-control" required name="uptd_id">
-                                    <option value="">Pilih UPTD</option>
-                                    @foreach ($uptd as $data)
-                                        <option value="{{$data->id}}">{{$data->nama}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">UPTD</label>
+                        <div class="col-md-10">
+                            <select class="form-control" required name="uptd_id">
+                                <option value="">Pilih UPTD</option>
+                                @foreach ($uptd as $data)
+                                <option value="{{$data->id}}">{{$data->nama}}</option>
+                                @endforeach
+                            </select>
                         </div>
+                    </div>
                     @endif
 
                     <div class="form-group row">
@@ -146,7 +146,10 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-mat btn-success">Simpan Perubahan</button>
+                    <div class=" form-group row m-1">
+                        <a href="{{ route('getLapor') }}"><button type="button" class="btn btn-default waves-effect">Close</button></a>
+                        <button type="submit" class="btn btn-primary waves-effect waves-light ml-2">Simpan</button>
+                    </div>
                 </form>
 
             </div>

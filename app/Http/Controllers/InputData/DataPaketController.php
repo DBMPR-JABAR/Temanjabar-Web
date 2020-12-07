@@ -32,7 +32,7 @@ class DataPaketController extends Controller
         if (Auth::user()->internalRole->uptd) {
             if (Auth::user()->internalRole->uptd) {
                 $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
-                // $laporan = $ruasJalan->where('UPTD', $uptd_id);
+                $dataPaket = $dataPaket->where('uptd_id', $uptd_id);
                 $sup = $sup->where('uptd_id', $uptd_id);
                 $uptd = $uptd->where('slug', Auth::user()->internalRole->uptd);
             }

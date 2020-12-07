@@ -31,7 +31,7 @@ class KondisiJalanController extends Controller
 
         if (Auth::user()->internalRole->uptd) {
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
-            $laporan = $kondisiJalan->where('UPTD', $uptd_id);
+            $kondisiJalan = $kondisiJalan->where('uptd', $uptd_id);
         }
         $kondisiJalan = $kondisiJalan->get();
         $uptd = $uptd->get();
@@ -39,16 +39,10 @@ class KondisiJalanController extends Controller
         return view('admin.input_data.kondisi_jalan.index', compact('kondisiJalan', 'uptd', 'sup'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create(Request $req)
     {
         //
         $kondisiJalan = $req->except('_token', 'foto_dokumentasi');
-        // $kondisiJalan['slug'] = Str::slug($req->nama, '');
 
         if ($req->foto_dokumentasi != null) {
             $path = 'landing/kondisiJalan/' . Str::snake(date("YmdHis") . ' ' . $req->foto_dokumentasi->getClientOriginalName());
@@ -56,7 +50,6 @@ class KondisiJalanController extends Controller
             $kondisiJalan['foto_dokumentasi'] = $path;
         }
 
-        // if ($req->session()->has('name'))
         $kondisiJalan['created_by'] = Auth::user()->id;
         $kondisiJalan['created_at'] = date("YmdHis");
 
@@ -67,40 +60,20 @@ class KondisiJalanController extends Controller
         return redirect(route('getIDKondisiJalan'))->with(compact('color', 'msg'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $uptd = DB::table('landing_uptd');
         $kondisiJalan = DB::table('tbl_uptd_trx_master_kondisi_jalan')->where('id', $id)->first();
         $uptd = $uptd->get();
-        return view('admin.input_data.kondisi_jalan.edit', compact('kondisiJalan', 'uptd'));
+
+        $ruasJalan = DB::table('master_ruas_jalan');
+        if(Auth::user()->internalRole->uptd){
+            $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
+            $ruasJalan = $ruasJalan->where('uptd_id',$uptd_id);
+        }
+        $ruasJalan = $ruasJalan->get();
+
+        return view('admin.input_data.kondisi_jalan.edit', compact('kondisiJalan', 'uptd', 'ruasJalan'));
     }
 
     public function add()
@@ -108,21 +81,20 @@ class KondisiJalanController extends Controller
 
         $uptd = DB::table('landing_uptd');
         $uptd = $uptd->get();
-        return view('admin.input_data.kondisi_jalan.add', compact('uptd'));
+
+        $ruasJalan = DB::table('master_ruas_jalan');
+        if(Auth::user()->internalRole->uptd){
+            $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
+            $ruasJalan = $ruasJalan->where('uptd_id',$uptd_id);
+        }
+        $ruasJalan = $ruasJalan->get();
+
+        return view('admin.input_data.kondisi_jalan.add', compact('uptd', 'ruasJalan'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $req)
     {
-        //
         $kondisiJalan = $req->except('_token', 'foto_dokumentasi', 'id');
-        // $kondisiJalan['slug'] = Str::slug($req->nama, '');
         $kondisiJalan['updated_by'] = Auth::user()->id;
         $kondisiJalan['updated_at'] = date("YmdHis");
 

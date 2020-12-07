@@ -164,24 +164,49 @@
             </li>
         </ul> --}}
 
-        <div class="pcoded-navigatio-lavel">Manage</div>
+        <div class="pcoded-navigatio-lavel">Disposisi</div>
         <ul class="pcoded-item pcoded-left-item">
             <li class="pcoded-hasmenu {{(Request::segment(2) == 'landing-page') ? 'pcoded-trigger active' : ''}}">
                 <a href="javascript:void(0)">
                     <span class="pcoded-micon"><i class="ti-home"></i></span>
+                    <span class="pcoded-mtext">Disposisi</span>
+                </a>
+                <ul class="pcoded-submenu">
+                    <li class="{{(Request::segment(3) == 'kirim') ? 'active' : ''}}">
+
+                        <a href="{{ url('admin/disposisi') }}">
+                            <span class="pcoded-mtext">  Kirim Disposisi </span>
+                        </a>
+
+                    </li>
+                    <li class="{{(Request::segment(3) == 'masuk') ? 'active' : ''}}"> 
+                    <a href="{{ url('admin/disposisi/masuk') }}"> <span class="pcoded-mtext">  Disposisi Masuk</span> </a>  
+                        </li>
+                        <li class="{{(Request::segment(3) == 'tindaklanjut') ? 'active' : ''}}"> 
+                    <a href="{{ url('admin/disposisi/tindaklanjut') }}"> <span class="pcoded-mtext">  Disposisi Tindak Lanjut</span> </a>  
+                        </li>
+                </ul>
+            </li>
+       </ul>
+
+        <div class="pcoded-navigatio-lavel">Manage</div>
+        <ul class="pcoded-item pcoded-left-item">
+            <li class="pcoded-hasmenu {{(Request::segment(2) == 'master-data') ? 'pcoded-trigger active' : ''}}">
+                <a href="javascript:void(0)">
+                    <span class="pcoded-micon"><i class="ti-layout-grid2"></i></span>
                     <span class="pcoded-mtext">Manage</span>
                 </a>
                 <ul class="pcoded-submenu">
-                    <li class="{{(Request::segment(3) == 'profil') ? 'active' : ''}}">
+                    <li class="{{(Request::segment(3) == 'user') ? 'active' : ''}}">
 
                         <a href="{{ url('admin/master-data/user') }}">
                             <span class="pcoded-mtext">User</span>
                         </a>
                     </li>
-                    <li class="{{(Request::segment(3) == 'ruas_Jalan') ? 'active' : ''}}">
+                    <li class="{{(Request::segment(3) == 'ruas-jalan') ? 'active' : ''}}">
 
                         <!-- <a href="{{ route('admin.master.ruas_jalan') }}">
-                        
+
                             <span class="pcoded-mtext">Ruas Jalan</span>
                         </a> -->
                         <a href="{{ url('admin/master-data/ruas-jalan') }}">
@@ -189,13 +214,13 @@
                         </a>
                     </li>
 
-                    <li class="{{(Request::segment(3) == 'profil') ? 'active' : ''}}">
+                    <li class="{{(Request::segment(3) == 'jembatan') ? 'active' : ''}}">
                         <a href="{{ url('admin/master-data/jembatan') }}">
                             <span class="pcoded-mtext">Jembatan</span>
                         </a>
                     </li>
 
-                    <li class="{{(Request::segment(3) == 'profil') ? 'active' : ''}}">
+                    <li class="{{(Request::segment(3) == 'rawanbencana') ? 'active' : ''}}">
                         <a href="{{ url('admin/master-data/rawanbencana') }}">
                             <span class="pcoded-mtext">Rawan Bencana</span>
                         </a>
@@ -208,9 +233,9 @@
         </ul>
         <div class="pcoded-navigatio-lavel">Input</div>
         <ul class="pcoded-item pcoded-left-item">
-            <li class="pcoded-hasmenu {{(Request::segment(2) == 'landing-page') ? 'pcoded-trigger active' : ''}}">
+            <li class="pcoded-hasmenu {{(Request::segment(2) == 'input-data') ? 'pcoded-trigger active' : ''}}">
                 <a href="javascript:void(0)">
-                    <span class="pcoded-micon"><i class="ti-home"></i></span>
+                    <span class="pcoded-micon"><i class="ti-write"></i></span>
                     <span class="pcoded-mtext">Input Data</span>
                 </a>
                 <ul class="pcoded-submenu">
@@ -224,6 +249,11 @@
                     <li class="{{(Request::segment(3) == 'kondisi-jalan') ? 'active' : ''}}">
                         <a href="{{ url('admin/input-data/kondisi-jalan') }}">
                             <span class="pcoded-mtext">Kondisi Jalan</span>
+                        </a>
+                    </li>
+                    <li class="{{(Request::segment(3) == 'rekap') ? 'active' : ''}}">
+                        <a href="{{ url('admin/input-data/rekap') }}">
+                            <span class="pcoded-mtext">Rekap</span>
                         </a>
                     </li>
                     <div class="pcoded-navigatio-lavel">Pembangunan</div>
@@ -247,23 +277,23 @@
                 </ul>
             </li>
 
-            <li class="pcoded-hasmenu {{(Request::segment(2) == 'landing-page') ? 'pcoded-trigger active' : ''}}">
+            <li class="pcoded-hasmenu {{(Request::segment(2) == 'lapor') ? 'pcoded-trigger active' : ''}}">
                 <a href="javascript:void(0)">
-                    <span class="pcoded-micon"><i class="ti-home"></i></span>
+                    <span class="pcoded-micon"><i class="ti-headphone-alt"></i></span>
                     <span class="pcoded-mtext">Lapor</span>
                 </a>
                 <ul class="pcoded-submenu">
-                    <li class="{{(Request::segment(3) == 'pekerjaan') ? 'active' : ''}}">
+                    <li class="{{(Request::segment(3) == 'add') ? 'active' : ''}}">
                         <a href="{{ url('admin/lapor/add') }}">
                             <span class="pcoded-mtext">Input Laporan</span>
                         </a>
                     </li>
-                    <li class="{{(Request::segment(3) == 'pekerjaan') ? 'active' : ''}}">
-                        <a href="#">
-                            <span class="pcoded-mtext">Daftar Lapor</span>
+                    <li class="{{((Request::segment(2) == 'lapor' )&& (Request::segment(3) == null)) ? 'active' : ''}}">
+                        <a href="{{ url('admin/lapor') }}">
+                            <span class="pcoded-mtext">Daftar Laporan</span>
                         </a>
                     </li>
-                    <li class="{{(Request::segment(3) == 'pekerjaan') ? 'active' : ''}}">
+                    <li class="{{(Request::segment(3) == 'lapor') ? 'active' : ''}}">
                         <a href="#">
                             <span class="pcoded-mtext">Quick Response</span>
                         </a>
@@ -307,6 +337,12 @@
                 <a href="{{ url('admin/pesan') }}">
                     <span class="pcoded-micon"><i class="ti-email"></i></span>
                     <span class="pcoded-mtext">Pesan</span>
+                </a>
+            </li>
+            <li class="{{(Request::segment(2) == 'log') ? 'active' : ''}}">
+                <a href="{{ url('admin/log') }}">
+                    <span class="pcoded-micon"><i class="ti-email"></i></span>
+                    <span class="pcoded-mtext">Log</span>
                 </a>
             </li>
         </ul>

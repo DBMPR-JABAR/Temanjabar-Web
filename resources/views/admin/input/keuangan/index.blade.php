@@ -85,7 +85,7 @@
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/'.$data->foto_awal) !!}" alt="" srcset=""></td>
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/'.$data->foto_sedang) !!}" alt="" srcset=""></td>
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/'.$data->foto_akhir) !!}" alt="" srcset=""></td>
-                                <td>{{$data->video}}</td>
+                                <td><video width ='150' height='100' controls><source src="{!! url('storage/pekerjaan/'.$data->video) !!}" type='video/*' Sorry, your browser doesn't support the video element.></video></td>
                                 <td><a href="{!! url('storage/'.$data->file) !!}" target="_blanks">Preview</a></td>
                                 <td>
                                     <a href="{{ route('editKeuangan',$data->id_pek) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>

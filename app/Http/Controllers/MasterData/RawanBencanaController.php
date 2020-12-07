@@ -25,7 +25,7 @@ class RawanBencanaController extends Controller
         $rawanbencana = new RawanBencana();
         if(Auth::user()->internalRole->uptd){
             $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
-            $laporan = $rawanbencana->where('UPTD',$uptd_id);
+            $laporan = $rawanbencana->where('uptd_id',$uptd_id);
         }
         $rawanbencana = $rawanbencana->get();
         return view('admin.master.rawanbencana.index', compact('rawanbencana'));
@@ -38,7 +38,8 @@ class RawanBencanaController extends Controller
         $rawan = $rawan->leftJoin('master_ruas_jalan', 'master_ruas_jalan.id', '=', 'master_rawan_bencana.ruas_jalan')->select('master_rawan_bencana.*', 'master_ruas_jalan.nama_ruas_jalan');
         // print_r(Auth::user()->internalRole->uptd);
         if (Auth::user()->internalRole->uptd) {
-            $rawan = $rawan->where('uptd_id',Auth::user()->internalRole->uptd);
+            $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
+            $rawan = $rawan->where('master_rawan_bencana.uptd_id',$uptd_id);
         }
         $rawan = $rawan->get();
         $ruas = DB::table('master_ruas_jalan')->get();

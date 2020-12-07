@@ -45,12 +45,12 @@
                     @csrf
                     <input type="hidden" name="id" value="{{$ruasJalan->id}}">
 
-                    <div class="form-group row">
+                    <!-- <div class="form-group row">
                         <label class="col-md-2 col-form-label">Id Ruas Jalan</label>
                         <div class="col-md-10">
                             <input name="id_ruas_jalan" type="text" class="form-control" required value="{{$ruasJalan->id_ruas_jalan}}">
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class=" form-group row">
                         <label class="col-md-2 col-form-label">Nama Ruas Jalan</label>
@@ -86,10 +86,10 @@
                     <div class=" form-group row">
                         <label class="col-md-2 col-form-label">Panjang</label>
                         <div class="col-md-10">
-                            <input name="panjang" type="number" step="0.01" class="form-control" required value="{{$ruasJalan->panjang}}">
+                            <input name="panjang" type="number" step="any" class="form-control" required value="{{$ruasJalan->panjang}}">
                         </div>
                     </div>
-
+                    <!-- 
                     <div class=" form-group row">
                         <label class="col-md-2 col-form-label">Status Awal</label>
                         <div class="col-md-10">
@@ -107,30 +107,30 @@
                     <div class=" form-group row">
                         <label class="col-md-2 col-form-label">Lat Awal</label>
                         <div class="col-md-10">
-                            <input name="lat_awal" type="number" step="0.01" class="form-control" required value="{{$ruasJalan->lat_awal}}">
+                            <input name="lat_awal" type="text" class="form-control" required value="{{$ruasJalan->lat_awal}}">
                         </div>
                     </div>
 
                     <div class=" form-group row">
                         <label class="col-md-2 col-form-label">Long Awal</label>
                         <div class="col-md-10">
-                            <input name="long_awal" type="number" step="0.01" class="form-control" required value="{{$ruasJalan->long_awal}}">
+                            <input name="long_awal" type="text" class="form-control" required value="{{$ruasJalan->long_awal}}">
                         </div>
                     </div>
 
                     <div class=" form-group row">
                         <label class="col-md-2 col-form-label">Lat Akhir</label>
                         <div class="col-md-10">
-                            <input name="lat_akhir" type="number" step="0.01" class="form-control" required value="{{$ruasJalan->lat_akhir}}">
+                            <input name="lat_akhir" type="text" class="form-control" required value="{{$ruasJalan->lat_akhir}}">
                         </div>
                     </div>
 
                     <div class=" form-group row">
                         <label class="col-md-2 col-form-label">Long Akhir</label>
                         <div class="col-md-10">
-                            <input name="long_akhir" type="number" step="0.01" class="form-control" required value="{{$ruasJalan->long_akhir}}">
+                            <input name="long_akhir" type="text" class="form-control" required value="{{$ruasJalan->long_akhir}}">
                         </div>
-                    </div>
+                    </div> -->
 
                     <?php
 
@@ -138,12 +138,12 @@
 
                     if (Auth::user()->internalRole->uptd) {
                         $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd); ?>
-                        <input name="uptd" type="number" class="form-control" value="{{$uptd_id}}" hidden>
+                        <input name="uptd_id" type="number" class="form-control" value="{{$uptd_id}}" hidden>
                     <?php } else { ?>
                         <div class=" form-group row">
                             <label class="col-md-2 col-form-label">UPTD</label>
                             <div class="col-md-10">
-                                <select class=" form-control select2" name="uptd" style="min-width: 100%;">
+                                <select class=" form-control select2" name="uptd_id" style="min-width: 100%;">
                                     @foreach ($uptd as $uptdData)
                                     @if($ruasJalan->uptd_id == $uptdData->id)
                                     <option value="<?php echo $uptdData->id; ?>" selected><?php echo $uptdData->nama; ?></option>
