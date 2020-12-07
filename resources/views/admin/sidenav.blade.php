@@ -201,7 +201,11 @@
                 </a>
                 <ul class="pcoded-submenu">
 <<<<<<< HEAD
+<<<<<<< HEAD
                     <li class="pcoded-hasmenu {{(Request::segment(3) == 'user') ? 'pcoded-trigger active' : ''}}">
+=======
+                    <li class="{{(Request::segment(3) == 'user') ? 'active' : ''}}">
+>>>>>>> 399d7f71edad86f2789a45acbf3b8e3ffa83ecf0
 =======
                     <li class="{{(Request::segment(3) == 'user') ? 'active' : ''}}">
 >>>>>>> 399d7f71edad86f2789a45acbf3b8e3ffa83ecf0
