@@ -65,7 +65,15 @@ class KondisiJalanController extends Controller
         $uptd = DB::table('landing_uptd');
         $kondisiJalan = DB::table('tbl_uptd_trx_master_kondisi_jalan')->where('id', $id)->first();
         $uptd = $uptd->get();
-        return view('admin.input_data.kondisi_jalan.edit', compact('kondisiJalan', 'uptd'));
+
+        $ruasJalan = DB::table('master_ruas_jalan');
+        if(Auth::user()->internalRole->uptd){
+            $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
+            $ruasJalan = $ruasJalan->where('uptd_id',$uptd_id);
+        }
+        $ruasJalan = $ruasJalan->get();
+
+        return view('admin.input_data.kondisi_jalan.edit', compact('kondisiJalan', 'uptd', 'ruasJalan'));
     }
 
     public function add()
@@ -73,7 +81,15 @@ class KondisiJalanController extends Controller
 
         $uptd = DB::table('landing_uptd');
         $uptd = $uptd->get();
-        return view('admin.input_data.kondisi_jalan.add', compact('uptd'));
+
+        $ruasJalan = DB::table('master_ruas_jalan');
+        if(Auth::user()->internalRole->uptd){
+            $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
+            $ruasJalan = $ruasJalan->where('uptd_id',$uptd_id);
+        }
+        $ruasJalan = $ruasJalan->get();
+
+        return view('admin.input_data.kondisi_jalan.add', compact('uptd', 'ruasJalan'));
     }
 
     public function update(Request $req)

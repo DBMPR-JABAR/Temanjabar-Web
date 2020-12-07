@@ -67,7 +67,12 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Nama Ruas Jalan</label>
                         <div class="col-md-9">
-                            <input name="ruas_jalan" type="text" class="form-control" required>
+                            <select name="ruas_jalan" class="form-control" required>
+                                <option>Pilih Ruas Jalan</option>
+                                @foreach ($ruasJalan as $data)
+                                    <option value="{{$data->nama_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
@@ -125,10 +130,10 @@
                         <div class="col-md-9">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <input name="latitude" type="number" step="0.01" class="form-control" required>
+                                    <input name="latitude" type="text" class="form-control" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <input name="longitude" type="number" step="0.01" class="form-control" required>
+                                    <input name="longitude" type="text" class="form-control" required>
                                 </div>
                             </div>
                         </div>
@@ -139,10 +144,10 @@
                         <div class="col-md-9">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <input name="akhir_latitude" type="number" step="0.01" class="form-control" required>
+                                    <input name="akhir_latitude" type="text" class="form-control" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <input name="akhir_longitude" type="number" step="0.01" class="form-control" required>
+                                    <input name="akhir_longitude" type="text" class="form-control" required>
                                 </div>
                             </div>
                         </div>
