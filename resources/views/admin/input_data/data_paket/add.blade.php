@@ -96,7 +96,7 @@
                         <div class="col-md-9">
                             <select class="form-control select2" name="lokasi_pekerjaan" style="min-width: 100%;">
                                 @foreach ($ruasJalan as $ruasJalanData)
-                                <option value="<?php echo $ruasJalanData->nama_ruas; ?>"><?php echo $ruasJalanData->nama_ruas; ?></option>
+                                <option value="<?php echo $ruasJalanData->nama_ruas_jalan; ?>"><?php echo $ruasJalanData->nama_ruas_jalan; ?></option>
                                 @endforeach
                             </select>
                         </div>
