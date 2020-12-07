@@ -286,17 +286,17 @@
                     <span class="pcoded-mtext">Lapor</span>
                 </a>
                 <ul class="pcoded-submenu">
-                    <li class="{{(Request::segment(3) == 'pekerjaan') ? 'active' : ''}}">
+                    <li class="{{(Request::segment(3) == 'lapor') ? 'active' : ''}}">
                         <a href="{{ url('admin/lapor/add') }}">
                             <span class="pcoded-mtext">Input Laporan</span>
                         </a>
                     </li>
-                    <li class="{{(Request::segment(3) == 'pekerjaan') ? 'active' : ''}}">
-                        <a href="#">
-                            <span class="pcoded-mtext">Daftar Lapor</span>
+                    <li class="{{(Request::segment(3) == 'lapor') ? 'active' : ''}}">
+                        <a href="{{ url('admin/lapor') }}">
+                            <span class="pcoded-mtext">Daftar Laporan</span>
                         </a>
                     </li>
-                    <li class="{{(Request::segment(3) == 'pekerjaan') ? 'active' : ''}}">
+                    <li class="{{(Request::segment(3) == 'lapor') ? 'active' : ''}}">
                         <a href="#">
                             <span class="pcoded-mtext">Quick Response</span>
                         </a>

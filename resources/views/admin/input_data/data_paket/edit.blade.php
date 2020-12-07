@@ -147,7 +147,7 @@
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Waktu Pelaksanaan (Bulan)</label>
                         <div class="col-md-9">
-                            <input name="waktu_pelaksanaan_bln" type="text" class="form-control" required value="{{$dataPaket->waktu_pelaksanaan_bln}}">
+                            <input name="waktu_pelaksanaan_bln" type="number" step="0.01" class="form-control" required value="{{$dataPaket->waktu_pelaksanaan_bln}}">
                         </div>
                     </div>
                     <hr class="mt-5">
@@ -161,14 +161,14 @@
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Koordinat X</label>
                         <div class="col-md-9">
-                            <input name="lat" type="text" class="form-control" required value="{{$dataPaket->lat}}">
+                            <input name="lat" type="number" step="0.01" class="form-control" required value="{{$dataPaket->lat}}">
                         </div>
                     </div>
 
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Koordinat Y</label>
                         <div class="col-md-9">
-                            <input name="lng" type="text" class="form-control" required value="{{$dataPaket->lng}}">
+                            <input name="lng" type="number" step="0.01" class="form-control" required value="{{$dataPaket->lng}}">
                         </div>
                     </div>
                     <hr>
@@ -181,21 +181,21 @@
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Koordinat X</label>
                         <div class="col-md-9">
-                            <input name="lat1" type="text" class="form-control" required value="{{$dataPaket->lat1}}">
+                            <input name="lat1" type="number" step="0.01" class="form-control" required value="{{$dataPaket->lat1}}">
                         </div>
                     </div>
 
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Koordinat Y</label>
                         <div class="col-md-9">
-                            <input name="lng1" type="text" class="form-control" required value="{{$dataPaket->lng1}}">
+                            <input name="lng1" type="number" step="0.01" class="form-control" required value="{{$dataPaket->lng1}}">
                         </div>
                     </div>
                     <hr class="mb-5">
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Titik / Segmen</label>
                         <div class="col-md-9">
-                            <input name="titik_segmen1" type="text" class="form-control" required value="{{$dataPaket->titik_segmen1}}">
+                            <input name="titik_segmen1" type="number" class="form-control" required value="{{$dataPaket->titik_segmen1}}">
                         </div>
                     </div>
 
@@ -245,14 +245,14 @@
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Nilai Kontrak</label>
                         <div class="col-md-9">
-                            <input name="nilai_kontrak" type="text" class="form-control" required value="{{$dataPaket->nilai_kontrak}}">
+                            <input name="nilai_kontrak" type="number" step="0.01" class="form-control" required value="{{$dataPaket->nilai_kontrak}}">
                         </div>
                     </div>
 
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Nilai Tambahan 10%</label>
                         <div class="col-md-9">
-                            <input name="nilai_tambahan" type="text" class="form-control" required value="{{$dataPaket->nilai_tambahan}}">
+                            <input name="nilai_tambahan" type="number" step="0.01" class="form-control" required value="{{$dataPaket->nilai_tambahan}}">
                         </div>
                     </div>
 

@@ -31,7 +31,7 @@ class RuasJalanController extends Controller
 
         if (Auth::user()->internalRole->uptd) {
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
-            // $laporan = $ruasJalan->where('UPTD', $uptd_id);
+            $ruasJalan = $ruasJalan->where('uptd_id', $uptd_id);
             $sup = $sup->where('uptd_id', $uptd_id);
             $uptd = $uptd->where('slug', Auth::user()->internalRole->uptd);
         }

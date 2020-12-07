@@ -199,8 +199,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
     Route::group(['prefix' => 'lapor'], function () {
         Route::get('/', 'LaporController@index')->name('getLapor');
+        Route::get('edit/{id}', 'LaporController@edit')->name('editLapor');
         Route::get('/add', 'LaporController@create')->name('addLapor');
         Route::post('/create', 'LaporController@store')->name('createLapor');
+        Route::post('update', 'LaporController@update')->name('updateLapor');
+        Route::get('delete/{id}', 'LaporController@delete')->name('deleteLapor');
     });
 });
 Route::get('map/proyek-kontrak', 'MonitoringController@getProyekKontrakAPI')->name('api.proyekkontrak');
