@@ -57,17 +57,17 @@ class ProgressPekerjaanController extends Controller
 
         $paket =array();
         $penyedia =array();
-        $data2 = DB::table('tbl_uptd_trx_pembangunan');
+        $data2 = DB::table('pembangunan');
         if (Auth::user()->internalRole->uptd) {
             $data2 = $data2->where('uptd_id',Auth::user()->internalRole->uptd);
         }
         $data2 = $data2->get();
         foreach ($data2 as $val){
-            if($val->NAMA_PAKET!=''){
-                array_push($paket, $val->NAMA_PAKET);
+            if($val->nama_paket!=''){
+                array_push($paket, $val->nama_paket);
             }
-            if($val->PENYEDIA_JASA!=''){
-                array_push($penyedia, $val->PENYEDIA_JASA);
+            if($val->penyedia_jasa!=''){
+                array_push($penyedia, $val->penyedia_jasa);
             }
         }
 
@@ -100,17 +100,17 @@ class ProgressPekerjaanController extends Controller
 
         $paket =array();
         $penyedia =array();
-        $data2 = DB::table('tbl_uptd_trx_pembangunan');
+        $data2 = DB::table('pembangunan');
         if (Auth::user()->internalRole->uptd) {
             $data2 = $data2->where('uptd_id',Auth::user()->internalRole->uptd);
         }
         $data2 = $data2->get();
         foreach ($data2 as $val){
-            if($val->NAMA_PAKET!=''){
-                array_push($paket, $val->NAMA_PAKET);
+            if($val->nama_paket!=''){
+                array_push($paket, $val->nama_paket);
             }
-            if($val->PENYEDIA_JASA!=''){
-                array_push($penyedia, $val->PENYEDIA_JASA);
+            if($val->penyedia_jasa!=''){
+                array_push($penyedia, $val->penyedia_jasa);
             }
         }
 
