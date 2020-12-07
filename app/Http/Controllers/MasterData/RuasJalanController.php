@@ -27,11 +27,11 @@ class RuasJalanController extends Controller
         $ruasJalan = DB::table('master_ruas_jalan');
         $uptd = DB::table('landing_uptd');
         $sup = DB::table('utils_sup');
-
+        $ruasJalan = $ruasJalan->leftJoin('utils_sup', 'utils_sup.id', '=', 'master_ruas_jalan.sup')->select('master_ruas_jalan.*', 'utils_sup.name as supName');
 
         if (Auth::user()->internalRole->uptd) {
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
-            $ruasJalan = $ruasJalan->where('uptd_id', $uptd_id);
+            $ruasJalan = $ruasJalan->where('master_ruas_jalan.uptd_id', $uptd_id);
             $sup = $sup->where('uptd_id', $uptd_id);
             $uptd = $uptd->where('slug', Auth::user()->internalRole->uptd);
         }
@@ -48,17 +48,7 @@ class RuasJalanController extends Controller
      */
     public function create(Request $req)
     {
-        //
         $ruasJalan = $req->except('_token', 'gambar');
-        // $ruasJalan['slug'] = Str::slug($req->nama, '');
-
-        // if ($req->gambar != null) {
-        //     $path = 'landing/ruasJalan/' . Str::snake(date("YmdHis") . ' ' . $req->gambar->getClientOriginalName());
-        //     $req->gambar->storeAs('public/', $path);
-        //     $ruasJalan['gambar'] = $path;
-        // }
-
-        // if ($req->session()->has('name'))
         $ruasJalan['created_by'] = Auth::user()->id;
         $ruasJalan['created_date'] = date("YmdHis");
 
@@ -69,49 +59,24 @@ class RuasJalanController extends Controller
         return back()->with(compact('color', 'msg'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $ruasJalan = DB::table('master_ruas_jalan')->where('id', $id)->first();
-        $sup = DB::table('utils_sup')->get();
-        $uptd = DB::table('landing_uptd')->get();
+        $sup = DB::table('utils_sup');
+        $uptd = DB::table('landing_uptd');
+
+        if (Auth::user()->internalRole->uptd) {
+            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+            $sup = $sup->where('uptd_id', $uptd_id);
+            $uptd = $uptd->where('slug', Auth::user()->internalRole->uptd);
+        }
+
+        $uptd = $uptd->get();
+        $sup = $sup->get();
+
         return view('admin.master.ruas_jalan.edit', compact('ruasJalan', 'sup', 'uptd'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $req)
     {
         //
@@ -121,14 +86,6 @@ class RuasJalanController extends Controller
         $ruasJalan['updated_date'] = date("YmdHis");
 
         $old = DB::table('master_ruas_jalan')->where('id', $req->id)->first();
-
-        // if ($req->gambar != null) {
-        //     $old->gambar ?? Storage::delete('public/' . $old->gambar);
-
-        //     $path = 'landing/ruas$ruasJalan/' . Str::snake(date("YmdHis") . ' ' . $req->gambar->getClientOriginalName());
-        //     $req->gambar->storeAs('public/', $path);
-        //     $ruasJalan['gambar'] = $path;
-        // }
 
         DB::table('master_ruas_jalan')->where('id', $req->id)->update($ruasJalan);
 

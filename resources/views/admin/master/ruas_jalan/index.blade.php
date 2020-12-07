@@ -171,51 +171,51 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Panjang</label>
                             <div class="col-md-9">
-                                <input name="panjang" type="number" step="0.01" class="form-control" required>
+                                <input name="panjang" type="number" step="any" class="form-control" required>
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <!-- <div class="form-group row">
                             <label class="col-md-3 col-form-label">Status Awal</label>
                             <div class="col-md-9">
-                                <input name="sta_awal" type="number" step="0.01" class="form-control" required>
+                                <input name="sta_awal" type="number" step="any" class="form-control" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Status Akhir</label>
                             <div class="col-md-9">
-                                <input name="sta_akhir" type="number" step="0.01" class="form-control" required>
+                                <input name="sta_akhir" type="number" step="any" class="form-control" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Lat Awal</label>
                             <div class="col-md-9">
-                                <input name="lat_awal" type="number" step="0.01" class="form-control" required>
+                                <input name="lat_awal" type="text" class="form-control" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Long Awal</label>
                             <div class="col-md-9">
-                                <input name="long_awal" type="number" step="0.01" class="form-control" required>
+                                <input name="long_awal" type="text" class="form-control" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Lat Akhir</label>
                             <div class="col-md-9">
-                                <input name="lat_akhir" type="number" step="0.01" class="form-control" required>
+                                <input name="lat_akhir" type="text" class="form-control" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Long Akhir</label>
                             <div class="col-md-9">
-                                <input name="long_akhir" type="number" step="0.01" class="form-control" required>
+                                <input name="long_akhir" type="text" class="form-control" required>
                             </div>
-                        </div>
+                        </div> -->
 
                         <?php
 
@@ -223,12 +223,12 @@
 
                         if (Auth::user()->internalRole->uptd) {
                             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd); ?>
-                            <input name="uptd" type="number" class="form-control" value="{{$uptd_id}}" hidden>
+                            <input name="uptd_id" type="number" class="form-control" value="{{$uptd_id}}" hidden>
                         <?php } else { ?>
                             <div class=" form-group row">
                                 <label class="col-md-3 col-form-label">UPTD</label>
                                 <div class="col-md-9">
-                                    <select class="form-control select2" name="uptd" style="min-width: 100%;">
+                                    <select class="form-control select2" name="uptd_id" style="min-width: 100%;">
                                         @foreach ($uptd as $uptdData)
                                         <option value="<?php echo $uptdData->id; ?>"><?php echo $uptdData->nama; ?></option>
                                         @endforeach
