@@ -106,6 +106,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         });
     });
 
+    Route::group(['prefix' => 'disposisi'], function () {
+        Route::get('/', 'DisposisiController@getDaftarDisposisi')->name('daftar-disposisi');
+        Route::post('create', 'DisposisiController@create')->name('saveInsertDisposisi');
+            
+    });
     Route::group(['prefix' => 'master-data'], function () {
         Route::group(['prefix' => 'jembatan'], function () {
             Route::get('/', 'MasterData\JembatanController@index')->name('getMasterJembatan');

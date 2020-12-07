@@ -172,20 +172,21 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Jumlah Bentang</label>
                             <div class="col-md-10">
+                                <input name="jumlah_bentang" type="number" class="form-control" step="any" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Koordinat X (Lat)</label>
                             <div class="col-md-10">
-                                <input name="lat" type="number" class="form-control"  required>
+                                <input name="lat" type="text" class="form-control"  required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Koordinat Y (Lon)</label>
                             <div class="col-md-10">
-                                <input name="lng" type="number" class="form-control" step="any" required>
+                                <input name="lng" type="text" class="form-control" required>
                             </div>
                         </div>
 
@@ -196,7 +197,7 @@
                             </div>
                         </div>
                         @if(Auth::user()->internalRole->uptd)
-                            <input type="hidden" name="uptd" value="{{Auth::user()->internalRole->uptd)}}">
+                            <input type="hidden" name="uptd" value="{{Auth::user()->internalRole->uptd}}">
                         @else
                             <div class="form-group row">
                                 <label class="col-md-2 col-form-label">UPTD</label>

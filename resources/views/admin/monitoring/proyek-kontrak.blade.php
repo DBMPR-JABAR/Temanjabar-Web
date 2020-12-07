@@ -37,11 +37,6 @@
 @section('page-body')
 
 
-
-
-
-
-
 <div class="row">
 <div class="col-lg-12">
     <div class="card">
@@ -75,13 +70,18 @@
                                     <div class="col-sm-12 col-xl-3 m-b-30">
                                         <h4 class="sub-title">UPTD</h4>
                                         <select id="filterUPTD" name="select" class="form-control form-control-primary">
+                                            @if (Auth::user()->internalRole->uptd)
+                                            <option value="{{Auth::user()->internalRole->uptd}}" selected>UPTD {{str_replace('uptd','',Auth::user()->internalRole->uptd)}}</option>
+                                            @else
                                             <option value="" selected>Semua</option>
+                                            <option value="">Dinas</option>
                                             <option value="uptd1">UPTD 1</option>
-                                            <option value="uptd2">UPTD 2 </option>
-                                            <option value="uptd3">UPTD 3 </option>
-                                            <option value="uptd4">UPTD 4 </option>
-                                            <option value="uptd5">UPTD 5 </option>
-                                            <option value="uptd6">UPTD 6 </option>
+                                            <option value="uptd2">UPTD 2</option>
+                                            <option value="uptd3">UPTD 3</option>
+                                            <option value="uptd4">UPTD 4</option>
+                                            <option value="uptd5">UPTD 5</option>
+                                            <option value="uptd6">UPTD 6</option>
+                                            @endif
                                         </select>
                                     </div>
                                     <div class="col-sm-12 col-xl-3 m-b-30">
@@ -106,7 +106,7 @@
 
 
     <!-- task, page, download counter  start -->
-    <div class="col-xl-3 col-md-6">
+    <div class="col-xl-4 col-md-6">
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
@@ -132,7 +132,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-md-6">
+    <div class="col-xl-4 col-md-6">
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
@@ -157,32 +157,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-md-6">
-        <div class="card">
-            <div class="card-block">
-                <div class="row align-items-center">
-                    <div class="col-8"><a href="{{url('admin/monitoring/proyek-kontrak/status/OFF PROGRESS')}}">
-                        <h4 class="text-c-pink f-w-600">{{$countOffProgress}}</h4></a>
-                        <h6 class="text-muted m-b-0">Off Progress</h6>
-                    </div>
-                    <div class="col-4 text-right">
-                        <i class="feather icon-calendar f-28"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer bg-c-pink">
-                <div class="row align-items-center">
-                    <div class="col-9">
-                        <p class="text-white m-b-0">% pekerjaan</p>
-                    </div>
-                    <div class="col-3 text-right">
-                        <i class="feather icon-trending-up text-white f-16"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-3 col-md-6">
+    <div class="col-xl-4 col-md-6">
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
@@ -410,7 +385,6 @@ today.setUTCMilliseconds(0);
 today = today.getTime();
 
 function proyekKontrak(data) {
-    console.log(data.length);
     if(data.length > 0){
         Highcharts.ganttChart('container', {
             navigator: {
