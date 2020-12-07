@@ -98,7 +98,9 @@
                               
                                 <td>
                                 <a href="{{ route('editDataPekerjaan',$data->id_pek) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
-                                <a href="#delModal" data-id="{{$data->id_pek}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
+                                <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}" class="mb-2 btn btn-sm btn-primary btn-mat">Material</a><br>
+                                <a href="#delModal" data-id="{{$data->id_pek}}" data-toggle="modal" class=" mb-2 btn btn-sm btn-danger btn-mat">Hapus</a><br>
+                                <a href="#submitModal" data-id="{{$data->id_pek}}" data-toggle="modal" class="btn btn-sm btn-success btn-mat">Submit</a>
                                 </td>
                             </tr>
                             @endforeach
@@ -299,6 +301,30 @@
     </div>
 
 </div>
+
+<div class="modal-only">
+    <div class="modal fade" id="submitModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Submit Data Material</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <p>Apakah anda yakin melakukan submit data ini?</p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                        <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Hapus</a>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 @section('script')
 <!-- <script src="{{ asset('assets/vendor/jquery/js/jquery-3.4.1.min.js') }}" ></script> -->
@@ -320,11 +346,16 @@
             const modal = $(this);
             modal.find('.modal-footer #delHref').attr('href',url);
         });
+        $('#submitModal').on('show.bs.modal', function (event) {
+            const link = $(event.relatedTarget);
+            const id = link.data('id');
+            console.log(id);
+            const url = `{{ url('admin/input-data/pekerjaan/submit') }}/` + id;
+            console.log(url);
+            const modal = $(this);
+            modal.find('.modal-footer #delHref').attr('href',url);
+        });
 
-       $('#date-start').datepicker({
-              format: 'dd-mm-yyyy',
-            autoclose: true,
-         });
 
        $('select').attr('value').trigger('change');
     });

@@ -150,9 +150,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::group(['prefix' => 'pekerjaan'], function () {
             Route::get('/', 'InputData\PekerjaanController@getData')->name('getDataPekerjaan');
             Route::get('edit/{id}', 'InputData\PekerjaanController@editData')->name('editDataPekerjaan');
+            Route::get('material/{id}', 'InputData\PekerjaanController@materialData')->name('materialDataPekerjaan');
+            Route::post('creatematerial/{id}', 'InputData\PekerjaanController@createDataMaterial')->name('createDataMaterialPekerjaan');
+            Route::post('updatematerial/{id}', 'InputData\PekerjaanController@updateDataMaterial')->name('updateDataMaterialPekerjaan');
             Route::post('update/{id}', 'InputData\PekerjaanController@updateData')->name('updateDataPekerjaan');
             Route::post('create', 'InputData\PekerjaanController@createData')->name('createDataPekerjaan');
             Route::get('delete/{id}', 'InputData\PekerjaanController@deleteData')->name('deleteDataPekerjaan');
+            Route::get('submit/{id}', 'InputData\PekerjaanController@submitData')->name('submitDataPekerjaan');
         });
 
         Route::group(['prefix' => 'progresskerja'], function () {
