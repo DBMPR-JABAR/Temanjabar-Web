@@ -1,6 +1,6 @@
 @extends('admin.t_index')
 
-@section('title') Ruas Jalan @endsection
+@section('title') Data Paket @endsection
 @section('head')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/buttons.dataTables.min.css') }}">
@@ -21,8 +21,8 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Kondisi Jalan</h4>
-                <span>Data Seluruh Kondisi Jalan</span>
+                <h4>Data Paket</h4>
+                <span>Data Seluruh Paket</span>
             </div>
         </div>
     </div>
@@ -32,7 +32,7 @@
                 <li class="breadcrumb-item">
                     <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
                 </li>
-                <li class="breadcrumb-item"><a href="#!">Kondisi Jalan</a> </li>
+                <li class="breadcrumb-item"><a href="#!">Data Paket</a> </li>
             </ul>
         </div>
     </div>
@@ -44,7 +44,7 @@
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header">
-                <h5>Tabel Kondisi Jalan</h5>
+                <h5>Tabel Data Paket</h5>
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
                         <li><i class="feather icon-maximize full-card"></i></li>
