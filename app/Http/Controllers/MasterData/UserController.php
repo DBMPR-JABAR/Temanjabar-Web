@@ -177,6 +177,20 @@ class UserController extends Controller
         return response()->json(["user_role" => $user_role,"role_access" => $role_access,"uptd_access" => $uptd_access,"user_role_list" => $user_role_list], 200);  
     }
     public function updateDataRoleAkses(Request $request){
+        $user_role = DB::table('master_grant_role_aplikasi')
+        ->where('id',$request->id)
+        ->get();
+        $id_user_role = $user_role[0]->id;
+
+        $role_access = DB::table('utils_role_access')
+        ->where('master_grant_role_aplikasi_id',$id_user_role);
+
+        $uptd_access = DB::table('utils_role_access_uptd')
+        ->where('master_grant_role_aplikasi_id',$id_user_role);
+
+        $role_access->delete();
+        $uptd_access->delete();
+
         $internal_role_id = DB::table('user_role as a')
         ->select('a.id','a.role')
         ->where('a.role',$request->user_role)
@@ -185,15 +199,19 @@ class UserController extends Controller
         $data['internal_role_id'] = $internal_role_id;
         $data['menu'] = $request->menu;
         DB::table('master_grant_role_aplikasi')->where('id',$request->id)->update($data);
+        
         for($i=0;$i<count($request->role_access);$i++){
             $role_access_list['role_access'] = $request->role_access[$i];
-            DB::table('utils_role_access')->where('master_grant_role_aplikasi_id',$request->id)->update($role_access_list); 
+            $role_access_list['master_grant_role_aplikasi_id'] = $request->id;
+            DB::table('utils_role_access')->insert($role_access_list); 
         }
 
         for($i=0;$i<count($request->uptd_access);$i++){
             $uptd_access_list['uptd_name'] = $request->uptd_access[$i];
-            DB::table('utils_role_access_uptd')->where('master_grant_role_aplikasi_id',$request->id)->update($uptd_access_list);
+            $uptd_access_list['master_grant_role_aplikasi_id'] = $request->id;
+            DB::table('utils_role_access_uptd')->insert($uptd_access_list); 
         }
+
         $color = "success";
         $msg = "Berhasil Mengupdate Data Grant Access Role Aplikasi";
         return back()->with(compact('color', 'msg'));   

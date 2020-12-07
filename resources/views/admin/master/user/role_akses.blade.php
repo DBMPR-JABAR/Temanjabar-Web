@@ -299,7 +299,7 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">menu</label>
                             <div class="col-md-9">
-                                <input name="menu" id="id" type="text"  class="form-control" hidden>
+                                <input name="id" id="id" type="text"  class="form-control" hidden>
                                 <input name="menu" id="menu" type="text" class="form-control" required>
                             </div>
                         </div>

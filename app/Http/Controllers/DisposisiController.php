@@ -263,21 +263,17 @@ class DisposisiController extends Controller
         $disposisi['disposisi_id'] = $request->disposisi_id;
         $disposisi['tindak_lanjut'] = $request->tindak_lanjut;
         $disposisi['status'] = $request->status;
-<<<<<<< HEAD
         $disposisi['keterangan'] = $request->keterangan; 
         $disposisi['persentase'] = $request->persentase; 
         $disposisi['created_by'] = Auth::user()->id;
         $disposisi['created_date'] = date("YmdHis"); 
         DB::table('disposisi_tindak_lanjut')->insert($disposisi); 
- 
-=======
+
         $disposisi['keterangan'] = $request->keterangan;
         $disposisi['persentase'] = $request->persentase;
         $disposisi['created_by'] = Auth::user()->id;
         $disposisi['created_date'] = date("YmdHis");
         DB::table('disposisi_tindak_lanjut')->insert($disposisi);
-
->>>>>>> 399d7f71edad86f2789a45acbf3b8e3ffa83ecf0
         $datad['status'] = '3';
         DB::table('disposisi')->where('id',$request->disposisi_id)->update($datad);
 
