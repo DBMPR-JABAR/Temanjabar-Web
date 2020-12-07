@@ -31,7 +31,7 @@ class EmailNotifikasi extends Mailable
     public function build()
     {
         return $this->subject('Notifikasi Disposisi')
-            ->from($this->data['mail_from'])
+            ->from(env('MAIL_USERNAME'),env('MAIL_FROM_NAME'))
             ->view('mail.notifikasiDisposisi', ['data' => $this->data]);
     }
 }

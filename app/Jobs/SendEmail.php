@@ -8,8 +8,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Mail\EmailNotifikasi;
- 
-use Mail;
+
+use Illuminate\Support\Facades\Mail;
 
 class SendEmail implements ShouldQueue
 {
@@ -34,9 +34,11 @@ class SendEmail implements ShouldQueue
     public function handle()
     {
         switch ($this->data['type_mail']) {
-          case 'Disposisi': 
+          case 'Disposisi':
             $message = new EmailNotifikasi($this->data);
-            Mail::to($this->data['mail_to'])->send($message);
+            foreach ($this->data['mail_to'] as $recipient) {
+                Mail::to($recipient)->send($message);
+            }
             break;
          }
     }

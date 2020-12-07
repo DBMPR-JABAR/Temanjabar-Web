@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Jobs\SendEmail;
+use App\User;
 use Illuminate\Support\Str;
 class DisposisiController extends Controller
 {
@@ -178,11 +179,15 @@ class DisposisiController extends Controller
         return redirect(route('disposisi-masuk'))->with(compact('color', 'msg'));
     }
     public function saveTargetDisposisi($target,$code){
+        $users = [];
         for($i = 0; $i< count($target); $i++) {
             $data['disposisi_code'] = $code;
             $data['user_role_id'] = $target[$i];
             DB::table('disposisi_penanggung_jawab')->insert($data);
+
+            array_merge($users, User::where('internal_role_id',$target[$i])->pluck('email')->toArray());
         }
+        return $users;
     }
     public function saveJenisInstruksi($jenis,$code){
         for($i = 0; $i< count($jenis); $i++) {
@@ -195,7 +200,7 @@ class DisposisiController extends Controller
     public function generateCode(){
         //$count = DB::table('visit_reservation')->count();
         $max = DB::table('disposisi')->max('id');
-        $code = date('ymd').''.$max+1;
+        $code = date('ymd').''.($max+1);
         return $code;
     }
     public function create(Request $request)
@@ -218,18 +223,17 @@ class DisposisiController extends Controller
         $disposisi['created_by'] = Auth::user()->id;
         $disposisi['created_date'] = date("YmdHis");
         DB::table('disposisi')->insert($disposisi);
-        $this->saveTargetDisposisi($request->target_disposisi,$code);
+        $recipient = $this->saveTargetDisposisi($request->target_disposisi,$code);
         $this->saveJenisInstruksi($request->jenis_instruksi,$code);
         $disposisi['pengirim'] = $this->getPengirim(Auth::user()->id);
         $disposisi['type_mail'] ="Disposisi";
-        $disposisi['mail_to'] = "izqfly@gmail.com";
-        $disposisi['mail_from'] = "zanmit.consultant@gmail.com";
+        $disposisi['mail_to'] = $recipient;
+        // $disposisi['mail_to'] = ["priyayidimas@gmail.com","priyayidimas@upi.edu"];
         $disposisi['date_now'] = date('d-m-Y H:i:s');
         $disposisi['instruksi'] = "ditindaklanjuti";
-        //dispatch(new SendEmail($disposisi)); //send notification
-        //DB::commit(); //commit transaction
 
-        $this->sendMail($request);
+        SendEmail::dispatch($disposisi);  //send notification
+
         $color = "success";
         $msg = "Berhasil Menambah Data Disposisi";
         return back()->with(compact('color', 'msg'));
@@ -247,6 +251,7 @@ class DisposisiController extends Controller
     public function sendMail($data){
 
     }
+
     public function createTindakLanjut(Request $request)
     {
         //
@@ -260,7 +265,7 @@ class DisposisiController extends Controller
         $disposisi['status'] = $request->status;
         $disposisi['keterangan'] = $request->keterangan;
         $disposisi['persentase'] = $request->persentase;
-         $disposisi['created_by'] = Auth::user()->id;
+        $disposisi['created_by'] = Auth::user()->id;
         $disposisi['created_date'] = date("YmdHis");
         DB::table('disposisi_tindak_lanjut')->insert($disposisi);
 
