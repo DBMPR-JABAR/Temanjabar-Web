@@ -30,7 +30,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h5>Edit Data UPTD</h5>
+                <h5>Edit Data Jembatan</h5>
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
                         <li><i class="feather icon-maximize full-card"></i></li>
@@ -94,21 +94,21 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Panjang</label>
                         <div class="col-md-10">
-                            <input name="panjang" type="text" class="form-control" required value="{{$jembatan->panjang}}">
+                            <input name="panjang" type="number" class="form-control" step="any" required value="{{$jembatan->panjang}}">
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Lebar</label>
                         <div class="col-md-10">
-                            <input name="lebar" type="text" class="form-control" required value="{{$jembatan->lebar}}">
+                            <input name="lebar" type="number" class="form-control" step="any" required value="{{$jembatan->lebar}}">
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Jumlah Bentang</label>
                         <div class="col-md-10">
-                            <input name="jumlah_bentang" type="text" class="form-control" required value="{{$jembatan->jumlah_bentang}}">
+                            <input name="jumlah_bentang" type="number" class="form-control" step="any" required value="{{$jembatan->jumlah_bentang}}">
                         </div>
                     </div>
 
@@ -135,7 +135,7 @@
                     </div>
 
                     @if(Auth::user()->internalRole->uptd)
-                    <input type="hidden" name="uptd_id" value="{{$jembatan->uptd_id}}">
+                    <input type="hidden" name="uptd" value="{{$jembatan->uptd}}">
                     @else
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">UPTD</label>

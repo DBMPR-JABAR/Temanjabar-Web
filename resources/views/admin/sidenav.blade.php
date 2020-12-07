@@ -194,19 +194,19 @@
 
         <div class="pcoded-navigatio-lavel">Manage</div>
         <ul class="pcoded-item pcoded-left-item">
-            <li class="pcoded-hasmenu {{(Request::segment(2) == 'landing-page') ? 'pcoded-trigger active' : ''}}">
+            <li class="pcoded-hasmenu {{(Request::segment(2) == 'master-data') ? 'pcoded-trigger active' : ''}}">
                 <a href="javascript:void(0)">
-                    <span class="pcoded-micon"><i class="ti-home"></i></span>
+                    <span class="pcoded-micon"><i class="ti-layout-grid2"></i></span>
                     <span class="pcoded-mtext">Manage</span>
                 </a>
                 <ul class="pcoded-submenu">
-                    <li class="{{(Request::segment(3) == 'profil') ? 'active' : ''}}">
+                    <li class="{{(Request::segment(3) == 'user') ? 'active' : ''}}">
 
                         <a href="{{ url('admin/master-data/user') }}">
                             <span class="pcoded-mtext">User</span>
                         </a>
                     </li>
-                    <li class="{{(Request::segment(3) == 'ruas_Jalan') ? 'active' : ''}}">
+                    <li class="{{(Request::segment(3) == 'ruas-jalan') ? 'active' : ''}}">
 
                         <!-- <a href="{{ route('admin.master.ruas_jalan') }}">
                         
@@ -217,13 +217,13 @@
                         </a>
                     </li>
 
-                    <li class="{{(Request::segment(3) == 'profil') ? 'active' : ''}}">
+                    <li class="{{(Request::segment(3) == 'jembatan') ? 'active' : ''}}">
                         <a href="{{ url('admin/master-data/jembatan') }}">
                             <span class="pcoded-mtext">Jembatan</span>
                         </a>
                     </li>
 
-                    <li class="{{(Request::segment(3) == 'profil') ? 'active' : ''}}">
+                    <li class="{{(Request::segment(3) == 'rawanbencana') ? 'active' : ''}}">
                         <a href="{{ url('admin/master-data/rawanbencana') }}">
                             <span class="pcoded-mtext">Rawan Bencana</span>
                         </a>
@@ -236,9 +236,9 @@
         </ul>
         <div class="pcoded-navigatio-lavel">Input</div>
         <ul class="pcoded-item pcoded-left-item">
-            <li class="pcoded-hasmenu {{(Request::segment(2) == 'landing-page') ? 'pcoded-trigger active' : ''}}">
+            <li class="pcoded-hasmenu {{(Request::segment(2) == 'input-data') ? 'pcoded-trigger active' : ''}}">
                 <a href="javascript:void(0)">
-                    <span class="pcoded-micon"><i class="ti-home"></i></span>
+                    <span class="pcoded-micon"><i class="ti-write"></i></span>
                     <span class="pcoded-mtext">Input Data</span>
                 </a>
                 <ul class="pcoded-submenu">

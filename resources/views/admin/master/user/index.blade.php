@@ -77,7 +77,7 @@
                                 <td>{{$data->name}}</td>
                                 <td>@if($data->pegawai) {{$data->pegawai->no_pegawai}} @endif</td>
                                 <td>{{$data->sup}}</td>
-                                <td>{{$data->name}}</td>
+                                <td>@if($data->internalRole) {{$data->internalRole->role}} @endif</td>
                                 <td>@if($data->pegawai) {{$data->pegawai->no_tlp}} @endif</td>
                                 <td>{{$data->blokir}}
                                 </td>
