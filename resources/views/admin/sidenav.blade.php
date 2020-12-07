@@ -280,18 +280,18 @@
                 </ul>
             </li>
 
-            <li class="pcoded-hasmenu {{(Request::segment(2) == 'landing-page') ? 'pcoded-trigger active' : ''}}">
+            <li class="pcoded-hasmenu {{(Request::segment(2) == 'lapor') ? 'pcoded-trigger active' : ''}}">
                 <a href="javascript:void(0)">
-                    <span class="pcoded-micon"><i class="ti-home"></i></span>
+                    <span class="pcoded-micon"><i class="ti-headphone-alt"></i></span>
                     <span class="pcoded-mtext">Lapor</span>
                 </a>
                 <ul class="pcoded-submenu">
-                    <li class="{{(Request::segment(3) == 'lapor') ? 'active' : ''}}">
+                    <li class="{{(Request::segment(3) == 'add') ? 'active' : ''}}">
                         <a href="{{ url('admin/lapor/add') }}">
                             <span class="pcoded-mtext">Input Laporan</span>
                         </a>
                     </li>
-                    <li class="{{(Request::segment(3) == 'lapor') ? 'active' : ''}}">
+                    <li class="{{((Request::segment(2) == 'lapor' )&& (Request::segment(3) == null)) ? 'active' : ''}}">
                         <a href="{{ url('admin/lapor') }}">
                             <span class="pcoded-mtext">Daftar Laporan</span>
                         </a>

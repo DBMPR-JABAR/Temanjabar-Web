@@ -49,14 +49,16 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">No Ruas</label>
                         <div class="col-md-10">
-                            <input name="no_ruas" type="number" class="form-control" required value="{{$rawan->no_ruas}}">
+                            <input name="no_ruas" type="text" class="form-control" required value="{{$rawan->no_ruas}}">
                         </div>
                     </div>
 
                       <div class="form-group row">
                         <label class="col-md-2 col-form-label">Ruas Jalan</label>
                         <div class="col-md-10">
-                            <select name="ruas_jalan" class="form-control" required value="{{$rawan->ruas_jalan}}">
+                            <select name="ruas_jalan" class="form-control" required >
+                                <option value="{{$rawan->ruas_jalan}}">{{$rawan->ruas_jalan}}</option>>
+                                <option></option>
                                 @foreach ($ruas as $data)
                                 <option value="{{$data->nama_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
                                 @endforeach

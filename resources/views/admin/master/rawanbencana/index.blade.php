@@ -73,7 +73,7 @@
                             <tr>
                                 <td>{{$loop->index + 1}}</td>
                                 <td>{{$data->no_ruas}}</td>
-                                <td>{{$data->nama_ruas_jalan}}</td>
+                                <td>{{$data->ruas_jalan}}</td>
                                 <td>{{$data->lokasi}}</td>
                                 <td>{{$data->daerah}}</td>
                                 <td>{{$data->keterangan}}</td>
@@ -113,7 +113,7 @@
                         <div class="form-group row">
                         <label class="col-md-2 col-form-label">No Ruas</label>
                         <div class="col-md-10">
-                            <input name="no_ruas" type="number" class="form-control" required>
+                            <input name="no_ruas" type="text" class="form-control" required>
                         </div>
                     </div>
 
@@ -152,7 +152,7 @@
                     </div>
 
                     @if (Auth::user()->internalRole->uptd)
-                        <input type="hidden" name="uptd_id" value="{{Auth::user()->internalRole->uptd}}">
+                        <input type="hidden" name="uptd_id" value="{{str_replace('uptd','',Auth::user()->internalRole->uptd)}}">
                     @else
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Uptd</label>
