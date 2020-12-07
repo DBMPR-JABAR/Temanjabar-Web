@@ -43,22 +43,24 @@
 
                 <form action="{{ route('updateDataBencana',$rawan->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="uptd_id" value="{{$rawan->uptd_id}}">
+                    <!-- <input type="hidden" name="uptd_id" value="{{$rawan->uptd_id}}"> -->
                     <input type="hidden" name="id" value="{{$rawan->id}}">
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">No Ruas</label>
                         <div class="col-md-10">
-                            <input name="no_ruas" type="number" class="form-control" required value="{{$rawan->no_ruas}}">
+                            <input name="no_ruas" type="text" class="form-control" required value="{{$rawan->no_ruas}}">
                         </div>
                     </div>
 
                       <div class="form-group row">
                         <label class="col-md-2 col-form-label">Ruas Jalan</label>
                         <div class="col-md-10">
-                            <select name="ruas_jalan" class="form-control" required value="{{$rawan->ruas_jalan}}">
+                            <select name="ruas_jalan" class="form-control" required >
+                                <option value="{{$rawan->ruas_jalan}}">{{$rawan->ruas_jalan}}</option>>
+                                <option></option>
                                 @foreach ($ruas as $data)
-                                <option value="{{$data->id}}">{{$data->nama_ruas_jalan}}</option>
+                                <option value="{{$data->nama_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -86,6 +88,21 @@
                             </select>
                         </div>
                     </div>
+
+                    @if (Auth::user()->internalRole->uptd)
+                        <input type="hidden" name="uptd_id" value="{{$rawan->uptd_id}}">
+                    @else
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Uptd</label>
+                       <div class="col-md-10">
+                            <select class="form-control" name="uptd_id">
+                                @foreach ($uptd as $data)
+                                <option value="{{$data->id}}">{{$data->nama}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    @endif
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Keterangan</label>

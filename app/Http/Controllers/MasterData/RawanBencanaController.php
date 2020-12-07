@@ -25,7 +25,7 @@ class RawanBencanaController extends Controller
         $rawanbencana = new RawanBencana();
         if(Auth::user()->internalRole->uptd){
             $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
-            $laporan = $rawanbencana->where('UPTD',$uptd_id);
+            $laporan = $rawanbencana->where('uptd_id',$uptd_id);
         }
         $rawanbencana = $rawanbencana->get();
         return view('admin.master.rawanbencana.index', compact('rawanbencana'));
@@ -38,24 +38,26 @@ class RawanBencanaController extends Controller
         $rawan = $rawan->leftJoin('master_ruas_jalan', 'master_ruas_jalan.id', '=', 'master_rawan_bencana.ruas_jalan')->select('master_rawan_bencana.*', 'master_ruas_jalan.nama_ruas_jalan');
         // print_r(Auth::user()->internalRole->uptd);
         if (Auth::user()->internalRole->uptd) {
-            $rawan = $rawan->where('uptd_id',Auth::user()->internalRole->uptd);
+            $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
+            $rawan = $rawan->where('master_rawan_bencana.uptd_id',$uptd_id);
         }
         $rawan = $rawan->get();
         $ruas = DB::table('master_ruas_jalan')->get();
-        return view('admin.master.rawanbencana.index',compact('rawan','ruas'));
+        $uptd = DB::table('landing_uptd')->get();
+        return view('admin.master.rawanbencana.index',compact('rawan','ruas','uptd'));
     }
     public function editData($id)
     {
         $rawan = DB::table('master_rawan_bencana')->where('id',$id)->first();
         $ruas = DB::table('master_ruas_jalan')->get();
-        return view('admin.master.rawanbencana.edit',compact('rawan','ruas'));
-        // return view('admin.master.rawanbencana.edit',array('rawan'=>$rawan,'ruas_jalan'=>$ruas_jalan));
+        $uptd = DB::table('landing_uptd')->get();
+        return view('admin.master.rawanbencana.edit',compact('rawan','ruas','uptd'));
     }
     public function createData(Request $req)
     {
         $rawan = $req->except('_token');
         // $rawan['slug'] = Str::slug($req->nama, '');
-        $rawan['uptd_id'] = Auth::user()->internalRole->uptd==''?0:Auth::user()->internalRole->uptd;
+        $rawan['uptd_id'] = $req->uptd_id==''?0:$req->uptd_id;
 
         DB::table('master_rawan_bencana')->insert($rawan);
 
@@ -65,7 +67,8 @@ class RawanBencanaController extends Controller
     }
     public function updateData(Request $req)
     {
-        $rawan = $req->except('uptd_id','_token','id');
+        $rawan = $req->except('_token','id');
+        $rawan['uptd_id'] = $req->uptd_id==''?0:$req->uptd_id;
 
         $old = DB::table('master_rawan_bencana')->where('id',$req->id)->first();
 
@@ -78,9 +81,6 @@ class RawanBencanaController extends Controller
     public function deleteData($id)
     {
         $old = DB::table('master_rawan_bencana')->where('id',$id);
-        // $old->first()->gambar ?? Storage::delete('public/'.$old->first()->gambar);
-
-
         $old->delete();
 
         $color = "success";
