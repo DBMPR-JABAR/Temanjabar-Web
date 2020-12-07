@@ -57,4 +57,10 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsTo('App\Model\Transactional\Role', 'internal_role_id');
     }
+
+
+    // public function sup()
+    // {
+    //     return $this->hasOne('App\Model\Transactional\SUP', 'user_id');
+    // }
 }

@@ -1,7 +1,7 @@
 <html>
   <body style="background-color:#e2e1e0;font-family: Open Sans, sans-serif;font-size:100%;font-weight:400;line-height:1.4;color:#000;">
-    <div style="padding: 15px;"> 
-      
+    <div style="padding: 15px;">
+
       <table style="max-width:600px;margin:50px auto 50px; background-color:#fff;padding:20px;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24);-moz-box-shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24);box-shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24); border-top: solid 10px #4d90fe;">
         <thead>
           <tr>
@@ -32,11 +32,11 @@
 
             </td>
           </tr>
-           
+
           <tr>
             <td colspan="2" style="border-top: solid 1px #ddd;border-bottom: solid 1px #ddd;padding:10px 20px;text-align: center;">
               <img src="https://socs.binus.ac.id/files/2018/12/aswin-1.jpg" style="width: 200px;height: 200px;">
-           
+
             </td>
           </tr>
         </tbody>

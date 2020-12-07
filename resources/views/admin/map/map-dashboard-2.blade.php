@@ -555,12 +555,10 @@
 
                 // dimz-add
                 let rutejalanLayer = new FeatureLayer({
+                    // url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/SATUPETA_DBMPR/Jaringan_Jalan_25K/MapServer/2/"
+                    // url: "http://localhost:8080/geoserver/gsr/services/temanjabar/FeatureServer/0/",
                     url: gsvrUrl+"/geoserver/gsr/services/temanjabar/FeatureServer/0/",
                 });
-                let kemantapanjalanLayer = new FeatureLayer({
-                    url: gsvrUrl+"/geoserver/gsr/services/temanjabar/FeatureServer/1/",
-                });
-
                 // end dimz-add
                 let jembatanLayer = new GraphicsLayer();
                 let pembangunanLayer = new GraphicsLayer();
@@ -569,6 +567,7 @@
                 let pemeliharaanLayer = new GraphicsLayer();
                 let progressLayer = new GraphicsLayer();
                 let vehiclecountingLayer = new GraphicsLayer();
+                let kemantapanjalanLayer = new GraphicsLayer();
                 let allProgressLayer = new GroupLayer();
 
                 // Request API
@@ -1078,6 +1077,8 @@
                                 label: "SUP"
                             },
                             {
+                                // fieldName: "pjg_ruas_m",
+                                // label: "Panjang Ruas (m)"
                                 fieldName: "expression/pjg_km",
                             }
                         ]}],
@@ -1115,119 +1116,11 @@
                     } else {
                         layer.definitionExpression= '0=1';
                     }
-                    // end dimz-add
-                    return layer;
-                }
-                function addKemantapanJalan(kemantapanjalan, layer) {
-                    const popupTemplate = {
-                        title: "{nm_ruas}",
-                        content: [
-                            {
-                                type: "media",
-                                mediaInfos: [
-                                    {
-                                        title: "<b>Kondisi Jalan</b>",
-                                        type: "pie-chart",
-                                        caption: "Dari Luas Jalan {l} m2",
-                                        value: {
-                                            fields: ["sangat_baik","baik","sedang","jelek","parah","sangat_parah","hancur"]
-                                        }
-                                    }
-                                ]
-                            },
-                            {
-                                type: "media",
-                                mediaInfos: [
-                                    {
-                                        title: "<b>Jalan Mantap</b>",
-                                        type: "pie-chart",
-                                        value: {
-                                            fields: ["sangat_baik","baik","sedang"]
-                                        }
-                                    }
-                                ]
-                            },
-                            {
-                                type: "media",
-                                mediaInfos: [
-                                    {
-                                        title: "<b>Jalan Tidak Mantap</b>",
-                                        type: "pie-chart",
-                                        value: {
-                                            fields: ["jelek","parah","sangat_parah","hancur"]
-                                        }
-                                    }
-                                ]
-                            },
-                            {
-                                type: "fields",
-                                fieldInfos: [
-                                    {
-                                        fieldName: "idruas",
-                                        label: "Nomor Ruas"
-                                    },
-                                    {
-                                        fieldName: "KOTA_KAB",
-                                        label: "Kota/Kabupaten"
-                                    },
-                                    {
-                                        fieldName: "LAT_AWAL",
-                                        label: "Latitude Awal"
-                                    },
-                                    {
-                                        fieldName: "LONG_AWAL",
-                                        label: "Longitude Awal"
-                                    },
-                                    {
-                                        fieldName: "LAT_AKHIR",
-                                        label: "Latitude Akhir"
-                                    },
-                                    {
-                                        fieldName: "LONG_AKHIR",
-                                        label: "Longitude Akhir"
-                                    },
-                                    {
-                                        fieldName: "KETERANGAN",
-                                        label: "Keterangan"
-                                    },
-                                    {
-                                        fieldName: "nm_sppjj",
-                                        label: "SPP/ SUP"
-                                    },
-                                    {
-                                        fieldName: "wil_uptd",
-                                        label: "UPTD"
-                                    }
-                                ]
-                            }
-                        ]
-                    };
-                    if ($.inArray('kemantapanjalan', $('#kegiatan').val()) >= 0 && $('#uptd').val().length != 0) {
-                        var uptdSel = $('#uptd').val();
-                        var whereUptd = 'uptd=' + uptdSel.shift().charAt(4);
-                        $.each(uptdSel, function(idx, elem) {
-                            whereUptd = whereUptd + ' OR uptd=' + elem.charAt(4);
-                        });
-                        layer.popupTemplate = popupTemplate;
-                        layer.definitionExpression = whereUptd;
-                        layer.renderer = {
-                            type: "simple",  // autocasts as new SimpleRenderer()
-                            symbol: {
-                                type: "simple-line",  // autocasts as new SimpleLineSymbol()
-                                color: "green",
-                                width: "2px",
-                                style: "solid",
-                                marker: { // autocasts from LineSymbolMarker
-                                    color: "orange",
-                                    placement: "begin-end",
-                                    style: "circle"
-                                }
-                            }
-                        }
 
-                    } else {
-                        layer.definitionExpression= '0=1';
-                    }
+                    // require(["esri/config"], function (esriConfig) {
+                    //     esriConfig.request.corsEnabledServers.push("localhost:8080");
+                    // });
+                    // end dimz-add
                     return layer;
                 }
                 function addProgressGroup(progress) {
@@ -1573,7 +1466,130 @@
                     });
                     return layer;
                 }
-
+                function addKemantapanJalan(kemantapanjalan, layer) {
+                    const symbol = {
+                        type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
+                        url: baseUrl + "/assets/images/marker/kemantapanjalan.png",
+                        width: "24px",
+                        height: "24px"
+                    };
+                    const popupTemplate = {
+                        title: "{RUAS_JALAN}",
+                        content: [
+                            {
+                                type: "media",
+                                mediaInfos: [
+                                    {
+                                        title: "<b>Kondisi Jalan</b>",
+                                        type: "pie-chart",
+                                        caption: "Dari Luas Jalan {LUAS} m2",
+                                        value: {
+                                            fields: ["SANGAT_BAIK","BAIK","SEDANG","JELEK","PARAH","SANGAT_PARAH"]
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                type: "media",
+                                mediaInfos: [
+                                    {
+                                        title: "<b>Jalan Mantap</b>",
+                                        type: "pie-chart",
+                                        value: {
+                                            fields: ["SANGAT_BAIK","BAIK","SEDANG"]
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                type: "media",
+                                mediaInfos: [
+                                    {
+                                        title: "<b>Jalan Tidak Mantap</b>",
+                                        type: "pie-chart",
+                                        value: {
+                                            fields: ["JELEK","PARAH","SANGAT_PARAH"]
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                type: "fields",
+                                fieldInfos: [
+                                    {
+                                        fieldName: "NO_RUAS",
+                                        label: "Nomor Ruas"
+                                    },
+                                    {
+                                        fieldName: "SUB_RUAS",
+                                        label: "Sub Ruas"
+                                    },
+                                    {
+                                        fieldName: "SUFFIX",
+                                        label: "Suffix"
+                                    },
+                                    {
+                                        fieldName: "BULAN",
+                                        label: "Bulan"
+                                    },
+                                    {
+                                        fieldName: "TAHUN",
+                                        label: "Tahun"
+                                    },
+                                    {
+                                        fieldName: "KOTA_KAB",
+                                        label: "Kota/Kabupaten"
+                                    },
+                                    {
+                                        fieldName: "LAT_AWAL",
+                                        label: "Latitude Awal"
+                                    },
+                                    {
+                                        fieldName: "LONG_AWAL",
+                                        label: "Longitude Awal"
+                                    },
+                                    {
+                                        fieldName: "LAT_AKHIR",
+                                        label: "Latitude Akhir"
+                                    },
+                                    {
+                                        fieldName: "LONG_AKHIR",
+                                        label: "Longitude Akhir"
+                                    },
+                                    {
+                                        fieldName: "KETERANGAN",
+                                        label: "Keterangan"
+                                    },
+                                    {
+                                        fieldName: "SUP",
+                                        label: "SPP/ SUP"
+                                    },
+                                    {
+                                        fieldName: "UPTD",
+                                        label: "UPTD"
+                                    }
+                                ]
+                            }
+                        ]
+                    };
+                    kemantapanjalan.forEach(item => {
+                        var point0 = new Point(item.LONG_AWAL, item.LAT_AWAL);
+                        layer.graphics.add(new Graphic({
+                            geometry: point0,
+                            symbol: symbol,
+                            attributes: item,
+                            popupTemplate: popupTemplate
+                        }));
+                        var point1 = new Point(item.LONG_AKHIR, item.LAT_AKHIR);
+                        layer.graphics.add(new Graphic({
+                            geometry: point1,
+                            symbol: symbol,
+                            attributes: item,
+                            popupTemplate: popupTemplate
+                        }));
+                    });
+                    return layer;
+                }
 
             });
 
