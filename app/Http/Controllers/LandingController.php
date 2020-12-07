@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\Transactional\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -86,6 +87,12 @@ class LandingController extends Controller
     {
         $pesan = DB::table('landing_pesan')->get();
         return view('admin.landing.pesan',compact('pesan'));
+    }
+
+    public function getLog()
+    {
+        $logs = Log::all();
+        return view('admin.landing.log',compact('logs'));
     }
 
     // TODO: Profil

@@ -172,22 +172,19 @@
                     <span class="pcoded-mtext">Disposisi</span>
                 </a>
                 <ul class="pcoded-submenu">
-                    <li class="{{(Request::segment(3) == 'profil') ? 'active' : ''}}">
+                    <li class="{{(Request::segment(3) == 'kirim') ? 'active' : ''}}">
 
                         <a href="{{ url('admin/disposisi') }}">
-                            <span class="pcoded-mtext">Daftar Disposisi </span>
+                            <span class="pcoded-mtext">  Kirim Disposisi </span>
                         </a>
-                    </li>
-                    <li class="{{(Request::segment(3) == 'ruas_Jalan') ? 'active' : ''}}">
 
-                        <!-- <a href="{{ route('admin.master.ruas_jalan') }}">
-                        
-                            <span class="pcoded-mtext">Ruas Jalan</span>
-                        </a> -->
-                        <a href="{{ url('admin/master-data/ruas-jalan') }}">
-                            <span class="pcoded-mtext">Ruas Jalan</span>
-                        </a>
                     </li>
+                    <li class="{{(Request::segment(3) == 'masuk') ? 'active' : ''}}"> 
+                    <a href="{{ url('admin/disposisi/masuk') }}"> <span class="pcoded-mtext">  Disposisi Masuk</span> </a>  
+                        </li>
+                        <li class="{{(Request::segment(3) == 'tindaklanjut') ? 'active' : ''}}"> 
+                    <a href="{{ url('admin/disposisi/tindaklanjut') }}"> <span class="pcoded-mtext">  Disposisi Tindak Lanjut</span> </a>  
+                        </li>
                 </ul>
             </li>
        </ul>
@@ -209,7 +206,7 @@
                     <li class="{{(Request::segment(3) == 'ruas-jalan') ? 'active' : ''}}">
 
                         <!-- <a href="{{ route('admin.master.ruas_jalan') }}">
-                        
+
                             <span class="pcoded-mtext">Ruas Jalan</span>
                         </a> -->
                         <a href="{{ url('admin/master-data/ruas-jalan') }}">
@@ -340,6 +337,12 @@
                 <a href="{{ url('admin/pesan') }}">
                     <span class="pcoded-micon"><i class="ti-email"></i></span>
                     <span class="pcoded-mtext">Pesan</span>
+                </a>
+            </li>
+            <li class="{{(Request::segment(2) == 'log') ? 'active' : ''}}">
+                <a href="{{ url('admin/log') }}">
+                    <span class="pcoded-micon"><i class="ti-email"></i></span>
+                    <span class="pcoded-mtext">Log</span>
                 </a>
             </li>
         </ul>

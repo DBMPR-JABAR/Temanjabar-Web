@@ -11,6 +11,7 @@ use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
+use App\Model\Transactional\Log;
 
 class AuthController extends Controller
 {
@@ -42,11 +43,32 @@ class AuthController extends Controller
             $this->response['data']['message'] = 'Email Not Verified';
             return response()->json($this->response, 200);
         }
+        if(auth('api')->user()->role == 'internal'){
+            Log::create(['activity' => 'Login', 'description' => 'User '.auth('api')->user()->name.' Logged In To Android App']);
+        }
         $this->response['status'] = 'success';
         $this->response['data']['token'] = $this->getToken($token);
         $this->response['data']['user'] = auth('api')->user();
         return response()->json($this->response, 200);
     }
+
+    public function logout()
+    {
+        try {
+            if(auth('api')->user()->role == 'internal'){
+                Log::create(['activity' => 'Logout', 'description' => 'User '.auth('api')->user()->name.' Logged Out From Android App']);
+            }
+            auth('api')->logout();
+            $this->response['status'] = 'success';
+            $this->response['data']['message'] = 'User Logged Out';
+            return response()->json($this->response, 200);
+
+        } catch (\Exception $th) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response,500);
+        }
+    }
+
     public function register(Request $req)
     {
         try {

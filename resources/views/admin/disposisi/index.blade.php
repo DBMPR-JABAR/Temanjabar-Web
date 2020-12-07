@@ -1,12 +1,10 @@
 @extends('admin.t_index')
 
-@section('title') Ruas Jalan @endsection
+@section('title') Kirim Disposisi  @endsection
 @section('head')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/buttons.dataTables.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/data-table/extensions/responsive/css/responsive.dataTables.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/style.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/prism.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/chosen.css') }}">
 <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
 
@@ -27,7 +25,7 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Daftar Disposisi</h4>
+                <h4>Kirim Disposisi </h4>
                 
             </div>
         </div>
@@ -58,13 +56,13 @@
                 </div>
             </div>
             <div class="card-block">
-                <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
+                <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Kirim</a>
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered able-responsive">
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Dari</th>
+                                <th>Surat Dari</th>
                                 <th>Perihal</th>
                                  <th>No Surat</th>
                                  <th>Tgl Surat</th>
@@ -82,20 +80,47 @@
                                 <td>{{$data->dari}}</td>
                                 <td>{{$data->perihal}}</td>
                                 <td>{{$data->no_surat}}</td>
-                                <td>{{$data->tgl_surat}}</td> 
                                 <td>
+                                <?php $date_tgl_surat = date_create($data->tgl_surat);?>
+
+                                {{ date_format($date_tgl_surat, 'd-m-Y')}}</td> 
+                                <td> 
                                  @php   $inouts = \App\Model\Transactional\DisposisiPenanggungJawab::where('disposisi_code',$data->disposisi_code)->get() @endphp 
                                 @foreach($inouts as $inout)
-                                <span class="badge  bg-success"> {{!empty($inout->user_role_id) ?  $inout->user_role_id : "-"  }}</span><br/>
+                                <span > {{!empty($inout->keterangan_role->keterangan) ?  $inout->keterangan_role->keterangan: "-"  }}</span><br/>
                                 @endforeach
                                 </td>
-                                <td>{{$data->tanggal_penyelesaian}}</td>
-                                <td>{{$data->status}}</td>
-                                <td>{{$data->created_date}}</td>
                                 <td>
-                                    <a href="{{ route('editMasterRuasJalan',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
-                                    <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
+                                <?php
+                                 $date_tanggal_penyelesaian = date_create($data->tanggal_penyelesaian);?>
+                                 
+                                {{ date_format($date_tanggal_penyelesaian, 'd-m-Y') }}
                                 </td>
+                                <td><?php 
+
+if($data->status == "1")  {  
+    echo '<button class="  btn btn-inverse btn-mini btn-round">Submitted</button> ';
+} else if($data->status == "2") { 
+    echo '<button class="btn btn-info btn-mini btn-round">Accepted</button> ';
+}  else if($data->status == "3") { 
+    echo '<button class="btn btn-success  btn-mini btn-round">On Progress</button> ';
+   
+} else if($data->status == "4") { 
+    echo "Finish";
+    echo '<button class="btn btn-primary  btn-mini btn-round">Finish</button> ';
+  
+} 
+                                
+                                 ?></td>
+                                <td>
+                                <?php $date_create_date = date_create($data->created_date);?>
+                                {{ date_format($date_create_date, 'd-m-Y H:i:s')}}
+                                    </td>
+                                <td> 
+                                <a type="button" href="{{ route('getdetailDisposisi',$data->id) }}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Rincian</a>
+                                <a type="button" href="#"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Edit</a> 
+                                <a type="button"href="#delModal"  data-toggle="modal" data-id="{{$data->id}}"     class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Hapus</a>       
+                                                             </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -112,7 +137,7 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h4 class="modal-title">Hapus Data Ruas Jalan</h4>
+                    <h4 class="modal-title">Hapus Data Disposisi</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -130,6 +155,57 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="acceptModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">Disposisi Diterima?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <p>Apakah anda yakin menerima disposisi ini?</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                    <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Terima</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="disposisiModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">Disposisi Diterima?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <p>Apakah anda yakin menerima disposisi ini?</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                    <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Terima</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
 
 </div>
 
@@ -205,20 +281,7 @@
                             </div>
                         </div>
  
-
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">UPTD</label>
-                            <div class="col-md-9">
-
-                                <select class="form-control select2" name="uptd_id" style="min-width: 100%;">
-                             
-                                </select>
-                            </div>
-                            <!-- <label class="col-md-3 col-form-label">UPTD</label>
-                            <div class="col-md-9">
-                                <input name="uptd_id" type="number" class="form-control" required>
-                            </div> -->
-                        </div>
+ 
 
                     </div>
 
@@ -238,7 +301,7 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h4 class="modal-title">Hapus Data Ruas Jalan</h4>
+                    <h4 class="modal-title">Hapus Data Disposisi</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -282,6 +345,18 @@
             const modal = $(this);
             modal.find('.modal-footer #delHref').attr('href', url);
         });
+
+        $('#acceptModal').on('show.bs.modal', function(event) {
+            const link = $(event.relatedTarget);
+            const id = link.data('id');
+           
+            console.log(id);
+            const url = `{{ url('admin/disposisi/accepted') }}/` + id;
+            console.log(url);
+            const modal = $(this);
+            modal.find('.modal-footer #delHref').attr('href', url);
+        });
+
     });
 </script>
 @endsection

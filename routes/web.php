@@ -38,6 +38,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         return redirect(route('monitoring-kontrak'));
     });
     Route::get('pesan', 'LandingController@getPesan');
+    Route::get('log', 'LandingController@getLog');
 
 
     Route::view('map-dashboard', 'admin.map.map-dashboard');
@@ -49,7 +50,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::view('survey-kondisi-jalan/{uptd}', 'admin.monitoring.survey-kondisi-jalan-uptd')->name('kondisiJalanUPTD');
         Route::view('survey-kondisi-jalan/{uptd}/{jalan}', 'admin.monitoring.survey-kondisi-jalan-uptd-detail')->name('kondisiJalanUPTDDetail');
 
-        Route::get('proyek-kontrak', 'MonitoringController@getProyekKontrak')->name('monitoring-kontrak');
+        Route::get('proyek-kontrak', 'ProyekController@getProyekKontrak')->name('monitoring-kontrak');
         // Route::view('proyek-kontrak', 'admin.monitoring.proyek-kontrak')->name('monitoring-kontrak');
         Route::get('proyek-kontrak/status/{status} ', 'MonitoringController@getProyekDetail');
         Route::get('main-dashboard', 'MonitoringController@getMainDashboard');
@@ -108,8 +109,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
     Route::group(['prefix' => 'disposisi'], function () {
         Route::get('/', 'DisposisiController@getDaftarDisposisi')->name('daftar-disposisi');
+        Route::get('masuk', 'DisposisiController@getInboxDisposisi')->name('disposisi-masuk');
+        Route::get('tindaklanjut', 'DisposisiController@getDisposisiTindakLanjut')->name('disposisi-tindak-lanjut');
+         
+        Route::post('createTindakLanjut', 'DisposisiController@createTindakLanjut')->name('createTindakLanjut');
         Route::post('create', 'DisposisiController@create')->name('saveInsertDisposisi');
-            
+        Route::get('accepted/{id}', 'DisposisiController@getAcceptedRequest')->name('getAcceptedRequest');
+        Route::get('detail/disposisi/{id}', 'DisposisiController@getdetailDisposisi')->name('getdetailDisposisi');
+        
     });
     Route::group(['prefix' => 'master-data'], function () {
         Route::group(['prefix' => 'jembatan'], function () {
@@ -210,7 +217,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::get('delete/{id}', 'LaporController@delete')->name('deleteLapor');
     });
 });
-Route::get('map/proyek-kontrak', 'MonitoringController@getProyekKontrakAPI')->name('api.proyekkontrak');
+Route::get('map/target-realisasi', 'ProyekController@getTargetRealisasiAPI')->name('api.targetrealisasi');
+Route::get('map/proyek-kontrak', 'ProyekController@getProyekKontrakAPI')->name('api.proyekkontrak');
 
 Route::get('map/laporan-masyarakat', 'MonitoringController@getLaporanAPI')->name('api.laporan');
 Route::get('map/kemantapan-jalan', 'MonitoringController@getKemantapanJalanAPI')->name('api.kemantapanjalan');
