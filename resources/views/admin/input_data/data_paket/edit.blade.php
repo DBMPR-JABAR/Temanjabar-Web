@@ -52,12 +52,12 @@
 
                     if (Auth::user()->internalRole->uptd) {
                         $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd); ?>
-                        <input name="uptd" type="number" class="form-control" value="{{$uptd_id}}" hidden>
+                        <input name="uptd_id" type="number" class="form-control" value="{{$uptd_id}}" hidden>
                     <?php } else { ?>
                         <div class=" form-group row">
                             <label class="col-md-3 col-form-label">UPTD</label>
                             <div class="col-md-9">
-                                <select class="form-control select2" name="uptd" style="min-width: 100%;">
+                                <select class="form-control select2" name="uptd_id" style="min-width: 100%;">
                                     @foreach ($uptd as $uptdData)
                                     @if($dataPaket->uptd_id == $uptdData->id)
                                     <option value="<?php echo $uptdData->id; ?>" selected><?php echo $uptdData->nama; ?></option>
