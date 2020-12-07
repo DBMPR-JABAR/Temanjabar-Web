@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use App\Jobs\SendEmail;
 use Illuminate\Support\Str; 
 class DisposisiController extends Controller
 {
@@ -229,12 +230,34 @@ return !empty($tl->persentase) ? "(".$tl->persentase."%)" : "(0%)";
         DB::table('disposisi')->insert($disposisi); 
         $this->saveTargetDisposisi($request->target_disposisi,$code);
         $this->saveJenisInstruksi($request->jenis_instruksi,$code);
+        $disposisi['pengirim'] = $this->getPengirim(Auth::user()->id);
+        $disposisi['type_mail'] ="Disposisi";
+        $disposisi['mail_to'] = "izqfly@gmail.com";
+        $disposisi['mail_from'] = "zanmit.consultant@gmail.com";
+        $disposisi['date_now'] = date('d-m-Y H:i:s');
+        $disposisi['instruksi'] = "ditindaklanjuti";
+        dispatch(new SendEmail($disposisi)); //send notification
 
+        DB::commit(); //commit transaction  
+
+        $this->sendMail($request);
         $color = "success";
         $msg = "Berhasil Menambah Data Disposisi";
         return back()->with(compact('color', 'msg'));
     }
+    public function getPengirim($id){
+        $pengirim = DB::table('users as a')
+        ->distinct()              
+        ->select('a.name','b.keterangan')
+                      ->join('user_role as b','b.id','=','a.internal_role_id')
+                      ->where('a.id','=', $id) 
+                      ->first();
+      return $pengirim->name.' ('.$pengirim->keterangan.')';
+    }
 
+    public function sendMail($data){
+
+    }
     public function createTindakLanjut(Request $request)
     { 
         //
