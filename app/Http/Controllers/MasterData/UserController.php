@@ -48,12 +48,17 @@ class UserController extends Controller
         ->distinct()
         ->select('a.role','a.id as role_id')
         ->get();
+        $menu = DB::table('master_grant_role_aplikasi')
+        ->distinct()
+        ->select('menu')
+        ->get();
         return view('admin.master.user.role_akses',
             [
                 'user_role' => $user_role,
                 'role_access' => $role_access,
                 'uptd_access' => $uptd_access,
-                'user_role_list' => $user_role_list
+                'user_role_list' => $user_role_list,
+                'menu' => $menu
             ]);
     }
     public function createRoleAkses(Request $request)
@@ -215,5 +220,13 @@ class UserController extends Controller
         $color = "success";
         $msg = "Berhasil Mengupdate Data Grant Access Role Aplikasi";
         return back()->with(compact('color', 'msg'));   
+    }
+
+    function getDataUserRole(){
+        $user_role_list = DB::table('user_role')
+        ->get();
+        return view('admin.master.user.user_role.user_role',[
+                'user_role_list' => $user_role_list
+            ]);
     }
 }

@@ -152,7 +152,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('role-akses/getData/{id}', 'MasterData\UserController@getDataRoleAkses')->name('getDataRoleAkses');
             Route::post('role-akses/updateData', 'MasterData\UserController@updateDataRoleAkses')->name('updateDataRoleAkses');
 
-            Route::post('user-role', 'MasterData\UserController@getDataUserRole')->name('getDataUserRole');
+            Route::get('user-role', 'MasterData\UserController@getDataUserRole')->name('getDataUserRole');
             // Route::get('edit/{id}', 'LandingController@editUPTD')->name('editLandingUPTD');
             // Route::post('create', 'LandingController@createUPTD')->name('createLandingUPTD');
             // Route::post('update', 'LandingController@updateUPTD')->name('updateLandingUPTD');

@@ -1,6 +1,6 @@
 @extends('admin.t_index')
 
-@section('title')Grant Access Role Aplikasi @endsection
+@section('title') User Role @endsection
 @section('head')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/buttons.dataTables.min.css') }}">
@@ -25,7 +25,7 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Grant Access Role Aplikasi </h4>
+                <h4>User ROle </h4>
                 
             </div>
         </div>
@@ -36,7 +36,7 @@
                 <li class="breadcrumb-item">
                     <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
                 </li>
-                <li class="breadcrumb-item"><a href="#!">Grant Access Role Aplikasi</a> </li>
+                <li class="breadcrumb-item"><a href="#!">User Role</a> </li>
             </ul>
         </div>
     </div>
@@ -62,48 +62,61 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>User Role</th>
-                                <th>Menu</th>
-                                <th>Role Access</th>
-                                <th>UPTD Access</th>
+                                <th>Role</th>
+                                <th>Is Superadmin</th>
+                                <th>Keterangan</th>
+                                <th>Is Active</th>
+                                <th>Is Deleted</th>
+                                <th>UPTD</th>
+                                <th>Created at</th>
+                                <th>Updated at</th>
+                                <th>Created by</th>
+                                <th>Updated by</th>
                                 <th>Aksi</th>
-
                             </tr>
                         </thead>
                         <tbody id="bodyJembatan">
-                             @foreach ($user_role as $data)
+                             @foreach ($user_role_list as $data)
                                 <tr>
                                     <td>{{$loop->index + 1}}</td>
                                     <td>{{$data->role}}</td>
-                                    <td>{{$data->menu}}</td>
+                                    <td>@php
+                                        if($data->is_superadmin == 0){
+                                            echo "No";
+                                        }
+                                        else{
+                                            echo "Yes";
+                                        }
+                                    @endphp
+                                    </td>
+                                    <td>{{$data->keterangan}}</td>
                                     <td>
                                         @php
-                                         $i=0;
-                                         while($i< count($role_access)){
-                                             if($role_access[$i]->master_grant_role_aplikasi_id == $data->user_role_id){
-                                                echo $role_access[$i]->role_access;
-                                                echo "<br/>";
-                                             }
-                                            $i++;
-                                         }
-                                        @endphp
+                                        if($data->is_active == 0){
+                                            echo "No";
+                                        }
+                                        else{
+                                            echo "Yes";
+                                        }
+                                    @endphp
                                     </td>
-                                    <td>
-                                        @php
-                                         $i=0;
-                                         while($i< count($uptd_access)){
-                                            if($uptd_access[$i]->master_grant_role_aplikasi_id == $data->user_role_id){
-                                                echo $uptd_access[$i]->uptd_name;
-                                                echo "<br/>";
-                                            }
-                                            $i++;
-                                         }
-                                        @endphp
-                                    </td>
+                                    <td>@php
+                                        if($data->is_deleted == 0){
+                                            echo "No";
+                                        }
+                                        else{
+                                            echo "Yes";
+                                        }
+                                    @endphp</td>
+                                    <td>{{$data->uptd}}</td>
+                                    <td>{{$data->created_at}}</td>
+                                    <td>{{$data->updated_at}}</td>
+                                    <td>{{$data->created_by}}</td>
+                                    <td>{{$data->updated_by}}</td>
                                     <td> 
-                                        <a type="button" href="{{ route('detailRoleAkses',$data->user_role_id) }}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Rincian</a>
-                                        <a type="button"href="#editModal"  data-toggle="modal" data-id="{{$data->user_role_id}}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Edit</a> 
-                                        <a type="button"href="#delModal"  data-toggle="modal" data-id="{{$data->user_role_id}}"     class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Hapus</a>       
+                                        <a type="button" href="{{ route('detailRoleAkses',$data->id) }}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Rincian</a>
+                                        <a type="button"href="#editModal"  data-toggle="modal" data-id="{{$data->id}}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Edit</a> 
+                                        <a type="button"href="#delModal"  data-toggle="modal" data-id="{{$data->id}}"     class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Hapus</a>       
                                     </td>
                                 </tr>
                             @endforeach
@@ -223,11 +236,7 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">menu</label>
                             <div class="col-md-9">
-                                <select  name="menu" tabindex="4" required>
-                                    @foreach($menu as $data)
-                                            <option value="{{$data->menu}}">{{$data->menu}}</option>
-                                    @endforeach
-                                </select>
+                                <input name="menu" type="text" class="form-control" required>
                             </div>
                         </div>
 
@@ -301,14 +310,10 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Menu</label>
+                            <label class="col-md-3 col-form-label">menu</label>
                             <div class="col-md-9">
                                 <input name="id" id="id" type="text"  class="form-control" hidden>
-                                <select  name="edit_select_menu" tabindex="4" required>
-                                    @foreach($menu as $data)
-                                            <option value="{{$data->menu}}" id="menu_{{$loop->index + 1}}">{{$data->menu}}</option>
-                                    @endforeach
-                                </select>
+                                <input name="menu" id="menu" type="text" class="form-control" required>
                             </div>
                         </div>
 
@@ -415,17 +420,12 @@
                     const uptd_access = response.uptd_access;
                     const user_role_list = response.user_role_list;
                     function showData(user_role,role_access,uptd_access,user_role_list){
-                        console.log(user_role[0].menu);
                         for(let i=1; i<=$('#select_user_role').children('option').length;i++){
                             if($('#user_role_'+i).val() == user_role_list[0].role){
                                 $('#user_role_'+i).attr("selected","selected");
                             }
                         }
-                        for(let i=1; i<=$('#edit_select_menu').children('option').length;i++){
-                            if($('#menu_'+i).val() == user_role[0].menu){
-                                $('#menu_'+i).attr("selected","selected");
-                            }
-                        }
+                        $('#menu').val(user_role[0].menu);
                         $('#id').val(user_role[0].id);
                     }
                      showData(user_role,role_access,uptd_access,user_role_list);
