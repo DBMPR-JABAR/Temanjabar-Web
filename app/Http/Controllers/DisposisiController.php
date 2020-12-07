@@ -236,9 +236,8 @@ return !empty($tl->persentase) ? "(".$tl->persentase."%)" : "(0%)";
         $disposisi['mail_from'] = "zanmit.consultant@gmail.com";
         $disposisi['date_now'] = date('d-m-Y H:i:s');
         $disposisi['instruksi'] = "ditindaklanjuti";
-        dispatch(new SendEmail($disposisi)); //send notification
-
-        DB::commit(); //commit transaction  
+        //dispatch(new SendEmail($disposisi)); //send notification
+        //DB::commit(); //commit transaction  
 
         $this->sendMail($request);
         $color = "success";
