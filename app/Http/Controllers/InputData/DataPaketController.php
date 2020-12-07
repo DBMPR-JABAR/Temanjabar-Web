@@ -95,7 +95,7 @@ class DataPaketController extends Controller
         $sup = DB::table('utils_sup');
         $pekerjaan = DB::table('utils_jenis_pekerjaan');
         $uptd = DB::table('landing_uptd');
-        $ruasJalan = DB::table('ruas_jalan');
+        $ruasJalan = DB::table('master_ruas_jalan');
 
         if (Auth::user()->internalRole->uptd) {
             if (Auth::user()->internalRole->uptd) {
@@ -116,7 +116,7 @@ class DataPaketController extends Controller
     {
         $sup = DB::table('utils_sup');
         $pekerjaan = DB::table('utils_jenis_pekerjaan');
-        $ruasJalan = DB::table('ruas_jalan');
+        $ruasJalan = DB::table('master_ruas_jalan');
         $uptd = DB::table('landing_uptd');
 
         if (Auth::user()->internalRole->uptd) {

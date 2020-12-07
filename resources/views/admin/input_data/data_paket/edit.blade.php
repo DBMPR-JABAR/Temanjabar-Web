@@ -113,10 +113,10 @@
                             <select class="form-control select2" name="lokasi_pekerjaan" style="min-width: 100%;">
                                 @foreach ($ruasJalan as $ruasJalanData)
 
-                                @if($ruasJalanData->nama_ruas == $dataPaket->lokasi_pekerjaan)
-                                <option value="<?php echo $ruasJalanData->nama_ruas; ?>" selected><?php echo $ruasJalanData->nama_ruas; ?></option>
+                                @if($ruasJalanData->nama_ruas_jalan == $dataPaket->lokasi_pekerjaan)
+                                <option value="<?php echo $ruasJalanData->nama_ruas_jalan; ?>" selected><?php echo $ruasJalanData->nama_ruas_jalan; ?></option>
                                 @else
-                                <option value="<?php echo $ruasJalanData->nama_ruas; ?>"><?php echo $ruasJalanData->nama_ruas; ?></option>
+                                <option value="<?php echo $ruasJalanData->nama_ruas_jalan; ?>"><?php echo $ruasJalanData->nama_ruas_jalan; ?></option>
                                 @endif
                                 @endforeach
                             </select>
