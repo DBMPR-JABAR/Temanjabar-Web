@@ -44,7 +44,7 @@
                     @csrf
 
                     <input type="hidden" name="id" value="{{$progress->id}}">
-                     <div class="form-group row">
+                    <div class="form-group row">
                         <label class="col-md-2 col-form-label">Kegiatan</label>
                         <div class="col-md-10">
                             <select class="form-control" name="kegiatan" required value="{{$progress->kegiatan}}">
@@ -74,7 +74,7 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Penyedia Jasa</label>
-                       <div class="col-md-10">
+                        <div class="col-md-10">
                             <select class="form-control" name="penyedia_jasa" required value="{{$progress->penyedia_jasa}}">
                                 @foreach ($penyedia as $data)
                                 <option value="{{$data}}" {{ ( $data == $progress->penyedia_jasa) ? 'selected' : ''}}>{{$data}}</option>
@@ -84,7 +84,7 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Satuan Pelayanan Pengelolaan</label>
-                       <div class="col-md-10">
+                        <div class="col-md-10">
                             <select class="form-control" name="sup" required value="{{$progress->sup}}">
                                 @foreach ($sup as $data)
                                 <option value="{{$data->name}}" {{ ( $data->name == $progress->sup) ? 'selected' : ''}}>{{$data->name}}</option>
@@ -92,9 +92,9 @@
                             </select>
                         </div>
                     </div>
-                     <div class="form-group row">
+                    <div class="form-group row">
                         <label class="col-md-2 col-form-label">Ruas Jalan</label>
-                       <div class="col-md-10">
+                        <div class="col-md-10">
                             <select class="form-control" name="ruas_jalan" required value="{{$progress->ruas_jalan}}">
                                 @foreach ($ruas_jalan as $data)
                                 <option value="{{$data->nama_ruas_jalan}}" {{ ( $data->nama_ruas_jalan == $progress->ruas_jalan) ? 'selected' : ''}}>{{$data->nama_ruas_jalan}}</option>
@@ -115,16 +115,16 @@
                         </div>
                         <div class="col-md-2"> KM BDG</div>
                     </div>
-                     <div class="form-group row">
+                    <div class="form-group row">
                         <label class="col-md-2 col-form-label">Koordinat X</label>
                         <div class="col-md-10">
-                            <input name="lat" type="text" class="form-control" required value="{{$progress->lat}}">
+                            <input name="lat" type="text" class="form-control formatLatLong" required value="{{$progress->lat}}">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Koordinat Y</label>
                         <div class="col-md-10">
-                            <input name="lng" type="text" class="form-control" required value="{{$progress->lng}}">
+                            <input name="lng" type="text" class="form-control formatLatLong" required value="{{$progress->lng}}">
                         </div>
                     </div>
 
@@ -153,7 +153,7 @@
                             <input type="text" name="terpakai" class="form-control" value="{{$progress->terpakai}}">
                         </div>
                     </div>
-                     <div class="form-group row">
+                    <div class="form-group row">
                         <label class="col-md-4 col-form-label">Nilai Kontrak</label>
                         <div class="col-md-6">
                             <input type="text" name="nilai_kontrak" class="form-control" value="{{$progress->nilai_kontrak}}">
@@ -175,7 +175,7 @@
                     <div class="form-group row">
                         <label class="col-md-4 col-form-label">Video Dokumentasi</label>
                         <div class="col-md-6">
-                            <input name="video" type="file" class="form-control"  value="{{$progress->video}}" accept="video/*">
+                            <input name="video" type="file" class="form-control" value="{{$progress->video}}" accept="video/*">
                         </div>
                     </div>
 
@@ -187,4 +187,27 @@
     </div>
 </div>
 
+@endsection
+
+@section('script')
+<script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}"></script>
+
+<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        // Format mata uang.
+        $('.formatRibuan').mask('000.000.000.000.000', {
+            reverse: true
+        });
+
+        // Format untuk lat long.
+        $('.formatLatLong').mask('00000.00000000', {
+            reverse: true
+        });
+    });
+</script>
 @endsection

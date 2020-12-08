@@ -65,7 +65,7 @@
                                 <option value="{{$jembatan->ruas_jalan}}">{{$jembatan->ruas_jalan}}</option>
                                 <option></option>
                                 @foreach ($ruasJalan as $data)
-                                    <option value="{{$data->nama_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
+                                <option value="{{$data->nama_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -78,7 +78,7 @@
                                 <option value="{{$jembatan->sup}}">{{$jembatan->sup}}</option>
                                 <option></option>
                                 @foreach ($sup as $data)
-                                    <option value="{{$data->name}}" >{{$data->name}}</option>
+                                <option value="{{$data->name}}">{{$data->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -92,16 +92,16 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Panjang</label>
+                        <label class="col-md-2 col-form-label">Panjang (meter)</label>
                         <div class="col-md-10">
-                            <input name="panjang" type="number" class="form-control" step="any" required value="{{$jembatan->panjang}}">
+                            <input name="panjang" type="text" class="form-control formatRibuan" required value="{{$jembatan->panjang}}">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Lebar</label>
+                        <label class="col-md-2 col-form-label">Lebar (meter)</label>
                         <div class="col-md-10">
-                            <input name="lebar" type="number" class="form-control" step="any" required value="{{$jembatan->lebar}}">
+                            <input name="lebar" type="text" class="form-control formatRibuan" required value="{{$jembatan->lebar}}">
                         </div>
                     </div>
 
@@ -115,14 +115,14 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Koordinat X (Lat)</label>
                         <div class="col-md-10">
-                            <input name="lat" type="text" class="form-control" required value="{{$jembatan->lat}}">
+                            <input name="lat" type="text" class="form-control formatLatLong" required value="{{$jembatan->lat}}">
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Koordinat Y (Lon)</label>
                         <div class="col-md-10">
-                            <input name="lng" type="text" class="form-control" required value="{{$jembatan->lng}}">
+                            <input name="lng" type="text" class="form-control formatLatLong" required value="{{$jembatan->lng}}">
                         </div>
                     </div>
 
@@ -137,17 +137,17 @@
                     @if(Auth::user()->internalRole->uptd)
                     <input type="hidden" name="uptd" value="{{$jembatan->uptd}}">
                     @else
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">UPTD</label>
-                            <div class="col-md-10">
-                                <select class="form-control" required name="uptd">
-                                    <option>Pilih UPTD</option>
-                                    @foreach ($uptd as $data)
-                                        <option value="{{$data->slug}}" @if($data->slug==$jembatan->uptd) selected @endif>{{$data->nama}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">UPTD</label>
+                        <div class="col-md-10">
+                            <select class="form-control" required name="uptd">
+                                <option>Pilih UPTD</option>
+                                @foreach ($uptd as $data)
+                                <option value="{{$data->slug}}" @if($data->slug==$jembatan->uptd) selected @endif>{{$data->nama}}</option>
+                                @endforeach
+                            </select>
                         </div>
+                    </div>
                     @endif
 
                     <div class="form-group row">
@@ -166,4 +166,27 @@
     </div>
 </div>
 
+@endsection
+
+@section('script')
+<script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}"></script>
+
+<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        // Format mata uang.
+        $('.formatRibuan').mask('000.000.000.000.000', {
+            reverse: true
+        });
+
+        // Format untuk lat long.
+        $('.formatLatLong').mask('00000.00000000', {
+            reverse: true
+        });
+    });
+</script>
 @endsection

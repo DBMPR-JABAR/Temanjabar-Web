@@ -63,8 +63,8 @@
                                 <th>Lokasi</th>
                                 <th>Lat</th>
                                 <th>Lng</th>
-                                <th>Panjang</th>
-                                <th>Lebar</th>
+                                <th>Panjang (meter)</th>
+                                <th>Lebar (meter)</th>
                                 <th>Ruas Jalan</th>
                                 <th>Foto</th>
                                 <th>Aksi</th>
@@ -83,8 +83,8 @@
                                 <td>{{$data->ruas_jalan}}</td>
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/'.$data->foto) !!}" alt="" srcset=""></td>
                                 <td>
-                                <a href="{{ route('editJembatan',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
-                                <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
+                                    <a href="{{ route('editJembatan',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
+                                    <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
                                 </td>
                             </tr>
                             @endforeach
@@ -130,7 +130,7 @@
                                 <select name="ruas_jalan" class="form-control" required>
                                     <option>Pilih Ruas Jalan</option>
                                     @foreach ($ruasJalan as $data)
-                                        <option value="{{$data->nama_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
+                                    <option value="{{$data->nama_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -142,7 +142,7 @@
                                 <select class="form-control" required name="sup">
                                     <option>Pilih SUP</option>
                                     @foreach ($sup as $data)
-                                        <option value="{{$data->name}}">{{$data->name}}</option>
+                                    <option value="{{$data->name}}">{{$data->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -156,16 +156,16 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Panjang</label>
+                            <label class="col-md-2 col-form-label">Panjang (meter)</label>
                             <div class="col-md-10">
-                                <input name="panjang" type="number" class="form-control" step="any" required>
+                                <input name="panjang" type="text" class="form-control formatRibuan" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Lebar</label>
                             <div class="col-md-10">
-                                <input name="lebar" type="number" class="form-control" step="any" required>
+                                <input name="lebar" type="text" class="form-control formatRibuan" required>
                             </div>
                         </div>
 
@@ -179,14 +179,14 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Koordinat X (Lat)</label>
                             <div class="col-md-10">
-                                <input name="lat" type="text" class="form-control"  required>
+                                <input name="lat" type="text" class="form-control formatLatLong" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Koordinat Y (Lon)</label>
                             <div class="col-md-10">
-                                <input name="lng" type="text" class="form-control" required>
+                                <input name="lng" type="text" class="form-control formatLatLong" required>
                             </div>
                         </div>
 
@@ -197,19 +197,19 @@
                             </div>
                         </div>
                         @if(Auth::user()->internalRole->uptd)
-                            <input type="hidden" name="uptd" value="{{Auth::user()->internalRole->uptd}}">
+                        <input type="hidden" name="uptd" value="{{Auth::user()->internalRole->uptd}}">
                         @else
-                            <div class="form-group row">
-                                <label class="col-md-2 col-form-label">UPTD</label>
-                                <div class="col-md-10">
-                                    <select class="form-control" required name="uptd">
-                                        <option>Pilih UPTD</option>
-                                        @foreach ($uptd as $data)
-                                            <option value="{{$data->slug}}">{{$data->nama}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">UPTD</label>
+                            <div class="col-md-10">
+                                <select class="form-control" required name="uptd">
+                                    <option>Pilih UPTD</option>
+                                    @foreach ($uptd as $data)
+                                    <option value="{{$data->slug}}">{{$data->nama}}</option>
+                                    @endforeach
+                                </select>
                             </div>
+                        </div>
                         @endif
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Foto Jembatan</label>
@@ -234,21 +234,21 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
 
-                    <div class="modal-header">
-                        <h4 class="modal-title">Hapus Data Jembatan</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+                <div class="modal-header">
+                    <h4 class="modal-title">Hapus Data Jembatan</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
 
-                    <div class="modal-body">
-                        <p>Apakah anda yakin ingin menghapus data ini?</p>
-                    </div>
+                <div class="modal-body">
+                    <p>Apakah anda yakin ingin menghapus data ini?</p>
+                </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                        <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Hapus</a>
-                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                    <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Hapus</a>
+                </div>
 
             </div>
         </div>
@@ -256,23 +256,34 @@
 </div>
 @endsection
 @section('script')
-<script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}" ></script>
-<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}" ></script>
-<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}" ></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}"></script>
 
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $("#dttable").DataTable();
-        $('#delModal').on('show.bs.modal', function (event) {
+        $('#delModal').on('show.bs.modal', function(event) {
             const link = $(event.relatedTarget);
             const id = link.data('id');
             console.log(id);
             const url = `{{ url('admin/master-data/jembatan/delete') }}/` + id;
             console.log(url);
             const modal = $(this);
-            modal.find('.modal-footer #delHref').attr('href',url);
+            modal.find('.modal-footer #delHref').attr('href', url);
+        });
+
+        // Format mata uang.
+        $('.formatRibuan').mask('000.000.000.000.000', {
+            reverse: true
+        });
+
+        // Format untuk lat long.
+        $('.formatLatLong').mask('00000.00000000', {
+            reverse: true
         });
     });
 </script>

@@ -70,7 +70,7 @@
                             <select name="ruas_jalan" class="form-control" required>
                                 <option>Pilih Ruas Jalan</option>
                                 @foreach ($ruasJalan as $data)
-                                    <option value="{{$data->nama_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
+                                <option value="{{$data->nama_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -86,7 +86,7 @@
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">KM Asal</label>
                         <div class="col-md-9">
-                            <input name="km_asal" type="text" step="0.01" class="form-control" required>
+                            <input name="km_asal" type="number" step="0.01" class="form-control" required>
                         </div>
                     </div>
 
@@ -112,9 +112,9 @@
                     </div>
 
                     <div class=" form-group row">
-                        <label class="col-md-3 col-form-label">Lebar Rata2</label>
+                        <label class="col-md-3 col-form-label">Lebar Rata2 (meter)</label>
                         <div class="col-md-9">
-                            <input name="lebar_rata_rata" type="number" step="0.01" class="form-control" required>
+                            <input name="lebar_rata_rata" type="text" class="form-control formatRibuan" required>
                         </div>
                     </div>
 
@@ -130,10 +130,10 @@
                         <div class="col-md-9">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <input name="latitude" type="text" class="form-control" required>
+                                    <input name="latitude" type="text" class="form-control formatLatLong" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <input name="longitude" type="text" class="form-control" required>
+                                    <input name="longitude" type="text" class="form-control formatLatLong" required>
                                 </div>
                             </div>
                         </div>
@@ -144,10 +144,10 @@
                         <div class="col-md-9">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <input name="akhir_latitude" type="text" class="form-control" required>
+                                    <input name="akhir_latitude" type="text" class="form-control formatLatLong" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <input name="akhir_longitude" type="text" class="form-control" required>
+                                    <input name="akhir_longitude" type="text" class="form-control formatLatLong" required>
                                 </div>
                             </div>
                         </div>
@@ -197,10 +197,10 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input name="sba_lat" type="number" step="0.01" class="form-control">
+                                        <input name="sba_lat" type="text" class="form-control formatLatLong">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="sba_long" type="number" step="0.01" class="form-control">
+                                        <input name="sba_long" type="text" class="form-control formatLatLong">
                                     </div>
                                 </div>
                             </div>
@@ -210,10 +210,10 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input name="sbak_lat" type="number" step="0.01" class="form-control">
+                                        <input name="sbak_lat" type="text" class="form-control formatLatLong">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="sbak_long" type="number" step="0.01" class="form-control">
+                                        <input name="sbak_long" type="text" class="form-control formatLatLong">
                                     </div>
                                 </div>
                             </div>
@@ -249,10 +249,10 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input name="ba_lat" type="number" step="0.01" class="form-control">
+                                        <input name="ba_lat" type="text" class="form-control formatLatLong">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="ba_long" type="number" step="0.01" class="form-control">
+                                        <input name="ba_long" type="text" class="form-control formatLatLong">
                                     </div>
                                 </div>
                             </div>
@@ -262,10 +262,10 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input name="bak_lat" type="number" step="0.01" class="form-control">
+                                        <input name="bak_lat" type="text" class="form-control formatLatLong">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="bak_long" type="number" step="0.01" class="form-control">
+                                        <input name="bak_long" type="text" class="form-control formatLatLong">
                                     </div>
                                 </div>
                             </div>
@@ -301,10 +301,10 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input name="sda_lat" type="number" step="0.01" class="form-control">
+                                        <input name="sda_lat" type="text" class="form-control formatLatLong">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="sda_long" type="number" step="0.01" class="form-control">
+                                        <input name="sda_long" type="text" class="form-control formatLatLong">
                                     </div>
                                 </div>
                             </div>
@@ -314,10 +314,10 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input name="sdak_lat" type="number" step="0.01" class="form-control">
+                                        <input name="sdak_lat" type="text" class="form-control formatLatLong">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="sdak_long" type="number" step="0.01" class="form-control">
+                                        <input name="sdak_long" type="text" class="form-control formatLatLong">
                                     </div>
                                 </div>
                             </div>
@@ -360,10 +360,10 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input name="ja_lat" type="number" step="0.01" class="form-control">
+                                        <input name="ja_lat" type="text" class="form-control formatLatLong">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="ja_long" type="number" step="0.01" class="form-control">
+                                        <input name="ja_long" type="text" class="form-control formatLatLong">
                                     </div>
                                 </div>
                             </div>
@@ -373,10 +373,10 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input name="jak_lat" type="number" step="0.01" class="form-control">
+                                        <input name="jak_lat" type="text" class="form-control formatLatLong">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="jak_long" type="number" step="0.01" class="form-control">
+                                        <input name="jak_long" type="text" class="form-control formatLatLong">
                                     </div>
                                 </div>
                             </div>
@@ -412,10 +412,10 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input name="pa_lat" type="number" step="0.01" class="form-control">
+                                        <input name="pa_lat" type="text" class="form-control formatLatLong">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="pa_long" type="number" step="0.01" class="form-control">
+                                        <input name="pa_long" type="text" class="form-control formatLatLong">
                                     </div>
                                 </div>
                             </div>
@@ -425,10 +425,10 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input name="pak_lat" type="number" step="0.01" class="form-control">
+                                        <input name="pak_lat" type="text" class="form-control formatLatLong">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="pak_long" type="number" step="0.01" class="form-control">
+                                        <input name="pak_long" type="text" class="form-control formatLatLong">
                                     </div>
                                 </div>
                             </div>
@@ -464,10 +464,10 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input name="spa_lat" type="number" step="0.01" class="form-control">
+                                        <input name="spa_lat" type="text" class="form-control formatLatLong">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="spa_long" type="number" step="0.01" class="form-control">
+                                        <input name="spa_long" type="text" class="form-control formatLatLong">
                                     </div>
                                 </div>
                             </div>
@@ -477,10 +477,10 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input name="spak_lat" type="number" step="0.01" class="form-control">
+                                        <input name="spak_lat" type="text" class="form-control formatLatLong">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="spak_long" type="number" step="0.01" class="form-control">
+                                        <input name="spak_long" type="text" class="form-control formatLatLong">
                                     </div>
                                 </div>
                             </div>
@@ -515,10 +515,10 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input name="ha_lat" type="number" step="0.01" class="form-control">
+                                        <input name="ha_lat" type="text" class="form-control formatLatLong">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="ha_long" type="number" step="0.01" class="form-control">
+                                        <input name="ha_long" type="text" class="form-control formatLatLong">
                                     </div>
                                 </div>
                             </div>
@@ -528,10 +528,10 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input name="hak_lat" type="number" step="0.01" class="form-control">
+                                        <input name="hak_lat" type="text" class="form-control formatLatLong">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="hak_long" type="number" step="0.01" class="form-control">
+                                        <input name="hak_long" type="text" class="form-control formatLatLong">
                                     </div>
                                 </div>
                             </div>
@@ -577,10 +577,22 @@
 
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
+
 <script>
     $(document).ready(function() {
         $("#form-mantap").show();
         $("#form-tidak-mantap").hide();
+
+        // Format mata uang.
+        $('.formatRibuan').mask('000.000.000.000.000', {
+            reverse: true
+        });
+
+        // Format untuk lat long.
+        $('.formatLatLong').mask('00000.00000000', {
+            reverse: true
+        });
     });
 
     function my_function(val) {
