@@ -120,7 +120,7 @@
                             <label class="col-md-2 col-form-label">Password</label>
                             <div class="col-md-10">
                                 <div class="row" style="margin-left: 0px; margin-right: 0px;">
-                                    <input id="password-field" name="password" type="password" class="form-control" style="width: 100%;" required>
+                                    <input id="password-field" name="password" type="password" class="form-control" required>
                                     <span style="cursor: pointer; margin-left: -30px;" class="ti-eye my-auto toggle-password" toggle="#password-field"></span>
                                 </div>
                             </div>
