@@ -5,10 +5,61 @@ namespace App\Http\Controllers\Backup;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class DebugController extends Controller
 {
     public function index()
+    {
+
+        $role_id = Auth::user()->internal_role_id;
+        $menu = "Executive Dashboard";
+        $type = "View";
+
+        $access = hasAccess($role_id, $menu, $type); // return true if exists
+
+        /*
+        Available Access:
+            Create
+            View
+            Update
+            Delete
+        Available Menu:
+            Manage
+            Disposisi
+            Input Data
+            Lapor
+            Landing Page
+            Pesan
+            Log
+            User
+            Ruas Jalan
+            Jembatan
+            Rawan Bencana
+            Pekerjaan
+            Kondisi Jalan
+            Rekap
+            Progress Kerja
+            Data Paket
+            Executive Dashboard
+            Proyek Kontrak
+            Kemantapan Jalan
+            Laporan Akses
+            Anggaran & Realisasi Keuangan
+            Survey Kondisi Jalan
+            Kirim Disposisi
+            Disposisi Masuk
+            Disposisi Tindak Lanjut
+            Disposisi Instruksi
+            Profil
+            Slideshow
+            Fitur
+            UPTD
+
+        */
+    }
+
+    public function uptd()
     {
         $jembatan = DB::table('master_jembatan');
 
@@ -17,7 +68,6 @@ class DebugController extends Controller
         }
 
         $jembatan = $jembatan->get();
-        // $access = hasAccess(1, "pembangunan", "view");
         dd($jembatan);
     }
 }

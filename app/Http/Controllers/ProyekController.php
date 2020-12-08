@@ -36,17 +36,18 @@ class ProyekController extends Controller
     {
         $listProyekKontrak = DB::connection('dwh')->table('TBL_TALIKUAT_TRX_PROYEK_KONTRAK_PROGRESS_HARIAN as A')
             ->join('TBL_TALIKUAT_TRX_PROYEK_KONTRAK as B', 'B.NMP','=','A.NMP')
-            ->select(DB::raw('(SELECT MIN(TANGGAL)  FROM TBL_TALIKUAT_TRX_PROYEK_KONTRAK_PROGRESS_HARIAN WHERE NMP = A.NMP)  as DATE_FROM'),
-                     DB::raw('(SELECT MAX(TANGGAL)  FROM TBL_TALIKUAT_TRX_PROYEK_KONTRAK_PROGRESS_HARIAN WHERE NMP = A.NMP ) as DATE_TO'),
-                             'A.ID', 'A.NMP', 'A.TANGGAL', 'A.RENCANA_VOLUME_HaRIAN', 'A.RENCANA_VOLUME_KUMULATIF', 'A.REALISASI_VOLUME_HARIAN', 'A.REALISASI_VOLUME_KOMULATIF', 'A.PROGRESS_FISIK_RENCANA_BOBOT', 'A.PROGRESS_FISIK_RENCANA_KUMULATIF', 'A.PROGRESS_FISIK_REALISASI_BOBOT', 'A.PROGRESS_FISIK_REALISASI_KUMULATIF', 'A.DEVIASI_PROGRESS_FISIK', 'A.RENCANA_KEUANGAN_HARIAN', 'A.RENCANA_KEUANGAN_KOMULATIF','A.REALISASI_KEUANGAN_HARIAN','A.REALISASI_KEUANGAN_HARIAN1','B.UPTD','B.NAMA KEGIATAN as NAMA_KEGIATAN','B.PENYEDIA JASA as PENYEDIA_JASA');
+            ->select('B.PERIODE_MULAI AS DATE_FROM','B.PERIODE_SELESAI AS DATE_TO',
+                     'A.ID', 'A.NMP', 'A.TANGGAL', 'A.RENCANA_VOLUME_HaRIAN', 'A.RENCANA_VOLUME_KUMULATIF', 'A.REALISASI_VOLUME_HARIAN', 'A.REALISASI_VOLUME_KOMULATIF', 'A.PROGRESS_FISIK_RENCANA_BOBOT', 'A.PROGRESS_FISIK_RENCANA_KUMULATIF', 'A.PROGRESS_FISIK_REALISASI_BOBOT', 'A.PROGRESS_FISIK_REALISASI_KUMULATIF', 'A.DEVIASI_PROGRESS_FISIK', 'A.RENCANA_KEUANGAN_HARIAN', 'A.RENCANA_KEUANGAN_KOMULATIF','A.REALISASI_KEUANGAN_HARIAN','A.REALISASI_KEUANGAN_HARIAN1','B.UPTD','B.NAMA_KEGIATAN as NAMA_KEGIATAN','B.PENYEDIA_JASA as PENYEDIA_JASA', 'JENIS_PEKERJAAN')
+            ->whereRaw('A.TANGGAL = B.PERIODE_SELESAI');
 
         if ($request->tahun != "") $listProyekKontrak = $listProyekKontrak->whereYear('TANGGAL', '=', $request->tahun);
         if ($request->uptd != "") $listProyekKontrak = $listProyekKontrak->where('UPTD', '=', $request->uptd);
-        if ($request->kegiatan != "") $listProyekKontrak = $listProyekKontrak->where('NAMA_KEGIATAN', '=', $request->kegiatan);
+        if ($request->kegiatan != "") $listProyekKontrak = $listProyekKontrak->where('NAMA_KEGIATAN', 'LIKE', "%$request->kegiatan%");
         if ($request->dateFrom != "") $listProyekKontrak = $listProyekKontrak->where('TANGGAL', '>=',date_create_from_format("Y-m-d",$request->dateFrom));
-        if ($request->dateTo != "") $listProyekKontrak = $listProyekKontrak->where('TANGGAL', '<=', date_create_from_format("Y-m-d",$request->dateFrom));
+        if ($request->dateTo != "") $listProyekKontrak = $listProyekKontrak->where('TANGGAL', '<=', date_create_from_format("Y-m-d",$request->dateTo));
 
         $listProyekKontrak = $listProyekKontrak->get();
+
         $proyekKontrak = [];
         foreach ($listProyekKontrak as $proyek) {
             $date_from = Carbon::parse($proyek->DATE_FROM);
@@ -54,11 +55,12 @@ class ProyekController extends Controller
 
             $ProyekKontrakData = [
                 "colors" => ["#f2f4f5"],
-                "name" => $proyek->NMP,
+                "name" => $proyek->NAMA_KEGIATAN,
                 "data" => [
                     [
                         "id" => "".$proyek->ID,
-                        "name" => $proyek->NMP,
+                        "name" => $proyek->NAMA_KEGIATAN,
+                        "jenis" => $proyek->JENIS_PEKERJAAN,
                         "owner" => $proyek->PENYEDIA_JASA
                     ],
                     [
@@ -67,9 +69,11 @@ class ProyekController extends Controller
                         "parent" => "".$proyek->ID,
                         "start" => $date_from->getPreciseTimestamp(3),
                         "end" => $date_to->getPreciseTimestamp(3),
+                        "jenis" => $proyek->JENIS_PEKERJAAN,
+                        "owner" => $proyek->PENYEDIA_JASA,
                         "completed" => [
                             "fill" => "#7CB5EC",
-                            "amount" => (!empty($proyek->PROGRESS_FISIK_RENCANA_KUMULATIF) ? ($proyek->PROGRESS_FISIK_RENCANA_KUMULATIF *  100) : 0)
+                            "amount" => (!empty($proyek->PROGRESS_FISIK_RENCANA_KUMULATIF) ? ($proyek->PROGRESS_FISIK_RENCANA_KUMULATIF * 0.01) : 0)
                         ]
                     ],
                     [
@@ -78,9 +82,11 @@ class ProyekController extends Controller
                         "parent" => $proyek->ID,
                         "start" => $date_from->getPreciseTimestamp(3),
                         "end" => $date_to->getPreciseTimestamp(3),
+                        "jenis" => $proyek->JENIS_PEKERJAAN,
+                        "owner" => $proyek->PENYEDIA_JASA,
                         "completed" => [
                             "fill" => "#7CB5EC",
-                            "amount" => (!empty($proyek->PROGRESS_FISIK_REALISASI_KUMULATIF) ? ($proyek->PROGRESS_FISIK_REALISASI_KUMULATIF * 100) : 0)
+                            "amount" => (!empty($proyek->PROGRESS_FISIK_REALISASI_KUMULATIF) ? ($proyek->PROGRESS_FISIK_REALISASI_KUMULATIF * 0.01) : 0)
                         ]
                     ],
                     [

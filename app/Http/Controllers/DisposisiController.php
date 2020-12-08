@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Jobs\SendEmail;
 use App\User;
+use App\Model\Transactional\DisposisiPenanggungJawab;
+
+use App\Model\Transactional\DisposisiApproved;
 use Illuminate\Support\Str;
 class DisposisiController extends Controller
 {
@@ -39,7 +42,11 @@ class DisposisiController extends Controller
 
         $disposisi_kepada = "";
         $jenis_instruksi_select = "";
-        $user_role = DB::table('user_role')->select('id', 'keterangan');
+        $parent = DB::table('user_role')->select('parent_id')->where('id','=', Auth::user()->internal_role_id)->first(); 
+        $user_role = DB::table('user_role')->select('id', 'keterangan') 
+         ->where('parent_id', Auth::user()->internal_role_id) 
+         ->orWhere('parent_id',$parent->parent_id); 
+
         $listUserRole = $user_role->get();
         foreach ($listUserRole as $role) {
             $disposisi_kepada .= '<option value="' . $role->id . '">' . $role->keterangan . '</option>';
@@ -73,6 +80,9 @@ class DisposisiController extends Controller
                 'tindaklanjut' => $tindaklanjut
             ]);
     }
+
+     
+
 
     public function getDaftarDisposisi()
     {
@@ -178,6 +188,18 @@ class DisposisiController extends Controller
         $msg = "Disposisi telah anda terima";
         return redirect(route('disposisi-masuk'))->with(compact('color', 'msg'));
     }
+    
+    public function saveTargetDisposisiLevel2($target,$code){
+         
+        for($i = 0; $i< count($target); $i++) {
+            $data['disposisi_code'] = $code;
+            $data['user_role_id'] = $target[$i];
+            $data['level'] =  "2";
+            DB::table('disposisi_penanggung_jawab')->insert($data); 
+         }
+  
+    }
+
     public function saveTargetDisposisi($target,$code){
         $users = [];
         for($i = 0; $i< count($target); $i++) {
@@ -206,7 +228,7 @@ class DisposisiController extends Controller
     public function create(Request $request)
     {
         //
-        if(file != null){
+        if($request->file != null){
             $path = 'disposisi/'.Str::snake(date("YmdHis").'/'.$request->file->getClientOriginalName());
             $request->file->storeAs('public/',$path);
             $disposisi ['file'] = $path;
@@ -252,6 +274,60 @@ class DisposisiController extends Controller
 
     }
 
+    public function saveDisposisiLevel2(Request $request)
+    { 
+           
+        $target  = $request->target_disposisi;
+        $code = $request->disposisi_code_level2;
+        
+        for($i = 0; $i < count($target); $i++) {
+        //    $validate = $this->validatePenanggungJawab($code,$target[$i]);
+            //if($validate == true) { 
+                $data['disposisi_code'] = $code;
+                $data['user_role_id'] = $target[$i];
+                $data['level'] =  "2";
+                DB::table('disposisi_penanggung_jawab')->insert($data);
+                
+                if($request->file != null){
+                    $path = 'disposisi/tindak_lanjut/'.Str::snake(date("YmdHis").'/'.$request->file->getClientOriginalName());
+                    $request->file->storeAs('public/',$path);
+                    $disposisi ['file'] = $path;
+                }
+                $disposisi['disposisi_id'] = $request->disposisi_id;
+                $disposisi['tindak_lanjut'] = $request->tindak_lanjut;
+                $disposisi['status'] = "2"; //disposisi submitted
+                $disposisi['role_id'] = $target[$i];
+                $disposisi['keterangan'] = $request->keterangan;
+                $disposisi['persentase'] =  "0";
+                $disposisi['level'] = '2';
+                $disposisi['created_by'] = Auth::user()->id;
+                $disposisi['created_date'] = date("YmdHis");
+                DB::table('disposisi_tindak_lanjut')->insert($disposisi); 
+          //    }
+         } 
+
+         
+
+
+       $color = "success"; 
+        $msg = "Berhasil Mendisposisi Data Tindak Lanjut";
+       return back()->with(compact('color', 'msg'));
+        
+     
+    }
+
+    public function validatePenanggungJawab($code, $unit){
+        $dpj= DB::table('disposisi_penanggung_jawab')
+                      ->select('id') 
+                      ->where('disposisi_code','=', $code)
+                      ->where('user_role_id','=', $unit)
+                      ->first();
+         if(!empty($dpj->id)){
+             return true;
+         }  else {
+             return false;
+         }    
+    }
     public function createTindakLanjut(Request $request)
     {
         //
@@ -263,11 +339,11 @@ class DisposisiController extends Controller
         $disposisi['disposisi_id'] = $request->disposisi_id;
         $disposisi['tindak_lanjut'] = $request->tindak_lanjut;
         $disposisi['status'] = $request->status;
-        $disposisi['keterangan'] = $request->keterangan; 
-        $disposisi['persentase'] = $request->persentase; 
+        $disposisi['keterangan'] = $request->keterangan;
+        $disposisi['persentase'] = $request->persentase;
         $disposisi['created_by'] = Auth::user()->id;
-        $disposisi['created_date'] = date("YmdHis"); 
-        DB::table('disposisi_tindak_lanjut')->insert($disposisi); 
+        $disposisi['created_date'] = date("YmdHis");
+        DB::table('disposisi_tindak_lanjut')->insert($disposisi);
 
         $disposisi['keterangan'] = $request->keterangan;
         $disposisi['persentase'] = $request->persentase;
@@ -284,7 +360,7 @@ class DisposisiController extends Controller
 
     public function getDaftarDisposisiInstruksi(){
         $instruksi = DB::table('master_disposisi_instruksi as a')
-        ->distinct()              
+        ->distinct()
         ->select('a.id','a.jenis_instruksi','a.keterangan')
         ->get();
         return view('admin.disposisi.instruksi',
@@ -293,57 +369,57 @@ class DisposisiController extends Controller
                 ]);
     }
     public function createInstruksi(Request $request)
-    { 
+    {
 
         $disposisi['jenis_instruksi'] = $request->jenis_instruksi;
         $disposisi['keterangan'] = $request->ket;
-        DB::table('master_disposisi_instruksi')->insert($disposisi); 
+        DB::table('master_disposisi_instruksi')->insert($disposisi);
 
         $color = "success";
         $msg = "Berhasil Menambah Data Disposisi Instruksi";
         return back()->with(compact('color', 'msg'));
     }
     public function getDetailDisposisiInstruksi($id){
-         
+
         $detail_disposisi_instruksi = DB::table('master_disposisi_instruksi as a')
-        ->distinct()              
+        ->distinct()
         ->select('a.id','a.jenis_instruksi','a.keterangan')
-                      ->where('a.id','=', $id) 
+                      ->where('a.id','=', $id)
                       ->first();
 
         return view('admin.disposisi.detail-instruksi',
                 [
                     'detail_disposisi_instruksi' => $detail_disposisi_instruksi
-                ]);              
+                ]);
     }
     public function getDataDisposisiInstruksi(Request $request){
-         
+
         $detail_disposisi_instruksi = DB::table('master_disposisi_instruksi as a')
-        ->distinct()              
+        ->distinct()
         ->select('a.id','a.jenis_instruksi','a.keterangan')
-                      ->where('a.id','=', $request->id) 
+                      ->where('a.id','=', $request->id)
                       ->first();
 
-        return response()->json(["data" => $detail_disposisi_instruksi], 200)     ;        
+        return response()->json(["data" => $detail_disposisi_instruksi], 200)     ;
     }
     public function updateDisposisiInstruksi(Request $request)
-    {   
+    {
         $disposisi['jenis_instruksi'] = $request->jenis_instruksi;
         $disposisi['keterangan'] = $request->ket;
-        DB::table('master_disposisi_instruksi')->where('id',$request->id)->update($disposisi); 
+        DB::table('master_disposisi_instruksi')->where('id',$request->id)->update($disposisi);
 
         $color = "success";
         $msg = "Berhasil Update Data Disposisi Instruksi";
         return back()->with(compact('color', 'msg'));
     }
     public function deleteDisposisiInstruksi($id){
-         
+
         $disposisi_instruksi = DB::table('master_disposisi_instruksi');
         $data = $disposisi_instruksi->where('id',$id);
         $data->delete();
 
         $color = "success";
         $msg = "Berhasil Menghapus Data Disposisi Instruksi";
-        return back()->with(compact('color', 'msg'));        
+        return back()->with(compact('color', 'msg'));
     }
 }

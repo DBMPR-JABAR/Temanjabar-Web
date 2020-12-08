@@ -442,6 +442,9 @@ function proyekKontrak(data) {
                         title: 'Completed',
                         value: status
                     }, {
+                        title: 'Jenis Pekerjaan',
+                        value: options.jenis || 'unassigned'
+                    }, {
                         title: 'Owner',
                         value: options.owner || 'unassigned'
                     }];
