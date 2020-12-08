@@ -163,7 +163,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Lebar</label>
+                            <label class="col-md-2 col-form-label">Lebar (meter)</label>
                             <div class="col-md-10">
                                 <input name="lebar" type="text" class="form-control formatRibuan" required>
                             </div>
@@ -282,8 +282,8 @@
         });
 
         // Format untuk lat long.
-        $('.formatLatLong').mask('00000.00000000', {
-            reverse: true
+        $('.formatLatLong').keypress(function(evt) {
+            return (/^\-?[0-9]*\.?[0-9]*$/).test($(this).val() + evt.key);
         });
     });
 </script>

@@ -202,8 +202,8 @@
         });
 
         // Format untuk lat long.
-        $('.formatLatLong').mask('00000.00000000', {
-            reverse: true
+        $('.formatLatLong').keypress(function(evt) {
+            return (/^\-?[0-9]*\.?[0-9]*$/).test($(this).val() + evt.key);
         });
     });
 </script>
