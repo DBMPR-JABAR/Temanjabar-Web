@@ -229,4 +229,63 @@ class UserController extends Controller
                 'user_role_list' => $user_role_list
             ]);
     }
+
+    function createUserRole(Request $request){
+        $create['role'] = $request->user_role;
+        $create['is_superadmin'] = $request->super_admin;
+        $create['parent'] = $request->parent;
+        $create['keterangan'] = $request->keterangan;
+        $create['is_active'] = $request->is_active;
+        $create['is_deleted']= $request->is_deleted;
+        $create['uptd'] = $request->uptd;
+        $create['created_at'] = date('Y-m-d H:i:s');
+        $create['created_by'] = Auth::user()->id;
+        $create['parent_id'] = 0;
+        DB::table('user_role')->insert($create);
+        $color = "success";
+        $msg = "Berhasil Menambah Data User Role";
+        return back()->with(compact('color', 'msg'));
+    }
+
+    function detailUserRole($id){
+        $user_role= DB::table('user_role as a')
+        ->where('id',$id)
+        ->get();
+        return view('admin.master.user.user_role.detail_user_role',[
+                'user_role' => $user_role
+            ]);
+    }
+
+    function getUserRoleData($id){
+        $user_role = DB::table('user_role')
+        ->where('id',$id)
+        ->get();
+        return response()->json(["user_role" => $user_role], 200); 
+
+    }
+    function updateUserRole(Request $request){
+        $update['role'] = $request->user_role;
+        $update['is_superadmin'] = $request->super_admin;
+        $update['parent'] = $request->parent;
+        $update['keterangan'] = $request->keterangan;
+        $update['is_active'] = $request->is_active;
+        $update['is_deleted']= $request->is_deleted;
+        $update['uptd'] = $request->uptd;
+        $update['updated_at'] = date('Y-m-d H:i:s');
+        $update['updated_by'] = Auth::user()->id;
+        $update['parent_id'] = 0;
+        DB::table('user_role')->where('id',$request->id)->update($update);
+        $color = "success";
+        $msg = "Berhasil Mengupdate Data User Role";
+        return back()->with(compact('color', 'msg'));
+    }
+    function deleteUserRole($id){
+        $user_role = DB::table('user_role')
+        ->where('id',$id)
+        ->delete();
+
+        $color = "success";
+        $msg = "Berhasil Menghapus Data User Role";
+        return back()->with(compact('color', 'msg')); 
+    }
 }

@@ -25,7 +25,7 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>User ROle </h4>
+                <h4>User Role </h4>
                 
             </div>
         </div>
@@ -63,6 +63,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Role</th>
+                                <th>Parent</th>
                                 <th>Is Superadmin</th>
                                 <th>Keterangan</th>
                                 <th>Is Active</th>
@@ -80,6 +81,7 @@
                                 <tr>
                                     <td>{{$loop->index + 1}}</td>
                                     <td>{{$data->role}}</td>
+                                    <td>{{$data->parent}}</td>
                                     <td>@php
                                         if($data->is_superadmin == 0){
                                             echo "No";
@@ -89,6 +91,7 @@
                                         }
                                     @endphp
                                     </td>
+
                                     <td>{{$data->keterangan}}</td>
                                     <td>
                                         @php
@@ -114,7 +117,7 @@
                                     <td>{{$data->created_by}}</td>
                                     <td>{{$data->updated_by}}</td>
                                     <td> 
-                                        <a type="button" href="{{ route('detailRoleAkses',$data->id) }}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Rincian</a>
+                                        <a type="button" href="{{ route('detailUserRole',$data->id) }}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Rincian</a>
                                         <a type="button"href="#editModal"  data-toggle="modal" data-id="{{$data->id}}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Edit</a> 
                                         <a type="button"href="#delModal"  data-toggle="modal" data-id="{{$data->id}}"     class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Hapus</a>       
                                     </td>
@@ -134,7 +137,7 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h4 class="modal-title">Hapus Data Disposisi</h4>
+                    <h4 class="modal-title">Hapus Data User Role</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -153,55 +156,6 @@
         </div>
     </div>
 
-    <div class="modal fade" id="acceptModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h4 class="modal-title">Disposisi Diterima?</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <p>Apakah anda yakin menerima disposisi ini?</p>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                    <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Terima</a>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-
-    <div class="modal fade" id="disposisiModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h4 class="modal-title">Disposisi Diterima?</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <p>Apakah anda yakin menerima disposisi ini?</p>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                    <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Terima</a>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
 
 
 </div>
@@ -211,7 +165,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
 
-                <form action="{{route('createRoleAkses')}}" method="post" enctype="multipart/form-data">
+                <form action="{{route('createUserRole')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-header">
                         <h4 class="modal-title">Tambah Role Access</h4>
@@ -223,46 +177,68 @@
                     <div class="modal-body p-5">
 
                     <div class="form-group row">
-                            <label class="col-md-3 col-form-label">User Role</label>
+                            <label class="col-md-3 col-form-label">Role</label>
                             <div class="col-md-9">
-                                
-                                <select  name="user_role" tabindex="4" required>
-                                    @foreach($user_role_list as $data)
-                                            <option value="{{$data->role}}">{{$data->role}}</option>
-                                    @endforeach
+                                <input type="text" name="user_role" class="form-control"></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Parent</label>
+                            <div class="col-md-9">
+                                <input type="text" name="parent" class="form-control"></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Is Superadmin?</label>
+                            <div class="col-md-9">
+                                <select  name="super_admin" tabindex="4" required>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
                                 </select>
                             </div>
                         </div>
+
+
+
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">menu</label>
+                            <label class="col-md-3 col-form-label">Keterangan</label>
                             <div class="col-md-9">
-                                <input name="menu" type="text" class="form-control" required>
+                                <textarea name="keterangan" class="form-control"></textarea>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Role Access</label>
+                            <label class="col-md-3 col-form-label">Is Active?</label>
                             <div class="col-md-9">
-                            <select data-placeholder="User Role..." class="chosen-select" multiple  name="role_access[]" tabindex="4">
-                                 <option value="Create">Create</option>
-                                 <option value="View">View</option>
-                                 <option value="Update">Update</option>
-                                 <option value="Delete">Delete</option>
-                            </select>
+                            <select  name="is_active" tabindex="4" required>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">UPTD Access</label>
+                            <label class="col-md-3 col-form-label">Is Deleted?</label>
                             <div class="col-md-9">
-                            <select data-placeholder="UPTD Access..." class="chosen-select" multiple name="uptd_access[]" tabindex="4">
-                                    <option value="UPTD 1">UPTD 1</option>
-                                    <option value="UPTD 2">UPTD 2</option>
-                                    <option value="UPTD 3">UPTD 3</option>
-                                    <option value="UPTD 4">UPTD 4</option>
-                                    <option value="UPTD 5">UPTD 5</option>
-                                    <option value="UPTD 6">UPTD 6</option>
+                            <select  name="is_deleted" tabindex="4" required>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
+                        </div>
 
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">UPTD</label>
+                            <div class="col-md-9">
+                            <select  name="uptd" tabindex="4" required>
+                                    <option value="UPTD1">UPTD 1</option>
+                                    <option value="UPTD2">UPTD 2</option>
+                                    <option value="UPTD3">UPTD 3</option>
+                                    <option value="UPTD4">UPTD 4</option>
+                                    <option value="UPTD5">UPTD 5</option>
+                                    <option value="UPTD6">UPTD 6</option>
                             </select>
                             </div>
                         </div>
@@ -287,7 +263,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
 
-                <form action="{{route('updateDataRoleAkses')}}" method="post" enctype="multipart/form-data">
+                <form action="{{route('updateUserRole')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-header">
                         <h4 class="modal-title">Edit Role Access</h4>
@@ -299,50 +275,74 @@
                     <div class="modal-body p-5">
 
                     <div class="form-group row">
-                            <label class="col-md-3 col-form-label">User Role</label>
+                            <label class="col-md-3 col-form-label">Role</label>
                             <div class="col-md-9">
-                                
-                                <select  name="user_role" id="select_user_role" tabindex="4" required>
-                                    @foreach($user_role_list as $data)
-                                            <option value="{{$data->role}}" id="user_role_{{$loop->index + 1}}">{{$data->role}}</option>
-                                    @endforeach
+                                <input type="text" name="user_role" id="user_role" class="form-control"></input>
+                                <input type="text" name="id" class="form-control" value="{{$data->id}}" hidden></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Parent</label>
+                            <div class="col-md-9">
+                                <input type="text" name="parent" id="parent" class="form-control"></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Is Superadmin?</label>
+                            <div class="col-md-9">
+                                <select  name="super_admin" id="super_admin" tabindex="4" required>
+                                    <option value="1" id="super_admin_1">Yes</option>
+                                    <option value="0" id="super_admin_2">No</option>
                                 </select>
                             </div>
                         </div>
+
+
+
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">menu</label>
+                            <label class="col-md-3 col-form-label">Keterangan</label>
                             <div class="col-md-9">
-                                <input name="id" id="id" type="text"  class="form-control" hidden>
-                                <input name="menu" id="menu" type="text" class="form-control" required>
+                                <textarea name="keterangan" id="keterangan" class="form-control"></textarea>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Role Access</label>
+                            <label class="col-md-3 col-form-label">Is Active?</label>
                             <div class="col-md-9">
-                            <select data-placeholder="User Role..." class="chosen-select" multiple  name="role_access[]" tabindex="4">
-                                 <option value="Create" id="role_access_1">Create</option>
-                                 <option value="View" id="role_access_2">View</option>
-                                 <option value="Update" id="role_access_3">Update</option>
-                                 <option value="Delete" id="role_access_4">Delete</option>
+                            <select  name="is_active" id="is_active" tabindex="4" required>
+                                    <option value="1" id="is_active_1">Yes</option>
+                                    <option value="0" id="is_active_2">No</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Is Deleted?</label>
+                            <div class="col-md-9">
+                            <select  name="is_deleted" id="is_deleted" tabindex="4" required>
+                                    <option value="1" id="is_deleted_1">Yes</option>
+                                    <option value="0" id="is_deleted_2">No</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">UPTD</label>
+                            <div class="col-md-9">
+                            <select  name="uptd" id="uptd" tabindex="4" required>
+                                    <option value="uptd1" id="uptd1">UPTD 1</option>
+                                    <option value="uptd2" id="uptd2">UPTD 2</option>
+                                    <option value="uptd3" id="uptd3">UPTD 3</option>
+                                    <option value="uptd4" id="uptd4">UPTD 4</option>
+                                    <option value="uptd5" id="uptd5">UPTD 5</option>
+                                    <option value="uptd6" id="uptd6">UPTD 6</option>
                             </select>
                             </div>
                         </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">UPTD Access</label>
-                            <div class="col-md-9">
-                            <select data-placeholder="UPTD Access..." class="chosen-select" multiple name="uptd_access[]" tabindex="4">
-                                    <option value="UPTD 1" id="uptd_access_1">UPTD 1</option>
-                                    <option value="UPTD 2" id="uptd_access_2">UPTD 2</option>
-                                    <option value="UPTD 3" id="uptd_access_3">UPTD 3</option>
-                                    <option value="UPTD 4" id="uptd_access_4">UPTD 4</option>
-                                    <option value="UPTD 5" id="uptd_access_5">UPTD 5</option>
-                                    <option value="UPTD 6" id="uptd_access_6">UPTD 6</option>
-
-                            </select>
-                            </div>
-                        </div>
+ 
+ 
 
                     </div>
 
@@ -353,30 +353,6 @@
 
                 </form>
 
-
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h4 class="modal-title">Hapus Data Disposisi</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <p>Apakah anda yakin ingin menghapus data ini?</p>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                    <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Hapus</a>
-                </div>
 
             </div>
         </div>
@@ -402,7 +378,7 @@
             const link = $(event.relatedTarget);
             const id = link.data('id');
             console.log(id);
-            const url = `{{ url('admin/master-data/user/role-akses/delete') }}/` + id;
+            const url = `{{ url('admin/master-data/user/user-role/delete') }}/` + id;
             console.log(url);
             const modal = $(this);
             modal.find('.modal-footer #delHref').attr('href', url);
@@ -412,23 +388,25 @@
             const link = $(event.relatedTarget);
             const id = link.data('id');
             console.log(id);
-            const baseUrl = `{{ url('admin/master-data/user/role-akses/getData') }}/` + id;
+            const baseUrl = `{{ url('admin/master-data/user/user-role/getData') }}/` + id;
             $.get(baseUrl, { id: id },
                 function(response){
-                    const user_role= response.user_role;
-                    const role_access = response.role_access;
-                    const uptd_access = response.uptd_access;
-                    const user_role_list = response.user_role_list;
-                    function showData(user_role,role_access,uptd_access,user_role_list){
-                        for(let i=1; i<=$('#select_user_role').children('option').length;i++){
-                            if($('#user_role_'+i).val() == user_role_list[0].role){
-                                $('#user_role_'+i).attr("selected","selected");
-                            }
+                    console.log(response);
+                    $('#user_role').val(response.user_role[0].role);
+                    $('#parent').val(response.user_role[0].parent);
+                    if($('#is_superadmin_1').val()== response.user_role[0].is_superadmin){ $('#super_admin_1').attr("selected","selected")};
+                    if($('#is_superadmin_2').val()== response.user_role[0].is_superadmin){ $('#super_admin_2').attr("selected","selected")};
+                    $('#keterangan').html(response.user_role[0].keterangan);
+                    const keterangan = response.user_role[0].keterangan;
+                    if($('#is_active_1').val() == response.user_role[0].is_active){ $('#is_active_1').attr("selected","selected")};
+                    if($('#is_active_2').val() == response.user_role[0].is_active){ $('#is_active_2').attr("selected","selected")};
+                    if($('#is_deleted_1').val()== response.user_role[0].is_deleted){ $('#is_deleted_1').attr("selected","selected")};
+                    if($('#is_deleted_2').val()== response.user_role[0].is_deleted){ $('#is_deleted_2').attr("selected","selected")};
+                    for(let i=1;i<=6;i++){
+                        if($('#uptd'+i).val() == response.user_role[0].uptd){
+                            $('#uptd'+i).attr("selected","selected");
                         }
-                        $('#menu').val(user_role[0].menu);
-                        $('#id').val(user_role[0].id);
                     }
-                     showData(user_role,role_access,uptd_access,user_role_list);
                 });
             });
 

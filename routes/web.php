@@ -153,6 +153,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('role-akses/updateData', 'MasterData\UserController@updateDataRoleAkses')->name('updateDataRoleAkses');
 
             Route::get('user-role', 'MasterData\UserController@getDataUserRole')->name('getDataUserRole');
+            Route::post('user-role/create', 'MasterData\UserController@createUserRole')->name('createUserRole');
+            Route::get('user-role/detail/{id}', 'MasterData\UserController@detailUserRole')->name('detailUserRole');
+            Route::get('user-role/getData/{id}', 'MasterData\UserController@getUserRoleData')->name('getUserRoleData');
+            Route::post('user-role/updateData', 'MasterData\UserController@updateUserRole')->name('updateUserRole');
+            Route::get('user-role/delete/{id}', 'MasterData\UserController@deleteUserRole')->name('deleteUserRole');
             // Route::get('edit/{id}', 'LandingController@editUPTD')->name('editLandingUPTD');
             // Route::post('create', 'LandingController@createUPTD')->name('createLandingUPTD');
             // Route::post('update', 'LandingController@updateUPTD')->name('updateLandingUPTD');
