@@ -161,14 +161,14 @@
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Koordinat X</label>
                         <div class="col-md-9">
-                            <input name="lat" type="number" step="0.01" class="form-control" required value="{{$dataPaket->lat}}">
+                            <input name="lat" type="text" id="lat" class="form-control" required value="{{$dataPaket->lat}}">
                         </div>
                     </div>
 
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Koordinat Y</label>
                         <div class="col-md-9">
-                            <input name="lng" type="number" step="0.01" class="form-control" required value="{{$dataPaket->lng}}">
+                            <input name="lng" type="text" id="lng" class="form-control" required value="{{$dataPaket->lng}}">
                         </div>
                     </div>
                     <hr>
@@ -181,14 +181,14 @@
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Koordinat X</label>
                         <div class="col-md-9">
-                            <input name="lat1" type="number" step="0.01" class="form-control" required value="{{$dataPaket->lat1}}">
+                            <input name="lat1" type="text" id="lat1" class="form-control" required value="{{$dataPaket->lat1}}">
                         </div>
                     </div>
 
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Koordinat Y</label>
                         <div class="col-md-9">
-                            <input name="lng1" type="number" step="0.01" class="form-control" required value="{{$dataPaket->lng1}}">
+                            <input name="lng1" type="text" id="lng1" class="form-control" required value="{{$dataPaket->lng1}}">
                         </div>
                     </div>
                     <hr class="mb-5">
@@ -285,6 +285,22 @@
             $("form-tidak-mantap").show();
             $("form-mantap").hide();
         }
+
+        $('#lat').on('input', function() {
+            this.value = this.value.replace(/[^0-9.']/g, ''); //<-- replace all other than given set of values
+        });
+
+        $('#lng').on('input', function() {
+            this.value = this.value.replace(/[^0-9.']/g, ''); //<-- replace all other than given set of values
+        });
+
+        $('#lat1').on('input', function() {
+            this.value = this.value.replace(/[^0-9.']/g, ''); //<-- replace all other than given set of values
+        });
+
+        $('#lng1').on('input', function() {
+            this.value = this.value.replace(/[^0-9.']/g, ''); //<-- replace all other than given set of values
+        });
     });
 </script>
 @endsection
