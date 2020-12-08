@@ -49,7 +49,7 @@ class MapDashboardController extends Controller
         try {
             if($request->kegiatan != "" || $request->sup != "") $this->response['status'] = 'success';
             $this->response['data']['jembatan'] = [];
-            $this->response['data']['ruasjalan'] = [];
+            // $this->response['data']['ruasjalan'] = [];
             $this->response['data']['pembangunan'] = [];
             $this->response['data']['peningkatan'] = [];
             $this->response['data']['pemeliharaan'] = [];
@@ -78,10 +78,10 @@ class MapDashboardController extends Controller
                     $data = Kemandoran::whereIn('SUP',$request->sup)->get();
                     $this->response['data']['rehabilitasi'] = $data;
                 }
-                if(in_array('ruasjalan', $request->kegiatan)){
-                    $data = RuasJalan::whereIn('SUP',$request->sup)->get();
-                    $this->response['data']['ruasjalan'] = $data;
-                }
+                // if(in_array('ruasjalan', $request->kegiatan)){
+                //     $data = RuasJalan::whereIn('SUP',$request->sup)->get();
+                //     $this->response['data']['ruasjalan'] = $data;
+                // }
                 if(in_array('progressmingguan', $request->kegiatan)){
                     $data = ProgressMingguan::whereIn('SUP',$request->sup)->get();
                     $this->response['data']['progressmingguan'] = $data;
