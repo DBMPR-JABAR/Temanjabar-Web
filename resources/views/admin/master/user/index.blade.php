@@ -82,8 +82,8 @@
                                 <td>{{$data->blokir}}
                                 </td>
                                 <td>
-                                <a href="{{ route('editUser',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
-                                <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
+                                    <a href="{{ route('editUser',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
+                                    <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
                                 </td>
                             </tr>
                             @endforeach
@@ -99,7 +99,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
 
-                <form action="{{route('createUser')}}" method="post" >
+                <form action="{{route('createUser')}}" method="post">
                     @csrf
                     <div class="modal-header">
                         <h4 class="modal-title">Tambah Data User</h4>
@@ -119,7 +119,10 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Password</label>
                             <div class="col-md-10">
-                                <input name="password" type="password" class="form-control" required>
+                                <div class="row" style="margin-left: 0px; margin-right: 0px;">
+                                    <input id="password-field" name="password" type="password" class="form-control" required>
+                                    <span style="cursor: pointer; margin-left: -30px;" class="ti-eye my-auto toggle-password" toggle="#password-field"></span>
+                                </div>
                             </div>
                         </div>
 
@@ -150,7 +153,7 @@
                                 <select class="form-control" required name="sup">
                                     <option>Pilih SPP</option>
                                     @foreach ($sup as $data)
-                                        <option value="{{$data->name}}">{{$data->name}}</option>
+                                    <option value="{{$data->name}}">{{$data->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -162,7 +165,7 @@
                                 <select class="form-control" required name="internal_role_id">
                                     <option>Pilih Jabatan</option>
                                     @foreach ($role as $data)
-                                        <option value="{{$data->id}}">{{$data->role}}</option>
+                                    <option value="{{$data->id}}">{{$data->role}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -182,21 +185,21 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
 
-                    <div class="modal-header">
-                        <h4 class="modal-title">Hapus Data User</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+                <div class="modal-header">
+                    <h4 class="modal-title">Hapus Data User</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
 
-                    <div class="modal-body">
-                        <p>Apakah anda yakin ingin menghapus data ini?</p>
-                    </div>
+                <div class="modal-body">
+                    <p>Apakah anda yakin ingin menghapus data ini?</p>
+                </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                        <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Hapus</a>
-                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                    <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Hapus</a>
+                </div>
 
             </div>
         </div>
@@ -204,25 +207,34 @@
 </div>
 @endsection
 @section('script')
-<script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}" ></script>
-<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}" ></script>
-<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}" ></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}"></script>
 
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
 <script>
-
-    $(document).ready(function () {
+    $(document).ready(function() {
         $("#dttable").DataTable();
-        $('#delModal').on('show.bs.modal', function (event) {
+        $('#delModal').on('show.bs.modal', function(event) {
             const link = $(event.relatedTarget);
             const id = link.data('id');
             console.log(id);
             const url = `{{ url('admin/master-data/user/delete') }}/` + id;
             console.log(url);
             const modal = $(this);
-            modal.find('.modal-footer #delHref').attr('href',url);
+            modal.find('.modal-footer #delHref').attr('href', url);
         });
+    });
+
+    $(".toggle-password").click(function() {
+        $(this).toggleClass("ti-eye ti-lock");
+        var input = $($(this).attr("toggle"));
+        if (input.attr("type") == "password") {
+            input.attr("type", "text");
+        } else {
+            input.attr("type", "password");
+        }
     });
 </script>
 @endsection
