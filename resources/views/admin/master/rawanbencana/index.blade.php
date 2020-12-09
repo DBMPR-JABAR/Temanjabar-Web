@@ -53,7 +53,9 @@
                 </div>
             </div>
             <div class="card-block">
+                @if (hasAccess(Auth::user()->internal_role_id, "Rawan Bencana", "Create"))
                 <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
+                @endif
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered able-responsive">
                         <thead>
@@ -78,10 +80,13 @@
                                 <td>{{$data->daerah}}</td>
                                 <td>{{$data->keterangan}}</td>
                                 <td>{{$data->status}}</td>
-                              
                                 <td>
-                                <a href="{{ route('editDataBencana',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
-                                <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
+                                    @if (hasAccess(Auth::user()->internal_role_id, "Rawan Bencana", "Update"))
+                                    <a href="{{ route('editDataBencana',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
+                                    @endif
+                                    @if (hasAccess(Auth::user()->internal_role_id, "Rawan Bencana", "Delete"))
+                                    <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
@@ -93,6 +98,7 @@
     </div>
 </div>
 
+@if (hasAccess(Auth::user()->internal_role_id, "Rawan Bencana", "Create"))
 <div class="modal-only">
     <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
@@ -185,9 +191,11 @@
             </div>
         </div>
     </div>
+</div>
+@endif
 
+@if (hasAccess(Auth::user()->internal_role_id, "Rawan Bencana", "Delete"))
 <div class="modal-only">
-
     <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -211,8 +219,9 @@
             </div>
         </div>
     </div>
-
 </div>
+@endif
+
 @endsection
 @section('script')
 <script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}" ></script>
