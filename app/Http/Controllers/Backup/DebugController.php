@@ -16,9 +16,7 @@ class DebugController extends Controller
         $menu = "Executive Dashboard";
         $type = "View";
 
-        $access = hasAccess($role_id, $menu, $type);
-
-
+        $access = hasAccess($role_id, $menu, $type); // return true if exists
 
         /*
         Available Access:
