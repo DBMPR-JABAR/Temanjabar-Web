@@ -9,161 +9,51 @@
                     <span class="pcoded-mtext">Monitoring</span>
                 </a>
                 <ul class="pcoded-submenu">
+                    @if (hasAccess(Auth::user()->internal_role_id, "Executive Dashboard", "View"))
                     <li class="{{(Request::segment(3) == 'map-dashboard') ? 'active' : ''}}">
                         <a href="{{ url('admin/map-dashboard') }}">
                             <span class="pcoded-mtext">Executive Dashboard</span>
                         </a>
                     </li>
+                    @endif
+                    @if (hasAccess(Auth::user()->internal_role_id, "Proyek Kontrak", "View"))
                     <li class="{{(Request::segment(3) == 'proyek-kontrak') ? 'active' : ''}}">
                         <a href="{{ url('admin/monitoring/proyek-kontrak') }}">
                             <span class="pcoded-mtext">Proyek Kontrak</span>
                         </a>
                     </li>
+                    @endif
+                    @if (hasAccess(Auth::user()->internal_role_id, "Kemantapan Jalan", "View"))
                     <li class="{{(Request::segment(3) == 'kemantapan-jalan') ? 'active' : ''}}">
                         <a href="{{ url('admin/monitoring/kemantapan-jalan') }}">
                             <span class="pcoded-mtext">Kemantapan Jalan</span>
                         </a>
                     </li>
+                    @endif
+                    @if (hasAccess(Auth::user()->internal_role_id, "Laporan Kerusakan", "View"))
                     <li class="{{(Request::segment(3) == 'laporan-kerusakan') ? 'active' : ''}}">
                         <a href="{{ url('admin/monitoring/laporan-kerusakan') }}">
                             <span class="pcoded-mtext">Laporan Kerusakan</span>
                         </a>
                     </li>
+                    @endif
+                    @if (hasAccess(Auth::user()->internal_role_id, "Anggaran & Realisasi Keuangan", "View"))
                     <li class="{{(Request::segment(3) == 'realisasi-keuangan') ? 'active' : ''}}">
                         <a href="{{ url('admin/monitoring/realisasi-keuangan') }}">
                             <span class="pcoded-mtext">Anggaran & Realisasi Keuangan</span>
                         </a>
                     </li>
+                    @endif
+                    @if (hasAccess(Auth::user()->internal_role_id, "Survey Kondisi Jalan", "View"))
                     <li class="{{(Request::segment(3) == 'survey-kondisi-jalan') ? 'active' : ''}}">
                         <a href="{{ url('admin/monitoring/survey-kondisi-jalan') }}">
                             <span class="pcoded-mtext">Survey Kondisi Jalan</span>
                         </a>
                     </li>
-                    {{-- <li class="">
-                        <a href="{{ url('admin/monitoring/audit-keuangan') }}">
-                    <span class="pcoded-mtext">Audit Keuangan (Pending)</span>
-                    </a>
-            </li> --}}
-        </ul>
-        </li>
-        {{-- <li class="pcoded-hasmenu">
-                <a href="javascript:void(0)">
-                    <span class="pcoded-micon"><i class="ti-stats-up"></i></span>
-                    <span class="pcoded-mtext">Rekomendasi</span>
-                </a>
-                <ul class="pcoded-submenu">
-                    <li class=" ">
-                        <a href="{{ url('admin/rekomendasi/rekomendasi-kontraktor') }}">
-        <span class="pcoded-mtext">Kontraktor Terbaik</span>
-        </a>
-        </li>
-        <li class=" ">
-            <a href="{{ url('admin/rekomendasi/rekomendasi-konsultan') }}">
-                <span class="pcoded-mtext">Konsultan Terbaik</span>
-            </a>
-        </li>
-        <li class=" ">
-            <a href="{{ url('admin/rekomendasi/rekomendasi-perbaikan') }}">
-                <span class="pcoded-mtext">Perbaikan Infrastruktur</span>
-            </a>
-        </li>
-        </ul>
-        </li> --}}
-        </ul>
-        {{-- <div class="pcoded-navigatio-lavel">Data Utama</div>
-        <ul class="pcoded-item pcoded-left-item pcoded-trigger">
-            <li class="pcoded-hasmenu">
-                <a href="javascript:void(0)">
-                    <span class="pcoded-micon"><i class="feather icon-package"></i></span>
-                    <span class="pcoded-mtext">Data Utama</span>
-                </a>
-                <ul class="pcoded-submenu">
-                    <li class=" ">
-                        <a href="">
-                            <span class="pcoded-mtext">Kontraktor</span>
-                        </a>
-                    </li>
-                    <li class=" ">
-                        <a href="">
-                            <span class="pcoded-mtext">Konsultan</span>
-                        </a>
-                    </li>
-                    <li class=" ">
-                        <a href="">
-                            <span class="pcoded-mtext">PPK</span>
-                        </a>
-                    </li>
-                    <li class=" ">
-                        <a href="">
-                            <span class="pcoded-mtext">Jenis Pekerjaan</span>
-                        </a>
-                    </li>
-                    <li class=" ">
-                        <a href="">
-                            <span class="pcoded-mtext">Pengguna</span>
-                        </a>
-                    </li>
-
-                </ul>
-            </li>
-            <li class="pcoded-hasmenu">
-                <a href="javascript:void(0)">
-                    <span class="pcoded-micon"><i class="feather icon-edit-1"></i></span>
-                    <span class="pcoded-mtext">Input Data</span>
-                </a>
-                <ul class="pcoded-submenu">
-                    <li class=" ">
-                        <a href="">
-                            <span class="pcoded-mtext">Data Umum</span>
-                        </a>
-                    </li>
-                    <li class=" ">
-                        <a href="">
-                            <span class="pcoded-mtext">Jadwal Pekerjaan</span>
-                        </a>
-                    </li>
-                    <li class=" ">
-                        <a href="">
-                            <span class="pcoded-mtext">Permintaan</span>
-                        </a>
-                    </li>
-                    <li class=" ">
-                        <a href="">
-                            <span class="pcoded-mtext">Laporan Harian</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li class="pcoded-hasmenu">
-                <a href="javascript:void(0)">
-                    <span class="pcoded-micon"><i class="feather icon-download-cloud"></i></span>
-                    <span class="pcoded-mtext">Pusat Unduhan</span>
-                </a>
-                <ul class="pcoded-submenu">
-                    <li class=" ">
-                        <a href="">
-                            <span class="pcoded-mtext">Data Kontrak</span>
-                        </a>
-                    </li>
+                    @endif
                 </ul>
             </li>
         </ul>
-        <div class="pcoded-navigatio-lavel">Cetak Laporan</div>
-        <ul class="pcoded-item pcoded-left-item">
-            <li class="">
-                <a href="">
-                    <span class="pcoded-micon"><i class="ti-pulse"></i></span>
-                    <span class="pcoded-mtext">Progress</span>
-                </a>
-            </li>
-            <li class="">
-                <a href="">
-                    <span class="pcoded-micon"><i class="ti-blackboard"></i></span>
-                    <span class="pcoded-mtext">Laporan Pekerjaan</span>
-                </a>
-            </li>
-        </ul> --}}
-
         <div class="pcoded-navigatio-lavel">Disposisi</div>
         <ul class="pcoded-item pcoded-left-item">
             <li class="pcoded-hasmenu {{(Request::segment(2) == 'landing-page') ? 'pcoded-trigger active' : ''}}">
@@ -173,21 +63,19 @@
                 </a>
                 <ul class="pcoded-submenu">
                     <li class="{{(Request::segment(3) == 'kirim') ? 'active' : ''}}">
-
                         <a href="{{ url('admin/disposisi') }}">
-                            <span class="pcoded-mtext">  Kirim Disposisi </span>
+                            <span class="pcoded-mtext">Kirim Disposisi </span>
                         </a>
-
                     </li>
-                    <li class="{{(Request::segment(3) == 'masuk') ? 'active' : ''}}"> 
-                    <a href="{{ url('admin/disposisi/masuk') }}"> <span class="pcoded-mtext">  Disposisi Masuk</span> </a>  
-                        </li>
-                        <li class="{{(Request::segment(3) == 'tindaklanjut') ? 'active' : ''}}"> 
-                    <a href="{{ url('admin/disposisi/tindaklanjut') }}"> <span class="pcoded-mtext">  Disposisi Tindak Lanjut</span> </a>  
-                        </li>
-                        <li class="{{(Request::segment(3) == 'instruksi') ? 'active' : ''}}"> 
-                    <a href="{{ url('admin/disposisi/instruksi') }}"> <span class="pcoded-mtext">  Disposisi Instruksi</span> </a>  
-                        </li>
+                    <li class="{{(Request::segment(3) == 'masuk') ? 'active' : ''}}">
+                        <a href="{{ url('admin/disposisi/masuk') }}"> <span class="pcoded-mtext">  Disposisi Masuk</span> </a>
+                    </li>
+                    <li class="{{(Request::segment(3) == 'tindaklanjut') ? 'active' : ''}}">
+                        <a href="{{ url('admin/disposisi/tindaklanjut') }}"> <span class="pcoded-mtext">  Disposisi Tindak Lanjut</span> </a>
+                    </li>
+                    <li class="{{(Request::segment(3) == 'instruksi') ? 'active' : ''}}">
+                        <a href="{{ url('admin/disposisi/instruksi') }}"> <span class="pcoded-mtext">  Disposisi Instruksi</span> </a>
+                    </li>
                 </ul>
             </li>
        </ul>
@@ -207,7 +95,7 @@
                             <span class="pcoded-mtext">User</span>
                         </a>
                         <ul class="pcoded-submenu">
-                            
+
                             <li class="{{(Request::segment(4) == 'user_role') ? 'active' : ''}}">
 
                                 <!-- <a href="{{ route('admin.master.ruas_jalan') }}">
