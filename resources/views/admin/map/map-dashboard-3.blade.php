@@ -554,7 +554,9 @@
                 const gsvrUrl = "{{ env('GEOSERVER') }}";
 
                 // dimz-add
-
+                // let rutejalanLayer = new FeatureLayer({
+                //     url: gsvrUrl+"/geoserver/gsr/services/temanjabar/FeatureServer/0/",
+                // });
                 let rutejalanLayer = new GroupLayer();
                 let kemantapanjalanLayer = new FeatureLayer({
                     url: gsvrUrl+"/geoserver/gsr/services/temanjabar/FeatureServer/1/",
@@ -584,7 +586,7 @@
                     const json = response.data;
                     const data = json.data;
                     if(json.status === "success"){
-                        rutejalanLayer = addRuteJalan(rutejalanLayer);
+                        rutejalanLayer = addRuteJalan(data.ruasjalan, rutejalanLayer);
                         pembangunanLayer = addPembangunan(data.pembangunan, pembangunanLayer);
                         peningkatanLayer = addPeningkatan(data.peningkatan, peningkatanLayer);
                         rehabilitasiLayer = addRehabilitasi(data.rehabilitasi, rehabilitasiLayer);
@@ -622,7 +624,7 @@
                 groupLayer.add(peningkatanLayer);
                 groupLayer.add(rehabilitasiLayer);
                 groupLayer.add(vehiclecountingLayer);
-                if ($.inArray('kemantapanjalan', $('#kegiatan').val()) >= 0 && $('#uptd').val().length != 0) {groupLayer.add(kemantapanjalanLayer);} // dimz-add
+                groupLayer.add(kemantapanjalanLayer);
                 map.add(groupLayer);
 
                 $(".baseMapBtn").click(function(event){
@@ -1042,126 +1044,65 @@
                     return layer;
                 }
                 // dimz-edit
-                function addRuteJalan(groupLayer) {
-                    const provinsiLayer = jalanProvinsi();
-                    const nasionalLayer = jalanNasional();
-                    const tolOperasiLayer = jalanTolOperasi();
-                    const tolKonstruksiLayer = jalanTolKonstruksi();
-                    const gerbangLayer = gerbangTol();
-
-                    function jalanProvinsi() {
-                        const layer = new FeatureLayer({url: gsvrUrl+"/geoserver/gsr/services/temanjabar/FeatureServer/0/"});
-                        const popupTemplate = {
-                            title: "{nm_ruas}",
-                            content: [{
-                            type: "fields",
-                            fieldInfos: [
-                                {
-                                    fieldName: "IDruas",
-                                    label: "Kode Ruas"
-                                },
-                                {
-                                    fieldName: "LAT_AWAL",
-                                    label: "Latitude 0"
-                                },
-                                {
-                                    fieldName: "LONG_AWAL",
-                                    label: "Longitude 0"
-                                },
-                                {
-                                    fieldName: "LAT_AKHIR",
-                                    label: "Latitude 1"
-                                },
-                                {
-                                    fieldName: "LONG_AKHIR",
-                                    label: "Longitude 1"
-                                },
-                                {
-                                    fieldName: "kab_kota",
-                                    label: "Kab/Kota"
-                                },
-                                {
-                                    fieldName: "wil_uptd",
-                                    label: "UPTD"
-                                },
-                                {
-                                    fieldName: "nm_sppjj",
-                                    label: "SUP"
-                                },
-                                {
-                                    fieldName: "expression/pjg_km",
-                                }
-                            ]}],
-                            expressionInfos: [{
-                                name: "pjg_km",
-                                title: "Panjang Ruas (KM)",
-                                expression: "Round($feature.pjg_ruas_m / 1000, 2)"
-                            }]
-                        };
-                        if ($.inArray('ruasjalan', $('#kegiatan').val()) >= 0 && $('#uptd').val().length != 0) {
-                            var uptdSel = $('#uptd').val();
-                            var whereUptd = 'uptd=' + uptdSel.shift().charAt(4);
-                            $.each(uptdSel, function(idx, elem) {
-                                whereUptd = whereUptd + ' OR uptd=' + elem.charAt(4);
-                            });
-                            layer.popupTemplate = popupTemplate;
-                            layer.definitionExpression = whereUptd;
-                            layer.renderer = {
-                                type: "simple",  // autocasts as new SimpleRenderer()
-                                symbol: {
-                                    type: "simple-line",  // autocasts as new SimpleLineSymbol()
-                                    color: "green",
-                                    width: "2px",
-                                    style: "solid",
-                                    marker: { // autocasts from LineSymbolMarker
-                                        color: "orange",
-                                        placement: "begin-end",
-                                        style: "circle"
-                                    }
-                                }
+                function addRuteJalan(rutejalan, layer) {
+                    const popupTemplate = {
+                        title: "{nm_ruas}",
+                        content: [{
+                        type: "fields",
+                        fieldInfos: [
+                            {
+                                fieldName: "LAT_AWAL",
+                                label: "Latitude 0"
+                            },
+                            {
+                                fieldName: "LONG_AWAL",
+                                label: "Longitude 0"
+                            },
+                            {
+                                fieldName: "LAT_AKHIR",
+                                label: "Latitude 1"
+                            },
+                            {
+                                fieldName: "LONG_AKHIR",
+                                label: "Longitude 1"
+                            },
+                            {
+                                fieldName: "kab_kota",
+                                label: "Kab/Kota"
+                            },
+                            {
+                                fieldName: "wil_uptd",
+                                label: "UPTD"
+                            },
+                            {
+                                fieldName: "nm_sppjj",
+                                label: "SUP"
+                            },
+                            {
+                                fieldName: "expression/pjg_km",
                             }
+                        ]}],
+                        expressionInfos: [{
+                            name: "pjg_km",
+                            title: "Panjang Ruas (KM)",
+                            expression: "Round($feature.pjg_ruas_m / 1000, 2)"
+                        }]
+                    };
 
-                        } else {
-                            layer.definitionExpression= '0=1';
-                        }
-                        return layer;
-                    }
-
-                    function jalanNasional() {
-                        const layer = new FeatureLayer({url: gsvrUrl+"/geoserver/gsr/services/temanjabar/FeatureServer/3/"});
-                        const popupTemplate = {
-                            title: "{NAMA_SK}",
-                            content: [{
-                            type: "fields",
-                            fieldInfos: [
-                                {
-                                    fieldName: "NO_RUAS",
-                                    label: "Nomor Ruas"
-                                },
-                                {
-                                    fieldName: "PJG_SK",
-                                    label: "Panjang (KM)"
-                                },
-                                {
-                                    fieldName: "KLS_JALAN",
-                                    label: "Kelas Jalan"
-                                },
-                                {
-                                    fieldName: "LINTAS",
-                                    label: "Lintas"
-                                },
-                                {
-                                    fieldName: "TAHUN",
-                                    label: "Tahun"
-                                }
-                            ]}]
-                        };
+                    // dimz-add
+                    if ($.inArray('ruasjalan', $('#kegiatan').val()) >= 0 && $('#uptd').val().length != 0) {
+                        var uptdSel = $('#uptd').val();
+                        var whereUptd = 'uptd=' + uptdSel.shift().charAt(4);
+                        $.each(uptdSel, function(idx, elem) {
+                            whereUptd = whereUptd + ' OR uptd=' + elem.charAt(4);
+                        });
                         layer.popupTemplate = popupTemplate;
+                        layer.definitionExpression = whereUptd;
                         layer.renderer = {
                             type: "simple",  // autocasts as new SimpleRenderer()
                             symbol: {
                                 type: "simple-line",  // autocasts as new SimpleLineSymbol()
-                                color: "red",
+                                color: "green",
                                 width: "2px",
                                 style: "solid",
                                 marker: { // autocasts from LineSymbolMarker
@@ -1171,146 +1112,12 @@
                                 }
                             }
                         }
-                        return layer;
-                    }
 
-                    function jalanTolOperasi() {
-                        const layer = new FeatureLayer({url: gsvrUrl+"/geoserver/gsr/services/temanjabar/FeatureServer/4/"});
-                        const popupTemplate = {
-                            title: "{NAMA}",
-                            content: [{
-                            type: "fields",
-                            fieldInfos: [
-                                {
-                                    fieldName: "PANJANG",
-                                    label: "Nomor Ruas"
-                                },
-                                {
-                                    fieldName: "PENGELOLA",
-                                    label: "Pengelola"
-                                },
-                                {
-                                    fieldName: "STATUS",
-                                    label: "Status"
-                                },
-                                {
-                                    fieldName: "Kabupaten",
-                                    label: "Kabupaten"
-                                },
-                                {
-                                    fieldName: "Propinsi",
-                                    label: "Propinsi"
-                                }
-                            ]}]
-                        };
-                        layer.popupTemplate = popupTemplate;
-                        layer.renderer = {
-                            type: "simple",  // autocasts as new SimpleRenderer()
-                            symbol: {
-                                type: "simple-line",  // autocasts as new SimpleLineSymbol()
-                                color: "yellow",
-                                width: "2px",
-                                style: "solid",
-                                marker: { // autocasts from LineSymbolMarker
-                                    color: "orange",
-                                    placement: "begin-end",
-                                    style: "circle"
-                                }
-                            }
-                        }
-                        return layer;
+                    } else {
+                        layer.definitionExpression= '0=1';
                     }
-
-                    function jalanTolKonstruksi() {
-                        const layer = new FeatureLayer({url: gsvrUrl+"/geoserver/gsr/services/temanjabar/FeatureServer/5/"});
-                        const popupTemplate = {
-                            title: "{Nama}",
-                            content: [{
-                            type: "fields",
-                            fieldInfos: [
-                                {
-                                    fieldName: "panjang",
-                                    label: "Nomor Ruas"
-                                },
-                                {
-                                    fieldName: "pengelola",
-                                    label: "Pengelola"
-                                },
-                                {
-                                    fieldName: "expression/status",
-                                },
-                                {
-                                    fieldName: "kabupaten",
-                                    label: "Kabupaten"
-                                },
-                                {
-                                    fieldName: "propinsi",
-                                    label: "Propinsi"
-                                },
-                                {
-                                    fieldName: "keterangan",
-                                    label: "Keterangan"
-                                }
-                            ]}],
-                            expressionInfos: [{
-                                name: "status",
-                                title: "Status",
-                                expression: "Konstruksi"
-                            }]
-                        };
-                        layer.popupTemplate = popupTemplate;
-                        layer.renderer = {
-                            type: "simple",  // autocasts as new SimpleRenderer()
-                            symbol: {
-                                type: "simple-line",  // autocasts as new SimpleLineSymbol()
-                                color: "purple",
-                                width: "2px",
-                                style: "solid",
-                                marker: { // autocasts from LineSymbolMarker
-                                    color: "orange",
-                                    placement: "begin-end",
-                                    style: "circle"
-                                }
-                            }
-                        }
-                        return layer;
-                    }
-
-                    function gerbangTol() {
-                        const layer = new FeatureLayer({url: gsvrUrl+"/geoserver/gsr/services/temanjabar/FeatureServer/6/"});
-                        const popupTemplate = {
-                            title: "{Nama}",
-                            content: [
-                                {
-                                    type: "media",
-                                    mediaInfos: [
-                                        {
-                                            title: "<b>Foto</b>",
-                                            type: "image",
-                                            value: {
-                                            sourceURL:
-                                                "{foto}"
-                                            }
-                                        }
-                                    ]
-                                }
-                            ],
-                            expressionInfos: [{
-                                name: "status",
-                                title: "Status",
-                                expression: "Konstruksi"
-                            }]
-                        };
-                        layer.popupTemplate = popupTemplate;
-                        return layer;
-                    }
-
-                    groupLayer.add(provinsiLayer);
-                    groupLayer.add(nasionalLayer);
-                    groupLayer.add(tolOperasiLayer);
-                    groupLayer.add(tolKonstruksiLayer);
-                    groupLayer.add(gerbangLayer);
-                    return groupLayer;
+                    // end dimz-add
+                    return layer;
                 }
                 function addKemantapanJalan(kemantapanjalan, layer) {
                     const popupTemplate = {
