@@ -110,9 +110,9 @@
                     </div>
 
                     <div class=" form-group row">
-                        <label class="col-md-3 col-form-label">Target Panjang</label>
+                        <label class="col-md-3 col-form-label">Target Panjang (meter)</label>
                         <div class="col-md-9">
-                            <input name="target_panjang" type="number" step="0.01" class="form-control" required>
+                            <input name="target_panjang" type="text" class="form-control formatRibuan" required>
                         </div>
                     </div>
 
@@ -140,14 +140,14 @@
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Koordinat X</label>
                         <div class="col-md-9">
-                            <input name="lat" type="text" id="lat" class="form-control" required>
+                            <input name="lat" type="text" id="lat" class="form-control formatLatLong" required>
                         </div>
                     </div>
 
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Koordinat Y</label>
                         <div class="col-md-9">
-                            <input name="lng" type="text" id="lng" class="form-control" required>
+                            <input name="lng" type="text" id="lng" class="form-control formatLatLong" required>
                         </div>
                     </div>
                     <hr>
@@ -160,14 +160,14 @@
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Koordinat X</label>
                         <div class="col-md-9">
-                            <input name="lat1" type="text" id="lat1" class="form-control" required>
+                            <input name="lat1" type="text" id="lat1" class="form-control formatLatLong" required>
                         </div>
                     </div>
 
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Koordinat Y</label>
                         <div class="col-md-9">
-                            <input name="lng1" type="text" id="lng1" class="form-control" required>
+                            <input name="lng1" type="text" id="lng1" class="form-control formatLatLong" required>
                         </div>
                     </div>
                     <hr class="mb-5">
@@ -255,8 +255,19 @@
 
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
 <script>
     $(document).ready(function() {
+        // Format mata uang.
+        $('.formatRibuan').mask('000.000.000.000.000', {
+            reverse: true
+        });
+
+        // Format untuk lat long.
+        $('.formatLatLong').keypress(function(evt) {
+            return (/^\-?[0-9]*\.?[0-9]*$/).test($(this).val() + evt.key);
+        });
+
         var status = $('input[name="kondisi"]:checked').val();
 
         if (status == 'Mantap') {

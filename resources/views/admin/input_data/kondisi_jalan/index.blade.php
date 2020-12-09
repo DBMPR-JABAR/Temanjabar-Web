@@ -65,7 +65,7 @@
                                 <th>Panjang KM</th>
                                 <th>dari KM</th>
                                 <th>Sampai dengan KM</th>
-                                <th>Lebar rata2</th>
+                                <th>Lebar rata2 (meter)</th>
                                 <th>Dokumentasi</th>
                                 <th>Aksi</th>
                             </tr>

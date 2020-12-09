@@ -57,14 +57,14 @@
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered able-responsive">
                         <thead>
-                            <tr> 
+                            <tr>
                                 <th>No</th>
                                 <th>Nama Mandor</th>
                                 <th>SUP</th>
                                 <th>Ruas Jalan</th>
                                 <th>Jenis Pekerjaan</th>
                                 <th>Lokasi</th>
-                                <th>Panjang</th>
+                                <th>Panjang (meter)</th>
                                 <th>Peralatan</th>
                                 <th>Jumlah Pekerja</th>
                                 <th>Foto (0%)</th>
@@ -93,14 +93,15 @@
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_awal) !!}" alt="" srcset=""></td>
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_sedang) !!}" alt="" srcset=""></td>
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_akhir) !!}" alt="" srcset=""></td>
-                                <td><video width ='150' height='100' controls><source src="{!! url('storage/pekerjaan/'.$data->video) !!}" type='video/*' Sorry, your browser doesn't support the video element.></video></td>
+                                <td><video width='150' height='100' controls>
+                                        <source src="{!! url('storage/pekerjaan/'.$data->video) !!}" type='video/*' Sorry, your browser doesn't support the video element.></video></td>
                                 <td>{{$data->tanggal}}</td>
-                              
+
                                 <td>
-                                <a href="{{ route('editDataPekerjaan',$data->id_pek) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
-                                <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}" class="mb-2 btn btn-sm btn-primary btn-mat">Material</a><br>
-                                <a href="#delModal" data-id="{{$data->id_pek}}" data-toggle="modal" class=" mb-2 btn btn-sm btn-danger btn-mat">Hapus</a><br>
-                                <a href="#submitModal" data-id="{{$data->id_pek}}" data-toggle="modal" class="btn btn-sm btn-success btn-mat">Submit</a>
+                                    <a href="{{ route('editDataPekerjaan',$data->id_pek) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
+                                    <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}" class="mb-2 btn btn-sm btn-primary btn-mat">Material</a><br>
+                                    <a href="#delModal" data-id="{{$data->id_pek}}" data-toggle="modal" class=" mb-2 btn btn-sm btn-danger btn-mat">Hapus</a><br>
+                                    <a href="#submitModal" data-id="{{$data->id_pek}}" data-toggle="modal" class="btn btn-sm btn-success btn-mat">Submit</a>
                                 </td>
                             </tr>
                             @endforeach
@@ -130,155 +131,155 @@
                         <!-- <input name="uptd_id" type="hidden" class="form-control" required value="{{Auth::user()->internalRole->uptd}}"> -->
 
 
-                      <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Mandor</label>
-                        <div class="col-md-10">
-                             <select class="form-control" name="nama_mandor" required>
-                                @foreach ($mandor as $data)
-                                <option value="{{$data->name}}">{{$data->name}}</option>
-                                @endforeach
-                            </select>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Mandor</label>
+                            <div class="col-md-10">
+                                <select class="form-control" name="nama_mandor" required>
+                                    @foreach ($mandor as $data)
+                                    <option value="{{$data->name}}">{{$data->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Jenis Pekerjaan</label>
-                        <div class="col-md-10">
-                           <select class="form-control" name="jenis_pekerjaan" required>
-                                @foreach ($jenis as $data)
-                                <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
-                                @endforeach
-                            </select>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Jenis Pekerjaan</label>
+                            <div class="col-md-10">
+                                <select class="form-control" name="jenis_pekerjaan" required>
+                                    @foreach ($jenis as $data)
+                                    <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Tanggal</label>
-                        <div class="col-md-10">
-                            <input name="tanggal" type="date" class="form-control" required>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Tanggal</label>
+                            <div class="col-md-10">
+                                <input name="tanggal" type="date" class="form-control" required>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Nama Paket</label>
-                        <div class="col-md-10">
-                            <input name="paket" type="text" class="form-control">
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Nama Paket</label>
+                            <div class="col-md-10">
+                                <input name="paket" type="text" class="form-control">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">SUP</label>
-                       <div class="col-md-10">
-                            <select class="form-control" name="sup" required>
-                                @foreach ($sup as $data)
-                                <option value="{{$data->name}}">{{$data->name}}</option>
-                                @endforeach
-                            </select>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">SUP</label>
+                            <div class="col-md-10">
+                                <select class="form-control" name="sup" required>
+                                    @foreach ($sup as $data)
+                                    <option value="{{$data->name}}">{{$data->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                     <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Ruas Jalan</label>
-                       <div class="col-md-10">
-                            <select class="form-control" name="ruas_jalan" required>
-                                @foreach ($ruas_jalan as $data)
-                                <option value="{{$data->nama_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
-                                @endforeach
-                            </select>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Ruas Jalan</label>
+                            <div class="col-md-10">
+                                <select class="form-control" name="ruas_jalan" required>
+                                    @foreach ($ruas_jalan as $data)
+                                    <option value="{{$data->nama_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Lokasi</label>
-                        <div class="col-md-10">
-                            <input name="lokasi" type="text" class="form-control" required>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Lokasi</label>
+                            <div class="col-md-10">
+                                <input name="lokasi" type="text" class="form-control" required>
+                            </div>
                         </div>
-                    </div>
-                     <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Koordinat X</label>
-                        <div class="col-md-10">
-                            <input name="lat" type="text" class="form-control" required>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Koordinat X</label>
+                            <div class="col-md-10">
+                                <input name="lat" type="text" class="form-control formatLatLong" required>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Koordinat Y</label>
-                        <div class="col-md-10">
-                            <input name="lng" type="text" class="form-control">
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Koordinat Y</label>
+                            <div class="col-md-10">
+                                <input name="lng" type="text" class="form-control formatLatLong" required>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Panjang</label>
-                        <div class="col-md-10">
-                            <input name="panjang" type="text" class="form-control" required>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Panjang (meter)</label>
+                            <div class="col-md-10">
+                                <input name="panjang" type="text" class="form-control formatRibuan" required>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Jumlah Pekerja</label>
-                        <div class="col-md-10">
-                            <input name="jumlah_pekerja" type="number" class="form-control" required>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Jumlah Pekerja</label>
+                            <div class="col-md-10">
+                                <input name="jumlah_pekerja" type="text" class="form-control formatRibuan" required>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Alat yang Digunakan</label>
-                        <div class="col-md-10">
-                            <input name="peralatan" type="text" class="form-control" required>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Alat yang Digunakan</label>
+                            <div class="col-md-10">
+                                <input name="peralatan" type="text" class="form-control" required>
+                            </div>
                         </div>
-                    </div>
-                    @if (Auth::user()->internalRole->uptd)
+                        @if (Auth::user()->internalRole->uptd)
                         <input type="hidden" name="uptd_id" value="{{Auth::user()->internalRole->uptd}}">
-                    @else
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Uptd</label>
-                       <div class="col-md-10">
-                            <select class="form-control" name="uptd_id">
-                                @foreach ($uptd as $data)
-                                <option value="{{$data->id}}">{{$data->nama}}</option>
-                                @endforeach
-                            </select>
+                        @else
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Uptd</label>
+                            <div class="col-md-10">
+                                <select class="form-control" name="uptd_id">
+                                    @foreach ($uptd as $data)
+                                    <option value="{{$data->id}}">{{$data->nama}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    @endif
-                    <div class="form-group row">
-                        <label class="col-md-4 col-form-label">Foto Dokumentasi (0%)</label>
-                        <div class="col-md-6">
-                            <input name="foto_awal" type="file" class="form-control" accept="image/*" required>
+                        @endif
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label">Foto Dokumentasi (0%)</label>
+                            <div class="col-md-6">
+                                <input name="foto_awal" type="file" class="form-control" accept="image/*" required>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-4 col-form-label">Foto Dokumentasi (50%)</label>
-                        <div class="col-md-6">
-                            <input name="foto_sedang" type="file" class="form-control" accept="image/*">
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label">Foto Dokumentasi (50%)</label>
+                            <div class="col-md-6">
+                                <input name="foto_sedang" type="file" class="form-control" accept="image/*">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-4 col-form-label">Foto Dokumentasi (100%)</label>
-                        <div class="col-md-6">
-                            <input name="foto_akhir" type="file" class="form-control" accept="image/*">
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label">Foto Dokumentasi (100%)</label>
+                            <div class="col-md-6">
+                                <input name="foto_akhir" type="file" class="form-control" accept="image/*">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-4 col-form-label">Video Dokumentasi</label>
-                        <div class="col-md-6">
-                            <input name="video" type="file" class="form-control" accept="video/*">
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label">Video Dokumentasi</label>
+                            <div class="col-md-6">
+                                <input name="video" type="file" class="form-control" accept="video/*">
+                            </div>
                         </div>
+
+
+
                     </div>
 
-                   
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary waves-effect waves-light ">Simpan</button>
+                    </div>
 
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                    <button type="submit" class="btn btn-primary waves-effect waves-light ">Simpan</button>
-                </div>
-
-            </form>
+                </form>
 
             </div>
         </div>
     </div>
 
-<div class="modal-only">
+    <div class="modal-only">
 
-    <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+        <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
 
                     <div class="modal-header">
                         <h4 class="modal-title">Hapus Data Pekerjaan</h4>
@@ -296,16 +297,16 @@
                         <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Hapus</a>
                     </div>
 
+                </div>
             </div>
         </div>
+
     </div>
 
-</div>
-
-<div class="modal-only">
-    <div class="modal fade" id="submitModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+    <div class="modal-only">
+        <div class="modal fade" id="submitModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">Submit Data Material</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -321,43 +322,54 @@
                         <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
                         <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Hapus</a>
                     </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
-@endsection
-@section('script')
-<!-- <script src="{{ asset('assets/vendor/jquery/js/jquery-3.4.1.min.js') }}" ></script> -->
-<script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}" ></script>
-<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}" ></script>
-<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}" ></script>
+    @endsection
+    @section('script')
+    <!-- <script src="{{ asset('assets/vendor/jquery/js/jquery-3.4.1.min.js') }}" ></script> -->
+    <script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}"></script>
 
-<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
-<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
-<script>
-    $(document).ready(function () {
-        $("#dttable").DataTable();
-        $('#delModal').on('show.bs.modal', function (event) {
-            const link = $(event.relatedTarget);
-            const id = link.data('id');
-            console.log(id);
-            const url = `{{ url('admin/input-data/pekerjaan/delete') }}/` + id;
-            console.log(url);
-            const modal = $(this);
-            modal.find('.modal-footer #delHref').attr('href',url);
+    <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+
+            // Format mata uang.
+            $('.formatRibuan').mask('000.000.000.000.000', {
+                reverse: true
+            });
+
+            // Format untuk lat long.
+            $('.formatLatLong').keypress(function(evt) {
+                return (/^\-?[0-9]*\.?[0-9]*$/).test($(this).val() + evt.key);
+            });
+
+            $("#dttable").DataTable();
+            $('#delModal').on('show.bs.modal', function(event) {
+                const link = $(event.relatedTarget);
+                const id = link.data('id');
+                console.log(id);
+                const url = `{{ url('admin/input-data/pekerjaan/delete') }}/` + id;
+                console.log(url);
+                const modal = $(this);
+                modal.find('.modal-footer #delHref').attr('href', url);
+            });
+            $('#submitModal').on('show.bs.modal', function(event) {
+                const link = $(event.relatedTarget);
+                const id = link.data('id');
+                console.log(id);
+                const url = `{{ url('admin/input-data/pekerjaan/submit') }}/` + id;
+                console.log(url);
+                const modal = $(this);
+                modal.find('.modal-footer #delHref').attr('href', url);
+            });
+
+            $('select').attr('value').trigger('change');
         });
-        $('#submitModal').on('show.bs.modal', function (event) {
-            const link = $(event.relatedTarget);
-            const id = link.data('id');
-            console.log(id);
-            const url = `{{ url('admin/input-data/pekerjaan/submit') }}/` + id;
-            console.log(url);
-            const modal = $(this);
-            modal.find('.modal-footer #delHref').attr('href',url);
-        });
-
-
-       $('select').attr('value').trigger('change');
-    });
-</script>
-@endsection
+    </script>
+    @endsection

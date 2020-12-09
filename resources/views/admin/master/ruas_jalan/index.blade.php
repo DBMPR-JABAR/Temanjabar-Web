@@ -63,7 +63,7 @@
                                 <th>Nama Ruas Jalan</th>
                                 <th>Sup</th>
                                 <th>Lokasi</th>
-                                <th>Panjang</th>
+                                <th>Panjang (meter)</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -169,9 +169,9 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Panjang</label>
+                            <label class="col-md-3 col-form-label">Panjang (meter)</label>
                             <div class="col-md-9">
-                                <input name="panjang" type="number" step="any" class="form-control" required>
+                                <input name="panjang" type="text" class="form-control formatRibuan" required>
                             </div>
                         </div>
 
@@ -282,6 +282,7 @@
 
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
 <script>
     $(document).ready(function() {
         $("#dttable").DataTable();
@@ -293,6 +294,11 @@
             console.log(url);
             const modal = $(this);
             modal.find('.modal-footer #delHref').attr('href', url);
+        });
+
+        // Format mata uang.
+        $('.formatRibuan').mask('000.000.000.000.000', {
+            reverse: true
         });
     });
 </script>

@@ -62,7 +62,7 @@
                                 <th>Nama Paket</th>
                                 <th>Lokasi Pekerjaan</th>
                                 <th>Pagu Anggaran</th>
-                                <th>Target Panjang</th>
+                                <th>Target Panjang (meter)</th>
                                 <th>Waktu Pelaksanaan (HK)</th>
                                 <th>Jenis Penanganan</th>
                                 <th>Penyedia Jasa</th>
