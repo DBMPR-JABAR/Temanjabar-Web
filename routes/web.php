@@ -110,14 +110,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::group(['prefix' => 'disposisi'], function () {
         Route::get('/', 'DisposisiController@getDaftarDisposisi')->name('daftar-disposisi');
         Route::get('masuk', 'DisposisiController@getInboxDisposisi')->name('disposisi-masuk');
-<<<<<<< HEAD
-        Route::get('tindaklanjut', 'DisposisiController@getDisposisiTindakLanjut')->name('disposisi-tindak-lanjut'); 
-         Route::post('saveDisposisiLevel2', 'DisposisiController@saveDisposisiLevel2')->name('saveDisposisiLevel2');
-=======
         Route::get('tindaklanjut', 'DisposisiController@getDisposisiTindakLanjut')->name('disposisi-tindak-lanjut');
+        Route::post('saveDisposisiLevel2', 'DisposisiController@saveDisposisiLevel2')->name('saveDisposisiLevel2');
         Route::get('instruksi', 'DisposisiController@getDaftarDisposisiInstruksi')->name('disposisi-instruksi');
-         
->>>>>>> aba88d46ba1c959bf06886b13a9e3ea8ca4c254e
+
         Route::post('createTindakLanjut', 'DisposisiController@createTindakLanjut')->name('createTindakLanjut');
         Route::post('create', 'DisposisiController@create')->name('saveInsertDisposisi');
         Route::post('createDisposisiInstruksi', 'DisposisiController@createInstruksi')->name('saveInsertInstruksi');
