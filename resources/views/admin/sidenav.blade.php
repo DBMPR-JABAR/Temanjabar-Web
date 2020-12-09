@@ -185,25 +185,52 @@
                         <li class="{{(Request::segment(3) == 'tindaklanjut') ? 'active' : ''}}"> 
                     <a href="{{ url('admin/disposisi/tindaklanjut') }}"> <span class="pcoded-mtext">  Disposisi Tindak Lanjut</span> </a>  
                         </li>
+                        <li class="{{(Request::segment(3) == 'instruksi') ? 'active' : ''}}"> 
+                    <a href="{{ url('admin/disposisi/instruksi') }}"> <span class="pcoded-mtext">  Disposisi Instruksi</span> </a>  
+                        </li>
                 </ul>
             </li>
        </ul>
 
         <div class="pcoded-navigatio-lavel">Manage</div>
         <ul class="pcoded-item pcoded-left-item">
-            <li class="pcoded-hasmenu {{(Request::segment(2) == 'master-data') ? 'pcoded-trigger active' : ''}}">
+            <li class="pcoded-hasmenu {{(Request::segment(2) == 'landing-page') ? 'pcoded-trigger active' : ''}}">
                 <a href="javascript:void(0)">
-                    <span class="pcoded-micon"><i class="ti-layout-grid2"></i></span>
+                    <span class="pcoded-micon"><i class="ti-home"></i></span>
                     <span class="pcoded-mtext">Manage</span>
                 </a>
                 <ul class="pcoded-submenu">
-                    <li class="{{(Request::segment(3) == 'user') ? 'active' : ''}}">
+                    <li class="pcoded-hasmenu {{(Request::segment(3) == 'user') ? 'pcoded-trigger active' : ''}}">
 
-                        <a href="{{ url('admin/master-data/user') }}">
+                        <!-- <a href="{{ url('admin/master-data/user') }}"> -->
+                        <a href="javascript:void(0)">
                             <span class="pcoded-mtext">User</span>
                         </a>
+                        <ul class="pcoded-submenu">
+                            
+                            <li class="{{(Request::segment(4) == 'user_role') ? 'active' : ''}}">
+
+                                <!-- <a href="{{ route('admin.master.ruas_jalan') }}">
+
+                                    <span class="pcoded-mtext">Ruas Jalan</span>
+                                </a> -->
+                                <a href="{{ route('getDataUserRole') }}">
+                                    <span class="pcoded-mtext">User Role</span>
+                                </a>
+                            </li>
+                            <li class="{{(Request::segment(4) == 'role_akses') ? 'active' : ''}}">
+
+                                <!-- <a href="{{ route('admin.master.ruas_jalan') }}">
+
+                                    <span class="pcoded-mtext">Ruas Jalan</span>
+                                </a> -->
+                                <a href="{{ route('getRoleAkses') }}">
+                                    <span class="pcoded-mtext">Role Akses</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
-                    <li class="{{(Request::segment(3) == 'ruas-jalan') ? 'active' : ''}}">
+                    <li class="{{(Request::segment(3) == 'ruas_Jalan') ? 'active' : ''}}">
 
                         <!-- <a href="{{ route('admin.master.ruas_jalan') }}">
 
@@ -214,13 +241,13 @@
                         </a>
                     </li>
 
-                    <li class="{{(Request::segment(3) == 'jembatan') ? 'active' : ''}}">
+                    <li class="{{(Request::segment(3) == 'profil') ? 'active' : ''}}">
                         <a href="{{ url('admin/master-data/jembatan') }}">
                             <span class="pcoded-mtext">Jembatan</span>
                         </a>
                     </li>
 
-                    <li class="{{(Request::segment(3) == 'rawanbencana') ? 'active' : ''}}">
+                    <li class="{{(Request::segment(3) == 'profil') ? 'active' : ''}}">
                         <a href="{{ url('admin/master-data/rawanbencana') }}">
                             <span class="pcoded-mtext">Rawan Bencana</span>
                         </a>
@@ -228,76 +255,6 @@
 
 
 
-                </ul>
-            </li>
-        </ul>
-        <div class="pcoded-navigatio-lavel">Input</div>
-        <ul class="pcoded-item pcoded-left-item">
-            <li class="pcoded-hasmenu {{(Request::segment(2) == 'input-data') ? 'pcoded-trigger active' : ''}}">
-                <a href="javascript:void(0)">
-                    <span class="pcoded-micon"><i class="ti-write"></i></span>
-                    <span class="pcoded-mtext">Input Data</span>
-                </a>
-                <ul class="pcoded-submenu">
-                    <div class="pcoded-navigatio-lavel">Pemeliharaan</div>
-                    <li class="{{(Request::segment(3) == 'pekerjaan') ? 'active' : ''}}">
-                        <a href="{{ url('admin/input-data/pekerjaan') }}">
-                            <span class="pcoded-mtext">Pekerjaan</span>
-                        </a>
-                    </li>
-
-                    <li class="{{(Request::segment(3) == 'kondisi-jalan') ? 'active' : ''}}">
-                        <a href="{{ url('admin/input-data/kondisi-jalan') }}">
-                            <span class="pcoded-mtext">Kondisi Jalan</span>
-                        </a>
-                    </li>
-                    <li class="{{(Request::segment(3) == 'rekap') ? 'active' : ''}}">
-                        <a href="{{ url('admin/input-data/rekap') }}">
-                            <span class="pcoded-mtext">Rekap</span>
-                        </a>
-                    </li>
-                    <div class="pcoded-navigatio-lavel">Pembangunan</div>
-                    <li class="{{(Request::segment(3) == 'progresskerja') ? 'active' : ''}}">
-
-                        <a href="{{ url('admin/input-data/progresskerja') }}">
-                            <span class="pcoded-mtext">Progress Kerja</span>
-                        </a>
-                    </li>
-                    <li class="{{(Request::segment(3) == 'data-paket') ? 'active' : ''}}">
-                        <a href="{{ url('admin/input-data/data-paket') }}">
-                            <span class="pcoded-mtext">Data Paket</span>
-                        </a>
-                    </li>
-                    <div class="pcoded-navigatio-lavel">Keuangan</div>
-                    <li class="{{(Request::segment(3) == 'keuangan') ? 'active' : ''}}">
-                        <a href="{{ url('admin/input-data/keuangan') }}">
-                            <span class="pcoded-mtext">List Data</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-
-            <li class="pcoded-hasmenu {{(Request::segment(2) == 'lapor') ? 'pcoded-trigger active' : ''}}">
-                <a href="javascript:void(0)">
-                    <span class="pcoded-micon"><i class="ti-headphone-alt"></i></span>
-                    <span class="pcoded-mtext">Lapor</span>
-                </a>
-                <ul class="pcoded-submenu">
-                    <li class="{{(Request::segment(3) == 'add') ? 'active' : ''}}">
-                        <a href="{{ url('admin/lapor/add') }}">
-                            <span class="pcoded-mtext">Input Laporan</span>
-                        </a>
-                    </li>
-                    <li class="{{((Request::segment(2) == 'lapor' )&& (Request::segment(3) == null)) ? 'active' : ''}}">
-                        <a href="{{ url('admin/lapor') }}">
-                            <span class="pcoded-mtext">Daftar Laporan</span>
-                        </a>
-                    </li>
-                    <li class="{{(Request::segment(3) == 'lapor') ? 'active' : ''}}">
-                        <a href="#">
-                            <span class="pcoded-mtext">Quick Response</span>
-                        </a>
-                    </li>
                 </ul>
             </li>
         </ul>
