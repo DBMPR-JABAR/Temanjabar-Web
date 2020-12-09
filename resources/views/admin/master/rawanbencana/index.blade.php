@@ -1,6 +1,6 @@
 @extends('admin.t_index')
 
-@section('title') RawanBencana @endsection
+@section('title') Rawan Bencana @endsection
 @section('head')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/buttons.dataTables.min.css') }}">
@@ -21,7 +21,7 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>RawanBencana</h4>
+                <h4>Rawan Bencana</h4>
                 <span>Data Rawan Bencana</span>
             </div>
         </div>
