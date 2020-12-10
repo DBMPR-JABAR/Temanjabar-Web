@@ -84,9 +84,9 @@
                     </div>
 
                     <div class=" form-group row">
-                        <label class="col-md-2 col-form-label">Panjang</label>
+                        <label class="col-md-2 col-form-label">Panjang (meter)</label>
                         <div class="col-md-10">
-                            <input name="panjang" type="number" step="any" class="form-control" required value="{{$ruasJalan->panjang}}">
+                            <input name="panjang" type="text" class="form-control formatRibuan" required value="{{$ruasJalan->panjang}}">
                         </div>
                     </div>
                     <!-- 
@@ -164,4 +164,19 @@
     </div>
 </div>
 
+@endsection
+
+@section('script')
+<script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
+<script>
+    // Format mata uang.
+    $('.formatRibuan').mask('000.000.000.000.000', {
+        reverse: true
+    });
+</script>
 @endsection

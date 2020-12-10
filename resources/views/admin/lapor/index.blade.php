@@ -81,8 +81,12 @@
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/'.$data->foto_awal) !!}" alt="" srcset=""></td>
                                 <td>{{$data->status}}</td>
                                 <td>
+                                    @if (hasAccess(Auth::user()->internal_role_id, "Lapor", "Update"))
                                     <a href="{{ route('editLapor',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
+                                    @endif
+                                    @if (hasAccess(Auth::user()->internal_role_id, "Lapor", "Delete"))
                                     <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
