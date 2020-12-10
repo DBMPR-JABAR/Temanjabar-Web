@@ -55,7 +55,9 @@
                 </div>
             </div>
             <div class="card-block">
+                @if (hasAccess(Auth::user()->internal_role_id, "Progress Kerja", "Create"))
                 <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
+                @endif
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered able-responsive">
                         <thead>
@@ -92,8 +94,12 @@
                                 <!-- <td>{{$data->video}}</td> -->
                                 <td>{{$data->status}}</td>
                                 <td>
+                                    @if (hasAccess(Auth::user()->internal_role_id, "Progress Kerja", "Update"))
                                     <a href="{{ route('editDataProgress',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
+                                    @endif
+                                    @if (hasAccess(Auth::user()->internal_role_id, "Progress Kerja", "Delete"))
                                     <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach

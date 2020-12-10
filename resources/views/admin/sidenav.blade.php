@@ -212,14 +212,14 @@
                     <span class="pcoded-mtext">Lapor</span>
                 </a>
                 <ul class="pcoded-submenu">
-                    @if (hasAccess(Auth::user()->internal_role_id, "Input Laporan", "View"))
+                    @if (hasAccess(Auth::user()->internal_role_id, "Lapor", "Create"))
                     <li class="{{(Request::segment(3) == 'add') ? 'active' : ''}}">
                         <a href="{{ url('admin/lapor/add') }}">
                             <span class="pcoded-mtext">Input Laporan</span>
                         </a>
                     </li>
                     @endif
-                    @if (hasAccess(Auth::user()->internal_role_id, "Daftar Laporan", "View"))
+                    @if (hasAccess(Auth::user()->internal_role_id, "Lapor", "View"))
                     <li class="{{((Request::segment(2) == 'lapor' )&& (Request::segment(3) == null)) ? 'active' : ''}}">
                         <a href="{{ url('admin/lapor') }}">
                             <span class="pcoded-mtext">Daftar Laporan</span>
