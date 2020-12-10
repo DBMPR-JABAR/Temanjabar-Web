@@ -73,7 +73,7 @@
                                 <td>{{$loop->index + 1}}</td>
                                 <td>{{$data->id_ruas_jalan}}</td>
                                 <td>{{$data->nama_ruas_jalan}}</td>
-                                <td>{{$data->sup}}</td>
+                                <td>{{$data->supName}}</td>
                                 <td>{{$data->lokasi}}</td>
                                 <td>{{$data->panjang}}</td>
                                 <td>
@@ -147,16 +147,38 @@
                             </div>
                         </div>
 
+                        <?php
+
+                        use Illuminate\Support\Facades\Auth;
+
+                        if (Auth::user()->internalRole->uptd) {
+                            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd); ?>
+                            <input id="uptd_id" name="uptd_id" type="number" class="form-control" value="{{$uptd_id}}" hidden>
+                        <?php } else { ?>
+                            <div class=" form-group row">
+                                <label class="col-md-3 col-form-label">UPTD</label>
+                                <div class="col-md-9">
+                                    <select class="form-control select2" id="uptd_id" name="uptd_id" style="min-width: 100%;" onchange="ubahDataSUP()">
+                                        <option>Pilih UPTD</option>
+                                        @foreach ($uptd as $uptdData)
+                                        <option value="<?php echo $uptdData->id; ?>"><?php echo $uptdData->nama; ?></option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        <?php    } ?>
+
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">SUP</label>
                             <div class="col-md-9">
-
-                                <select class="form-control select2" name="sup" style="min-width: 100%;">
-                                    <!-- <option value="" selected>- Event Name -</option> -->
-                                    <?php
-                                    foreach ($sup as $supData) { ?>
-                                        <option value="<?php echo $supData->id; ?>"><?php echo $supData->name; ?></option>
-                                    <?php } ?>
+                                <select class="form-control select2" id="sup" name="sup" style="min-width: 100%;">
+                                    @if (Auth::user()->internalRole->uptd)
+                                    @foreach ($sup as $supData)
+                                    <option value="<?php echo $supData->id; ?>"><?php echo $supData->name; ?></option>
+                                    @endforeach
+                                    @else
+                                    <option>-</option>
+                                    @endif
                                 </select>
                             </div>
                         </div>
@@ -216,26 +238,6 @@
                                 <input name="long_akhir" type="text" class="form-control" required>
                             </div>
                         </div> -->
-
-                        <?php
-
-                        use Illuminate\Support\Facades\Auth;
-
-                        if (Auth::user()->internalRole->uptd) {
-                            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd); ?>
-                            <input name="uptd_id" type="number" class="form-control" value="{{$uptd_id}}" hidden>
-                        <?php } else { ?>
-                            <div class=" form-group row">
-                                <label class="col-md-3 col-form-label">UPTD</label>
-                                <div class="col-md-9">
-                                    <select class="form-control select2" name="uptd_id" style="min-width: 100%;">
-                                        @foreach ($uptd as $uptdData)
-                                        <option value="<?php echo $uptdData->id; ?>"><?php echo $uptdData->nama; ?></option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        <?php    } ?>
                     </div>
 
                     <div class="modal-footer">
@@ -301,5 +303,27 @@
             reverse: true
         });
     });
+
+    function ubahDataSUP() {
+
+        val = document.getElementById("uptd_id").value
+
+        $.ajax({
+            url: "{{ url('admin/master-data/ruas-jalan/getSUP') }}",
+            method: 'get',
+            dataType: 'JSON',
+            data: {
+                id: val
+            },
+            complete: function(result) {
+                $('#sup').empty(); // remove old options
+                $('#sup').append($("<option></option>").text('Pilih SUP'));
+
+                result.responseJSON.forEach(function(item) {
+                    $('#sup').append($("<option></option>").attr("value", item["name"]).text(item["name"]));
+                });
+            }
+        });
+    }
 </script>
 @endsection

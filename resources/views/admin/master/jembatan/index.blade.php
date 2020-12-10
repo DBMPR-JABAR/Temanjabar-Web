@@ -119,19 +119,38 @@
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Nama Jembatan</label>
-                            <div class="col-md-10">
+                            <div class="col-md-10 my-auto">
                                 <input name="nama_jembatan" type="text" class="form-control" required>
                             </div>
                         </div>
 
+                        @if(Auth::user()->internalRole->uptd)
+                        <input type="hidden" id="uptd" name="uptd" value="{{Auth::user()->internalRole->uptd}}">
+                        @else
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">UPTD</label>
+                            <div class="col-md-10">
+                                <select class="form-control" id="uptd" name="uptd" required onchange="ubahOption()">
+                                    <option>Pilih UPTD</option>
+                                    @foreach ($uptd as $data)
+                                    <option value="{{$data->slug}}">{{$data->nama}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        @endif
+
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Ruas Jalan</label>
                             <div class="col-md-10">
-                                <select name="ruas_jalan" class="form-control" required>
-                                    <option>Pilih Ruas Jalan</option>
+                                <select id="ruas_jalan" id="ruas_jalan" name="ruas_jalan" class="form-control" required>
+                                    @if (Auth::user()->internalRole->uptd)
                                     @foreach ($ruasJalan as $data)
                                     <option value="{{$data->nama_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
                                     @endforeach
+                                    @else
+                                    <option>-</option>
+                                    @endif
                                 </select>
                             </div>
                         </div>
@@ -139,11 +158,14 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">SUP</label>
                             <div class="col-md-10">
-                                <select class="form-control" required name="sup">
-                                    <option>Pilih SUP</option>
+                                <select class="form-control" id="sup" name="sup" required>
+                                    @if (Auth::user()->internalRole->uptd)
                                     @foreach ($sup as $data)
                                     <option value="{{$data->name}}">{{$data->name}}</option>
                                     @endforeach
+                                    @else
+                                    <option>-</option>
+                                    @endif
                                 </select>
                             </div>
                         </div>
@@ -196,21 +218,6 @@
                                 <input name="ket" type="text" class="form-control" required>
                             </div>
                         </div>
-                        @if(Auth::user()->internalRole->uptd)
-                        <input type="hidden" name="uptd" value="{{Auth::user()->internalRole->uptd}}">
-                        @else
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">UPTD</label>
-                            <div class="col-md-10">
-                                <select class="form-control" required name="uptd">
-                                    <option>Pilih UPTD</option>
-                                    @foreach ($uptd as $data)
-                                    <option value="{{$data->slug}}">{{$data->nama}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        @endif
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Foto Jembatan</label>
                             <div class="col-md-6">
@@ -286,5 +293,27 @@
             return (/^\-?[0-9]*\.?[0-9]*$/).test($(this).val() + evt.key);
         });
     });
+
+    function ubahOption() {
+
+        //untuk select Ruas
+        val = document.getElementById("uptd").value
+        id = parseInt(val.slice(val.length - 1))
+
+        url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalan') }}"
+        id_select = '#ruas_jalan'
+        text = 'Pilih Ruas Jalan'
+        option = 'nama_ruas_jalan'
+
+        setDataSelect(id, url, id_select, text, option, option)
+
+        //untuk select SUP
+        url = "{{ url('admin/master-data/ruas-jalan/getSUP') }}"
+        id_select = '#sup'
+        text = 'Pilih SUP'
+        option = 'name'
+
+        setDataSelect(id, url, id_select, text, option, option)
+    }
 </script>
 @endsection

@@ -19,7 +19,7 @@
                     <a href="{{ url('admin') }}"> <i class="feather icon-home"></i> </a>
                 </li>
                 <li class="breadcrumb-item"><a href="{{ route('getIDDataPaket') }}">Data Paket</a> </li>
-                <li class="breadcrumb-item"><a href="#">Tambah</a> </li>
+                <li class="breadcrumb-item"><a href="#">Edit</a> </li>
             </ul>
         </div>
     </div>
@@ -31,7 +31,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h5>Tambah Data Paket</h5>
+                <h5>Edit Data Paket</h5>
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
                         <li><i class="feather icon-maximize full-card"></i></li>
@@ -45,30 +45,6 @@
                     @csrf
 
                     <input type="hidden" name="kode_paket" value="{{$dataPaket->kode_paket}}">
-
-                    <?php
-
-                    use Illuminate\Support\Facades\Auth;
-
-                    if (Auth::user()->internalRole->uptd) {
-                        $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd); ?>
-                        <input name="uptd_id" type="number" class="form-control" value="{{$uptd_id}}" hidden>
-                    <?php } else { ?>
-                        <div class=" form-group row">
-                            <label class="col-md-3 col-form-label">UPTD</label>
-                            <div class="col-md-9">
-                                <select class="form-control select2" name="uptd_id" style="min-width: 100%;">
-                                    @foreach ($uptd as $uptdData)
-                                    @if($dataPaket->uptd_id == $uptdData->id)
-                                    <option value="<?php echo $uptdData->id; ?>" selected><?php echo $uptdData->nama; ?></option>
-                                    @else
-                                    <option value="<?php echo $uptdData->id; ?>"><?php echo $uptdData->nama; ?></option>
-                                    @endif
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    <?php    } ?>
 
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Kegiatan</label>
@@ -92,16 +68,39 @@
                         </div>
                     </div>
 
+                    <?php
+
+                    use Illuminate\Support\Facades\Auth;
+
+                    if (Auth::user()->internalRole->uptd) {
+                        $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd); ?>
+                        <input id="uptd" name="uptd_id" type="number" class="form-control" value="{{$uptd_id}}" hidden>
+                    <?php } else { ?>
+                        <div class=" form-group row">
+                            <label class="col-md-3 col-form-label">UPTD</label>
+                            <div class="col-md-9">
+                                <select class="form-control select2" id="uptd" name="uptd_id" style="min-width: 100%;" onchange="ubahOption()">
+                                    @foreach ($uptd as $uptdData)
+                                    @if($dataPaket->uptd_id == $uptdData->id)
+                                    <option value="<?php echo $uptdData->id; ?>" selected><?php echo $uptdData->nama; ?></option>
+                                    @else
+                                    <option value="<?php echo $uptdData->id; ?>"><?php echo $uptdData->nama; ?></option>
+                                    @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    <?php    } ?>
+
+
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Satuan Pelayanan Pengelolaan</label>
-                        <div class="col-md-9">
-                            <select class="form-control select2" name="sup" style="min-width: 100%;">
+                        <div class="col-md-9 my-auto">
+                            <select class="form-control select2" id="sup" name="sup" style="min-width: 100%;">
+                                <option value="<?php echo $dataPaket->sup; ?>"><?php echo $dataPaket->sup; ?></option>
+                                <option disabled></option>
                                 @foreach ($sup as $supData)
-                                @if($supData->name == $dataPaket->sup)
-                                <option value="<?php echo $supData->name; ?>" selected><?php echo $supData->name; ?></option>
-                                @else
                                 <option value="<?php echo $supData->name; ?>"><?php echo $supData->name; ?></option>
-                                @endif
                                 @endforeach
                             </select>
                         </div>
@@ -110,14 +109,11 @@
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Lokasi Pekerjaan</label>
                         <div class="col-md-9">
-                            <select class="form-control select2" name="lokasi_pekerjaan" style="min-width: 100%;">
+                            <select class="form-control select2" id="ruas_jalan" name="lokasi_pekerjaan" style="min-width: 100%;" required>
+                                <option value="<?php echo $dataPaket->lokasi_pekerjaan; ?>"><?php echo $dataPaket->lokasi_pekerjaan; ?></option>
+                                <option disabled></option>
                                 @foreach ($ruasJalan as $ruasJalanData)
-
-                                @if($ruasJalanData->nama_ruas_jalan == $dataPaket->lokasi_pekerjaan)
-                                <option value="<?php echo $ruasJalanData->nama_ruas_jalan; ?>" selected><?php echo $ruasJalanData->nama_ruas_jalan; ?></option>
-                                @else
                                 <option value="<?php echo $ruasJalanData->nama_ruas_jalan; ?>"><?php echo $ruasJalanData->nama_ruas_jalan; ?></option>
-                                @endif
                                 @endforeach
                             </select>
                         </div>
@@ -296,22 +292,27 @@
             $("form-tidak-mantap").show();
             $("form-mantap").hide();
         }
-
-        $('#lat').on('input', function() {
-            this.value = this.value.replace(/[^0-9.']/g, ''); //<-- replace all other than given set of values
-        });
-
-        $('#lng').on('input', function() {
-            this.value = this.value.replace(/[^0-9.']/g, ''); //<-- replace all other than given set of values
-        });
-
-        $('#lat1').on('input', function() {
-            this.value = this.value.replace(/[^0-9.']/g, ''); //<-- replace all other than given set of values
-        });
-
-        $('#lng1').on('input', function() {
-            this.value = this.value.replace(/[^0-9.']/g, ''); //<-- replace all other than given set of values
-        });
     });
+
+    function ubahOption() {
+
+        //untuk select SUP
+        id = document.getElementById("uptd").value
+        url = "{{ url('admin/master-data/ruas-jalan/getSUP') }}"
+        id_select = '#sup'
+        text = 'Pilih SUP'
+        option = 'name'
+
+        setDataSelect(id, url, id_select, text, option, option)
+
+        //untuk select Ruas
+        url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalan') }}"
+        id_select = '#ruas_jalan'
+        text = 'Pilih Ruas Jalan'
+        option = 'nama_ruas_jalan'
+
+        setDataSelect(id, url, id_select, text, option, option)
+
+    }
 </script>
 @endsection

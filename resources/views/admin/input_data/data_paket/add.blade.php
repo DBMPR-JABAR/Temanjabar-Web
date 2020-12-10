@@ -43,25 +43,7 @@
 
                 <form action="{{ route('createIDDataPaket') }}" method="post" enctype="multipart/form-data">
                     @csrf
-                    <?php
 
-                    use Illuminate\Support\Facades\Auth;
-
-                    if (Auth::user()->internalRole->uptd) {
-                        $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd); ?>
-                        <input name="uptd_id" type="number" class="form-control" value="{{$uptd_id}}" hidden>
-                    <?php } else { ?>
-                        <div class=" form-group row">
-                            <label class="col-md-3 col-form-label">UPTD</label>
-                            <div class="col-md-9">
-                                <select class="form-control select2" name="uptd_id" style="min-width: 100%;">
-                                    @foreach ($uptd as $uptdData)
-                                    <option value="<?php echo $uptdData->id; ?>"><?php echo $uptdData->nama; ?></option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    <?php    } ?>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Kegiatan</label>
                         <div class="col-md-9">
@@ -80,13 +62,38 @@
                         </div>
                     </div>
 
+                    <?php
+
+                    use Illuminate\Support\Facades\Auth;
+
+                    if (Auth::user()->internalRole->uptd) {
+                        $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd); ?>
+                        <input id="uptd" name="uptd_id" type="number" class="form-control" value="{{$uptd_id}}" hidden>
+                    <?php } else { ?>
+                        <div class=" form-group row">
+                            <label class="col-md-3 col-form-label">UPTD</label>
+                            <div class="col-md-9">
+                                <select class="form-control select2" id="uptd" name="uptd_id" style="min-width: 100%;" onchange="ubahOption()">
+                                    @foreach ($uptd as $uptdData)
+                                    <option value="<?php echo $uptdData->id; ?>"><?php echo $uptdData->nama; ?></option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    <?php    } ?>
+
+
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Satuan Pelayanan Pengelolaan</label>
-                        <div class="col-md-9">
-                            <select class="form-control select2" name="sup" style="min-width: 100%;">
+                        <div class="col-md-9 my-auto">
+                            <select class="form-control select2" id="sup" name="sup" style="min-width: 100%;">
+                                @if (Auth::user()->internalRole->uptd)
                                 @foreach ($sup as $supData)
                                 <option value="<?php echo $supData->name; ?>"><?php echo $supData->name; ?></option>
                                 @endforeach
+                                @else
+                                <option>-</option>
+                                @endif
                             </select>
                         </div>
                     </div>
@@ -94,10 +101,14 @@
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Lokasi Pekerjaan</label>
                         <div class="col-md-9">
-                            <select class="form-control select2" name="lokasi_pekerjaan" style="min-width: 100%;">
+                            <select class="form-control select2" id="ruas_jalan" name="lokasi_pekerjaan" style="min-width: 100%;">
+                                @if (Auth::user()->internalRole->uptd)
                                 @foreach ($ruasJalan as $ruasJalanData)
                                 <option value="<?php echo $ruasJalanData->nama_ruas_jalan; ?>"><?php echo $ruasJalanData->nama_ruas_jalan; ?></option>
                                 @endforeach
+                                @else
+                                <option>-</option>
+                                @endif
                             </select>
                         </div>
                     </div>
@@ -278,22 +289,27 @@
             $("form-tidak-mantap").show();
             $("form-mantap").hide();
         }
-
-        $('#lat').on('input', function() {
-            this.value = this.value.replace(/[^0-9.']/g, ''); //<-- replace all other than given set of values
-        });
-
-        $('#lng').on('input', function() {
-            this.value = this.value.replace(/[^0-9.']/g, ''); //<-- replace all other than given set of values
-        });
-
-        $('#lat1').on('input', function() {
-            this.value = this.value.replace(/[^0-9.']/g, ''); //<-- replace all other than given set of values
-        });
-
-        $('#lng1').on('input', function() {
-            this.value = this.value.replace(/[^0-9.']/g, ''); //<-- replace all other than given set of values
-        });
     });
+
+    function ubahOption() {
+
+        //untuk select SUP
+        id = document.getElementById("uptd").value
+        url = "{{ url('admin/master-data/ruas-jalan/getSUP') }}"
+        id_select = '#sup'
+        text = 'Pilih SUP'
+        option = 'name'
+
+        setDataSelect(id, url, id_select, text, option, option)
+
+        //untuk select Ruas
+        url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalan') }}"
+        id_select = '#ruas_jalan'
+        text = 'Pilih Ruas Jalan'
+        option = 'nama_ruas_jalan'
+
+        setDataSelect(id, url, id_select, text, option, option)
+
+    }
 </script>
 @endsection

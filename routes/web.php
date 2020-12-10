@@ -111,12 +111,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::get('/', 'DisposisiController@getDaftarDisposisi')->name('daftar-disposisi');
         Route::get('masuk', 'DisposisiController@getInboxDisposisi')->name('disposisi-masuk');
         Route::get('tindaklanjut', 'DisposisiController@getDisposisiTindakLanjut')->name('disposisi-tindak-lanjut');
-         
+
         Route::post('createTindakLanjut', 'DisposisiController@createTindakLanjut')->name('createTindakLanjut');
         Route::post('create', 'DisposisiController@create')->name('saveInsertDisposisi');
         Route::get('accepted/{id}', 'DisposisiController@getAcceptedRequest')->name('getAcceptedRequest');
         Route::get('detail/disposisi/{id}', 'DisposisiController@getdetailDisposisi')->name('getdetailDisposisi');
-        
     });
     Route::group(['prefix' => 'master-data'], function () {
         Route::group(['prefix' => 'jembatan'], function () {
@@ -124,7 +123,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('edit/{id}', 'MasterData\JembatanController@edit')->name('editJembatan');
             Route::post('create', 'MasterData\JembatanController@store')->name('createJembatan');
             Route::post('update', 'MasterData\JembatanController@update')->name('updateJembatan');
-            // Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
             Route::get('delete/{id}', 'MasterData\JembatanController@delete')->name('deleteJembatan');
         });
 
@@ -134,6 +132,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('create', 'MasterData\RuasJalanController@create')->name('createMasterRuasJalan');
             Route::post('update', 'MasterData\RuasJalanController@update')->name('updateMasterRuasJalan');
             Route::get('delete/{id}', 'MasterData\RuasJalanController@delete')->name('deleteRuasJalan');
+            Route::get('getSUP', 'MasterData\RuasJalanController@getSUP')->name('getSUPRuasJalan');
         });
 
         Route::group(['prefix' => 'user'], function () {
@@ -188,6 +187,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('create', 'InputData\KondisiJalanController@create')->name('createIDKondisiJalan');
             Route::post('update', 'InputData\KondisiJalanController@update')->name('updateIDKondisiJalan');
             Route::get('delete/{id}', 'InputData\KondisiJalanController@delete')->name('deleteIDKondisiJalan');
+            Route::get('getRuasJalan', 'InputData\KondisiJalanController@getRuasJalan')->name('getRuasJalanKJ');
         });
 
         Route::group(['prefix' => 'data-paket'], function () {

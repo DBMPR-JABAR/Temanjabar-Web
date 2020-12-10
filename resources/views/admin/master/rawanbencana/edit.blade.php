@@ -26,7 +26,7 @@
 </div>
 @endsection
 
-@section('page-body') 
+@section('page-body')
 <div class="row">
     <div class="col-md-12">
         <div class="card">
@@ -53,10 +53,25 @@
                         </div>
                     </div>
 
-                      <div class="form-group row">
+                    @if (Auth::user()->internalRole->uptd)
+                    <input type="hidden" id="uptd" name="uptd_id" value="{{$rawan->uptd_id}}">
+                    @else
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Uptd</label>
+                        <div class="col-md-10">
+                            <select class="form-control" id="uptd" name="uptd_id" onchange="ubahOption()">
+                                @foreach ($uptd as $data)
+                                <option value="{{$data->id}}">{{$data->nama}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    @endif
+
+                    <div class="form-group row">
                         <label class="col-md-2 col-form-label">Ruas Jalan</label>
                         <div class="col-md-10">
-                            <select name="ruas_jalan" class="form-control" required >
+                            <select id="ruas_jalan" name="ruas_jalan" class="form-control" required>
                                 <option value="{{$rawan->ruas_jalan}}">{{$rawan->ruas_jalan}}</option>>
                                 <option></option>
                                 @foreach ($ruas as $data)
@@ -81,7 +96,7 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Status</label>
-                       <div class="col-md-10">
+                        <div class="col-md-10">
                             <select class="form-control" name="status">
                                 <option value="P">P</option>
                                 <option value="N">N</option>
@@ -89,24 +104,9 @@
                         </div>
                     </div>
 
-                    @if (Auth::user()->internalRole->uptd)
-                        <input type="hidden" name="uptd_id" value="{{$rawan->uptd_id}}">
-                    @else
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Uptd</label>
-                       <div class="col-md-10">
-                            <select class="form-control" name="uptd_id">
-                                @foreach ($uptd as $data)
-                                <option value="{{$data->id}}">{{$data->nama}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    @endif
-
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Keterangan</label>
-                       <div class="col-md-10">
+                        <div class="col-md-10">
                             <textarea name="keterangan" rows="3" cols="3" class="form-control" placeholder="Masukkan Keterangan" required>{{$rawan->keterangan}}</textarea>
                         </div>
                     </div>
@@ -119,4 +119,26 @@
     </div>
 </div>
 
+@endsection
+
+@section('script')
+<script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}"></script>
+
+<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script>
+    function ubahOption() {
+
+        //untuk select Ruas
+        id = document.getElementById("uptd").value
+        url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalan') }}"
+        id_select = '#ruas_jalan'
+        text = 'Pilih Ruas Jalan'
+        option = 'nama_ruas_jalan'
+
+        setDataSelect(id, url, id_select, text, option, option)
+    }
+</script>
 @endsection

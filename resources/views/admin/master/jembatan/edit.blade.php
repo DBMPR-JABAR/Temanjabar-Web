@@ -58,12 +58,28 @@
                         </div>
                     </div>
 
+                    @if(Auth::user()->internalRole->uptd)
+                    <input type="hidden" id="uptd" name="uptd" value="{{$jembatan->uptd}}">
+                    @else
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">UPTD</label>
+                        <div class="col-md-10">
+                            <select class="form-control" id="uptd" name="uptd" onchange="ubahOption()" required>
+                                <option>Pilih UPTD</option>
+                                @foreach ($uptd as $data)
+                                <option value="{{$data->slug}}" @if($data->slug==$jembatan->uptd) selected @endif>{{$data->nama}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    @endif
+
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Ruas Jalan</label>
                         <div class="col-md-10">
-                            <select name="ruas_jalan" class="form-control" required>
+                            <select id="ruas_jalan" name="ruas_jalan" class="form-control" required>
                                 <option value="{{$jembatan->ruas_jalan}}">{{$jembatan->ruas_jalan}}</option>
-                                <option></option>
+                                <option disabled></option>
                                 @foreach ($ruasJalan as $data)
                                 <option value="{{$data->nama_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
                                 @endforeach
@@ -74,9 +90,9 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">SUP</label>
                         <div class="col-md-10">
-                            <select class="form-control" required name="sup">
+                            <select class="form-control" id="sup" name="sup" required>
                                 <option value="{{$jembatan->sup}}">{{$jembatan->sup}}</option>
-                                <option></option>
+                                <option disabled></option>
                                 @foreach ($sup as $data)
                                 <option value="{{$data->name}}">{{$data->name}}</option>
                                 @endforeach
@@ -134,22 +150,6 @@
                         </div>
                     </div>
 
-                    @if(Auth::user()->internalRole->uptd)
-                    <input type="hidden" name="uptd" value="{{$jembatan->uptd}}">
-                    @else
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">UPTD</label>
-                        <div class="col-md-10">
-                            <select class="form-control" required name="uptd">
-                                <option>Pilih UPTD</option>
-                                @foreach ($uptd as $data)
-                                <option value="{{$data->slug}}" @if($data->slug==$jembatan->uptd) selected @endif>{{$data->nama}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    @endif
-
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Foto Jembatan</label>
                         <div class="col-md-6">
@@ -188,5 +188,27 @@
             return (/^\-?[0-9]*\.?[0-9]*$/).test($(this).val() + evt.key);
         });
     });
+
+    function ubahOption() {
+
+        //untuk select SUP
+        val = document.getElementById("uptd").value
+        id = parseInt(val.slice(val.length - 1))
+
+        url = "{{ url('admin/master-data/ruas-jalan/getSUP') }}"
+        id_select = '#sup'
+        text = 'Pilih SUP'
+        option = 'name'
+
+        setDataSelect(id, url, id_select, text, option, option)
+
+        //untuk select Ruas
+        url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalan') }}"
+        id_select = '#ruas_jalan'
+        text = 'Pilih Ruas Jalan'
+        option = 'nama_ruas_jalan'
+
+        setDataSelect(id, url, id_select, text, option, option)
+    }
 </script>
 @endsection
