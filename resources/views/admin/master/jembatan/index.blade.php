@@ -53,7 +53,9 @@
                 </div>
             </div>
             <div class="card-block">
+                @if (hasAccess(Auth::user()->internal_role_id, "Jembatan", "Create"))
                 <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
+                @endif
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered able-responsive">
                         <thead>
@@ -83,8 +85,12 @@
                                 <td>{{$data->ruas_jalan}}</td>
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/'.$data->foto) !!}" alt="" srcset=""></td>
                                 <td>
+                                    @if (hasAccess(Auth::user()->internal_role_id, "Jembatan", "Update"))
                                     <a href="{{ route('editJembatan',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
+                                    @endif
+                                    @if (hasAccess(Auth::user()->internal_role_id, "Jembatan", "Delete"))
                                     <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
@@ -96,6 +102,7 @@
     </div>
 </div>
 <div class="modal-only">
+    @if (hasAccess(Auth::user()->internal_role_id, "Jembatan", "Create"))
     <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -237,6 +244,9 @@
             </div>
         </div>
     </div>
+    @endif
+
+    @if (hasAccess(Auth::user()->internal_role_id, "Jembatan", "Delete"))
     <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -260,6 +270,7 @@
             </div>
         </div>
     </div>
+    @endif
 </div>
 @endsection
 @section('script')

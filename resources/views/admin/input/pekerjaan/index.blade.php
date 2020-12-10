@@ -53,7 +53,9 @@
                 </div>
             </div>
             <div class="card-block">
+                @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Create"))
                 <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
+                @endif
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered able-responsive">
                         <thead>
@@ -98,10 +100,16 @@
                                 <td>{{$data->tanggal}}</td>
 
                                 <td>
+                                    @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
                                     <a href="{{ route('editDataPekerjaan',$data->id_pek) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
                                     <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}" class="mb-2 btn btn-sm btn-primary btn-mat">Material</a><br>
+                                    @endif
+                                    @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Delete"))
                                     <a href="#delModal" data-id="{{$data->id_pek}}" data-toggle="modal" class=" mb-2 btn btn-sm btn-danger btn-mat">Hapus</a><br>
+                                    @endif
+                                    @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
                                     <a href="#submitModal" data-id="{{$data->id_pek}}" data-toggle="modal" class="btn btn-sm btn-success btn-mat">Submit</a>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach

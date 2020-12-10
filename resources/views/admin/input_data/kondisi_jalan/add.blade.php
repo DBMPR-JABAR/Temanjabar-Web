@@ -562,7 +562,7 @@
                         </div>
                     </div>
                     <div class=" form-group row">
-                        <a href="{{ route('getIDKondisiJalan') }}"><button type="button" class="btn btn-default waves-effect">Close</button></a>
+                        <a href="{{ route('getIDKondisiJalan') }}"><button type="button" class="btn btn-default waves-effect">Batal</button></a>
                         <button type="submit" class="btn btn-primary waves-effect waves-light ml-2">Simpan</button>
                     </div>
                 </form>

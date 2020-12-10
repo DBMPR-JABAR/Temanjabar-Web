@@ -53,7 +53,9 @@
                 </div>
             </div>
             <div class="card-block">
+                @if (hasAccess(Auth::user()->internal_role_id, "Kondisi Jalan", "Create"))
                 <a href="{{ route('addIDKondisiJalan') }}" class="btn btn-mat btn-primary mb-3">Tambah</a>
+                @endif
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered able-responsive">
                         <thead>
@@ -83,8 +85,12 @@
                                 <td>{{$data->lebar_rata_rata}}</td>
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/'.$data->foto_dokumentasi) !!}" alt="" srcset=""></td>
                                 <td>
+                                    @if (hasAccess(Auth::user()->internal_role_id, "Kondisi Jalan", "Update"))
                                     <a href="{{ route('editIDKondisiJalan',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
+                                    @endif
+                                    @if (hasAccess(Auth::user()->internal_role_id, "Kondisi Jalan", "Delete"))
                                     <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach

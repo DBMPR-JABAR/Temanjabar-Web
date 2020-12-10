@@ -1,6 +1,6 @@
 @extends('admin.t_index')
 
-@section('title') RawanBencana @endsection
+@section('title') Rawan Bencana @endsection
 @section('head')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/buttons.dataTables.min.css') }}">
@@ -21,7 +21,7 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>RawanBencana</h4>
+                <h4>Rawan Bencana</h4>
                 <span>Data Rawan Bencana</span>
             </div>
         </div>
@@ -53,7 +53,9 @@
                 </div>
             </div>
             <div class="card-block">
+                @if (hasAccess(Auth::user()->internal_role_id, "Rawan Bencana", "Create"))
                 <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
+                @endif
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered able-responsive">
                         <thead>
@@ -78,10 +80,13 @@
                                 <td>{{$data->daerah}}</td>
                                 <td>{{$data->keterangan}}</td>
                                 <td>{{$data->status}}</td>
-
                                 <td>
+                                    @if (hasAccess(Auth::user()->internal_role_id, "Rawan Bencana", "Update"))
                                     <a href="{{ route('editDataBencana',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
+                                    @endif
+                                    @if (hasAccess(Auth::user()->internal_role_id, "Rawan Bencana", "Delete"))
                                     <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
@@ -93,6 +98,7 @@
     </div>
 </div>
 
+@if (hasAccess(Auth::user()->internal_role_id, "Rawan Bencana", "Create"))
 <div class="modal-only">
     <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
@@ -190,66 +196,70 @@
             </div>
         </div>
     </div>
+</div>
+@endif
 
-    <div class="modal-only">
+@if (hasAccess(Auth::user()->internal_role_id, "Rawan Bencana", "Delete"))
+<div class="modal-only">
+    <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
 
-        <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-
-                    <div class="modal-header">
-                        <h4 class="modal-title">Hapus Data Rawan Bencana</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-
-                    <div class="modal-body">
-                        <p>Apakah anda yakin ingin menghapus data ini?</p>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                        <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Hapus</a>
-                    </div>
-
+                <div class="modal-header">
+                    <h4 class="modal-title">Hapus Data Rawan Bencana</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
+
+                <div class="modal-body">
+                    <p>Apakah anda yakin ingin menghapus data ini?</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                    <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Hapus</a>
+                </div>
+
             </div>
         </div>
-
     </div>
-    @endsection
-    @section('script')
-    <script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}"></script>
+</div>
+</div>
+@endif
 
-    <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
-    <script>
-        $(document).ready(function() {
-            $("#dttable").DataTable();
-            $('#delModal').on('show.bs.modal', function(event) {
-                const link = $(event.relatedTarget);
-                const id = link.data('id');
-                console.log(id);
-                const url = `{{ url('admin/master-data/rawanbencana/delete') }}/` + id;
-                console.log(url);
-                const modal = $(this);
-                modal.find('.modal-footer #delHref').attr('href', url);
-            });
+@endsection
+@section('script')
+<script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}"></script>
+
+<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        $("#dttable").DataTable();
+        $('#delModal').on('show.bs.modal', function(event) {
+            const link = $(event.relatedTarget);
+            const id = link.data('id');
+            console.log(id);
+            const url = `{{ url('admin/master-data/rawanbencana/delete') }}/` + id;
+            console.log(url);
+            const modal = $(this);
+            modal.find('.modal-footer #delHref').attr('href', url);
         });
+    });
 
-        function ubahOption() {
+    function ubahOption() {
 
-            //untuk select Ruas
-            id = document.getElementById("uptd").value
-            url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalan') }}"
-            id_select = '#ruas_jalan'
-            text = 'Pilih Ruas Jalan'
-            option = 'nama_ruas_jalan'
+        //untuk select Ruas
+        id = document.getElementById("uptd").value
+        url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalan') }}"
+        id_select = '#ruas_jalan'
+        text = 'Pilih Ruas Jalan'
+        option = 'nama_ruas_jalan'
 
-            setDataSelect(id, url, id_select, text, option, option)
-        }
-    </script>
-    @endsection
+        setDataSelect(id, url, id_select, text, option, option)
+    }
+</script>
+@endsection

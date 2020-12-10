@@ -111,11 +111,26 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::get('/', 'DisposisiController@getDaftarDisposisi')->name('daftar-disposisi');
         Route::get('masuk', 'DisposisiController@getInboxDisposisi')->name('disposisi-masuk');
         Route::get('tindaklanjut', 'DisposisiController@getDisposisiTindakLanjut')->name('disposisi-tindak-lanjut');
+<<<<<<< HEAD
+=======
+        Route::post('saveDisposisiLevel2', 'DisposisiController@saveDisposisiLevel2')->name('saveDisposisiLevel2');
+        Route::get('instruksi', 'DisposisiController@getDaftarDisposisiInstruksi')->name('disposisi-instruksi');
+>>>>>>> bd99d4d4a995fe7446be37bff4e2690b406e4b8a
 
         Route::post('createTindakLanjut', 'DisposisiController@createTindakLanjut')->name('createTindakLanjut');
         Route::post('create', 'DisposisiController@create')->name('saveInsertDisposisi');
+        Route::post('createDisposisiInstruksi', 'DisposisiController@createInstruksi')->name('saveInsertInstruksi');
         Route::get('accepted/{id}', 'DisposisiController@getAcceptedRequest')->name('getAcceptedRequest');
         Route::get('detail/disposisi/{id}', 'DisposisiController@getdetailDisposisi')->name('getdetailDisposisi');
+<<<<<<< HEAD
+=======
+
+        Route::get('detail/disposisi-instruksi/{id}', 'DisposisiController@getdetailDisposisiInstruksi')->name('getdetailDisposisiInstruksi');
+        Route::get('disposisi-instruksi/getData/{id}', 'DisposisiController@getDataDisposisiInstruksi')->name('getDataDisposisiInstruksi');
+        Route::post('disposisi-instruksi/update', 'DisposisiController@updateDisposisiInstruksi')->name('saveUpdateInstruksi');
+        Route::get('disposisi-instruksi/delete/{id}', 'DisposisiController@deleteDisposisiInstruksi')->name('deleteDisposisiInstruksi');
+
+>>>>>>> bd99d4d4a995fe7446be37bff4e2690b406e4b8a
     });
     Route::group(['prefix' => 'master-data'], function () {
         Route::group(['prefix' => 'jembatan'], function () {
@@ -136,6 +151,24 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         });
 
         Route::group(['prefix' => 'user'], function () {
+            Route::get('/', 'MasterData\UserController@getUser')->name('getMasterUser');
+            Route::get('role-akses', 'MasterData\UserController@getDaftarRoleAkses')->name('getRoleAkses');
+            Route::post('role-akses/create', 'MasterData\UserController@createRoleAkses')->name('createRoleAkses');
+            Route::get('role-akses/detail/{id}', 'MasterData\UserController@detailRoleAkses')->name('detailRoleAkses');
+            Route::get('role-akses/delete/{id}', 'MasterData\UserController@deleteRoleAkses')->name('deleteRoleAkses');
+            Route::get('role-akses/getData/{id}', 'MasterData\UserController@getDataRoleAkses')->name('getDataRoleAkses');
+            Route::post('role-akses/updateData', 'MasterData\UserController@updateDataRoleAkses')->name('updateDataRoleAkses');
+
+            Route::get('user-role', 'MasterData\UserController@getDataUserRole')->name('getDataUserRole');
+            Route::post('user-role/create', 'MasterData\UserController@createUserRole')->name('createUserRole');
+            Route::get('user-role/detail/{id}', 'MasterData\UserController@detailUserRole')->name('detailUserRole');
+            Route::get('user-role/getData/{id}', 'MasterData\UserController@getUserRoleData')->name('getUserRoleData');
+            Route::post('user-role/updateData', 'MasterData\UserController@updateUserRole')->name('updateUserRole');
+            Route::get('user-role/delete/{id}', 'MasterData\UserController@deleteUserRole')->name('deleteUserRole');
+            // Route::get('edit/{id}', 'LandingController@editUPTD')->name('editLandingUPTD');
+            // Route::post('create', 'LandingController@createUPTD')->name('createLandingUPTD');
+            // Route::post('update', 'LandingController@updateUPTD')->name('updateLandingUPTD');
+            // Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
             Route::get('/', 'MasterData\UserController@index')->name('getMasterUser');
             Route::get('edit/{id}', 'MasterData\UserController@edit')->name('editUser');
             Route::post('create', 'MasterData\UserController@store')->name('createUser');
@@ -230,3 +263,5 @@ Route::view('debug/map-filter', 'debug.map-filter');
 Route::view('coba-map', 'debug.coba-map');
 Route::view('map-progress-mingguan', 'debug.map-progress-mingguan');
 Route::view('map-ruas-jalan', 'debug.map-ruas-jalan');
+
+Route::get('debug', 'Backup\DebugController@index');
