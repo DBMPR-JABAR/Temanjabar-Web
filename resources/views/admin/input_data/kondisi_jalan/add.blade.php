@@ -50,12 +50,13 @@
 
                     if (Auth::user()->internalRole->uptd) {
                         $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd); ?>
-                        <input name="uptd" type="number" class="form-control" value="{{$uptd_id}}" hidden>
+                        <input id="uptd" name="uptd" type="number" class="form-control" value="{{$uptd_id}}" hidden>
                     <?php } else { ?>
                         <div class=" form-group row">
                             <label class="col-md-3 col-form-label">UPTD</label>
                             <div class="col-md-9">
-                                <select class="form-control select2" name="uptd" style="min-width: 100%;">
+                                <select class="form-control select2" id="uptd" name="uptd" style="min-width: 100%;" onchange="ubahDataRuasJalan()">
+                                    <option>Pilih UPTD</option>
                                     @foreach ($uptd as $uptdData)
                                     <option value="<?php echo $uptdData->id; ?>"><?php echo $uptdData->nama; ?></option>
                                     @endforeach
@@ -67,11 +68,14 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Nama Ruas Jalan</label>
                         <div class="col-md-9">
-                            <select name="ruas_jalan" class="form-control" required>
-                                <option>Pilih Ruas Jalan</option>
+                            <select id="ruas_jalan" name="ruas_jalan" class="form-control" required>
+                                @if (Auth::user()->internalRole->uptd)
                                 @foreach ($ruasJalan as $data)
                                 <option value="{{$data->nama_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
                                 @endforeach
+                                @else
+                                <option>-</option>
+                                @endif
                             </select>
                         </div>
                     </div>
@@ -79,7 +83,7 @@
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Nama Kota</label>
                         <div class="col-md-9">
-                            <input name="nama_kota" type="text" class="form-control" required>
+                            <input id="nama_kota" name="nama_kota" type="text" class="form-control" required>
                         </div>
                     </div>
 
@@ -606,6 +610,30 @@
             $("#form-mantap").hide();
             // }
         }
+    }
+
+    function ubahDataRuasJalan() {
+
+        val = document.getElementById("uptd").value
+        // alert(val);
+        console.log(val)
+
+        $.ajax({
+            url: "{{ url('admin/input-data/kondisi-jalan/getRuasJalan') }}",
+            method: 'get',
+            dataType: 'JSON',
+            data: {
+                id: val
+            },
+            complete: function(result) {
+                $('#ruas_jalan').empty(); // remove old options
+                $('#ruas_jalan').append($("<option></option>").text('Pilih Ruas Jalan'));
+
+                result.responseJSON.forEach(function(item) {
+                    $('#ruas_jalan').append($("<option></option>").attr("value", item["nama_ruas_jalan"]).text(item["nama_ruas_jalan"]));
+                });
+            }
+        });
     }
 </script>
 @endsection

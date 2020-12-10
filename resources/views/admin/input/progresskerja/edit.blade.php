@@ -67,7 +67,7 @@
                         <div class="col-md-10">
                             <select class="form-control" name="nama_paket" required value="{{$progress->nama_paket}}">
                                 @foreach ($paket as $data)
-                                <option value="{{$data}}" {{ ( $data == $progress->nama_paket) ? 'selected' : ''}}>{{$data}}</option>
+                                <option value="{{$data}}"> {{ ( $data == $progress->nama_paket) ? 'selected' : ''}}>{{$data}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -77,15 +77,38 @@
                         <div class="col-md-10">
                             <select class="form-control" name="penyedia_jasa" required value="{{$progress->penyedia_jasa}}">
                                 @foreach ($penyedia as $data)
-                                <option value="{{$data}}" {{ ( $data == $progress->penyedia_jasa) ? 'selected' : ''}}>{{$data}}</option>
+                                <option value="{{$data}}"> {{ ( $data == $progress->penyedia_jasa) ? 'selected' : ''}}>{{$data}}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
+
+                    @if(Auth::user()->internalRole->uptd)
+                    <input type="hidden" id="uptd" name="uptd_id" value="{{str_replace('uptd','',Auth::user()->internalRole->uptd)}}">
+                    @else
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">UPTD</label>
+                        <div class="col-md-10">
+                            <select class="form-control" id="uptd" name="uptd_id" onchange="ubahOption()" required>
+                                <!-- <option value="">Pilih UPTD</option> -->
+                                @foreach ($uptd as $data)
+                                @if($data->id == $progress->uptd_id)
+                                <option value="{{$data->id}}" selected>{{$data->nama}}</option>
+                                @else
+                                <option value="{{$data->id}}">{{$data->nama}}</option>
+                                @endif
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    @endif
+
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Satuan Pelayanan Pengelolaan</label>
                         <div class="col-md-10">
                             <select class="form-control" name="sup" required value="{{$progress->sup}}">
+                                <option value="<?php echo $progress->sup; ?>"><?php echo $progress->sup; ?></option>
+                                <option disabled></option>
                                 @foreach ($sup as $data)
                                 <option value="{{$data->name}}" {{ ( $data->name == $progress->sup) ? 'selected' : ''}}>{{$data->name}}</option>
                                 @endforeach
