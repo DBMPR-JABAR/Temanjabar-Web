@@ -66,7 +66,7 @@
                                 <th>Permasalahan</th>
                                 <th>Foto</th>
                                 <th>Status</th>
-                                <th>Aksi</th>
+                                <th style="min-width: 130px;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody id="bodyJembatan">
@@ -80,13 +80,15 @@
                                 <td>{{$data->permasalahan}}</td>
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/'.$data->foto_awal) !!}" alt="" srcset=""></td>
                                 <td>{{$data->status}}</td>
-                                <td>
-                                    @if (hasAccess(Auth::user()->internal_role_id, "Lapor", "Update"))
-                                    <a href="{{ route('editLapor',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
-                                    @endif
-                                    @if (hasAccess(Auth::user()->internal_role_id, "Lapor", "Delete"))
-                                    <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
-                                    @endif
+                                <td style="min-width: 130px;">
+                                    <div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">
+                                        @if (hasAccess(Auth::user()->internal_role_id, "Lapor", "Update"))
+                                        <a href="{{ route('editLapor',$data->id) }}" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i>Edit</a>
+                                        @endif
+                                        @if (hasAccess(Auth::user()->internal_role_id, "Lapor", "Delete"))
+                                        <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-danger btn-sm waves-effect waves-light"><i class="icofont icofont-trash"></i>Hapus</a>
+                                        @endif
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach
