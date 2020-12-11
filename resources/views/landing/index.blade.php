@@ -401,7 +401,7 @@
             </div>
             <div class="col-lg-6 d-none d-lg-block pl-lg-0 wow fadeInRight">
                 <div class=" image login-image h-100">
-                    <img src="https://picsum.photos/750/680" alt="" class="h-100">
+                    <img src="https://picsum.photos/id/1067/750/680" alt="" class="h-100">
                 </div>
             </div>
         </div>
