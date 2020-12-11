@@ -142,6 +142,18 @@
             background-position: center;
             object-fit: cover;
         }
+        #legend {
+            display: block;
+            position: fixed;
+            bottom: 20px;
+            left: 15px;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 200px;
+            font-size: 15px;
+            color: #000;
+            background: rgba(255, 255, 255, 0.3);
+        }
     </style>
     <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -172,6 +184,56 @@
     </div>
     <div id="logo">
         <img width="200" class="img-fluid" src="{{ asset('assets/images/brand/text_putih.png')}}" alt="Logo DBMPR">
+    </div>
+    <div id="legend">
+        <div class="row">
+            <div class="col-2">
+                <img width="20px" src="{{ asset('assets/images/marker/jalan.png')}}" alt="Ruas Jalan">
+            </div>
+            <div class="col"><p>Ruas Jalan</p></div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <img width="20px" src="{{ asset('assets/images/marker/pembangunan.png')}}" alt="Pembangunan">
+            </div>
+            <div class="col"><p>Pembangunan</p></div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <img width="20px" src="{{ asset('assets/images/marker/peningkatan.png')}}" alt="Peningkatan">
+            </div>
+            <div class="col"><p>Peningkatan</p></div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <img width="20px" src="{{ asset('assets/images/marker/rehabilitasi.png')}}" alt="Rehabilitasi">
+            </div>
+            <div class="col"><p>Rehabilitasi</p></div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <img width="20px" src="{{ asset('assets/images/marker/pemeliharaan.png')}}" alt="Pemeliharaan">
+            </div>
+            <div class="col"><p>Pemeliharaan</p></div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <img width="20px" src="{{ asset('assets/images/marker/vehiclecounting.png')}}" alt="vehicle Counting">
+            </div>
+            <div class="col"><p>Vehicle Counting</p></div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <img width="20px" src="{{ asset('assets/images/marker/kemantapanjalan.png')}}" alt="kemantapan jalan">
+            </div>
+            <div class="col"><p>Kemantapan Jalan</p></div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <img width="20px" src="{{ asset('assets/images/marker/jembatan.png')}}" alt="jembatan">
+            </div>
+            <div class="col"><p>Jembatan</p></div>
+        </div>
     </div>
     <div id="filter" class="bg-white">
         <div id="preloader" style="display:none">
