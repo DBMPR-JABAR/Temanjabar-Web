@@ -59,7 +59,7 @@
             <div class="card-block">
                 <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
                 <div class="dt-responsive table-responsive">
-                    <table id="dttable" class="table table-striped table-bordered able-responsive">
+                    <table id="dttable" class="table table-striped table-bordered ">
                         <thead>
                             <tr>
                                 <th>No</th>

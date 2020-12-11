@@ -186,6 +186,11 @@
                         </a>
                     </li>
                     @endif
+                    <li class="{{(Request::segment(3) == 'laporan-masyarakat') ? 'active' : ''}}">
+                        <a href="{{ url('admin/landing-page/laporan-masyarakat') }}">
+                            <span class="pcoded-mtext">Laporan Masyarakat</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             @endif

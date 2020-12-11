@@ -61,7 +61,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
         Route::get('kemantapan-jalan', 'MonitoringController@getKemantapanJalan');
         // Route::view('kemantapan-jalan-detail', 'admin.monitoring.kemantapan-jalan-detail');
-        Route::get('/getSup/{uptd}', 'MonitoringController@getSup');
     });
 
     // {SiteURL}/admin/rekomendasi/*
@@ -104,6 +103,25 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('create', 'LandingController@createUPTD')->name('createLandingUPTD');
             Route::post('update', 'LandingController@updateUPTD')->name('updateLandingUPTD');
             Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
+        });
+
+        // {SiteURL}/admin/landing-page/uptd
+        Route::group(['prefix' => 'uptd'], function () {
+            Route::get('/', 'LandingController@getUPTD')->name('getLandingUPTD');
+            Route::get('edit/{id}', 'LandingController@editUPTD')->name('editLandingUPTD');
+            Route::post('create', 'LandingController@createUPTD')->name('createLandingUPTD');
+            Route::post('update', 'LandingController@updateUPTD')->name('updateLandingUPTD');
+            Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
+        });
+
+
+        // {SiteURL}/admin/landing-page/laporan-masyarakat
+        Route::group(['prefix' => 'laporan-masyarakat'], function () {
+            Route::get('/', 'LandingController@getLaporanMasyarakat')->name('getLandingLaporanMasyarakat');
+            Route::get('edit/{id}', 'LandingController@editLaporanMasyarakat')->name('editLandingLaporanMasyarakat');
+            Route::post('create', 'LandingController@createLaporanMasyarakat')->name('createLandingLaporanMasyarakat');
+            Route::post('update', 'LandingController@updateLaporanMasyarakat')->name('updateLandingLaporanMasyarakat');
+            Route::get('delete/{id}', 'LandingController@deleteLaporanMasyarakat')->name('deleteLaporanMasyarakat');
         });
     });
 
