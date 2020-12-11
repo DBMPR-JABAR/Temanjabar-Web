@@ -79,12 +79,14 @@
                                 <td>{{$data->lokasi}}</td>
                                 <td>{{$data->panjang}}</td>
                                 <td>
-                                    @if (hasAccess(Auth::user()->internal_role_id, "Ruas Jalan", "Update"))
-                                    <a href="{{ route('editMasterRuasJalan',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
-                                    @endif
-                                    @if (hasAccess(Auth::user()->internal_role_id, "Ruas Jalan", "Delete"))
-                                    <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
-                                    @endif
+                                    <div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">
+                                        @if (hasAccess(Auth::user()->internal_role_id, "Ruas Jalan", "Update"))
+                                        <a href="{{ route('editMasterRuasJalan',$data->id) }}" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i>Edit</a>
+                                        @endif
+                                        @if (hasAccess(Auth::user()->internal_role_id, "Ruas Jalan", "Delete"))
+                                        <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-danger btn-sm waves-effect waves-light"><i class="icofont icofont-trash"></i>Hapus</a>
+                                        @endif
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach
