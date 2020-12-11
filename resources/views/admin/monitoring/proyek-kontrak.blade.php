@@ -71,12 +71,12 @@
                                             @else
                                             <option value="" selected>Semua</option>
                                             <option value="">Dinas</option>
-                                            <option value="uptd1">UPTD 1</option>
-                                            <option value="uptd2">UPTD 2</option>
-                                            <option value="uptd3">UPTD 3</option>
-                                            <option value="uptd4">UPTD 4</option>
-                                            <option value="uptd5">UPTD 5</option>
-                                            <option value="uptd6">UPTD 6</option>
+                                            <option value="1">UPTD 1</option>
+                                            <option value="2">UPTD 2</option>
+                                            <option value="3">UPTD 3</option>
+                                            <option value="4">UPTD 4</option>
+                                            <option value="5">UPTD 5</option>
+                                            <option value="6">UPTD 6</option>
                                             @endif
                                         </select>
                                     </div>
