@@ -21,7 +21,7 @@
                         <a class="nav-link pagescroll" href="#uptd">UPTD</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link pagescroll" href="#laporan">Laporan Jalan</a>
+                        <a class="nav-link pagescroll" href="#laporan">Laporan Kerusakan</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link pagescroll" href="#kontak">Kontak</a>
@@ -260,8 +260,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center wow fadeIn" data-wow-delay="300ms">
-                <h2 class="heading bottom40 darkcolor font-light2"><span class="font-normal">Laporkan</span> Jalan
-                    Rusak
+                <h2 class="heading bottom40 darkcolor font-light2"><span class="font-normal">Laporkan</span> Kerusakan
                     <span class="divider-center"></span>
                 </h2>
                 <div class="col-md-12 offset-md-2 heading_space">
