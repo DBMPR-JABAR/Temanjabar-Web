@@ -529,52 +529,6 @@
     <div id="map" class="full-map"></div>
 </div>
 <!-- map end -->
-<!-- Stay Connected -->
-<section id="stayconnect" class="bglight position-relative">
-    <div class="container">
-        <div class="contactus-wrapp position-absolute shadow-equal">
-            <div class="row">
-                <div class="col-md-12 col-sm-12">
-                    <div class="heading-title wow fadeInUp text-center text-md-left" data-wow-delay="300ms">
-                        <h3 class="darkcolor bottom20">Tetap Terhubung Dengan Kami</h3>
-                    </div>
-                </div>
-                <div class="col-md-12 col-sm-12">
-                    <form class="getin_form wow fadeInUp" data-wow-delay="400ms">
-                        <div class="row">
-                            <div class="col-md-12 col-sm-12" id="result"></div>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="form-group">
-                                    <label for="userName" class="d-none"></label>
-                                    <input name="nama" class="form-control" type="text" placeholder="Nama Awal:" required
-                                        id="userName" name="userName">
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="form-group">
-                                    <label for="companyName" class="d-none"></label>
-                                    <input name="" class="form-control" type="tel" placeholder="Nama Perusahaan:"
-                                        id="companyName" name="companyName">
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="form-group">
-                                    <label for="email" class="d-none"></label>
-                                    <input class="form-control" type="email" placeholder="Email:" required
-                                        id="email" name="email">
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                                <button type="submit" class="button gradient-btn w-100"
-                                    id="submit_btn">Berlangganan</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 <!-- Contact US ends -->
 
 @endsection

@@ -1,7 +1,7 @@
 /* ----- Google Map ----- */
 if ($("#map").length) {
     function initialize() {
-        var myLatLng = {lat: 40.711, lng: -74.0016};
+        var myLatLng = {lat: -6.92132, lng: 107.6088113};
         var mapOptions = {
             zoom: 17,
             scrollwheel: false,
@@ -115,7 +115,7 @@ if ($("#map").length) {
         var map = new google.maps.Map(document.getElementById('map'),
             mapOptions);
         var marker = new google.maps.Marker({
-            position: {lat: 40.7115, lng: -74.0016},
+            position: {lat: -6.9212667417539455, lng: 107.61112874273829},
             icon: 'assets/images/location-pin.png', //if u want custom
             animation: google.maps.Animation.DROP,
             map: map,
