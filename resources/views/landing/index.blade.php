@@ -294,7 +294,7 @@
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label for="nik" class="d-none"></label>
-                                    <input name="nik" class="form-control" type="number" placeholder="NIK:" required id="nik">
+                                    <input name="nik" class="form-control" type="number" placeholder="No.KTP:" required id="nik">
                                 </div>
                             </div>
                             <div class="col-md-12 col-sm-12">
@@ -320,7 +320,7 @@
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label class="my-1 mr-2" for="pilihanKeluhan">Lokasi</label>
-                                    <select name="jenis" class="custom-select my-1 mr-sm-2" id="pilihanKeluhan" required>
+                                    <select name="jenis" class="custom-select my-1 mr-sm-2 w-100" id="pilihanKeluhan" required>
                                         <option selected>Pilih...</option>
                                         @foreach ($lokasi as $kabkota)
                                         <option value="{{$kabkota->name}}">{{$kabkota->name}}</option>
@@ -331,7 +331,7 @@
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label class="my-1 mr-2" for="pilihanKeluhan">Keluhan</label>
-                                    <select name="jenis" class="custom-select my-1 mr-sm-2" id="pilihanKeluhan" required>
+                                    <select name="jenis" class="custom-select my-1 mr-sm-2 w-100" id="pilihanKeluhan" required>
                                         <option selected>Pilih...</option>
                                         @foreach ($jenis_laporan as $laporan)
                                         <option value="{{$laporan->id}}">{{$laporan->name}}</option>
@@ -344,12 +344,12 @@
                                     <label class="my-1 mr-2" for="pilihanUptd">UPTD</label>
                                     <select name="uptd_id" class="custom-select my-1 mr-sm-2" id="pilihanUptd" required>
                                         <option selected>Pilih...</option>
-                                        <option value="1">UPTD-I</option>
-                                        <option value="2">UPTD-II</option>
-                                        <option value="3">UPTD-III</option>
-                                        <option value="4">UPTD-IV</option>
-                                        <option value="5">UPTD-V</option>
-                                        <option value="6">UPTD-VI</option>
+                                        <option value="1">UPTD-I (kab.cianjur, kota/kab.bogor, kota depok, kota/kab.bekasi)</option>
+                                        <option value="2">UPTD-II (kota & kab. sukabumi)</option>
+                                        <option value="3">UPTD-III (kota/kab.bandung, kota cimahi, kab.bandung barat, kab.subang, kab.karawang, kab.purwakarta)</option>
+                                        <option value="4">UPTD-IV (kab.sumedang, kab. garut)</option>
+                                        <option value="5">UPTD-V (kab/kota tasikmalaya, kota banjar, kab.ciamis, kab.pangandaran, kab.kuningan)</option>
+                                        <option value="6">UPTD-VI (kota/kab cirebon, kab. majalengka, kab. indramayu)</option>
                                     </select>
                                 </div>
                             </div>
@@ -376,19 +376,8 @@
                             </div>
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
-                                    <label for="pilihFile">Foto kondisi jalan saat ini</label>
+                                    <label for="pilihFile">Foto Kerusakan saat ini</label>
                                     <input name="image" type="file" class="form-control-file" id="pilihFile">
-                                </div>
-                            </div>
-                            <div class="col-md-12 col-sm-12 px-5">
-                                <div class="form-group bottom35">
-                                    <div class="form-check text-left">
-                                        <input name="agreed" class="form-check-input" required checked type="checkbox"
-                                            id="statment">
-                                        <label class="form-check-label" for="statment">
-                                            Saya setuju dengan peraturan berlaku
-                                        </label>
-                                    </div>
                                 </div>
                             </div>
                             <div class="col-sm-12">

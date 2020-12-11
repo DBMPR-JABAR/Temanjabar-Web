@@ -50,7 +50,6 @@
                     <ul class="list-unstyled card-option">
                         <li><i class="feather icon-maximize full-card"></i></li>
                         <li><i class="feather icon-minus minimize-card"></i></li>
-                        <li><i class="feather icon-trash-2 close-card"></i></li>
                     </ul>
                 </div>
             </div>
@@ -162,7 +161,7 @@
                 container: "viewDiv",
                 map: map,
                 center: [107.6191, -6.9175], // longitude, latitude
-                zoom: 8
+                zoom: 9
             });
 
             const symbol = {

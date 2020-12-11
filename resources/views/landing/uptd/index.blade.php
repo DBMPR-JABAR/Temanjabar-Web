@@ -32,13 +32,13 @@
 <main class="container-fluid bglight">
     <!-- content -->
     <section id="content" class="row">
-        <div id="features" class="col-lg-3">
+        <div id="features" class="col-lg-4">
 
             <div class="container-fluid">
                 <div class="row whitebox top30">
                     <div class="col-lg-12 col-md-12">
                         <div class="widget heading_space text-center text-md-left">
-                            <div class="sidebar-header mb-4">
+                            <div class="sidebar-header mb-4 text-center">
                                 <img src="{{asset('assets/images/brand/jabar.png')}}">
                                 <h3>{{$uptd->nama}}</h3>
                                 <h6>{{$uptd->altnama}}</h6>
@@ -77,28 +77,13 @@
                                                     <label for="kegiatan">Kegiatan</label>
                                                 </div>
                                                 <div class="col-12">
-                                                    <select data-placeholder="Pilih kegiatan" multiple class="chosen-select" tabindex="8" id="kegiatan">
+                                                    <select data-placeholder="Pilih kegiatan" multiple class="chosen-select w-100" tabindex="8" id="kegiatan">
                                                         <option value="ruasjalan">Ruas Jalan</option>
                                                         <option value="pembangunan">Pembangunan</option>
                                                         <option value="peningkatan">Peningkatan</option>
                                                         <option value="rehabilitasi">Rehabilitasi</option>
                                                         <option value="jembatan">Jembatan</option>
 
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <label for="proyek">Proyek Kontrak</label>
-                                                </div>
-                                                <div class="col-12">
-                                                    <select class="chosen-select form-control" id="proyek" data-placeholder="Pilih kegiatan" multiple tabindex="4">
-                                                        <option value="onprogress">On-Progress</option>
-                                                        <option value="critical">Critical Contract</option>
-                                                        <option value="offprogress">Off Progress</option>
-                                                        <option value="finish">Finish</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -125,7 +110,7 @@
                                                 <div class="col-12">
                                                     <label for="exampleFormControlSelect1">Zoom</label>
                                                 </div>
-                                                <div class="col-9">
+                                                <div class="col-12">
                                                     <select class="chosen-select form-control" id="zoom">
                                                         <option value="5">5</option>
                                                         <option value="6">6</option>
@@ -146,7 +131,7 @@
             </div>
 
         </div>
-        <div id="wrapper" class="col-lg-9">
+        <div id="wrapper" class="col-lg-8">
             <!--Page Header-->
             <section id="main-banner-page" class="pb-4 position-relative page-header service-detail-header section-nav-smooth parallax">
                 <div class="container">
@@ -190,50 +175,6 @@
 
 </main>
 <!-- main ends -->
-
-<!-- Contact US -->
-<section id="stayconnect" class="bglight position-relative ">
-    <div class="container">
-        <div class="contactus-wrapp">
-            <div class="row">
-                <div class="col-md-12 col-sm-12">
-                    <div class="heading-title wow fadeInUp text-center text-md-left" data-wow-delay="300ms">
-                        <h3 class="darkcolor bottom20">Stay Connected</h3>
-                    </div>
-                </div>
-                <div class="col-md-12 col-sm-12">
-                    <form class="getin_form wow fadeInUp" data-wow-delay="400ms" onsubmit="return false;">
-                        <div class="row">
-                            <div class="col-md-12 col-sm-12" id="result"></div>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="form-group">
-                                    <label for="userName" class="d-none"></label>
-                                    <input class="form-control" type="text" placeholder="First Name:" required id="userName" name="userName">
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="form-group">
-                                    <label for="companyName" class="d-none"></label>
-                                    <input class="form-control" type="tel" placeholder="Company Name"  id="companyName" name="companyName">
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="form-group">
-                                    <label for="email" class="d-none"></label>
-                                    <input class="form-control" type="email" placeholder="Email:" required id="email" name="email">
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                                <button type="submit" class="button gradient-btn w-100" id="submit_btn">subscribe</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Contact US ends -->
 @endsection
 @section('script')
 <script src="https://js.arcgis.com/4.17/"></script>

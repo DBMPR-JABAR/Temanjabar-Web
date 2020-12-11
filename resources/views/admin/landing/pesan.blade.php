@@ -13,7 +13,7 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Pesan</h4>
+                <h4>Kontak Kami</h4>
                 <span>Pesan yang dikirim oleh user di Landing Page</span>
             </div>
         </div>
