@@ -610,7 +610,7 @@
                     container: "viewDiv",
                     map: map,
                     center: [107.6191, -6.9175], // longitude, latitude
-                    zoom: 8
+                    zoom: 9
                 });
 
                 const gsvrUrl = "{{ env('GEOSERVER') }}";

@@ -226,10 +226,12 @@
                         <img src="{!! url('storage/'.$wil->gambar) !!}" alt="">
                         <div class="gallery-hvr whitecolor">
                             <div class="center-box">
-                                <a href="{!! url('storage/'.$wil->gambar) !!}" class="opens" data-fancybox="gallery"
-                                    title="Zoom In"> <i class="fa fa-search-plus"></i></a>
-                                <a href="{{ url('uptd/'.$wil->slug) }}" class="opens" title="View Details"> <i
-                                        class="fas fa-link"></i></a>
+                                <!-- <a href="{!! url('storage/'.$wil->gambar) !!}" class="opens" data-fancybox="gallery"
+                                    title="Zoom In"> <i class="fa fa-search-plus"></i>
+                                </a> -->
+                                <a href="{{ url('uptd/'.$wil->slug) }}" class="opens" title="View Details">
+                                    <i class="fas fa-link"></i>
+                                </a>
                                 <h4 class="w-100">{{$wil->deskripsi}}</h4>
                             </div>
                         </div>
