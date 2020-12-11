@@ -88,7 +88,7 @@
           cursor: pointer;
         }
         .form-group {
-            margin-bottom: 1px; */
+            margin-bottom: 1px;
         }
         #back {
             position: absolute;
@@ -374,7 +374,7 @@
     toggleFullscreen();
   })
 
-<!-- enable clustering -->
+// <!-- enable clustering -->
   const clusteringElmn = document.querySelector('.clustering');
 </script>
 
