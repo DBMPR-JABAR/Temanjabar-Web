@@ -72,13 +72,13 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Nama Ruas Jalan</label>
                         <div class="col-md-9">
-                                <select name="ruas_jalan" class="form-control" required>
-                                    <option value="{{$kondisiJalan->ruas_jalan}}">{{$kondisiJalan->ruas_jalan}}</option>
-                                    <option></option>
-                                    @foreach ($ruasJalan as $data)
-                                        <option value="{{$data->nama_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
-                                    @endforeach
-                                </select>
+                            <select name="ruas_jalan" class="form-control" required>
+                                <option value="{{$kondisiJalan->ruas_jalan}}">{{$kondisiJalan->ruas_jalan}}</option>
+                                <option></option>
+                                @foreach ($ruasJalan as $data)
+                                <option value="{{$data->nama_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
+                                @endforeach
+                            </select>
                             <!-- <input name="ruas_jalan" type="text" class="form-control" required value="{{$kondisiJalan->ruas_jalan}}"> -->
                         </div>
                     </div>
@@ -121,7 +121,7 @@
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Lebar Rata2</label>
                         <div class="col-md-9">
-                            <input name="lebar_rata_rata" type="number" step="0.01" class="form-control" required value="{{$kondisiJalan->lebar_rata_rata}}">
+                            <input name="lebar_rata_rata" type="text" class="form-control formatRibuan" required value="{{$kondisiJalan->lebar_rata_rata}}">
                         </div>
                     </div>
 
@@ -137,10 +137,10 @@
                         <div class="col-md-9">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <input name="latitude" type="number" step="0.01" class="form-control" required value="{{$kondisiJalan->latitude}}">
+                                    <input name="latitude" type="text" class="form-control formatLatLong" required value="{{$kondisiJalan->latitude}}">
                                 </div>
                                 <div class="col-md-6">
-                                    <input name="longitude" type="number" step="0.01" class="form-control" required value="{{$kondisiJalan->longitude}}">
+                                    <input name="longitude" type="text" class="form-control formatLatLong" required value="{{$kondisiJalan->longitude}}">
                                 </div>
                             </div>
                         </div>
@@ -151,10 +151,10 @@
                         <div class="col-md-9">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <input name="akhir_latitude" type="number" step="0.01" class="form-control" required value="{{$kondisiJalan->akhir_latitude}}">
+                                    <input name="akhir_latitude" type="text" class="form-control formatLatLong" required value="{{$kondisiJalan->akhir_latitude}}">
                                 </div>
                                 <div class="col-md-6">
-                                    <input name="akhir_longitude" type="number" step="0.01" class="form-control" required value="{{$kondisiJalan->akhir_longitude}}">
+                                    <input name="akhir_longitude" type="text" class="form-control formatLatLong" required value="{{$kondisiJalan->akhir_longitude}}">
                                 </div>
                             </div>
                         </div>
@@ -209,10 +209,10 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input name="sba_lat" type="number" step="0.01" class="form-control" value="{{$kondisiJalan->sba_lat}}">
+                                        <input name="sba_lat" type="text" class="form-control formatLatLong" value="{{$kondisiJalan->sba_lat}}">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="sba_long" type="number" step="0.01" class="form-control" value="{{$kondisiJalan->sba_long}}">
+                                        <input name="sba_long" type="text" class="form-control formatLatLong" value="{{$kondisiJalan->sba_long}}">
                                     </div>
                                 </div>
                             </div>
@@ -222,10 +222,10 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input name="sbak_lat" type="number" step="0.01" class="form-control" value="{{$kondisiJalan->sbak_lat}}">
+                                        <input name="sbak_lat" type="text" class="form-control formatLatLong" value="{{$kondisiJalan->sbak_lat}}">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="sbak_long" type="number" step="0.01" class="form-control" value="{{$kondisiJalan->sbak_long}}">
+                                        <input name="sbak_long" type="text" class="form-control formatLatLong" value="{{$kondisiJalan->sbak_long}}">
                                     </div>
                                 </div>
                             </div>
@@ -261,10 +261,10 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input name="ba_lat" type="number" step="0.01" class="form-control" value="{{$kondisiJalan->ba_lat}}">
+                                        <input name="ba_lat" type="text" class="form-control formatLatLong" value="{{$kondisiJalan->ba_lat}}">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="ba_long" type="number" step="0.01" class="form-control" value="{{$kondisiJalan->ba_long}}">
+                                        <input name="ba_long" type="text" class="form-control formatLatLong" value="{{$kondisiJalan->ba_long}}">
                                     </div>
                                 </div>
                             </div>
@@ -274,10 +274,10 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input name="bak_lat" type="number" step="0.01" class="form-control" value="{{$kondisiJalan->bak_lat}}">
+                                        <input name="bak_lat" type="text" class="form-control formatLatLong" value="{{$kondisiJalan->bak_lat}}">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="bak_long" type="number" step="0.01" class="form-control" value="{{$kondisiJalan->bak_long}}">
+                                        <input name="bak_long" type="text" class="form-control formatLatLong" value="{{$kondisiJalan->bak_long}}">
                                     </div>
                                 </div>
                             </div>
@@ -313,10 +313,10 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input name="sda_lat" type="number" step="0.01" class="form-control" value="{{$kondisiJalan->sda_lat}}">
+                                        <input name="sda_lat" type="text" class="form-control formatLatLong" value="{{$kondisiJalan->sda_lat}}">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="sda_long" type="number" step="0.01" class="form-control" value="{{$kondisiJalan->sda_long}}">
+                                        <input name="sda_long" type="text" class="form-control formatLatLong" value="{{$kondisiJalan->sda_long}}">
                                     </div>
                                 </div>
                             </div>
@@ -326,10 +326,10 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input name="sdak_lat" type="number" step="0.01" class="form-control" value="{{$kondisiJalan->sdak_lat}}">
+                                        <input name="sdak_lat" type="text" class="form-control formatLatLong" value="{{$kondisiJalan->sdak_lat}}">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="sdak_long" type="number" step="0.01" class="form-control" value="{{$kondisiJalan->sdak_long}}">
+                                        <input name="sdak_long" type="text" class="form-control formatLatLong" value="{{$kondisiJalan->sdak_long}}">
                                     </div>
                                 </div>
                             </div>
@@ -372,10 +372,10 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input name="ja_lat" type="number" step="0.01" class="form-control" value="{{$kondisiJalan->ja_lat}}">
+                                        <input name="ja_lat" type="text" class="form-control formatLatLong" value="{{$kondisiJalan->ja_lat}}">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="ja_long" type="number" step="0.01" class="form-control" value="{{$kondisiJalan->ja_long}}">
+                                        <input name="ja_long" type="text" class="form-control formatLatLong" value="{{$kondisiJalan->ja_long}}">
                                     </div>
                                 </div>
                             </div>
@@ -385,10 +385,10 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input name="jak_lat" type="number" step="0.01" class="form-control" value="{{$kondisiJalan->jak_lat}}">
+                                        <input name="jak_lat" type="text" class="form-control formatLatLong" value="{{$kondisiJalan->jak_lat}}">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="jak_long" type="number" step="0.01" class="form-control" value="{{$kondisiJalan->jak_long}}">
+                                        <input name="jak_long" type="text" class="form-control formatLatLong" value="{{$kondisiJalan->jak_long}}">
                                     </div>
                                 </div>
                             </div>
@@ -424,10 +424,10 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input name="pa_lat" type="number" step="0.01" class="form-control" value="{{$kondisiJalan->pa_lat}}">
+                                        <input name="pa_lat" type="text" class="form-control formatLatLong" value="{{$kondisiJalan->pa_lat}}">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="pa_long" type="number" step="0.01" class="form-control" value="{{$kondisiJalan->pa_long}}">
+                                        <input name="pa_long" type="text" class="form-control formatLatLong" value="{{$kondisiJalan->pa_long}}">
                                     </div>
                                 </div>
                             </div>
@@ -437,10 +437,10 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input name="pak_lat" type="number" step="0.01" class="form-control" value="{{$kondisiJalan->pak_lat}}">
+                                        <input name="pak_lat" type="text" class="form-control formatLatLong" value="{{$kondisiJalan->pak_lat}}">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="pak_long" type="number" step="0.01" class="form-control" value="{{$kondisiJalan->pak_long}}">
+                                        <input name="pak_long" type="text" class="form-control formatLatLong" value="{{$kondisiJalan->pak_long}}">
                                     </div>
                                 </div>
                             </div>
@@ -476,10 +476,10 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input name="spa_lat" type="number" step="0.01" class="form-control" value="{{$kondisiJalan->spa_lat}}">
+                                        <input name="spa_lat" type="text" class="form-control formatLatLong" value="{{$kondisiJalan->spa_lat}}">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="spa_long" type="number" step="0.01" class="form-control" value="{{$kondisiJalan->spa_long}}">
+                                        <input name="spa_long" type="text" class="form-control formatLatLong" value="{{$kondisiJalan->spa_long}}">
                                     </div>
                                 </div>
                             </div>
@@ -489,10 +489,10 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input name="spak_lat" type="number" step="0.01" class="form-control" value="{{$kondisiJalan->spak_lat}}">
+                                        <input name="spak_lat" type="text" class="form-control formatLatLong" value="{{$kondisiJalan->spak_lat}}">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="spak_long" type="number" step="0.01" class="form-control" value="{{$kondisiJalan->spak_long}}">
+                                        <input name="spak_long" type="text" class="form-control formatLatLong" value="{{$kondisiJalan->spak_long}}">
                                     </div>
                                 </div>
                             </div>
@@ -527,10 +527,10 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input name="ha_lat" type="number" step="0.01" class="form-control" value="{{$kondisiJalan->ha_lat}}">
+                                        <input name="ha_lat" type="text" class="form-control formatLatLong" value="{{$kondisiJalan->ha_lat}}">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="ha_long" type="number" step="0.01" class="form-control" value="{{$kondisiJalan->ha_long}}">
+                                        <input name="ha_long" type="text" class="form-control formatLatLong" value="{{$kondisiJalan->ha_long}}">
                                     </div>
                                 </div>
                             </div>
@@ -540,10 +540,10 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input name="hak_lat" type="number" step="0.01" class="form-control" value="{{$kondisiJalan->hak_lat}}">
+                                        <input name="hak_lat" type="text" class="form-control formatLatLong" value="{{$kondisiJalan->hak_lat}}">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="hak_long" type="number" step="0.01" class="form-control" value="{{$kondisiJalan->hak_long}}">
+                                        <input name="hak_long" type="text" class="form-control formatLatLong" value="{{$kondisiJalan->hak_long}}">
                                     </div>
                                 </div>
                             </div>
@@ -584,8 +584,21 @@
 <script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}"></script>
-
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
 
+<script>
+    $(document).ready(function() {
+        // Format mata uang.
+        $('.formatRibuan').mask('000.000.000.000.000', {
+            reverse: true
+        });
+
+        // Format untuk lat long.
+        $('.formatLatLong').keypress(function(evt) {
+            return (/^\-?[0-9]*\.?[0-9]*$/).test($(this).val() + evt.key);
+        });
+    });
+</script>
 @endsection

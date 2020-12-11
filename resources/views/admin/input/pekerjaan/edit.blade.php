@@ -42,10 +42,10 @@
 
                 <form action="{{ route('updateDataPekerjaan',$pekerjaan->id_pek) }}" method="post" enctype="multipart/form-data">
                     @csrf
-                     <input type="hidden" name="id_pek" value="{{$pekerjaan->id_pek}}">
+                    <input type="hidden" name="id_pek" value="{{$pekerjaan->id_pek}}">
 
 
-                       
+
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Tanggal</label>
                         <div class="col-md-10">
@@ -53,12 +53,12 @@
                         </div>
                     </div>
 
-                      <div class="form-group row">
+                    <div class="form-group row">
                         <label class="col-md-2 col-form-label">Mandor</label>
                         <div class="col-md-10">
                             <select class="form-control" name="nama_mandor" required>
                                 @foreach ($mandor as $data)
-                                <option value="{{$data->name}}" {{ ( $data->name == $pekerjaan->nama_mandor) ? 'selected' : ''}} >{{$data->name}}</option>
+                                <option value="{{$data->name}}" {{ ( $data->name == $pekerjaan->nama_mandor) ? 'selected' : ''}}>{{$data->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -67,7 +67,7 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Jenis Pekerjaan</label>
                         <div class="col-md-10">
-                           <select class="form-control" name="jenis_pekerjaan" required value="{{$pekerjaan->jenis_pekerjaan}}">
+                            <select class="form-control" name="jenis_pekerjaan" required value="{{$pekerjaan->jenis_pekerjaan}}">
                                 @foreach ($jenis as $data)
                                 <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $pekerjaan->jenis_pekerjaan) ? 'selected' : ''}}>{{$data->nama_item}}</option>
                                 @endforeach
@@ -83,7 +83,7 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">SUP</label>
-                       <div class="col-md-10">
+                        <div class="col-md-10">
                             <select class="form-control" name="sup" required value="{{$pekerjaan->sup}}">
                                 @foreach ($sup as $data)
                                 <option value="{{$data->name}}" {{ ( $data->name == $pekerjaan->sup) ? 'selected' : ''}}>{{$data->name}}</option>
@@ -91,9 +91,9 @@
                             </select>
                         </div>
                     </div>
-                     <div class="form-group row">
+                    <div class="form-group row">
                         <label class="col-md-2 col-form-label">Ruas Jalan</label>
-                       <div class="col-md-10">
+                        <div class="col-md-10">
                             <select class="form-control" name="ruas_jalan" required value="{{$pekerjaan->ruas_jalan}}">
                                 @foreach ($ruas_jalan as $data)
                                 <option value="{{$data->nama_ruas_jalan}}" {{ ( $data->nama_ruas_jalan == $pekerjaan->ruas_jalan) ? 'selected' : ''}}>{{$data->nama_ruas_jalan}}</option>
@@ -107,28 +107,28 @@
                             <input name="lokasi" type="text" class="form-control" required value="{{$pekerjaan->lokasi}}">
                         </div>
                     </div>
-                     <div class="form-group row">
+                    <div class="form-group row">
                         <label class="col-md-2 col-form-label">Koordinat X</label>
                         <div class="col-md-10">
-                            <input name="lat" type="text" class="form-control" required value="{{$pekerjaan->lat}}">
+                            <input name="lat" type="text" class="form-control formatLatLong" required value="{{$pekerjaan->lat}}">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Koordinat Y</label>
                         <div class="col-md-10">
-                            <input name="lng" type="text" class="form-control" value="{{$pekerjaan->lng}}">
+                            <input name="lng" type="text" class="form-control formatLatLong" value="{{$pekerjaan->lng}}">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Panjang</label>
+                        <label class="col-md-2 col-form-label">Panjang (meter)</label>
                         <div class="col-md-10">
-                            <input name="panjang" type="text" class="form-control" required value="{{$pekerjaan->panjang}}">
+                            <input name="panjang" type="text" class="form-control formatRibuan" required value="{{$pekerjaan->panjang}}">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Jumlah Pekerja</label>
                         <div class="col-md-10">
-                            <input name="jumlah_pekerja" type="number" class="form-control" required value="{{$pekerjaan->jumlah_pekerja}}">
+                            <input name="jumlah_pekerja" type="text" class="form-control formatRibuan" required value="{{$pekerjaan->jumlah_pekerja}}">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -138,11 +138,11 @@
                         </div>
                     </div>
                     @if (Auth::user()->internalRole->uptd)
-                        <input type="hidden" name="uptd_id" value="{{Auth::user()->internalRole->uptd}}" value="{{$pekerjaan->uptd_id}}">
+                    <input type="hidden" name="uptd_id" value="{{Auth::user()->internalRole->uptd}}" value="{{$pekerjaan->uptd_id}}">
                     @else
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Uptd</label>
-                       <div class="col-md-10">
+                        <div class="col-md-10">
                             <select class="form-control" name="uptd_id" value="{{$pekerjaan->uptd_id}}">
                                 @foreach ($uptd as $data)
                                 <option value="{{$data->id}}" {{ ( $data->id == $pekerjaan->uptd_id) ? 'selected' : ''}}>{{$data->nama}}</option>
@@ -184,4 +184,27 @@
     </div>
 </div>
 
+@endsection
+
+@section('script')
+<script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}"></script>
+
+<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        // Format mata uang.
+        $('.formatRibuan').mask('000.000.000.000.000', {
+            reverse: true
+        });
+
+        // Format untuk lat long.
+        $('.formatLatLong').keypress(function(evt) {
+            return (/^\-?[0-9]*\.?[0-9]*$/).test($(this).val() + evt.key);
+        });
+    });
+</script>
 @endsection

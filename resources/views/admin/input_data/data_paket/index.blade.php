@@ -53,7 +53,9 @@
                 </div>
             </div>
             <div class="card-block">
+                @if (hasAccess(Auth::user()->internal_role_id, "Data Paket", "Create"))
                 <a href="{{ route('addIDDataPaket') }}" class="btn btn-mat btn-primary mb-3">Tambah</a>
+                @endif
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered able-responsive">
                         <thead>
@@ -62,7 +64,7 @@
                                 <th>Nama Paket</th>
                                 <th>Lokasi Pekerjaan</th>
                                 <th>Pagu Anggaran</th>
-                                <th>Target Panjang</th>
+                                <th>Target Panjang (meter)</th>
                                 <th>Waktu Pelaksanaan (HK)</th>
                                 <th>Jenis Penanganan</th>
                                 <th>Penyedia Jasa</th>
@@ -95,8 +97,12 @@
                                 <td>{{$data->total_tambahan}}</td>
                                 <td>{{$data->total_sisa_lelang}}</td>
                                 <td>
+                                    @if (hasAccess(Auth::user()->internal_role_id, "Data Paket", "Update"))
                                     <a href="{{ route('editIDDataPaket',$data->kode_paket) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
+                                    @endif
+                                    @if (hasAccess(Auth::user()->internal_role_id, "Data Paket", "Delete"))
                                     <a href="#delModal" data-id="{{$data->kode_paket}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach

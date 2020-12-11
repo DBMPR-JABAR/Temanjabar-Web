@@ -146,6 +146,97 @@
             </li>
         </ul>
         @endif
+        
+        <div class="pcoded-navigatio-lavel">Input</div>
+        <ul class="pcoded-item pcoded-left-item">
+            @if (hasAccess(Auth::user()->internal_role_id, "Input Data", "View"))
+            <li class="pcoded-hasmenu {{(Request::segment(2) == 'input-data') ? 'pcoded-trigger active' : ''}}">
+                <a href="javascript:void(0)">
+                    <span class="pcoded-micon"><i class="ti-write"></i></span>
+                    <span class="pcoded-mtext">Input Data</span>
+                </a>
+                <ul class="pcoded-submenu">
+                    <div class="pcoded-navigatio-lavel">Pemeliharaan</div>
+                    @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "View"))
+                    <li class="{{(Request::segment(3) == 'pekerjaan') ? 'active' : ''}}">
+                        <a href="{{ url('admin/input-data/pekerjaan') }}">
+                            <span class="pcoded-mtext">Pekerjaan</span>
+                        </a>
+                    </li>
+                    @endif
+                    @if (hasAccess(Auth::user()->internal_role_id, "Kondisi Jalan", "View"))
+                    <li class="{{(Request::segment(3) == 'kondisi-jalan') ? 'active' : ''}}">
+                        <a href="{{ url('admin/input-data/kondisi-jalan') }}">
+                            <span class="pcoded-mtext">Kondisi Jalan</span>
+                        </a>
+                    </li>
+                    @endif
+                    @if (hasAccess(Auth::user()->internal_role_id, "Rekap", "View"))
+                    <li class="{{(Request::segment(3) == 'rekap') ? 'active' : ''}}">
+                        <a href="{{ url('admin/input-data/rekap') }}">
+                            <span class="pcoded-mtext">Rekap</span>
+                        </a>
+                    </li>
+                    @endif 
+                    <div class="pcoded-navigatio-lavel">Pembangunan</div>
+                    @if (hasAccess(Auth::user()->internal_role_id, "Progress Kerja", "View"))
+                    <li class="{{(Request::segment(3) == 'progresskerja') ? 'active' : ''}}">
+                        <a href="{{ url('admin/input-data/progresskerja') }}">
+                            <span class="pcoded-mtext">Progress Kerja</span>
+                        </a>
+                    </li>
+                    @endif
+                    @if (hasAccess(Auth::user()->internal_role_id, "Data Paket", "View"))
+                    <li class="{{(Request::segment(3) == 'data-paket') ? 'active' : ''}}">
+                        <a href="{{ url('admin/input-data/data-paket') }}">
+                            <span class="pcoded-mtext">Data Paket</span>
+                        </a>
+                    </li>
+                    @endif
+                    <div class="pcoded-navigatio-lavel">Keuangan</div>
+                    @if (hasAccess(Auth::user()->internal_role_id, "List Data", "View"))
+                    <li class="{{(Request::segment(3) == 'keuangan') ? 'active' : ''}}">
+                        <a href="{{ url('admin/input-data/keuangan') }}">
+                            <span class="pcoded-mtext">List Data</span>
+                        </a>
+                    </li>
+                    @endif
+                </ul>
+            </li>
+            @endif
+
+            @if (hasAccess(Auth::user()->internal_role_id, "Lapor", "View"))
+            <li class="pcoded-hasmenu {{(Request::segment(2) == 'lapor') ? 'pcoded-trigger active' : ''}}">
+                <a href="javascript:void(0)">
+                    <span class="pcoded-micon"><i class="ti-headphone-alt"></i></span>
+                    <span class="pcoded-mtext">Lapor</span>
+                </a>
+                <ul class="pcoded-submenu">
+                    @if (hasAccess(Auth::user()->internal_role_id, "Lapor", "Create"))
+                    <li class="{{(Request::segment(3) == 'add') ? 'active' : ''}}">
+                        <a href="{{ url('admin/lapor/add') }}">
+                            <span class="pcoded-mtext">Input Laporan</span>
+                        </a>
+                    </li>
+                    @endif
+                    @if (hasAccess(Auth::user()->internal_role_id, "Lapor", "View"))
+                    <li class="{{((Request::segment(2) == 'lapor' )&& (Request::segment(3) == null)) ? 'active' : ''}}">
+                        <a href="{{ url('admin/lapor') }}">
+                            <span class="pcoded-mtext">Daftar Laporan</span>
+                        </a>
+                    </li>
+                    @endif
+                    @if (hasAccess(Auth::user()->internal_role_id, "Quick Response", "View"))
+                    <li class="{{(Request::segment(3) == 'lapor') ? 'active' : ''}}">
+                        <a href="#">
+                            <span class="pcoded-mtext">Quick Response</span>
+                        </a>
+                    </li>
+                    @endif
+                </ul>
+            </li>
+            @endif
+        </ul>
 
         <div class="pcoded-navigatio-lavel">Landing Page</div>
         <ul class="pcoded-item pcoded-left-item">

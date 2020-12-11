@@ -92,7 +92,7 @@
                                     } 
                                 
                                  ?></td>
-                                <td>{{$data->pengirim}}</td>
+                                <td>{{$data->pengirim.''.$data->level}}</td>
                                 <td>{{$data->perihal}}</td>
                                 <td>{{$data->no_surat}}</td>
                                 <td>
@@ -204,8 +204,7 @@
                 <div class="form-group row">
                             <label class="col-md-3 col-form-label">Tindak Lanjut</label>
                             <div class="col-md-9">
-                                <input type="hidden" name="disposisi_id" id="disposisi_id" />  
-                               <input name="tindak_lanjut" type="text" class="form-control" required>
+                                 <input name="tindak_lanjut" type="text" class="form-control" required>
                             </div>
                         </div>
 

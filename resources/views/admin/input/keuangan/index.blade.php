@@ -88,8 +88,12 @@
                                 <td><video width ='150' height='100' controls><source src="{!! url('storage/pekerjaan/'.$data->video) !!}" type='video/*' Sorry, your browser doesn't support the video element.></video></td>
                                 <td><a href="{!! url('storage/'.$data->file) !!}" target="_blanks">Preview</a></td>
                                 <td>
+                                    @if (hasAccess(Auth::user()->internal_role_id, "List Data", "Edit"))
                                     <a href="{{ route('editKeuangan',$data->id_pek) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
+                                    @endif
+                                    @if (hasAccess(Auth::user()->internal_role_id, "List Data", "Delete"))
                                     <a href="#delModal" data-id="{{$data->id_pek}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach

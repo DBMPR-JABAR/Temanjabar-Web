@@ -105,14 +105,14 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Koordinat X</label>
                         <div class="col-md-10">
-                            <input name="lat" type="text" class="form-control" required value="{{$aduan->lat}}">
+                            <input name="lat" type="text" class="form-control formatLatLong" required value="{{$aduan->lat}}">
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Koordinat Y</label>
                         <div class="col-md-10">
-                            <input name="lng" type="text" class="form-control" required value="{{$aduan->lng}}">
+                            <input name="lng" type="text" class="form-control formatLatLong" required value="{{$aduan->lng}}">
                         </div>
                     </div>
 
@@ -166,4 +166,27 @@
     </div>
 </div>
 
+@endsection
+
+@section('script')
+<script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}"></script>
+
+<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        // Format mata uang.
+        $('.formatRibuan').mask('000.000.000.000.000', {
+            reverse: true
+        });
+
+        // Format untuk lat long.
+        $('.formatLatLong').keypress(function(evt) {
+            return (/^\-?[0-9]*\.?[0-9]*$/).test($(this).val() + evt.key);
+        });
+    });
+</script>
 @endsection

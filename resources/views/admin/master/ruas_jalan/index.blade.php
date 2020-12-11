@@ -53,7 +53,9 @@
                 </div>
             </div>
             <div class="card-block">
+                @if (hasAccess(Auth::user()->internal_role_id, "Ruas Jalan", "Create"))
                 <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
+                @endif
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered able-responsive">
                         <thead>
@@ -63,7 +65,7 @@
                                 <th>Nama Ruas Jalan</th>
                                 <th>Sup</th>
                                 <th>Lokasi</th>
-                                <th>Panjang</th>
+                                <th>Panjang (meter)</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -77,8 +79,12 @@
                                 <td>{{$data->lokasi}}</td>
                                 <td>{{$data->panjang}}</td>
                                 <td>
+                                    @if (hasAccess(Auth::user()->internal_role_id, "Ruas Jalan", "Update"))
                                     <a href="{{ route('editMasterRuasJalan',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
+                                    @endif
+                                    @if (hasAccess(Auth::user()->internal_role_id, "Ruas Jalan", "Delete"))
                                     <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
@@ -90,7 +96,7 @@
     </div>
 </div>
 <div class="modal-only">
-
+    @if (hasAccess(Auth::user()->internal_role_id, "Ruas Jalan", "Delete"))
     <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -114,10 +120,11 @@
             </div>
         </div>
     </div>
-
+    @endif
 </div>
 
 <div class="modal-only">
+    @if (hasAccess(Auth::user()->internal_role_id, "Ruas Jalan", "Create"))
     <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -136,7 +143,7 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Id Ruas Jalan</label>
                             <div class="col-md-9">
-                                <input name="id_ruas_jalan" type="text" class="form-control" required>
+                                <input name="id_ruas_jalan" type="text" class="form-control" maxlength="6" required>
                             </div>
                         </div>
 
@@ -153,10 +160,9 @@
 
                                 <select class="form-control select2" name="sup" style="min-width: 100%;">
                                     <!-- <option value="" selected>- Event Name -</option> -->
-                                    <?php
-                                    foreach ($sup as $supData) { ?>
-                                        <option value="<?php echo $supData->id; ?>"><?php echo $supData->name; ?></option>
-                                    <?php } ?>
+                                    @foreach ($sup as $supData)
+                                    <option value="{{$supData->id}}">{{$supData->name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -169,9 +175,9 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Panjang</label>
+                            <label class="col-md-3 col-form-label">Panjang (meter)</label>
                             <div class="col-md-9">
-                                <input name="panjang" type="number" step="any" class="form-control" required>
+                                <input name="panjang" type="text" class="form-control formatRibuan" required>
                             </div>
                         </div>
 
@@ -217,25 +223,20 @@
                             </div>
                         </div> -->
 
-                        <?php
-
-                        use Illuminate\Support\Facades\Auth;
-
-                        if (Auth::user()->internalRole->uptd) {
-                            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd); ?>
-                            <input name="uptd_id" type="number" class="form-control" value="{{$uptd_id}}" hidden>
-                        <?php } else { ?>
+                        @if (Auth::user()->internalRole->uptd) 
+                        <input name="uptd_id" type="number" class="form-control" value="{{str_replace('uptd', '', Auth::user()->internalRole->uptd)}}" hidden>
+                        @else
                             <div class=" form-group row">
                                 <label class="col-md-3 col-form-label">UPTD</label>
                                 <div class="col-md-9">
                                     <select class="form-control select2" name="uptd_id" style="min-width: 100%;">
                                         @foreach ($uptd as $uptdData)
-                                        <option value="<?php echo $uptdData->id; ?>"><?php echo $uptdData->nama; ?></option>
+                                        <option value="{{$uptdData->id}}">{{$uptdData->nama}}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-                        <?php    } ?>
+                        @endif
                     </div>
 
                     <div class="modal-footer">
@@ -273,6 +274,7 @@
         </div>
     </div>
     </li>
+    @endif
 </div>
 @endsection
 @section('script')
@@ -282,6 +284,7 @@
 
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
 <script>
     $(document).ready(function() {
         $("#dttable").DataTable();
@@ -293,6 +296,11 @@
             console.log(url);
             const modal = $(this);
             modal.find('.modal-footer #delHref').attr('href', url);
+        });
+
+        // Format mata uang.
+        $('.formatRibuan').mask('000.000.000.000.000', {
+            reverse: true
         });
     });
 </script>
