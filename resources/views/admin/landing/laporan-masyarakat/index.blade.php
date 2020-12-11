@@ -91,8 +91,8 @@
                             <td>{{$data->created_at}}</td>
                             <td>{{$data->updated_at}}</td>
                             <td>
-                                <a href="{{ route('editLandingLaporanMasyarakat',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
-                                <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
+                                <a href="{{ route('editLandingLaporanMasyarakat',$data->id) }}" class="mb-2 btn btn-block btn-warning btn-mat">Edit</a><br>
+                                <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-block btn-danger btn-mat">Hapus</a>
                             </td>
                         </tr>
                         @endforeach
