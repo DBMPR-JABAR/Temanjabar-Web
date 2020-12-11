@@ -151,8 +151,8 @@
             border-radius: 10px;
             max-width: 200px;
             font-size: 15px;
-            color: #000;
-            background: rgba(255, 255, 255, 0.3);
+            color: #eee;
+            background: rgba(0, 0, 0, 0.3);
         }
     </style>
     <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
