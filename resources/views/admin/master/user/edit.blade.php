@@ -55,7 +55,10 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Password</label>
                         <div class="col-md-10">
-                            <input name="password" type="password" class="form-control" >
+                            <div class="row" style="margin-left: 0px; margin-right: 0px;">
+                                <input id="password-field" name="password" type="password" class="form-control">
+                                <span style="cursor: pointer; margin-left: -30px;" class="ti-eye my-auto toggle-password" toggle="#password-field"></span>
+                            </div>
                             <small class="form-text text-muted">Kosongkan jika tidak akan merubah password</small>
                         </div>
                     </div>
@@ -77,7 +80,7 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">No. Telp/HP</label>
                         <div class="col-md-10">
-                            <input name="no_tlp" type="text" class="form-control" value="{{@$user->pegawai->no_tlp}}"  required>
+                            <input name="no_tlp" type="text" class="form-control" value="{{@$user->pegawai->no_tlp}}" required>
                         </div>
                     </div>
 
@@ -88,7 +91,7 @@
                                 <option value="{{$user->sup}}">{{$user->sup}}</option>
                                 <option></option>
                                 @foreach ($sup as $data)
-                                    <option value="{{$data->name}}">{{$data->name}}</option>
+                                <option value="{{$data->name}}">{{$data->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -98,22 +101,22 @@
                         <label class="col-md-2 col-form-label">Pilih Jabatan</label>
                         <div class="col-md-10">
                             <select class="form-control" required name="internal_role_id">
-                                    <option>Pilih Jabatan</option>
-                                    @foreach ($role as $data)
-                                        <option value="{{$data->id}}" @if($user->internal_role_id == $data->id) selected @endif>{{$data->role}}</option>
-                                    @endforeach
-                                </select>
+                                <option>Pilih Jabatan</option>
+                                @foreach ($role as $data)
+                                <option value="{{$data->id}}" @if($user->internal_role_id == $data->id) selected @endif>{{$data->role}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Blokir</label>
                         <div class="col-md-10">
-                        <label class="radio-inline">
-                            <input type="radio" name="blokir" value="Y" @if($user->blokir=='Y') checked @endif> Y
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="blokir" value="N" @if($user->blokir=='N') checked @endif> N
-                        </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="blokir" value="Y" @if($user->blokir=='Y') checked @endif> Y
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="blokir" value="N" @if($user->blokir=='N') checked @endif> N
+                            </label>
                         </div>
                     </div>
 
@@ -125,4 +128,24 @@
     </div>
 </div>
 
+@endsection
+
+@section('script')
+<script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}"></script>
+
+<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script>
+    $(".toggle-password").click(function() {
+        $(this).toggleClass("ti-eye ti-lock");
+        var input = $($(this).attr("toggle"));
+        if (input.attr("type") == "password") {
+            input.attr("type", "text");
+        } else {
+            input.attr("type", "password");
+        }
+    });
+</script>
 @endsection
