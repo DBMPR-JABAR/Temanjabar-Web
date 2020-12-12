@@ -268,6 +268,7 @@
                     <option value="peningkatan">Peningkatan</option>
                     <option value="rehabilitasi">Rehabilitasi</option>
                     <option value="jembatan">Jembatan</option>
+                    <option value="datarawanbencana">Data Rawan Bencana</option>
                 </select>
             </div>
             <div class="form-group">
@@ -527,7 +528,8 @@
                     <option value="pemeliharaan">Pemeliharaan</option>
                     <option value="vehiclecounting">Vehicle Counting</option>
                     <option value="kemantapanjalan">Kemantapan Jalan</option>
-                    <option value="jembatan">Jembatan</option>`;
+                    <option value="jembatan">Jembatan</option>
+                    <option value="rawanbencana">Rawan Bencana</option>`;
         $('#kegiatan').html(kegiatan).trigger('liszt:updated');
         $('#kegiatan').trigger("chosen:updated");
 
