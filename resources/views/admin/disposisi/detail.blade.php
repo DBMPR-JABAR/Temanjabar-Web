@@ -102,7 +102,7 @@
                                                                 </div>
                                                                     <div class="tab-pane" id="lampiran" role="tabpanel">
                                                                     <?php $ex = explode(".",$detail_disposisi->file);  ?> 
-                                                                    <iframe src=" {{  asset('storage/'.$detail_disposisi->file)  }}" id="pdf_display_frame" width="100%" height="600px"></iframe>
+                                                                      <iframe src="{{  asset('storage/'.$detail_disposisi->file)  }}" id="pdf_display_frame" width="100%" height="600px"></iframe>
                                                                      </div>
 
                                                                 </div>
