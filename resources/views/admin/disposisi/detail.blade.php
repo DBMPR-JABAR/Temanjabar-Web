@@ -186,7 +186,10 @@
                                 <td>{{$data->keterangan_tl}}</td>
                                  <td><?php 
 
-                                    if($data->status_tindak_lanjut == "3")  {  
+if($data->status_tindak_lanjut == "2")  {  
+    echo "Submitted";
+}                                    
+if($data->status_tindak_lanjut == "3")  {  
                                         echo "On Progress";
                                     } else if($data->status_tindak_lanjut == "4") { 
                                         echo "Finish";

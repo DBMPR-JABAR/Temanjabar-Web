@@ -134,6 +134,7 @@ class DisposisiController extends Controller
                     ->join('users as c','b.created_by','=','c.id')
                 //      ->rightJoin('user_role as f','c.id','=','c.internal_role_id')
                     ->where('a.id','=',$id  )
+                    ->where('b.status','<>','2'  )
                     ->orderBy('b.id','DESC')
                     ->get();
 
@@ -178,7 +179,9 @@ class DisposisiController extends Controller
                 ->join('users as b','b.id','=','a.created_by')
                 ->join('user_role as c','c.id','=','b.internal_role_id')
                 ->where('a.disposisi_id','=',$id)
-                ->where('b.internal_role_id','=',$role_id)->orderBy('a.id','desc') ->first();
+                ->where('b.internal_role_id','=',$role_id)
+                ->where('a.status','<>','2') //disposisi dari 2 - 3 ditiadakan
+                ->orderBy('a.id','desc') ->first();
 
        return !empty($tl->persentase) ? "(".$tl->persentase."%)" : "(0%)";
 
@@ -327,6 +330,7 @@ class DisposisiController extends Controller
         $target  = $request->target_disposisi;
         $code = $request->disposisi_code_level2;
         $recipient = [];
+        $historyRecipient = "";
 
         for($i = 0; $i < count($target); $i++) {
         //    $validate = $this->validatePenanggungJawab($code,$target[$i]);
@@ -334,8 +338,12 @@ class DisposisiController extends Controller
                 $data['disposisi_code'] = $code;
                 $data['user_role_id'] = $target[$i];
                 $data['level'] =  "2";
+                $data['pemberi_disposisi'] = Auth::user()->id;
                 DB::table('disposisi_penanggung_jawab')->insert($data);
                 array_merge($recipient, User::where('internal_role_id',$target[$i])->pluck('email')->toArray());
+                 
+                $historyRecipient.= User::where('internal_role_id',$target[$i])->pluck('name').'('. Role::where('id',$target[$i])->pluck('keterangan') .')';  
+
 
             }      
         if($request->file != null){
@@ -360,7 +368,7 @@ class DisposisiController extends Controller
      //    $disposisi['mail_to'] = ["izqfly@gmail.com","zanmit.consultant@gmail.com"];
         $disposisi['date_now'] = date('d-m-Y H:i:s');
         $disposisi['instruksi'] = "ditindaklanjuti"; 
-        $this->saveHistory($request->disposisi_id,"4","Melanjutkan Disposisi Pekerjaan kepada ");
+        $this->saveHistory($request->disposisi_id,"4","Melanjutkan Disposisi Pekerjaan kepada ".$historyRecipient);
 
         SendEmail::dispatch($disposisi);  //send notification
 
@@ -368,7 +376,7 @@ class DisposisiController extends Controller
 
     //    } 
        $color = "success"; 
-        $msg = "Berhasil Mendisposisi Data Tindak Lanjut";
+        $msg = "Berhasil Mendisposisikan Tindak Lanjut";
        return back()->with(compact('color', 'msg'));
         
      
@@ -417,15 +425,14 @@ class DisposisiController extends Controller
 
         $email['pengirim'] = $this->getPengirim(Auth::user()->id);
         $email['type_mail'] = "TindakLanjut";
-      //  $email['mail_to'] =  $this->getParentEmail(Auth::user()->internal_role_id);
-       $email['mail_to'] = ["izqfly@gmail.com","zanmit.consultant@gmail.com"];
+        $email['mail_to'] =  $this->getParentEmail(Auth::user()->internal_role_id);
+      // $email['mail_to'] = ["izqfly@gmail.com","zanmit.consultant@gmail.com"];
       $email['disposisi_code'] =  $request->disposisi_id;
         $email['tindak_lanjut'] =  $request->tindak_lanjut;
         $email['persentase'] =  $request->persentase;
         $email['keterangan'] =  $request->keterangan;
-        $email['date_now'] = date('d-m-Y H:i:s');
-  
-        //$this->sendEmailNotification($email);
+        $email['date_now'] = date('d-m-Y H:i:s');  
+        $this->sendEmailNotification($email); 
         $color = "success";
         $msg = "Berhasil Menambah Data Tindak Lanjut";
         return back()->with(compact('color', 'msg'));
@@ -434,9 +441,9 @@ class DisposisiController extends Controller
     public function getParentEmail($role_id){
         $role = Role::where('id',$role_id)->first();
         $parent_id = $role->parent_id;
-        $parent = User::where('internal_role_id',$parent_id)->first();
-        return $parent->email;
-         
+        $users = [];
+        array_merge($users, User::where('internal_role_id',$parent_id)->pluck('email')->toArray()); 
+        return $users;  
   
     }
     public function getDaftarDisposisiInstruksi(){
