@@ -62,13 +62,13 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Surat Dari</th>
+                                <th>Status</th> <th>Surat Dari</th>
                                 <th>Perihal</th>
                                  <th>No Surat</th>
                                  <th>Tgl Surat</th>
                                 <th>Disposisi</th>
                                 <th>Tgl Deadline</th>
-                                <th>Status</th> 
+                                
                                 <th>Created Date</th> 
                                 <th>Aksi</th>
                             </tr>
@@ -77,6 +77,23 @@
                             @foreach ($disposisi as $data)
                             <tr>
                                 <td>{{$loop->index + 1}}</td>
+                                <td><?php 
+
+if($data->status == "1")  {  
+    echo '<button class="  btn btn-inverse btn-mini btn-round">Submitted</button> ';
+} else if($data->status == "2") { 
+    echo '<button class="btn btn-info btn-mini btn-round">Accepted</button> ';
+}  else if($data->status == "3") { 
+    echo '<button class="btn btn-success  btn-mini btn-round">On Progress</button> ';
+   
+} else if($data->status == "4") { 
+    echo "Finish";
+    echo '<button class="btn btn-primary  btn-mini btn-round">Finish</button> ';
+  
+} 
+                                
+                                 ?></td>
+                                
                                 <td>{{$data->dari}}</td>
                                 <td>{{$data->perihal}}</td>
                                 <td>{{$data->no_surat}}</td>
@@ -96,22 +113,6 @@
                                  
                                 {{ date_format($date_tanggal_penyelesaian, 'd-m-Y') }}
                                 </td>
-                                <td><?php 
-
-if($data->status == "1")  {  
-    echo '<button class="  btn btn-inverse btn-mini btn-round">Submitted</button> ';
-} else if($data->status == "2") { 
-    echo '<button class="btn btn-info btn-mini btn-round">Accepted</button> ';
-}  else if($data->status == "3") { 
-    echo '<button class="btn btn-success  btn-mini btn-round">On Progress</button> ';
-   
-} else if($data->status == "4") { 
-    echo "Finish";
-    echo '<button class="btn btn-primary  btn-mini btn-round">Finish</button> ';
-  
-} 
-                                
-                                 ?></td>
                                 <td>
                                 <?php $date_create_date = date_create($data->created_date);?>
                                 {{ date_format($date_create_date, 'd-m-Y H:i:s')}}
