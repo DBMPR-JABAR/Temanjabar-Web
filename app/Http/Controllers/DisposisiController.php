@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Jobs\SendEmail;
 use App\User;
+use App\Model\Transactional\Role;
 use App\Model\Transactional\DisposisiPenanggungJawab;
 
 use App\Model\Transactional\DisposisiApproved;
@@ -43,10 +44,10 @@ class DisposisiController extends Controller
 
         $disposisi_kepada = "";
         $jenis_instruksi_select = "";
-        $parent = DB::table('user_role')->select('parent_id')->where('id','=', Auth::user()->internal_role_id)->first();
-        $user_role = DB::table('user_role')->select('id', 'keterangan')
+        $parent = DB::table('user_role')->select('parent_id')->where('id','=', Auth::user()->internal_role_id)->first(); 
+        $user_role = DB::table('user_role')->select('id', 'keterangan') 
          ->where('parent_id', Auth::user()->internal_role_id) ;
-      //   ->orWhere('parent_id',$parent->parent_id);
+      //   ->orWhere('parent_id',$parent->parent_id); 
 
         $listUserRole = $user_role->get();
         foreach ($listUserRole as $role) {
@@ -81,6 +82,9 @@ class DisposisiController extends Controller
                 'tindaklanjut' => $tindaklanjut
             ]);
     }
+
+     
+
 
     public function getDaftarDisposisi()
     {
@@ -139,6 +143,13 @@ class DisposisiController extends Controller
                         ->join('users as b','b.id','=','a.user_id')
                         ->where('a.disposisi_id','=', $id)
                         ->get();
+        $history =  DB::table('disposisi_history as a')
+                    ->select( 'c.keterangan as role_name','a.keterangan','a.status','a.created_date','b.name','a.created_date'  )
+                    ->join('users as b','b.id','=','a.created_by')
+                    ->join('user_role as c','c.id','=','b.internal_role_id')
+                    ->where('a.disposisi_id','=', $id)
+                    ->get();
+
         $unit_responsible = DB::table('disposisi_penanggung_jawab  as a')
             ->select( 'c.keterangan', 'd.id as disposisi_id','a.user_role_id'   )
                             ->join('user_role as c','c.id','=','a.user_role_id')
@@ -156,7 +167,8 @@ class DisposisiController extends Controller
                     'tindaklanjut' => $tindaklanjut,
                     'detail_disposisi' => $detail_disposisi,
                     'penanggung_jawab' =>  $penanggung_jawab,
-                    'unitData' => $unit
+                    'unitData' => $unit,
+                    'history' => $history
                 ]);
     }
 
@@ -181,21 +193,23 @@ class DisposisiController extends Controller
         $data2['user_role_id'] = Auth::user()->internal_role_id;
         $data2['created_date'] = date('Y-m-d H:i:s');
         DB::table('disposisi_approved')->insert($data2);
+        $this->saveHistory($id,"2","Menerima Disposisi");
 
         $color = "success";
         $msg = "Disposisi telah anda terima";
         return redirect(route('disposisi-masuk'))->with(compact('color', 'msg'));
     }
-
+    
     public function saveTargetDisposisiLevel2($target,$code){
-
-        for($i = 0; $i< count($target); $i++) {
+         
+        for($i = 0; $i< count($target   ); $i++) {
             $data['disposisi_code'] = $code;
             $data['user_role_id'] = $target[$i];
             $data['level'] =  "2";
-            DB::table('disposisi_penanggung_jawab')->insert($data);
+            $data['pemberi_disposisi'] =  Auth::user()->id; 
+            DB::table('disposisi_penanggung_jawab')->insert($data); 
          }
-
+  
     }
 
     public function saveTargetDisposisi($target,$code){
@@ -203,14 +217,13 @@ class DisposisiController extends Controller
         for($i = 0; $i< count($target); $i++) {
             $data['disposisi_code'] = $code;
             $data['user_role_id'] = $target[$i];
+            $data['pemberi_disposisi'] =  Auth::user()->id; 
             DB::table('disposisi_penanggung_jawab')->insert($data);
 
-            $user = User::where('internal_role_id',$target[$i])->pluck('email')->toArray();
-            $users = array_merge($users, $user);
+            array_merge($users, User::where('internal_role_id',$target[$i])->pluck('email')->toArray());
         }
         return $users;
     }
-
     public function saveJenisInstruksi($jenis,$code){
         for($i = 0; $i< count($jenis); $i++) {
             $data['disposisi_code'] = $code;
@@ -225,10 +238,32 @@ class DisposisiController extends Controller
         $code = date('ymd').''.($max+1);
         return $code;
     }
+    
+    public function saveHistory($disposisi_id,$state,$desc){
 
-    public function saveHistory(){
+        $data['disposisi_id'] =$disposisi_id;
+        $data['status'] =$state;
+        $data['keterangan'] =$desc;
+        $data['created_by'] = Auth::user()->id;
+        $data['created_date'] = date("YmdHis");
+        DB::table('disposisi_history')->insert($data);
 
     }
+    public function getDisposisiId($code){
+        $data = DB::table('disposisi')->select('id')->where('disposisi_code','=', $code)->first();
+      return $data->id;
+
+    }
+    public function getTargetDisposisi($target){
+        $msg="";
+        for($i = 0; $i< count($target); $i++) {
+        $role = Role::where('id',$target[$i])->first();
+        $msg.=$role->keterangan.($i != count($target) ? "," :".");
+        }
+        return $msg;
+    }
+
+
     public function create(Request $request)
     {
         //
@@ -249,8 +284,12 @@ class DisposisiController extends Controller
         $disposisi['created_by'] = Auth::user()->id;
         $disposisi['created_date'] = date("YmdHis");
         DB::table('disposisi')->insert($disposisi);
+
         $recipient = $this->saveTargetDisposisi($request->target_disposisi,$code);
         $this->saveJenisInstruksi($request->jenis_instruksi,$code);
+        $this->saveHistory($this->getDisposisiId($code),"1","Mengirim disposisi kepada ".$this->getTargetDisposisi($request->target_disposisi));
+
+        
         $disposisi['pengirim'] = $this->getPengirim(Auth::user()->id);
         $disposisi['type_mail'] ="Disposisi";
         $disposisi['mail_to'] = $recipient;
@@ -263,6 +302,10 @@ class DisposisiController extends Controller
         $color = "success";
         $msg = "Berhasil Menambah Data Disposisi";
         return back()->with(compact('color', 'msg'));
+    }
+
+    public function sendEmailNotification($data){ 
+        SendEmail::dispatch($data);  //send notification         
     }
     public function getPengirim($id){
         $pengirim = DB::table('users as a')
@@ -279,22 +322,22 @@ class DisposisiController extends Controller
     }
 
     public function saveDisposisiLevel2(Request $request)
-    {
-
+    { 
+           
         $target  = $request->target_disposisi;
         $code = $request->disposisi_code_level2;
         $recipient = [];
 
         for($i = 0; $i < count($target); $i++) {
         //    $validate = $this->validatePenanggungJawab($code,$target[$i]);
-            //if($validate == true) {
+            //if($validate == true) { 
                 $data['disposisi_code'] = $code;
                 $data['user_role_id'] = $target[$i];
                 $data['level'] =  "2";
                 DB::table('disposisi_penanggung_jawab')->insert($data);
                 array_merge($recipient, User::where('internal_role_id',$target[$i])->pluck('email')->toArray());
 
-            }
+            }      
         if($request->file != null){
             $path = 'disposisi/tindak_lanjut/'.Str::snake(date("YmdHis").'/'.$request->file->getClientOriginalName());
             $request->file->storeAs('public/',$path);
@@ -309,30 +352,31 @@ class DisposisiController extends Controller
         $disposisi['level'] = '2';
         $disposisi['created_by'] = Auth::user()->id;
         $disposisi['created_date'] = date("YmdHis");
-        DB::table('disposisi_tindak_lanjut')->insert($disposisi);
+        DB::table('disposisi_tindak_lanjut')->insert($disposisi); 
 
         $disposisi['pengirim'] = $this->getPengirim(Auth::user()->id);
         $disposisi['type_mail'] ="Disposisi";
         $disposisi['mail_to'] = $recipient;
      //    $disposisi['mail_to'] = ["izqfly@gmail.com","zanmit.consultant@gmail.com"];
         $disposisi['date_now'] = date('d-m-Y H:i:s');
-        $disposisi['instruksi'] = "ditindaklanjuti";
+        $disposisi['instruksi'] = "ditindaklanjuti"; 
+        $this->saveHistory($request->disposisi_id,"4","Melanjutkan Disposisi Pekerjaan kepada ");
 
         SendEmail::dispatch($disposisi);  //send notification
 
 
 
-    //    }
-       $color = "success";
+    //    } 
+       $color = "success"; 
         $msg = "Berhasil Mendisposisi Data Tindak Lanjut";
        return back()->with(compact('color', 'msg'));
-
-
+        
+     
     }
 
     public function validatePenanggungJawab($code, $unit){
         $dpj= DB::table('disposisi_penanggung_jawab')
-                      ->select('id')
+                      ->select('id') 
                       ->where('disposisi_code','=', $code)
                       ->where('user_role_id','=', $unit)
                       ->first();
@@ -340,8 +384,14 @@ class DisposisiController extends Controller
              return true;
          }  else {
              return false;
-         }
+         }    
     }
+    public function downloadFile($id){
+        $entry = DB::table('disposisi_tindak_lanjut')->where('id',$id)->first();
+        $path = storage_path('app/public/' . $entry->file); 
+        return response()->download($path);       
+    }
+
     public function createTindakLanjut(Request $request)
     {
         //
@@ -357,21 +407,38 @@ class DisposisiController extends Controller
         $disposisi['persentase'] = $request->persentase;
         $disposisi['created_by'] = Auth::user()->id;
         $disposisi['created_date'] = date("YmdHis");
+        $disposisi['level'] = '1';
         DB::table('disposisi_tindak_lanjut')->insert($disposisi);
 
-        $disposisi['keterangan'] = $request->keterangan;
-        $disposisi['persentase'] = $request->persentase;
-        $disposisi['created_by'] = Auth::user()->id;
-        $disposisi['created_date'] = date("YmdHis");
-        DB::table('disposisi_tindak_lanjut')->insert($disposisi);
+        $this->saveHistory($request->disposisi_id,"3","Melaporkan Tindak Lanjut");
+        
         $datad['status'] = '3';
-        DB::table('disposisi')->where('id',$request->disposisi_id)->update($datad);
+        DB::table('disposisi')->where('id',$request->disposisi_id)->update($datad); 
 
+        $email['pengirim'] = $this->getPengirim(Auth::user()->id);
+        $email['type_mail'] = "TindakLanjut";
+      //  $email['mail_to'] =  $this->getParentEmail(Auth::user()->internal_role_id);
+       $email['mail_to'] = ["izqfly@gmail.com","zanmit.consultant@gmail.com"];
+      $email['disposisi_code'] =  $request->disposisi_id;
+        $email['tindak_lanjut'] =  $request->tindak_lanjut;
+        $email['persentase'] =  $request->persentase;
+        $email['keterangan'] =  $request->keterangan;
+        $email['date_now'] = date('d-m-Y H:i:s');
+  
+        //$this->sendEmailNotification($email);
         $color = "success";
         $msg = "Berhasil Menambah Data Tindak Lanjut";
         return back()->with(compact('color', 'msg'));
     }
 
+    public function getParentEmail($role_id){
+        $role = Role::where('id',$role_id)->first();
+        $parent_id = $role->parent_id;
+        $parent = User::where('internal_role_id',$parent_id)->first();
+        return $parent->email;
+         
+  
+    }
     public function getDaftarDisposisiInstruksi(){
         $instruksi = DB::table('master_disposisi_instruksi as a')
         ->distinct()

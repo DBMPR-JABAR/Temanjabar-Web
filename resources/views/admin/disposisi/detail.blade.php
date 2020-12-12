@@ -191,7 +191,9 @@
                                  ?></td>
                                
                                  
-                                <td>download</td>
+                               <td><a href="{{route('download',$data->id)}}">
+                                <button class="btn btn-success  btn-mini btn-round"><i class="icofont icofont-download"></i> Download</button>     
+                                </a></td>
                                 </tr>
                             @endforeach
                          </tbody>
