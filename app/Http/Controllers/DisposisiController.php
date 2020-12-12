@@ -164,7 +164,7 @@ class DisposisiController extends Controller
         
         foreach($unit_responsible as $pj){
             
-             $unit.= "<li> ".$pj->keterangan."".$pj->user_role_id.$pj->parent."</span>".$this->getPersentase($pj->disposisi_id, $pj->user_role_id);
+             $unit.= "<li> ".$pj->keterangan."</span>".$this->getPersentase($pj->disposisi_id, $pj->user_role_id);
              $unit.="<ul>";
              $parents  = DB::table('disposisi_penanggung_jawab  as a')
             ->select( 'a.parent','c.keterangan', 'd.id as disposisi_id','a.user_role_id'   )
@@ -175,7 +175,7 @@ class DisposisiController extends Controller
                             ->where('a.parent',$pj->user_role_id)
                             ->get();  
             foreach($parents as $parent) { 
-                $unit.="<li data-jstree='{'opened':true}'> <i class='icofont icofont-arrow-right'></i>".$parent->keterangan."</span>".$this->getPersentase($parent->disposisi_id, $parent->user_role_id)."</li>";            
+                $unit.="<li> <i class='icofont icofont-arrow-right'></i>".$parent->keterangan."</span>".$this->getPersentase($parent->disposisi_id, $parent->user_role_id)."</li>";            
             }
                 $unit.= "</ul>";
             }
