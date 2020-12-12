@@ -125,7 +125,9 @@
                                                     
                                                     <?php $date = date_create($h->created_date);?>
                                                      
-                                                    <li style="border-bottom: 1px solid rgba(204,204,204,0.35);padding-top:10px"><p> <?php echo $h->name . '(' . $h->role_name . ') '.$h->keterangan.' ' . date_format($date, 'd-m-Y H:i:s') ?></p> </li>
+                                                    <li style="border-bottom: 1px solid rgba(204,204,204,0.35);">
+                                                    <p style="margin:0px"><i><?php  echo date_format($date, 'd-m-Y H:i:s') ?></i></p>
+                                                    <p> <?php echo $h->name . ' (' . $h->role_name . ') '.$h->keterangan; ?></p> </li>
                                                           @endforeach
  
                                                                 </ul>
