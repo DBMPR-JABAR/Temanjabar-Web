@@ -8,7 +8,9 @@
 <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/chosen.css') }}">
 <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/list-scroll/list.css') }}">
-     
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/treeview/treeview.css') }}">
+
 
 <style>
 .chosen-container.chosen-container-single {

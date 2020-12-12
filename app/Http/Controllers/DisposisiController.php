@@ -152,17 +152,36 @@ class DisposisiController extends Controller
                     ->get();
 
         $unit_responsible = DB::table('disposisi_penanggung_jawab  as a')
-            ->select( 'c.keterangan', 'd.id as disposisi_id','a.user_role_id'   )
+            ->select( 'a.parent','c.keterangan', 'd.id as disposisi_id','a.user_role_id'   )
                             ->join('user_role as c','c.id','=','a.user_role_id')
 
                             ->join('disposisi as d','d.disposisi_code','=','a.disposisi_code')
                             ->where('d.id','=', $id)
+                            ->where('a.level','1')
                             ->get();
 
-        $unit = "";
+        $unit = "<div id='basicTree'><ul >";
+        
         foreach($unit_responsible as $pj){
-            $unit.= "<span>".$pj->keterangan."</span>".$this->getPersentase($pj->disposisi_id, $pj->user_role_id)."<br/>";
-        }
+            
+             $unit.= "<li> ".$pj->keterangan."".$pj->user_role_id.$pj->parent."</span>".$this->getPersentase($pj->disposisi_id, $pj->user_role_id);
+             $unit.="<ul>";
+             $parents  = DB::table('disposisi_penanggung_jawab  as a')
+            ->select( 'a.parent','c.keterangan', 'd.id as disposisi_id','a.user_role_id'   )
+                            ->join('user_role as c','c.id','=','a.user_role_id') 
+                            ->join('disposisi as d','d.disposisi_code','=','a.disposisi_code')
+                            ->where('d.id','=', $id)
+                            ->where('a.level','2')
+                            ->where('a.parent',$pj->user_role_id)
+                            ->get();  
+            foreach($parents as $parent) { 
+                $unit.="<li data-jstree='{'opened':true}'> <i class='icofont icofont-arrow-right'></i>".$parent->keterangan."</span>".$this->getPersentase($parent->disposisi_id, $parent->user_role_id)."</li>";            
+            }
+                $unit.= "</ul>";
+            }
+            $unit.="</li>";
+             
+         
         return view('admin.disposisi.detail',
                 [
                     'tindaklanjut' => $tindaklanjut,
@@ -210,6 +229,7 @@ class DisposisiController extends Controller
             $data['user_role_id'] = $target[$i];
             $data['level'] =  "2";
             $data['pemberi_disposisi'] =  Auth::user()->id; 
+            $data['parent'] = $this->getParentByRoleId($target[$i]);
             DB::table('disposisi_penanggung_jawab')->insert($data); 
          }
   
@@ -221,6 +241,8 @@ class DisposisiController extends Controller
             $data['disposisi_code'] = $code;
             $data['user_role_id'] = $target[$i];
             $data['pemberi_disposisi'] =  Auth::user()->id; 
+            $data['level'] = "1";
+            $data['parent'] = $this->getParentByRoleId($target[$i]);
             DB::table('disposisi_penanggung_jawab')->insert($data);
 
             array_merge($users, User::where('internal_role_id',$target[$i])->pluck('email')->toArray());
@@ -445,6 +467,10 @@ class DisposisiController extends Controller
         array_merge($users, User::where('internal_role_id',$parent_id)->pluck('email')->toArray()); 
         return $users;  
   
+    }
+    public function getParentByRoleId($id){
+        $role = Role::where('id',$id)->first();
+        return $role->parent_id;
     }
     public function getDaftarDisposisiInstruksi(){
         $instruksi = DB::table('master_disposisi_instruksi as a')
