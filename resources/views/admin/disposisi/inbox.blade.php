@@ -125,7 +125,8 @@
                                 <?php } ?>
                                 <?php if($data->status == '2' || $data->status == '3')  { ?> 
                                     <a   data-id="{{$data->id}}"  data-toggle="modal" class="btn btn-primary btn-mini waves-effect waves-light" href="#progressModal"><i class="icofont icofont-check-circled"></i>Lapor Progress</a>
-
+                                    <a   href="#disposisiModal" data-code="{{$data->disposisi_code}}" data-id="{{$data->id}}"  data-toggle="modal" class="btn btn-primary btn-mini waves-effect waves-light" ><i class="icofont icofont-exchange"></i>Disposisi</a>
+                              
                                    <?php } ?>
                                       </td>
                             </tr>
@@ -276,7 +277,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-3">
-                                     <input type="number" name="persentase" id="persentase" class="form-control" />  
+                                     <input type="number" maxlength="3" name="persentase"  id="persentase" class="form-control" />  
                                 </div>
                         </div>
                         <div class="form-group row">
