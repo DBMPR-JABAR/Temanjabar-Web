@@ -7,6 +7,8 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/data-table/extensions/responsive/css/responsive.dataTables.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/chosen.css') }}">
 <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/list-scroll/list.css') }}">
+     
 
 <style>
 .chosen-container.chosen-container-single {
@@ -118,14 +120,14 @@
                                                     <div class="row card-block">
                                                     <div class="col-md-12 col-lg-12">
                                                         <h6 class="sub-title">History</h6>
-                                                    <ul class="basic-list">
-                                                    @foreach($penanggung_jawab as $pj)
-                                                    <?php $date = date_create($pj->created_date);?>
+                                                    <ul class="scroll-list wave" style="overflow: auto; width: auto; height: 500px;">
+                                                    @foreach($history as $h)
+                                                    
+                                                    <?php $date = date_create($h->created_date);?>
                                                      
-                                                        <li><p> <?php echo $pj->name . '(' . $pj->keterangan . ') menerima disposisi tanggal ' . date_format($date, 'd-m-Y H:i:s') ?></p> </li>
-                                                        @endforeach
-
-
+                                                    <li style="border-bottom: 1px solid rgba(204,204,204,0.35);padding-top:10px"><p> <?php echo $h->name . '(' . $h->role_name . ') '.$h->keterangan.' ' . date_format($date, 'd-m-Y H:i:s') ?></p> </li>
+                                                          @endforeach
+ 
                                                                 </ul>
 
 </div></div>    
@@ -191,7 +193,7 @@
                                  ?></td>
                                
                                  
-                               <td><a href="{{route('download',$data->id)}}">
+                                <td><a href="{{route('download',$data->id)}}">
                                 <button class="btn btn-success  btn-mini btn-round"><i class="icofont icofont-download"></i> Download</button>     
                                 </a></td>
                                 </tr>
@@ -204,5 +206,20 @@
 </div>
 @endsection
 @section('script')
- 
+<script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}"></script>
+
+<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
+
+<script src="{{ asset('assets/vendor/list-scroll\list-custom.js') }}"></script>
+
+
+<script>
+    $(document).ready(function() {
+        $("#dttable").DataTable();
+    });
+        </script>
+
 @endsection
