@@ -345,10 +345,15 @@ class LandingController extends Controller
         return back()->with(compact('color','msg'));
     }
 
+    public function detailLaporanMasyarakat($id)
+    {
+        $detail = DB::table('monitoring_laporan_masyarakat')->where('id',$id)->get();
+        return view('admin.landing.laporan-masyarakat.detail',['detail' => $detail]);
+    }
     public function editLaporanMasyarakat($id)
     {
-        $data = DB::table('monitoring_laporan_masyarakat')->where('id',$id)->first();
-        return view('admin.landing.laporan-masyarakat.edit',compact('data'));
+        $data = DB::table('monitoring_laporan_masyarakat')->where('id',$id)->get();
+        return response()->json(['data' => $data], 200);
     }
 
     public function deleteLaporanMasyarakat($id){

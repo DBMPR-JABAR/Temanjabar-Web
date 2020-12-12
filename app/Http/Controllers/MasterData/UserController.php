@@ -230,7 +230,7 @@ class UserController extends Controller
             ]);
     }
 
-    function createUserRole(Request $request){
+    public function createUserRole(Request $request){
         $create['role'] = $request->user_role;
         $create['is_superadmin'] = $request->super_admin;
         $create['parent'] = $request->parent;
@@ -247,7 +247,7 @@ class UserController extends Controller
         return back()->with(compact('color', 'msg'));
     }
 
-    function detailUserRole($id){
+    public function detailUserRole($id){
         $user_role= DB::table('user_role as a')
         ->where('id',$id)
         ->get();
@@ -256,14 +256,14 @@ class UserController extends Controller
             ]);
     }
 
-    function getUserRoleData($id){
+    public function getUserRoleData($id){
         $user_role = DB::table('user_role')
         ->where('id',$id)
         ->get();
         return response()->json(["user_role" => $user_role], 200); 
 
     }
-    function updateUserRole(Request $request){
+    public function updateUserRole(Request $request){
         $update['role'] = $request->user_role;
         $update['is_superadmin'] = $request->super_admin;
         $update['parent'] = $request->parent;
@@ -279,7 +279,7 @@ class UserController extends Controller
         $msg = "Berhasil Mengupdate Data User Role";
         return back()->with(compact('color', 'msg'));
     }
-    function deleteUserRole($id){
+    public function deleteUserRole($id){
         $user_role = DB::table('user_role')
         ->where('id',$id)
         ->delete();

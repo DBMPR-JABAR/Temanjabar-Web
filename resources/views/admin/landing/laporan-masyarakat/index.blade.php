@@ -90,9 +90,10 @@
                             <td>UPTD {{$data->uptd_id}}</td>
                             <td>{{$data->created_at}}</td>
                             <td>{{$data->updated_at}}</td>
-                            <td>
-                                <a href="{{ route('editLandingLaporanMasyarakat',$data->id) }}" class="mb-2 btn btn-block btn-warning btn-mat">Edit</a><br>
-                                <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-block btn-danger btn-mat">Hapus</a>
+                            <td> 
+                                <a type="button" href="{{ route('detailLandingLaporanMasyarakat',$data->id) }}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Rincian</a>
+                                <a type="button" href="#editModal" data-toggle="modal" data-id="{{$data->id}}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Edit</a> 
+                                <a type="button"href="#delModal"  data-toggle="modal" data-id="{{$data->id}}"     class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Hapus</a>       
                             </td>
                         </tr>
                         @endforeach
@@ -243,6 +244,124 @@
             </div>
         </div>
     </div>
+
+    <div class="modal-only">
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+
+                <form action="{{route('updateLandingLaporanMasyarakat')}}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-header">
+                        <h4 class="modal-title">Tambah Laporan Masyarakat</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Nama</label>
+                            <div class="col-md-10">
+                                <input name="nama" id="nama" type="text" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">NIK</label>
+                            <div class="col-md-10">
+                                <input name="nik" id="nik" type="text" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Alamat</label>
+                            <div class="col-md-10">
+                                <input name="alamat" id="alamat" type="text" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Telepon</label>
+                            <div class="col-md-10">
+                                <input name="telp" id="telp" type="tel" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Email</label>
+                            <div class="col-md-10">
+                                <input name="email" id="email" type="email" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Jenis</label>
+                            <div class="col-md-10">
+                                <input name="jenis" id="jenis" type="text" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Gambar</label>
+                            <div class="col-md-6" id="gambar">
+                                <input name="gambar" type="file" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">lokasi</label>
+                            <div class="col-md-10">
+                                <input name="lokasi" id="lokasi" type="text" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Lat</label>
+                            <div class="col-md-10">
+                                <input name="lat" id="lat" type="text" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Long</label>
+                            <div class="col-md-10">
+                                <input name="long" id="long" type="text" class="form-control" required>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Deskripsi</label>
+                            <div class="col-md-10">
+                                <textarea name="deskripsi" id="deskripsi" rows="3" cols="3" class="form-control" placeholder="Masukkan Deskripsi" required></textarea>
+                            </div>
+                        </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-2 col-form-label">UPTD</label>
+                                    <select name="uptd_id" class="custom-select " id="pilihanUptd" required>
+                                        <option selected>Pilih...</option>
+                                        <option value="1" id="uptd1">UPTD-I</option>
+                                        <option value="2" id="uptd2">UPTD-II</option>
+                                        <option value="3" id="uptd3">UPTD-III</option>
+                                        <option value="4" id="uptd4">UPTD-IV</option>
+                                        <option value="5" id="uptd5">UPTD-V</option>
+                                        <option value="6" id="uptd6">UPTD-VI</option>
+                                    </select>
+                                </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary waves-effect waves-light ">Simpan</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
 </li>
 </div>
 @endsection
@@ -266,5 +385,29 @@
             modal.find('.modal-footer #delHref').attr('href',url);
         });
     });
+    $('#editModal').on('show.bs.modal', function(event) {
+            const link = $(event.relatedTarget);
+            const id = link.data('id');
+            console.log(id);
+            const baseUrl = `{{ url('admin/landing-page/laporan-masyarakat/edit') }}/` + id;
+            $.get(baseUrl, { id: id },
+                function(response){
+                    console.log(response.nama);
+                    $('#nama').val(response.data[0].nama);
+                    $('#nik').val(response.data[0].nik);
+                    $('#alamat').val(response.data[0].alamat);
+                    $('#telp').val(response.data[0].telp);
+                    $('#email').val(response.data[0].email);
+                    $('#jenis').val(response.data[0].jenis);
+                    $('#lat').val(response.data[0].lat);
+                    $('#long').val(response.data[0].long);
+                    $('#deskripsi').html(response.data[0].deskripsi);
+                    for(var i=1;i<=6;i++){
+                        if($('#uptd'+i).val() == response.data[0].uptd_id){
+                            $('#uptd'+i).attr('selected','selected');
+                        }
+                    }
+                });
+        });
 </script>
 @endsection

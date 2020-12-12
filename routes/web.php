@@ -118,6 +118,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         // {SiteURL}/admin/landing-page/laporan-masyarakat
         Route::group(['prefix' => 'laporan-masyarakat'], function () {
             Route::get('/', 'LandingController@getLaporanMasyarakat')->name('getLandingLaporanMasyarakat');
+            Route::get('detail/{id}', 'LandingController@detailLaporanMasyarakat')->name('detailLandingLaporanMasyarakat');
             Route::get('edit/{id}', 'LandingController@editLaporanMasyarakat')->name('editLandingLaporanMasyarakat');
             Route::post('create', 'LandingController@createLaporanMasyarakat')->name('createLandingLaporanMasyarakat');
             Route::post('update', 'LandingController@updateLaporanMasyarakat')->name('updateLandingLaporanMasyarakat');
