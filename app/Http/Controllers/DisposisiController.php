@@ -42,10 +42,10 @@ class DisposisiController extends Controller
 
         $disposisi_kepada = "";
         $jenis_instruksi_select = "";
-        $parent = DB::table('user_role')->select('parent_id')->where('id','=', Auth::user()->internal_role_id)->first(); 
-        $user_role = DB::table('user_role')->select('id', 'keterangan') 
-         ->where('parent_id', Auth::user()->internal_role_id) 
-         ->orWhere('parent_id',$parent->parent_id); 
+        $parent = DB::table('user_role')->select('parent_id')->where('id','=', Auth::user()->internal_role_id)->first();
+        $user_role = DB::table('user_role')->select('id', 'keterangan')
+         ->where('parent_id', Auth::user()->internal_role_id)
+         ->orWhere('parent_id',$parent->parent_id);
 
         $listUserRole = $user_role->get();
         foreach ($listUserRole as $role) {
@@ -80,9 +80,6 @@ class DisposisiController extends Controller
                 'tindaklanjut' => $tindaklanjut
             ]);
     }
-
-     
-
 
     public function getDaftarDisposisi()
     {
@@ -188,16 +185,16 @@ class DisposisiController extends Controller
         $msg = "Disposisi telah anda terima";
         return redirect(route('disposisi-masuk'))->with(compact('color', 'msg'));
     }
-    
+
     public function saveTargetDisposisiLevel2($target,$code){
-         
+
         for($i = 0; $i< count($target); $i++) {
             $data['disposisi_code'] = $code;
             $data['user_role_id'] = $target[$i];
             $data['level'] =  "2";
-            DB::table('disposisi_penanggung_jawab')->insert($data); 
+            DB::table('disposisi_penanggung_jawab')->insert($data);
          }
-  
+
     }
 
     public function saveTargetDisposisi($target,$code){
@@ -207,10 +204,12 @@ class DisposisiController extends Controller
             $data['user_role_id'] = $target[$i];
             DB::table('disposisi_penanggung_jawab')->insert($data);
 
-            array_merge($users, User::where('internal_role_id',$target[$i])->pluck('email')->toArray());
+            $user = User::where('internal_role_id',$target[$i])->pluck('email')->toArray();
+            $users = array_merge($users, $user);
         }
         return $users;
     }
+
     public function saveJenisInstruksi($jenis,$code){
         for($i = 0; $i< count($jenis); $i++) {
             $data['disposisi_code'] = $code;
@@ -275,19 +274,19 @@ class DisposisiController extends Controller
     }
 
     public function saveDisposisiLevel2(Request $request)
-    { 
-           
+    {
+
         $target  = $request->target_disposisi;
         $code = $request->disposisi_code_level2;
-        
+
         for($i = 0; $i < count($target); $i++) {
         //    $validate = $this->validatePenanggungJawab($code,$target[$i]);
-            //if($validate == true) { 
+            //if($validate == true) {
                 $data['disposisi_code'] = $code;
                 $data['user_role_id'] = $target[$i];
                 $data['level'] =  "2";
                 DB::table('disposisi_penanggung_jawab')->insert($data);
-                
+
                 if($request->file != null){
                     $path = 'disposisi/tindak_lanjut/'.Str::snake(date("YmdHis").'/'.$request->file->getClientOriginalName());
                     $request->file->storeAs('public/',$path);
@@ -302,23 +301,23 @@ class DisposisiController extends Controller
                 $disposisi['level'] = '2';
                 $disposisi['created_by'] = Auth::user()->id;
                 $disposisi['created_date'] = date("YmdHis");
-                DB::table('disposisi_tindak_lanjut')->insert($disposisi); 
+                DB::table('disposisi_tindak_lanjut')->insert($disposisi);
           //    }
-         } 
-
-         
+         }
 
 
-       $color = "success"; 
+
+
+       $color = "success";
         $msg = "Berhasil Mendisposisi Data Tindak Lanjut";
        return back()->with(compact('color', 'msg'));
-        
-     
+
+
     }
 
     public function validatePenanggungJawab($code, $unit){
         $dpj= DB::table('disposisi_penanggung_jawab')
-                      ->select('id') 
+                      ->select('id')
                       ->where('disposisi_code','=', $code)
                       ->where('user_role_id','=', $unit)
                       ->first();
@@ -326,7 +325,7 @@ class DisposisiController extends Controller
              return true;
          }  else {
              return false;
-         }    
+         }
     }
     public function createTindakLanjut(Request $request)
     {
