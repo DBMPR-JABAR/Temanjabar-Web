@@ -42,6 +42,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
 
     Route::view('map-dashboard', 'admin.map.map-dashboard');
+    Route::view('map-dashboard-canggih', 'admin.map.map-dashboard-canggih');
     // {SiteURL}/admin/monitoring/*
     Route::group(['prefix' => 'monitoring'], function () {
         Route::get('progress-pekerjaan', 'MonitoringController@getProgressPekerjaan');
