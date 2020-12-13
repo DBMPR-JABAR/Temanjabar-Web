@@ -27,7 +27,9 @@ class AuthController extends Controller
     }
     public function logout()
     {
-        Log::create(['activity' => 'Logout', 'description' => 'User '.Auth::user()->name.' Logged Out From Web']);
+        if(Auth::check()){
+            Log::create(['activity' => 'Logout', 'description' => 'User '.Auth::user()->name.' Logged Out From Web']);
+        }
         Auth::logout();
 
         return redirect('/');
