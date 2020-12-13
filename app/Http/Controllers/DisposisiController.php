@@ -346,6 +346,8 @@ class DisposisiController extends Controller
 
     }
 
+
+    // TODO: Rombak ini sesuai flow yang seharusnya
     public function saveDisposisiLevel2(Request $request)
     {
 
@@ -378,7 +380,7 @@ class DisposisiController extends Controller
         $disposisi['disposisi_id'] = $request->disposisi_id;
         $disposisi['tindak_lanjut'] = $request->tindak_lanjut;
         $disposisi['status'] = "2"; //disposisi submitted
-      //  $disposisi['role_id'] = $target[$i];
+        //  $disposisi['role_id'] = $target[$i];
         $disposisi['keterangan'] = $request->keterangan;
         $disposisi['persentase'] =  "0";
         $disposisi['level'] = '2';
@@ -388,9 +390,9 @@ class DisposisiController extends Controller
 
         $disposisi['disposisi_code'] = $code;
         $disposisi['pengirim'] = $this->getPengirim(Auth::user()->id);
-        $disposisi['type_mail'] ="Disposisi";
+        $disposisi['type_mail'] ="TindakLanjut";
         $disposisi['mail_to'] = $recipient;
-     //    $disposisi['mail_to'] = ["izqfly@gmail.com","zanmit.consultant@gmail.com"];
+        //    $disposisi['mail_to'] = ["izqfly@gmail.com","zanmit.consultant@gmail.com"];
         $disposisi['date_now'] = date('d-m-Y H:i:s');
         $disposisi['instruksi'] = "ditindaklanjuti";
         $this->saveHistory($request->disposisi_id,"4","Melanjutkan Disposisi Pekerjaan kepada ".$historyRecipient);
