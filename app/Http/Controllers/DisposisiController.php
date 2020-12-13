@@ -393,7 +393,6 @@ class DisposisiController extends Controller
      //    $disposisi['mail_to'] = ["izqfly@gmail.com","zanmit.consultant@gmail.com"];
         $disposisi['date_now'] = date('d-m-Y H:i:s');
         $disposisi['instruksi'] = "ditindaklanjuti";
-        dd($disposisi);
         $this->saveHistory($request->disposisi_id,"4","Melanjutkan Disposisi Pekerjaan kepada ".$historyRecipient);
 
         SendEmail::dispatch($disposisi);  //send notification
