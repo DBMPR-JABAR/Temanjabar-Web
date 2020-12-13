@@ -35,8 +35,7 @@
 
           <tr>
             <td colspan="2" style="border-top: solid 1px #ddd;border-bottom: solid 1px #ddd;padding:10px 20px;text-align: center;">
-              <img src="https://socs.binus.ac.id/files/2018/12/aswin-1.jpg" style="width: 200px;height: 200px;">
-
+              <img src="{{ asset('assets/images/brand/text_hitam.png') }}" style="width: 200px;height: 200px;">
             </td>
           </tr>
         </tbody>

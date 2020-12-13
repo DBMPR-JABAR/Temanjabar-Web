@@ -26,14 +26,13 @@
               <b style="color:#4d90fe;font-weight:normal;margin:0">:  {{$data['persentase']}} % </b></p>
               <p style="font-size:14px;margin:0 0 6px 0;"><span style="display:inline-block;min-width:110px">Keterangan</span>
               <b style="color:#4d90fe;font-weight:normal;margin:0">:  {{$data['keterangan']}} </b></p>
- 
+
             </td>
           </tr>
 
           <tr>
             <td colspan="2" style="border-top: solid 1px #ddd;border-bottom: solid 1px #ddd;padding:10px 20px;text-align: center;">
-              <img src="https://socs.binus.ac.id/files/2018/12/aswin-1.jpg" style="width: 200px;height: 200px;">
-
+                <img src="{{ asset('assets/images/brand/text_hitam.png') }}" style="width: 200px;height: 200px;">
             </td>
           </tr>
         </tbody>
