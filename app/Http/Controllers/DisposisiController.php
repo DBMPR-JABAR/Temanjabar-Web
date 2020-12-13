@@ -448,6 +448,8 @@ class DisposisiController extends Controller
         $datad['status'] = '3';
         DB::table('disposisi')->where('id',$request->disposisi_id)->update($datad);
 
+        $email['disposisi_code'] = DB::table('disposisi')->where('id',$request->disposisi_id)->first()->disposisi_code;
+
         $email['pengirim'] = $this->getPengirim(Auth::user()->id);
         $email['type_mail'] = "TindakLanjut";
         $email['mail_to'] =  $this->getParentEmail(Auth::user()->internal_role_id);
