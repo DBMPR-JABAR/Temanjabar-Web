@@ -456,7 +456,8 @@ class DisposisiController extends Controller
         $email['persentase'] =  $request->persentase;
         $email['keterangan'] =  $request->keterangan;
         $email['date_now'] = date('d-m-Y H:i:s');
-        $this->sendEmailNotification($email);
+        SendEmail::dispatch($email);
+
         $color = "success";
         $msg = "Berhasil Menambah Data Tindak Lanjut";
         return back()->with(compact('color', 'msg'));
@@ -466,7 +467,7 @@ class DisposisiController extends Controller
         $role = Role::where('id',$role_id)->first();
         $parent_id = $role->parent_id;
         $users = [];
-        array_merge($users, User::where('internal_role_id',$parent_id)->pluck('email')->toArray());
+        $users = array_merge($users, User::where('internal_role_id',$parent_id)->pluck('email')->toArray());
         return $users;
 
     }
