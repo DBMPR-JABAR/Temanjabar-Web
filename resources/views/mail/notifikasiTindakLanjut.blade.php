@@ -32,7 +32,7 @@
 
           <tr>
             <td colspan="2" style="border-top: solid 1px #ddd;border-bottom: solid 1px #ddd;padding:10px 20px;text-align: center;">
-                <img src="{{ asset('assets/images/brand/text_hitam.png') }}" style="width: 200px;height: 200px;">
+                <img src="http://citylab.itb.ac.id/temanjabar-laravel/public/assets/images/brand/text_hitam.png" style="width: 200px;height: 200px;">
             </td>
           </tr>
         </tbody>
