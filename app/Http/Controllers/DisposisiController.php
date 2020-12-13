@@ -388,7 +388,7 @@ class DisposisiController extends Controller
 
         $disposisi['disposisi_code'] = $code;
         $disposisi['pengirim'] = $this->getPengirim(Auth::user()->id);
-        $disposisi['type_mail'] ="TindakLanjut";
+        $disposisi['type_mail'] ="Disposisi";
         $disposisi['mail_to'] = $recipient;
      //    $disposisi['mail_to'] = ["izqfly@gmail.com","zanmit.consultant@gmail.com"];
         $disposisi['date_now'] = date('d-m-Y H:i:s');
