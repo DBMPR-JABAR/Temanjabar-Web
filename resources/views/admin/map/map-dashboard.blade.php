@@ -156,7 +156,7 @@
         }
         .strip {
             max-width: 100%;
-            height: 7px;
+            height: 3px;
         }
     </style>
     <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
@@ -219,49 +219,43 @@
         <div class="general">
             <div class="row">
                 <div class="col-3">
-                    <img width="20px" src="{{ asset('assets/images/marker/jalan.png')}}" alt="Ruas Jalan">
+                    <img width="25px" src="{{ asset('assets/images/marker/rawanbencana.png')}}" alt="Rawan Bencana">
                 </div>
-                <div class="col"><p>Ruas Jalan</p></div>
+                <div class="col"><p>Rawan Bencana</p></div>
             </div>
             <div class="row">
                 <div class="col-3">
-                    <img width="20px" src="{{ asset('assets/images/marker/pembangunan.png')}}" alt="Pembangunan">
+                    <img width="25px" src="{{ asset('assets/images/marker/pembangunan.png')}}" alt="Pembangunan">
                 </div>
                 <div class="col"><p>Pembangunan</p></div>
             </div>
             <div class="row">
                 <div class="col-3">
-                    <img width="20px" src="{{ asset('assets/images/marker/peningkatan.png')}}" alt="Peningkatan">
+                    <img width="25px" src="{{ asset('assets/images/marker/peningkatan.png')}}" alt="Peningkatan">
                 </div>
                 <div class="col"><p>Peningkatan</p></div>
             </div>
             <div class="row">
                 <div class="col-3">
-                    <img width="20px" src="{{ asset('assets/images/marker/rehabilitasi.png')}}" alt="Rehabilitasi">
+                    <img width="25px" src="{{ asset('assets/images/marker/rehabilitasi.png')}}" alt="Rehabilitasi">
                 </div>
                 <div class="col"><p>Rehabilitasi</p></div>
             </div>
             <div class="row">
                 <div class="col-3">
-                    <img width="20px" src="{{ asset('assets/images/marker/pemeliharaan.png')}}" alt="Pemeliharaan">
+                    <img width="25px" src="{{ asset('assets/images/marker/pemeliharaan.png')}}" alt="Pemeliharaan">
                 </div>
                 <div class="col"><p>Pemeliharaan</p></div>
             </div>
             <div class="row">
                 <div class="col-3">
-                    <img width="20px" src="{{ asset('assets/images/marker/vehiclecounting.png')}}" alt="vehicle Counting">
+                    <img width="25px" src="{{ asset('assets/images/marker/vehiclecounting.png')}}" alt="vehicle Counting">
                 </div>
                 <div class="col"><p>Vehicle Counting</p></div>
             </div>
             <div class="row">
                 <div class="col-3">
-                    <img width="20px" src="{{ asset('assets/images/marker/kemantapanjalan.png')}}" alt="kemantapan jalan">
-                </div>
-                <div class="col"><p>Kemantapan Jalan</p></div>
-            </div>
-            <div class="row">
-                <div class="col-3">
-                    <img width="20px" src="{{ asset('assets/images/marker/jembatan.png')}}" alt="jembatan">
+                    <img width="25px" src="{{ asset('assets/images/marker/jembatan.png')}}" alt="jembatan">
                 </div>
                 <div class="col"><p>Jembatan</p></div>
             </div>
