@@ -59,7 +59,7 @@
         @if (hasAccess(Auth::user()->internal_role_id, "Disposisi", "View"))
         <div class="pcoded-navigatio-lavel">Disposisi</div>
         <ul class="pcoded-item pcoded-left-item">
-            <li class="pcoded-hasmenu {{(Request::segment(2) == 'landing-page') ? 'pcoded-trigger active' : ''}}">
+            <li class="pcoded-hasmenu {{(Request::segment(2) == 'disposisi') ? 'pcoded-trigger active' : ''}}">
                 <a href="javascript:void(0)">
                     <span class="pcoded-micon"><i class="ti-home"></i></span>
                     <span class="pcoded-mtext">Disposisi</span>
@@ -146,7 +146,7 @@
             </li>
         </ul>
         @endif
-        
+
         <div class="pcoded-navigatio-lavel">Input</div>
         <ul class="pcoded-item pcoded-left-item">
             @if (hasAccess(Auth::user()->internal_role_id, "Input Data", "View"))
@@ -177,7 +177,7 @@
                             <span class="pcoded-mtext">Rekap</span>
                         </a>
                     </li>
-                    @endif 
+                    @endif
                     <div class="pcoded-navigatio-lavel">Pembangunan</div>
                     @if (hasAccess(Auth::user()->internal_role_id, "Progress Kerja", "View"))
                     <li class="{{(Request::segment(3) == 'progresskerja') ? 'active' : ''}}">
