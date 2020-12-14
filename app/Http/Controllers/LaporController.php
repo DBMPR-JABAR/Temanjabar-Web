@@ -53,11 +53,7 @@ class LaporController extends Controller
     {
         $aduan = DB::table('aduan')->where('id', $id)->first();
         $ruasJalan = DB::table('master_ruas_jalan');
-        if (Auth::user()->internalRole->uptd) {
-            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
-            $ruasJalan = $ruasJalan->where('uptd_id', $uptd_id);
-        }
-
+        $ruasJalan = $ruasJalan->where('uptd_id', $aduan->uptd_id);
         $ruasJalan = $ruasJalan->get();
         $uptd = DB::table('landing_uptd')->get();
 

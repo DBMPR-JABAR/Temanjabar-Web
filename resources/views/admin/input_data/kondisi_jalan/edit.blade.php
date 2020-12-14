@@ -19,7 +19,7 @@
                     <a href="{{ url('admin') }}"> <i class="feather icon-home"></i> </a>
                 </li>
                 <li class="breadcrumb-item"><a href="{{ route('getIDKondisiJalan') }}">Kondisi Jalan</a> </li>
-                <li class="breadcrumb-item"><a href="#">Tambah</a> </li>
+                <li class="breadcrumb-item"><a href="#">Edit</a> </li>
             </ul>
         </div>
     </div>
@@ -31,7 +31,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h5>Tambah Data Kondisi Jalan</h5>
+                <h5>Edit Data Kondisi Jalan</h5>
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
                         <li><i class="feather icon-maximize full-card"></i></li>
@@ -51,12 +51,12 @@
 
                     if (Auth::user()->internalRole->uptd) {
                         $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd); ?>
-                        <input name="uptd" type="number" class="form-control" value="{{$uptd_id}}" hidden>
+                        <input id="uptd" name="uptd" type="number" class="form-control" value="{{$uptd_id}}" hidden>
                     <?php } else { ?>
                         <div class=" form-group row">
                             <label class="col-md-3 col-form-label">UPTD</label>
                             <div class="col-md-9">
-                                <select class="form-control select2" name="uptd" style="min-width: 100%;">
+                                <select class="form-control select2" id="uptd" name="uptd" style="min-width: 100%;" onchange="ubahDataRuasJalan()">
                                     @foreach ($uptd as $uptdData)
                                     @if($kondisiJalan->uptd == $uptdData->id)
                                     <option value="<?php echo $uptdData->id; ?>" selected><?php echo $uptdData->nama; ?></option>
@@ -72,11 +72,11 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Nama Ruas Jalan</label>
                         <div class="col-md-9">
-                            <select name="ruas_jalan" class="form-control" required>
+                            <select id="ruas_jalan" name="ruas_jalan" class="form-control" required>
                                 <option value="{{$kondisiJalan->ruas_jalan}}">{{$kondisiJalan->ruas_jalan}}</option>
-                                <option></option>
+                                <option disabled></option>
                                 @foreach ($ruasJalan as $data)
-                                <option value="{{$data->nama_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
+                                <option value="{{$data->nama_ruas_jalan}}" {{ ( $data->nama_ruas_jalan == $kondisiJalan->ruas_jalan) ? 'selected' : ''}}>{{$data->nama_ruas_jalan}}</option>
                                 @endforeach
                             </select>
                             <!-- <input name="ruas_jalan" type="text" class="form-control" required value="{{$kondisiJalan->ruas_jalan}}"> -->
@@ -600,5 +600,29 @@
             return (/^\-?[0-9]*\.?[0-9]*$/).test($(this).val() + evt.key);
         });
     });
+
+    function ubahDataRuasJalan() {
+
+        val = document.getElementById("uptd").value
+        // alert(val);
+        console.log(val)
+
+        $.ajax({
+            url: "{{ url('admin/input-data/kondisi-jalan/getRuasJalan') }}",
+            method: 'get',
+            dataType: 'JSON',
+            data: {
+                id: val
+            },
+            complete: function(result) {
+                $('#ruas_jalan').empty(); // remove old options
+                $('#ruas_jalan').append($("<option></option>").text('Pilih Ruas Jalan'));
+
+                result.responseJSON.forEach(function(item) {
+                    $('#ruas_jalan').append($("<option></option>").attr("value", item["nama_ruas_jalan"]).text(item["nama_ruas_jalan"]));
+                });
+            }
+        });
+    }
 </script>
 @endsection

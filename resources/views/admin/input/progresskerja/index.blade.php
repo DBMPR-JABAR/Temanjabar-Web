@@ -73,7 +73,7 @@
                                 <th>Foto</th>
                                 <th>Video</th>
                                 <th>Status</th>
-                                <th>Aksi</th>
+                                <th style="min-width: 130px;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody id="bodyJembatan">
@@ -93,13 +93,15 @@
                                         <source src="{!! url('storage/progresskerja/'.$data->video) !!}" type='video/*' Sorry, your browser doesn't support the video element.></video></td>
                                 <!-- <td>{{$data->video}}</td> -->
                                 <td>{{$data->status}}</td>
-                                <td>
-                                    @if (hasAccess(Auth::user()->internal_role_id, "Progress Kerja", "Update"))
-                                    <a href="{{ route('editDataProgress',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
-                                    @endif
-                                    @if (hasAccess(Auth::user()->internal_role_id, "Progress Kerja", "Delete"))
-                                    <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
-                                    @endif
+                                <td style="min-width: 130px;">
+                                    <div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">
+                                        @if (hasAccess(Auth::user()->internal_role_id, "Progress Kerja", "Update"))
+                                        <a href="{{ route('editDataProgress',$data->id) }}" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i>Edit</a>
+                                        @endif
+                                        @if (hasAccess(Auth::user()->internal_role_id, "Progress Kerja", "Delete"))
+                                        <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-danger btn-sm waves-effect waves-light"><i class="icofont icofont-trash"></i>Hapus</a>
+                                        @endif
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach
@@ -164,23 +166,48 @@
                                 </select>
                             </div>
                         </div>
+
+                        @if(Auth::user()->internalRole->uptd)
+                        <input type="hidden" id="uptd" name="uptd_id" value="{{str_replace('uptd','',Auth::user()->internalRole->uptd)}}">
+                        @else
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">UPTD</label>
+                            <div class="col-md-10">
+                                <select class="form-control" id="uptd" name="uptd_id" onchange="ubahOption()" required>
+                                    <option value="">Pilih UPTD</option>
+                                    @foreach ($uptd as $data)
+                                    <option value="{{$data->id}}">{{$data->nama}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        @endif
+
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Satuan Pelayanan Pengelolaan</label>
-                            <div class="col-md-10">
-                                <select class="form-control" name="sup" required>
+                            <div class="col-md-10 my-auto">
+                                <select class="form-control" id="sup" name="sup" required>
+                                    @if (Auth::user()->internalRole->uptd)
                                     @foreach ($sup as $data)
                                     <option value="{{$data->name}}">{{$data->name}}</option>
                                     @endforeach
+                                    @else
+                                    <option>-</option>
+                                    @endif
                                 </select>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Ruas Jalan</label>
                             <div class="col-md-10">
-                                <select class="form-control" name="ruas_jalan" required>
+                                <select class="form-control" id="ruas_jalan" name="ruas_jalan" required>
+                                    @if (Auth::user()->internalRole->uptd)
                                     @foreach ($ruas_jalan as $data)
                                     <option value="{{$data->nama_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
                                     @endforeach
+                                    @else
+                                    <option>-</option>
+                                    @endif
                                 </select>
                             </div>
                         </div>
@@ -209,20 +236,6 @@
                                 <input name="lng" type="text" class="form-control formatLatLong" required size=15>
                             </div>
                         </div>
-                        @if (Auth::user()->internalRole->uptd)
-                        <input type="hidden" name="uptd_id" value="{{Auth::user()->internalRole->uptd}}">
-                        @else
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Uptd</label>
-                            <div class="col-md-10">
-                                <select class="form-control" name="uptd_id">
-                                    @foreach ($uptd as $data)
-                                    <option value="{{$data->id}}">{{$data->nama}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        @endif
 
                         <hr>
                         <div class="form-group row">
@@ -355,5 +368,25 @@
             autoclose: true,
         });
     });
+
+    function ubahOption() {
+
+        //untuk select SUP
+        id = document.getElementById("uptd").value
+        url = "{{ url('admin/master-data/ruas-jalan/getSUP') }}"
+        id_select = '#sup'
+        text = 'Pilih SUP'
+        option = 'name'
+
+        setDataSelect(id, url, id_select, text, option, option)
+
+        //untuk select Ruas
+        url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalan') }}"
+        id_select = '#ruas_jalan'
+        text = 'Pilih Ruas Jalan'
+        option = 'nama_ruas_jalan'
+
+        setDataSelect(id, url, id_select, text, option, option)
+    }
 </script>
 @endsection

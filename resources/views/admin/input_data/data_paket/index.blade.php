@@ -75,7 +75,7 @@
                                 <th>Nilai Kontrak Perubahan</th>
                                 <th>Total Tambahan</th>
                                 <th>Total Sisa Lelang</th>
-                                <th>Aksi</th>
+                                <th style="min-width: 130px;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody id="bodyJembatan">
@@ -96,13 +96,15 @@
                                 <td>{{$data->nilai_kontrak_perubahan}}</td>
                                 <td>{{$data->total_tambahan}}</td>
                                 <td>{{$data->total_sisa_lelang}}</td>
-                                <td>
-                                    @if (hasAccess(Auth::user()->internal_role_id, "Data Paket", "Update"))
-                                    <a href="{{ route('editIDDataPaket',$data->kode_paket) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
-                                    @endif
-                                    @if (hasAccess(Auth::user()->internal_role_id, "Data Paket", "Delete"))
-                                    <a href="#delModal" data-id="{{$data->kode_paket}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
-                                    @endif
+                                <td style="min-width: 130px;">
+                                    <div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">
+                                        @if (hasAccess(Auth::user()->internal_role_id, "Data Paket", "Update"))
+                                        <a href="{{ route('editIDDataPaket',$data->kode_paket) }}" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i>Edit</a>
+                                        @endif
+                                        @if (hasAccess(Auth::user()->internal_role_id, "Data Paket", "Delete"))
+                                        <a href="#delModal" data-id="{{$data->kode_paket}}" data-toggle="modal" class="btn btn-danger btn-sm waves-effect waves-light"><i class="icofont icofont-trash"></i>Hapus</a>
+                                        @endif
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach

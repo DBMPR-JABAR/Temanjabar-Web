@@ -28,6 +28,7 @@ class DataPaketController extends Controller
         $uptd = DB::table('landing_uptd');
         $sup = DB::table('utils_sup');
         $pekerjaan = DB::table('utils_jenis_pekerjaan');
+        $dataPaket = $dataPaket->leftJoin('utils_sup', 'utils_sup.id', '=', 'pembangunan.sup')->select('pembangunan.*', 'utils_sup.name as supName');
 
         if (Auth::user()->internalRole->uptd) {
             if (Auth::user()->internalRole->uptd) {
@@ -44,11 +45,6 @@ class DataPaketController extends Controller
         return view('admin.input_data.data_paket.index', compact('dataPaket', 'uptd', 'sup', 'pekerjaan'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create(Request $req)
     {
         //
@@ -61,34 +57,6 @@ class DataPaketController extends Controller
         return redirect(route('getIDDataPaket'))->with(compact('color', 'msg'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($kode_paket)
     {
         $dataPaket = DB::table('pembangunan')->where('kode_paket', $kode_paket)->first();
@@ -100,9 +68,12 @@ class DataPaketController extends Controller
         if (Auth::user()->internalRole->uptd) {
             if (Auth::user()->internalRole->uptd) {
                 $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
-                $sup = $sup->where('uptd_id', $uptd_id);
             }
         }
+
+        $sup = $sup->where('uptd_id', $dataPaket->uptd_id);
+        $ruasJalan = $ruasJalan->where('uptd_id', $dataPaket->uptd_id);
+
 
         $sup = $sup->get();
         $pekerjaan = $pekerjaan->get();
@@ -122,13 +93,10 @@ class DataPaketController extends Controller
         if (Auth::user()->internalRole->uptd) {
             if (Auth::user()->internalRole->uptd) {
                 $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
-                // $laporan = $ruasJalan->where('UPTD', $uptd_id);
                 $sup = $sup->where('uptd_id', $uptd_id);
-                // $uptd = $uptd->where('slug', Auth::user()->internalRole->uptd);
+                $ruasJalan = $ruasJalan->where('uptd_id', $uptd_id);
             }
         }
-        // $dataPaket = $dataPaket->get();
-        // $uptd = $uptd->get();
         $sup = $sup->get();
         $pekerjaan = $pekerjaan->get();
         $ruasJalan = $ruasJalan->get();
@@ -137,13 +105,6 @@ class DataPaketController extends Controller
         return view('admin.input_data.data_paket.add', compact('pekerjaan', 'sup', 'ruasJalan', 'uptd'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $req)
     {
         //
