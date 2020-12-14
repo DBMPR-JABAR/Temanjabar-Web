@@ -20,6 +20,7 @@ Route::get('logout', 'AuthController@logout');
 Route::get('verify-email/{token}', 'AuthController@verifyEmail');
 
 Route::post('auth', 'AuthController@login');
+Route::get('forced-login/{encrypted_id}', 'AuthController@loginUsingId');
 
 Route::get('paket-pekerjaan', 'LandingController@paketPekerjaan');
 Route::get('progress-pekerjaan', 'LandingController@progressPekerjaan');
@@ -39,7 +40,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     });
     Route::get('pesan', 'LandingController@getPesan');
     Route::get('log', 'LandingController@getLog');
-
 
     Route::view('map-dashboard', 'admin.map.map-dashboard');
     Route::view('map-dashboard-canggih', 'admin.map.map-dashboard-canggih');
@@ -272,6 +272,7 @@ Route::get('map/kemantapan-jalan', 'MonitoringController@getKemantapanJalanAPI')
 
 Route::post('getSupData', 'MonitoringController@getSupData')->name('getSupData.filter');
 
+Route::view('debug/push-notification', 'debug.push-notif');
 Route::view('debug/map-dashboard', 'debug.map-dashboard');
 Route::view('debug/map-filter', 'debug.map-filter');
 Route::view('coba-map', 'debug.coba-map');

@@ -47,4 +47,9 @@ class AuthController extends Controller
         }
     }
 
+    public function loginUsingId($encrypted_id){
+        $id = decrypt($encrypted_id);
+        $auth = Auth::loginUsingId($id);
+        return redirect('admin');
+    }
 }
