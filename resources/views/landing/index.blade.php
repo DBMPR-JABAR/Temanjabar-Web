@@ -266,7 +266,7 @@
                     <span class="divider-center"></span>
                 </h2>
                 <div class="col-md-12 offset-md-2 heading_space">
-                    <p>Ayok bangun Infrastruktur bersama-sama...Laporkan jalan rusak di sekitar anda,kami akan
+                    <p>Ayo bangun Infrastruktur bersama-sama...Laporkan jalan rusak di sekitar anda,kami akan
                         SEGERA memperbaikinya.</p>
                 </div>
             </div>
@@ -379,7 +379,7 @@
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label for="pilihFile">Foto Kerusakan saat ini</label>
-                                    <input name="image" type="file" class="form-control-file" id="pilihFile">
+                                    <input name="gambar" type="file" class="form-control-file" id="pilihFile">
                                 </div>
                             </div>
                             <div class="col-sm-12">

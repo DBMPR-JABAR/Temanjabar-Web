@@ -251,7 +251,9 @@
                     <option value="rehabilitasi">Rehabilitasi</option>
                     <option value="pemeliharaan">Pemeliharaan</option>
                     <option value="vehiclecounting">Vehicle Counting</option>
-                    <option value="jembatan">Jembatan</option>`;
+                    <option value="kemantapanjalan">Kemantapan Jalan</option>
+                    <option value="jembatan">Jembatan</option>
+                    <option value="rawanbencana">Rawan Bencana</option>`;
         $('#kegiatan').html(kegiatan).trigger('liszt:updated');
         $('#kegiatan').trigger("chosen:updated");
 
@@ -291,6 +293,9 @@
             '.chosen-select-rtl'       : { rtl: true },
             '.chosen-select-width'     : { width: '95%' }
         };
+
+        let basemap = "hybrid";
+
         for (let selector in config) {
             $(selector).chosen(config[selector]);
         }
@@ -320,25 +325,33 @@
                 "esri/layers/GroupLayer",
                 "esri/tasks/RouteTask",
                 "esri/tasks/support/RouteParameters",
-                "esri/tasks/support/FeatureSet"
+                "esri/tasks/support/FeatureSet",
+                "esri/layers/FeatureLayer" // dimz-add
             ], function (Map, MapView, esriRequest, Point, Graphic, GraphicsLayer,
-                        GroupLayer, RouteTask, RouteParameters, FeatureSet) {
+                        GroupLayer, RouteTask, RouteParameters, FeatureSet, FeatureLayer) { // dimz-add
 
                 // Map Initialization
                 const baseUrl = "{{url('/')}}";
                 const map = new Map({
-                    basemap: "hybrid"
+                    basemap: basemap
                 });
                 const view = new MapView({
                     container: "viewDiv",
                     map: map,
                     center: [107.6191, -6.9175], // longitude, latitude
-                    zoom: 8
+                    zoom: 9
                 });
 
-                // Layering
-                let ruteLayer = new GraphicsLayer();
-                let ruasjalanLayer = new GraphicsLayer();
+                const gsvrUrl = "{{ env('GEOSERVER') }}";
+
+                // dimz-add
+
+                let rutejalanLayer = new GroupLayer();
+                let kemantapanjalanLayer = new FeatureLayer({
+                    url: gsvrUrl+"/geoserver/gsr/services/temanjabar/FeatureServer/1/",
+                });
+
+                // end dimz-add
                 let jembatanLayer = new GraphicsLayer();
                 let pembangunanLayer = new GraphicsLayer();
                 let peningkatanLayer = new GraphicsLayer();
@@ -362,13 +375,14 @@
                     const json = response.data;
                     const data = json.data;
                     if(json.status === "success"){
-                        ruasjalanLayer = addRuasJalan(data.ruasjalan, ruasjalanLayer);
+                        rutejalanLayer = addRuteJalan(rutejalanLayer);
                         pembangunanLayer = addPembangunan(data.pembangunan, pembangunanLayer);
                         peningkatanLayer = addPeningkatan(data.peningkatan, peningkatanLayer);
                         rehabilitasiLayer = addRehabilitasi(data.rehabilitasi, rehabilitasiLayer);
                         jembatanLayer = addJembatan(data.jembatan, jembatanLayer);
                         pemeliharaanLayer = addPemeliharaan(data.pemeliharaan, pemeliharaanLayer);
                         vehiclecountingLayer = addVehicleCounting(data.vehiclecounting, vehiclecountingLayer);
+                        kemantapanjalanLayer = addKemantapanJalan(data.kemantapanjalan, kemantapanjalanLayer);
 
                         allProgressLayer = addProgressGroup(data.progressmingguan);
                         map.add(allProgressLayer);
@@ -390,22 +404,20 @@
                     console.log(error);
                 });
 
-
-
                 // Creating Group Layer
                 const groupLayer = new GroupLayer();
                 groupLayer.add(jembatanLayer);
-                groupLayer.add(ruasjalanLayer);
+                if ($.inArray('ruasjalan', $('#kegiatan').val()) >= 0 && $('#uptd').val().length != 0) {groupLayer.add(rutejalanLayer);} // dimz-add
                 groupLayer.add(pemeliharaanLayer);
                 groupLayer.add(pembangunanLayer);
                 groupLayer.add(peningkatanLayer);
                 groupLayer.add(rehabilitasiLayer);
                 groupLayer.add(vehiclecountingLayer);
+                if ($.inArray('kemantapanjalan', $('#kegiatan').val()) >= 0 && $('#uptd').val().length != 0) {groupLayer.add(kemantapanjalanLayer);} // dimz-add
                 map.add(groupLayer);
 
-
-                $("#basemap").change(function(){
-                    const basemap = this.value;
+                $("#basemap").change(function(event){
+                    basemap = $(this).val();
                     map.basemap = basemap;
                 });
                 $("#zoom").change(function(){
@@ -424,65 +436,65 @@
                     const popupTemplate = {
                         title: "{NAMA_PAKET}",
                         content: [{
-                        type: "fields",
-                        fieldInfos: [
-                            {
-                                fieldName: "NOMOR_KONTRAK",
-                                label: "Nomor Kontrak"
-                            },
-                            {
-                                fieldName: "TGL_KONTRAK",
-                                label: "Tanggal Kontrak"
-                            },
-                            {
-                                fieldName: "WAKTU_PELAKSANAAN_HK",
-                                label: "Waktu Kontrak (Hari Kerja)"
-                            },
-                            {
-                                fieldName: "KEGIATAN",
-                                label: "Jenis Pekerjaan"
-                            },
-                            {
-                                fieldName: "JENIS_PENANGANAN",
-                                label: "Jenis Penanganan"
-                            },
-                            {
-                                fieldName: "RUAS_JALAN",
-                                label: "Ruas Jalan"
-                            },
-                            {
-                                fieldName: "LAT",
-                                label: "Latitude"
-                            },
-                            {
-                                fieldName: "LNG",
-                                label: "Longitude"
-                            },
-                            {
-                                fieldName: "LOKASI",
-                                label: "Lokasi"
-                            },
-                            {
-                                fieldName: "SUP",
-                                label: "SUP"
-                            },
-                            {
-                                fieldName: "NILAI_KONTRAK",
-                                label: "Nilai Kontrak"
-                            },
-                            {
-                                fieldName: "PAGU_ANGGARAN",
-                                label: "Pagu Anggaran"
-                            },
-                            {
-                                fieldName: "PENYEDIA_JASA",
-                                label: "Penyedia Jasa"
-                            },
-                            {
-                                fieldName: "UPTD",
-                                label: "UPTD"
-                            }
-                        ]}
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "NOMOR_KONTRAK",
+                                    label: "Nomor Kontrak"
+                                },
+                                {
+                                    fieldName: "TGL_KONTRAK",
+                                    label: "Tanggal Kontrak"
+                                },
+                                {
+                                    fieldName: "WAKTU_PELAKSANAAN_HK",
+                                    label: "Waktu Kontrak (Hari Kerja)"
+                                },
+                                {
+                                    fieldName: "KEGIATAN",
+                                    label: "Jenis Pekerjaan"
+                                },
+                                {
+                                    fieldName: "JENIS_PENANGANAN",
+                                    label: "Jenis Penanganan"
+                                },
+                                {
+                                    fieldName: "RUAS_JALAN",
+                                    label: "Ruas Jalan"
+                                },
+                                {
+                                    fieldName: "LAT",
+                                    label: "Latitude"
+                                },
+                                {
+                                    fieldName: "LNG",
+                                    label: "Longitude"
+                                },
+                                {
+                                    fieldName: "LOKASI",
+                                    label: "Lokasi"
+                                },
+                                {
+                                    fieldName: "SUP",
+                                    label: "SUP"
+                                },
+                                {
+                                    fieldName: "NILAI_KONTRAK",
+                                    label: "Nilai Kontrak"
+                                },
+                                {
+                                    fieldName: "PAGU_ANGGARAN",
+                                    label: "Pagu Anggaran"
+                                },
+                                {
+                                    fieldName: "PENYEDIA_JASA",
+                                    label: "Penyedia Jasa"
+                                },
+                                {
+                                    fieldName: "UPTD",
+                                    label: "UPTD"
+                                }
+                            ]}
                     ]};
                     pembangunan.forEach(item => {
                         let point = new Point(item.LNG, item.LAT);
@@ -505,65 +517,66 @@
                     const popupTemplate = {
                         title: "{NAMA_PAKET}",
                         content: [{
-                        type: "fields",
-                        fieldInfos: [
-                            {
-                                fieldName: "NOMOR_KONTRAK",
-                                label: "Nomor Kontrak"
-                            },
-                            {
-                                fieldName: "TGL_KONTRAK",
-                                label: "Tanggal Kontrak"
-                            },
-                            {
-                                fieldName: "WAKTU_PELAKSANAAN_HK",
-                                label: "Waktu Kontrak (Hari Kerja)"
-                            },
-                            {
-                                fieldName: "KEGIATAN",
-                                label: "Jenis Pekerjaan"
-                            },
-                            {
-                                fieldName: "JENIS_PENANGANAN",
-                                label: "Jenis Penanganan"
-                            },
-                            {
-                                fieldName: "RUAS_JALAN",
-                                label: "Ruas Jalan"
-                            },
-                            {
-                                fieldName: "LAT",
-                                label: "Latitude"
-                            },
-                            {
-                                fieldName: "LNG",
-                                label: "Longitude"
-                            },
-                            {
-                                fieldName: "LOKASI",
-                                label: "Lokasi"
-                            },
-                            {
-                                fieldName: "SUP",
-                                label: "SUP"
-                            },
-                            {
-                                fieldName: "NILAI_KONTRAK",
-                                label: "Nilai Kontrak"
-                            },
-                            {
-                                fieldName: "PAGU_ANGGARAN",
-                                label: "Pagu Anggaran"
-                            },
-                            {
-                                fieldName: "PENYEDIA_JASA",
-                                label: "Penyedia Jasa"
-                            },
-                            {
-                                fieldName: "UPTD",
-                                label: "UPTD"
-                            }
-                        ]}
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "NOMOR_KONTRAK",
+                                    label: "Nomor Kontrak"
+                                },
+                                {
+                                    fieldName: "TGL_KONTRAK",
+                                    label: "Tanggal Kontrak"
+                                },
+                                {
+                                    fieldName: "WAKTU_PELAKSANAAN_HK",
+                                    label: "Waktu Kontrak (Hari Kerja)"
+                                },
+                                {
+                                    fieldName: "KEGIATAN",
+                                    label: "Jenis Pekerjaan"
+                                },
+                                {
+                                    fieldName: "JENIS_PENANGANAN",
+                                    label: "Jenis Penanganan"
+                                },
+                                {
+                                    fieldName: "RUAS_JALAN",
+                                    label: "Ruas Jalan"
+                                },
+                                {
+                                    fieldName: "LAT",
+                                    label: "Latitude"
+                                },
+                                {
+                                    fieldName: "LNG",
+                                    label: "Longitude"
+                                },
+                                {
+                                    fieldName: "LOKASI",
+                                    label: "Lokasi"
+                                },
+                                {
+                                    fieldName: "SUP",
+                                    label: "SUP"
+                                },
+                                {
+                                    fieldName: "NILAI_KONTRAK",
+                                    label: "Nilai Kontrak"
+                                },
+                                {
+                                    fieldName: "PAGU_ANGGARAN",
+                                    label: "Pagu Anggaran"
+                                },
+                                {
+                                    fieldName: "PENYEDIA_JASA",
+                                    label: "Penyedia Jasa"
+                                },
+                                {
+                                    fieldName: "UPTD",
+                                    label: "UPTD"
+                                }
+                            ]
+                        }
                     ]};
                     peningkatan.forEach(item => {
                         let point = new Point(item.LNG, item.LAT);
@@ -587,65 +600,65 @@
                     const popupTemplate = {
                         title: "{NAMA_PAKET}",
                         content: [{
-                        type: "fields",
-                        fieldInfos: [
-                            {
-                                fieldName: "NOMOR_KONTRAK",
-                                label: "Nomor Kontrak"
-                            },
-                            {
-                                fieldName: "TGL_KONTRAK",
-                                label: "Tanggal Kontrak"
-                            },
-                            {
-                                fieldName: "WAKTU_PELAKSANAAN_HK",
-                                label: "Waktu Kontrak (Hari Kerja)"
-                            },
-                            {
-                                fieldName: "KEGIATAN",
-                                label: "Jenis Pekerjaan"
-                            },
-                            {
-                                fieldName: "JENIS_PENANGANAN",
-                                label: "Jenis Penanganan"
-                            },
-                            {
-                                fieldName: "RUAS_JALAN",
-                                label: "Ruas Jalan"
-                            },
-                            {
-                                fieldName: "LAT",
-                                label: "Latitude"
-                            },
-                            {
-                                fieldName: "LNG",
-                                label: "Longitude"
-                            },
-                            {
-                                fieldName: "LOKASI",
-                                label: "Lokasi"
-                            },
-                            {
-                                fieldName: "SUP",
-                                label: "SUP"
-                            },
-                            {
-                                fieldName: "NILAI_KONTRAK",
-                                label: "Nilai Kontrak"
-                            },
-                            {
-                                fieldName: "PAGU_ANGGARAN",
-                                label: "Pagu Anggaran"
-                            },
-                            {
-                                fieldName: "PENYEDIA_JASA",
-                                label: "Penyedia Jasa"
-                            },
-                            {
-                                fieldName: "UPTD",
-                                label: "UPTD"
-                            }
-                        ]}
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "NOMOR_KONTRAK",
+                                    label: "Nomor Kontrak"
+                                },
+                                {
+                                    fieldName: "TGL_KONTRAK",
+                                    label: "Tanggal Kontrak"
+                                },
+                                {
+                                    fieldName: "WAKTU_PELAKSANAAN_HK",
+                                    label: "Waktu Kontrak (Hari Kerja)"
+                                },
+                                {
+                                    fieldName: "KEGIATAN",
+                                    label: "Jenis Pekerjaan"
+                                },
+                                {
+                                    fieldName: "JENIS_PENANGANAN",
+                                    label: "Jenis Penanganan"
+                                },
+                                {
+                                    fieldName: "RUAS_JALAN",
+                                    label: "Ruas Jalan"
+                                },
+                                {
+                                    fieldName: "LAT",
+                                    label: "Latitude"
+                                },
+                                {
+                                    fieldName: "LNG",
+                                    label: "Longitude"
+                                },
+                                {
+                                    fieldName: "LOKASI",
+                                    label: "Lokasi"
+                                },
+                                {
+                                    fieldName: "SUP",
+                                    label: "SUP"
+                                },
+                                {
+                                    fieldName: "NILAI_KONTRAK",
+                                    label: "Nilai Kontrak"
+                                },
+                                {
+                                    fieldName: "PAGU_ANGGARAN",
+                                    label: "Pagu Anggaran"
+                                },
+                                {
+                                    fieldName: "PENYEDIA_JASA",
+                                    label: "Penyedia Jasa"
+                                },
+                                {
+                                    fieldName: "UPTD",
+                                    label: "UPTD"
+                                }
+                            ]}
                     ]};
                     rehabilitasi.forEach(item => {
                         let point = new Point(item.LNG, item.LAT);
@@ -702,7 +715,20 @@
                                 fieldName: "UPTD",
                                 label: "UPTD"
                             }
-                        ]}
+                        ]},
+                            {
+                                type: "media",
+                                mediaInfos: [
+                                    {
+                                        title: "<b>Foto Pekerjaan</b>",
+                                        type: "image",
+                                        value: {
+                                            sourceURL:
+                                                baseUrl + "/assets/images/sample/sample.png"
+                                        }
+                                    }
+                                ]
+                            }
                     ]};
                     jembatan.forEach(item => {
                         let point = new Point(item.LNG, item.LAT);
@@ -767,7 +793,33 @@
                                 fieldName: "UPTD",
                                 label: "UPTD"
                             }
-                        ]}
+                        ]},
+                            {
+                            type: "media",
+                            mediaInfos: [
+                                {
+                                    title: "<b>Foto Pekerjaan</b>",
+                                    type: "image",
+                                    value: {
+                                        sourceURL:
+                                            baseUrl + "/assets/images/sample/sample.png"
+                                    }
+                                }
+                            ]
+                            },
+                            {
+                                title: "<b>Video Pekerjaan</b>",
+                                type: "custom",
+                                outFields: ["*"],
+                                creator: function(graphic) {
+                                    return `
+                                    <div class="esri-feature-media__item">
+                                        <video controls class="esri-feature-media__item">
+                                            <source src="${baseUrl}/assets/videos/sample.mp4" type="video/mp4">
+                                        </video>
+                                    </div>`;
+                                }
+                            }
                     ]};
                     pemeliharaan.forEach(item => {
                         let point = new Point(item.LNG, item.LAT);
@@ -780,61 +832,387 @@
                     });
                     return layer;
                 }
-                function addRuasJalan(ruasjalan, layer) {
-                    const symbol = {
-                        type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
-                        url: baseUrl + "/assets/images/marker/jalan.png",
-                        width: "28px",
-                        height: "28px"
-                    };
-                    const popupTemplate = {
-                        title: "{NAMA_JALAN}",
-                        content: [{
-                        type: "fields",
-                        fieldInfos: [
-                            {
-                                fieldName: "LAT_AWAL",
-                                label: "Latitude 0"
-                            },
-                            {
-                                fieldName: "LONG_AWAL",
-                                label: "Longitude 0"
-                            },
-                            {
-                                fieldName: "LAT_AKHIR",
-                                label: "Latitude 1"
-                            },
-                            {
-                                fieldName: "LONG_AKHIR",
-                                label: "Longitude 1"
-                            },
-                            {
-                                fieldName: "SUP",
-                                label: "SUP"
-                            },
-                            {
-                                fieldName: "UPTD",
-                                label: "UPTD"
-                            }
-                        ]}
-                    ]};
-                    ruasjalan.forEach(item => {
-                        let point = new Point(item.LONG_AWAL, item.LAT_AWAL);
-                        layer.graphics.add(new Graphic({
-                            geometry: point,
-                            symbol: symbol,
-                            attributes: item,
-                            popupTemplate: popupTemplate
-                        }));
+                // dimz-edit
+                function addRuteJalan(groupLayer) {
+                    const provinsiLayer = jalanProvinsi();
+                    const nasionalLayer = jalanNasional();
+                    const tolOperasiLayer = jalanTolOperasi();
+                    const tolKonstruksiLayer = jalanTolKonstruksi();
+                    const gerbangLayer = gerbangTol();
 
-                        point = new Point(item.LONG_AKHIR, item.LAT_AKHIR);
-                        layer.graphics.add(new Graphic({
-                            geometry: point,
-                            symbol: symbol,
-                            attributes: item,
-                            popupTemplate: popupTemplate
-                        }));
-                    });
+                    function jalanProvinsi() {
+                        const layer = new FeatureLayer({url: gsvrUrl+"/geoserver/gsr/services/temanjabar/FeatureServer/0/"});
+                        const popupTemplate = {
+                            title: "{nm_ruas}",
+                            content: [{
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "IDruas",
+                                    label: "Kode Ruas"
+                                },
+                                {
+                                    fieldName: "LAT_AWAL",
+                                    label: "Latitude 0"
+                                },
+                                {
+                                    fieldName: "LONG_AWAL",
+                                    label: "Longitude 0"
+                                },
+                                {
+                                    fieldName: "LAT_AKHIR",
+                                    label: "Latitude 1"
+                                },
+                                {
+                                    fieldName: "LONG_AKHIR",
+                                    label: "Longitude 1"
+                                },
+                                {
+                                    fieldName: "kab_kota",
+                                    label: "Kab/Kota"
+                                },
+                                {
+                                    fieldName: "wil_uptd",
+                                    label: "UPTD"
+                                },
+                                {
+                                    fieldName: "nm_sppjj",
+                                    label: "SUP"
+                                },
+                                {
+                                    fieldName: "expression/pjg_km",
+                                }
+                            ]}],
+                            expressionInfos: [{
+                                name: "pjg_km",
+                                title: "Panjang Ruas (KM)",
+                                expression: "Round($feature.pjg_ruas_m / 1000, 2)"
+                            }]
+                        };
+                        if ($.inArray('ruasjalan', $('#kegiatan').val()) >= 0 && $('#uptd').val().length != 0) {
+                            var uptdSel = $('#uptd').val();
+                            var whereUptd = 'uptd=' + uptdSel.shift().charAt(4);
+                            $.each(uptdSel, function(idx, elem) {
+                                whereUptd = whereUptd + ' OR uptd=' + elem.charAt(4);
+                            });
+                            layer.popupTemplate = popupTemplate;
+                            layer.definitionExpression = whereUptd;
+                            layer.renderer = {
+                                type: "simple",  // autocasts as new SimpleRenderer()
+                                symbol: {
+                                    type: "simple-line",  // autocasts as new SimpleLineSymbol()
+                                    color: "green",
+                                    width: "2px",
+                                    style: "solid",
+                                    marker: { // autocasts from LineSymbolMarker
+                                        color: "orange",
+                                        placement: "begin-end",
+                                        style: "circle"
+                                    }
+                                }
+                            }
+
+                        } else {
+                            layer.definitionExpression= '0=1';
+                        }
+                        return layer;
+                    }
+
+                    function jalanNasional() {
+                        const layer = new FeatureLayer({url: gsvrUrl+"/geoserver/gsr/services/temanjabar/FeatureServer/3/"});
+                        const popupTemplate = {
+                            title: "{NAMA_SK}",
+                            content: [{
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "NO_RUAS",
+                                    label: "Nomor Ruas"
+                                },
+                                {
+                                    fieldName: "PJG_SK",
+                                    label: "Panjang (KM)"
+                                },
+                                {
+                                    fieldName: "KLS_JALAN",
+                                    label: "Kelas Jalan"
+                                },
+                                {
+                                    fieldName: "LINTAS",
+                                    label: "Lintas"
+                                },
+                                {
+                                    fieldName: "TAHUN",
+                                    label: "Tahun"
+                                }
+                            ]}]
+                        };
+                        layer.popupTemplate = popupTemplate;
+                        layer.renderer = {
+                            type: "simple",  // autocasts as new SimpleRenderer()
+                            symbol: {
+                                type: "simple-line",  // autocasts as new SimpleLineSymbol()
+                                color: "red",
+                                width: "2px",
+                                style: "solid",
+                                marker: { // autocasts from LineSymbolMarker
+                                    color: "orange",
+                                    placement: "begin-end",
+                                    style: "circle"
+                                }
+                            }
+                        }
+                        return layer;
+                    }
+
+                    function jalanTolOperasi() {
+                        const layer = new FeatureLayer({url: gsvrUrl+"/geoserver/gsr/services/temanjabar/FeatureServer/4/"});
+                        const popupTemplate = {
+                            title: "{NAMA}",
+                            content: [{
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "PANJANG",
+                                    label: "Nomor Ruas"
+                                },
+                                {
+                                    fieldName: "PENGELOLA",
+                                    label: "Pengelola"
+                                },
+                                {
+                                    fieldName: "STATUS",
+                                    label: "Status"
+                                },
+                                {
+                                    fieldName: "Kabupaten",
+                                    label: "Kabupaten"
+                                },
+                                {
+                                    fieldName: "Propinsi",
+                                    label: "Propinsi"
+                                }
+                            ]}]
+                        };
+                        layer.popupTemplate = popupTemplate;
+                        layer.renderer = {
+                            type: "simple",  // autocasts as new SimpleRenderer()
+                            symbol: {
+                                type: "simple-line",  // autocasts as new SimpleLineSymbol()
+                                color: "yellow",
+                                width: "2px",
+                                style: "solid",
+                                marker: { // autocasts from LineSymbolMarker
+                                    color: "orange",
+                                    placement: "begin-end",
+                                    style: "circle"
+                                }
+                            }
+                        }
+                        return layer;
+                    }
+
+                    function jalanTolKonstruksi() {
+                        const layer = new FeatureLayer({url: gsvrUrl+"/geoserver/gsr/services/temanjabar/FeatureServer/5/"});
+                        const popupTemplate = {
+                            title: "{Nama}",
+                            content: [{
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "panjang",
+                                    label: "Nomor Ruas"
+                                },
+                                {
+                                    fieldName: "pengelola",
+                                    label: "Pengelola"
+                                },
+                                {
+                                    fieldName: "expression/status",
+                                },
+                                {
+                                    fieldName: "kabupaten",
+                                    label: "Kabupaten"
+                                },
+                                {
+                                    fieldName: "propinsi",
+                                    label: "Propinsi"
+                                },
+                                {
+                                    fieldName: "keterangan",
+                                    label: "Keterangan"
+                                }
+                            ]}],
+                            expressionInfos: [{
+                                name: "status",
+                                title: "Status",
+                                expression: "Konstruksi"
+                            }]
+                        };
+                        layer.popupTemplate = popupTemplate;
+                        layer.renderer = {
+                            type: "simple",  // autocasts as new SimpleRenderer()
+                            symbol: {
+                                type: "simple-line",  // autocasts as new SimpleLineSymbol()
+                                color: "purple",
+                                width: "2px",
+                                style: "solid",
+                                marker: { // autocasts from LineSymbolMarker
+                                    color: "orange",
+                                    placement: "begin-end",
+                                    style: "circle"
+                                }
+                            }
+                        }
+                        return layer;
+                    }
+
+                    function gerbangTol() {
+                        const layer = new FeatureLayer({url: gsvrUrl+"/geoserver/gsr/services/temanjabar/FeatureServer/6/"});
+                        const popupTemplate = {
+                            title: "{Nama}",
+                            content: [
+                                {
+                                    type: "media",
+                                    mediaInfos: [
+                                        {
+                                            title: "<b>Foto</b>",
+                                            type: "image",
+                                            value: {
+                                            sourceURL:
+                                                "{foto}"
+                                            }
+                                        }
+                                    ]
+                                }
+                            ],
+                            expressionInfos: [{
+                                name: "status",
+                                title: "Status",
+                                expression: "Konstruksi"
+                            }]
+                        };
+                        layer.popupTemplate = popupTemplate;
+                        return layer;
+                    }
+
+                    groupLayer.add(provinsiLayer);
+                    groupLayer.add(nasionalLayer);
+                    groupLayer.add(tolOperasiLayer);
+                    groupLayer.add(tolKonstruksiLayer);
+                    groupLayer.add(gerbangLayer);
+                    return groupLayer;
+                }
+                function addKemantapanJalan(kemantapanjalan, layer) {
+                    const popupTemplate = {
+                        title: "{nm_ruas}",
+                        content: [
+                            {
+                                type: "media",
+                                mediaInfos: [
+                                    {
+                                        title: "<b>Kondisi Jalan</b>",
+                                        type: "pie-chart",
+                                        caption: "Dari Luas Jalan {l} m2",
+                                        value: {
+                                            fields: ["sangat_baik","baik","sedang","jelek","parah","sangat_parah","hancur"]
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                type: "media",
+                                mediaInfos: [
+                                    {
+                                        title: "<b>Jalan Mantap</b>",
+                                        type: "pie-chart",
+                                        value: {
+                                            fields: ["sangat_baik","baik","sedang"]
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                type: "media",
+                                mediaInfos: [
+                                    {
+                                        title: "<b>Jalan Tidak Mantap</b>",
+                                        type: "pie-chart",
+                                        value: {
+                                            fields: ["jelek","parah","sangat_parah","hancur"]
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                type: "fields",
+                                fieldInfos: [
+                                    {
+                                        fieldName: "idruas",
+                                        label: "Nomor Ruas"
+                                    },
+                                    {
+                                        fieldName: "KOTA_KAB",
+                                        label: "Kota/Kabupaten"
+                                    },
+                                    {
+                                        fieldName: "LAT_AWAL",
+                                        label: "Latitude Awal"
+                                    },
+                                    {
+                                        fieldName: "LONG_AWAL",
+                                        label: "Longitude Awal"
+                                    },
+                                    {
+                                        fieldName: "LAT_AKHIR",
+                                        label: "Latitude Akhir"
+                                    },
+                                    {
+                                        fieldName: "LONG_AKHIR",
+                                        label: "Longitude Akhir"
+                                    },
+                                    {
+                                        fieldName: "KETERANGAN",
+                                        label: "Keterangan"
+                                    },
+                                    {
+                                        fieldName: "nm_sppjj",
+                                        label: "SPP/ SUP"
+                                    },
+                                    {
+                                        fieldName: "wil_uptd",
+                                        label: "UPTD"
+                                    }
+                                ]
+                            }
+                        ]
+                    };
+                    if ($.inArray('kemantapanjalan', $('#kegiatan').val()) >= 0 && $('#uptd').val().length != 0) {
+                        var uptdSel = $('#uptd').val();
+                        var whereUptd = 'uptd=' + uptdSel.shift().charAt(4);
+                        $.each(uptdSel, function(idx, elem) {
+                            whereUptd = whereUptd + ' OR uptd=' + elem.charAt(4);
+                        });
+                        layer.popupTemplate = popupTemplate;
+                        layer.definitionExpression = whereUptd;
+                        layer.renderer = {
+                            type: "simple",  // autocasts as new SimpleRenderer()
+                            symbol: {
+                                type: "simple-line",  // autocasts as new SimpleLineSymbol()
+                                color: "green",
+                                width: "2px",
+                                style: "solid",
+                                marker: { // autocasts from LineSymbolMarker
+                                    color: "orange",
+                                    placement: "begin-end",
+                                    style: "circle"
+                                }
+                            }
+                        }
+
+                    } else {
+                        layer.definitionExpression= '0=1';
+                    }
                     return layer;
                 }
                 function addProgressGroup(progress) {
@@ -925,6 +1303,32 @@
                                     label: "UPTD"
                                 }
                             ]
+                            },
+                            {
+                            type: "media",
+                            mediaInfos: [
+                                {
+                                    title: "<b>Foto Pekerjaan</b>",
+                                    type: "image",
+                                    value: {
+                                        sourceURL:
+                                            baseUrl + "/assets/images/sample/sample.png"
+                                    }
+                                }
+                            ]
+                            },
+                            {
+                                title: "<b>Video Pekerjaan</b>",
+                                type: "custom",
+                                outFields: ["*"],
+                                creator: function(graphic) {
+                                    return `
+                                    <div class="esri-feature-media__item">
+                                        <video controls class="esri-feature-media__item">
+                                            <source src="${baseUrl}/assets/videos/sample.mp4" type="video/mp4">
+                                        </video>
+                                    </div>`;
+                                }
                             }
                         ]
                     };
@@ -1135,13 +1539,14 @@
                                         caption: "{CREATED_AT}",
                                         value: {
                                         sourceURL:
-                                            "{GAMBAR}"
+                                            baseUrl + "/assets/images/sample/sample.png"
                                         }
                                     }
                                 ]
                             }
                         ]
                     };
+
                     vehiclecounting.forEach(item => {
                         let point = new Point(item.LONG, item.LAT);
                         layer.graphics.add(new Graphic({
@@ -1153,6 +1558,7 @@
                     });
                     return layer;
                 }
+
 
             });
 
