@@ -165,7 +165,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         });
 
         Route::group(['prefix' => 'user'], function () {
-            Route::get('/', 'MasterData\UserController@getUser')->name('getMasterUser');
+            // Route::get('/', 'MasterData\UserController@getUser')->name('getMasterUser');
             Route::get('role-akses', 'MasterData\UserController@getDaftarRoleAkses')->name('getRoleAkses');
             Route::post('role-akses/create', 'MasterData\UserController@createRoleAkses')->name('createRoleAkses');
             Route::get('role-akses/detail/{id}', 'MasterData\UserController@detailRoleAkses')->name('detailRoleAkses');
