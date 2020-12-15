@@ -65,7 +65,8 @@
                         <label class="col-md-2 col-form-label">UPTD</label>
                         <div class="col-md-10">
                             <select class="form-control" id="uptd" name="uptd" onchange="ubahOption()" required>
-                                <option>Pilih UPTD</option>
+                                <option value="{{$jembatan->slug}}">{{$jembatan->uptd}}</option>
+                                <option disabled></option>
                                 @foreach ($uptd as $data)
                                 <option value="{{$data->slug}}" @if($data->slug==$jembatan->uptd) selected @endif>{{$data->nama}}</option>
                                 @endforeach
@@ -124,7 +125,39 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Jumlah Bentang</label>
                         <div class="col-md-10">
-                            <input name="jumlah_bentang" type="number" class="form-control" step="any" required value="{{$jembatan->jumlah_bentang}}">
+                            <input name="jumlah_bentang" type="number" class="form-control" step="any" value="{{$jembatan->jumlah_bentang}}" readonly>
+                            <div class="form-group row w-100 mx-auto mb-0">
+                                <div class="col-md-2">
+                                    <p class="my-1 p-1">Bentang</p>
+                                </div>
+                                <div class="col-md-5">
+                                    <p class="my-1 p-1">Panjang (meter)</p>
+                                </div>
+                                <div class="col-md-5">
+                                    <p class="my-1 p-1">Tipe Bangunan Atas</p>
+                                </div>
+                                <?php for ($i = 0; $i < $jembatan->jumlah_bentang; $i++) { ?>
+                                    <div class="form-group row w-100 mx-auto">
+                                        <div class="col-md-2">
+                                            <input type="number" class="form-control h-100" value="{{$i+1}}" readonly>
+                                            <input name="idBentang{{$i}}" type="number" class="form-control h-100" value="{{$dataBentang[$i]->id}}" hidden>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input name="panjangBentang{{$i}}" type="number" class="form-control h-100" step="any" value="{{$dataBentang[$i]->panjang}}"></div>
+                                        <div class="col-md-5">
+                                            <select class="form-control" name="tipe{{$i}}">
+                                                @foreach ($tipe as $data)
+                                                @if($dataBentang[$i]->tipe_bangunan_atas_id == $data->id)
+                                                <option value="{{$data->id}}" selected>{{$data->nama}}</option>
+                                                @else
+                                                <option value="{{$data->id}}">{{$data->nama}}</option>
+                                                @endif
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                            </div>
                         </div>
                     </div>
 
