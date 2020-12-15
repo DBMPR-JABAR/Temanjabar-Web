@@ -108,6 +108,11 @@
                             <span class="pcoded-mtext">User</span>
                         </a>
                         <ul class="pcoded-submenu">
+                            <li class="{{(Request::segment(4) == 'manajemen_user') ? 'active' : ''}}">
+                                <a href="{{ route('getMasterUser') }}">
+                                    <span class="pcoded-mtext">Manajemen User</span>
+                                </a>
+                            </li>
                             <li class="{{(Request::segment(4) == 'user_role') ? 'active' : ''}}">
                                 <a href="{{ route('getDataUserRole') }}">
                                     <span class="pcoded-mtext">User Role</span>

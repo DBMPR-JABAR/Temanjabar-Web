@@ -1,6 +1,6 @@
 @extends('admin.t_index')
 
-@section('title')Grant Access Role Aplikasi @endsection
+@section('title')Manajemen User @endsection
 @section('head')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/buttons.dataTables.min.css') }}">
@@ -25,7 +25,7 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Grant Access Role Aplikasi </h4>
+                <h4>Manajemen User </h4>
                 
             </div>
         </div>
@@ -36,7 +36,7 @@
                 <li class="breadcrumb-item">
                     <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
                 </li>
-                <li class="breadcrumb-item"><a href="#!">Grant Access Role Aplikasi</a> </li>
+                <li class="breadcrumb-item"><a href="#!">Manajemen User</a> </li>
             </ul>
         </div>
     </div>
@@ -63,47 +63,37 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>User Role</th>
-                                <th>Menu</th>
-                                <th>Role Access</th>
-                                <th>UPTD Access</th>
+                                <th>Nama</th>
+                                <th>Email</th>
+                                <th>Email Verified At</th>
+                                <th>Password</th>
+                                <th>Kode OTP</th>
+                                <th>Role</th>
+                                <th>Internal Role Id</th>
+                                <th>Remember Token</th>
+                                <th>Created At</th>
+                                <th>Updated At</th>
                                 <th>Aksi</th>
-
                             </tr>
                         </thead>
                         <tbody id="bodyJembatan">
-                            @php
-                                $i=0;$j=0;$k=0;$l=0;$m=0;$n=0;
-                            @endphp
-                             @foreach ($user_role_list as $data)
+                             @foreach ($users as $data)
                                 <tr>
                                     <td>{{$loop->index + 1}}</td>
+                                    <td>{{$data->name}}</td>
+                                    <td>{{$data->email}}</td>
+                                    <td>{{$data->email_verified_at}}</td>
+                                    <td>{{$data->password}}</td>
+                                    <td>{{$data->kode_otp}}</td>
                                     <td>{{$data->role}}</td>
-                                    <td>
-                                        @php
-                                        while($menu[$i]->internal_role_id == $data->role_id){
-                                          echo $menu[$i]->menu;
-                                          echo ", ";
-                                          $i++;
-                                          if($i%6==0){
-                                            echo "<br/>";
-                                          }
-                                          if($i==count($menu)-1){
-                                             break;
-                                          }
-                                        }
-                                        @endphp
-                                    </td>
-                                    <td>
-                                        (Create, View, Update, Delete)
-                                    </td>
-                                    <td>
-                                        (UPTD 1, UPTD 2, UPTD 3,UPTD 4, UPTD 5, UPTD6)
-                                    </td>
+                                    <td>{{$data->internal_role_id}}</td>
+                                    <td>{{$data->remember_token}}</td>
+                                    <td>{{$data->created_at}}</td>
+                                    <td>{{$data->updated_at}}</td>
                                     <td> 
-                                            <a type='button' href="{{ route('detailRoleAkses', $data->role_id) }}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Rincian</a>
-                                            <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$data->role_id}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a> 
-                                            <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data->role_id}}'     class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Hapus</a><br/>     
+                                            <a type='button' href="{{ route('detailMasterUser',$data->id ) }}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Rincian</a>
+                                            <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$data->id}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a> 
+                                            <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data->id}}'     class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Hapus</a><br/>     
                                     </td>
                                 </tr>
                             @endforeach
@@ -198,10 +188,10 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
 
-                <form action="{{route('createRoleAkses')}}" method="post" enctype="multipart/form-data">
+                <form action="{{route('createUser')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-header">
-                        <h4 class="modal-title">Tambah Role Access</h4>
+                        <h4 class="modal-title">Tambah User</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -210,56 +200,40 @@
                     <div class="modal-body p-5">
 
                     <div class="form-group row">
-                            <label class="col-md-3 col-form-label">User Role</label>
+                            <label class="col-md-3 col-form-label">Nama</label>
                             <div class="col-md-9">
-                                
-                                <select  name="user_role" tabindex="4" required>
-                                    @foreach($user_role_list as $data)
-                                            <option value="{{$data->role}}">{{$data->role}}</option>
+                                <input type="text" name="nama" class="form-control"></input>
+                            </div>
+                    </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Email</label>
+                            <div class="col-md-9">
+                                <input type="email" name="email" class="form-control"></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Password</label>
+                            <div class="col-md-9">
+                                <input type="password" name="password" class="form-control"></input>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Role</label>
+                            <div class="col-md-9">
+                                <input type="text" name="role" class="form-control"></input>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Internal Role Id</label>
+                            <div class="col-md-9">
+                                <select  class="chosen-select"  name="internal_role_id" tabindex="4">
+                                    @foreach($roles as $data)
+                                        <option value="{{$data->id}}">{{$data->role}}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">menu</label>
-                            <div class="col-md-9">
-                                <select data-placeholder="Menu..." class="chosen-select" multiple  name="menu[]" tabindex="4" required tabindex="4">
-                                    @foreach($menu as $data)
-                                            <option value="{{$data->menu}}">{{$data->menu}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Role Access</label>
-                            <div class="col-md-9">
-                            <select data-placeholder="User Role..." class="chosen-select" multiple  name="role_access[]" tabindex="4">
-                                 <option value="Create" >Create</option>
-                                 <option value="View">View</option>
-                                 <option value="Update">Update</option>
-                                 <option value="Delete">Delete</option>
-                            </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">UPTD Access</label>
-                            <div class="col-md-9">
-                            <select data-placeholder="UPTD Access..." class="chosen-select" multiple name="uptd_access[]" tabindex="4">
-                                    <option value="UPTD 1">UPTD 1</option>
-                                    <option value="UPTD 2">UPTD 2</option>
-                                    <option value="UPTD 3">UPTD 3</option>
-                                    <option value="UPTD 4">UPTD 4</option>
-                                    <option value="UPTD 5">UPTD 5</option>
-                                    <option value="UPTD 6">UPTD 6</option>
-
-                            </select>
-                            </div>
-                        </div>
- 
- 
-
                     </div>
 
                     <div class="modal-footer">
@@ -278,67 +252,52 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
 
-                <form action="{{route('updateDataRoleAkses')}}" method="post" enctype="multipart/form-data">
+                <form action="{{route('updateUser')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-header">
-                        <h4 class="modal-title">Edit Role Access</h4>
+                        <h4 class="modal-title">Tambah User</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
 
                     <div class="modal-body p-5">
-
+                    <input type="text" name="id" id="id" class="form-control" hidden></input>
                     <div class="form-group row">
-                            <label class="col-md-3 col-form-label">User Role</label>
+                            <label class="col-md-3 col-form-label">Nama</label>
                             <div class="col-md-9">
-                                
-                                <select  name="user_role" id="select_user_role" tabindex="4" required>
-                                    @foreach($user_role_list as $data)
-                                            <option value="{{$data->role}}" id="user_role_{{$loop->index + 1}}">{{$data->role}}</option>
+                                <input type="text" name="nama" id="nama" class="form-control"></input>
+                            </div>
+                    </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Email</label>
+                            <div class="col-md-9">
+                                <input type="email" name="email" id="email" class="form-control"></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Password</label>
+                            <div class="col-md-9">
+                                <input type="password" name="password" id="password" class="form-control"></input>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Role</label>
+                            <div class="col-md-9">
+                                <input type="text" name="role" id="role" class="form-control"></input>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Internal Role Id</label>
+                            <div class="col-md-9">
+                                <select  class="chosen-select"  name="internal_role_id" tabindex="4">
+                                    @foreach($roles as $data)
+                                        <option value="{{$data->id}}" id="id-{{$loop->index + 1}}">{{$data->role}}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Menu</label>
-                            <div class="col-md-9">
-                                <input name="id" id="id" type="text"  class="form-control" hidden>
-                                <select  name="edit_select_menu" tabindex="4" required>
-                                    @foreach($menu as $data)
-                                            <option value="{{$data->menu}}" id="menu_{{$loop->index + 1}}">{{$data->menu}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Role Access</label>
-                            <div class="col-md-9">
-                            <select data-placeholder="User Role..." class="chosen-select" multiple  name="role_access[]" tabindex="4">
-                                 <option value="Create" id="role_access_1">Create</option>
-                                 <option value="View" id="role_access_2">View</option>
-                                 <option value="Update" id="role_access_3">Update</option>
-                                 <option value="Delete" id="role_access_4">Delete</option>
-                            </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">UPTD Access</label>
-                            <div class="col-md-9">
-                            <select data-placeholder="UPTD Access..." class="chosen-select" multiple name="uptd_access[]" tabindex="4">
-                                    <option value="UPTD 1" id="uptd_access_1" >UPTD 1</option>
-                                    <option value="UPTD 2" id="uptd_access_2">UPTD 2</option>
-                                    <option value="UPTD 3" id="uptd_access_3">UPTD 3</option>
-                                    <option value="UPTD 4" id="uptd_access_4">UPTD 4</option>
-                                    <option value="UPTD 5" id="uptd_access_5">UPTD 5</option>
-                                    <option value="UPTD 6" id="uptd_access_6">UPTD 6</option>
-
-                            </select>
-                            </div>
-                        </div>
-
                     </div>
 
                     <div class="modal-footer">
@@ -358,7 +317,7 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h4 class="modal-title">Hapus Data Disposisi</h4>
+                    <h4 class="modal-title">Hapus Data user</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -397,7 +356,7 @@
             const link = $(event.relatedTarget);
             const id = link.data('id');
             console.log(id);
-            const url = `{{ url('admin/master-data/user/role-akses/delete') }}/` + id;
+            const url = `{{ url('admin/master-data/user/manajemen/delete') }}/` + id;
             console.log(url);
             const modal = $(this);
             modal.find('.modal-footer #delHref').attr('href', url);
@@ -407,28 +366,19 @@
             const link = $(event.relatedTarget);
             const id = link.data('id');
             console.log(id);
-            const baseUrl = `{{ url('admin/master-data/user/role-akses/getData') }}/` + id;
+            const baseUrl = `{{ url('admin/master-data/user/manajemen/edit') }}/` + id;
             $.get(baseUrl, { id: id },
                 function(response){
-                    const user_role= response.user_role;
-                    const role_access = response.role_access;
-                    const uptd_access = response.uptd_access;
-                    const user_role_list = response.user_role_list;
-                    function showData(user_role,role_access,uptd_access,user_role_list){
-                        console.log(user_role[0].menu);
-                        for(let i=1; i<=$('#select_user_role').children('option').length;i++){
-                            if($('#user_role_'+i).val() == user_role_list[0].role){
-                                $('#user_role_'+i).attr("selected","selected");
-                            }
+                    $('#id').val(response.users[0].id);
+                    $('#nama').val(response.users[0].name);
+                    $('#email').val(response.users[0].email);
+                    $('#role').val(response.users[0].role);
+                    var jml = <?php echo count($users); ?>;
+                    for(let i=1;i<=jml;i++){
+                        if($("#id-"+i).val() == response.users[0].internal_role_id){
+                            $("#id-"+i).attr("selected","selected");
                         }
-                        for(let i=1; i<=$('#edit_select_menu').children('option').length;i++){
-                            if($('#menu_'+i).val() == user_role[0].menu){
-                                $('#menu_'+i).attr("selected","selected");
-                            }
-                        }
-                        $('#id').val(user_role[0].id);
                     }
-                     showData(user_role,role_access,uptd_access,user_role_list);
                 });
             });
 
