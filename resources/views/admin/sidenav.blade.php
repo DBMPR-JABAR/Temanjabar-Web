@@ -41,7 +41,7 @@
                     @if (hasAccess(Auth::user()->internal_role_id, "Anggaran & Realisasi Keuangan", "View"))
                     <li class="{{(Request::segment(3) == 'realisasi-keuangan') ? 'active' : ''}}">
                         <a href="{{ url('admin/monitoring/realisasi-keuangan') }}">
-                            <span class="pcoded-mtext">Anggaran & Realisasi Keuangan</span>
+                            <span class="pcoded-mtext">Target & Realisasi</span>
                         </a>
                     </li>
                     @endif
@@ -289,7 +289,7 @@
             <li class="{{(Request::segment(2) == 'pesan') ? 'active' : ''}}">
                 <a href="{{ url('admin/pesan') }}">
                     <span class="pcoded-micon"><i class="ti-email"></i></span>
-                    <span class="pcoded-mtext">Pesan</span>
+                    <span class="pcoded-mtext">Pesan Kontak Kami</span>
                 </a>
             </li>
             @endif

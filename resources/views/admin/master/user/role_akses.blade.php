@@ -44,6 +44,7 @@
 @endsection
 
 @section('page-body')
+
 <div class="row">
     <div class="col-sm-12">
         <div class="card">
@@ -63,47 +64,62 @@
                             <tr>
                                 <th>No</th>
                                 <th>User Role</th>
-                                <th>Menu</th>
-                                <th>Role Access</th>
+                                <th>Menu/Role Access</th>
                                 <th>UPTD Access</th>
                                 <th>Aksi</th>
 
                             </tr>
                         </thead>
                         <tbody id="bodyJembatan">
-                             @foreach ($user_role as $data)
+                            @php
+                                $i=0;$j=0;$k=0;$l=0;
+                            @endphp
+                             @foreach ($user_role_list as $data)
                                 <tr>
                                     <td>{{$loop->index + 1}}</td>
                                     <td>{{$data->role}}</td>
-                                    <td>{{$data->menu}}</td>
                                     <td>
                                         @php
-                                         $i=0;
-                                         while($i< count($role_access)){
-                                             if($role_access[$i]->master_grant_role_aplikasi_id == $data->user_role_id){
-                                                echo $role_access[$i]->role_access;
-                                                echo "<br/>";
-                                             }
-                                            $i++;
-                                         }
+                                        while($menu[$i]->internal_role_id == $data->role_id){
+                                          echo $menu[$i]->menu . " (";
+                                          while($menu[$i]->id == $role_access[$j]->master_grant_role_aplikasi_id){
+                                                echo $role_access[$j]->role_access .", ";
+                                                $j++;
+                                                if($i==count($role_access)-1){
+                                                     break;
+                                                }
+                                          }
+                                          echo ")<br/>";
+                                          $i++;
+                                          if($i==count($menu)-1){
+                                             break;
+                                          }
+                                        }
                                         @endphp
                                     </td>
                                     <td>
                                         @php
-                                         $i=0;
-                                         while($i< count($uptd_access)){
-                                            if($uptd_access[$i]->master_grant_role_aplikasi_id == $data->user_role_id){
-                                                echo $uptd_access[$i]->uptd_name;
-                                                echo "<br/>";
-                                            }
-                                            $i++;
-                                         }
+                                        while($menu[$k]->internal_role_id == $data->role_id){
+                                                echo "(";
+                                                while($menu[$k]->id == $uptd_access[$l]->master_grant_role_aplikasi_id){
+                                                    echo $uptd_access[$l]->uptd_name . ", ";
+                                                    $l++;
+                                                    if($l==count($uptd_access)-1){
+                                                        break;
+                                                    }
+                                                }
+                                                echo ")<br/>";
+                                                $k++;
+                                                if($k==count($menu)-1){
+                                                     break;
+                                                }
+                                        }
                                         @endphp
                                     </td>
                                     <td> 
-                                        <a type="button" href="{{ route('detailRoleAkses',$data->user_role_id) }}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Rincian</a>
-                                        <a type="button"href="#editModal"  data-toggle="modal" data-id="{{$data->user_role_id}}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Edit</a> 
-                                        <a type="button"href="#delModal"  data-toggle="modal" data-id="{{$data->user_role_id}}"     class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Hapus</a>       
+                                        <a type="button" href="{{ route('detailRoleAkses',$data->role_id) }}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Rincian</a>
+                                        <a type="button"href="#editModal"  data-toggle="modal" data-id="{{$data->role_id}}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Edit</a> 
+                                        <a type="button"href="#delModal"  data-toggle="modal" data-id="{{$data->role_id}}"     class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Hapus</a>       
                                     </td>
                                 </tr>
                             @endforeach

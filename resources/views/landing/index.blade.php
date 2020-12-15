@@ -60,7 +60,7 @@
                         <a class="nav-link pagescroll" href="#uptd">UPTD</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link pagescroll" href="#laporan">Laporan Jalan</a>
+                        <a class="nav-link pagescroll" href="#laporan">Laporan Kerusakan</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link pagescroll" href="#kontak">Kontak</a>

@@ -50,7 +50,7 @@ class UserController extends Controller
         ->get();
         $menu = DB::table('master_grant_role_aplikasi')
         ->distinct()
-        ->select('menu')
+        ->select('id','internal_role_id','menu')
         ->get();
         return view('admin.master.user.role_akses',
             [
