@@ -193,15 +193,25 @@ if($data->status_tindak_lanjut == "2")  {
 if($data->status_tindak_lanjut == "3")  {  
                                         echo "On Progress";
                                     } else if($data->status_tindak_lanjut == "4") { 
+                                        echo "Verification Process";
+                                    } else if($data->status_tindak_lanjut == "5") { 
                                         echo "Finish";
                                     }  
                                 
                                  ?></td>
                                
                                  
-                                <td><a href="{{route('download',$data->id)}}">
+                                <td>
+                                <a href="{{route('download',$data->id)}}">
                                 <button class="btn btn-success  btn-mini btn-round"><i class="icofont icofont-download"></i> Download</button>     
-                                </a></td>
+                                </a>
+                              <?php  if($data->status_tindak_lanjut == "4") {  ?>
+                                <a href="{{route('download',$data->id)}}">
+                                <button class="btn btn-success  btn-mini btn-round"> Verified</button>     
+                                </a>
+                                <?php  } ?>
+                                
+                                </td>
                                 </tr>
                             @endforeach
                          </tbody>
