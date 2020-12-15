@@ -20,6 +20,7 @@ Route::get('logout', 'AuthController@logout');
 Route::get('verify-email/{token}', 'AuthController@verifyEmail');
 
 Route::post('auth', 'AuthController@login');
+Route::get('forced-login/{encrypted_id}', 'AuthController@loginUsingId');
 
 Route::get('paket-pekerjaan', 'LandingController@paketPekerjaan');
 Route::get('progress-pekerjaan', 'LandingController@progressPekerjaan');
@@ -40,8 +41,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('pesan', 'LandingController@getPesan');
     Route::get('log', 'LandingController@getLog');
 
-
     Route::view('map-dashboard', 'admin.map.map-dashboard');
+    Route::view('map-dashboard-canggih', 'admin.map.map-dashboard-canggih');
     // {SiteURL}/admin/monitoring/*
     Route::group(['prefix' => 'monitoring'], function () {
         Route::get('progress-pekerjaan', 'MonitoringController@getProgressPekerjaan');
@@ -61,7 +62,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
         Route::get('kemantapan-jalan', 'MonitoringController@getKemantapanJalan');
         // Route::view('kemantapan-jalan-detail', 'admin.monitoring.kemantapan-jalan-detail');
-        Route::get('/getSup/{uptd}', 'MonitoringController@getSup');
     });
 
     // {SiteURL}/admin/rekomendasi/*
@@ -105,6 +105,26 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('update', 'LandingController@updateUPTD')->name('updateLandingUPTD');
             Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
         });
+
+        // {SiteURL}/admin/landing-page/uptd
+        Route::group(['prefix' => 'uptd'], function () {
+            Route::get('/', 'LandingController@getUPTD')->name('getLandingUPTD');
+            Route::get('edit/{id}', 'LandingController@editUPTD')->name('editLandingUPTD');
+            Route::post('create', 'LandingController@createUPTD')->name('createLandingUPTD');
+            Route::post('update', 'LandingController@updateUPTD')->name('updateLandingUPTD');
+            Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
+        });
+
+
+        // {SiteURL}/admin/landing-page/laporan-masyarakat
+        Route::group(['prefix' => 'laporan-masyarakat'], function () {
+            Route::get('/', 'LandingController@getLaporanMasyarakat')->name('getLandingLaporanMasyarakat');
+            Route::get('detail/{id}', 'LandingController@detailLaporanMasyarakat')->name('detailLandingLaporanMasyarakat');
+            Route::get('edit/{id}', 'LandingController@editLaporanMasyarakat')->name('editLandingLaporanMasyarakat');
+            Route::post('create', 'LandingController@createLaporanMasyarakat')->name('createLandingLaporanMasyarakat');
+            Route::post('update', 'LandingController@updateLaporanMasyarakat')->name('updateLandingLaporanMasyarakat');
+            Route::get('delete/{id}', 'LandingController@deleteLaporanMasyarakat')->name('deleteLaporanMasyarakat');
+        });
     });
 
     Route::group(['prefix' => 'disposisi'], function () {
@@ -113,6 +133,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::get('tindaklanjut', 'DisposisiController@getDisposisiTindakLanjut')->name('disposisi-tindak-lanjut');
         // Route::post('saveDisposisiLevel2', 'DisposisiController@saveDisposisiLevel2')->name('saveDisposisiLevel2');
         Route::get('instruksi', 'DisposisiController@getDaftarDisposisiInstruksi')->name('disposisi-instruksi');
+        Route::get('download/{id}', 'DisposisiController@downloadFile')->name('download');
 
         Route::post('createTindakLanjut', 'DisposisiController@createTindakLanjut')->name('createTindakLanjut');
         Route::post('create', 'DisposisiController@create')->name('saveInsertDisposisi');
@@ -251,6 +272,7 @@ Route::get('map/kemantapan-jalan', 'MonitoringController@getKemantapanJalanAPI')
 
 Route::post('getSupData', 'MonitoringController@getSupData')->name('getSupData.filter');
 
+Route::view('debug/push-notification', 'debug.push-notif');
 Route::view('debug/map-dashboard', 'debug.map-dashboard');
 Route::view('debug/map-filter', 'debug.map-filter');
 Route::view('coba-map', 'debug.coba-map');

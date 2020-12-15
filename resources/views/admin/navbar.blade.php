@@ -19,7 +19,7 @@
                     <div class="main-search morphsearch-search">
                         <div class="input-group">
                             <span class="input-group-addon search-close"><i class="feather icon-x"></i></span>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" name="cari-data" id="cari-data">
                             <span class="input-group-addon search-btn" data-toggle="tooltip" data-placement="bottom" title="Cari data"><i class="feather icon-search"></i></span>
                         </div>
                     </div>

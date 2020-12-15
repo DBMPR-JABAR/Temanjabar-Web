@@ -40,6 +40,12 @@ class SendEmail implements ShouldQueue
                 Mail::to($recipient)->send($message);
             }
             break;
+            case 'TindakLanjut':
+                $message = new EmailNotifikasi($this->data); 
+                foreach ($this->data['mail_to'] as $recipient) {
+                    Mail::to($recipient)->send($message);
+                }
+                break;
          }
     }
 }

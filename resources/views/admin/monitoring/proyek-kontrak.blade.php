@@ -46,7 +46,7 @@
                             </a>
                         </h3>
                     </div>
-                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                    <div id="collapseOne" class="panel-collapse collapse in show" role="tabpanel" aria-labelledby="headingOne">
                         <div class="accordion-content accordion-desc">
                             <div class="card-block">
                                 <div class="row">
@@ -71,12 +71,12 @@
                                             @else
                                             <option value="" selected>Semua</option>
                                             <option value="">Dinas</option>
-                                            <option value="uptd1">UPTD 1</option>
-                                            <option value="uptd2">UPTD 2</option>
-                                            <option value="uptd3">UPTD 3</option>
-                                            <option value="uptd4">UPTD 4</option>
-                                            <option value="uptd5">UPTD 5</option>
-                                            <option value="uptd6">UPTD 6</option>
+                                            <option value="1">UPTD 1</option>
+                                            <option value="2">UPTD 2</option>
+                                            <option value="3">UPTD 3</option>
+                                            <option value="4">UPTD 4</option>
+                                            <option value="5">UPTD 5</option>
+                                            <option value="6">UPTD 6</option>
                                             @endif
                                         </select>
                                     </div>
@@ -90,12 +90,12 @@
                                         </select>
                                     </div>
                                     <div class="col-sm-12 col-xl-3 m-b-30">
-                                        <h4 class="sub-title">Dari</h4>
+                                        <h4 class="sub-title">Dari Tanggal</h4>
                                         <input type="date" id="filterDateFrom" name="dateFrom" class="form-control form-control-primary">
                                         </input>
                                     </div>
                                     <div class="col-sm-12 col-xl-3 m-b-30">
-                                        <h4 class="sub-title">Ke</h4>
+                                        <h4 class="sub-title">Ke Tanggal</h4>
                                         <input type="date" id="filterDateTo" name="dateTo" class="form-control form-control-primary">
                                         </input>
                                     </div>
@@ -200,7 +200,6 @@
                     <ul class="list-unstyled card-option">
                         <li><i class="feather icon-maximize full-card"></i></li>
                         <li><i class="feather icon-minus minimize-card"></i></li>
-                        <li><i class="feather icon-trash-2 close-card"></i></li>
                     </ul>
                 </div>
         </div>
@@ -221,7 +220,6 @@
                     <ul class="list-unstyled card-option">
                         <li><i class="feather icon-maximize full-card"></i></li>
                         <li><i class="feather icon-minus minimize-card"></i></li>
-                        <li><i class="feather icon-trash-2 close-card"></i></li>
                     </ul>
                 </div>
             </div>

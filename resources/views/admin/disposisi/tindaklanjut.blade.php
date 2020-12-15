@@ -26,7 +26,7 @@
         <div class="page-header-title">
             <div class="d-inline">
                 <h4>Disposisi Tindak Lanjut </h4>
-                
+
             </div>
         </div>
     </div>
@@ -47,7 +47,7 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="card">
-            <div class="card-header"> 
+            <div class="card-header">
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
                         <li><i class="feather icon-maximize full-card"></i></li>
@@ -55,7 +55,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="card-block"> 
+            <div class="card-block">
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered able-responsive">
                         <thead>
@@ -67,8 +67,8 @@
                                  <th>Tindak Lanjut</th>
                                 <th>Persentase</th>
                                 <th>Keterangan</th>
-                                <th>Status</th> 
-                                <th>Created Date</th> 
+                                <th>Status</th>
+                                <th>Created Date</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -82,24 +82,24 @@
                                 <td>{{$data->tindak_lanjut}}</td>
                                 <td>{{$data->persentase}}%</td>
                                 <td>{{$data->keterangan_tl}}</td>
-                                 <td><?php 
+                                 <td><?php
 
-                                    if($data->status_tindak_lanjut == "3")  {  
+                                    if($data->status_tindak_lanjut == "3")  {
                                         echo "On Progress";
-                                    } else if($data->status_tindak_lanjut == "4") { 
+                                    } else if($data->status_tindak_lanjut == "4") {
                                         echo "Finish";
-                                    }  
-                                
+                                    }
+
                                  ?></td>
                                 <td>
                                 <?php $date_create_date = date_create($data->created_date);?>
                                 {{ date_format($date_create_date, 'd-m-Y H:i:s')}}
                                     </td>
-                                <td> 
+                                <td>
                                 <a type="button" href="{{ route('getdetailDisposisi',$data->disposisi_id) }}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Rincian</a>
                                  <a   data-id="{{$data->id}}"  data-toggle="modal" class="btn btn-primary btn-mini waves-effect waves-light" href="#acceptModal"><i class="icofont icofont-check-circled"></i>Rincian</a>
                                 <a   href="#disposisiModal" data-id="{{$data->id}}"  data-toggle="modal" class="btn btn-primary btn-mini waves-effect waves-light" ><i class="icofont icofont-exchange"></i>Edit</a>
-                               
+
                                       </td>
                             </tr>
                             @endforeach
@@ -148,7 +148,7 @@
                 </div>
 
                 <div class="modal-body">
-                    
+
 
                 </div>
 
@@ -161,7 +161,7 @@
         </div>
     </div>
 
-     
+
     <div class="modal fade" id="progressModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -193,7 +193,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-3">
-                                     <input type="number" name="persentase" id="persentase" class="form-control" />  
+                                     <input type="number" name="persentase" id="persentase" class="form-control" />
                                 </div>
                         </div>
                         <div class="form-group row">
@@ -202,15 +202,15 @@
                                 <textarea name="ketarangan"  class="form-control" required></textarea>
                             </div>
                         </div>
-                         
+
                            <div class="form-group row">
                             <label class="col-md-3 col-form-label">File Lampiran</label>
                             <div class="col-md-9">
                                 <input name="file" type="file"  class="form-control" required>
                             </div>
                         </div>
- 
- 
+
+
 
                     </div>
 
@@ -224,16 +224,16 @@
             </div>
         </div>
     </div>
- 
 
 
-     
+
+
 
 
 </div>
 
 <div class="modal-only">
- 
+
     <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -273,6 +273,15 @@
     $(document).ready(function() {
         $(".chosen-select").chosen( { width: '100%' } );
         $(".chosen-jenis-instruksi").chosen( { width: '100%' } );
+
+        $("#status").change(function (e) {
+            if($(this).val() == "4"){
+                $("#persentase").val("100");
+            }else if($(this).val() == "3"){
+                $("#persentase").focus();
+            }
+        });
+
         $("#dttable").DataTable();
         $('#delModal').on('show.bs.modal', function(event) {
             const link = $(event.relatedTarget);
@@ -287,7 +296,7 @@
         $('#acceptModal').on('show.bs.modal', function(event) {
             const link = $(event.relatedTarget);
             const id = link.data('id');
-           
+
             console.log(id);
             const url = `{{ url('admin/disposisi/accepted') }}/` + id;
             console.log(url);

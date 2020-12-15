@@ -10,8 +10,7 @@ class ProyekController extends Controller
 {
     public function getProyekKontrak()
     {
-        $finishquery = DB::connection('dwh')->table('vw_uptd_trx_proyek_kontrak')
-            ->select('NAMA_PAKET', 'TANGGAL', 'PENYEDIA_JASA', 'KEGIATAN', 'RUAS_JALAN', 'LOKASI', 'RENCANA', 'REALISASI', 'DEVIASI', 'JENIS_PEKERJAAN', 'UPTD','STATUS_PROYEK');
+        $finishquery = DB::connection('dwh')->table('vw_uptd_trx_proyek_kontrak');
         // $finishquery->whereIn('TANGGAL', function ($querySubTanggal) {
         //     $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('vw_uptd_trx_proyek_kontrak');
         // });
@@ -34,11 +33,7 @@ class ProyekController extends Controller
 
     public function getProyekKontrakAPI(Request $request)
     {
-        $listProyekKontrak = DB::connection('dwh')->table('TBL_TALIKUAT_TRX_PROYEK_KONTRAK_PROGRESS_HARIAN as A')
-            ->join('TBL_TALIKUAT_TRX_PROYEK_KONTRAK as B', 'B.NMP','=','A.NMP')
-            ->select('B.PERIODE_MULAI AS DATE_FROM','B.PERIODE_SELESAI AS DATE_TO',
-                     'A.ID', 'A.NMP', 'A.TANGGAL', 'A.RENCANA_VOLUME_HaRIAN', 'A.RENCANA_VOLUME_KUMULATIF', 'A.REALISASI_VOLUME_HARIAN', 'A.REALISASI_VOLUME_KOMULATIF', 'A.PROGRESS_FISIK_RENCANA_BOBOT', 'A.PROGRESS_FISIK_RENCANA_KUMULATIF', 'A.PROGRESS_FISIK_REALISASI_BOBOT', 'A.PROGRESS_FISIK_REALISASI_KUMULATIF', 'A.DEVIASI_PROGRESS_FISIK', 'A.RENCANA_KEUANGAN_HARIAN', 'A.RENCANA_KEUANGAN_KOMULATIF','A.REALISASI_KEUANGAN_HARIAN','A.REALISASI_KEUANGAN_HARIAN1','B.UPTD','B.NAMA_KEGIATAN as NAMA_KEGIATAN','B.PENYEDIA_JASA as PENYEDIA_JASA', 'JENIS_PEKERJAAN')
-            ->whereRaw('A.TANGGAL = B.PERIODE_SELESAI');
+        $listProyekKontrak = DB::connection('dwh')->table('vw_uptd_trx_proyek_kontrak');
 
         if ($request->tahun != "") $listProyekKontrak = $listProyekKontrak->whereYear('TANGGAL', '=', $request->tahun);
         if ($request->uptd != "") $listProyekKontrak = $listProyekKontrak->where('UPTD', '=', $request->uptd);

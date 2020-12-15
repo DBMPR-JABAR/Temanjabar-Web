@@ -65,8 +65,8 @@
                             <td><i class="{{$data->icon}}"></i> {{$data->icon}}</td>
                             <td>{{$data->link}}</td>
                             <td>
-                                <a href="{{ route('editLandingFitur',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
-                                <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
+                                <a href="{{ route('editLandingFitur',$data->id) }}" class="mb-2 btn btn-block btn-warning btn-mat">Edit</a><br>
+                                <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-block btn-danger btn-mat">Hapus</a>
                             </td>
                         </tr>
                         @endforeach
