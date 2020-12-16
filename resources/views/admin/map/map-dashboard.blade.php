@@ -654,7 +654,7 @@
                     rawanBencana();
                     kegiatan.splice(kegiatan.indexOf('datarawanbencana'), 1); // remove 'ruasjalan' dari kegiatan
                 } else {
-                    map.remove(map.findLayerById('rj'));
+                    map.remove(map.findLayerById('rbl'));
                 }
 
                 if (kegiatan.length > 0) { // kalau masih ada pilihan lain di kegiatan
