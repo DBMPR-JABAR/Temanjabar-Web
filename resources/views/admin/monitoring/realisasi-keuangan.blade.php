@@ -39,7 +39,7 @@
                                 </a>
                             </h3>
                         </div>
-                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                        <div id="collapseOne" class="panel-collapse collapse in show" role="tabpanel" aria-labelledby="headingOne">
                             <div class="accordion-content accordion-desc">
                                 <div class="card-block">
                                     <div class="row">
@@ -91,7 +91,6 @@
                     <ul class="list-unstyled card-option">
                         <li><i class="feather icon-maximize full-card"></i></li>
                         <li><i class="feather icon-minus minimize-card"></i></li>
-                        <li><i class="feather icon-trash-2 close-card"></i></li>
                     </ul>
                 </div>
             </div>
@@ -109,7 +108,6 @@
                     <ul class="list-unstyled card-option">
                         <li><i class="feather icon-maximize full-card"></i></li>
                         <li><i class="feather icon-minus minimize-card"></i></li>
-                        <li><i class="feather icon-trash-2 close-card"></i></li>
                     </ul>
                 </div>
             </div>
@@ -127,7 +125,6 @@
                     <ul class="list-unstyled card-option">
                         <li><i class="feather icon-maximize full-card"></i></li>
                         <li><i class="feather icon-minus minimize-card"></i></li>
-                        <li><i class="feather icon-trash-2 close-card"></i></li>
                     </ul>
                 </div>
             </div>

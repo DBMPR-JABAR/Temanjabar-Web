@@ -30,8 +30,15 @@ class EmailNotifikasi extends Mailable
      */
     public function build()
     {
+        if ($this->data['type_mail'] =="Disposisi") {
+           
         return $this->subject('Notifikasi Disposisi')
             ->from(env('MAIL_USERNAME'),env('MAIL_FROM_NAME'))
             ->view('mail.notifikasiDisposisi', ['data' => $this->data]);
+        } else if ($this->data['type_mail'] =="TindakLanjut") {
+            return $this->subject('Notifikasi Disposisi')
+            ->from(env('MAIL_USERNAME'),env('MAIL_FROM_NAME'))
+            ->view('mail.notifikasiTindakLanjut', ['data' => $this->data]);
+        }
     }
 }

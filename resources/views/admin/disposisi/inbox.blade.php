@@ -26,7 +26,7 @@
         <div class="page-header-title">
             <div class="d-inline">
                 <h4>Disposisi Masuk </h4>
-                
+
             </div>
         </div>
     </div>
@@ -47,7 +47,7 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="card">
-            <div class="card-header"> 
+            <div class="card-header">
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
                         <li><i class="feather icon-maximize full-card"></i></li>
@@ -55,7 +55,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="card-block"> 
+            <div class="card-block">
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered able-responsive">
                         <thead>
@@ -67,8 +67,8 @@
                                  <th>Tgl Surat</th>
                                 <th>Disposisi</th>
                                 <th>Tgl Deadline</th>
-                             
-                                <th>Created Date</th> 
+
+                                <th>Created Date</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -76,31 +76,31 @@
                             @foreach ($disposisi as $data)
                             <tr>
                                 <td>{{$loop->index + 1}}</td>
-                                <td><?php 
+                                <td><?php
 
-                                    if($data->status == "1")  {  
+                                    if($data->status == "1")  {
                                         echo '<button class="  btn btn-inverse btn-mini btn-round">Submitted</button> ';
-                                    } else if($data->status == "2") { 
+                                    } else if($data->status == "2") {
                                         echo '<button class="btn btn-info btn-mini btn-round">Accepted</button> ';
-                                    }  else if($data->status == "3") { 
+                                    }  else if($data->status == "3") {
                                         echo '<button class="btn btn-success  btn-mini btn-round">On Progress</button> ';
-                                       
-                                    } else if($data->status == "4") { 
+
+                                    } else if($data->status == "4") {
                                         echo "Finish";
                                         echo '<button class="btn btn-primary  btn-mini btn-round">Finish</button> ';
-                                      
-                                    } 
-                                
+
+                                    }
+
                                  ?></td>
-                                <td>{{$data->pengirim}}</td>
+                                <td>{{$data->pengirim.''.$data->level}}</td>
                                 <td>{{$data->perihal}}</td>
                                 <td>{{$data->no_surat}}</td>
                                 <td>
                                 <?php $date_tgl_surat = date_create($data->tgl_surat);?>
 
                                 {{ date_format($date_tgl_surat, 'd-m-Y')}}</td>
-                                <td> 
-                                 @php   $inouts = \App\Model\Transactional\DisposisiPenanggungJawab::where('disposisi_code',$data->disposisi_code)->get() @endphp 
+                                <td>
+                                 @php   $inouts = \App\Model\Transactional\DisposisiPenanggungJawab::where('disposisi_code',$data->disposisi_code)->get() @endphp
                                 @foreach($inouts as $inout)
                                 <span > {{!empty($inout->keterangan_role->keterangan) ?  $inout->keterangan_role->keterangan: "-"  }}</span><br/>
                                 @endforeach
@@ -108,23 +108,24 @@
                                 <td>
                                 <?php
                                  $date_tanggal_penyelesaian = date_create($data->tanggal_penyelesaian);?>
-                                 
+
                                 {{ date_format($date_tanggal_penyelesaian, 'd-m-Y') }}
                                 </td>
-                                
+
                                 <td>
                                 <?php $date_create_date = date_create($data->created_date);?>
                                 {{ date_format($date_create_date, 'd-m-Y H:i:s')}}
                                     </td>
-                                <td> 
+                                <td>
                                 <a type="button" href="{{ route('getdetailDisposisi',$data->id) }}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Rincian</a>
-                                <?php if($data->status == '1')  { ?> 
+                                <?php if($data->status == '1')  { ?>
                                 <a   data-id="{{$data->id}}"  data-toggle="modal" class="btn btn-primary btn-mini waves-effect waves-light" href="#acceptModal"><i class="icofont icofont-check-circled"></i>Accepted</a>
                                 <a   href="#disposisiModal" data-code="{{$data->disposisi_code}}" data-id="{{$data->id}}"  data-toggle="modal" class="btn btn-primary btn-mini waves-effect waves-light" ><i class="icofont icofont-exchange"></i>Disposisi</a>
-                              
+
                                 <?php } ?>
-                                <?php if($data->status == '2' || $data->status == '3')  { ?> 
+                                <?php if($data->status == '2' || $data->status == '3')  { ?>
                                     <a   data-id="{{$data->id}}"  data-toggle="modal" class="btn btn-primary btn-mini waves-effect waves-light" href="#progressModal"><i class="icofont icofont-check-circled"></i>Lapor Progress</a>
+                                    <a   href="#disposisiModal" data-code="{{$data->disposisi_code}}" data-id="{{$data->id}}"  data-toggle="modal" class="btn btn-primary btn-mini waves-effect waves-light" ><i class="icofont icofont-exchange"></i>Disposisi</a>
 
                                    <?php } ?>
                                       </td>
@@ -175,7 +176,7 @@
                 </div>
 
                 <div class="modal-body">
-                    
+
 
                 </div>
 
@@ -200,12 +201,11 @@
                     </button>
                 </div>
 
-                <div class="modal-body">         
+                <div class="modal-body">
                 <div class="form-group row">
                             <label class="col-md-3 col-form-label">Tindak Lanjut</label>
                             <div class="col-md-9">
-                                <input type="hidden" name="disposisi_id" id="disposisi_id" />  
-                               <input name="tindak_lanjut" type="text" class="form-control" required>
+                                 <input name="tindak_lanjut" type="text" class="form-control" required>
                             </div>
                         </div>
 
@@ -213,7 +213,7 @@
                             <label class="col-md-3 col-form-label">Disposisikan Kepada</label>
                             <div class="col-md-9">
                             <input type="hidden" id="disposisi_id_level2" name="disposisi_id" />
-                            <input type="hidden" id="disposisi_code_level2" name="disposisi_code_level2" /> 
+                            <input type="hidden" id="disposisi_code_level2" name="disposisi_code_level2" />
                             <select data-placeholder="Disposisikan Kepada..." class="chosen-select" multiple  name="target_disposisi[]" tabindex="4">
                                  <?php echo $disposisi_kepada;?>
                             </select>
@@ -223,7 +223,7 @@
                             <label class="col-md-3 col-form-label">Keterangan</label>
                             <div class="col-md-9">
                             <textarea name="keterangan"  class="form-control" required></textarea>
-                          
+
                             </div>
                         </div>
                         <div class="form-group row">
@@ -234,12 +234,12 @@
                         </div>
 
                 </div>
-                
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
                     <button  type="submit" class="btn btn-danger waves-effect waves-light ">Disposisikan</button>
                 </div>
-                </form>                          
+                </form>
             </div>
         </div>
     </div>
@@ -263,7 +263,7 @@
                     <div class="form-group row">
                             <label class="col-md-3 col-form-label">Tindak Lanjut</label>
                             <div class="col-md-9">
-                                <input type="hidden" name="disposisi_id" id="disposisi_id" />  
+                                <input type="hidden" name="disposisi_id" id="disposisi_id" />
                                <input name="tindak_lanjut" type="text" class="form-control" required>
                             </div>
                         </div>
@@ -277,7 +277,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-3">
-                                     <input type="number" name="persentase" id="persentase" class="form-control" />  
+                                     <input type="number" maxlength="3" name="persentase"  id="persentase" class="form-control" />
                                 </div>
                         </div>
                         <div class="form-group row">
@@ -286,15 +286,15 @@
                                 <textarea name="keterangan"  class="form-control" required></textarea>
                             </div>
                         </div>
-                         
+
                            <div class="form-group row">
                             <label class="col-md-3 col-form-label">File Lampiran</label>
                             <div class="col-md-9">
                                 <input name="file" type="file"  class="form-control" required>
                             </div>
                         </div>
- 
- 
+
+
 
                     </div>
 
@@ -309,15 +309,15 @@
         </div>
     </div>
 
-    
-     
+
+
 
 
 </div>
 
 <div class="modal-only">
-     
-    
+
+
 
 
 
@@ -374,8 +374,16 @@
         $('#progressModal').on('show.bs.modal', function(event) {
             const link = $(event.relatedTarget);
              const id = link.data('id');
-           
+
            $("#disposisi_id").attr("value",id);
+        });
+
+        $("#status").change(function (e) {
+            if($(this).val() == "4"){
+                $("#persentase").val("100");
+            }else if($(this).val() == "3"){
+                $("#persentase").focus();
+            }
         });
 
 
@@ -383,7 +391,7 @@
             const link = $(event.relatedTarget);
              const id = link.data('id');
              const code = link.data('code');
-            
+
              $("#disposisi_code_level2").attr("value",code);
            $("#disposisi_id_level2").attr("value",id);
         });
@@ -392,7 +400,7 @@
         $('#acceptModal').on('show.bs.modal', function(event) {
             const link = $(event.relatedTarget);
             const id = link.data('id');
-           
+
             console.log(id);
             const url = `{{ url('admin/disposisi/accepted') }}/` + id;
             console.log(url);

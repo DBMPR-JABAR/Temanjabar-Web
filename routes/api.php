@@ -82,6 +82,10 @@ Route::post('map/dashboard/data-proyek', 'API\MapDashboardController@getDataProy
 
 Route::resource('vehicle-counting', 'API\VehicleCountingController');
 
+Route::post('save-token', 'API\PushNotifController@saveToken')->name('save-token');
+Route::post('send-notification', 'API\PushNotifController@sendNotification')->name('send.notification');
+Route::post('debug-notification', 'API\PushNotifController@debugNotification')->name('debug.notification');
+
 Route::fallback(function(){
     return response()->json([
         'status' => 'false',

@@ -21,7 +21,7 @@
                         <a class="nav-link pagescroll" href="#uptd">UPTD</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link pagescroll" href="#laporan">Laporan Jalan</a>
+                        <a class="nav-link pagescroll" href="#laporan">Laporan Kerusakan</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link pagescroll" href="#kontak">Kontak</a>
@@ -226,10 +226,12 @@
                         <img src="{!! url('storage/'.$wil->gambar) !!}" alt="">
                         <div class="gallery-hvr whitecolor">
                             <div class="center-box">
-                                <a href="{!! url('storage/'.$wil->gambar) !!}" class="opens" data-fancybox="gallery"
-                                    title="Zoom In"> <i class="fa fa-search-plus"></i></a>
-                                <a href="{{ url('uptd/'.$wil->slug) }}" class="opens" title="View Details"> <i
-                                        class="fas fa-link"></i></a>
+                                <!-- <a href="{!! url('storage/'.$wil->gambar) !!}" class="opens" data-fancybox="gallery"
+                                    title="Zoom In"> <i class="fa fa-search-plus"></i>
+                                </a> -->
+                                <a href="{{ url('uptd/'.$wil->slug) }}" class="opens" title="View Details">
+                                    <i class="fas fa-link"></i>
+                                </a>
                                 <h4 class="w-100">{{$wil->deskripsi}}</h4>
                             </div>
                         </div>
@@ -260,12 +262,11 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center wow fadeIn" data-wow-delay="300ms">
-                <h2 class="heading bottom40 darkcolor font-light2"><span class="font-normal">Laporkan</span> Jalan
-                    Rusak
+                <h2 class="heading bottom40 darkcolor font-light2"><span class="font-normal">Laporkan</span> Kerusakan
                     <span class="divider-center"></span>
                 </h2>
                 <div class="col-md-12 offset-md-2 heading_space">
-                    <p>Ayok bangun Infrastruktur bersama-sama...Laporkan jalan rusak di sekitar anda,kami akan
+                    <p>Ayo bangun Infrastruktur bersama-sama...Laporkan jalan rusak di sekitar anda,kami akan
                         SEGERA memperbaikinya.</p>
                 </div>
             </div>
@@ -295,7 +296,7 @@
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label for="nik" class="d-none"></label>
-                                    <input name="nik" class="form-control" type="number" placeholder="NIK:" required id="nik">
+                                    <input name="nik" class="form-control" type="number" placeholder="No.KTP:" required id="nik">
                                 </div>
                             </div>
                             <div class="col-md-12 col-sm-12">
@@ -321,7 +322,7 @@
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label class="my-1 mr-2" for="pilihanKeluhan">Lokasi</label>
-                                    <select name="jenis" class="custom-select my-1 mr-sm-2" id="pilihanKeluhan" required>
+                                    <select name="jenis" class="custom-select my-1 mr-sm-2 w-100" id="pilihanKeluhan" required>
                                         <option selected>Pilih...</option>
                                         @foreach ($lokasi as $kabkota)
                                         <option value="{{$kabkota->name}}">{{$kabkota->name}}</option>
@@ -332,7 +333,7 @@
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label class="my-1 mr-2" for="pilihanKeluhan">Keluhan</label>
-                                    <select name="jenis" class="custom-select my-1 mr-sm-2" id="pilihanKeluhan" required>
+                                    <select name="jenis" class="custom-select my-1 mr-sm-2 w-100" id="pilihanKeluhan" required>
                                         <option selected>Pilih...</option>
                                         @foreach ($jenis_laporan as $laporan)
                                         <option value="{{$laporan->id}}">{{$laporan->name}}</option>
@@ -345,12 +346,12 @@
                                     <label class="my-1 mr-2" for="pilihanUptd">UPTD</label>
                                     <select name="uptd_id" class="custom-select my-1 mr-sm-2" id="pilihanUptd" required>
                                         <option selected>Pilih...</option>
-                                        <option value="1">UPTD-I</option>
-                                        <option value="2">UPTD-II</option>
-                                        <option value="3">UPTD-III</option>
-                                        <option value="4">UPTD-IV</option>
-                                        <option value="5">UPTD-V</option>
-                                        <option value="6">UPTD-VI</option>
+                                        <option value="1">UPTD-I (kab.cianjur, kota/kab.bogor, kota depok, kota/kab.bekasi)</option>
+                                        <option value="2">UPTD-II (kota & kab. sukabumi)</option>
+                                        <option value="3">UPTD-III (kota/kab.bandung, kota cimahi, kab.bandung barat, kab.subang, kab.karawang, kab.purwakarta)</option>
+                                        <option value="4">UPTD-IV (kab.sumedang, kab. garut)</option>
+                                        <option value="5">UPTD-V (kab/kota tasikmalaya, kota banjar, kab.ciamis, kab.pangandaran, kab.kuningan)</option>
+                                        <option value="6">UPTD-VI (kota/kab cirebon, kab. majalengka, kab. indramayu)</option>
                                     </select>
                                 </div>
                             </div>
@@ -377,19 +378,8 @@
                             </div>
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
-                                    <label for="pilihFile">Foto kondisi jalan saat ini</label>
-                                    <input name="image" type="file" class="form-control-file" id="pilihFile">
-                                </div>
-                            </div>
-                            <div class="col-md-12 col-sm-12 px-5">
-                                <div class="form-group bottom35">
-                                    <div class="form-check text-left">
-                                        <input name="agreed" class="form-check-input" required checked type="checkbox"
-                                            id="statment">
-                                        <label class="form-check-label" for="statment">
-                                            Saya setuju dengan peraturan berlaku
-                                        </label>
-                                    </div>
+                                    <label for="pilihFile">Foto Kerusakan saat ini</label>
+                                    <input name="gambar" type="file" class="form-control-file" id="pilihFile">
                                 </div>
                             </div>
                             <div class="col-sm-12">
@@ -401,7 +391,7 @@
             </div>
             <div class="col-lg-6 d-none d-lg-block pl-lg-0 wow fadeInRight">
                 <div class=" image login-image h-100">
-                    <img src="https://picsum.photos/750/680" alt="" class="h-100">
+                    <img src="https://picsum.photos/id/1067/750/680" alt="" class="h-100">
                 </div>
             </div>
         </div>
@@ -529,52 +519,6 @@
     <div id="map" class="full-map"></div>
 </div>
 <!-- map end -->
-<!-- Stay Connected -->
-<section id="stayconnect" class="bglight position-relative">
-    <div class="container">
-        <div class="contactus-wrapp position-absolute shadow-equal">
-            <div class="row">
-                <div class="col-md-12 col-sm-12">
-                    <div class="heading-title wow fadeInUp text-center text-md-left" data-wow-delay="300ms">
-                        <h3 class="darkcolor bottom20">Tetap Terhubung Dengan Kami</h3>
-                    </div>
-                </div>
-                <div class="col-md-12 col-sm-12">
-                    <form class="getin_form wow fadeInUp" data-wow-delay="400ms">
-                        <div class="row">
-                            <div class="col-md-12 col-sm-12" id="result"></div>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="form-group">
-                                    <label for="userName" class="d-none"></label>
-                                    <input name="nama" class="form-control" type="text" placeholder="Nama Awal:" required
-                                        id="userName" name="userName">
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="form-group">
-                                    <label for="companyName" class="d-none"></label>
-                                    <input name="" class="form-control" type="tel" placeholder="Nama Perusahaan:"
-                                        id="companyName" name="companyName">
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="form-group">
-                                    <label for="email" class="d-none"></label>
-                                    <input class="form-control" type="email" placeholder="Email:" required
-                                        id="email" name="email">
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                                <button type="submit" class="button gradient-btn w-100"
-                                    id="submit_btn">Berlangganan</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 <!-- Contact US ends -->
 
 @endsection

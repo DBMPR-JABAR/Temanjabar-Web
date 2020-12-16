@@ -313,4 +313,80 @@ class LandingController extends Controller
         $data = $req->except(['_token', 'input_name_lain']);
         $data['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
     }
+
+    public function getLaporanMasyarakat(){
+        $laporan = DB::table('monitoring_laporan_masyarakat')->get();
+        return view('admin.landing.laporan-masyarakat.index',compact('laporan'));
+    }
+
+    public function createLaporanMasyarakat(Request $req){
+        $data['nama']=$req->nama;
+        $data['nik'] = $req->nik;
+        $data['alamat'] = $req->alamat;
+        $data['telp'] = $req->telp;
+        $data['email'] = $req->email;
+        $data['jenis'] = $req->jenis;
+        if($req->gambar != null){
+            $path = 'landing/laporan-masyarakat/'.Str::snake(date("YmdHis").' '.$req->gambar->getClientOriginalName());
+            $req->gambar->storeAs('public/',$path);
+            $data['gambar'] = $path;
+        }
+        $data['lokasi'] = $req->lokasi;
+        $data['lat'] = $req->lat;
+        $data['long'] = $req->long;
+        $data['deskripsi'] = $req->deskripsi;
+        $data['uptd_id'] = $req->uptd_id;
+        $data['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
+
+        DB::table('monitoring_laporan_masyarakat')->insert($data);
+
+        $color = "success";
+        $msg = "Berhasil Menambah Data Laporan Masyarakat";
+        return back()->with(compact('color','msg'));
+    }
+
+    public function detailLaporanMasyarakat($id)
+    {
+        $detail = DB::table('monitoring_laporan_masyarakat')->where('id',$id)->get();
+        return view('admin.landing.laporan-masyarakat.detail',['detail' => $detail]);
+    }
+    public function editLaporanMasyarakat($id)
+    {
+        $data = DB::table('monitoring_laporan_masyarakat')->where('id',$id)->get();
+        return response()->json(['data' => $data], 200);
+    }
+
+    public function deleteLaporanMasyarakat($id){
+        DB::table('monitoring_laporan_masyarakat')->where('id',$id)->delete();
+
+        $color = "success";
+        $msg = "Berhasil Menghapus Laporan Masyarakat";
+        return redirect(route('getLandingLaporanMasyarakat'))->with(compact('color','msg'));
+    }
+    public function updateLaporanMasyarakat(Request $req){
+        $data['nama']=$req->nama;
+        $data['nik'] = $req->nik;
+        $data['alamat'] = $req->alamat;
+        $data['telp'] = $req->telp;
+        $data['email'] = $req->email;
+        $data['jenis'] = $req->jenis;
+        if($req->gambar != null){
+            $path = 'landing/laporan-masyarakat/'.Str::snake(date("YmdHis").' '.$req->gambar->getClientOriginalName());
+            $req->gambar->storeAs('public/',$path);
+            $data['gambar'] = $path;
+        }
+        $data['lokasi'] = $req->lokasi;
+        $data['lat'] = $req->lat;
+        $data['long'] = $req->long;
+        $data['deskripsi'] = $req->deskripsi;
+        $data['uptd_id'] = $req->uptd_id;
+        $data['updated_at'] = Carbon::now()->format('Y-m-d H:i:s');
+
+        DB::table('monitoring_laporan_masyarakat')->where('id',$req->id)->update($data);
+
+        $color = "success";
+        $msg = "Berhasil Menambah Data Laporan Masyarakat";
+        return redirect(route('getLandingLaporanMasyarakat'))->with(compact('color','msg'));
+    }
+    
 }
