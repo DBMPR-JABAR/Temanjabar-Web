@@ -194,15 +194,21 @@ class DisposisiController extends Controller
 
     public function getPersentase($id, $role_id){
         $tl = DB::table('disposisi_tindak_lanjut  as a')
-                ->select( 'a.persentase', 'a.id' )
+                ->select('a.status','a.persentase', 'a.id' )
                 ->join('users as b','b.id','=','a.created_by')
                 ->join('user_role as c','c.id','=','b.internal_role_id')
                 ->where('a.disposisi_id','=',$id)
                 ->where('b.internal_role_id','=',$role_id)
                 ->where('a.status','<>','2') //disposisi dari 2 - 3 ditiadakan
                 ->orderBy('a.id','desc') ->first();
-
-       return !empty($tl->persentase) ? "(".$tl->persentase."%)" : "(0%)";
+                if(!empty($tl->status)) { 
+if($tl->status == "3"){
+    $status = "On Progress";
+}else if($tl->status == "4"){ 
+    $status = "Finish";
+}
+                }
+       return !empty($tl->status) ? "(".$status.")" : "";
 
     }
     public function getAcceptedRequest($id){
@@ -392,7 +398,7 @@ class DisposisiController extends Controller
         $disposisi['status'] = "2"; //disposisi submitted
         //  $disposisi['role_id'] = $target[$i];
         $disposisi['keterangan'] = $request->keterangan;
-        $disposisi['persentase'] =  "0";
+         $disposisi['persentase'] =  "0";
         $disposisi['level'] = '2';
         $disposisi['created_by'] = Auth::user()->id;
         $disposisi['created_date'] = date("YmdHis");
@@ -449,7 +455,8 @@ class DisposisiController extends Controller
         $disposisi['tindak_lanjut'] = $request->tindak_lanjut;
         $disposisi['status'] = $request->status;
         $disposisi['keterangan'] = $request->keterangan;
-        $disposisi['persentase'] = $request->persentase;
+        //$disposisi['persentase'] = $request->persentase;
+        $disposisi['persentase'] = "0";
         $disposisi['created_by'] = Auth::user()->id;
         $disposisi['created_date'] = date("YmdHis");
         $disposisi['level'] = '1';
@@ -467,7 +474,7 @@ class DisposisiController extends Controller
         $email['mail_to'] =  $this->getParentEmail(Auth::user()->internal_role_id);
       // $email['mail_to'] = ["izqfly@gmail.com","zanmit.consultant@gmail.com"];
         $email['tindak_lanjut'] =  $request->tindak_lanjut;
-        $email['persentase'] =  $request->persentase;
+    //    $email['persentase'] =  $request->persentase;
         $email['keterangan'] =  $request->keterangan;
         $email['date_now'] = date('d-m-Y H:i:s');
         SendEmail::dispatch($email);
