@@ -150,9 +150,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::group(['prefix' => 'jembatan'], function () {
             Route::get('/', 'MasterData\JembatanController@index')->name('getMasterJembatan');
             Route::get('edit/{id}', 'MasterData\JembatanController@edit')->name('editJembatan');
+            Route::get('add', 'MasterData\JembatanController@add')->name('addJembatan');
             Route::post('create', 'MasterData\JembatanController@store')->name('createJembatan');
             Route::post('update', 'MasterData\JembatanController@update')->name('updateJembatan');
             Route::get('delete/{id}', 'MasterData\JembatanController@delete')->name('deleteJembatan');
+            Route::get('getTipeBangunan', 'MasterData\JembatanController@getTipeBangunan')->name('getTipeBangunan');
         });
 
         Route::group(['prefix' => 'ruas-jalan'], function () {
