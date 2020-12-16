@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\Push\UserPushNotification;
 use App\Model\Transactional\Log;
 use App\User;
 use Illuminate\Http\Request;
@@ -50,7 +51,7 @@ class AuthController extends Controller
     public function loginUsingId($encrypted_id){
         $id = decrypt($encrypted_id);
         $auth = Auth::loginUsingId($id);
-        pushNotification();
+        pushNotification([3],"Logged In","You have Logged IN");
         return redirect('admin');
     }
 }

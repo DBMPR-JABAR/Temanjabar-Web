@@ -285,6 +285,6 @@ Route::view('coba-map', 'debug.coba-map');
 Route::view('map-progress-mingguan', 'debug.map-progress-mingguan');
 Route::view('map-ruas-jalan', 'debug.map-ruas-jalan');
 
-Route::get('debug', 'Backup\DebugController@index');
+Route::get('debug', 'Backup\DebugController@debug');
 
 

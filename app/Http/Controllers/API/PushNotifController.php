@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Model\Push\UserPushNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PushNotifController extends Controller
 {
@@ -25,6 +26,14 @@ class PushNotifController extends Controller
     public function saveToken(Request $request)
     {
         try {
+            $validator = Validator::make($request->all(), [
+                'user_id' => 'required|integer',
+                'token' => 'required',
+            ]);
+            if($validator->fails()){
+                $this->response['data']['error'] = $validator->errors();
+                return response()->json($this->response, 200);
+            }
             $userPushNotif = UserPushNotification::updateOrCreate(
                 ['user_id' => $request->user_id],
                 ['device_token' => $request->token]

@@ -217,6 +217,16 @@ class DisposisiController extends Controller
         DB::table('disposisi_approved')->insert($data2);
         $this->saveHistory($id,"2","Menerima Disposisi");
 
+        $disposisi = DB::table('disposisi')->where('id',$id)->first();
+        $mail['disposisi_code'] = $disposisi->disposisi_code;
+        $mail['nama'] = Auth::user()->name;
+        $mail['role'] = Auth::user()->internalRole->keterangan;
+        $mail['type_mail'] ="Accepted";
+        $mail['mail_to'] = [User::where('id',$disposisi->created_by)->first()->email];
+        $mail['date_now'] = date('d-m-Y H:i:s');
+
+        SendEmail::dispatch($mail);
+
         $color = "success";
         $msg = "Disposisi telah anda terima";
         return redirect(route('disposisi-masuk'))->with(compact('color', 'msg'));
