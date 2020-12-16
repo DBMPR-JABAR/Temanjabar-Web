@@ -272,11 +272,19 @@ Route::get('map/kemantapan-jalan', 'MonitoringController@getKemantapanJalanAPI')
 
 Route::post('getSupData', 'MonitoringController@getSupData')->name('getSupData.filter');
 
+
+Route::view('debug/mail/disposisi', 'mail.notifikasiDisposisi');
+Route::view('debug/mail/tindaklanjut', 'mail.notifikasiTindakLanjut');
+
 Route::view('debug/push-notification', 'debug.push-notif');
+
+
 Route::view('debug/map-dashboard', 'debug.map-dashboard');
 Route::view('debug/map-filter', 'debug.map-filter');
 Route::view('coba-map', 'debug.coba-map');
 Route::view('map-progress-mingguan', 'debug.map-progress-mingguan');
 Route::view('map-ruas-jalan', 'debug.map-ruas-jalan');
 
-Route::get('debug', 'Backup\DebugController@index');
+Route::get('debug', 'Backup\DebugController@debug');
+
+
