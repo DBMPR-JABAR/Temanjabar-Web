@@ -60,7 +60,7 @@
                         <a class="nav-link pagescroll" href="#uptd">UPTD</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link pagescroll" href="#laporan">Laporan Jalan</a>
+                        <a class="nav-link pagescroll" href="#laporan">Laporan Kerusakan</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link pagescroll" href="#kontak">Kontak</a>
@@ -266,7 +266,7 @@
                     <span class="divider-center"></span>
                 </h2>
                 <div class="col-md-12 offset-md-2 heading_space">
-                    <p>Ayo bangun Infrastruktur bersama-sama...Laporkan jalan rusak di sekitar anda,kami akan
+                    <p>Ayo bangun Infrastruktur bersama-sama...Laporkan kerusak di sekitar anda,kami akan
                         SEGERA memperbaikinya.</p>
                 </div>
             </div>

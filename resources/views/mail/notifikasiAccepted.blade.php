@@ -21,18 +21,9 @@
         <tbody>
           <tr>
             <td colspan="2" style="border: solid 1px #ddd; padding:10px 20px;">
-              <p style="font-size:14px;margin:0 0 6px 0;"><span style="display:inline-block;min-width:110px">Pengirim</span>
-              <b style="color:#4d90fe;font-weight:normal;margin:0">: {{($data['pengirim']) ?? ""}}</b></p>
-              <p style="font-size:14px;margin:0 0 6px 0;"><span style="display:inline-block;min-width:110px">Surat Dari</span>
-              <b style="color:#4d90fe;font-weight:normal;margin:0">: {{$data['dari'] ?? ""}} </b></p>
-              <p style="font-size:14px;margin:0 0 6px 0;"><span style="display:inline-block;min-width:110px">Perihal</span>
-              <b style="color:#4d90fe;font-weight:normal;margin:0">:  {{$data['perihal'] ?? ""}} </b></p>
-              <p style="font-size:14px;margin:0 0 6px 0;"><span style="display:inline-block;min-width:110px">No Surat</span>
-              <b style="color:#4d90fe;font-weight:normal;margin:0">:  {{$data['no_surat'] ?? ""}} </b></p>
-              <p style="font-size:14px;margin:0 0 6px 0;"><span style="display:inline-block;min-width:110px">Instruksi</span>
-              <b style="color:#4d90fe;font-weight:normal;margin:0">:  {{$data['instruksi'] ?? ""}} </b></p>
-              <p style="font-size:14px;margin:0 0 6px 0;"><span style="display:inline-block;min-width:110px">Target Penyelesaian</span>
-              <b style="color:#4d90fe;font-weight:normal;margin:0">:  {{$data['tanggal_penyelesaian'] ?? ""}} </b></p>
+
+              <p style="font-size:14px;margin:0 0 6px 0;"><span style="display:inline-block;min-width:110px">Pemberitahuan</span>
+              <b style="color:#4d90fe;font-weight:normal;margin:0">: Disposisi Telah Diterima Oleh {{$data['nama']}} ({{$data['role']}})</b></p>
 
             </td>
           </tr>

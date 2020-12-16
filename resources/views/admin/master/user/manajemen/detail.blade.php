@@ -1,6 +1,6 @@
 @extends('admin.t_index')
 
-@section('title') Rincian Grant access Role Aplikasi @endsection
+@section('title') Rincian Manajamen User @endsection
 @section('head')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/buttons.dataTables.min.css') }}">
@@ -25,7 +25,7 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Rincian Grant access Role Aplikasi</h4>
+                <h4>Rincian Manajemen User</h4>
 
             </div>
         </div>
@@ -36,7 +36,7 @@
                 <li class="breadcrumb-item">
                     <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
                 </li>
-                <li class="breadcrumb-item"><a href="#!">Rincian Grant access Role Aplikasi</a> </li>
+                <li class="breadcrumb-item"><a href="#!">Rincian Manajemen User</a> </li>
             </ul>
         </div>
     </div>
@@ -59,44 +59,17 @@
                                                                 <!-- Tab panes -->
             <div class="tab-content tabs card-block">
                 <div class="tab-pane active" id="Detail" role="tabpanel">
-                     <table style="padding:0;margin:0" class="table table-striped table-bordered nowrap dataTable">
-                     <tr><td>	User Role</td><td>{{$user_role[0]->role}}</td></tr>
-                      <tr><td>	Menu</td><td>
-                          @php
-                            $i=0;
-                                while($i< count($menu)){
-                                                echo $menu[$i]->menu;
-                                                echo ", ";
-                                                if($i%6==0){
-                                                        echo "<br/>";
-                                                }
-                                }
-                          @endphp
-                      </td></tr>
-                      <tr><td>  Role Access</td>
-                      <td>@php
-                            $i=0;
-                            while($i< count($role_access)){
-                                echo $role_access[$i]->role_access;
-                                echo ", ";
-                                if($i%6==0){
-                                    echo "<br/>";
-                                }
-                            }
-                          @endphp</td>
-                      </tr>
-                      <tr><td>  UPTD Access</td>
-                      <td>@php
-                            $i=0;
-                            while($i< count($uptd_access)){
-                                echo $uptd_access[$i]->uptd_name;
-                                echo ", ";
-                                if($i%6==0){
-                                    echo "<br/>";
-                                }
-                            }
-                          @endphp</td>
-                      </tr>
+                     <table style="padding:0;margin:0" class="table table-striped table-bordered nowrap dataTable table-responsive">
+                     <tr><td>	Nama</td><td>{{$users[0]->name}}</td></tr>
+                      <tr><td>	Email</td><td>{{$users[0]->email}}</td></tr>
+                      <tr><td>  Email Verified At</td><td>{{$users[0]->email_verified_at}}</td></tr>
+                      <tr><td>  Password</td><td>{{$users[0]->password}}</td></tr>
+                      <tr><td>  Kode OTP</td><td>{{$users[0]->kode_otp}}</td></tr>
+                      <tr><td>  Role</td><td>{{$users[0]->role}}</td></tr>
+                      <tr><td>  Internal Role Id</td><td>{{$users[0]->internal_role_id}}</td></tr>
+                      <tr><td>  Remember Token</td><td>{{$users[0]->remember_token}}</td></tr>
+                      <tr><td>  Created At</td><td>{{$users[0]->created_at}}</td></tr>
+                      <tr><td>  Updated At</td><td>{{$users[0]->updated_at}}</td></tr>
                      </table>
                  </div>
                         

@@ -102,7 +102,7 @@
                                 <td>
                                  @php   $inouts = \App\Model\Transactional\DisposisiPenanggungJawab::where('disposisi_code',$data->disposisi_code)->get() @endphp
                                 @foreach($inouts as $inout)
-                                <span > {{!empty($inout->keterangan_role->keterangan) ?  $inout->keterangan_role->keterangan: "-"  }}</span><br/>
+                                <span > {{!empty($inout->keterangan_role->keterangan) ?  $inout->keterangan_role->keterangan." (".stateHelper2($inout->status).")" : "-"  }}</span><br/>
                                 @endforeach
                                 </td>
                                 <td>
@@ -118,12 +118,12 @@
                                     </td>
                                 <td>
                                 <a type="button" href="{{ route('getdetailDisposisi',$data->id) }}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Rincian</a>
-                                <?php if($data->status == '1')  { ?>
+                                <?php if($data->status_pj == '1')  { ?>
                                 <a   data-id="{{$data->id}}"  data-toggle="modal" class="btn btn-primary btn-mini waves-effect waves-light" href="#acceptModal"><i class="icofont icofont-check-circled"></i>Accepted</a>
                                 <a   href="#disposisiModal" data-code="{{$data->disposisi_code}}" data-id="{{$data->id}}"  data-toggle="modal" class="btn btn-primary btn-mini waves-effect waves-light" ><i class="icofont icofont-exchange"></i>Disposisi</a>
 
                                 <?php } ?>
-                                <?php if($data->status == '2' || $data->status == '3')  { ?>
+                                <?php if($data->status_pj == '2' || $data->status_pj == '3')  { ?>
                                     <a   data-id="{{$data->id}}"  data-toggle="modal" class="btn btn-primary btn-mini waves-effect waves-light" href="#progressModal"><i class="icofont icofont-check-circled"></i>Lapor Progress</a>
                                     <a   href="#disposisiModal" data-code="{{$data->disposisi_code}}" data-id="{{$data->id}}"  data-toggle="modal" class="btn btn-primary btn-mini waves-effect waves-light" ><i class="icofont icofont-exchange"></i>Disposisi</a>
 
@@ -276,7 +276,7 @@
                                     <option value="4">Finish</option>
                                     </select>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3" style="display:none">
                                      <input type="number" maxlength="3" name="persentase"  id="persentase" class="form-control" />
                                 </div>
                         </div>

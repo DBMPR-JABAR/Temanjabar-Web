@@ -41,7 +41,7 @@
                     @if (hasAccess(Auth::user()->internal_role_id, "Anggaran & Realisasi Keuangan", "View"))
                     <li class="{{(Request::segment(3) == 'realisasi-keuangan') ? 'active' : ''}}">
                         <a href="{{ url('admin/monitoring/realisasi-keuangan') }}">
-                            <span class="pcoded-mtext">Anggaran & Realisasi Keuangan</span>
+                            <span class="pcoded-mtext">Target & Realisasi</span>
                         </a>
                     </li>
                     @endif
@@ -108,6 +108,11 @@
                             <span class="pcoded-mtext">User</span>
                         </a>
                         <ul class="pcoded-submenu">
+                            <li class="{{(Request::segment(4) == 'manajemen_user') ? 'active' : ''}}">
+                                <a href="{{ route('getMasterUser') }}">
+                                    <span class="pcoded-mtext">Manajemen User</span>
+                                </a>
+                            </li>
                             <li class="{{(Request::segment(4) == 'user_role') ? 'active' : ''}}">
                                 <a href="{{ route('getDataUserRole') }}">
                                     <span class="pcoded-mtext">User Role</span>
@@ -193,14 +198,14 @@
                         </a>
                     </li>
                     @endif
-                    <div class="pcoded-navigatio-lavel">Keuangan</div>
+                    <!-- <div class="pcoded-navigatio-lavel">Keuangan</div>
                     @if (hasAccess(Auth::user()->internal_role_id, "List Data", "View"))
                     <li class="{{(Request::segment(3) == 'keuangan') ? 'active' : ''}}">
                         <a href="{{ url('admin/input-data/keuangan') }}">
                             <span class="pcoded-mtext">List Data</span>
                         </a>
                     </li>
-                    @endif
+                    @endif -->
                 </ul>
             </li>
             @endif
@@ -289,7 +294,7 @@
             <li class="{{(Request::segment(2) == 'pesan') ? 'active' : ''}}">
                 <a href="{{ url('admin/pesan') }}">
                     <span class="pcoded-micon"><i class="ti-email"></i></span>
-                    <span class="pcoded-mtext">Pesan</span>
+                    <span class="pcoded-mtext">Pesan Kontak Kami</span>
                 </a>
             </li>
             @endif

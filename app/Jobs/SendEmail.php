@@ -33,19 +33,9 @@ class SendEmail implements ShouldQueue
      */
     public function handle()
     {
-        switch ($this->data['type_mail']) {
-          case 'Disposisi':
-            $message = new EmailNotifikasi($this->data);
-            foreach ($this->data['mail_to'] as $recipient) {
-                Mail::to($recipient)->send($message);
-            }
-            break;
-            case 'TindakLanjut':
-                $message = new EmailNotifikasi($this->data); 
-                foreach ($this->data['mail_to'] as $recipient) {
-                    Mail::to($recipient)->send($message);
-                }
-                break;
-         }
+        $message = new EmailNotifikasi($this->data);
+        foreach ($this->data['mail_to'] as $recipient) {
+            Mail::to($recipient)->send($message);
+        }
     }
 }
