@@ -235,7 +235,6 @@
                 <select class="chosen-select form-control" id="proyek" data-placeholder="Pilih kegiatan" multiple tabindex="4">
                     <option value="onprogress">On-Progress</option>
                     <option value="critical">Critical Contract</option>
-                    <option value="offprogress">Off Progress</option>
                     <option value="finish">Finish</option>
                 </select>
             </div>
@@ -497,7 +496,7 @@
         $("#proyek").empty();
         proyek = `<option value="onprogress">On-Progress</option>
                     <option value="criticalprogress">Critical Contract</option>
-                    <option value="offprogress">Off Progress</option>
+                     
                     <option value="finishprogress">Finish</option>`;
         $('#proyek').html(proyek).trigger('liszt:updated');
         $('#proyek').trigger("chosen:updated");
@@ -2378,7 +2377,7 @@
                     map.remove(allProgressLayer);
                 }
                 let newAllProgressLayer = new GroupLayer({
-                    title: 'Progress Mingguan Proyek Kontrak',
+                    title: 'Progress  Proyek Kontrak',
                     id: 'progress_all'
                 });
 
@@ -2477,7 +2476,7 @@
                 });
 
                 newAllProgressLayer.add(onProgress);
-                newAllProgressLayer.add(offProgress);
+               // newAllProgressLayer.add(offProgress);
                 newAllProgressLayer.add(criticalProgress);
                 newAllProgressLayer.add(finishProgress);
                 map.add(newAllProgressLayer);
