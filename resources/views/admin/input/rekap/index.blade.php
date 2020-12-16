@@ -57,7 +57,7 @@
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered able-responsive">
                         <thead>
-                            <tr> 
+                            <tr>
                                 <th>No</th>
                                 <th>Bulan</th>
                                 <th>SUP</th>
@@ -69,7 +69,7 @@
                                 <th>Foto (50%)</th>
                                 <th>Foto (100%)</th>
                                 <th>Video</th>
-                                <th>Aksi</th>
+                                <th style="min-width: 160px;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody id="bodyJembatan">
@@ -85,11 +85,14 @@
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_awal) !!}" alt="" srcset=""></td>
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_sedang) !!}" alt="" srcset=""></td>
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_akhir) !!}" alt="" srcset=""></td>
-                                <td><video width ='150' height='100' controls><source src="{!! url('storage/pekerjaan/'.$data->video) !!}" type='video/*' Sorry, your browser doesn't support the video element.></video></td>
-                              
-                                <td>
-                                <a href='http://www.google.com/maps/place/{{$data->lat}},{{$data->lng}}' target='_blank' class="mb-2 btn btn-sm btn-warning btn-mat">Lokasi</a><br>
-                                <a href='https://www.google.com/maps/@?api=1&map_action=pano&viewpoint={{$data->lat}},{{$data->lng}}&heading=13&pitch=93&fov=80' target='_blank' class="btn btn-sm btn-primary btn-mat">StreetView</a>
+                                <td><video width='150' height='100' controls>
+                                        <source src="{!! url('storage/pekerjaan/'.$data->video) !!}" type='video/*' Sorry, your browser doesn't support the video element.></video></td>
+
+                                <td style="min-width: 160px;">
+                                    <div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">
+                                        <a href='http://www.google.com/maps/place/{{$data->lat}},{{$data->lng}}' target='_blank' class="btn btn-warning btn-sm waves-effect waves-light"><i class="icofont icofont-trash"></i>Lokasi</a>
+                                        <a href='https://www.google.com/maps/@?api=1&map_action=pano&viewpoint={{$data->lat}},{{$data->lng}}&heading=13&pitch=93&fov=80' target='_blank' class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-street-view"></i>StreetView</a>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach
@@ -107,31 +110,31 @@
 @endsection
 @section('script')
 <!-- <script src="{{ asset('assets/vendor/jquery/js/jquery-3.4.1.min.js') }}" ></script> -->
-<script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}" ></script>
-<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}" ></script>
-<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}" ></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}"></script>
 
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $("#dttable").DataTable();
-        $('#delModal').on('show.bs.modal', function (event) {
+        $('#delModal').on('show.bs.modal', function(event) {
             const link = $(event.relatedTarget);
             const id = link.data('id');
             console.log(id);
             const url = `{{ url('admin/input-data/pekerjaan/delete') }}/` + id;
             console.log(url);
             const modal = $(this);
-            modal.find('.modal-footer #delHref').attr('href',url);
+            modal.find('.modal-footer #delHref').attr('href', url);
         });
 
-       $('#date-start').datepicker({
-              format: 'dd-mm-yyyy',
+        $('#date-start').datepicker({
+            format: 'dd-mm-yyyy',
             autoclose: true,
-         });
+        });
 
-       $('select').attr('value').trigger('change');
+        $('select').attr('value').trigger('change');
     });
 </script>
 @endsection

@@ -1,20 +1,6 @@
 @extends('admin.t_index')
 
-@section('title') Jembatan @endsection
-@section('head')
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/buttons.dataTables.min.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/data-table/extensions/responsive/css/responsive.dataTables.css') }}">
-
-<link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
-
-<style>
-    table.table-bordered tbody td {
-        word-break: break-word;
-        vertical-align: top;
-    }
-</style>
-@endsection
+@section('title') Admin Dashboard @endsection
 
 @section('page-header')
 <div class="row align-items-end">
@@ -22,7 +8,7 @@
         <div class="page-header-title">
             <div class="d-inline">
                 <h4>Jembatan</h4>
-                <span>Data Seluruh Jembatan</span>
+                <span>Seluruh Jembatan yang ada di naungan DBMPR Jabar</span>
             </div>
         </div>
     </div>
@@ -30,9 +16,10 @@
         <div class="page-header-breadcrumb">
             <ul class="breadcrumb-title">
                 <li class="breadcrumb-item">
-                    <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
+                    <a href="{{ url('admin') }}"> <i class="feather icon-home"></i> </a>
                 </li>
-                <li class="breadcrumb-item"><a href="#!">Jembatan</a> </li>
+                <li class="breadcrumb-item"><a href="{{ route('getMasterJembatan') }}">Jembatan</a> </li>
+                <li class="breadcrumb-item"><a href="#">Tambah</a> </li>
             </ul>
         </div>
     </div>
@@ -41,10 +28,10 @@
 
 @section('page-body')
 <div class="row">
-    <div class="col-sm-12">
+    <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h5>Tabel Jembatan</h5>
+                <h5>Tambah Jembatan</h5>
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
                         <li><i class="feather icon-maximize full-card"></i></li>
@@ -52,62 +39,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="card-block">
-                @if (hasAccess(Auth::user()->internal_role_id, "Jembatan", "Create"))
-                <a href="{{ route('addJembatan') }}" class="btn btn-mat btn-primary mb-3">Tambah</a>
-                @endif
-                <div class="dt-responsive table-responsive">
-                    <table id="dttable" class="table table-striped table-bordered able-responsive">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Nama Jembatan</th>
-                                <th>Lokasi</th>
-                                <th>Lat</th>
-                                <th>Lng</th>
-                                <th>Panjang (meter)</th>
-                                <th>Lebar (meter)</th>
-                                <th>Ruas Jalan</th>
-                                <th>Foto</th>
-                                <th style="min-width: 130px;">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="bodyJembatan">
-                            @foreach ($jembatan as $data)
-                            <tr>
-                                <td>{{$loop->index + 1}}</td>
-                                <td>{{$data->nama_jembatan}}</td>
-                                <td>{{$data->lokasi}}</td>
-                                <td>{{$data->lat}}</td>
-                                <td>{{$data->lng}}</td>
-                                <td>{{$data->panjang}}</td>
-                                <td>{{$data->lebar}}</td>
-                                <td>{{$data->ruas_jalan}}</td>
-                                <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/'.$data->foto) !!}" alt="" srcset=""></td>
-                                <td class="mx-auto" style="min-width: 130px;">
-                                    <div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">
-                                        @if (hasAccess(Auth::user()->internal_role_id, "Jembatan", "Update"))
-                                        <a href="{{ route('editJembatan',$data->id) }}" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i>Edit</a>
-                                        @endif
-                                        @if (hasAccess(Auth::user()->internal_role_id, "Jembatan", "Delete"))
-                                        <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-danger btn-sm waves-effect waves-light"><i class="icofont icofont-trash"></i>Hapus</a>
-                                        @endif
-                                    </div>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal-only">
-    @if (hasAccess(Auth::user()->internal_role_id, "Jembatan", "Create"))
-    <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
+            <div class="card-block pl-5 pr-5 pb-5">
 
                 <form action="{{route('createJembatan')}}" method="post" enctype="multipart/form-data">
                     @csrf
@@ -203,7 +135,16 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Jumlah Bentang</label>
                             <div class="col-md-10 my-auto">
-                                <input name="jumlah_bentang" type="number" class="form-control" step="any" required>
+                                <input id="jumlah_bentang" name="jumlah_bentang" type="number" class="form-control" step="any" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label"></label>
+                            <div class="col-md-10 my-auto">
+                                <a id="btnBentang" class="btn btn-mat btn-success w-100">Input Bentang</a>
+                                <div class="form2 w-100">
+                                </div>
                             </div>
                         </div>
 
@@ -246,35 +187,10 @@
             </div>
         </div>
     </div>
-    @endif
-
-    @if (hasAccess(Auth::user()->internal_role_id, "Jembatan", "Delete"))
-    <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h4 class="modal-title">Hapus Data Jembatan</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <p>Apakah anda yakin ingin menghapus data ini?</p>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                    <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Hapus</a>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    @endif
 </div>
+
 @endsection
+
 @section('script')
 <script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}"></script>
@@ -304,6 +220,49 @@
         // Format untuk lat long.
         $('.formatLatLong').keypress(function(evt) {
             return (/^\-?[0-9]*\.?[0-9]*$/).test($(this).val() + evt.key);
+        });
+
+        $('#btnBentang').click(function() {
+            console.log("klik bentang")
+            jumBentang = document.getElementById("jumlah_bentang").value
+
+            if (jumBentang != "" && jumBentang > 0) {
+                console.log(jumBentang)
+                var html = '<div class="form-group row w-100 mx-auto mb-0">' +
+                    '<div class="col-md-2"><p class="my-1 p-1">Bentang</p></div>' +
+                    '<div class="col-md-5"><p class="my-1 p-1">Panjang (meter)</p></div>' +
+                    '<div class="col-md-5"><p class="my-1 p-1">Tipe Bangunan Atas</p></div></div>'
+
+                $.ajax({
+                    url: "{{ url('admin/master-data/jembatan/getTipeBangunan') }}",
+                    method: 'get',
+                    dataType: 'JSON',
+                    complete: function(result) {
+                        console.log(result.responseJSON)
+                        textOption = ''
+                        result.responseJSON.forEach(function(item) {
+                            textOption += '<option value="' + item['id'] + '">' + item['nama'] + '</option>'
+                        });
+
+                        for (var j = 0; j < jumBentang; j++) {
+                            text = '<div class="form-group row w-100 mx-auto">' +
+                                '<div class="col-md-2">' +
+                                '<input type="number" class="form-control h-100" value ="' + (j + 1) + '" readonly>' +
+                                '</div><div class="col-md-5">' +
+                                '<input name="panjangBentang' + j + '" type="number" class="form-control h-100" step="any" required></div>' +
+                                '<div class="col-md-5">' +
+                                '<select class="form-control" name="tipe' + j + '" required>' +
+                                textOption + '</select></div></div>'
+
+                            html += text
+                        }
+
+                        $('.form2').html(html);
+                    }
+                });
+            } else {
+                alert('Isi jumlah bentang terlebih dahulu')
+            }
         });
     });
 

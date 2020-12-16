@@ -83,14 +83,39 @@
                         </div>
                     </div>
 
+                    <?php
+
+                    use Illuminate\Support\Facades\Auth; ?>
+
+                    @if(Auth::user()->internalRole->uptd)
+
+                    <?php $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd); ?>
+                    <input type="hidden" id="uptd" name="uptd_id" value="{{$uptd_id}}">
+                    @else
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">UPTD</label>
+                        <div class="col-md-10">
+                            <select class="form-control" id="uptd" name="uptd_id" required onchange="ubahOption()">
+                                <option>Pilih UPTD</option>
+                                @foreach ($uptd as $data)
+                                <option value="{{$data->id}}">{{$data->nama}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    @endif
+
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Ruas Jalan</label>
                         <div class="col-md-10">
-                            <select name="ruas_jalan" class="form-control" required>
-                                <option>Pilih Ruas Jalan</option>
+                            <select id="ruas_jalan" name="ruas_jalan" class="form-control" required>
+                                @if (Auth::user()->internalRole->uptd)
                                 @foreach ($ruasJalan as $data)
                                 <option value="{{$data->nama_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
                                 @endforeach
+                                @else
+                                <option>-</option>
+                                @endif
                             </select>
                         </div>
                     </div>
@@ -122,22 +147,6 @@
                             <input name="foto" type="file" class="form-control">
                         </div>
                     </div>
-
-                    @if(Auth::user()->internalRole->uptd)
-                    <input type="hidden" name="uptd_id" value="{{str_replace('uptd','',Auth::user()->internalRole->uptd)}}">
-                    @else
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">UPTD</label>
-                        <div class="col-md-10">
-                            <select class="form-control" required name="uptd_id">
-                                <option value="">Pilih UPTD</option>
-                                @foreach ($uptd as $data)
-                                <option value="{{$data->id}}">{{$data->nama}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    @endif
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Status</label>
@@ -179,5 +188,18 @@
             return (/^\-?[0-9]*\.?[0-9]*$/).test($(this).val() + evt.key);
         });
     });
+
+    function ubahOption() {
+
+        //untuk select Ruas
+        id = document.getElementById("uptd").value
+        url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalan') }}"
+        id_select = '#ruas_jalan'
+        text = 'Pilih Ruas Jalan'
+        option = 'nama_ruas_jalan'
+
+        setDataSelect(id, url, id_select, text, option, option)
+
+    }
 </script>
 @endsection

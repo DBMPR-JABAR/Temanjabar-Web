@@ -62,18 +62,19 @@ class RuasJalanController extends Controller
     public function edit($id)
     {
         $ruasJalan = DB::table('master_ruas_jalan')->where('id', $id)->first();
+
         $sup = DB::table('utils_sup');
         $uptd = DB::table('landing_uptd');
 
         if (Auth::user()->internalRole->uptd) {
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
-            $sup = $sup->where('uptd_id', $uptd_id);
             $uptd = $uptd->where('slug', Auth::user()->internalRole->uptd);
         }
 
+        $sup = $sup->where('uptd_id', $ruasJalan->uptd_id);
         $uptd = $uptd->get();
         $sup = $sup->get();
-
+        // print_r($ruasJalan->uptd_id);
         return view('admin.master.ruas_jalan.edit', compact('ruasJalan', 'sup', 'uptd'));
     }
 
@@ -104,5 +105,15 @@ class RuasJalanController extends Controller
         $color = "success";
         $msg = "Berhasil Menghapus Data Ruas Jalan";
         return redirect(route('getMasterRuasJalan'))->with(compact('color', 'msg'));
+    }
+
+    public function getSUP(Request $req)
+    {
+        $idSup = $req->id;
+        $sup = DB::table('utils_sup');
+        $sup = $sup->where('uptd_id', $idSup);
+        $sup = $sup->get();
+
+        return response()->json($sup);
     }
 }

@@ -67,10 +67,7 @@ class KondisiJalanController extends Controller
         $uptd = $uptd->get();
 
         $ruasJalan = DB::table('master_ruas_jalan');
-        if(Auth::user()->internalRole->uptd){
-            $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
-            $ruasJalan = $ruasJalan->where('uptd_id',$uptd_id);
-        }
+        $ruasJalan = $ruasJalan->where('master_ruas_jalan.uptd_id', $kondisiJalan->uptd);
         $ruasJalan = $ruasJalan->get();
 
         return view('admin.input_data.kondisi_jalan.edit', compact('kondisiJalan', 'uptd', 'ruasJalan'));
@@ -83,9 +80,9 @@ class KondisiJalanController extends Controller
         $uptd = $uptd->get();
 
         $ruasJalan = DB::table('master_ruas_jalan');
-        if(Auth::user()->internalRole->uptd){
-            $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
-            $ruasJalan = $ruasJalan->where('uptd_id',$uptd_id);
+        if (Auth::user()->internalRole->uptd) {
+            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+            $ruasJalan = $ruasJalan->where('uptd_id', $uptd_id);
         }
         $ruasJalan = $ruasJalan->get();
 
@@ -125,5 +122,15 @@ class KondisiJalanController extends Controller
         $color = "success";
         $msg = "Berhasil Menghapus Data Kondisi Jalan";
         return redirect(route('getIDKondisiJalan'))->with(compact('color', 'msg'));
+    }
+
+    public function getRuasJalan(Request $req)
+    {
+        $idSup = $req->id;
+        $sup = DB::table('master_ruas_jalan');
+        $sup = $sup->where('uptd_id', $idSup);
+        $sup = $sup->get();
+
+        return response()->json($sup);
     }
 }
