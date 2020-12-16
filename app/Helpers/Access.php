@@ -25,7 +25,7 @@ function hasAccess($role_id, $menu, $access){
     return false;
 }
 function stateHelper2($id){
-    if($id == "1"){ 
+     if($id == "1"){ 
         $state  = 'Submitted';
    }else if($id == "2"){
        $state  = 'Accepted';
@@ -36,6 +36,8 @@ function stateHelper2($id){
    else if($id == "4"){ 
        $state  = 'Finish';
 
+   }else {
+       $state = "";
    }
     return $state;
 }
