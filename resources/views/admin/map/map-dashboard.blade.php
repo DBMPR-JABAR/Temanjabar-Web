@@ -235,7 +235,6 @@
                 <select class="chosen-select form-control" id="proyek" data-placeholder="Pilih kegiatan" multiple tabindex="4">
                     <option value="onprogress">On-Progress</option>
                     <option value="critical">Critical Contract</option>
-                    <option value="offprogress">Off Progress</option>
                     <option value="finish">Finish</option>
                 </select>
             </div> --}}
@@ -2380,15 +2379,15 @@
                         }
                     ];
 
-                    // cari dan hapus layer bila ada pd map
-                    let allProgressLayer = map.findLayerById('progress_all');
-                    if (allProgressLayer) {
-                        map.remove(allProgressLayer);
-                    }
-                    let newAllProgressLayer = new GroupLayer({
-                        title: 'Progress Mingguan Proyek Kontrak',
-                        id: 'progress_all'
-                    });
+                // cari dan hapus layer bila ada pd map
+                let allProgressLayer = map.findLayerById('progress_all');
+                if (allProgressLayer) {
+                    map.remove(allProgressLayer);
+                }
+                let newAllProgressLayer = new GroupLayer({
+                    title: 'Progress  Proyek Kontrak',
+                    id: 'progress_all'
+                });
 
                     // buat layer baru
                     let newOn = [],
