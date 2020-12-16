@@ -34,7 +34,7 @@ class DisposisiController extends Controller
     public function getInboxDisposisi(){
         $disposisi = DB::table('disposisi as a')
         ->distinct()
-        ->select('a.id','a.disposisi_code','a.dari','b.level','a.perihal','c.name as pengirim','a.tgl_surat','a.no_surat','a.tanggal_penyelesaian','a.status','a.file','a.created_date','a.created_by')
+        ->select('a.id','a.disposisi_code','a.dari','b.level','b.status as status_pj','a.perihal','c.name as pengirim','a.tgl_surat','a.no_surat','a.tanggal_penyelesaian','a.status','a.file','a.created_date','a.created_by')
                       ->join('disposisi_penanggung_jawab as b','b.disposisi_code','=','a.disposisi_code')
                       ->join('users as c','b.pemberi_disposisi','=','c.id')
                       ->where('b.user_role_id','=',Auth::user()->internal_role_id  )
@@ -152,7 +152,7 @@ class DisposisiController extends Controller
                     ->get();
 
         $unit_responsible = DB::table('disposisi_penanggung_jawab  as a')
-            ->select( 'a.parent','c.keterangan', 'd.id as disposisi_id','a.user_role_id'   )
+            ->select( 'a.parent','c.keterangan', 'd.id as disposisi_id','a.user_role_id','a.status'   )
                             ->join('user_role as c','c.id','=','a.user_role_id')
 
                             ->join('disposisi as d','d.disposisi_code','=','a.disposisi_code')
@@ -164,10 +164,10 @@ class DisposisiController extends Controller
 
         foreach($unit_responsible as $pj){
 
-             $unit.= "<li> ".$pj->keterangan."</span>".$this->getPersentase($pj->disposisi_id, $pj->user_role_id);
+             $unit.= "<li> ".stateHelper($pj->status,$pj->keterangan);
              $unit.="<ul>";
              $parents  = DB::table('disposisi_penanggung_jawab  as a')
-            ->select( 'a.parent','c.keterangan', 'd.id as disposisi_id','a.user_role_id'   )
+            ->select( 'a.parent','c.keterangan', 'd.id as disposisi_id','a.user_role_id','a.status'   )
                             ->join('user_role as c','c.id','=','a.user_role_id')
                             ->join('disposisi as d','d.disposisi_code','=','a.disposisi_code')
                             ->where('d.id','=', $id)
@@ -175,7 +175,7 @@ class DisposisiController extends Controller
                             ->where('a.parent',$pj->user_role_id)
                             ->get();
             foreach($parents as $parent) {
-                $unit.="<li> <i class='icofont icofont-arrow-right'></i>".$parent->keterangan."</span>".$this->getPersentase($parent->disposisi_id, $parent->user_role_id)."</li>";
+                $unit.="<li> <i class='icofont icofont-arrow-right'></i>".   stateHelper($parent->status,$parent->keterangan)."</li>";
             }
                 $unit.= "</ul>";
             }
@@ -188,30 +188,12 @@ class DisposisiController extends Controller
                     'detail_disposisi' => $detail_disposisi,
                     'penanggung_jawab' =>  $penanggung_jawab,
                     'unitData' => $unit,
+
                     'history' => $history
                 ]);
     }
 
-    public function getPersentase($id, $role_id){
-        $tl = DB::table('disposisi_tindak_lanjut  as a')
-                ->select('a.status','a.persentase', 'a.id' )
-                ->join('users as b','b.id','=','a.created_by')
-                ->join('user_role as c','c.id','=','b.internal_role_id')
-                ->where('a.disposisi_id','=',$id)
-                ->where('b.internal_role_id','=',$role_id)
-                ->where('a.status','<>','2') //disposisi dari 2 - 3 ditiadakan
-                ->orderBy('a.id','desc') ->first();
-                if(!empty($tl->status)) { 
-if($tl->status == "3"){
-    $status = "On Progress";
-}else if($tl->status == "4"){ 
-    $status = "Finish";
-}
-                }
-       return !empty($tl->status) ? "(".$status.")" : "";
-
-    }
-    public function getAcceptedRequest($id){
+     public function getAcceptedRequest($id){
 
         $data['status'] = '2';
         DB::table('disposisi')->where('id',$id)->update($data);
@@ -224,6 +206,9 @@ if($tl->status == "3"){
         $this->saveHistory($id,"2","Menerima Disposisi");
 
         $disposisi = DB::table('disposisi')->where('id',$id)->first();
+  
+        $this->updateDisposisiPenanggungJawabStatus($id,"2");    
+        
         $mail['disposisi_code'] = $disposisi->disposisi_code;
         $mail['nama'] = Auth::user()->name;
         $mail['role'] = Auth::user()->internalRole->keterangan;
@@ -258,6 +243,7 @@ if($tl->status == "3"){
             $data['user_role_id'] = $target[$i];
             $data['pemberi_disposisi'] =  Auth::user()->id;
             $data['level'] = "1";
+            $data['status'] = "1";
             $data['parent'] = $this->getParentByRoleId($target[$i]);
             DB::table('disposisi_penanggung_jawab')->insert($data);
 
@@ -293,6 +279,11 @@ if($tl->status == "3"){
     public function getDisposisiId($code){
         $data = DB::table('disposisi')->select('id')->where('disposisi_code','=', $code)->first();
       return $data->id;
+
+    }
+    public function getDisposisiCodeById($id){
+        $data = DB::table('disposisi')->select('disposisi_code')->where('id','=', $id)->first();
+      return $data->disposisi_code;
 
     }
     public function getTargetDisposisi($target){
@@ -466,6 +457,7 @@ if($tl->status == "3"){
 
         $datad['status'] = '3';
         DB::table('disposisi')->where('id',$request->disposisi_id)->update($datad);
+        $this->updateDisposisiPenanggungJawabStatus($request->disposisi_id,"3"); 
 
         $email['disposisi_code'] = DB::table('disposisi')->where('id',$request->disposisi_id)->first()->disposisi_code;
 
@@ -483,6 +475,14 @@ if($tl->status == "3"){
         $msg = "Berhasil Menambah Data Tindak Lanjut";
         return back()->with(compact('color', 'msg'));
     }
+
+    public function updateDisposisiPenanggungJawabStatus($id,$status) { 
+    $datapj['status'] = $status; 
+    DB::table('disposisi_penanggung_jawab')->where('disposisi_code',$this->getDisposisiCodeById($id))
+                                           ->where('user_role_id',Auth::user()->internal_role_id)
+                                           ->update($datapj);
+    }
+
 
     public function getParentEmail($role_id){
         $role = Role::where('id',$role_id)->first();

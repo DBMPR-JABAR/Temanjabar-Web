@@ -24,6 +24,39 @@ function hasAccess($role_id, $menu, $access){
 
     return false;
 }
+function stateHelper2($id){
+    if($id == "1"){ 
+        $state  = 'Submitted';
+   }else if($id == "2"){
+       $state  = 'Accepted';
+   }
+   else if($id == "3"){
+       $state  = 'On Progress';
+   }
+   else if($id == "4"){ 
+       $state  = 'Finish';
+
+   }
+    return $state;
+}
+ 
+function stateHelper($id,$unit=""){
+$state ="<table>";
+    if($id == "1"){ 
+         $state .= '<tr><td>'.$unit.'</td><td> <button class="btn btn-info btn-mini btn-round">Submitted</button></td></tr>';
+    }else if($id == "2"){
+        $state .= '<tr><td>'.$unit.'</td><td> <button class="btn btn-info btn-mini btn-round"> Accepted</button></td></tr>';
+    }
+    else if($id == "3"){
+        $state .= '<tr><td>'.$unit.'</td><td> <button class="btn btn-success btn-mini btn-round">On Progress</button></td></tr>';
+    }
+    else if($id == "4"){ 
+        $state .= '<tr><td>'.$unit.'</td><td> <button class="btn btn-info btn-mini btn-round">Finish</button></td></tr>';
+
+    }
+    $state.="</table>";
+    return $state;
+}
 
 /**
  * uptdAccess
