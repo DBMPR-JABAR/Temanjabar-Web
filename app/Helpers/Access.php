@@ -110,9 +110,9 @@ function pushNotification($users, $title, $body)
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
         $response = curl_exec($ch);
-        if ($response === FALSE) {
-            die('Curl failed: ' . curl_error($ch));
-        }
+        // if ($response === FALSE) {
+        //     die('Curl failed: ' . curl_error($ch));
+        // }
         curl_close ( $ch );
         return $response;
     }
