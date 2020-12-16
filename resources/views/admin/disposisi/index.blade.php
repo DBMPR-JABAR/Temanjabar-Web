@@ -82,12 +82,12 @@
 if($data->status == "1")  {  
     echo '<button class="  btn btn-inverse btn-mini btn-round">Submitted</button> ';
 } else if($data->status == "2") { 
-    echo '<button class="btn btn-info btn-mini btn-round">Accepted</button> ';
+    echo '<button class="btn btn-primary btn-mini btn-round">Accepted</button> ';
 }  else if($data->status == "3") { 
     echo '<button class="btn btn-success  btn-mini btn-round">On Progress</button> ';
    
 } else if($data->status == "4") { 
-    echo "Finish";
+ 
     echo '<button class="btn btn-info  btn-mini btn-round">Finish</button> ';
   
 } 
