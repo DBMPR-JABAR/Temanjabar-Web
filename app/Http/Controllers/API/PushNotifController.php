@@ -41,15 +41,18 @@ class PushNotifController extends Controller
     }
 
     // TODO: Let's Keep this in helper
-    public function sendNotification(Request $request)
+    public static function sendNotification($users, $title, $body)
     {
-        $firebaseToken = UserPushNotification::whereNotNull('device_token')->pluck('device_token')->all();
+        $firebaseToken = UserPushNotification::whereNotNull('device_token')->whereIn('user_id',$users)->pluck('device_token')->get();
         $SERVER_API_KEY = 'AAAAKK9GKAE:APA91bELNXXSrX8VS-g7stPhlSLM_JP6JtzgFgkL0EyvPtk2qlCGWB0lAOteWN8SelfYoql5JuTI00bcD4ACcW2aHRr1WXudiwR9mtaEMwOehhtyCfMqIABa3PcijBDJbsyn-u9jPE1V';
         $data = [
             "registration_ids" => $firebaseToken,
             "notification" => [
-                "title" => $request->title,
-                "body" => $request->body,
+                "title" => $title,
+                "body" => $body,
+            ],
+            "data" => [
+                "click_action" => "FLUTTER_NOTIFICATION_CLICK"
             ]
         ];
         $dataString = json_encode($data);
@@ -78,6 +81,9 @@ class PushNotifController extends Controller
             "notification" => [
                 "title" => "Sample Notification",
                 "body" => "Lorem ipsum solor dit amet",
+            ],
+            "data" => [
+                "click_action" => "FLUTTER_NOTIFICATION_CLICK"
             ]
         ];
         $dataString = json_encode($data);
@@ -94,7 +100,7 @@ class PushNotifController extends Controller
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
         $response = curl_exec($ch);
-        dd($response);
+        return $response;
     }
 
 }
