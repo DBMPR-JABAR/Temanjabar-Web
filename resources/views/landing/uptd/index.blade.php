@@ -338,8 +338,13 @@
                 const view = new MapView({
                     container: "viewDiv",
                     map: map,
-                    center: [107.6191, -6.9175], // longitude, latitude
-                    zoom: 9
+                    center: [<?= $uptd_mapdata['ctr_long'] ?>, <?= $uptd_mapdata['ctr_lat'] ?>], // longitude, latitude
+                    extent: {
+                        ymin: <?= $uptd_mapdata['ctr_ext'][0] ?>,
+                        ymax: <?= $uptd_mapdata['ctr_ext'][1] ?>,
+                        xmin: <?= $uptd_mapdata['ctr_ext'][2] ?>,
+                        xmax: <?= $uptd_mapdata['ctr_ext'][3] ?>
+                    }
                 });
 
                 const gsvrUrl = "{{ env('GEOSERVER') }}";

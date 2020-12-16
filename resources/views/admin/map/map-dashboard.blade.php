@@ -24,10 +24,16 @@
             z-index: -1;
         }
 
-        #showFilter {
-            position: absolute;
-            top: 15px;
-            right: 15px;
+        #grupKontrol {
+            display: inline-flex;
+            box-shadow: none;
+        }
+
+        #showFilter,
+        #showBaseMaps,
+        #fullscreen,
+        #back {
+            padding-bottom: 1px;
         }
 
         #showFilter button {
@@ -61,16 +67,8 @@
         }
 
         #logo {
-            display: block;
-            position: absolute;
-            top: 30px;
-            right: 80px;
-        }
-
-        #showBaseMaps {
-            position: absolute;
-            top: 47.5px;
-            right: 15px;
+            margin-top: 15px;
+            margin-right: 33px;
         }
 
         #showBaseMaps button {
@@ -80,12 +78,6 @@
             border: none;
             outline: none;
             cursor: pointer;
-        }
-
-        #fullscreen {
-            position: absolute;
-            top: 81px;
-            right: 15px;
         }
 
         #fullscreen button {
@@ -99,12 +91,6 @@
 
         .form-group {
             margin-bottom: 1px;
-        }
-
-        #back {
-            position: absolute;
-            top: 114px;
-            right: 15px;
         }
 
         #back button {
@@ -170,30 +156,34 @@
 
 <body>
     <div id="viewDiv"></div>
-    <div id="showFilter">
-        <button data-toggle="tooltip" data-placement="right" title="Fitur Filter">
-            <i class="feather icon-list"></i>
-        </button>
-    </div>
-    <div id="showBaseMaps">
-        <button data-toggle="tooltip" data-placement="right" title="Fitur Filter">
-            <i class="feather icon-map"></i>
-        </button>
-    </div>
-    <div id="fullscreen">
-        <button data-toggle="tooltip" data-placement="right" title="Fullscreen / Normal">
-            <i class="feather icon-maximize full-card"></i>
-        </button>
-    </div>
-    <div id="back">
-        <a href="{{ url('/admin/monitoring/proyek-kontrak') }}">
-            <button data-toggle="tooltip" data-placement="right" title="Kembali kehalaman Sebelumnya">
-                <i class="feather icon-arrow-left"></i>
-            </button>
-        </a>
-    </div>
-    <div id="logo">
-        <img width="200" class="img-fluid" src="{{ asset('assets/images/brand/text_putih.png')}}" alt="Logo DBMPR">
+    <div id="grupKontrol" style="display:inline-flex;">
+        <div id="logo">
+            <img width="200" class="img-fluid" src="{{ asset('assets/images/brand/text_putih.png')}}" alt="Logo DBMPR">
+        </div>
+        <div>
+            <div id="showFilter">
+                <button data-toggle="tooltip" data-placement="right" title="Fitur Filter">
+                    <i class="feather icon-list"></i>
+                </button>
+            </div>
+            <div id="showBaseMaps">
+                <button data-toggle="tooltip" data-placement="right" title="Fitur Filter">
+                    <i class="feather icon-map"></i>
+                </button>
+            </div>
+            <div id="fullscreen">
+                <button data-toggle="tooltip" data-placement="right" title="Fullscreen / Normal">
+                    <i class="feather icon-maximize full-card"></i>
+                </button>
+            </div>
+            <div id="back">
+                <a href="{{ url('/admin/monitoring/proyek-kontrak') }}">
+                    <button data-toggle="tooltip" data-placement="right" title="Kembali kehalaman Sebelumnya">
+                        <i class="feather icon-arrow-left"></i>
+                    </button>
+                </a>
+            </div>
+        </div>
     </div>
     <div id="filter" class="bg-white">
         <div id="preloader" style="display:none">
@@ -597,6 +587,8 @@
                 expandTooltip: 'Legenda'
             });
 
+            view.ui.add('grupKontrol', 'top-right');
+
             // Button Initialization
             $("#spp_filter, #kegiatan").chosen().change(function() {
                 changeBtnProses();
@@ -635,7 +627,6 @@
                 let sup = $("#spp_filter").val();
                 let kegiatan = $("#kegiatan").val();
                 // kegiatan.push("progressmingguan");
-                // console.log('sup:' + sup + ', keg:' + kegiatan);
 
                 if ($.inArray('ruasjalan', kegiatan) >= 0) {
                     addRuteJalan();
@@ -715,18 +706,18 @@
                                 }
                             */
 
-                            // $("#proyek").chosen().change(function() {
-                            //     const proyek = $("#proyek").val();
-                            //     const allProyek = ["onprogress", "criticalprogress", "offprogress", "finishprogress"];
-                            //     const diff = difference(allProyek, proyek);
+                            /* $("#proyek").chosen().change(function() {
+                                const proyek = $("#proyek").val();
+                                const allProyek = ["onprogress", "criticalprogress", "offprogress", "finishprogress"];
+                                const diff = difference(allProyek, proyek);
 
-                            //     for (i in proyek) {
-                            //         allProgressLayer.findLayerById(proyek[i]).visible = true;
-                            //     }
-                            //     for (i in diff) {
-                            //         allProgressLayer.findLayerById(diff[i]).visible = false;
-                            //     }
-                            // });
+                                for (i in proyek) {
+                                    allProgressLayer.findLayerById(proyek[i]).visible = true;
+                                }
+                                for (i in diff) {
+                                    allProgressLayer.findLayerById(diff[i]).visible = false;
+                                }
+                            }); */
                         } else { // json.status != success
                             // do something
                         }
@@ -759,11 +750,11 @@
                     rutejalanLayer.add(jalanTolOperasi(), 1);
                     rutejalanLayer.add(jalanNasional(), 2);
                     rutejalanLayer.add(gerbangTol(), 4);
-                  
+
                     map.add(rutejalanLayer);
                 }
                 rutejalanLayer.add(jalanProvinsi(), 3);
-                rutejalanLayer.reorder();
+                // rutejalanLayer.reorder();
 
                 function jalanProvinsi() {
                     const popupTemplate = {
@@ -902,7 +893,6 @@
                     return layer;
                 }
 
-               
                 function jalanTolOperasi() {
                     const layer = new FeatureLayer({
                         url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/4/",
@@ -1038,18 +1028,18 @@
                         title: 'Rawan Bencana',
                         id: 'rbl'
                     });
-                    
-                    rawanBencanaLayer.add(rawanGempaBumi(), 0);
+
+                    rawanBencanaLayer.add(rawanGempaBumi(), 1);
                     rawanBencanaLayer.add(rawanGerakanTanah(), 0);
-                   
+
                     map.add(rawanBencanaLayer);
                 }
- //                rutejalanLayer.reorder(); 
-            function rawanGempaBumi(){
-                const popupTemplate = {
-                    title: "{nm_ruas}",
-                    content: [{
-                        type: "fields",
+
+                function rawanGempaBumi() {
+                    const popupTemplate = {
+                        title: "{nm_ruas}",
+                        content: [{
+                            type: "fields",
                             fieldInfos: [{
                                     fieldName: "UNSUR",
                                     label: "Unsur"
@@ -1059,29 +1049,26 @@
                                     label: "Keterangan"
                                 }
                             ]
-                    }]
+                        }]
+                    }
+                    let rgt = map.findLayerById('rgtId');
+                    if (!rgt) {
+                        rgt = new FeatureLayer({
+                            url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/SATUPETA_BPBD/Kebencanaan/MapServer/1",
+                            title: 'Gempa Bumi',
+                            id: 'rgtId',
+                            popupTemplate: popupTemplate
+                        });
+                        rgt.refresh();
+                    }
+                    return rgt;
                 }
-                let rgt = map.findLayerById('rgtId');
-                if (!rgt) {
-                    rgt = new FeatureLayer({
-                        url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/SATUPETA_BPBD/Kebencanaan/MapServer/1",
-                        title: 'Gempa Bumi',
-                        id: 'rgtId',
-                        popupTemplate : popupTemplate
-                    });
-                    ///map.add(rgt);
-                    rgt.refresh();
 
-                }
-                return rgt;
-
-            }
-
-            function rawanGerakanTanah(){
-                const popupTemplate = {
-                    title: "{nm_ruas}",
-                    content: [{
-                        type: "fields",
+                function rawanGerakanTanah() {
+                    const popupTemplate = {
+                        title: "{nm_ruas}",
+                        content: [{
+                            type: "fields",
                             fieldInfos: [{
                                     fieldName: "GERTAN",
                                     label: "gertan"
@@ -1091,35 +1078,21 @@
                                     label: "sumber"
                                 }
                             ]
-                    }]
+                        }]
+                    }
+                    let rgt2 = map.findLayerById('rgt2Id');
+                    if (!rgt2) {
+                        rgt2 = new FeatureLayer({
+                            url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/SATUPETA_BPBD/Kebencanaan/MapServer/0",
+                            title: 'Rawan Gerakan Tanah',
+                            id: 'rgt2Id',
+                            popupTemplate: popupTemplate
+                        });
+                        rgt2.refresh();
+                    }
+                    return rgt2;
                 }
-                let rgt2 = map.findLayerById('rgt2Id');
-                if (!rgt2) {
-                    rgt2 = new FeatureLayer({
-                        url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/SATUPETA_BPBD/Kebencanaan/MapServer/0",
-                        title: 'Rawan Gerakan Tanah',
-                        id: 'rgt2Id',
-                        popupTemplate : popupTemplate
-                    });
-                    ///map.add(rgt);
-                    rgt2.refresh();
-
-                }
-                return rgt2;
-
             }
-
-
-
-                
-                
-            const layer = new FeatureLayer({
-                url:  "",
-                title: 'Rawan Gerakan Tanah'
-            });
-            return layer;
-        }
-
 
             function addKemantapanJalan() {
                 const popupTemplate = {
