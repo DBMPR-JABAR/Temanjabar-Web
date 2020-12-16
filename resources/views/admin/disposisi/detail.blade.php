@@ -160,8 +160,7 @@
                             <th>Created Date</th>
                                  <th>Unit</th>
                                  <th>Tindak Lanjut</th>
-
-                                <th>Persentase</th>
+ 
                                 <th>Keterangan</th>
                                 <th>Status</th> 
                                 <th>Aksi</th> 
@@ -182,8 +181,7 @@
                                 <span > {{!empty($roleData->keterangan) ?  $roleData->keterangan: "-"  }}</span>
                                  
                                 </td>
-                                <td>{{$data->tindak_lanjut}}</td>
-                                <td>{{$data->persentase}}%</td>
+                                <td>{{$data->tindak_lanjut}}</td> 
                                 <td>{{$data->keterangan_tl}}</td>
                                  <td><?php 
 
@@ -192,9 +190,7 @@ if($data->status_tindak_lanjut == "2")  {
 }                                    
 if($data->status_tindak_lanjut == "3")  {  
                                         echo "On Progress";
-                                    } else if($data->status_tindak_lanjut == "4") { 
-                                        echo "Verification Process";
-                                    } else if($data->status_tindak_lanjut == "5") { 
+                                    }  else if($data->status_tindak_lanjut == "4") { 
                                         echo "Finish";
                                     }  
                                 
@@ -205,11 +201,7 @@ if($data->status_tindak_lanjut == "3")  {
                                 <a href="{{route('download',$data->id)}}">
                                 <button class="btn btn-success  btn-mini btn-round"><i class="icofont icofont-download"></i> Download</button>     
                                 </a>
-                              <?php  if($data->status_tindak_lanjut == "4") {  ?>
-                                <a href="{{route('download',$data->id)}}">
-                                <button class="btn btn-success  btn-mini btn-round"> Verified</button>     
-                                </a>
-                                <?php  } ?>
+                               
                                 
                                 </td>
                                 </tr>
