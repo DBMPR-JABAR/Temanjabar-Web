@@ -51,7 +51,7 @@ class AuthController extends Controller
     public function loginUsingId($encrypted_id){
         $id = decrypt($encrypted_id);
         $auth = Auth::loginUsingId($id);
-        pushNotification([3],"Logged In","You have Logged IN");
+        pushNotification([Auth::user()->id],"Logged In","You have Logged IN");
         return redirect('admin');
     }
 }
