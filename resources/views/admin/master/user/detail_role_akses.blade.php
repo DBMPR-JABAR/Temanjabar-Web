@@ -60,7 +60,7 @@
             <div class="tab-content tabs card-block">
                 <div class="tab-pane active" id="Detail" role="tabpanel">
                      <table style="padding:0;margin:0" class="table table-striped table-bordered nowrap dataTable">
-                     <tr><td>	User Role</td><td>{{$user_role_name}}</td></tr>
+                     <tr><td>	User Role</td><td>{{$user_role[0]->role}}</td></tr>
                       <tr><td>	Menu</td><td>
                           @php
                             $i=0;
