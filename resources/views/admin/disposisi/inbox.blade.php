@@ -276,7 +276,7 @@
                                     <option value="4">Finish</option>
                                     </select>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3" style="display:none">
                                      <input type="number" maxlength="3" name="persentase"  id="persentase" class="form-control" />
                                 </div>
                         </div>
