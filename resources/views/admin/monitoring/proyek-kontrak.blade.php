@@ -116,7 +116,7 @@
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
-                    <div class="col-8"><a href="{{url('admin/monitoring/proyek-kontrak/status/CRITICAL CONTACT')}}">
+                    <div class="col-8"><a href="#">
                         <h4 class="text-c-yellow f-w-600">{{$countCritical}}</h4></a>
                         <h6 class="text-muted m-b-0">Critical Contract</h6>
                     </div>
@@ -142,7 +142,7 @@
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
-                    <div class="col-8"><a href="{{url('admin/monitoring/proyek-kontrak/status/ON PROGRESS')}}">
+                    <div class="col-8"><a href="#">
                         <h4 class="text-c-green f-w-600">{{ $countOnProgress }}</h4> </a>
                         <h6 class="text-muted m-b-0">On Progress</h6>
                     </div>
