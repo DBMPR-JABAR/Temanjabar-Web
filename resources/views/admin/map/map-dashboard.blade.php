@@ -650,6 +650,13 @@
                     map.remove(map.findLayerById('rj_mantap'));
                 }
 
+                if ($.inArray('datarawanbencana', kegiatan) >= 0) {
+                    rawanBencana();
+                    kegiatan.splice(kegiatan.indexOf('datarawanbencana'), 1); // remove 'ruasjalan' dari kegiatan
+                } else {
+                    map.remove(map.findLayerById('rj'));
+                }
+
                 if (kegiatan.length > 0) { // kalau masih ada pilihan lain di kegiatan
                     // Request data from API
                     let requestUrl = baseUrl + '/api/map/dashboard/data';
@@ -752,6 +759,7 @@
                     rutejalanLayer.add(jalanTolOperasi(), 1);
                     rutejalanLayer.add(jalanNasional(), 2);
                     rutejalanLayer.add(gerbangTol(), 4);
+                  
                     map.add(rutejalanLayer);
                 }
                 rutejalanLayer.add(jalanProvinsi(), 3);
@@ -894,6 +902,7 @@
                     return layer;
                 }
 
+               
                 function jalanTolOperasi() {
                     const layer = new FeatureLayer({
                         url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/4/",
@@ -1021,6 +1030,96 @@
                     return layer;
                 }
             }
+
+            function rawanBencana() {
+                let rawanBencanaLayer = map.findLayerById('rbl');
+                if (!rawanBencanaLayer) {
+                    rawanBencanaLayer = new GroupLayer({
+                        title: 'Rawan Bencana',
+                        id: 'rbl'
+                    });
+                    
+                    rawanBencanaLayer.add(rawanGempaBumi(), 0);
+                    rawanBencanaLayer.add(rawanGerakanTanah(), 0);
+                   
+                    map.add(rawanBencanaLayer);
+                }
+ //                rutejalanLayer.reorder(); 
+            function rawanGempaBumi(){
+                const popupTemplate = {
+                    title: "{nm_ruas}",
+                    content: [{
+                        type: "fields",
+                            fieldInfos: [{
+                                    fieldName: "UNSUR",
+                                    label: "Unsur"
+                                },
+                                {
+                                    fieldName: "KETERANGAN",
+                                    label: "Keterangan"
+                                }
+                            ]
+                    }]
+                }
+                let rgt = map.findLayerById('rgtId');
+                if (!rgt) {
+                    rgt = new FeatureLayer({
+                        url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/SATUPETA_BPBD/Kebencanaan/MapServer/1",
+                        title: 'Gempa Bumi',
+                        id: 'rgtId',
+                        popupTemplate : popupTemplate
+                    });
+                    ///map.add(rgt);
+                    rgt.refresh();
+
+                }
+                return rgt;
+
+            }
+
+            function rawanGerakanTanah(){
+                const popupTemplate = {
+                    title: "{nm_ruas}",
+                    content: [{
+                        type: "fields",
+                            fieldInfos: [{
+                                    fieldName: "GERTAN",
+                                    label: "gertan"
+                                },
+                                {
+                                    fieldName: "SUMBER",
+                                    label: "sumber"
+                                }
+                            ]
+                    }]
+                }
+                let rgt2 = map.findLayerById('rgt2Id');
+                if (!rgt2) {
+                    rgt2 = new FeatureLayer({
+                        url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/SATUPETA_BPBD/Kebencanaan/MapServer/0",
+                        title: 'Rawan Gerakan Tanah',
+                        id: 'rgt2Id',
+                        popupTemplate : popupTemplate
+                    });
+                    ///map.add(rgt);
+                    rgt2.refresh();
+
+                }
+                return rgt2;
+
+            }
+
+
+
+                
+                
+            const layer = new FeatureLayer({
+                url:  "",
+                title: 'Rawan Gerakan Tanah'
+            });
+            return layer;
+        }
+
 
             function addKemantapanJalan() {
                 const popupTemplate = {
