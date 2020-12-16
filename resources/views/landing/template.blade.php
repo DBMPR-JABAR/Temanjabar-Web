@@ -45,7 +45,7 @@
     <footer id="site-footer" class=" bgdark padding_top">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="footer_panel padding_bottom_half bottom20">
                         <a href="{{ url('') }}" class="footer_logo bottom25"><img src="{{ asset('assets/images/brand/text_putih.png') }}"
                                 alt="trax"></a>
@@ -66,7 +66,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 col-sm-6">
+                <!-- <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="footer_panel padding_bottom_half bottom20">
                         <h3 class="whitecolor bottom25">Berita Terbaru</h3>
                         <ul class="latest_news whitecolor">
@@ -79,8 +79,8 @@
                                     2020</span> </li>
                         </ul>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-6">
+                </div> -->
+                <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="footer_panel padding_bottom_half bottom20 pl-0 pl-lg-5">
                         <h3 class="whitecolor bottom25">Navigasi</h3>
                         <ul class="links">
@@ -92,10 +92,13 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="footer_panel padding_bottom_half bottom20">
                         <h3 class="whitecolor bottom25">Layanan</h3>
-                        <p class="whitecolor bottom25">Monitoring data pekerjaan DBMPR
+                        <p class="whitecolor bottom25">
+                        Dinas Bina Marga adalah salah satu Satuan Kerja Perangkat Daerah (SKPD) dalam Organisasi 
+                        Pemerintah Provinsi Jawa Barat yang mempunyai tugas untuk melayani masyarakat dalam 
+                        menyediakan infrastruktur Bina Marga.
                         </p>
                         <ul class="hours_links whitecolor">
                             <li><span>Senin - Jumat:</span> <span>{{ $profil->jam_layanan }}</span></li>

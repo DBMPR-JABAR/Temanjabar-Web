@@ -198,14 +198,14 @@
                         </a>
                     </li>
                     @endif
-                    <div class="pcoded-navigatio-lavel">Keuangan</div>
+                    <!-- <div class="pcoded-navigatio-lavel">Keuangan</div>
                     @if (hasAccess(Auth::user()->internal_role_id, "List Data", "View"))
                     <li class="{{(Request::segment(3) == 'keuangan') ? 'active' : ''}}">
                         <a href="{{ url('admin/input-data/keuangan') }}">
                             <span class="pcoded-mtext">List Data</span>
                         </a>
                     </li>
-                    @endif
+                    @endif -->
                 </ul>
             </li>
             @endif
