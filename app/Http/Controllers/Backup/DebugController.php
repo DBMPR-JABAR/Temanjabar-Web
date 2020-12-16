@@ -3,12 +3,19 @@
 namespace App\Http\Controllers\Backup;
 
 use App\Http\Controllers\Controller;
+use App\Model\Push\UserPushNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class DebugController extends Controller
 {
+
+    public function debug()
+    {
+        dd(UserPushNotification::whereNotNull('device_token')->whereIn('user_id',[1])->pluck('device_token')->all());
+    }
+
     public function index()
     {
 

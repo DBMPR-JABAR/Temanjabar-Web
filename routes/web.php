@@ -167,7 +167,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         });
 
         Route::group(['prefix' => 'user'], function () {
-            // Route::get('/', 'MasterData\UserController@getUser')->name('getMasterUser');
             Route::get('role-akses', 'MasterData\UserController@getDaftarRoleAkses')->name('getRoleAkses');
             Route::post('role-akses/create', 'MasterData\UserController@createRoleAkses')->name('createRoleAkses');
             Route::get('role-akses/detail/{id}', 'MasterData\UserController@detailRoleAkses')->name('detailRoleAkses');
@@ -185,11 +184,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             // Route::post('create', 'LandingController@createUPTD')->name('createLandingUPTD');
             // Route::post('update', 'LandingController@updateUPTD')->name('updateLandingUPTD');
             // Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
-            Route::get('/', 'MasterData\UserController@index')->name('getMasterUser');
-            Route::get('edit/{id}', 'MasterData\UserController@edit')->name('editUser');
-            Route::post('create', 'MasterData\UserController@store')->name('createUser');
-            Route::post('update', 'MasterData\UserController@update')->name('updateUser');
-            Route::get('delete/{id}', 'MasterData\UserController@delete')->name('deleteUser');
+            Route::get('/manajemen', 'MasterData\UserController@getUser')->name('getMasterUser');
+            Route::get('/manajemen/detail/{id}', 'MasterData\UserController@detailUser')->name('detailMasterUser');
+            Route::get('/manajemen/edit/{id}', 'MasterData\UserController@edit')->name('editUser');
+            Route::post('/manajemen/create', 'MasterData\UserController@store')->name('createUser');
+            Route::post('/manajemen/update', 'MasterData\UserController@update')->name('updateUser');
+            Route::get('/manajemen/delete/{id}', 'MasterData\UserController@delete')->name('deleteUser');
         });
 
         Route::group(['prefix' => 'rawanbencana'], function () {
@@ -274,11 +274,19 @@ Route::get('map/kemantapan-jalan', 'MonitoringController@getKemantapanJalanAPI')
 
 Route::post('getSupData', 'MonitoringController@getSupData')->name('getSupData.filter');
 
+
+Route::view('debug/mail/disposisi', 'mail.notifikasiDisposisi');
+Route::view('debug/mail/tindaklanjut', 'mail.notifikasiTindakLanjut');
+
 Route::view('debug/push-notification', 'debug.push-notif');
+
+
 Route::view('debug/map-dashboard', 'debug.map-dashboard');
 Route::view('debug/map-filter', 'debug.map-filter');
 Route::view('coba-map', 'debug.coba-map');
 Route::view('map-progress-mingguan', 'debug.map-progress-mingguan');
 Route::view('map-ruas-jalan', 'debug.map-ruas-jalan');
 
-Route::get('debug', 'Backup\DebugController@index');
+Route::get('debug', 'Backup\DebugController@debug');
+
+

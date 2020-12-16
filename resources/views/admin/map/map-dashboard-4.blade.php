@@ -1,186 +1,482 @@
-@extends('landing.template')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <link rel="icon" href="{{ asset('assets/images/favicon/favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/icon/feather/css/feather.css') }}">
 
-@section('title') | {{$uptd->nama}} @endsection
+    <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/prism.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/chosen.css') }}">
 
-@section('head')
-{{-- <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/style.css') }}"> --}}
-{{-- <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/prism.css') }}"> --}}
-<link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/chosen.css') }}">
-<link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
-<meta name="csrf-token" content="{{ csrf_token() }}" />
-@endsection
+    <title>Map Dashboard</title>
+    <style>
 
-@section('body')
 
-<section id="main-banner-page" class="position-relative page-header service-detail-header section-nav-smooth parallax">
-    <div class="overlay overlay-dark opacity-7 z-index-1"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 offset-lg-2">
-                <div class="page-titles whitecolor text-center padding_top padding_bottom">
-                    <h2 class="font-xlight">UPTD</h2>
-                    <h2 class="font-bold pb-4">{{$uptd->altnama}}</h2>
-                    <h3 class="text-capitalize font-xlight">{{$uptd->deskripsi}}</h3>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            z-index: -1;
+        }
+        #showFilter{
+          position: absolute;
+          top: 15px;
+          right: 15px;
+        }
+        #showFilter button {
+          width: 32px;
+          height: 32px;
+          background-color: white;
+          border: none;
+          outline: none;
+          cursor: pointer;
+        }
+        #filter {
+          position: fixed;
+          padding: 20px;
+          top: 15px;
+          right: 55px;
+          width: 300px;
+          max-height: 500px;
+          overflow-y: scroll;
+          transform: translate(1200px, 0);
+          transition: transform 0.3s ease-in-out;
+        }
+        #filter.open {
+          transform: translate(0, 0);
+        }
+        #filter .form-group > *{
+          font-size: 13px;
+          margin:0px;
+        }
+        #logo {
+        display: block;
+        position: absolute;
+        top: 30px;
+        right: 80px;
+        }
+        #showBaseMaps {
+            position: absolute;
+          top: 47.5px;
+          right: 15px;
+        }
+        #showBaseMaps button {
+            width: 32px;
+          height: 32px;
+          background-color: white;
+          border: none;
+          outline: none;
+          cursor: pointer;
+        }
+        #fullscreen{
+          position: absolute;
+          top: 81px;
+          right: 15px;
+        }
+        #fullscreen button {
+            width: 32px;
+          height: 32px;
+          background-color: white;
+          border: none;
+          outline: none;
+          cursor: pointer;
+        }
+        .form-group {
+            margin-bottom: 1px;
+        }
+        #back {
+            position: absolute;
+            top: 114px;
+            right: 15px;
+        }
+        #back button {
+            width: 32px;
+          height: 32px;
+          background-color: white;
+          border: none;
+          outline: none;
+          cursor: pointer;
+        }
+        #baseMaps {
+          position: fixed;
+          padding: 15px;
+          top: 15px;
+          right: 55px;
+          width: 320px;
+          max-height: 500px;
+          transform: translate(1200px, 0);
+          transition: transform 0.3s ease-in-out;
+          overflow-y: scroll;
+
+        }
+        #baseMaps.open {
+          transform: translate(0, 0);
+        }
+        #baseMaps .listMaps ul.row {
+            display: flex;
+        }
+        #baseMaps .listMaps ul li{
+            padding: 0;
+            margin: 5px;
+            list-style: none;
+        }
+        #baseMaps .listMaps ul li button{
+            border: 1px solid #222;
+            padding: 0;
+        }
+        #baseMaps .listMaps ul li button:hover {
+            border: 3px solid green;
+        }
+        #baseMaps .listMaps ul li button:focus {
+            border: 3px solid green;
+        }
+        #baseMaps .listMaps ul li img{
+            display: block;
+            width: 84px;
+            background-position: center;
+            object-fit: cover;
+        }
+        #legend {
+            display: block;
+            position: fixed;
+            bottom: 20px;
+            left: 15px;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 200px;
+            font-size: 15px;
+            color: #eee;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        .strip {
+            max-width: 100%;
+            height: 3px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+</head>
+<body>
+    <div id="viewDiv"></div>
+    <div id="showFilter">
+      <button data-toggle="tooltip" data-placement="right" title="Fitur Filter">
+        <i class="feather icon-list"></i>
+      </button>
+    </div>
+    <div id="showBaseMaps">
+        <button data-toggle="tooltip" data-placement="right" title="Fitur Filter">
+            <i class="feather icon-map"></i>
+        </button>
+    </div>
+    <div id="fullscreen">
+        <button data-toggle="tooltip" data-placement="right" title="Fullscreen / Normal">
+            <i class="feather icon-maximize full-card"></i>
+        </button>
+    </div>
+    <div id="back">
+        <a href="{{ url('/admin/monitoring/proyek-kontrak') }}">
+            <button data-toggle="tooltip" data-placement="right" title="Kembali kehalaman Sebelumnya">
+                <i class="feather icon-arrow-left"></i>
+            </button>
+        </a>
+    </div>
+    <div id="logo">
+        <img width="200" class="img-fluid" src="{{ asset('assets/images/brand/text_putih.png')}}" alt="Logo DBMPR">
+    </div>
+    <div id="legend">
+        <div class="ruas-jalan mb-2">
+            <div class="row">
+                <div class="col-3 pr-0">
+                    <div class="strip mt-2 bg-warning"></div>
                 </div>
+                <div class="col">Jalan Tol</div>
+            </div>
+            <div class="row">
+                <div class="col-3 pr-0">
+                    <div class="strip mt-2 bg-white"></div>
+                </div>
+                <div class="col">Kabupaten</div>
+            </div>
+            <div class="row">
+                <div class="col-3 pr-0">
+                    <div class="strip mt-2 bg-success"></div>
+                </div>
+                <div class="col">Provinsi</div>
+            </div>
+            <div class="row">
+                <div class="col-3 pr-0">
+                    <div class="strip mt-2 bg-danger"></div>
+                </div>
+                <div class="col">Nasional</div>
+            </div>
+        </div>
+        <div class="general">
+            <div class="row">
+                <div class="col-3">
+                    <img width="25px" src="{{ asset('assets/images/marker/rawanbencana.png')}}" alt="Rawan Bencana">
+                </div>
+                <div class="col"><p>Rawan Bencana</p></div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <img width="25px" src="{{ asset('assets/images/marker/pembangunan.png')}}" alt="Pembangunan">
+                </div>
+                <div class="col"><p>Pembangunan</p></div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <img width="25px" src="{{ asset('assets/images/marker/peningkatan.png')}}" alt="Peningkatan">
+                </div>
+                <div class="col"><p>Peningkatan</p></div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <img width="25px" src="{{ asset('assets/images/marker/rehabilitasi.png')}}" alt="Rehabilitasi">
+                </div>
+                <div class="col"><p>Rehabilitasi</p></div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <img width="25px" src="{{ asset('assets/images/marker/pemeliharaan.png')}}" alt="Pemeliharaan">
+                </div>
+                <div class="col"><p>Pemeliharaan</p></div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <img width="25px" src="{{ asset('assets/images/marker/vehiclecounting.png')}}" alt="vehicle Counting">
+                </div>
+                <div class="col"><p>Vehicle Counting</p></div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <img width="25px" src="{{ asset('assets/images/marker/jembatan.png')}}" alt="jembatan">
+                </div>
+                <div class="col"><p>Jembatan</p></div>
             </div>
         </div>
     </div>
-</section>
-<!--Page Header ends -->
-
-<!-- main -->
-<main class="container-fluid bglight">
-    <!-- content -->
-    <section id="content" class="row">
-        <div id="features" class="col-lg-4">
-
-            <div class="container-fluid">
-                <div class="row whitebox top30">
-                    <div class="col-lg-12 col-md-12">
-                        <div class="widget heading_space text-center text-md-left">
-                            <div class="sidebar-header mb-4 text-center">
-                                <img src="{{asset('assets/images/brand/jabar.png')}}">
-                                <h3>{{$uptd->nama}}</h3>
-                                <h6>{{$uptd->altnama}}</h6>
-                            </div>
-                            <div id="filter" class="bg-light">
-                                <div class="container">
-                                <div id="preloader" style="display:none">Loading...</div>
-                                    <form>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <label for="kegiatan">UPTD</label>
-                                                </div>
-                                                <div class="col-12">
-                                                    <select data-placeholder="Pilih UPTD" multiple class="chosen-select chosen-select-uptd w-100" id="uptd">
-                                                        <option value=""></option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <label for="uptdSpp">SPP / SUP</label>
-                                                </div>
-                                                <div class="col-12">
-                                                    <select id="spp_filter" data-placeholder="Pilih UPTD dengan SPP"  class="chosen-select w-100" multiple tabindex="6">
-                                                        <option value=""></option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <label for="kegiatan">Kegiatan</label>
-                                                </div>
-                                                <div class="col-12">
-                                                    <select data-placeholder="Pilih kegiatan" multiple class="chosen-select w-100" tabindex="8" id="kegiatan">
-                                                        <option value="ruasjalan">Ruas Jalan</option>
-                                                        <option value="pembangunan">Pembangunan</option>
-                                                        <option value="peningkatan">Peningkatan</option>
-                                                        <option value="rehabilitasi">Rehabilitasi</option>
-                                                        <option value="jembatan">Jembatan</option>
-
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <label for="basemap">Basemap</label>
-                                                </div>
-                                                <div class="col-12">
-                                                    <select data-placeholder="Basemap..." class="chosen-select form-control" id="basemap" tabindex="-1">
-                                                        <option value="streets">Street</option>
-                                                        <option value="hybrid" selected>Hybrid</option>
-                                                        <option value="satellite">Satelite</option>
-                                                        <option value="topo">Topo</option>
-                                                        <option value="gray">Gray</option>
-                                                        <option value="national-geographic">National Geographic</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <label for="exampleFormControlSelect1">Zoom</label>
-                                                </div>
-                                                <div class="col-12">
-                                                    <select class="chosen-select form-control" id="zoom">
-                                                        <option value="5">5</option>
-                                                        <option value="6">6</option>
-                                                        <option value="7">7</option>
-                                                        <option value="8" selected>8</option>
-                                                        <option value="9">9</option>
-                                                        <option value="10">10</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+    <div id="filter" class="bg-white">
+        <div id="preloader" style="display:none">
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+            </div>
+        </div>
+        <form class="py-3">
+            {{-- <div class="row">
+                <div class="col">
+                    <button type="button" class="btn btn-sm btn-block btn-secondary clustering">Disable Clustering</button>
+                </div>
+            </div>
+            <hr> --}}
+            <div class="form-group">
+                <label for="kegiatan"><i class="feather icon-target text-primary"></i> UPTD</label>
+                <select class="form-control chosen-select chosen-select-uptd" id="uptd" multiple data-placeholder="Pilih UPTD">
+                    <option value=""></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="uptdSpp"><i class="feather icon-corner-down-right text-danger"></i> SPP / SUP</label>
+                <select id="spp_filter" data-placeholder="Pilih UPTD dengan SPP"  class="chosen-select" multiple tabindex="6">
+                    <option value=""></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="kegiatan"><i class="feather icon-activity text-warning"></i> Kegiatan</label>
+                <select data-placeholder="Pilih kegiatan" multiple class="chosen-select" tabindex="8" id="kegiatan">
+                    <option value="ruasjalan">Ruas Jalan</option>
+                    <option value="pembangunan">Pembangunan</option>
+                    <option value="peningkatan">Peningkatan</option>
+                    <option value="rehabilitasi">Rehabilitasi</option>
+                    <option value="jembatan">Jembatan</option>
+                    <option value="datarawanbencana">Data Rawan Bencana</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="proyek"><i class="feather icon-calendar text-success"></i> Proyek Kontrak</label>
+                <select class="chosen-select form-control" id="proyek" data-placeholder="Pilih kegiatan" multiple tabindex="4">
+                    <option value="onprogress">On-Progress</option>
+                    <option value="critical">Critical Contract</option>
+                    <option value="offprogress">Off Progress</option>
+                    <option value="finish">Finish</option>
+                </select>
+            </div>
+            <!-- <div class="form-group">
+                <label for="basemap">Basemap</label>
+                <select data-placeholder="Basemap..." class="chosen-select form-control" id="basemap" tabindex="-1">
+                    <option value="streets">Street</option>
+                    <option value="hybrid" selected>Hybrid</option>
+                    <option value="satellite">Satelite</option>
+                    <option value="topo">Topo</option>
+                    <option value="gray">Gray</option>
+                    <option value="national-geographic">National Geographic</option>
+                </select>
+            </div> -->
+            <div class="form-group">
+                <label for="exampleFormControlSelect1"><i class="feather icon-zoom-in"></i> Zoom</label>
+                <select class="chosen-select form-control" id="zoom">
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8" selected>8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+            </div>
+        </form>
+    </div>
+    <div id="baseMaps" class="bg-white">
+            {{-- <div class="row">
+                <div class="col">
+                    <h6>Tipe Maps</h6>
+                </div>
+                <div class="col p-0">
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-success active">
+                            <input type="radio" name="options" id="option1" autocomplete="off" checked>2D
+                        </label>
+                        <label class="btn btn-success">
+                            <input type="radio" name="options" id="option2" autocomplete="off"> 3D
+                        </label>
                     </div>
                 </div>
             </div>
-
-        </div>
-        <div id="wrapper" class="col-lg-8">
-            <!--Page Header-->
-            <section id="main-banner-page" class="pb-4 position-relative page-header service-detail-header section-nav-smooth parallax">
-                <div class="container">
-                    <div class="gradient-bg title-wrap">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 whitecolor">
-                                <h3 class="float-left">{{$uptd->altnama}}</h3>
-                                <ul class="breadcrumb top10 bottom10 float-right">
-                                    <li class="breadcrumb-item hover-light"><a href="{{url('')}}">Home</a></li>
-                                    <li class="breadcrumb-item hover-light">{{$uptd->altnama}}</li>
-                                </ul>
-                            </div>
-                        </div>
+            <hr> --}}
+            <div class="listMaps">
+                <div class="row mb-4">
+                    <div class="col">
+                       <h6>Tampilan jenis maps</h6>
                     </div>
                 </div>
-            </section>
-            <!--Page Header ends -->
-
-            <!-- Services us -->
-            <section id="our-services" class="pt-5 bglight">
-                <div class="container">
-                    <div class="row whitebox top15">
-                        <div class="col-lg-12 col-md-12">
-                            <div class="widget heading_space text-center text-md-left">
-                                <h3 class="darkcolor font-normal bottom15">DBMPR</h3>
-                                <p class="bottom30">Sistem Pengendalian Jalan dan Jembatan Dinas Bina Marga dan Penataan Ruang (DBMPR) merupakan sebuah aplikasi WebGIS yang dikembangkan sebagai media pelaporan dan penyampaian informasi spasial pembangunan infrastruktur DBMPR.</p>
-                                <div class="col-12 px-0">
-                                    <div class="w-100">
-                                        <div class="full-map short-map" id="viewDiv" style="max-height: 567px"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!-- Services us ends -->
-        </div>
+                <ul class="row">
+                    <li>
+                        <button class="baseMapBtn" data-map="streets">
+                            <img _ngcontent-btg-c5="" alt="Rupa Bumi Indonesia" title="Rupa Bumi Indonesia"
+                            src="https://portal.ina-sdi.or.id/arcgis/rest/services/RBI/Basemap/MapServer/info/thumbnail">
+                        </button>
+                    </li>
+                    <li>
+                        <button class="baseMapBtn" data-map="gray">
+                            <img _ngcontent-pmm-c5="" alt="Cartodb Light All" title="Cartodb Light All"
+                            src="https://satupeta-dev.digitalservice.id/assets/img/basemap-thumbnail/cartodb_light.png">
+                        </button>
+                    </li>
+                    <li>
+                        <button class="baseMapBtn" data-map="streets-night-vector">
+                            <img _ngcontent-vgg-c5="" alt="Cartodb Dark All" title="Streets Night Vector"
+                            src="https://satupeta-dev.digitalservice.id/assets/img/basemap-thumbnail/cartodb_dark.png">
+                        </button>
+                    </li>
+                    <li>
+                        <button class="baseMapBtn" data-map="national-geographic">
+                            <img _ngcontent-vgg-c5="" alt="National Geographic" title="National Geographic"
+                            src="https://js.arcgis.com/4.14/esri/images/basemap/national-geographic.jpg">
+                        </button>
+                    </li>
+                    <li>
+                        <button class="baseMapBtn" data-map="topo">
+                            <img _ngcontent-lqn-c5="" alt="Topographic" title="Topographic"
+                            src="https://satupeta-dev.digitalservice.id/assets/img/basemap-thumbnail/topo.png"></button></li>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="baseMapBtn" data-map="dark-gray">
+                            <img _ngcontent-lqn-c5="" alt="Dark Gray" title="Dark Gray"
+                            src="https://js.arcgis.com/4.14/esri/images/basemap/dark-gray.jpg">
+                        </button>
+                    </li>
+                    <li>
+                        <button class="baseMapBtn" data-map="osm">
+                            <img _ngcontent-lqn-c5="" alt="Open Street Map" title="Open Street Map"
+                            src="https://js.arcgis.com/4.14/esri/images/basemap/osm.jpg">
+                        </button>
+                    </li>
+                    <li>
+                        <button class="baseMapBtn" data-map="hybrid">
+                            <img _ngcontent-lqn-c5="" alt="hybrid" title="hybrid"
+                            src="https://js.arcgis.com/4.14/esri/images/basemap/hybrid.jpg">
+                        </button>
+                    </li>
+                    <li>
+                        <button class="baseMapBtn" data-map="terrain">
+                            <img _ngcontent-lqn-c5="" alt="terrain" title="terrain"
+                            src="https://js.arcgis.com/4.14/esri/images/basemap/terrain.jpg">
+                        </button>
+                    </li>
+                </ul>
+            </div>
     </div>
-    <!-- content ends -->
+</body>
+<script>
+  // tonggle filter
+  const showFilterElmnt = document.querySelector("#showFilter");
+  const filter = document.querySelector("#filter");
+  const mainElement = document.querySelector("#viewDiv");
+  const showBaseMapsElmnt = document.querySelector("#showBaseMaps");
+  const baseMaps = document.querySelector("#baseMaps");
 
-</main>
-<!-- main ends -->
-@endsection
-@section('script')
+  //create chevron elmn
+  let chevron = document.createElement('i');
+  chevron.setAttribute('class', 'feather icon-chevrons-right')
+
+  showFilterElmnt.addEventListener("click", event => {
+      filter.classList.toggle("open");
+      event.stopPropagation();
+  });
+
+  showBaseMapsElmnt.addEventListener("click", event => {
+      baseMaps.classList.toggle("open");
+      event.stopPropagation();
+  });
+
+  mainElement.addEventListener("click", event => {
+    filter.classList.remove("open");
+    baseMaps.classList.remove("open");
+    event.stopPropagation();
+  })
+
+  //toggle fullscreen
+  function getFullscreenElement() {
+      return document.fullscreenElement
+        || document.webkitFullscreenElement
+        || document.mozFullscreenElement
+        || document.msFullscreenElement;
+  }
+
+  function toggleFullscreen() {
+      if(getFullscreenElement()) {
+        document.exitFullscreen();
+      } else {
+        document.documentElement.requestFullscreen().catch((e) => {
+          console.log(e);
+        });
+      }
+  }
+
+  const fullScreenElemn =  document.querySelector('#fullscreen');
+  fullScreenElemn.addEventListener('click', () => {
+    toggleFullscreen();
+  });
+
+// <!-- enable clustering -->
+  const clusteringElmn = document.querySelector('.clustering');
+</script>
+
+<!-- chosen -->
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="https://js.arcgis.com/4.17/"></script>
 
 <script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/chosen.jquery.js') }}" type="text/javascript"></script>
 <script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/prism.js') }}" type="text/javascript" charset="utf-8"></script>
+
 <script>
     function fillSUP(uptd){
         return new Promise(function (resolve, reject) {
@@ -203,7 +499,7 @@
                             select +='';
                             for(let j=0; j<spp.length; j++){
                                 if(len[i] == spp[j].UPTD) {
-                                    select +='<option value="'+spp[j].SUP+'" selected>'+spp[j].SUP+'</option>';
+                                    select +='<option '+ 'value="'+spp[j].SUP+'" selected>'+spp[j].SUP+'</option>';
                                 }
                             }
                             select +='</optgroup>';
@@ -235,9 +531,15 @@
     }
     function initFilter(){
         $("#uptd").empty();
-        const slug = `{{ $uptd->slug }}`;
-        select = `<option value="${slug}">UPTD ${slug.replace('uptd','')}</option>`;
-
+        const roleUptd = `{{ Auth::user()->internalRole->uptd }}`;
+        select = "";
+        if(roleUptd == ""){
+            for(let i=1; i <= 6; i++){
+                select += `<option value="uptd${i}">UPTD ${i}</option>`;
+            }
+        }else{
+            select += `<option value="${roleUptd}">UPTD ${roleUptd.replace('uptd','')}</option>`;
+        }
         $('#uptd').html(select).trigger('liszt:updated');
         $('#uptd').trigger("chosen:updated");
 
@@ -275,7 +577,6 @@
         }
         return result;
     }
-
     $(document).ready(function () {
         initFilter();
 
@@ -285,21 +586,19 @@
             }
         });
 
+        let basemap = "hybrid";
+
         const config = {
-            '.chosen-select'           : {},
+            '.chosen-select'           : { width: '100%', padding: '0'},
             '.chosen-select-deselect'  : { allow_single_deselect: true },
             '.chosen-select-no-single' : { disable_search_threshold: 10 },
             '.chosen-select-no-results': { no_results_text: 'Oops, nothing found!' },
             '.chosen-select-rtl'       : { rtl: true },
             '.chosen-select-width'     : { width: '95%' }
         };
-
-        let basemap = "hybrid";
-
         for (let selector in config) {
             $(selector).chosen(config[selector]);
         }
-
         $("#spp_filter, #kegiatan").chosen().change(function(){
             const sup = $("#spp_filter").val();
             const kegiatan = $("#kegiatan").val();
@@ -338,13 +637,8 @@
                 const view = new MapView({
                     container: "viewDiv",
                     map: map,
-                    center: [<?= $uptd_mapdata['ctr_long'] ?>, <?= $uptd_mapdata['ctr_lat'] ?>], // longitude, latitude
-                    extent: {
-                        ymin: <?= $uptd_mapdata['ctr_ext'][0] ?>,
-                        ymax: <?= $uptd_mapdata['ctr_ext'][1] ?>,
-                        xmin: <?= $uptd_mapdata['ctr_ext'][2] ?>,
-                        xmax: <?= $uptd_mapdata['ctr_ext'][3] ?>
-                    }
+                    center: [107.6191, -6.9175], // longitude, latitude
+                    zoom: 9
                 });
 
                 const gsvrUrl = "{{ env('GEOSERVER') }}";
@@ -421,8 +715,8 @@
                 if ($.inArray('kemantapanjalan', $('#kegiatan').val()) >= 0 && $('#uptd').val().length != 0) {groupLayer.add(kemantapanjalanLayer);} // dimz-add
                 map.add(groupLayer);
 
-                $("#basemap").change(function(event){
-                    basemap = $(this).val();
+                $(".baseMapBtn").click(function(event){
+                    basemap = $(this).data('map');
                     map.basemap = basemap;
                 });
                 $("#zoom").change(function(){
@@ -1572,4 +1866,4 @@
         getMapData("","");
     });
 </script>
-@endsection
+</html>

@@ -165,6 +165,7 @@
     </style>
     <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <script src='https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js'></script>
 </head>
 
 <body>
@@ -488,7 +489,8 @@
                     <option value="pemeliharaan">Pemeliharaan</option>
                     <option value="vehiclecounting">Vehicle Counting</option>
                     <option value="kemantapanjalan">Kemantapan Jalan</option>
-                    <option value="jembatan">Jembatan</option>`;
+                    <option value="jembatan">Jembatan</option>
+                    <option value="datarawanbencana">Data Rawan Bencana</option>`;
         $('#kegiatan').html(kegiatan).trigger('liszt:updated');
         $('#kegiatan').trigger("chosen:updated");
 
@@ -1974,9 +1976,35 @@
                     width: "24px",
                     height: "24px"
                 };
+
+                // Aksi untuk siapkan video player dari selected feature
+                var prepVidAction = {
+                    title: "Lihat Video",
+                    id: "prep-vid",
+                    className: "feather icon-video"
+                };
                 const popupTemplate = {
                     title: "{RUAS_JALAN}",
                     content: [{
+                            type: "custom",
+                            outFields: ["*"],
+                            creator: (function(f) {
+                                const vidElem = document.createElement('video');
+                                vidElem.id = 'vid'; // + f.graphic.attributes.ID;
+                                // vidElem.class = 'hls-video';
+                                // vidElem.src = 'http://45.118.114.26:80/camera/Supratman.m3u8';
+                                // vidElem.type = 'application/x-mpegURL';
+                                vidElem.style = 'background:gray;';
+                                vidElem.width = '275';
+                                vidElem.height = '200';
+                                const vidSrcElem = document.createElement('source');
+                                vidSrcElem.src = 'http://45.118.114.26:80/camera/Supratman.m3u8';
+                                vidSrcElem.type = 'application/x-mpegURL';
+                                vidElem.appendChild(vidSrcElem);
+                                return vidElem;
+                            })
+                        },
+                        {
                             type: "fields",
                             fieldInfos: [{
                                     fieldName: "LAT",
@@ -2031,8 +2059,31 @@
                                 }
                             }]
                         }
-                    ]
+                    ],
+                    actions: [prepVidAction]
                 };
+                var player;
+
+                function prepVid() {
+                    // bila player udah didefinisikan sebelumnya
+                    if (typeof(player) != 'undefined') {
+                        player = null; // kosongkan pointer player
+                    }
+                    player = fluidPlayer(
+                        'vid', {
+                            layoutControls: {
+                                fillToContainer: true,
+                                autoPlay: true,
+                            }
+                        }
+                    );
+                }
+                view.popup.on("trigger-action", function(event) {
+                    if (event.action.id === "prep-vid") {
+                        prepVid();
+                        $('div.esri-popup__action[title="Lihat Video"]').remove();
+                    }
+                });
 
                 // cari dan hapus layer bila ada pd map
                 let veCountLayer = map.findLayerById('vc');
