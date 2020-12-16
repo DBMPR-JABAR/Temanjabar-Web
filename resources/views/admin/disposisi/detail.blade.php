@@ -85,8 +85,8 @@
                                         echo '<button class="btn btn-success  btn-mini btn-round">On Progress</button> ';
                                        
                                     } else if($detail_disposisi->status == "4") { 
-                                        echo "Finish";
-                                        echo '<button class="btn btn-primary  btn-mini btn-round">Finish</button> ';
+                                         
+                                        echo '<button class="btn btn-info  btn-mini btn-round">Finish</button> ';
                                       
                                     } 
                                     ?>

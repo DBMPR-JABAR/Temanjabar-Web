@@ -88,7 +88,7 @@ if($data->status == "1")  {
    
 } else if($data->status == "4") { 
     echo "Finish";
-    echo '<button class="btn btn-primary  btn-mini btn-round">Finish</button> ';
+    echo '<button class="btn btn-info  btn-mini btn-round">Finish</button> ';
   
 } 
                                 

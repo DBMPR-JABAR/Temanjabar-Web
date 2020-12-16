@@ -43,11 +43,11 @@ function stateHelper2($id){
 }
  
 function stateHelper($id,$unit=""){
-$state ="<table>";
+$state ="<table class='table' style='margin:0px;padding:0px'>";
     if($id == "1"){ 
-         $state .= '<tr><td>'.$unit.'</td><td> <button class="btn btn-info btn-mini btn-round">Submitted</button></td></tr>';
+         $state .= '<tr><td>'.$unit.'</td><td> <button class="btn btn-inverse btn-mini btn-round">Submitted</button></td></tr>';
     }else if($id == "2"){
-        $state .= '<tr><td>'.$unit.'</td><td> <button class="btn btn-info btn-mini btn-round"> Accepted</button></td></tr>';
+        $state .= '<tr><td>'.$unit.'</td><td> <button class="btn btn-primary btn-mini btn-round"> Accepted</button></td></tr>';
     }
     else if($id == "3"){
         $state .= '<tr><td>'.$unit.'</td><td> <button class="btn btn-success btn-mini btn-round">On Progress</button></td></tr>';

@@ -455,12 +455,20 @@ class DisposisiController extends Controller
 
         $this->saveHistory($request->disposisi_id,"3","Melaporkan Tindak Lanjut");
 
-        $datad['status'] = '3';
+        
+         
+
+        $this->updateDisposisiPenanggungJawabStatus($request->disposisi_id,$request->status );  
+       
+        $validate = $this->validateStateParent($request->disposisi_id);        
+        if($validate == true){
+            $datad['status'] = '4';
+        } else {
+            $datad['status'] = '3';
+        }
         DB::table('disposisi')->where('id',$request->disposisi_id)->update($datad);
-        $this->updateDisposisiPenanggungJawabStatus($request->disposisi_id,"3"); 
 
-        $email['disposisi_code'] = DB::table('disposisi')->where('id',$request->disposisi_id)->first()->disposisi_code;
-
+        $email['disposisi_code'] = DB::table('disposisi')->where('id',$request->disposisi_id)->first()->disposisi_code; 
         $email['pengirim'] = $this->getPengirim(Auth::user()->id);
         $email['type_mail'] = "TindakLanjut";
         $email['mail_to'] =  $this->getParentEmail(Auth::user()->internal_role_id);
@@ -484,6 +492,16 @@ class DisposisiController extends Controller
     }
 
 
+    public function validateStateParent($id){ 
+        $itemRolePJ = DB::table('disposisi_penanggung_jawab')->where('disposisi_code', $this->getDisposisiCodeById($id) )->get()->count();
+        $itemRolePJSelesai = DB::table('disposisi_penanggung_jawab')->where('disposisi_code', $this->getDisposisiCodeById($id) )->where('status', "4")->get()->count();
+        if($itemRolePJSelesai == $itemRolePJ) {
+            return true;
+        }else {
+            return false;
+        }
+
+    }
     public function getParentEmail($role_id){
         $role = Role::where('id',$role_id)->first();
         $parent_id = $role->parent_id;
