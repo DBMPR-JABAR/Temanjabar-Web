@@ -294,6 +294,20 @@ class DisposisiController extends Controller
         return $msg;
     }
 
+    public function updateDisposisi(Request $request){
+         
+        $data['dari'] = $request->dari;
+        $data['perihal'] = $request->perihal;
+        $data['tgl_surat'] = $request->tgl_surat;
+        $data['no_surat'] = $request->no_surat;
+        $data['tanggal_penyelesaian'] = $request->tanggal_penyelesaian;
+        DB::table('disposisi') 
+        ->where('id',$request->id)
+        ->update($data);
+        $color = "success";
+        $msg = "Data Berhasil Diperbaharui";
+        return back()->with(compact('color', 'msg')); 
+    } 
 
     public function create(Request $request)
     {
@@ -494,6 +508,34 @@ class DisposisiController extends Controller
                                            ->update($datapj);
     }
 
+    public function edit($id){
+        $disposisi_kepada = "";
+        $jenis_instruksi_select = "";
+        $disposisi = DB::table('disposisi')->where('id','=',$id)->first(); 
+        $parent = DB::table('user_role')->select('parent_id')->where('id','=', Auth::user()->internal_role_id)->first();
+        $user_role = DB::table('user_role')->select('id', 'keterangan')
+         ->where('parent_id', Auth::user()->internal_role_id) ;
+      //   ->orWhere('parent_id',$parent->parent_id);
+
+        $listUserRole = $user_role->get();
+        foreach ($listUserRole as $role) {
+            $disposisi_kepada .= '<option value="' . $role->id . '">' . $role->keterangan . '</option>';
+        }
+        $jenisInstruksi = DB::table('master_disposisi_instruksi')->select('id', 'jenis_instruksi');
+        $listJenisInstruksi = $jenisInstruksi->get();
+        foreach ($listJenisInstruksi as $instruksi) {
+            $jenis_instruksi_select .= '<option value="' . $instruksi->id . '">' . $instruksi->jenis_instruksi . '</option>';
+        }
+
+
+        return view('admin.disposisi.edit',
+            [
+                'disposisi' => $disposisi,
+                'disposisi_kepada' => $disposisi_kepada,
+                'jenis_instruksi_select' => $jenis_instruksi_select
+            ]);
+
+    }
     public function automaticparentUpdate($id, $role_id){
 
         $parent_id = $this->getParentByRoleId($role_id);
