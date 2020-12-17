@@ -1031,7 +1031,8 @@
 
                     rawanBencanaLayer.add(rawanGempaBumi(), 1);
                     rawanBencanaLayer.add(rawanGerakanTanah(), 0);
-
+                    rawanBencanaLayer.add(rawanLongsor(), 3);
+                    
                     map.add(rawanBencanaLayer);
                 }
 
@@ -1092,6 +1093,52 @@
                     }
                     return rgt2;
                 }
+
+                function rawanLongsor() {
+                    const popupTemplate = {
+                        title: "{nm_ruas}",
+                        content: [{
+                            type: "fields",
+                            fieldInfos: [{
+                                    fieldName: "Shape",
+                                    label: "Shape"
+                                },
+                                {
+                                    fieldName: "OBJECTID",
+                                    label: "OBJECTID "
+                                },
+                                {
+                                    fieldName: "GRIDCODE",
+                                    label: "GRIDCODE"
+                                },
+                                {
+                                    fieldName: "kelas",
+                                    label: "kelas "
+                                },
+                                {
+                                    fieldName: "Shape_Leng",
+                                    label: "Shape_Leng "
+                                },
+                                {
+                                    fieldName: "Shape_Area",
+                                    label: "Shape_Area "
+                                }
+                            ]
+                        }]
+                    }
+                    let longsor = map.findLayerById('longsorId');
+                    if (!longsor) {
+                        longsor = new FeatureLayer({
+                            url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/SATUPETA_BPBD/Kebencanaan/MapServer/9",
+                            title: 'Longsor',
+                            id: 'longsorId',
+                            popupTemplate: popupTemplate
+                        });
+                        longsor.refresh();
+                    }
+                    return longsor;
+                }
+
             }
 
             function addKemantapanJalan() {
