@@ -280,6 +280,7 @@ Route::view('debug/mail/tindaklanjut', 'mail.notifikasiTindakLanjut');
 
 Route::view('debug/push-notification', 'debug.push-notif');
 
+Route::get('debug/pushnow', 'API\PushNotifController@debug');
 
 Route::view('debug/map-dashboard', 'debug.map-dashboard');
 Route::view('debug/map-filter', 'debug.map-filter');
