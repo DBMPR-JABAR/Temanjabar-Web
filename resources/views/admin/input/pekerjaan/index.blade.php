@@ -74,7 +74,7 @@
                                 <th>Foto (100%)</th>
                                 <th>Video</th>
                                 <th>Tanggal</th>
-                                <th style="min-width: 180px;">Aksi</th>
+                                <th style="min-width: 170px;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody id="bodyJembatan">
@@ -99,19 +99,19 @@
                                         <source src="{!! url('storage/pekerjaan/'.$data->video) !!}" type='video/*' Sorry, your browser doesn't support the video element.></video></td>
                                 <td>{{$data->tanggal}}</td>
 
-                                <td style="min-width: 180px;">
-                                    <div class="btn-group w-100" role="group" data-placement="top" title="" data-original-title=".btn-xlg">
+                                <td style="min-width: 170px;">
+                                    <div class="btn-group" role="group" data-placement="top" title="" data-original-title=".btn-xlg">
                                         @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
-                                        <a href="{{ route('editDataPekerjaan',$data->id_pek) }}" style="width: 30%;" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i>Edit</a>
-                                        <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}" style="width: 30%;" class="btn btn-warning btn-sm waves-effect waves-light"><i class="icofont icofont-list"></i>Material</a>
+                                        <a href="{{ route('editDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i></button></a>
+                                        <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Material"><i class="icofont icofont-list"></i></button></a>
                                         @endif
-                                    </div><br>
-                                    <div class="btn-group w-100 mx-auto" role="group" data-placement="top" title="" data-original-title=".btn-xlg">
+                                        <!-- </div><br> -->
+                                        <!-- <div class="btn-group w-100 mx-auto" role="group" data-placement="top" title="" data-original-title=".btn-xlg"> -->
                                         @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Delete"))
-                                        <a href="#delModal" data-id="{{$data->id_pek}}" data-toggle="modal" style="width: 30%;" class="btn btn-danger btn-sm waves-effect waves-light"><i class="icofont icofont-trash"></i>Hapus</a>
+                                        <a href="#delModal" data-id="{{$data->id_pek}}" data-toggle="modal"><button class="btn btn-danger btn-sm waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
                                         @endif
                                         @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
-                                        <a href="#submitModal" data-id="{{$data->id_pek}}" data-toggle="modal" style="width: 30%;" class="btn btn-success btn-sm waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Submit</a>
+                                        <a href="#submitModal" data-id="{{$data->id_pek}}" data-toggle="modal"><button class="btn btn-success btn-sm waves-effect waves-light" data-toggle="tooltip" title="Submit"><i class="icofont icofont-check-circled"></i></button></a>
                                         @endif
                                     </div>
                                 </td>

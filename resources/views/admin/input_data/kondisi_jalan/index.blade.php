@@ -69,7 +69,7 @@
                                 <th>Sampai dengan KM</th>
                                 <th>Lebar rata2 (meter)</th>
                                 <th>Dokumentasi</th>
-                                <th style="min-width: 130px;">Aksi</th>
+                                <th style="min-width: 75px;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody id="bodyJembatan">
@@ -84,13 +84,13 @@
                                 <td>{{$data->sampai_km}}</td>
                                 <td>{{$data->lebar_rata_rata}}</td>
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/'.$data->foto_dokumentasi) !!}" alt="" srcset=""></td>
-                                <td style="min-width: 130px;">
+                                <td style="min-width: 75px;">
                                     <div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">
                                         @if (hasAccess(Auth::user()->internal_role_id, "Kondisi Jalan", "Update"))
-                                        <a href="{{ route('editIDKondisiJalan',$data->id) }}" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i>Edit</a>
+                                        <a href="{{ route('editIDKondisiJalan',$data->id) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i></button></a>
                                         @endif
                                         @if (hasAccess(Auth::user()->internal_role_id, "Kondisi Jalan", "Delete"))
-                                        <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-danger btn-sm waves-effect waves-light"><i class="icofont icofont-trash"></i>Hapus</a>
+                                        <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal"><button class="btn btn-danger btn-sm waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
                                         @endif
                                     </div>
                                 </td>
