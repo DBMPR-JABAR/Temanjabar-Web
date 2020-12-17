@@ -176,9 +176,9 @@ class DisposisiController extends Controller
                             ->get();
             foreach($parents as $parent) {
                 $unit.="   <tr>  ".   stateHelper($parent->status,$parent->keterangan,"1") ."</tr>";
-            } 
             }
-  
+            }
+
 
         return view('admin.disposisi.detail',
                 [
@@ -204,17 +204,20 @@ class DisposisiController extends Controller
         $this->saveHistory($id,"2","Menerima Disposisi");
 
         $disposisi = DB::table('disposisi')->where('id',$id)->first();
-  
-        $this->updateDisposisiPenanggungJawabStatus($id,"2");    
-        
+
+        $this->updateDisposisiPenanggungJawabStatus($id,"2");
+
+        $sumberDisposisi = User::where('id',$disposisi->created_by)->first();
+
         $mail['disposisi_code'] = $disposisi->disposisi_code;
         $mail['nama'] = Auth::user()->name;
         $mail['role'] = Auth::user()->internalRole->keterangan;
         $mail['type_mail'] ="Accepted";
-        $mail['mail_to'] = [User::where('id',$disposisi->created_by)->first()->email];
+        $mail['mail_to'] = [$sumberDisposisi->email];
         $mail['date_now'] = date('d-m-Y H:i:s');
 
         SendEmail::dispatch($mail);
+        pushNotification([$sumberDisposisi->id], "Disposisi", "Disposisi Telah Diterima Oleh ".$mail['role']);
 
         $color = "success";
         $msg = "Disposisi telah anda terima";
@@ -250,6 +253,14 @@ class DisposisiController extends Controller
         }
         return $users;
     }
+    public function getRecipientId($target){
+        $users = [];
+        for($i = 0; $i< count($target); $i++) {
+            $users = array_merge($users, User::where('internal_role_id',$target[$i])->pluck('id')->toArray());
+        }
+        return $users;
+    }
+
     public function saveJenisInstruksi($jenis,$code){
         for($i = 0; $i< count($jenis); $i++) {
             $data['disposisi_code'] = $code;
@@ -329,6 +340,7 @@ class DisposisiController extends Controller
         $disposisi['instruksi'] = "ditindaklanjuti";
 
         SendEmail::dispatch($disposisi);  //send notification
+        pushNotification($recipient, "Disposisi", "Anda Mendapatkan Disposisi Baru");
 
         $color = "success";
         $msg = "Berhasil Menambah Data Disposisi";
@@ -375,11 +387,11 @@ class DisposisiController extends Controller
                 $recipient = array_merge($recipient, $a);
 
                 $historyRecipient.= User::where('internal_role_id',$target[$i])->pluck('name').'('. Role::where('id',$target[$i])->pluck('keterangan') .')';
-                
+
 
         }
         $this->saveTargetDisposisiLevel($target,$code,"1","2");
-        
+
         if($request->file != null){
             $path = 'disposisi/tindak_lanjut/'.Str::snake(date("YmdHis").'_'.$request->file->getClientOriginalName());
             $request->file->storeAs('public/',$path);
@@ -406,6 +418,7 @@ class DisposisiController extends Controller
         $this->saveHistory($request->disposisi_id,"4","Melanjutkan Disposisi Pekerjaan kepada ".$historyRecipient);
 
         SendEmail::dispatch($disposisi);  //send notification
+        pushNotification($this->getRecipientId($target), "Disposisi", "Anda Mendapatkan Disposisi Baru");
 
 
 
@@ -456,14 +469,14 @@ class DisposisiController extends Controller
 
         $this->saveHistory($request->disposisi_id,"3","Melaporkan Tindak Lanjut");
 
-        
-         
 
-        $this->updateDisposisiPenanggungJawabStatus($request->disposisi_id,$request->status );  
-        if($request->status == "4") {        
+
+
+        $this->updateDisposisiPenanggungJawabStatus($request->disposisi_id,$request->status );
+        if($request->status == "4") {
             $this->automaticparentUpdate($request->disposisi_id,Auth::user()->internal_role_id);
         }
-        $validate = $this->validateStateParent($request->disposisi_id);        
+        $validate = $this->validateStateParent($request->disposisi_id);
         if($validate == true){
             $datad['status'] = '4';
         } else {
@@ -471,7 +484,7 @@ class DisposisiController extends Controller
         }
         DB::table('disposisi')->where('id',$request->disposisi_id)->update($datad);
 
-        $email['disposisi_code'] = DB::table('disposisi')->where('id',$request->disposisi_id)->first()->disposisi_code; 
+        $email['disposisi_code'] = DB::table('disposisi')->where('id',$request->disposisi_id)->first()->disposisi_code;
         $email['pengirim'] = $this->getPengirim(Auth::user()->id);
         $email['type_mail'] = "TindakLanjut";
         $email['mail_to'] =  $this->getParentEmail(Auth::user()->internal_role_id);
@@ -482,13 +495,15 @@ class DisposisiController extends Controller
         $email['date_now'] = date('d-m-Y H:i:s');
         SendEmail::dispatch($email);
 
+        pushNotification($this->getParentId(Auth::user()->internal_role_id), "Disposisi", "Anda Mendapatkan Disposisi Tindak Lanjut");
+
         $color = "success";
         $msg = "Berhasil Menambah Data Tindak Lanjut";
         return back()->with(compact('color', 'msg'));
     }
 
-    public function updateDisposisiPenanggungJawabStatus($id,$status) { 
-    $datapj['status'] = $status; 
+    public function updateDisposisiPenanggungJawabStatus($id,$status) {
+    $datapj['status'] = $status;
     DB::table('disposisi_penanggung_jawab')->where('disposisi_code',$this->getDisposisiCodeById($id))
                                            ->where('user_role_id',Auth::user()->internal_role_id)
                                            ->update($datapj);
@@ -497,16 +512,16 @@ class DisposisiController extends Controller
     public function automaticparentUpdate($id, $role_id){
 
         $parent_id = $this->getParentByRoleId($role_id);
-        if(!empty($parent_id)) { 
+        if(!empty($parent_id)) {
         $data["status"] = "4"; //selesai
         DB::table('disposisi_penanggung_jawab')
         ->where('disposisi_code', $this->getDisposisiCodeById($id) )
         ->where('user_role_id',$parent_id)
-        ->update($data); 
+        ->update($data);
         }
      }
 
-    public function validateStateParent($id){ 
+    public function validateStateParent($id){
         $itemRolePJ = DB::table('disposisi_penanggung_jawab')->where('disposisi_code', $this->getDisposisiCodeById($id) )->get()->count();
         $itemRolePJSelesai = DB::table('disposisi_penanggung_jawab')->where('disposisi_code', $this->getDisposisiCodeById($id) )->where('status', "4")->get()->count();
         if($itemRolePJSelesai == $itemRolePJ) {
@@ -522,8 +537,16 @@ class DisposisiController extends Controller
         $users = [];
         $users = array_merge($users, User::where('internal_role_id',$parent_id)->pluck('email')->toArray());
         return $users;
-
     }
+    public function getParentId($role_id)
+    {
+        $role = Role::where('id',$role_id)->first();
+        $parent_id = $role->parent_id;
+        $users = [];
+        $users = array_merge($users, User::where('internal_role_id',$parent_id)->pluck('id')->toArray());
+        return $users;
+    }
+
     public function getParentByRoleId($id){
         $role = Role::where('id',$id)->first();
         return $role->parent_id;
