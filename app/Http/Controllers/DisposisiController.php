@@ -312,9 +312,23 @@ class DisposisiController extends Controller
         $data['tgl_surat'] = $request->tgl_surat;
         $data['no_surat'] = $request->no_surat;
         $data['tanggal_penyelesaian'] = $request->tanggal_penyelesaian;
-        DB::table('disposisi') 
-        ->where('id',$request->id)
-        ->update($data);
+        $old = DB::table('disposisi')->where('id', $request->id)->first();
+
+
+        if ($request->file != null) {
+            $old->file ?? Storage::delete('public/' . $old->file);
+
+            $path = 'disposisi/'.Str::snake(date("YmdHis").'_'.$request->file->getClientOriginalName());
+            
+            $request->file->storeAs('public/', $path);
+            $data['file'] = $path;
+        }
+
+        $data['updated_by'] = Auth::user()->id;
+        $data['updated_date'] = date("Y-m-d H:i:s");
+        
+        DB::table('disposisi')->where('id',$request->id) ->update($data);
+        
         $color = "success";
         $msg = "Data Berhasil Diperbaharui";
         return back()->with(compact('color', 'msg')); 
