@@ -69,7 +69,7 @@
                                 <th>Foto (50%)</th>
                                 <th>Foto (100%)</th>
                                 <th>Video</th>
-                                <th style="min-width: 160px;">Aksi</th>
+                                <th style="min-width: 75px;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody id="bodyJembatan">
@@ -88,10 +88,10 @@
                                 <td><video width='150' height='100' controls>
                                         <source src="{!! url('storage/pekerjaan/'.$data->video) !!}" type='video/*' Sorry, your browser doesn't support the video element.></video></td>
 
-                                <td style="min-width: 160px;">
+                                <td style="min-width: 75px;">
                                     <div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">
-                                        <a href='http://www.google.com/maps/place/{{$data->lat}},{{$data->lng}}' target='_blank' class="btn btn-warning btn-sm waves-effect waves-light"><i class="icofont icofont-trash"></i>Lokasi</a>
-                                        <a href='https://www.google.com/maps/@?api=1&map_action=pano&viewpoint={{$data->lat}},{{$data->lng}}&heading=13&pitch=93&fov=80' target='_blank' class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-street-view"></i>StreetView</a>
+                                        <a href='http://www.google.com/maps/place/{{$data->lat}},{{$data->lng}}' target='_blank' data-toggle="tootip" title="Lokasi" class="btn btn-warning btn-sm waves-effect waves-light"><i class="icofont icofont-location-pin"></i></a>
+                                        <a href='https://www.google.com/maps/@?api=1&map_action=pano&viewpoint={{$data->lat}},{{$data->lng}}&heading=13&pitch=93&fov=80' target='_blank' data-toggle="tootip" title="StreetView" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-street-view"></i></a>
                                     </div>
                                 </td>
                             </tr>

@@ -75,7 +75,7 @@
                                 <th>Nilai Kontrak Perubahan</th>
                                 <th>Total Tambahan</th>
                                 <th>Total Sisa Lelang</th>
-                                <th style="min-width: 130px;">Aksi</th>
+                                <th style="min-width: 75px;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody id="bodyJembatan">
@@ -96,13 +96,13 @@
                                 <td>{{$data->nilai_kontrak_perubahan}}</td>
                                 <td>{{$data->total_tambahan}}</td>
                                 <td>{{$data->total_sisa_lelang}}</td>
-                                <td style="min-width: 130px;">
+                                <td style="min-width: 75px;">
                                     <div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">
                                         @if (hasAccess(Auth::user()->internal_role_id, "Data Paket", "Update"))
-                                        <a href="{{ route('editIDDataPaket',$data->kode_paket) }}" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i>Edit</a>
+                                        <a href="{{ route('editIDDataPaket',$data->kode_paket) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i></button></a>
                                         @endif
                                         @if (hasAccess(Auth::user()->internal_role_id, "Data Paket", "Delete"))
-                                        <a href="#delModal" data-id="{{$data->kode_paket}}" data-toggle="modal" class="btn btn-danger btn-sm waves-effect waves-light"><i class="icofont icofont-trash"></i>Hapus</a>
+                                        <a href="#delModal" data-id="{{$data->kode_paket}}" data-toggle="modal"><button class="btn btn-danger btn-sm waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
                                         @endif
                                     </div>
                                 </td>
