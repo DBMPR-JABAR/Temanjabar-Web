@@ -112,4 +112,35 @@ class PushNotifController extends Controller
         return $response;
     }
 
+    public function debug()
+    {
+        // $firebaseToken = UserPushNotification::whereNotNull('device_token')->pluck('device_token')->all();
+        $SERVER_API_KEY = 'AAAAKK9GKAE:APA91bELNXXSrX8VS-g7stPhlSLM_JP6JtzgFgkL0EyvPtk2qlCGWB0lAOteWN8SelfYoql5JuTI00bcD4ACcW2aHRr1WXudiwR9mtaEMwOehhtyCfMqIABa3PcijBDJbsyn-u9jPE1V';
+        $data = [
+            "registration_ids" => ['dW2na4eBS7-OpFPxwqyE6Z:APA91bHGb8PAmEMePnozk-MAX8SGm3_2mKkdeJFKNPNu7hhy5qvRF4RIDV3QFQwA8upiEbdFc9wePayegKoE2G1BI1pIvfxFguS5h55R4mLuQmzseSF0FsFd_yNvQBY89ASZs52EhhMT'],
+            "notification" => [
+                "title" => "Sample Notification",
+                "body" => "Lorem ipsum solor dit amet",
+            ],
+            "data" => [
+                "click_action" => "FLUTTER_NOTIFICATION_CLICK"
+            ]
+        ];
+        $dataString = json_encode($data);
+        $headers = [
+            'Authorization: key=' . $SERVER_API_KEY,
+            'Content-Type: application/json',
+        ];
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+        $response = curl_exec($ch);
+        return $response;
+    }
+
 }
