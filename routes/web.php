@@ -227,6 +227,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('update/{id}', 'InputData\ProgressPekerjaanController@updateDataProgress')->name('updateDataProgress');
             Route::post('create', 'InputData\ProgressPekerjaanController@createDataProgress')->name('createDataProgress');
             Route::get('delete/{id}', 'InputData\ProgressPekerjaanController@deleteDataProgress')->name('deleteDataProgress');
+            Route::get('json', 'InputData\ProgressPekerjaanController@json')->name('json');
         });
 
         Route::group(['prefix' => 'keuangan'], function () {
@@ -244,6 +245,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('update', 'InputData\KondisiJalanController@update')->name('updateIDKondisiJalan');
             Route::get('delete/{id}', 'InputData\KondisiJalanController@delete')->name('deleteIDKondisiJalan');
             Route::get('getRuasJalan', 'InputData\KondisiJalanController@getRuasJalan')->name('getRuasJalanKJ');
+            Route::get('json', 'InputData\KondisiJalanController@getRJ')->name('getRJ');
         });
 
         Route::group(['prefix' => 'data-paket'], function () {
@@ -253,6 +255,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('add', 'InputData\DataPaketController@add')->name('addIDDataPaket');
             Route::post('update', 'InputData\DataPaketController@update')->name('updateIDDataPaket');
             Route::get('delete/{id}', 'InputData\DataPaketController@delete')->name('deleteIDDataPaket');
+            Route::get('json', 'InputData\DataPaketController@json')->name('json');
         });
 
         Route::group(['prefix' => 'rekap'], function () {
@@ -261,6 +264,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('create', 'InputData\RekapController@createData')->name('createDataRekap');
             Route::post('update', 'InputData\RekapController@updateData')->name('updateDataRekap');
             Route::get('delete/{id}', 'InputData\RekapController@deleteData')->name('deleteDataRekap');
+            Route::get('json', 'InputData\RekapController@json')->name('json');
         });
     });
 

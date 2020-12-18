@@ -59,7 +59,7 @@
                 <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
                 @endif
                 <div class="dt-responsive table-responsive">
-                    <table id="dttable" class="table table-striped table-bordered able-responsive">
+                    <table id="progress-table" class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -77,7 +77,7 @@
                             </tr>
                         </thead>
                         <tbody id="bodyJembatan">
-                            @foreach ($pekerjaan as $data)
+                          <!--   @foreach ($pekerjaan as $data)
                             <tr>
                                 <td>{{$loop->index + 1}}</td>
                                 <td>{{$data->tanggal}}</td>
@@ -91,7 +91,6 @@
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/progresskerja/'.$data->foto) !!}" alt="" srcset=""></td>
                                 <td><video width='150' height='100' controls>
                                         <source src="{!! url('storage/progresskerja/'.$data->video) !!}" type='video/*' Sorry, your browser doesn't support the video element.></video></td>
-                                <!-- <td>{{$data->video}}</td> -->
                                 <td>{{$data->status}}</td>
                                 <td style="min-width: 75px;">
                                     <div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">
@@ -104,7 +103,7 @@
                                     </div>
                                 </td>
                             </tr>
-                            @endforeach
+                            @endforeach -->
                         </tbody>
                     </table>
                 </div>
@@ -367,6 +366,41 @@
             format: 'dd-mm-yyyy',
             autoclose: true,
         });
+
+         let table = $('#progress-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: 'progresskerja/json',
+            columns: [
+                {'mRender': function (data, type, full,meta) {
+                    return +meta.row +1;  
+                    }
+                },
+                { data: 'tanggal', name: 'tanggal' },
+                { data: 'penyedia_jasa', name: 'penyedia_jasa' },
+                { data: 'nama_paket', name: 'nama_paket' },
+                { data: 'rencana_temp', name: 'rencana_temp' },
+                { data: 'waktu_temp', name: 'waktu_temp' },
+                { data: 'nilai_kontrak', name: 'nilai_kontrak' },
+                { data: 'keuangan', name: 'keuangan' },
+                {'mRender': function (data, type, full) {
+                    return '<img class="img-fluid" style="max-width: 100px" src="'+`{{!! url('storage/') }}` +'/progresskerja/'+full['foto']+'" alt="" srcset="">';  
+                    }
+                },
+                {'mRender': function (data, type, full) {
+                    return '<video width="150" height="100" controls><source src="'+`{!! url('storage/'}}`+'/progresskerja/'+full['video'] +'" type="video/*" Sorry, your browser doesnt support the video element.></video>';  
+                    }
+                },
+                { data: 'status', name: 'status' },
+                { data: 'action', name: 'action' },
+            ]
+        });
+
+        table.on( 'order.dt search.dt', function () {
+            table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                cell.innerHTML = i+1;
+            } );
+        } ).draw();
     });
 
     function ubahOption() {
