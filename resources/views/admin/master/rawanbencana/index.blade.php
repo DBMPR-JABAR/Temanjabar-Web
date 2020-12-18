@@ -67,10 +67,10 @@
                                 <th>Daerah</th>
                                 <th>Keterangan</th>
                                 <th>Status</th>
-                                <th style="min-width: 75px;">Aksi</th>
+                                <th style="min-width: 100px;">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="bodyJembatan">
+                        <!-- <tbody id="bodyJembatan">
                             @foreach ($rawan as $data)
                             <tr>
                                 <td>{{$loop->index + 1}}</td>
@@ -92,7 +92,7 @@
                                 </td>
                             </tr>
                             @endforeach
-                        </tbody>
+                        </tbody> -->
                     </table>
                 </div>
             </div>
@@ -240,7 +240,7 @@
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
 <script>
     $(document).ready(function() {
-        $("#dttable").DataTable();
+        // $("#dttable").DataTable();
         $('#delModal').on('show.bs.modal', function(event) {
             const link = $(event.relatedTarget);
             const id = link.data('id');
@@ -249,6 +249,49 @@
             console.log(url);
             const modal = $(this);
             modal.find('.modal-footer #delHref').attr('href', url);
+        });
+
+        var table = $('#dttable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ url('admin/master-data/rawanbencana/json') }}",
+            columns: [{
+                    'mRender': function(data, type, full, meta) {
+                        return +meta.row + meta.settings._iDisplayStart + 1;
+
+                    }
+                },
+                {
+                    data: 'no_ruas',
+                    name: 'no_ruas'
+                },
+                {
+                    data: 'ruas_jalan',
+                    name: 'ruas_jalan'
+                },
+                {
+                    data: 'lokasi',
+                    name: 'lokasi'
+                },
+                {
+                    data: 'daerah',
+                    name: 'daerah'
+                },
+                {
+                    data: 'keterangan',
+                    name: 'keterangan'
+                },
+                {
+                    data: 'status',
+                    name: 'status'
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                },
+            ]
         });
     });
 

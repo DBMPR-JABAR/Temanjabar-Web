@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Yajra\Datatables\DataTables;
 
 class RawanBencanaController extends Controller
 {
@@ -91,5 +92,27 @@ class RawanBencanaController extends Controller
         $color = "success";
         $msg = "Berhasil Menghapus Data Rawan Bencana";
         return redirect(route('getDataBencana'))->with(compact('color', 'msg'));
+    }
+
+    public function json()
+    {
+        return DataTables::of(DB::table('master_rawan_bencana'))
+            ->addIndexColumn()
+            ->addColumn('action', function ($row) {
+                $btn = '<div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">';
+
+                if (hasAccess(Auth::user()->internal_role_id, "Rawan Bencana", "Update")) {
+                    $btn = $btn . '<a href="' . route('editDataBencana', $row->id) . '"><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>';
+                }
+
+                if (hasAccess(Auth::user()->internal_role_id, "Rawan Bencana", "Delete")) {
+                    $btn = $btn . '<a href="#delModal" data-id="' . $row->id . '" data-toggle="modal"><button data-toggle="tooltip" title="Hapus" class="btn btn-danger btn-sm waves-effect waves-light"><i class="icofont icofont-trash"></i></button></a>';
+                }
+                $btn = $btn . '</div>';
+
+                return $btn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
 }

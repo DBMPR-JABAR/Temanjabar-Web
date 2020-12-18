@@ -69,7 +69,7 @@
                                 <th>Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="bodyJembatan">
+                        <!-- <tbody id="bodyJembatan">
                             @foreach ($ruasJalan as $data)
                             <tr>
                                 <td>{{$loop->index + 1}}</td>
@@ -90,7 +90,7 @@
                                 </td>
                             </tr>
                             @endforeach
-                        </tbody>
+                        </tbody> -->
                     </table>
                 </div>
             </div>
@@ -290,9 +290,10 @@
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
+
 <script>
     $(document).ready(function() {
-        $("#dttable").DataTable();
+        // $("#dttable").DataTable();
         $('#delModal').on('show.bs.modal', function(event) {
             const link = $(event.relatedTarget);
             const id = link.data('id');
@@ -306,6 +307,45 @@
         // Format mata uang.
         $('.formatRibuan').mask('000.000.000.000.000', {
             reverse: true
+        });
+
+        var table = $('#dttable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ url('admin/master-data/ruas-jalan/json') }}",
+            columns: [{
+                    'mRender': function(data, type, full, meta) {
+                        return +meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                },
+                {
+                    data: 'id_ruas_jalan',
+                    name: 'id_ruas_jalan'
+                },
+                {
+                    data: 'nama_ruas_jalan',
+                    name: 'nama_ruas_jalan'
+                },
+                {
+                    data: 'sup',
+                    name: 'sup'
+                },
+                {
+                    data: 'lokasi',
+                    name: 'lokasi'
+                },
+                {
+                    data: 'panjang',
+                    name: 'panjang'
+                },
+
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                },
+            ]
         });
     });
 

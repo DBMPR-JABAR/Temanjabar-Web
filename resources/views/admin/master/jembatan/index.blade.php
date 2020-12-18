@@ -69,10 +69,10 @@
                                 <th>Lebar (meter)</th>
                                 <th>Ruas Jalan</th>
                                 <th>Foto</th>
-                                <th style="min-width: 80px;">Aksi</th>
+                                <th style="min-width: 100px;">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="bodyJembatan">
+                        <!-- <tbody id="bodyJembatan">
                             @foreach ($jembatan as $data)
                             <tr>
                                 <td>{{$loop->index + 1}}</td>
@@ -96,7 +96,7 @@
                                 </td>
                             </tr>
                             @endforeach
-                        </tbody>
+                        </tbody> -->
                     </table>
                 </div>
             </div>
@@ -285,7 +285,7 @@
 <script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
 <script>
     $(document).ready(function() {
-        $("#dttable").DataTable();
+        // $("#dttable").DataTable();
         $('#delModal').on('show.bs.modal', function(event) {
             const link = $(event.relatedTarget);
             const id = link.data('id');
@@ -304,6 +304,58 @@
         // Format untuk lat long.
         $('.formatLatLong').keypress(function(evt) {
             return (/^\-?[0-9]*\.?[0-9]*$/).test($(this).val() + evt.key);
+        });
+
+        var table = $('#dttable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ url('admin/master-data/jembatan/json') }}",
+            columns: [{
+                    'mRender': function(data, type, full, meta) {
+                        return +meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                },
+                {
+                    data: 'nama_jembatan',
+                    name: 'nama_jembatan'
+                },
+                {
+                    data: 'lokasi',
+                    name: 'lokasi'
+                },
+                {
+                    data: 'lat',
+                    name: 'lat'
+                },
+                {
+                    data: 'lng',
+                    name: 'lng'
+                },
+                {
+                    data: 'panjang',
+                    name: 'panjang'
+                },
+
+                {
+                    data: 'lebar',
+                    name: 'lebar'
+                },
+                {
+                    data: 'ruas_jalan',
+                    name: 'ruas_jalan'
+                },
+                {
+                    'mRender': function(data, type, full) {
+                        return '<img class="img-fluid" style="max-width: 100px" src="/storage/' + full['foto'] + '" alt="" srcset="">';
+                    }
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                },
+            ]
         });
     });
 

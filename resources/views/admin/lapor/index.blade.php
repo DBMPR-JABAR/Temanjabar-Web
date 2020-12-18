@@ -66,10 +66,10 @@
                                 <th>Permasalahan</th>
                                 <th>Foto</th>
                                 <th>Status</th>
-                                <th style="min-width: 75px;">Aksi</th>
+                                <th style="min-width: 100px;">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="bodyJembatan">
+                        <!-- <tbody id="bodyJembatan">
                             @foreach ($aduan as $data)
                             <tr>
                                 <td>{{$loop->index + 1}}</td>
@@ -92,7 +92,7 @@
                                 </td>
                             </tr>
                             @endforeach
-                        </tbody>
+                        </tbody> -->
                     </table>
                 </div>
             </div>
@@ -137,7 +137,7 @@
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
 <script>
     $(document).ready(function() {
-        $("#dttable").DataTable();
+        // $("#dttable").DataTable();
         $('#delModal').on('show.bs.modal', function(event) {
             const link = $(event.relatedTarget);
             const id = link.data('id');
@@ -146,6 +146,53 @@
             console.log(url);
             const modal = $(this);
             modal.find('.modal-footer #delHref').attr('href', url);
+        });
+
+        var table = $('#dttable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ url('admin/lapor/json') }}",
+            columns: [{
+                    'mRender': function(data, type, full, meta) {
+                        return +meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                },
+                {
+                    data: 'nama',
+                    name: 'nama'
+                },
+                {
+                    data: 'nik',
+                    name: 'nik'
+                },
+                {
+                    data: 'alamat',
+                    name: 'alamat'
+                },
+                {
+                    data: 'ruas_jalan',
+                    name: 'ruas_jalan'
+                },
+                {
+                    data: 'permasalahan',
+                    name: 'permasalahan'
+                },
+                {
+                    data: 'status',
+                    name: 'status'
+                },
+                {
+                    'mRender': function(data, type, full) {
+                        return '<img class="img-fluid" style="max-width: 100px" src="/storage/' + full['foto_awal'] + '" alt="" srcset="">';
+                    }
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                },
+            ]
         });
     });
 </script>
