@@ -42,19 +42,25 @@ function stateHelper2($id){
     return $state;
 }
  
-function stateHelper($id,$unit=""){
+function stateHelper($id,$unit="",$is_child=""){
 //$state ="<table class='table' style='margin:0px;padding:0px'>";
 $state= "";
+if($is_child =="1"){
+    $child ="<i class='icofont icofont-arrow-right'></i>";
+}else {
+    $child ="";
+}
 if($id == "1"){ 
-         $state .= '<tr><td>'.$unit.'</td><td> <button class="btn btn-inverse btn-mini btn-round">Submitted</button></td></tr>';
+
+         $state .= ' <td>'.$child."".$unit.'</td><td> <button class="btn btn-inverse btn-mini btn-round">Submitted</button></td> ';
     }else if($id == "2"){
-        $state .= '<tr><td>'.$unit.'</td><td> <button class="btn btn-primary btn-mini btn-round"> Accepted</button></td></tr>';
+        $state .= ' <td>'.$unit.'</td><td> <button class="btn btn-primary btn-mini btn-round"> Accepted</button></td> ';
     }
     else if($id == "3"){
-        $state .= '<tr><td>'.$unit.'</td><td> <button class="btn btn-success btn-mini btn-round">On Progress</button></td></tr>';
+        $state .= ' <td>'.$unit.'</td><td> <button class="btn btn-success btn-mini btn-round">On Progress</button></td> ';
     }
     else if($id == "4"){ 
-        $state .= '<tr><td>'.$unit.'</td><td> <button class="btn btn-info btn-mini btn-round">Finish</button></td></tr>';
+        $state .= ' <td>'.$unit.'</td><td> <button class="btn btn-info btn-mini btn-round">Finish</button></td> ';
 
     }else {
 

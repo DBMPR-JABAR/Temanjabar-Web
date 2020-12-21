@@ -119,7 +119,7 @@ if($data->status == "1")  {
                                     </td>
                                 <td> 
                                 <a type="button" href="{{ route('getdetailDisposisi',$data->id) }}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Rincian</a>
-                                <a type="button" href="#"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Edit</a> 
+                                <a type="button" href="{{ route('editDisposisi',$data->id) }}" class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-pencil"></i>Edit</a> 
                                 <a type="button"href="#delModal"  data-toggle="modal" data-id="{{$data->id}}"     class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Hapus</a>       
                                                              </td>
                             </tr>

@@ -137,8 +137,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::post('saveDisposisiLevel2', 'DisposisiController@saveDisposisiLevel2')->name('saveDisposisiLevel2');
         Route::get('instruksi', 'DisposisiController@getDaftarDisposisiInstruksi')->name('disposisi-instruksi');
         Route::get('download/{id}', 'DisposisiController@downloadFile')->name('download');
-
+        Route::get('edit/{id}', 'DisposisiController@edit')->name('editDisposisi');
+  
         Route::post('createTindakLanjut', 'DisposisiController@createTindakLanjut')->name('createTindakLanjut');
+         
+        Route::post('updateDisposisi', 'DisposisiController@updateDisposisi')->name('updateDisposisi');
         Route::post('create', 'DisposisiController@create')->name('saveInsertDisposisi');
         Route::post('createDisposisiInstruksi', 'DisposisiController@createInstruksi')->name('saveInsertInstruksi');
         Route::get('accepted/{id}', 'DisposisiController@getAcceptedRequest')->name('getAcceptedRequest');
@@ -292,6 +295,7 @@ Route::view('debug/mail/tindaklanjut', 'mail.notifikasiTindakLanjut');
 
 Route::view('debug/push-notification', 'debug.push-notif');
 
+Route::get('debug/pushnow', 'API\PushNotifController@debug');
 
 Route::view('debug/map-dashboard', 'debug.map-dashboard');
 Route::view('debug/map-filter', 'debug.map-filter');
