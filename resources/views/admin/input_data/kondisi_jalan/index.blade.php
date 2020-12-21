@@ -57,7 +57,7 @@
                 <a href="{{ route('addIDKondisiJalan') }}" class="btn btn-mat btn-primary mb-3">Tambah</a>
                 @endif
                 <div class="dt-responsive table-responsive">
-                    <table id="dttable" class="table table-striped table-bordered able-responsive">
+                    <table id="kondisijalan-table" class="table table-striped table-bordered able-responsive">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -69,11 +69,11 @@
                                 <th>Sampai dengan KM</th>
                                 <th>Lebar rata2 (meter)</th>
                                 <th>Dokumentasi</th>
-                                <th style="min-width: 130px;">Aksi</th>
+                                <th style="min-width: 75px;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody id="bodyJembatan">
-                            @foreach ($kondisiJalan as $data)
+                          <!--   @foreach ($kondisiJalan as $data)
                             <tr>
                                 <td>{{$loop->index + 1}}</td>
                                 <td>{{$data->ruas_jalan}}</td>
@@ -84,18 +84,18 @@
                                 <td>{{$data->sampai_km}}</td>
                                 <td>{{$data->lebar_rata_rata}}</td>
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/'.$data->foto_dokumentasi) !!}" alt="" srcset=""></td>
-                                <td style="min-width: 130px;">
+                                <td style="min-width: 75px;">
                                     <div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">
                                         @if (hasAccess(Auth::user()->internal_role_id, "Kondisi Jalan", "Update"))
-                                        <a href="{{ route('editIDKondisiJalan',$data->id) }}" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i>Edit</a>
+                                        <a href="{{ route('editIDKondisiJalan',$data->id) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i></button></a>
                                         @endif
                                         @if (hasAccess(Auth::user()->internal_role_id, "Kondisi Jalan", "Delete"))
-                                        <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-danger btn-sm waves-effect waves-light"><i class="icofont icofont-trash"></i>Hapus</a>
+                                        <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal"><button class="btn btn-danger btn-sm waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
                                         @endif
                                     </div>
                                 </td>
                             </tr>
-                            @endforeach
+                            @endforeach -->
                         </tbody>
                     </table>
                 </div>
@@ -141,7 +141,7 @@
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
 <script>
     $(document).ready(function() {
-        $("#dttable").DataTable();
+        // $("#dttable").DataTable();
         $('#delModal').on('show.bs.modal', function(event) {
             const link = $(event.relatedTarget);
             const id = link.data('id');
@@ -151,6 +151,37 @@
             const modal = $(this);
             modal.find('.modal-footer #delHref').attr('href', url);
         });
+
+        let table = $('#kondisijalan-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: 'kondisi-jalan/json',
+            columns: [
+                {'mRender': function (data, type, full,meta) {
+                    return +meta.row +1;  
+                    }
+                },
+                { data: 'ruas_jalan', name: 'ruas_jalan' },
+                { data: 'nama_kota', name: 'nama_kota' },
+                { data: 'km_asal', name: 'km_asal' },
+                { data: 'panjang_km', name: 'panjang_km' },
+                { data: 'dari_km', name: 'dari_km' },
+                { data: 'sampai_km', name: 'sampai_km' },
+                { data: 'lebar_rata_rata', name: 'lebar_rata_rata' },
+                // { data: 'dokumentasi', name: 'dokumentasi' },
+                {'mRender': function (data, type, full) {
+                    return '<img class="img-fluid" style="max-width: 100px" src="'+`{{ url('storage/') }}` +'/'+full['foto_dokumentasi']+'" alt="" srcset="">';  
+                    }
+                },
+                { data: 'action', name: 'action' },
+            ]
+        });
+
+        table.on( 'order.dt search.dt', function () {
+            table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                cell.innerHTML = i+1;
+            } );
+        } ).draw();
     });
 </script>
 @endsection

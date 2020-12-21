@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Yajra\Datatables\DataTables;
 
 class PekerjaanController extends Controller
 {
@@ -259,5 +260,44 @@ class PekerjaanController extends Controller
         $color = "success";
         $msg = "Berhasil Melakukan Submit Data Material";
         return redirect(route('getDataPekerjaan'))->with(compact('color', 'msg'));
+    }
+
+    public function json()
+    {
+        $pekerjaan = DB::table('kemandoran');
+        $pekerjaan = $pekerjaan->leftJoin('master_ruas_jalan', 'master_ruas_jalan.id', '=', 'kemandoran.ruas_jalan')->select('kemandoran.*', 'master_ruas_jalan.nama_ruas_jalan');
+
+        if (Auth::user()->internalRole->uptd) {
+            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+            $pekerjaan = $pekerjaan->where('kemandoran.uptd_id', $uptd_id);
+        }
+        $pekerjaan = $pekerjaan->where('is_deleted', 0)->get();
+
+        return DataTables::of($pekerjaan)
+            ->addIndexColumn()
+            ->addColumn('action', function ($row) {
+                $btn = '<div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">';
+
+                if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update")) {
+                    $btn = $btn . '<a href="' . route('editDataPekerjaan', $row->id_pek) . '"><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>';
+                    $btn = $btn . '<a href="' . route('materialDataPekerjaan', $row->id_pek) . '"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Material"><i class="icofont icofont-list"></i></button></a>';
+                }
+
+                if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Delete")) {
+                    $btn = $btn . '<a href="#delModal" data-id="' . $row->id_pek . '" data-toggle="modal"><button class="btn btn-danger btn-sm waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>';
+                }
+
+                if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update")) {
+                    $btn = $btn . '<a href="#delModal" data-id="' . $row->id_pek . '" data-toggle="modal"><button class="btn btn-success btn-sm waves-effect waves-light" data-toggle="tooltip" title="Submit"><i class="icofont icofont-check-circled"></i></button></a>';
+                }
+
+                $btn = $btn . '</div>';
+
+                // $btn = '<a href="javascript:void(0)" class="btn btn-primary">' . $row->id . '</a>';
+
+                return $btn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
 }

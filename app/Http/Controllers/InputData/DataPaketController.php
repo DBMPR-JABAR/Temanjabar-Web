@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use DataTables;
 
 class DataPaketController extends Controller
 {
@@ -43,6 +44,30 @@ class DataPaketController extends Controller
         $sup = $sup->get();
         $pekerjaan = $pekerjaan->get();
         return view('admin.input_data.data_paket.index', compact('dataPaket', 'uptd', 'sup', 'pekerjaan'));
+    }
+
+    public function json(){
+        $dataPaket = DB::table('pembangunan');
+        if (Auth::user()->internalRole->uptd) {
+            $dataPaket = $dataPaket->where('uptd_id',Auth::user()->internalRole->uptd);
+        }
+        $dataPaket = $dataPaket->get();
+        return Datatables::of($dataPaket)
+                ->addIndexColumn()
+                ->addColumn('action', function($row){
+                   $html = '<div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">';
+                   
+                    if (hasAccess(Auth::user()->internal_role_id, "Progress Kerja", "Update")){
+                        $html.='<a href="'. route('editIDDataPaket',$row->kode_paket).'"><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>';
+                        }
+                    if (hasAccess(Auth::user()->internal_role_id, "Progress Kerja", "Delete")){
+                        $html.='<a href="#delModal" data-id="'.$row->kode_paket.'" data-toggle="modal"><button data-toggle="tooltip" title="Hapus" class="btn btn-danger btn-sm waves-effect waves-light"><i class="icofont icofont-trash"></i></button></a>';
+                    }
+                    $html.='</div>';
+                    return $html;
+
+                })
+                ->make(true);
     }
 
     public function create(Request $req)

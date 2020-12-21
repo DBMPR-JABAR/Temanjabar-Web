@@ -2,400 +2,138 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\Transactional\Log;
-use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Auth;
+use Yajra\Datatables\DataTables;
 
-class LandingController extends Controller
+class LaporController extends Controller
 {
-
-    // Lokasi: Landing Page
-
-    // GET
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        $profil = DB::table('landing_profil')->where('id', 1)->first();
-        $fitur = DB::table('landing_fitur')->get();
-        $uptd = DB::table('landing_uptd')->get();
-        $slideshow = DB::table('landing_slideshow')->get();
-        $lokasi = DB::table('utils_lokasi')->get();
-        $jenis_laporan = DB::table('utils_jenis_laporan')->get();
-
-        // Compact mengubah variabel profil untuk dijadikan variabel yang dikirim
-        return view('landing.index', compact('profil', 'fitur', 'uptd', 'slideshow', 'lokasi', 'jenis_laporan'));
-    }
-    public function login()
-    {
-        $profil = DB::table('landing_profil')->where('id', 1)->first();
-
-        return view('landing.login', compact('profil'));
-    }
-    public function paketPekerjaan()
-    {
-        $profil = DB::table('landing_profil')->where('id', 1)->first();
-        return view('landing.paket-pekerjaan', compact('profil'));
-    }
-    public function progressPekerjaan()
-    {
-        $profil = DB::table('landing_profil')->where('id', 1)->first();
-        return view('landing.progress-pekerjaan', compact('profil'));
-    }
-
-    // POST
-    public function createLaporan(Request $req)
-    {
-        $color = 'success';
-        $msg = 'Berhasil menambahkan laporan, tanggapan akan dikirim melalui email anda';
-
-        $data = $req->except(['_token', 'agreed', 'gambar']);
-        $data['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
-
-        DB::table('monitoring_laporan_masyarakat')->insert($data);
-
-        return redirect('/#laporan')->with(['color' => $color, 'laporan-msg' => $msg]);
-    }
-
-    public function createPesan(Request $req)
-    {
-        $color = 'success';
-        $msg = 'Berhasil menambahkan pesan, tanggapan akan dikirim melalui email anda';
-
-        $data = $req->except(['_token']);
-        $data['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
-
-        DB::table('landing_pesan')->insert($data);
-
-        return redirect('/#kontak')->with(['color' => $color, 'pesan-msg' => $msg]);
-    }
-
-    public function uptd($slug)
-    {
-        $profil = DB::table('landing_profil')->where('id', 1)->first();
-        $uptd = DB::table('landing_uptd')->where('slug', $slug)->first();
-        $uptd_mapdata_all = [
-            "uptd1" => ["ctr_lat" => -6.743473, "ctr_long" => 106.995262, "ctr_ext" => [-7.505569, -5.918148, 106.401085, 107.484841]],
-            "uptd2" => ["ctr_lat" => -7.074604, "ctr_long" => 106.709829, "ctr_ext" => [-7.437657, -6.715317, 106.370304, 107.065018]],
-            "uptd3" => ["ctr_lat" => -6.647938, "ctr_long" => 107.532346, "ctr_ext" => [-7.316122, -5.939857, 107.084381, 107.931877]],
-            "uptd4" => ["ctr_lat" => -7.180538, "ctr_long" => 107.853166, "ctr_ext" => [-7.74015, -6.578923, 107.42025, 108.220009]],
-            "uptd5" => ["ctr_lat" => -7.381833, "ctr_long" => 108.351077, "ctr_ext" => [-7.820979, -6.78191, 107.904429, 108.801382]],
-            "uptd6" => ["ctr_lat" => -6.629987, "ctr_long" => 108.288672, "ctr_ext" => [-7.074581, -6.221112, 107.850746, 108.846881]]
+        $response = [
+            'status' => 'false',
+            'data' => []
         ];
-        $uptd_mapdata = $uptd_mapdata_all[$slug];
-        return view('landing.uptd.index', compact('profil', 'uptd', 'uptd_mapdata'));
-    }
 
-    // Lokasi: Admin Dashboard
+        $aduan = DB::table('aduan');
 
-    // TODO: Pesan
-    public function getPesan()
-    {
-        $pesan = DB::table('landing_pesan')->get();
-        return view('admin.landing.pesan', compact('pesan'));
-    }
-
-    public function getLog()
-    {
-        $logs = Log::all();
-        return view('admin.landing.log', compact('logs'));
-    }
-
-    // TODO: Profil
-    public function getProfil()
-    {
-        $profil = DB::table('landing_profil')->where('id', 1)->first();
-        return view('admin.landing.profil', compact('profil'));
-    }
-    public function updateProfil(Request $req)
-    {
-        $color = 'success';
-        $msg = 'Berhasil mengubah data profil';
-
-        $old = DB::table('landing_profil')->where('id', 1)->first();
-
-        $data = $req->except('_token', 'gambar');
-        if ($req->gambar != null) {
-            $old->gambar ?? Storage::delete('public/' . $old->gambar);
-
-            $path = 'landing/profil/' . Str::snake(date("YmdHis") . ' ' . $req->gambar->getClientOriginalName());
-            $req->gambar->storeAs('public/', $path);
-            $data['gambar'] = $path;
-        }
-
-        DB::table('landing_profil')->where('id', 1)->update($data);
-
-        return back()->with(compact('color', 'msg'));
-    }
-
-    // TODO: Slideshow
-    public function getSlideshow()
-    {
-        $slideshow = DB::table('landing_slideshow')->get();
-        return view('admin.landing.slideshow.index', compact('slideshow'));
-    }
-    public function editSlideshow($id)
-    {
-        $slideshow = DB::table('landing_slideshow')->where('id', $id)->first();
-        return view('admin.landing.slideshow.edit', compact('slideshow'));
-    }
-    public function createSlideshow(Request $req)
-    {
-        $slideshow = $req->except('_token', 'gambar');
-
-        if ($req->gambar != null) {
-            $path = 'landing/slideshow/' . Str::snake(date("YmdHis") . ' ' . $req->gambar->getClientOriginalName());
-            $req->gambar->storeAs('public/', $path);
-            $slideshow['gambar'] = $path;
-        }
-
-
-        DB::table('landing_slideshow')->insert($slideshow);
-
-        $color = "success";
-        $msg = "Berhasil Menambah Data Slideshow";
-        return back()->with(compact('color', 'msg'));
-    }
-    public function updateSlideshow(Request $req)
-    {
-        $slideshow = $req->except('_token', 'gambar', 'id');
-
-        $old = DB::table('landing_slideshow')->where('id', $req->id)->first();
-
-        if ($req->gambar != null) {
-            $old->gambar ?? Storage::delete('public/' . $old->gambar);
-
-            $path = 'landing/slideshow/' . Str::snake(date("YmdHis") . ' ' . $req->gambar->getClientOriginalName());
-            $req->gambar->storeAs('public/', $path);
-            $slideshow['gambar'] = $path;
-        }
-
-
-        DB::table('landing_slideshow')->where('id', $req->id)->update($slideshow);
-
-        $color = "success";
-        $msg = "Berhasil Mengubah Data Slideshow";
-        return redirect(route('getLandingSlideshow'))->with(compact('color', 'msg'));
-    }
-    public function deleteSlideshow($id)
-    {
-        $old = DB::table('landing_slideshow')->where('id', $id);
-        $old->first()->gambar ?? Storage::delete('public/' . $old->first()->gambar);
-
-        $old->delete();
-
-        $color = "success";
-        $msg = "Berhasil Menghapus Data Slideshow";
-        return redirect(route('getLandingSlideshow'))->with(compact('color', 'msg'));
-    }
-
-    // TODO: Fitur
-    public function getFitur()
-    {
-        $fitur = DB::table('landing_fitur')->get();
-        return view('admin.landing.fitur.index', compact('fitur'));
-    }
-    public function editFitur($id)
-    {
-        $fitur  = DB::table('landing_fitur')->where('id', $id)->first();
-        return view('admin.landing.fitur.edit', compact('fitur'));
-    }
-    public function createFitur(Request $req)
-    {
-        $fitur = $req->except('_token');
-
-        DB::table('landing_fitur')->insert($fitur);
-
-        $color = "success";
-        $msg = "Berhasil Menambah Data Fitur";
-        return back()->with(compact('color', 'msg'));
-    }
-    public function updateFitur(Request $req)
-    {
-        $fitur = $req->except('_token', 'id');
-
-        DB::table('landing_fitur')->where('id', $req->id)->update($fitur);
-
-        $color = "success";
-        $msg = "Berhasil Mengubah Data Fitur";
-        return redirect(route('getLandingFitur'))->with(compact('color', 'msg'));
-    }
-
-    public function deleteFitur($id)
-    {
-        DB::table('landing_fitur')->where('id', $id)->delete();
-
-        $color = "success";
-        $msg = "Berhasil Menghapus Data Fitur";
-        return redirect(route('getLandingFitur'))->with(compact('color', 'msg'));
-    }
-
-    // TODO: UPTD
-    public function getUPTD()
-    {
-        $uptd = DB::table('landing_uptd');
         if (Auth::user()->internalRole->uptd) {
-            $uptd = $uptd->where('slug', Auth::user()->internalRole->uptd);
+            if (Auth::user()->internalRole->uptd) {
+                $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+                $aduan = $aduan->where('uptd_id', $uptd_id);
+            }
         }
-        $uptd = $uptd->get();
-        return view('admin.landing.uptd.index', compact('uptd'));
+        $aduan = $aduan->get();
+        return view('admin.lapor.index', compact('aduan'));
     }
-    public function editUPTD($id)
-    {
-        $uptd = DB::table('landing_uptd')->where('id', $id)->first();
-        return view('admin.landing.uptd.edit', compact('uptd'));
-    }
-    public function createUPTD(Request $req)
-    {
-        $uptd = $req->except('_token', 'gambar');
-        $uptd['slug'] = Str::slug($req->nama, '');
 
-        if ($req->gambar != null) {
-            $path = 'landing/uptd/' . Str::snake(date("YmdHis") . ' ' . $req->gambar->getClientOriginalName());
-            $req->gambar->storeAs('public/', $path);
-            $uptd['gambar'] = $path;
+    public function create()
+    {
+        $ruasJalan = DB::table('master_ruas_jalan');
+        if (Auth::user()->internalRole->uptd) {
+            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+            $ruasJalan = $ruasJalan->where('uptd_id', $uptd_id);
         }
+        $ruasJalan = $ruasJalan->get();
 
-        DB::table('landing_uptd')->insert($uptd);
+        $uptd = DB::table('landing_uptd')->get();
+
+        return view('admin.lapor.add', compact('ruasJalan', 'uptd'));
+    }
+
+    public function edit($id)
+    {
+        $aduan = DB::table('aduan')->where('id', $id)->first();
+        $ruasJalan = DB::table('master_ruas_jalan');
+        $ruasJalan = $ruasJalan->where('uptd_id', $aduan->uptd_id);
+        $ruasJalan = $ruasJalan->get();
+        $uptd = DB::table('landing_uptd')->get();
+
+        return view('admin.lapor.edit', compact('aduan', 'ruasJalan', 'uptd'));
+    }
+
+
+    public function store(Request $request)
+    {
+        $lapor = $request->except('_token', 'foto');
+
+        if ($request->foto != null) {
+            $path = 'lapor/' . Str::snake(date("YmdHis") . ' ' . $request->foto->getClientOriginalName());
+            $request->foto->storeAs('public/', $path);
+            $lapor['foto_awal'] = $path;
+        }
+        $lapor['status'] = 'menunggu';
+        DB::table('aduan')->insert($lapor);
 
         $color = "success";
-        $msg = "Berhasil Menambah Data UPTD";
+        $msg = "Berhasil Menambah Data Lapor";
         return back()->with(compact('color', 'msg'));
     }
-    public function updateUPTD(Request $req)
+
+    public function update(Request $req)
     {
-        $uptd = $req->except('_token', 'gambar', 'id');
-        $uptd['slug'] = Str::slug($req->nama, '');
+        //
+        $aduan = $req->except('_token', 'foto_awal', 'id');
 
-        $old = DB::table('landing_uptd')->where('id', $req->id)->first();
+        $old = DB::table('aduan')->where('id', $req->id)->first();
 
-        if ($req->gambar != null) {
-            $old->gambar ?? Storage::delete('public/' . $old->gambar);
+        if ($req->foto_awal != null) {
+            $old->foto_awal ?? Storage::delete('public/' . $old->foto_awal);
 
-            $path = 'landing/uptd/' . Str::snake(date("YmdHis") . ' ' . $req->gambar->getClientOriginalName());
-            $req->gambar->storeAs('public/', $path);
-            $uptd['gambar'] = $path;
+            $path = 'landing/' . Str::snake(date("YmdHis") . ' ' . $req->foto_awal->getClientOriginalName());
+            $req->foto_awal->storeAs('public/', $path);
+            $aduan['foto_awal'] = $path;
         }
 
-        DB::table('landing_uptd')->where('id', $req->id)->update($uptd);
+        DB::table('aduan')->where('id', $req->id)->update($aduan);
 
         $color = "success";
-        $msg = "Berhasil Mengubah Data UPTD";
-        return redirect(route('getLandingUPTD'))->with(compact('color', 'msg'));
+        $msg = "Berhasil Mengubah Data Laporan";
+        return redirect(route('getLapor'))->with(compact('color', 'msg'));
     }
-    public function deleteUPTD($id)
-    {
-        $old = DB::table('landing_uptd')->where('id', $id);
-        $old->first()->gambar ?? Storage::delete('public/' . $old->first()->gambar);
 
+    public function delete($id)
+    {
+        $aduan = DB::table('aduan');
+        $old = $aduan->where('id', $id);
 
         $old->delete();
 
         $color = "success";
-        $msg = "Berhasil Menghapus Data UPTD";
-        return redirect(route('getLandingUPTD'))->with(compact('color', 'msg'));
+        $msg = "Berhasil Menghapus Data Laporan";
+        return redirect(route('getLapor'))->with(compact('color', 'msg'));
     }
 
-    // DEBUG
-    public function howToInsert(Request $req)
+    public function json()
     {
-        // Cara 1
-        $data = [
-            'nama' => $req->nama,
-            'nik' => $req->nik,
-            'telp' => $req->telp,
-            'email' => $req->email,
-            'jenis' => $req->jenis,
-            'deskripsi' => $req->deskripsi,
-            'lat' => $req->lat,
-            'long' => $req->long,
-            'uptd_id' => $req->uptd_id,
-            'created_at' => Carbon::now()->format('Y-m-d H:i:s')
-        ];
+        return DataTables::of(DB::table('aduan'))
+            ->addIndexColumn()
+            ->addColumn('action', function ($row) {
+                $btn = '<div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">';
 
-        // Cara 2 : Pastikan input name sama dengan kolom tabel
-        $data = $req->except(['_token', 'input_name_lain']);
-        $data['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
-    }
+                if (hasAccess(Auth::user()->internal_role_id, "Lapor", "Update")) {
+                    $btn = $btn . '<a href="' . route('editLapor', $row->id) . '"><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>';
+                }
 
-    public function getLaporanMasyarakat()
-    {
-        $laporan = DB::table('monitoring_laporan_masyarakat')->get();
-        return view('admin.landing.laporan-masyarakat.index', compact('laporan'));
-    }
+                if (hasAccess(Auth::user()->internal_role_id, "Lapor", "Delete")) {
+                    $btn = $btn . '<a href="#delModal" data-id="' . $row->id . '" data-toggle="modal"><button data-toggle="tooltip" title="Hapus" class="btn btn-danger btn-sm waves-effect waves-light"><i class="icofont icofont-trash"></i></button></a>';
+                }
+                $btn = $btn . '</div>';
 
-    public function createLaporanMasyarakat(Request $req)
-    {
-        $data['nama'] = $req->nama;
-        $data['nik'] = $req->nik;
-        $data['alamat'] = $req->alamat;
-        $data['telp'] = $req->telp;
-        $data['email'] = $req->email;
-        $data['jenis'] = $req->jenis;
-        if ($req->gambar != null) {
-            $path = 'landing/laporan-masyarakat/' . Str::snake(date("YmdHis") . ' ' . $req->gambar->getClientOriginalName());
-            $req->gambar->storeAs('public/', $path);
-            $data['gambar'] = $path;
-        }
-        $data['lokasi'] = $req->lokasi;
-        $data['lat'] = $req->lat;
-        $data['long'] = $req->long;
-        $data['deskripsi'] = $req->deskripsi;
-        $data['uptd_id'] = $req->uptd_id;
-        $data['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
+                // $btn = '<a href="javascript:void(0)" class="btn btn-primary">' . $row->id . '</a>';
 
-        DB::table('monitoring_laporan_masyarakat')->insert($data);
-
-        $color = "success";
-        $msg = "Berhasil Menambah Data Laporan Masyarakat";
-        return back()->with(compact('color', 'msg'));
-    }
-
-    public function detailLaporanMasyarakat($id)
-    {
-        $detail = DB::table('monitoring_laporan_masyarakat')->where('id', $id)->get();
-        return view('admin.landing.laporan-masyarakat.detail', ['detail' => $detail]);
-    }
-    public function editLaporanMasyarakat($id)
-    {
-        $data = DB::table('monitoring_laporan_masyarakat')->where('id', $id)->get();
-        return response()->json(['data' => $data], 200);
-    }
-
-    public function deleteLaporanMasyarakat($id)
-    {
-        DB::table('monitoring_laporan_masyarakat')->where('id', $id)->delete();
-
-        $color = "success";
-        $msg = "Berhasil Menghapus Laporan Masyarakat";
-        return redirect(route('getLandingLaporanMasyarakat'))->with(compact('color', 'msg'));
-    }
-    public function updateLaporanMasyarakat(Request $req)
-    {
-        $data['nama'] = $req->nama;
-        $data['nik'] = $req->nik;
-        $data['alamat'] = $req->alamat;
-        $data['telp'] = $req->telp;
-        $data['email'] = $req->email;
-        $data['jenis'] = $req->jenis;
-        if ($req->gambar != null) {
-            $path = 'landing/laporan-masyarakat/' . Str::snake(date("YmdHis") . ' ' . $req->gambar->getClientOriginalName());
-            $req->gambar->storeAs('public/', $path);
-            $data['gambar'] = $path;
-        }
-        $data['lokasi'] = $req->lokasi;
-        $data['lat'] = $req->lat;
-        $data['long'] = $req->long;
-        $data['deskripsi'] = $req->deskripsi;
-        $data['uptd_id'] = $req->uptd_id;
-        $data['updated_at'] = Carbon::now()->format('Y-m-d H:i:s');
-
-        DB::table('monitoring_laporan_masyarakat')->where('id', $req->id)->update($data);
-
-        $color = "success";
-        $msg = "Berhasil Menambah Data Laporan Masyarakat";
-        return redirect(route('getLandingLaporanMasyarakat'))->with(compact('color', 'msg'));
+                return $btn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
 }
