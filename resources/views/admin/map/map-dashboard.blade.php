@@ -883,11 +883,11 @@
                             color: "red",
                             width: "2px",
                             style: "solid",
-                            marker: { // autocasts from LineSymbolMarker
-                                color: "orange",
-                                placement: "begin-end",
-                                style: "circle"
-                            }
+                         //   marker: { // autocasts from LineSymbolMarker
+                           //      color: "orange",
+                             //   placement: "begin-end",
+                               // style: "circle"
+                           // }
                         }
                     }
                     return layer;
@@ -933,11 +933,11 @@
                             color: "yellow",
                             width: "2px",
                             style: "solid",
-                            marker: { // autocasts from LineSymbolMarker
-                                color: "orange",
-                                placement: "begin-end",
-                                style: "circle"
-                            }
+                            //marker: { // autocasts from LineSymbolMarker
+                             //   color: "orange",
+                               // placement: "begin-end",
+                                //style: "circle"
+                            //}
                         }
                     }
                     return layer;
@@ -983,11 +983,11 @@
                             color: "purple",
                             width: "2px",
                             style: "solid",
-                            marker: { // autocasts from LineSymbolMarker
-                                color: "orange",
-                                placement: "begin-end",
-                                style: "circle"
-                            }
+                           // marker: { // autocasts from LineSymbolMarker
+                             //   color: "orange",
+                               // placement: "begin-end",
+                                //style: "circle"
+                            //}
                         }
                     }
                     return layer;
@@ -2123,7 +2123,7 @@
                                 vidElem.width = '275';
                                 vidElem.height = '200';
                                 const vidSrcElem = document.createElement('source');
-                                vidSrcElem.src = 'http://45.118.114.26:80/camera/MerdekaAceh.m3u8';
+                                vidSrcElem.src = 'http://45.118.114.26:80/camera/Supratman.m3u8';
                                 vidSrcElem.type = 'application/x-mpegURL';
                                 vidElem.appendChild(vidSrcElem);
                                 return vidElem;
