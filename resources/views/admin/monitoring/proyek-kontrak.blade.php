@@ -12,7 +12,7 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Proyek Kontrak</h4>
+                <h4>Kendali Kontrak</h4>
 
             </div>
         </div>
@@ -23,7 +23,7 @@
                 <li class="breadcrumb-item">
                     <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
                 </li>
-                <li class="breadcrumb-item"><a href="#!">Proyek Kontrak</a> </li>
+                <li class="breadcrumb-item"><a href="#!">Kendali Kontrak</a> </li>
             </ul>
         </div>
     </div>
@@ -194,7 +194,7 @@
         <div class="card">
 
         <div class="card-header">
-                <h5>Rencana Dan Realisasi Proyek Kontrak</h5>
+                <h5>Rencana Dan Realisasi Kendali Kontrak</h5>
 
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
