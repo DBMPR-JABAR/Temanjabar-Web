@@ -27,12 +27,7 @@ Route::get('progress-pekerjaan', 'LandingController@progressPekerjaan');
 Route::post('tambah-laporan', 'LandingController@createLaporan');
 Route::post('tambah-pesan', 'LandingController@createPesan');
 Route::get('admin/master/ruas_jalan', 'MasterController@getRuasJalan')->name('admin.master.ruas_jalan');
-Route::view('map/map-dashboard-masyarakat', 'landing.map.map-dashboard-masyarakat');
-
-// // {SiteURL}/map-dashboard-masyarakat/*
-// Route::group(['prefix' => 'uptd'], function () {
-//     Route::get('/{slug}', 'LandingController@uptd');
-// });
+Route::get('map/map-dashboard-masyarakat', 'LandingController@mapMasyarakat')->name('landing.map.map-dashboard-masyarakat');
 
 // {SiteURL}/uptd/*
 Route::group(['prefix' => 'uptd'], function () {

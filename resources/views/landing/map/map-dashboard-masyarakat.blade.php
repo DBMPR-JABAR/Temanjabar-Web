@@ -19,8 +19,8 @@
         #viewDiv {
             padding: 0;
             margin: 0;
-            height: 100%;
             width: 100%;
+            height: 450px;
             z-index: -1;
         }
 
@@ -466,7 +466,7 @@
 
     function initFilter() {
         $("#uptd").empty();
-        const roleUptd = `{{ Auth::user()->internalRole->uptd }}`;
+        const roleUptd = ``;
         select = "";
         if (roleUptd == "") {
             for (let i = 1; i <= 6; i++) {
