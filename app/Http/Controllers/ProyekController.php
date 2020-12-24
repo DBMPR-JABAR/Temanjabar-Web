@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
 
 class ProyekController extends Controller
 {
-    public function getProyekKontrak()
+    public function getKendaliKontrak()
     {
         $finishquery = DB::connection('dwh')->table('vw_uptd_trx_proyek_kontrak');
         // $finishquery->whereIn('TANGGAL', function ($querySubTanggal) {
