@@ -30,7 +30,6 @@ class ProyekController extends Controller
                 'anggaranData' => ""
             ]);
     }
-
     public function getProyekKontrakAPI(Request $request)
     {
         $kontrak = DB::connection('dwh')->table('vw_uptd_trx_proyek_kontrak');

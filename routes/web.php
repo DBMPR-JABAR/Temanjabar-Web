@@ -58,7 +58,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
         Route::get('kendali-kontrak', 'ProyekController@getKendaliKontrak')->name('monitoring-kontrak');
         // Route::view('proyek-kontrak', 'admin.monitoring.proyek-kontrak')->name('monitoring-kontrak');
-        Route::get('proyek-kontrak/status/{status} ', 'MonitoringController@getProyekDetail');
+        Route::get('proyek-kontrak/status/{status} ', 'MonitoringController@getProyekDetail')->name('detailProyekKontrak');
         Route::get('main-dashboard', 'MonitoringController@getMainDashboard');
 
         Route::get('laporan-kerusakan', 'MonitoringController@getLaporan');
