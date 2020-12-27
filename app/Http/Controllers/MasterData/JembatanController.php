@@ -120,7 +120,7 @@ class JembatanController extends Controller
         $jembatan = Jembatan::find($id);
 
         $id = substr($jembatan->uptd, strlen($jembatan->uptd) - 1);
-        $id = (int)$id;
+        $id = (int) $id;
 
         $ruasJalan = DB::table('master_ruas_jalan');
         $ruasJalan = $ruasJalan->where('uptd_id', $id);
@@ -181,7 +181,12 @@ class JembatanController extends Controller
             $dataBentang['panjang'] = $request->$textPanjang;
             $dataBentang['tipe_bangunan_atas_id'] = $request->$textTipe;
 
-            DB::table('master_jembatan_bentang')->where('id', $request->$textIdBentang)->update($dataBentang);
+            $oldBentang = DB::table('master_jembatan_bentang')->where('id', $request->$textIdBentang);
+            if ($oldBentang->exists()) {
+                DB::table('master_jembatan_bentang')->where('id', $request->$textIdBentang)->update($dataBentang);
+            } else {
+                DB::table('master_jembatan_bentang')->insert($dataBentang);
+            }
         }
 
         $color = "success";
