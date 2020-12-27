@@ -89,7 +89,7 @@
                                             <option value="rehabilitasi">Rehabilitasi</option>
                                         </select>
                                     </div>
-                                    <div class="col-sm-12 col-xl-3 m-b-30">
+                                    {{-- <div class="col-sm-12 col-xl-3 m-b-30">
                                         <h4 class="sub-title">Dari Tanggal</h4>
                                         <input type="date" id="filterDateFrom" name="dateFrom" class="form-control form-control-primary">
                                         </input>
@@ -98,7 +98,7 @@
                                         <h4 class="sub-title">Ke Tanggal</h4>
                                         <input type="date" id="filterDateTo" name="dateTo" class="form-control form-control-primary">
                                         </input>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -220,11 +220,12 @@
 
 <script>
 
-    function chart(data, uptd, tahun){
-        if(data){
+    function chart(data, uptd, tahun, kegiatan){
+        if(data.REALISASI.length > 0){
             let text = "Target dan Realisasi Fisik Kendali Kontrak ";
             text += (uptd != '') ? 'UPTD '+uptd : '';
             text += (tahun != '') ? ' Tahun '+tahun : ' ';
+            text += (kegiatan != '') ? ' Kategori '+kegiatan : ' ';
             Highcharts.chart('container', {
                 chart: {
                     type: 'column'
@@ -255,6 +256,20 @@
                     column: {
                         pointPadding: 0.2,
                         borderWidth: 0
+                    },
+                    series: {
+                        cursor: 'pointer',
+                        point: {
+                            events: {
+                                click: function () {
+                                    let url = "{{route('monitoring-kontrak-progress')}}?bulan="+this.category;
+                                    url += (uptd != '') ? '&uptd='+uptd : '';
+                                    url += (tahun != '') ? '&tahun='+tahun : '';
+                                    url += (kegiatan != '') ? '&kegiatan='+kegiatan : '';
+                                    location.href = url;
+                                }
+                            }
+                        }
                     }
                 },
                 series: [{
@@ -275,6 +290,7 @@
         const baseUrl = "{{url('')}}/map/proyek-kontrak";
         let tahun = $("#filterTahun").val();
         let uptd = $("#filterUPTD").val();
+        let kegiatan = $("#filterKegiatan").val();
 
         Highcharts.setOptions({
             lang: {
@@ -283,20 +299,21 @@
             }
         });
 
-        $.get(baseUrl, { tahun: tahun, uptd: uptd},
+        $.get(baseUrl, { tahun: tahun, uptd: uptd, kegiatan: kegiatan},
             function(response){
                 const data = response.data;
-                chart(data, uptd, tahun);
+                chart(data, uptd, tahun, kegiatan);
             });
 
-        $("#filterTahun, #filterUPTD").change(function () {
+        $("#filterTahun, #filterUPTD, #filterKegiatan").change(function () {
             tahun = $("#filterTahun").val();
             uptd = $("#filterUPTD").val();
+            kegiatan = $("#filterKegiatan").val();
 
-            $.get(baseUrl, { tahun: tahun, uptd: uptd},
+            $.get(baseUrl, { tahun: tahun, uptd: uptd, kegiatan: kegiatan},
             function(response){
                 const data = response.data;
-                chart(data, uptd, tahun);
+                chart(data, uptd, tahun, kegiatan);
             });
         });
     });

@@ -57,6 +57,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::view('survey-kondisi-jalan/{uptd}/{jalan}', 'admin.monitoring.survey-kondisi-jalan-uptd-detail')->name('kondisiJalanUPTDDetail');
 
         Route::get('kendali-kontrak', 'ProyekController@getKendaliKontrak')->name('monitoring-kontrak');
+        Route::get('kendali-kontrak/progress', 'ProyekController@getKendaliKontrakProgress')->name('monitoring-kontrak-progress');
         // Route::view('proyek-kontrak', 'admin.monitoring.proyek-kontrak')->name('monitoring-kontrak');
         Route::get('proyek-kontrak/status/{status} ', 'MonitoringController@getProyekDetail')->name('detailProyekKontrak');
         Route::get('main-dashboard', 'MonitoringController@getMainDashboard');
@@ -140,9 +141,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::get('instruksi', 'DisposisiController@getDaftarDisposisiInstruksi')->name('disposisi-instruksi');
         Route::get('download/{id}', 'DisposisiController@downloadFile')->name('download');
         Route::get('edit/{id}', 'DisposisiController@edit')->name('editDisposisi');
-  
+
         Route::post('createTindakLanjut', 'DisposisiController@createTindakLanjut')->name('createTindakLanjut');
-         
+
         Route::post('updateDisposisi', 'DisposisiController@updateDisposisi')->name('updateDisposisi');
         Route::post('create', 'DisposisiController@create')->name('saveInsertDisposisi');
         Route::post('createDisposisiInstruksi', 'DisposisiController@createInstruksi')->name('saveInsertInstruksi');
@@ -285,6 +286,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 });
 Route::get('map/target-realisasi', 'ProyekController@getTargetRealisasiAPI')->name('api.targetrealisasi');
 Route::get('map/proyek-kontrak', 'ProyekController@getProyekKontrakAPI')->name('api.proyekkontrak');
+Route::get('map/proyek-kontrak-progress', 'ProyekController@getProgressProyekKontrakAPI')->name('api.proyekkontrakprogress');
 
 Route::get('map/laporan-masyarakat', 'MonitoringController@getLaporanAPI')->name('api.laporan');
 Route::get('map/kemantapan-jalan', 'MonitoringController@getKemantapanJalanAPI')->name('api.kemantapanjalan');

@@ -52,10 +52,10 @@ class ProyekController extends Controller
     public function count()
     {
         try{
-            $finishquery = DB::connection('dwh')->table('vw_uptd_trx_detail_proyek_kontrak')
+            $finishquery = DB::connection('dwh')->table('vw_uptd_trx_rekap_proyek_kontrak')
             ->select('NAMA_PAKET', 'TANGGAL', 'PENYEDIA_JASA', 'KEGIATAN', 'RUAS_JALAN', 'LOKASI', 'RENCANA', 'REALISASI', 'DEVIASI', 'JENIS_PEKERJAAN', 'UPTD','STATUS_PROYEK');
             // $finishquery->whereIn('TANGGAL', function ($querySubTanggal) {
-            //     $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('vw_uptd_trx_detail_proyek_kontrak');
+            //     $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('vw_uptd_trx_rekap_proyek_kontrak');
             // });
 
             $criticalquery = clone $finishquery;
@@ -82,10 +82,10 @@ class ProyekController extends Controller
     {
         try {
             if($request->has("skip")){
-                $data = DB::connection('dwh')->table('vw_uptd_trx_detail_proyek_kontrak')
+                $data = DB::connection('dwh')->table('vw_uptd_trx_rekap_proyek_kontrak')
                         ->whereRaw("BINARY STATUS_PROYEK = '$status'")->skip($request->skip)->take($request->take)->get();
             }else{
-                $data = DB::connection('dwh')->table('vw_uptd_trx_detail_proyek_kontrak')
+                $data = DB::connection('dwh')->table('vw_uptd_trx_rekap_proyek_kontrak')
                         ->whereRaw("BINARY STATUS_PROYEK = '$status'")->get();
             }
             return (DetailProyekResource::collection($data)->additional(['status' => 'success']));
