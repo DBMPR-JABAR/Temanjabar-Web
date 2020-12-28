@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use DataTables;
 
 class ProgressPekerjaanController extends Controller
 {
@@ -30,6 +31,43 @@ class ProgressPekerjaanController extends Controller
         }
         $pekerjaan = $pekerjaan->get();
         return view('admin.input.progresskerja.index', compact('pekerjaan'));
+    }
+
+
+     public function json(){
+        $progress = DB::table('progress_mingguan');
+        if (Auth::user()->internalRole->uptd) {
+            $progress = $progress->where('uptd_id',Auth::user()->internalRole->uptd);
+        }
+        $progress = $progress->get();
+        return Datatables::of($progress)
+                ->addIndexColumn()
+                ->addColumn('rencana_temp', function($row){
+                    return $row->rencana.'<br>'.$row->realisasi.'<br>'.$row->deviasi;
+                })
+                ->addColumn('waktu_temp', function($row){
+                    return $row->waktu_kontrak.'<br>'.$row->terpakai.'<br>'.$row->sisa.'<br>'.$row->prosentase;
+                })
+                ->addColumn('nilai_kontrak', function($row){
+                    return number_format($row->nilai_kontrak,2);
+                })
+                ->addColumn('keuangan', function($row){
+                    return $row->bayar.'<br>'.number_format($row->bayar,2);
+                })
+                ->addColumn('action', function($row){
+                   $html = '<div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">';
+                   
+                    if (hasAccess(Auth::user()->internal_role_id, "Progress Kerja", "Update")){
+                        $html.='<a href="'. route('editDataProgress',$row->id).'"><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>';
+                        }
+                    if (hasAccess(Auth::user()->internal_role_id, "Progress Kerja", "Delete")){
+                        $html.='<a href="#delModal" data-id="'.$row->id.'" data-toggle="modal"><button data-toggle="tooltip" title="Hapus" class="btn btn-danger btn-sm waves-effect waves-light"><i class="icofont icofont-trash"></i></button></a>';
+                    }
+                    $html.='</div>';
+                    return $html;
+
+                })
+                ->make(true);
     }
 
 

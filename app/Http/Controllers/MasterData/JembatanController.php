@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Yajra\Datatables\DataTables;
 
 class JembatanController extends Controller
 {
@@ -119,7 +120,7 @@ class JembatanController extends Controller
         $jembatan = Jembatan::find($id);
 
         $id = substr($jembatan->uptd, strlen($jembatan->uptd) - 1);
-        $id = (int)$id;
+        $id = (int) $id;
 
         $ruasJalan = DB::table('master_ruas_jalan');
         $ruasJalan = $ruasJalan->where('uptd_id', $id);
@@ -180,7 +181,12 @@ class JembatanController extends Controller
             $dataBentang['panjang'] = $request->$textPanjang;
             $dataBentang['tipe_bangunan_atas_id'] = $request->$textTipe;
 
-            DB::table('master_jembatan_bentang')->where('id', $request->$textIdBentang)->update($dataBentang);
+            $oldBentang = DB::table('master_jembatan_bentang')->where('id', $request->$textIdBentang);
+            if ($oldBentang->exists()) {
+                DB::table('master_jembatan_bentang')->where('id', $request->$textIdBentang)->update($dataBentang);
+            } else {
+                DB::table('master_jembatan_bentang')->insert($dataBentang);
+            }
         }
 
         $color = "success";
@@ -208,5 +214,27 @@ class JembatanController extends Controller
         $tipe = $tipe->get();
 
         return response()->json($tipe);
+    }
+
+    public function json()
+    {
+        return DataTables::of(DB::table('master_jembatan'))
+            ->addIndexColumn()
+            ->addColumn('action', function ($row) {
+                $btn = '<div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">';
+
+                if (hasAccess(Auth::user()->internal_role_id, "Jembatan", "Update")) {
+                    $btn = $btn . '<a href="' . route("editJembatan", $row->id) . '"><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>';
+                }
+
+                if (hasAccess(Auth::user()->internal_role_id, "Jembatan", "Delete")) {
+                    $btn = $btn . '<a href="#delModal" data-id="' . $row->id . '" data-toggle="modal"><button data-toggle="tooltip" title="Hapus" class="btn btn-danger btn-sm waves-effect waves-light"><i class="icofont icofont-trash"></i></button></a>';
+                }
+                $btn = $btn . '</div>';
+
+                return $btn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
 }

@@ -27,11 +27,16 @@ Route::get('progress-pekerjaan', 'LandingController@progressPekerjaan');
 Route::post('tambah-laporan', 'LandingController@createLaporan');
 Route::post('tambah-pesan', 'LandingController@createPesan');
 Route::get('admin/master/ruas_jalan', 'MasterController@getRuasJalan')->name('admin.master.ruas_jalan');
+Route::get('map/map-dashboard-masyarakat', 'LandingController@mapMasyarakat')->name('landing.map.map-dashboard-masyarakat');
+
 
 // {SiteURL}/uptd/*
 Route::group(['prefix' => 'uptd'], function () {
     Route::get('/{slug}', 'LandingController@uptd');
 });
+
+Route::get('user', 'CobaController@index');
+Route::get('user/json', 'CobaController@json');
 
 // {SiteURL}/admin/*
 Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
@@ -51,7 +56,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::view('survey-kondisi-jalan/{uptd}', 'admin.monitoring.survey-kondisi-jalan-uptd')->name('kondisiJalanUPTD');
         Route::view('survey-kondisi-jalan/{uptd}/{jalan}', 'admin.monitoring.survey-kondisi-jalan-uptd-detail')->name('kondisiJalanUPTDDetail');
 
-        Route::get('proyek-kontrak', 'ProyekController@getProyekKontrak')->name('monitoring-kontrak');
+        Route::get('kendali-kontrak', 'ProyekController@getKendaliKontrak')->name('monitoring-kontrak');
+        Route::get('kendali-kontrak/progress', 'ProyekController@getKendaliKontrakProgress')->name('monitoring-kontrak-progress');
         // Route::view('proyek-kontrak', 'admin.monitoring.proyek-kontrak')->name('monitoring-kontrak');
         Route::get('proyek-kontrak/status/{status} ', 'MonitoringController@getProyekDetail');
         Route::get('main-dashboard', 'MonitoringController@getMainDashboard');
@@ -135,9 +141,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::get('instruksi', 'DisposisiController@getDaftarDisposisiInstruksi')->name('disposisi-instruksi');
         Route::get('download/{id}', 'DisposisiController@downloadFile')->name('download');
         Route::get('edit/{id}', 'DisposisiController@edit')->name('editDisposisi');
-  
+
         Route::post('createTindakLanjut', 'DisposisiController@createTindakLanjut')->name('createTindakLanjut');
-         
+
         Route::post('updateDisposisi', 'DisposisiController@updateDisposisi')->name('updateDisposisi');
         Route::post('create', 'DisposisiController@create')->name('saveInsertDisposisi');
         Route::post('createDisposisiInstruksi', 'DisposisiController@createInstruksi')->name('saveInsertInstruksi');
@@ -158,6 +164,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('update', 'MasterData\JembatanController@update')->name('updateJembatan');
             Route::get('delete/{id}', 'MasterData\JembatanController@delete')->name('deleteJembatan');
             Route::get('getTipeBangunan', 'MasterData\JembatanController@getTipeBangunan')->name('getTipeBangunan');
+            Route::get('json', 'MasterData\JembatanController@json')->name('getJsonJembatan');
         });
 
         Route::group(['prefix' => 'ruas-jalan'], function () {
@@ -167,6 +174,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('update', 'MasterData\RuasJalanController@update')->name('updateMasterRuasJalan');
             Route::get('delete/{id}', 'MasterData\RuasJalanController@delete')->name('deleteRuasJalan');
             Route::get('getSUP', 'MasterData\RuasJalanController@getSUP')->name('getSUPRuasJalan');
+            Route::get('json', 'MasterData\RuasJalanController@json')->name('getJsonRuasJalan');
         });
 
         Route::group(['prefix' => 'user'], function () {
@@ -201,6 +209,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('update/{id}', 'MasterData\RawanBencanaController@updateData')->name('updateDataBencana');
             Route::post('create', 'MasterData\RawanBencanaController@createData')->name('createDataBencana');
             Route::get('delete/{id}', 'MasterData\RawanBencanaController@deleteData')->name('deleteDataBencana');
+            Route::get('json', 'MasterData\RawanBencanaController@json')->name('getJsonDataBencana');
         });
     });
 
@@ -215,6 +224,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('create', 'InputData\PekerjaanController@createData')->name('createDataPekerjaan');
             Route::get('delete/{id}', 'InputData\PekerjaanController@deleteData')->name('deleteDataPekerjaan');
             Route::get('submit/{id}', 'InputData\PekerjaanController@submitData')->name('submitDataPekerjaan');
+            Route::get('json', 'InputData\PekerjaanController@json')->name('getJsonDataBencana');
         });
 
         Route::group(['prefix' => 'progresskerja'], function () {
@@ -223,6 +233,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('update/{id}', 'InputData\ProgressPekerjaanController@updateDataProgress')->name('updateDataProgress');
             Route::post('create', 'InputData\ProgressPekerjaanController@createDataProgress')->name('createDataProgress');
             Route::get('delete/{id}', 'InputData\ProgressPekerjaanController@deleteDataProgress')->name('deleteDataProgress');
+            Route::get('json', 'InputData\ProgressPekerjaanController@json')->name('json');
         });
 
         Route::group(['prefix' => 'keuangan'], function () {
@@ -240,6 +251,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('update', 'InputData\KondisiJalanController@update')->name('updateIDKondisiJalan');
             Route::get('delete/{id}', 'InputData\KondisiJalanController@delete')->name('deleteIDKondisiJalan');
             Route::get('getRuasJalan', 'InputData\KondisiJalanController@getRuasJalan')->name('getRuasJalanKJ');
+            Route::get('json', 'InputData\KondisiJalanController@getRJ')->name('getRJ');
         });
 
         Route::group(['prefix' => 'data-paket'], function () {
@@ -249,6 +261,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('add', 'InputData\DataPaketController@add')->name('addIDDataPaket');
             Route::post('update', 'InputData\DataPaketController@update')->name('updateIDDataPaket');
             Route::get('delete/{id}', 'InputData\DataPaketController@delete')->name('deleteIDDataPaket');
+            Route::get('json', 'InputData\DataPaketController@json')->name('json');
         });
 
         Route::group(['prefix' => 'rekap'], function () {
@@ -257,6 +270,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('create', 'InputData\RekapController@createData')->name('createDataRekap');
             Route::post('update', 'InputData\RekapController@updateData')->name('updateDataRekap');
             Route::get('delete/{id}', 'InputData\RekapController@deleteData')->name('deleteDataRekap');
+            Route::get('json', 'InputData\RekapController@json')->name('json');
         });
     });
 
@@ -267,10 +281,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::post('/create', 'LaporController@store')->name('createLapor');
         Route::post('update', 'LaporController@update')->name('updateLapor');
         Route::get('delete/{id}', 'LaporController@delete')->name('deleteLapor');
+        Route::get('json', 'LaporController@json')->name('getJsonLapor');
     });
 });
 Route::get('map/target-realisasi', 'ProyekController@getTargetRealisasiAPI')->name('api.targetrealisasi');
 Route::get('map/proyek-kontrak', 'ProyekController@getProyekKontrakAPI')->name('api.proyekkontrak');
+Route::get('map/proyek-kontrak-progress', 'ProyekController@getProgressProyekKontrakAPI')->name('api.proyekkontrakprogress');
 
 Route::get('map/laporan-masyarakat', 'MonitoringController@getLaporanAPI')->name('api.laporan');
 Route::get('map/kemantapan-jalan', 'MonitoringController@getKemantapanJalanAPI')->name('api.kemantapanjalan');
@@ -292,5 +308,3 @@ Route::view('map-progress-mingguan', 'debug.map-progress-mingguan');
 Route::view('map-ruas-jalan', 'debug.map-ruas-jalan');
 
 Route::get('debug', 'Backup\DebugController@debug');
-
-

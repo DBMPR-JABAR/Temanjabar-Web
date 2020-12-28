@@ -12,7 +12,7 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Proyek Kontrak</h4>
+                <h4>Kendali Kontrak</h4>
 
             </div>
         </div>
@@ -23,7 +23,7 @@
                 <li class="breadcrumb-item">
                     <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
                 </li>
-                <li class="breadcrumb-item"><a href="#!">Proyek Kontrak</a> </li>
+                <li class="breadcrumb-item"><a href="#!">Kendali Kontrak</a> </li>
             </ul>
         </div>
     </div>
@@ -89,7 +89,7 @@
                                             <option value="rehabilitasi">Rehabilitasi</option>
                                         </select>
                                     </div>
-                                    <div class="col-sm-12 col-xl-3 m-b-30">
+                                    {{-- <div class="col-sm-12 col-xl-3 m-b-30">
                                         <h4 class="sub-title">Dari Tanggal</h4>
                                         <input type="date" id="filterDateFrom" name="dateFrom" class="form-control form-control-primary">
                                         </input>
@@ -98,7 +98,7 @@
                                         <h4 class="sub-title">Ke Tanggal</h4>
                                         <input type="date" id="filterDateTo" name="dateTo" class="form-control form-control-primary">
                                         </input>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -194,7 +194,7 @@
         <div class="card">
 
         <div class="card-header">
-                <h5>Rencana Dan Realisasi Proyek Kontrak</h5>
+                <h5>Rencana Dan Realisasi Kendali Kontrak</h5>
 
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
@@ -203,313 +203,119 @@
                     </ul>
                 </div>
         </div>
-          <div class="card-block">
+        <div class="card-block">
           <div id="container" ></div>
-
-          </div>
         </div>
-      </div>
-{{--
-      <div class="col-xl-12 col-md-12">
-        <div class="card">
-
-            <div class="card-header">
-                <h5>Daftar Penyelesaian Pekerjaan Kontraktor</h5>
-
-                <div class="card-header-right">
-                    <ul class="list-unstyled card-option">
-                        <li><i class="feather icon-maximize full-card"></i></li>
-                        <li><i class="feather icon-minus minimize-card"></i></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="card-block">
-
-                <ul class="nav nav-tabs md-tabs" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#home3" role="tab">Finish</a>
-                        <div class="slide"></div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#profile3" role="tab">On Progress</a>
-                        <div class="slide"></div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#messages3" role="tab">Crtitical Contract</a>
-                        <div class="slide"></div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#settings3" role="tab">Off Progress</a>
-                        <div class="slide"></div>
-                    </li>
-                </ul>
-                <!-- Tab panes -->
-                <div class="tab-content card-block">
-                    <div class="tab-pane active" id="home3" role="tabpanel">
-                        <!-- chart -->
-                        <div id="chartdiv" style="height:250px"></div>
-                        <!--  -->
-                        <div class="card" style="box-shadow: none;">
-
-                          <div class="card-block">
-                            <div class="table-responsive dt-responsive">
-                              <table id="proyekContract" style="width:100%;font-size:12px" class="table table-striped table-bordered ">
-                                <thead>
-                                    <tr>
-                                        <th style="width:5%">No.</th>
-                                        <th>Tanggal</th>
-                                        <th style="width:10px">Nama Paket</th>
-                                        <th>Penyedia Jasa</th>
-                                        <th>Kategori</th>
-                                        <th style="width:5%">Jenis Pekerjaan</th>
-                                        <th>Ruas Jalan</th>
-                                        <th>Lokasi</th>
-                                        <th>Rencana</th>
-                                        <th>Realisasi</th>
-                                        <th>Deviasi</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                <?php $number = 1?>
-                                @foreach ($listProjectContract as $data)
-                                        <tr>
-                                        <td>{{$number++}}</td>
-                                        <td>{{ $data->TANGGAL }}</td>
-                                        <td style="width:10px">{{$data->NAMA_PAKET}} </th>
-
-                                        <td>{{$data->PENYEDIA_JASA}} </th>
-                                            <td><b>{{$data->KEGIATAN}}</b></td>
-                                            <td>{{$data->JENIS_PEKERJAAN}}</td>
-                                            <td>{{$data->RUAS_JALAN}}</td>
-                                            <td>{{$data->LOKASI}}</td>
-                                            <td>{{$data->RENCANA}}</td>
-                                            <td>{{$data->REALISASI}}</td>
-                                            <td>{{$data->DEVIASI}}</td>
-                                            <td></td>
-                                        </tr>
-                                      @endforeach
-                                  </tbody>
-                              </table>
-                            </div>
-                          </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane" id="profile3" role="tabpanel">
-                        <!-- Chart -->
-                        <div id="chartdivontrack" style="height:250px"></div>
-                        <!--  -->
-                        <div class="card" style="box-shadow: none;">
-                          <div class="card-header">
-                            <h5>Detail Daftar Pekerjaan</h5>
-                            <ul class="filter-list mt-4">
-                              <li>
-                                <a href=""><button type="button" class="btn btn-primary">Semua <i class="feather icon-sliders"></i></button></a>
-                              </li>
-                              <li>
-                                <a href=""><button type="button" class="btn btn-success">Pemeliharaan Berkala</button></a>
-                              </li>
-                              <li>
-                                <a href=""><button type="button" class="btn btn-success">Pembangunan</button></a>
-                              </li>
-                              <li>
-                                <a href=""><button type="button" class="btn btn-success">Peningkatan</button></a>
-                              </li>
-                            </ul>
-                          </div>
-                          <div class="card-block">
-                            <div class="table-responsive dt-responsive">
-                              <table id="detail" class="table table-striped table-bordered ">
-                                <thead>
-                                    <tr>
-                                        <th>No.</th>
-                                        <th>Pekerja</th>
-                                        <th>Kategori</th>
-                                        <th>Tgl Kontrak</th>
-                                         <th>Jenis Pekerjaan</th>
-                                        <th>Ruas Jalan</th>
-                                        <th>Lokasi</th>
-                                        <th>Rencana</th>
-                                        <th>Realisasi</th>
-                                        <th>Deviasi</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-
-                                   </tbody>
-                              </table>
-                            </div>
-                          </div>
-                        </div>
-                     </div>
-                    <div class="tab-pane" id="messages3" role="tabpanel">
-                        <div id="chartdivalert" style="height:250px"></div>
-                     </div>
-                    <div class="tab-pane" id="settings3" role="tabpanel">
-                        <div id="chartdivselesai" style="height:250px"></div>
-                    </div>
-                </div>
-
-
-
-
-            </div>
         </div>
-      </div> --}}
-
     </div>
-    <!-- visitor start -->
 
-     <!-- sale order start -->
 </div>
 @endsection
 
 @section('script')
 <script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/gantt/modules/gantt.js"></script>
-<script src="https://code.highcharts.com/gantt/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
 <script>
 
-var today = new Date(),
-    day = 1000 * 60 * 60 * 24,
-    // Utility functions
-    dateFormat = Highcharts.dateFormat,
-    defined = Highcharts.defined,
-    isObject = Highcharts.isObject,
-    reduce = Highcharts.reduce;
-
-// Set to 00:00:00:000 today
-today.setUTCHours(0);
-today.setUTCMinutes(0);
-today.setUTCSeconds(0);
-today.setUTCMilliseconds(0);
-today = today.getTime();
-
-function proyekKontrak(data) {
-    if(data.length > 0){
-        Highcharts.ganttChart('container', {
-            navigator: {
-                enabled: true,
-                liveRedraw: true,
-                series: {
-                    type: 'gantt',
-                    pointPlacement: 0.5,
-                    pointPadding: 0.25
+    function chart(data, uptd, tahun, kegiatan){
+        if(data.REALISASI.length > 0){
+            let text = "Target dan Realisasi Fisik Kendali Kontrak ";
+            text += (uptd != '') ? 'UPTD '+uptd : '';
+            text += (tahun != '') ? ' Tahun '+tahun : ' ';
+            text += (kegiatan != '') ? ' Kategori '+kegiatan : ' ';
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                colors: ["#f7a35c", "#8085e9"],
+                title: {
+                    text: text
+                },
+                xAxis: {
+                    categories: data.BULAN,
+                    crosshair: true
                 },
                 yAxis: {
                     min: 0,
-                    max: 3,
-                    reversed: true,
-                    categories: []
-                }
-            },
-            scrollbar: {
-                enabled: true
-            },
-            rangeSelector: {
-                enabled: true,
-                selected: 0
-            },
-            series: data,
-            tooltip: {
-                pointFormatter: function () {
-
-                    var point = this,
-                        format = '%Y-%m-%d',
-                        options = point.options,
-                        completed = options.completed,
-                        amount = isObject(completed) ? completed.amount : completed,
-                        //status = ((amount || 0) * 100) + '%',
-                        status = ((amount || 0) * 100) + '%',
-                        lines;
-
-                    lines = [{
-                        value: point.name,
-                        style: 'font-weight: bold;'
-                    }, {
-                        title: 'Start',
-                        value: dateFormat(format, point.start)
-                    }, {
-                        visible: !options.milestone,
-                        title: 'End',
-                        value: dateFormat(format, point.end)
-                    }, {
-                        title: 'Completed',
-                        value: status
-                    }, {
-                        title: 'Jenis Pekerjaan',
-                        value: options.jenis || 'unassigned'
-                    }, {
-                        title: 'Owner',
-                        value: options.owner || 'unassigned'
-                    }];
-
-                    return reduce(lines, function (str, line) {
-                        var s = '',
-                            style = (
-                                defined(line.style) ? line.style : 'font-size: 0.8em;'
-                            );
-                        if (line.visible !== false) {
-                            s = (
-                                '<span style="' + style + '">' +
-                                (defined(line.title) ? line.title + ': ' : '') +
-                                (defined(line.value) ? line.value : '') +
-                                '</span><br/>'
-                            );
+                    title: {
+                        text: 'Persen (%)'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:,.2f}%</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    },
+                    series: {
+                        cursor: 'pointer',
+                        point: {
+                            events: {
+                                click: function () {
+                                    let url = "{{route('monitoring-kontrak-progress')}}?bulan="+this.category;
+                                    url += (uptd != '') ? '&uptd='+uptd : '';
+                                    url += (tahun != '') ? '&tahun='+tahun : '';
+                                    url += (kegiatan != '') ? '&kegiatan='+kegiatan : '';
+                                    location.href = url;
+                                }
+                            }
                         }
-                        return str + s;
-                    }, '');
-                }
-            },
-            title: {
-                text: ' '
-            },
-            xAxis: {
-                currentDateIndicator: true,
-                // min: today - 3 * day,
-                // max: today + 110 * day
+                    }
+                },
+                series: [{
+                    name: 'Rencana',
+                    data: data.RENCANA
+                }, {
+                    name: 'Realisasi',
+                    data: data.REALISASI
+                }]
+            });
+        }else{
+            $("#container").html(`<h5 class="text-center"> Data Tidak Ada </h5>`);
+        }
+
+    }
+
+    $(document).ready(function () {
+        const baseUrl = "{{url('')}}/map/proyek-kontrak";
+        let tahun = $("#filterTahun").val();
+        let uptd = $("#filterUPTD").val();
+        let kegiatan = $("#filterKegiatan").val();
+
+        Highcharts.setOptions({
+            lang: {
+                decimalPoint: ',',
+                thousandsSep: '.'
             }
         });
-    }else{
-        $("#container").html(`<h5 class="text-center"> Data Tidak Ada </h5>`);
-    }
-}
 
-$(document).ready(function() {
-    const baseUrl = "{{url('')}}/map/proyek-kontrak";
+        $.get(baseUrl, { tahun: tahun, uptd: uptd, kegiatan: kegiatan},
+            function(response){
+                const data = response.data;
+                chart(data, uptd, tahun, kegiatan);
+            });
 
-    let tahun = $("#filterTahun").val();
-    let uptd = $("#filterUPTD").val();
-    let kegiatan = $("#filterKegiatan").val();
-    let dateFrom = $("#filterDateFrom").val();
-    let dateTo = $("#filterDateTo").val();
+        $("#filterTahun, #filterUPTD, #filterKegiatan").change(function () {
+            tahun = $("#filterTahun").val();
+            uptd = $("#filterUPTD").val();
+            kegiatan = $("#filterKegiatan").val();
 
-    $.get(baseUrl, { tahun: tahun, uptd: uptd, kegiatan: kegiatan, dateFrom: dateFrom, dateTo: dateTo},
-        function(response){
-            const data = response.data;
-            proyekKontrak(data);
-        });
-
-    $("#filterTahun, #filterUPTD, #filterKegiatan, #filterDateFrom, #filterDateTo").change(function () {
-        tahun = $("#filterTahun").val();
-        uptd = $("#filterUPTD").val();
-        kegiatan = $("#filterKegiatan").val();
-        dateFrom = $("#filterDateFrom").val();
-        dateTo = $("#filterDateTo").val();
-
-        $.get(baseUrl, { tahun: tahun, uptd: uptd, kegiatan: kegiatan, dateFrom: dateFrom, dateTo: dateTo},
-        function(response){
-            const data = response.data;
-            proyekKontrak(data);
+            $.get(baseUrl, { tahun: tahun, uptd: uptd, kegiatan: kegiatan},
+            function(response){
+                const data = response.data;
+                chart(data, uptd, tahun, kegiatan);
+            });
         });
     });
-
-});
 </script>
-
-
-
 @endsection

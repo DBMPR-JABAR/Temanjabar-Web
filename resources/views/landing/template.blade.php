@@ -85,6 +85,10 @@
                         <h3 class="whitecolor bottom25">Navigasi</h3>
                         <ul class="links">
                             <li><a href="{{url('/')}}#home" class="pagescroll">Beranda</a></li>
+                            <li class="nav-item">
+                                <a class="nav-link active" 
+                                    href="{{ url('map/map-dashboard-masyarakat') }}">Map DBMPR</a>
+                            </li>
                             <li><a href="{{url('/')}}#about" class="pagescroll scrollupto">Tentang Kami</a></li>
                             <li><a href="{{url('/')}}#portfolio" class="pagescroll">UPTD</a></li>
                             <li><a href="{{url('/')}}#ourfaq" class="pagescroll">Pengaduan</a></li>
