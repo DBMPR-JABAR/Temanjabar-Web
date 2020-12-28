@@ -23,7 +23,8 @@
                 <li class="breadcrumb-item">
                     <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
                 </li>
-                <li class="breadcrumb-item"><a href="#!">Kendali Kontrak</a> </li>
+                <li class="breadcrumb-item"><a href="{{route('monitoring-kontrak')}}">Kendali Kontrak</a> </li>
+                <li class="breadcrumb-item"><a href="#!">Progress</a> </li>
             </ul>
         </div>
     </div>
@@ -411,7 +412,7 @@ function proyekKontrak(data) {
             },
             rangeSelector: {
                 enabled: true,
-                selected: 0
+                selected: 5
             },
             series: data,
             tooltip: {
@@ -495,19 +496,27 @@ function lastTanggal(year,bulan) {
 }
 
 $(document).ready(function() {
-    const baseUrl = "{{url('')}}/map/proyek-kontrak-progress";
+    const baseUrl = "{{url('map/proyek-kontrak-progress')}}";
+    console.log(baseUrl);
 
     let date = new Date();
-    let year = parseInt(date.getFullYear());
+    let year = '{{$tahun}}';
+    year = (year != '') ? year : parseInt(date.getFullYear());
     let bulan = parseInt('{{$bulan}}');
 
-    let tahun = $("#filterTahun").val('{{$tahun}}');
-    let uptd = $("#filterUPTD").val('{{$uptd}}');
-    let kegiatan = $("#filterKegiatan").val('{{$kegiatan}}');
-    let dateFrom = $("#filterDateFrom").val('2000-01-01');
-    let dateTo = $("#filterDateTo").val(lastTanggal(year,bulan));
+    $("#filterTahun").val('{{$tahun}}');
+    $("#filterUPTD").val('{{$uptd}}');
+    $("#filterKegiatan").val('{{$kegiatan}}');
+    $("#filterDateFrom").val('2019-01-01');
+    $("#filterDateTo").val(lastTanggal(year,bulan))
 
-    $.get(baseUrl, { tahun: tahun, uptd: uptd, kegiatan: kegiatan, dateFrom: dateFrom, dateTo: dateTo},
+    let tahun = $("#filterTahun").val();
+    let uptd = $("#filterUPTD").val();
+    let kegiatan = $("#filterKegiatan").val();
+    let dateFrom = $("#filterDateFrom").val();
+    let dateTo = $("#filterDateTo").val();
+
+    $.get(baseUrl, {tahun: tahun, uptd: uptd, kegiatan: kegiatan, dateFrom: dateFrom, dateTo: dateTo},
         function(response){
             const data = response.data;
             proyekKontrak(data);

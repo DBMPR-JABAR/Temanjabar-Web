@@ -218,9 +218,27 @@
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
 <script>
+    const monthName = ['A','Januari', 'Februari', 'Maret', 'April', 'Mei','Juni','Juli','Agustus',
+                   'September', 'Oktober', 'November','Desember'];
 
     function chart(data, uptd, tahun, kegiatan){
         if(data.REALISASI.length > 0){
+            let rencana = [];
+            data.RENCANA.forEach((val,i) => {
+                rencana.push({y: val, bulan: data.BULAN[i]});
+            });
+
+            let realisasi = [];
+            data.REALISASI.forEach((val,i) => {
+                realisasi.push({y: val, bulan: data.BULAN[i]});
+            });
+
+            let month = [];
+            data.BULAN.forEach((val,i) => {
+                month.push(monthName[val]);
+            });
+
+
             let text = "Target dan Realisasi Fisik Kendali Kontrak ";
             text += (uptd != '') ? 'UPTD '+uptd : '';
             text += (tahun != '') ? ' Tahun '+tahun : ' ';
@@ -234,7 +252,7 @@
                     text: text
                 },
                 xAxis: {
-                    categories: data.BULAN,
+                    categories: month,
                     crosshair: true
                 },
                 yAxis: {
@@ -261,7 +279,7 @@
                         point: {
                             events: {
                                 click: function () {
-                                    let url = "{{route('monitoring-kontrak-progress')}}?bulan="+this.category;
+                                    let url = "{{route('monitoring-kontrak-progress')}}?bulan="+this.options.bulan;
                                     url += (uptd != '') ? '&uptd='+uptd : '';
                                     url += (tahun != '') ? '&tahun='+tahun : '';
                                     url += (kegiatan != '') ? '&kegiatan='+kegiatan : '';
@@ -273,10 +291,10 @@
                 },
                 series: [{
                     name: 'Rencana',
-                    data: data.RENCANA
+                    data: rencana
                 }, {
                     name: 'Realisasi',
-                    data: data.REALISASI
+                    data: realisasi
                 }]
             });
         }else{
