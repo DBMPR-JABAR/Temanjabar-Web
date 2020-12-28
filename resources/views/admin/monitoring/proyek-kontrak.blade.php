@@ -225,12 +225,12 @@
         if(data.REALISASI.length > 0){
             let rencana = [];
             data.RENCANA.forEach((val,i) => {
-                rencana.push({y: val, bulan: data.BULAN[i]});
+                rencana.push({y: val, bulan: data.BULAN[i], tahun: data.TAHUN[i]});
             });
 
             let realisasi = [];
             data.REALISASI.forEach((val,i) => {
-                realisasi.push({y: val, bulan: data.BULAN[i]});
+                realisasi.push({y: val, bulan: data.BULAN[i], tahun: data.TAHUN[i]});
             });
 
             let month = [];
@@ -262,8 +262,8 @@
                     }
                 },
                 tooltip: {
-                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    headerFormat: '<span style="font-size:20px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name} {point.tahun}: </td>' +
                         '<td style="padding:0"><b>{point.y:,.2f}%</b></td></tr>',
                     footerFormat: '</table>',
                     shared: true,
@@ -279,9 +279,8 @@
                         point: {
                             events: {
                                 click: function () {
-                                    let url = "{{route('monitoring-kontrak-progress')}}?bulan="+this.options.bulan;
+                                    let url = "{{route('monitoring-kontrak-progress')}}?bulan="+this.options.bulan+"&tahun="+this.options.tahun;
                                     url += (uptd != '') ? '&uptd='+uptd : '';
-                                    url += (tahun != '') ? '&tahun='+tahun : '';
                                     url += (kegiatan != '') ? '&kegiatan='+kegiatan : '';
                                     location.href = url;
                                 }

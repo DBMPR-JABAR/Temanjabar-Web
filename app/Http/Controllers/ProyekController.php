@@ -50,11 +50,13 @@ class ProyekController extends Controller
         if ($request->kegiatan != "") $kontrak = $kontrak->where('NAMA_KEGIATAN', 'LIKE', "%$request->kegiatan%");
 
         $dataAll['BULAN'] = [];
+        $dataAll['TAHUN'] = [];
         $dataAll['RENCANA'] = [];
         $dataAll['REALISASI'] = [];
 
         foreach ($kontrak->get() as $data) {
             array_push($dataAll['BULAN'],$data->BULAN);
+            array_push($dataAll['TAHUN'],$data->TAHUN);
             array_push($dataAll['RENCANA'],$data->PROGRESS_FISIK_RENCANA_KUMULATIF);
             array_push($dataAll['REALISASI'],$data->PROGRESS_FISIK_REALISASI_KUMULATIF);
         }
