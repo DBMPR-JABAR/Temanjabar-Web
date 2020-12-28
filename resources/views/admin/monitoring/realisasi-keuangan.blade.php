@@ -8,7 +8,6 @@
         <div class="page-header-title">
             <div class="d-inline">
                 <h4>Monitoring Target & Realisasi Anggaran DBMPR Provinsi Jawa Barat</h4>
-
             </div>
         </div>
     </div>

@@ -8,11 +8,11 @@ use Illuminate\Support\Carbon;
 
 class ProyekController extends Controller
 {
-    public function getProyekKontrak()
+    public function getKendaliKontrak()
     {
-        $finishquery = DB::connection('dwh')->table('vw_uptd_trx_proyek_kontrak');
+        $finishquery = DB::connection('dwh')->table('vw_uptd_trx_rekap_proyek_kontrak');
         // $finishquery->whereIn('TANGGAL', function ($querySubTanggal) {
-        //     $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('vw_uptd_trx_proyek_kontrak');
+        //     $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('vw_uptd_trx_rekap_proyek_kontrak');
         // });
 
         $criticalquery = clone $finishquery;
@@ -31,9 +31,40 @@ class ProyekController extends Controller
             ]);
     }
 
+    public function getKendaliKontrakProgress(Request $request)
+    {
+        $bulan = $request->bulan;
+        $tahun = ($request->has('tahun')) ? $request->tahun : '';
+        $uptd = ($request->has('uptd')) ? $request->uptd : '';
+        $kegiatan = ($request->has('kegiatan')) ? $request->kegiatan : '';
+
+        return view('admin.monitoring.proyek-kontrak-progress',compact('bulan','tahun','uptd','kegiatan'));
+    }
+
     public function getProyekKontrakAPI(Request $request)
     {
-        $listProyekKontrak = DB::connection('dwh')->table('vw_uptd_trx_proyek_kontrak');
+        $kontrak = DB::connection('dwh')->table('vw_uptd_trx_proyek_kontrak');
+
+        if ($request->uptd != "") $kontrak = $kontrak->where('UPTD', '=', $request->uptd);
+        if ($request->tahun != "") $kontrak = $kontrak->where('TAHUN', '=', $request->tahun);
+        if ($request->kegiatan != "") $kontrak = $kontrak->where('NAMA_KEGIATAN', 'LIKE', "%$request->kegiatan%");
+
+        $dataAll['BULAN'] = [];
+        $dataAll['RENCANA'] = [];
+        $dataAll['REALISASI'] = [];
+
+        foreach ($kontrak->get() as $data) {
+            array_push($dataAll['BULAN'],$data->BULAN);
+            array_push($dataAll['RENCANA'],$data->PROGRESS_FISIK_RENCANA_KUMULATIF);
+            array_push($dataAll['REALISASI'],$data->PROGRESS_FISIK_REALISASI_KUMULATIF);
+        }
+
+        return response()->json(["data" => $dataAll], 200);
+    }
+
+    public function getProgressProyekKontrakAPI(Request $request)
+    {
+        $listProyekKontrak = DB::connection('dwh')->table('vw_uptd_trx_rekap_proyek_kontrak');
 
         if ($request->tahun != "") $listProyekKontrak = $listProyekKontrak->whereYear('TANGGAL', '=', $request->tahun);
         if ($request->uptd != "") $listProyekKontrak = $listProyekKontrak->where('UPTD', '=', $request->uptd);

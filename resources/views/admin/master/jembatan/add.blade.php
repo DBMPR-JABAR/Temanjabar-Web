@@ -43,13 +43,6 @@
 
                 <form action="{{route('createJembatan')}}" method="post" enctype="multipart/form-data">
                     @csrf
-                    <div class="modal-header">
-                        <h4 class="modal-title">Tambah Data Jembatan</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-
                     <div class="modal-body">
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Id Jembatan</label>
@@ -178,7 +171,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                        <a href="{{ url('admin/master-data/jembatan') }}" class="btn btn-default waves-effect">Kembali</a>
                         <button type="submit" class="btn btn-primary waves-effect waves-light ">Simpan</button>
                     </div>
 

@@ -140,14 +140,14 @@
                                     <div class="form-group row w-100 mx-auto">
                                         <div class="col-md-2">
                                             <input type="number" class="form-control h-100" value="{{$i+1}}" readonly>
-                                            <input name="idBentang{{$i}}" type="number" class="form-control h-100" value="{{$dataBentang[$i]->id}}" hidden>
+                                            <input name="idBentang{{$i}}" type="number" class="form-control h-100" value="{{@$dataBentang[$i]->id}}" hidden>
                                         </div>
                                         <div class="col-md-5">
-                                            <input name="panjangBentang{{$i}}" type="number" class="form-control h-100" step="any" value="{{$dataBentang[$i]->panjang}}"></div>
+                                            <input name="panjangBentang{{$i}}" type="number" class="form-control h-100" step="any" value="{{@$dataBentang[$i]->panjang}}"></div>
                                         <div class="col-md-5">
                                             <select class="form-control" name="tipe{{$i}}">
                                                 @foreach ($tipe as $data)
-                                                @if($dataBentang[$i]->tipe_bangunan_atas_id == $data->id)
+                                                @if(@$dataBentang[$i]->tipe_bangunan_atas_id == $data->id)
                                                 <option value="{{$data->id}}" selected>{{$data->nama}}</option>
                                                 @else
                                                 <option value="{{$data->id}}">{{$data->nama}}</option>

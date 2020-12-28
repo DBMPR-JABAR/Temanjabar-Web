@@ -19,21 +19,15 @@
         #viewDiv {
             padding: 0;
             margin: 0;
-            height: 100%;
             width: 100%;
+            height: 100vh;
             z-index: -1;
         }
 
-        #grupKontrol {
-            display: inline-flex;
-            box-shadow: none;
-        }
-
-        #showFilter,
-        #showBaseMaps,
-        #fullscreen,
-        #back {
-            padding-bottom: 1px;
+        #showFilter {
+            position: absolute;
+            top: 15px;
+            right: 15px;
         }
 
         #showFilter button {
@@ -67,8 +61,16 @@
         }
 
         #logo {
-            margin-top: 15px;
-            margin-right: 33px;
+            display: block;
+            position: absolute;
+            top: 30px;
+            right: 80px;
+        }
+
+        #showBaseMaps {
+            position: absolute;
+            top: 47.5px;
+            right: 15px;
         }
 
         #showBaseMaps button {
@@ -78,6 +80,12 @@
             border: none;
             outline: none;
             cursor: pointer;
+        }
+
+        #fullscreen {
+            position: absolute;
+            top: 81px;
+            right: 15px;
         }
 
         #fullscreen button {
@@ -91,6 +99,12 @@
 
         .form-group {
             margin-bottom: 1px;
+        }
+
+        #back {
+            position: absolute;
+            top: 114px;
+            right: 15px;
         }
 
         #back button {
@@ -156,34 +170,30 @@
 
 <body>
     <div id="viewDiv"></div>
-    <div id="grupKontrol" style="display:inline-flex;">
-        <div id="logo">
-            <img width="200" class="img-fluid" src="{{ asset('assets/images/brand/text_putih.png')}}" alt="Logo DBMPR">
-        </div>
-        <div>
-            <div id="showFilter">
-                <button data-toggle="tooltip" data-placement="right" title="Fitur Filter">
-                    <i class="feather icon-list"></i>
-                </button>
-            </div>
-            <div id="showBaseMaps">
-                <button data-toggle="tooltip" data-placement="right" title="Fitur Filter">
-                    <i class="feather icon-map"></i>
-                </button>
-            </div>
-            <div id="fullscreen">
-                <button data-toggle="tooltip" data-placement="right" title="Fullscreen / Normal">
-                    <i class="feather icon-maximize full-card"></i>
-                </button>
-            </div>
-            <div id="back">
-                <a href="{{ url('/admin/monitoring/kendali-kontrak') }}">
-                    <button data-toggle="tooltip" data-placement="right" title="Kembali kehalaman Sebelumnya">
-                        <i class="feather icon-arrow-left"></i>
-                    </button>
-                </a>
-            </div>
-        </div>
+    <div id="showFilter">
+        <button data-toggle="tooltip" data-placement="right" title="Fitur Filter">
+            <i class="feather icon-list"></i>
+        </button>
+    </div>
+    <div id="showBaseMaps">
+        <button data-toggle="tooltip" data-placement="right" title="Fitur Filter">
+            <i class="feather icon-map"></i>
+        </button>
+    </div>
+    <div id="fullscreen">
+        <button data-toggle="tooltip" data-placement="right" title="Fullscreen / Normal">
+            <i class="feather icon-maximize full-card"></i>
+        </button>
+    </div>
+    <div id="back">
+        <a href="{{ url('/') }}">
+            <button data-toggle="tooltip" data-placement="right" title="Kembali kehalaman Sebelumnya">
+                <i class="feather icon-arrow-left"></i>
+            </button>
+        </a>
+    </div>
+    <div id="logo">
+        <img width="200" class="img-fluid" src="{{ asset('assets/images/brand/text_putih.png')}}" alt="Logo DBMPR">
     </div>
     <div id="filter" class="bg-white">
         <div id="preloader" style="display:none">
@@ -213,21 +223,17 @@
             <div class="form-group">
                 <label for="kegiatan"><i class="feather icon-activity text-warning"></i> Kegiatan</label>
                 <select data-placeholder="Pilih kegiatan" multiple class="chosen-select" tabindex="8" id="kegiatan">
-                    <option value="ruasjalan">Ruas Jalan</option>
-                    <option value="pembangunan">Pembangunan</option>
-                    <option value="peningkatan">Peningkatan</option>
-                    <option value="rehabilitasi">Rehabilitasi</option>
-                    <option value="jembatan">Jembatan</option>
                 </select>
             </div>
-            {{-- <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="proyek"><i class="feather icon-calendar text-success"></i> Proyek Kontrak</label>
                 <select class="chosen-select form-control" id="proyek" data-placeholder="Pilih kegiatan" multiple tabindex="4">
                     <option value="onprogress">On-Progress</option>
                     <option value="critical">Critical Contract</option>
+                    <option value="offprogress">Off Progress</option>
                     <option value="finish">Finish</option>
                 </select>
-            </div> --}}
+            </div> -->
             <!-- <div class="form-group">
                 <label for="basemap">Basemap</label>
                 <select data-placeholder="Basemap..." class="chosen-select form-control" id="basemap" tabindex="-1">
@@ -455,7 +461,7 @@
 
     function initFilter() {
         $("#uptd").empty();
-        const roleUptd = `{{ Auth::user()->internalRole->uptd }}`;
+        const roleUptd = ``;
         select = "";
         if (roleUptd == "") {
             for (let i = 1; i <= 6; i++) {
@@ -472,24 +478,19 @@
 
         $("#kegiatan").empty();
         kegiatan = `<option value="ruasjalan">Ruas Jalan</option>
-                    <option value="pembangunan">Pembangunan</option>
-                    <option value="peningkatan">Peningkatan</option>
                     <option value="rehabilitasi">Rehabilitasi</option>
-                    <option value="pemeliharaan">Pemeliharaan</option>
-                    <option value="vehiclecounting">Vehicle Counting</option>
-                    <option value="kemantapanjalan">Kemantapan Jalan</option>
                     <option value="jembatan">Jembatan</option>
                     <option value="datarawanbencana">Data Rawan Bencana</option>`;
         $('#kegiatan').html(kegiatan).trigger('liszt:updated');
         $('#kegiatan').trigger("chosen:updated");
 
-        // $("#proyek").empty();
-        // proyek = `<option value="onprogress">On-Progress</option>
-        //             <option value="criticalprogress">Critical Contract</option>
-        //             <option value="offprogress">Off Progress</option>
-        //             <option value="finishprogress">Finish</option>`;
-        // $('#proyek').html(proyek).trigger('liszt:updated');
-        // $('#proyek').trigger("chosen:updated");
+        $("#proyek").empty();
+        proyek = `<option value="onprogress">On-Progress</option>
+                    <option value="criticalprogress">Critical Contract</option>
+                    <option value="offprogress">Off Progress</option>
+                    <option value="finishprogress">Finish</option>`;
+        $('#proyek').html(proyek).trigger('liszt:updated');
+        $('#proyek').trigger("chosen:updated");
     }
 
     function difference(array1, array2) {
@@ -587,8 +588,6 @@
                 expandTooltip: 'Legenda'
             });
 
-            view.ui.add('grupKontrol', 'top-right');
-
             // Button Initialization
             $("#spp_filter, #kegiatan").chosen().change(function() {
                 changeBtnProses();
@@ -626,13 +625,8 @@
             function caseRender() {
                 let sup = $("#spp_filter").val();
                 let kegiatan = $("#kegiatan").val();
-                // kegiatan.push("progressmingguan");
-                if ($.inArray('datarawanbencana', kegiatan) >= 0) {
-                    rawanBencana();
-                    kegiatan.splice(kegiatan.indexOf('datarawanbencana'), 1); // remove 'ruasjalan' dari kegiatan
-                } else {
-                    map.remove(map.findLayerById('rbl'));
-                }
+                kegiatan.push("progressmingguan");
+                // console.log('sup:' + sup + ', keg:' + kegiatan);
 
                 if ($.inArray('ruasjalan', kegiatan) >= 0) {
                     addRuteJalan();
@@ -647,7 +641,12 @@
                     map.remove(map.findLayerById('rj_mantap'));
                 }
 
-               
+                if ($.inArray('datarawanbencana', kegiatan) >= 0) {
+                    rawanBencana();
+                    kegiatan.splice(kegiatan.indexOf('datarawanbencana'), 1); // remove 'ruasjalan' dari kegiatan
+                } else {
+                    map.remove(map.findLayerById('rbl'));
+                }
 
                 if (kegiatan.length > 0) { // kalau masih ada pilihan lain di kegiatan
                     // Request data from API
@@ -699,26 +698,24 @@
                             } else {
                                 map.remove(map.findLayerById('vc'));
                             }
-                            /* Deleted Proyek Kontrak
-                                if (kegiatan.indexOf('progressmingguan') >= 0) {
-                                    addProgressGroup(data.progressmingguan);
-                                } else {
-                                    map.remove(map.findLayerById('progress_all'));
-                                }
-                            */
+                            if (kegiatan.indexOf('progressmingguan') >= 0) {
+                                addProgressGroup(data.progressmingguan);
+                            } else {
+                                map.remove(map.findLayerById('progress_all'));
+                            }
 
-                            /* $("#proyek").chosen().change(function() {
-                                const proyek = $("#proyek").val();
-                                const allProyek = ["onprogress", "criticalprogress", "offprogress", "finishprogress"];
-                                const diff = difference(allProyek, proyek);
+                            // $("#proyek").chosen().change(function() {
+                            //     const proyek = $("#proyek").val();
+                            //     const allProyek = ["onprogress", "criticalprogress", "offprogress", "finishprogress"];
+                            //     const diff = difference(allProyek, proyek);
 
-                                for (i in proyek) {
-                                    allProgressLayer.findLayerById(proyek[i]).visible = true;
-                                }
-                                for (i in diff) {
-                                    allProgressLayer.findLayerById(diff[i]).visible = false;
-                                }
-                            }); */
+                            //     for (i in proyek) {
+                            //         allProgressLayer.findLayerById(proyek[i]).visible = true;
+                            //     }
+                            //     for (i in diff) {
+                            //         allProgressLayer.findLayerById(diff[i]).visible = false;
+                            //     }
+                            // });
                         } else { // json.status != success
                             // do something
                         }
@@ -751,11 +748,10 @@
                     rutejalanLayer.add(jalanTolOperasi(), 1);
                     rutejalanLayer.add(jalanNasional(), 2);
                     rutejalanLayer.add(gerbangTol(), 4);
-
                     map.add(rutejalanLayer);
                 }
                 rutejalanLayer.add(jalanProvinsi(), 3);
-                // rutejalanLayer.reorder();
+                rutejalanLayer.reorder();
 
                 function jalanProvinsi() {
                     const popupTemplate = {
@@ -884,11 +880,11 @@
                             color: "red",
                             width: "2px",
                             style: "solid",
-                         //   marker: { // autocasts from LineSymbolMarker
-                           //      color: "orange",
-                             //   placement: "begin-end",
-                               // style: "circle"
-                           // }
+                            marker: { // autocasts from LineSymbolMarker
+                                color: "orange",
+                                placement: "begin-end",
+                                style: "circle"
+                            }
                         }
                     }
                     return layer;
@@ -934,11 +930,11 @@
                             color: "yellow",
                             width: "2px",
                             style: "solid",
-                            //marker: { // autocasts from LineSymbolMarker
-                             //   color: "orange",
-                               // placement: "begin-end",
-                                //style: "circle"
-                            //}
+                            marker: { // autocasts from LineSymbolMarker
+                                color: "orange",
+                                placement: "begin-end",
+                                style: "circle"
+                            }
                         }
                     }
                     return layer;
@@ -984,11 +980,11 @@
                             color: "purple",
                             width: "2px",
                             style: "solid",
-                           // marker: { // autocasts from LineSymbolMarker
-                             //   color: "orange",
-                               // placement: "begin-end",
-                                //style: "circle"
-                            //}
+                            marker: { // autocasts from LineSymbolMarker
+                                color: "orange",
+                                placement: "begin-end",
+                                style: "circle"
+                            }
                         }
                     }
                     return layer;
@@ -1369,11 +1365,6 @@
                         {
                             name: "SUP",
                             alias: "SUP",
-                            type: "string"
-                        },
-                        {
-                            name: "NAMA_JEMBATAN",
-                            alias: "Nama Jembatan",
                             type: "string"
                         },
                         {
@@ -2300,316 +2291,204 @@
                 map.add(newVeCountLayer);
             }
 
-            /* Deleted Proyek Kontrak
-                function addProgressGroup(progress) {
-                    const symbol = {
-                        type: "picture-marker", // autocasts as new PictureMarkerSymbol()
-                        url: baseUrl + "/assets/images/marker/pembangunan.png",
-                        width: "24px",
-                        height: "24px"
-                    };
-                    const popupTemplate = {
-                        title: "{NAMA_PAKET}",
-                        content: [{
-                                type: "fields",
-                                fieldInfos: [{
-                                        fieldName: "TANGGAL",
-                                        label: "Tanggal"
-                                    },
-                                    {
-                                        fieldName: "WAKTU_KONTRAK",
-                                        label: "Waktu Kontrak"
-                                    },
-                                    {
-                                        fieldName: "TERPAKAI",
-                                        label: "Terpakai"
-                                    },
-                                    {
-                                        fieldName: "JENIS_PEKERJAAN",
-                                        label: "Jenis Pekerjaan"
-                                    },
-                                    {
-                                        fieldName: "RUAS_JALAN",
-                                        label: "Ruas Jalan"
-                                    },
-                                    {
-                                        fieldName: "LAT",
-                                        label: "Latitude"
-                                    },
-                                    {
-                                        fieldName: "LNG",
-                                        label: "Longitude"
-                                    },
-                                    {
-                                        fieldName: "LOKASI",
-                                        label: "Lokasi"
-                                    },
-                                    {
-                                        fieldName: "SUP",
-                                        label: "SUP"
-                                    },
-                                    {
-                                        fieldName: "RENCANA",
-                                        label: "Rencana"
-                                    },
-                                    {
-                                        fieldName: "REALISASI",
-                                        label: "Realisasi"
-                                    },
-                                    {
-                                        fieldName: "DEVIASI",
-                                        label: "Deviasi"
-                                    },
-                                    {
-                                        fieldName: "NILAI_KONTRAK",
-                                        label: "Nilai Kontrak"
-                                    },
-                                    {
-                                        fieldName: "PENYEDIA_JASA",
-                                        label: "Penyedia Jasa"
-                                    },
-                                    {
-                                        fieldName: "KEGIATAN",
-                                        label: "Kegiatan"
-                                    },
-                                    {
-                                        fieldName: "STATUS_PROYEK",
-                                        label: "Status"
-                                    },
-                                    {
-                                        fieldName: "UPTD",
-                                        label: "UPTD"
-                                    }
-                                ]
-                            },
-                            {
-                                type: "media",
-                                mediaInfos: [{
-                                    title: "<b>Foto Pekerjaan</b>",
-                                    type: "image",
-                                    value: {
-                                        sourceURL: baseUrl + "/assets/images/sample/sample.png"
-                                    }
-                                }]
-                            },
-                            {
-                                title: "<b>Video Pekerjaan</b>",
-                                type: "custom",
-                                outFields: ["*"],
-                                creator: function(graphic) {
-                                    return `
-                                        <div class="esri-feature-media__item">
-                                            <video controls class="esri-feature-media__item">
-                                                <source src="${baseUrl}/assets/videos/sample.mp4" type="video/mp4">
-                                            </video>
-                                        </div>`;
+            function addProgressGroup(progress) {
+                const symbol = {
+                    type: "picture-marker", // autocasts as new PictureMarkerSymbol()
+                    url: baseUrl + "/assets/images/marker/pembangunan.png",
+                    width: "24px",
+                    height: "24px"
+                };
+                const popupTemplate = {
+                    title: "{NAMA_PAKET}",
+                    content: [{
+                            type: "fields",
+                            fieldInfos: [{
+                                    fieldName: "TANGGAL",
+                                    label: "Tanggal"
+                                },
+                                {
+                                    fieldName: "WAKTU_KONTRAK",
+                                    label: "Waktu Kontrak"
+                                },
+                                {
+                                    fieldName: "TERPAKAI",
+                                    label: "Terpakai"
+                                },
+                                {
+                                    fieldName: "JENIS_PEKERJAAN",
+                                    label: "Jenis Pekerjaan"
+                                },
+                                {
+                                    fieldName: "RUAS_JALAN",
+                                    label: "Ruas Jalan"
+                                },
+                                {
+                                    fieldName: "LAT",
+                                    label: "Latitude"
+                                },
+                                {
+                                    fieldName: "LNG",
+                                    label: "Longitude"
+                                },
+                                {
+                                    fieldName: "LOKASI",
+                                    label: "Lokasi"
+                                },
+                                {
+                                    fieldName: "SUP",
+                                    label: "SUP"
+                                },
+                                {
+                                    fieldName: "RENCANA",
+                                    label: "Rencana"
+                                },
+                                {
+                                    fieldName: "REALISASI",
+                                    label: "Realisasi"
+                                },
+                                {
+                                    fieldName: "DEVIASI",
+                                    label: "Deviasi"
+                                },
+                                {
+                                    fieldName: "NILAI_KONTRAK",
+                                    label: "Nilai Kontrak"
+                                },
+                                {
+                                    fieldName: "PENYEDIA_JASA",
+                                    label: "Penyedia Jasa"
+                                },
+                                {
+                                    fieldName: "KEGIATAN",
+                                    label: "Kegiatan"
+                                },
+                                {
+                                    fieldName: "STATUS_PROYEK",
+                                    label: "Status"
+                                },
+                                {
+                                    fieldName: "UPTD",
+                                    label: "UPTD"
                                 }
+                            ]
+                        },
+                        {
+                            type: "media",
+                            mediaInfos: [{
+                                title: "<b>Foto Pekerjaan</b>",
+                                type: "image",
+                                value: {
+                                    sourceURL: baseUrl + "/assets/images/sample/sample.png"
+                                }
+                            }]
+                        },
+                        {
+                            title: "<b>Video Pekerjaan</b>",
+                            type: "custom",
+                            outFields: ["*"],
+                            creator: function(graphic) {
+                                return `
+                                    <div class="esri-feature-media__item">
+                                        <video controls class="esri-feature-media__item">
+                                            <source src="${baseUrl}/assets/videos/sample.mp4" type="video/mp4">
+                                        </video>
+                                    </div>`;
                             }
-                        ]
-                    };
-                    const fields = [{
-                            name: "ID",
-                            alias: "ID",
-                            type: "integer"
-                        },
-                        {
-                            name: "TANGGAL",
-                            alias: "Tanggal",
-                            type: "string"
-                        },
-                        {
-                            name: "WAKTU_KONTRAK",
-                            alias: "Waktu Kontrak",
-                            type: "integer"
-                        },
-                        {
-                            name: "TERPAKAI",
-                            alias: "Terpakai",
-                            type: "integer"
-                        },
-                        {
-                            name: "JENIS_PEKERJAAN",
-                            alias: "Jenis Pekerjaan",
-                            type: "string"
-                        },
-                        {
-                            name: "RUAS_JALAN",
-                            alias: "Ruas Jalan",
-                            type: "string"
-                        },
-                        {
-                            name: "LAT",
-                            alias: "Latitude",
-                            type: "double"
-                        },
-                        {
-                            name: "LONG",
-                            alias: "Longitude",
-                            type: "double"
-                        },
-                        {
-                            name: "LOKASI",
-                            alias: "Lokasi",
-                            type: "string"
-                        },
-                        {
-                            name: "SUP",
-                            alias: "SUP",
-                            type: "string"
-                        },
-                        {
-                            name: "RENCANA",
-                            alias: "Rencana",
-                            type: "double"
-                        },
-                        {
-                            name: "REALISASI",
-                            alias: "Realisasi",
-                            type: "double"
-                        },
-                        {
-                            name: "DEVIASI",
-                            alias: "Deviasi",
-                            type: "double"
-                        },
-                        {
-                            name: "NILAI_KONTRAK",
-                            alias: "Nilai Kontrak",
-                            type: "double"
-                        },
-                        {
-                            name: "PENYEDIA_JASA",
-                            alias: "Penyedia Jasa",
-                            type: "string"
-                        },
-                        {
-                            name: "KEGIATAN",
-                            alias: "Kegiatan",
-                            type: "string"
-                        },
-                        {
-                            name: "STATUS_PROYEK",
-                            alias: "Status",
-                            type: "string"
-                        },
-                        {
-                            name: "UPTD",
-                            alias: "UPTD",
-                            type: "string"
                         }
-                    ];
-
-                // cari dan hapus layer bila ada pd map
-                let allProgressLayer = map.findLayerById('progress_all');
-                if (allProgressLayer) {
-                    map.remove(allProgressLayer);
-                }
-                let newAllProgressLayer = new GroupLayer({
-                    title: 'Progress  Proyek Kontrak',
-                    id: 'progress_all'
-                });
-
-                    // buat layer baru
-                    let newOn = [],
-                        newOff = [],
-                        newCrit = [],
-                        newFin = [];
-                    progress.forEach(item => {
-                        let point = new Point(item.LNG, item.LAT);
-                        let fitur = new Graphic({
-                            geometry: point,
-                            attributes: item
-                        });
-                        switch (item.STATUS_PROYEK) {
-                            case "ON PROGRESS":
-                                newOn.push(fitur);
-                                break;
-                            case "OFF PROGRESS":
-                                newOff.push(fitur);
-                                break;
-                            case "CRITICAL CONTRACT":
-                                newCrit.push(fitur);
-                                break;
-                            case "FINISH":
-                                newFin.push(fitur);
-                                break;
-                            default:
-                                break;
-                        }
-                    });
-
-                    let onProgress = new FeatureLayer({
-                        title: "On-Progress",
-                        id: "onprogress",
-                        fields: fields,
-                        objectIdField: "ID",
-                        geometryType: "point",
-                        spatialReference: {
-                            wkid: 4326
-                        },
-                        source: newOn,
-                        popupTemplate: popupTemplate,
-                        renderer: {
-                            type: "simple",
-                            symbol: symbol
-                        }
-                    });
-                    let offProgress = new FeatureLayer({
-                        title: "Off-Progress",
-                        id: "offprogress",
-                        fields: fields,
-                        objectIdField: "ID",
-                        geometryType: "point",
-                        spatialReference: {
-                            wkid: 4326
-                        },
-                        source: newOff,
-                        popupTemplate: popupTemplate,
-                        renderer: {
-                            type: "simple",
-                            symbol: symbol
-                        }
-                    });
-                    let criticalProgress = new FeatureLayer({
-                        title: "Critical",
-                        id: "criticalprogress",
-                        fields: fields,
-                        objectIdField: "ID",
-                        geometryType: "point",
-                        spatialReference: {
-                            wkid: 4326
-                        },
-                        source: newCrit,
-                        popupTemplate: popupTemplate,
-                        renderer: {
-                            type: "simple",
-                            symbol: symbol
-                        }
-                    });
-                    let finishProgress = new FeatureLayer({
-                        title: "Finish",
-                        id: "finishprogress",
-                        fields: fields,
-                        objectIdField: "ID",
-                        geometryType: "point",
-                        spatialReference: {
-                            wkid: 4326
-                        },
-                        source: newFin,
-                        popupTemplate: popupTemplate,
-                        renderer: {
-                            type: "simple",
-                            symbol: symbol
-                        }
-                    });
-
-                    newAllProgressLayer.add(onProgress);
-                    newAllProgressLayer.add(offProgress);
-                    newAllProgressLayer.add(criticalProgress);
-                    newAllProgressLayer.add(finishProgress);
-                    map.add(newAllProgressLayer);
-                }
-            */
+                    ]
+                };
+                const fields = [{
+                        name: "ID",
+                        alias: "ID",
+                        type: "integer"
+                    },
+                    {
+                        name: "TANGGAL",
+                        alias: "Tanggal",
+                        type: "string"
+                    },
+                    {
+                        name: "WAKTU_KONTRAK",
+                        alias: "Waktu Kontrak",
+                        type: "integer"
+                    },
+                    {
+                        name: "TERPAKAI",
+                        alias: "Terpakai",
+                        type: "integer"
+                    },
+                    {
+                        name: "JENIS_PEKERJAAN",
+                        alias: "Jenis Pekerjaan",
+                        type: "string"
+                    },
+                    {
+                        name: "RUAS_JALAN",
+                        alias: "Ruas Jalan",
+                        type: "string"
+                    },
+                    {
+                        name: "LAT",
+                        alias: "Latitude",
+                        type: "double"
+                    },
+                    {
+                        name: "LONG",
+                        alias: "Longitude",
+                        type: "double"
+                    },
+                    {
+                        name: "LOKASI",
+                        alias: "Lokasi",
+                        type: "string"
+                    },
+                    {
+                        name: "SUP",
+                        alias: "SUP",
+                        type: "string"
+                    },
+                    {
+                        name: "RENCANA",
+                        alias: "Rencana",
+                        type: "double"
+                    },
+                    {
+                        name: "REALISASI",
+                        alias: "Realisasi",
+                        type: "double"
+                    },
+                    {
+                        name: "DEVIASI",
+                        alias: "Deviasi",
+                        type: "double"
+                    },
+                    {
+                        name: "NILAI_KONTRAK",
+                        alias: "Nilai Kontrak",
+                        type: "double"
+                    },
+                    {
+                        name: "PENYEDIA_JASA",
+                        alias: "Penyedia Jasa",
+                        type: "string"
+                    },
+                    {
+                        name: "KEGIATAN",
+                        alias: "Kegiatan",
+                        type: "string"
+                    },
+                    {
+                        name: "STATUS_PROYEK",
+                        alias: "Status",
+                        type: "string"
+                    },
+                    {
+                        name: "UPTD",
+                        alias: "UPTD",
+                        type: "string"
+                    }
+                ];
+            }
         });
         // end dimz-add
     });

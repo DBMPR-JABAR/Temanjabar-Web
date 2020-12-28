@@ -18,9 +18,9 @@
                     </li>
                     @endif
                     @if (hasAccess(Auth::user()->internal_role_id, "Proyek Kontrak", "View"))
-                    <li class="{{(Request::segment(3) == 'proyek-kontrak') ? 'active' : ''}}">
-                        <a href="{{ url('admin/monitoring/proyek-kontrak') }}">
-                            <span class="pcoded-mtext">Proyek Kontrak</span>
+                    <li class="{{(Request::segment(3) == 'kendali-kontrak') ? 'active' : ''}}">
+                        <a href="{{ url('admin/monitoring/kendali-kontrak') }}">
+                            <span class="pcoded-mtext">Kendali Kontrak</span>
                         </a>
                     </li>
                     @endif

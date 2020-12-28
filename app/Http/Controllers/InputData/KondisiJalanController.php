@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use DataTables;
 
 class KondisiJalanController extends Controller
 {
@@ -37,6 +38,36 @@ class KondisiJalanController extends Controller
         $uptd = $uptd->get();
         $sup = $sup->get();
         return view('admin.input_data.kondisi_jalan.index', compact('kondisiJalan', 'uptd', 'sup'));
+    }
+
+     public function getRJ(){
+        $kondisiJalan=DB::table('tbl_uptd_trx_master_kondisi_jalan');
+        if (Auth::user()->internalRole->uptd) {
+            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+            $kondisiJalan = $kondisiJalan->where('uptd', $uptd_id);
+        }
+        $kondisiJalan = $kondisiJalan->get();
+        return Datatables::of($kondisiJalan)
+                    // ->addIndexColumn()
+                    // ->addColumn('dokumentasi', function($row){
+                    //     $path = 'storage/';
+                    //     $html = '<div><img class="img-fluid" style="max-width: 100px" src="'.url($path.$row->foto_dokumentasi) .'" alt="" srcset=""></div>';
+                    //     return $html;
+                    // })
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){
+
+                       $html = '';
+                       if (hasAccess(Auth::user()->internal_role_id, "Kondisi Jalan", "Update")){
+                        $html.=' <a href="'.route('editIDKondisiJalan',$row->id) .'"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i></button></a>';
+                        }
+                        if (hasAccess(Auth::user()->internal_role_id, "Kondisi Jalan", "Delete")){
+                         $html.='  <a href="#delModal" data-id="'.$row->id.'" data-toggle="modal"><button class="btn btn-danger btn-sm waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>';
+                        }
+                        return $html;
+
+                    })
+                    ->make(true);
     }
 
     public function create(Request $req)

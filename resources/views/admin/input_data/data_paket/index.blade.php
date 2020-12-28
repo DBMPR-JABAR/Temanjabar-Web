@@ -57,7 +57,7 @@
                 <a href="{{ route('addIDDataPaket') }}" class="btn btn-mat btn-primary mb-3">Tambah</a>
                 @endif
                 <div class="dt-responsive table-responsive">
-                    <table id="dttable" class="table table-striped table-bordered able-responsive">
+                    <table id="paket-table" class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -75,11 +75,11 @@
                                 <th>Nilai Kontrak Perubahan</th>
                                 <th>Total Tambahan</th>
                                 <th>Total Sisa Lelang</th>
-                                <th style="min-width: 130px;">Aksi</th>
+                                <th style="min-width: 75px;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody id="bodyJembatan">
-                            @foreach ($dataPaket as $data)
+                            <!-- @foreach ($dataPaket as $data)
                             <tr>
                                 <td>{{$loop->index + 1}}</td>
                                 <td width='50px'>{{$data->nama_paket}}</td>
@@ -96,18 +96,18 @@
                                 <td>{{$data->nilai_kontrak_perubahan}}</td>
                                 <td>{{$data->total_tambahan}}</td>
                                 <td>{{$data->total_sisa_lelang}}</td>
-                                <td style="min-width: 130px;">
+                                <td style="min-width: 75px;">
                                     <div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">
                                         @if (hasAccess(Auth::user()->internal_role_id, "Data Paket", "Update"))
-                                        <a href="{{ route('editIDDataPaket',$data->kode_paket) }}" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i>Edit</a>
+                                        <a href="{{ route('editIDDataPaket',$data->kode_paket) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i></button></a>
                                         @endif
                                         @if (hasAccess(Auth::user()->internal_role_id, "Data Paket", "Delete"))
-                                        <a href="#delModal" data-id="{{$data->kode_paket}}" data-toggle="modal" class="btn btn-danger btn-sm waves-effect waves-light"><i class="icofont icofont-trash"></i>Hapus</a>
+                                        <a href="#delModal" data-id="{{$data->kode_paket}}" data-toggle="modal"><button class="btn btn-danger btn-sm waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
                                         @endif
                                     </div>
                                 </td>
                             </tr>
-                            @endforeach
+                            @endforeach -->
                         </tbody>
                     </table>
                 </div>
@@ -153,7 +153,7 @@
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
 <script>
     $(document).ready(function() {
-        $("#dttable").DataTable();
+        // $("#dttable").DataTable();
         $('#delModal').on('show.bs.modal', function(event) {
             const link = $(event.relatedTarget);
             const id = link.data('id');
@@ -163,6 +163,38 @@
             const modal = $(this);
             modal.find('.modal-footer #delHref').attr('href', url);
         });
+
+        let table = $('#paket-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: 'data-paket/json',
+            columns: [
+                {'mRender': function (data, type, full,meta) {
+                    return +meta.row +1;  
+                    }
+                },
+                { data: 'nama_paket', name: 'nama_paket' },
+                { data: 'lokasi_pekerjaan', name: 'lokasi_pekerjaan' },
+                { data: 'pagu_anggaran', name: 'nama_paket' },
+                { data: 'target_panjang', name: 'target_panjang' },
+                { data: 'jenis_penanganan', name: 'jenis_penanganan' },
+                { data: 'penyedia_jasa', name: 'penyedia_jasa' },
+                { data: 'nomor_kontrak', name: 'nomor_kontrak' },
+                { data: 'tgl_kontrak', name: 'tgl_kontrak' },
+                { data: 'nilai_kontrak', name: 'nilai_kontrak' },
+                { data: 'nilai_tambahan', name: 'nilai_tambahan' },
+                { data: 'nilai_kontrak_perubahan', name: 'nilai_kontrak_perubahan' },
+                { data: 'total_tambahan', name: 'total_tambahan' },
+                { data: 'total_sisa_lelang', name: 'total_sisa_lelang' },
+                { data: 'action', name: 'action' },
+            ]
+        });
+
+        table.on( 'order.dt search.dt', function () {
+            table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                cell.innerHTML = i+1;
+            } );
+        } ).draw();
     });
 </script>
 @endsection

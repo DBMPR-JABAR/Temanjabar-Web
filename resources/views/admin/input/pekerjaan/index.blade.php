@@ -74,10 +74,10 @@
                                 <th>Foto (100%)</th>
                                 <th>Video</th>
                                 <th>Tanggal</th>
-                                <th style="min-width: 180px;">Aksi</th>
+                                <th style="min-width: 190px;">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="bodyJembatan">
+                        <!-- <tbody id="bodyJembatan">
                             @foreach ($pekerjaan as $data)
                             <tr>
                                 <td>{{$loop->index + 1}}</td>
@@ -89,9 +89,6 @@
                                 <td>{{$data->panjang}}</td>
                                 <td>{{$data->peralatan}}</td>
                                 <td>{{$data->jumlah_pekerja}}</td>
-                                <!-- <td></td>
-                                <td></td>
-                                <td></td> -->
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_awal) !!}" alt="" srcset=""></td>
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_sedang) !!}" alt="" srcset=""></td>
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_akhir) !!}" alt="" srcset=""></td>
@@ -99,25 +96,23 @@
                                         <source src="{!! url('storage/pekerjaan/'.$data->video) !!}" type='video/*' Sorry, your browser doesn't support the video element.></video></td>
                                 <td>{{$data->tanggal}}</td>
 
-                                <td style="min-width: 180px;">
-                                    <div class="btn-group w-100" role="group" data-placement="top" title="" data-original-title=".btn-xlg">
+                                <td style="min-width: 170px;">
+                                    <div class="btn-group" role="group" data-placement="top" title="" data-original-title=".btn-xlg">
                                         @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
-                                        <a href="{{ route('editDataPekerjaan',$data->id_pek) }}" style="width: 30%;" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i>Edit</a>
-                                        <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}" style="width: 30%;" class="btn btn-warning btn-sm waves-effect waves-light"><i class="icofont icofont-list"></i>Material</a>
+                                        <a href="{{ route('editDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i></button></a>
+                                        <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Material"><i class="icofont icofont-list"></i></button></a>
                                         @endif
-                                    </div><br>
-                                    <div class="btn-group w-100 mx-auto" role="group" data-placement="top" title="" data-original-title=".btn-xlg">
                                         @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Delete"))
-                                        <a href="#delModal" data-id="{{$data->id_pek}}" data-toggle="modal" style="width: 30%;" class="btn btn-danger btn-sm waves-effect waves-light"><i class="icofont icofont-trash"></i>Hapus</a>
+                                        <a href="#delModal" data-id="{{$data->id_pek}}" data-toggle="modal"><button class="btn btn-danger btn-sm waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
                                         @endif
                                         @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
-                                        <a href="#submitModal" data-id="{{$data->id_pek}}" data-toggle="modal" style="width: 30%;" class="btn btn-success btn-sm waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Submit</a>
+                                        <a href="#submitModal" data-id="{{$data->id_pek}}" data-toggle="modal"><button class="btn btn-success btn-sm waves-effect waves-light" data-toggle="tooltip" title="Submit"><i class="icofont icofont-check-circled"></i></button></a>
                                         @endif
                                     </div>
                                 </td>
                             </tr>
                             @endforeach
-                        </tbody>
+                        </tbody> -->
                     </table>
                 </div>
             </div>
@@ -370,7 +365,7 @@
                 return (/^\-?[0-9]*\.?[0-9]*$/).test($(this).val() + evt.key);
             });
 
-            $("#dttable").DataTable();
+            // $("#dttable").DataTable();
             $('#delModal').on('show.bs.modal', function(event) {
                 const link = $(event.relatedTarget);
                 const id = link.data('id');
@@ -390,7 +385,82 @@
                 modal.find('.modal-footer #delHref').attr('href', url);
             });
 
-            $('select').attr('value').trigger('change');
+            // $('select').attr('value').trigger('change');
+
+            var table = $('#dttable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ url('admin/input-data/pekerjaan/json') }}",
+                columns: [{
+                        'mRender': function(data, type, full, meta) {
+                            return +meta.row + meta.settings._iDisplayStart + 1;
+
+                        }
+                    },
+                    {
+                        data: 'nama_mandor',
+                        name: 'nama_mandor'
+                    },
+                    {
+                        data: 'sup',
+                        name: 'sup'
+                    },
+                    {
+                        data: 'ruas_jalan',
+                        name: 'ruas_jalan'
+                    },
+                    {
+                        data: 'jenis_pekerjaan',
+                        name: 'jenis_pekerjaan'
+                    },
+                    {
+                        data: 'lokasi',
+                        name: 'lokasi'
+                    },
+                    {
+                        data: 'panjang',
+                        name: 'panjang'
+                    },
+                    {
+                        data: 'peralatan',
+                        name: 'peralatan'
+                    },
+                    {
+                        data: 'jumlah_pekerja',
+                        name: 'jumlah_pekerja'
+                    },
+                    {
+                        'mRender': function(data, type, full) {
+                            return '<img class="img-fluid" style="max-width: 100px" src="/storage/pekerjaan/' + full['foto_awal'] + '" alt="" srcset="">';
+                        }
+                    },
+                    {
+                        'mRender': function(data, type, full) {
+                            return '<img class="img-fluid" style="max-width: 100px" src="/storage/pekerjaan/' + full['foto_sedang'] + '" alt="" srcset="">';
+                        }
+                    },
+                    {
+                        'mRender': function(data, type, full) {
+                            return '<img class="img-fluid" style="max-width: 100px" src="/storage/pekerjaan/' + full['foto_akhir'] + '" alt="" srcset="">';
+                        }
+                    },
+                    {
+                        'mRender': function(data, type, full) {
+                            return `<video width='150' height='100' controls><source src="/storage/pekerjaan/` + full['video'] + `" type='video/*' Sorry, your browser doesn't support the video element.></video>`
+                        }
+                    },
+                    {
+                        data: 'tanggal',
+                        name: 'tanggal'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
+            });
         });
 
         function ubahOption() {
