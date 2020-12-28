@@ -1033,8 +1033,8 @@
                     rawanBencanaLayer.add(rawanGempaBumi(), 1);
                     rawanBencanaLayer.add(rawanGerakanTanah(), 0);
                     rawanBencanaLayer.add(rawanLongsor(), 3);
-                    
-                    map.add(rawanBencanaLayer);
+
+                    map.add(rawanBencanaLayer, 0);
                 }
 
                 function rawanGempaBumi() {

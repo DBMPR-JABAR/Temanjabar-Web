@@ -95,21 +95,22 @@ class ProyekController extends Controller
 
     public function getProgressProyekKontrakAPI(Request $request)
     {
-        $listProyekKontrak = DB::connection('dwh')->table('vw_uptd_trx_rekap_proyek_kontrak');
+        $listProyekKontrak = DB::connection('dwh')->table('vw_uptd_trx_progress_proyek_kontrak')
+                             ->selectRaw('*, SUM(PROGRESS_FISIK_RENCANA_KUMULATIF) AS TOTAL_RENCANA,
+                                     SUM(PROGRESS_FISIK_REALISASI_KUMULATIF) AS TOTAL_REALISASI');
 
         if ($request->tahun != "") $listProyekKontrak = $listProyekKontrak->whereYear('TANGGAL', '=', $request->tahun);
         if ($request->uptd != "") $listProyekKontrak = $listProyekKontrak->where('UPTD', '=', $request->uptd);
         if ($request->kegiatan != "") $listProyekKontrak = $listProyekKontrak->where('NAMA_KEGIATAN', 'LIKE', "%$request->kegiatan%");
-        if ($request->dateFrom != "") $listProyekKontrak = $listProyekKontrak->where('TANGGAL', '>=',date_create_from_format("Y-m-d",$request->dateFrom));
-        if ($request->dateTo != "") $listProyekKontrak = $listProyekKontrak->where('TANGGAL', '<=', date_create_from_format("Y-m-d",$request->dateTo));
+        if ($request->dateFrom != "") $listProyekKontrak = $listProyekKontrak->whereBetween('TANGGAL', [date_create_from_format("Y-m-d",$request->dateFrom),
+                                                                                                        date_create_from_format("Y-m-d",$request->dateTo)]);
 
-        $listProyekKontrak = $listProyekKontrak->get();
+        $listProyekKontrak = $listProyekKontrak->groupBy('NO_PAKET')->get();
 
         $proyekKontrak = [];
         foreach ($listProyekKontrak as $proyek) {
-            $date_from = Carbon::parse($proyek->DATE_FROM);
-            $date_to = Carbon::parse($proyek->DATE_TO);
-
+            $date_from = ($request->dateFrom != '') ? Carbon::parse($request->dateFrom) : Carbon::parse($proyek->DATE_FROM);
+            $date_to = ($request->dateTo != '') ? Carbon::parse($request->dateTo) : Carbon::parse($proyek->DATE_TO);
             $ProyekKontrakData = [
                 "colors" => ["#f2f4f5"],
                 "name" => $proyek->NAMA_KEGIATAN,
@@ -130,7 +131,7 @@ class ProyekController extends Controller
                         "owner" => $proyek->PENYEDIA_JASA,
                         "completed" => [
                             "fill" => "#7CB5EC",
-                            "amount" => (!empty($proyek->PROGRESS_FISIK_RENCANA_KUMULATIF) ? ($proyek->PROGRESS_FISIK_RENCANA_KUMULATIF * 0.01) : 0)
+                            "amount" => (!empty($proyek->TOTAL_RENCANA) ? (round($proyek->TOTAL_RENCANA/100,4)) : 0)
                         ]
                     ],
                     [
@@ -143,11 +144,12 @@ class ProyekController extends Controller
                         "owner" => $proyek->PENYEDIA_JASA,
                         "completed" => [
                             "fill" => "#7CB5EC",
-                            "amount" => (!empty($proyek->PROGRESS_FISIK_REALISASI_KUMULATIF) ? ($proyek->PROGRESS_FISIK_REALISASI_KUMULATIF * 0.01) : 0)
+                            "amount" => (!empty($proyek->TOTAL_REALISASI) ? (round($proyek->TOTAL_REALISASI/100,4)) : 0)
                         ]
                     ],
                     [
-                        "name"  => "<span style='font-size:1em; font-weight:bold'>Deviasi = ".$proyek->DEVIASI_PROGRESS_FISIK."</span>",
+                        "name"  => "<span style='font-size:1.2em; font-weight:bold'>Deviasi = ".$proyek->DEVIASI_PROGRESS_FISIK."</span><br>
+                                    <a href='#' style='font-size:1em'>Detail</a>",
                         "parent" => $proyek->ID,
                     ]
                 ]

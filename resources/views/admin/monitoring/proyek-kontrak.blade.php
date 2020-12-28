@@ -13,7 +13,6 @@
         <div class="page-header-title">
             <div class="d-inline">
                 <h4>Kendali Kontrak</h4>
-
             </div>
         </div>
     </div>
@@ -167,8 +166,13 @@
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
+<<<<<<< HEAD
                     <div class="col-8"><a href="kendali-kontrak/status/FINISH">
                         <h4 class="text-c-blue f-w-600">{{$countFinish}}</h4></a>
+=======
+                    <div class="col-8"><a href="proyek-kontrak/status/FINISH">
+                        <h4 class="text-c-blue f-w-600">{{$countFinish}}</h4> </a>
+>>>>>>> bf797d397b1fc4be1ef8953aad2dbd8e0b3b976a
                         <h6 class="text-muted m-b-0">Finish</h6>
                     </div>
                     <div class="col-4 text-right">
@@ -219,9 +223,32 @@
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
 <script>
+    const monthName = ['A','Januari', 'Februari', 'Maret', 'April', 'Mei','Juni','Juli','Agustus',
+                   'September', 'Oktober', 'November','Desember'];
 
+<<<<<<< HEAD
     function chart(data, uptd, tahun){
         if(data){
+=======
+    function chart(data, uptd, tahun, kegiatan){
+        if(data.REALISASI.length > 0){
+            let rencana = [];
+            data.RENCANA.forEach((val,i) => {
+                rencana.push({y: val, bulan: data.BULAN[i]});
+            });
+
+            let realisasi = [];
+            data.REALISASI.forEach((val,i) => {
+                realisasi.push({y: val, bulan: data.BULAN[i]});
+            });
+
+            let month = [];
+            data.BULAN.forEach((val,i) => {
+                month.push(monthName[val]);
+            });
+
+
+>>>>>>> bf797d397b1fc4be1ef8953aad2dbd8e0b3b976a
             let text = "Target dan Realisasi Fisik Kendali Kontrak ";
             text += (uptd != '') ? 'UPTD '+uptd : '';
             text += (tahun != '') ? ' Tahun '+tahun : ' ';
@@ -234,7 +261,7 @@
                     text: text
                 },
                 xAxis: {
-                    categories: data.BULAN,
+                    categories: month,
                     crosshair: true
                 },
                 yAxis: {
@@ -255,14 +282,31 @@
                     column: {
                         pointPadding: 0.2,
                         borderWidth: 0
+<<<<<<< HEAD
+=======
+                    },
+                    series: {
+                        cursor: 'pointer',
+                        point: {
+                            events: {
+                                click: function () {
+                                    let url = "{{route('monitoring-kontrak-progress')}}?bulan="+this.options.bulan;
+                                    url += (uptd != '') ? '&uptd='+uptd : '';
+                                    url += (tahun != '') ? '&tahun='+tahun : '';
+                                    url += (kegiatan != '') ? '&kegiatan='+kegiatan : '';
+                                    location.href = url;
+                                }
+                            }
+                        }
+>>>>>>> bf797d397b1fc4be1ef8953aad2dbd8e0b3b976a
                     }
                 },
                 series: [{
                     name: 'Rencana',
-                    data: data.RENCANA
+                    data: rencana
                 }, {
                     name: 'Realisasi',
-                    data: data.REALISASI
+                    data: realisasi
                 }]
             });
         }else{
