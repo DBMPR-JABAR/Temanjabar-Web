@@ -116,7 +116,7 @@
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
-                    <div class="col-8"><a href="#">
+                    <div class="col-8"><a href="proyek-kontrak/status/CRITICAL CONTRACT">
                         <h4 class="text-c-yellow f-w-600">{{$countCritical}}</h4></a>
                         <h6 class="text-muted m-b-0">Critical Contract</h6>
                     </div>
@@ -142,7 +142,7 @@
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
-                    <div class="col-8"><a href="#">
+                    <div class="col-8"><a href="proyek-kontrak/status/ON PROGRESS">
                         <h4 class="text-c-green f-w-600">{{ $countOnProgress }}</h4> </a>
                         <h6 class="text-muted m-b-0">On Progress</h6>
                     </div>
@@ -167,7 +167,7 @@
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
-                    <div class="col-8">
+                    <div class="col-8"><a href="proyek-kontrak/status/FINISH">
                         <h4 class="text-c-blue f-w-600">{{$countFinish}}</h4>
                         <h6 class="text-muted m-b-0">Finish</h6>
                     </div>

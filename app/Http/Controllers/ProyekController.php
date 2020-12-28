@@ -31,6 +31,7 @@ class ProyekController extends Controller
             ]);
     }
 
+
     public function getKendaliKontrakProgress(Request $request)
     {
         $bulan = $request->bulan;
@@ -40,7 +41,6 @@ class ProyekController extends Controller
 
         return view('admin.monitoring.proyek-kontrak-progress',compact('bulan','tahun','uptd','kegiatan'));
     }
-
     public function getProyekKontrakAPI(Request $request)
     {
         $kontrak = DB::connection('dwh')->table('vw_uptd_trx_proyek_kontrak');
