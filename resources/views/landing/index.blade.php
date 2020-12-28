@@ -16,7 +16,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" 
-                            href="{{ url('map/map-dashboard-masyarakat') }}">Map BMPR</a>
+                            href="{{ url('map/map-dashboard-masyarakat') }}">Map DBMPR</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link pagescroll scrollupto" href="#about">Tentang Kami</a>
@@ -59,7 +59,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" 
-                            href="{{ url('map/map-dashboard-masyarakat') }}">Map BMPR</a>
+                            href="{{ url('map/map-dashboard-masyarakat') }}">Map DBMPR</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link pagescroll scrollupto" href="#about">Tentang Kami</a>

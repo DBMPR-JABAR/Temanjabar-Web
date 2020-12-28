@@ -20,7 +20,7 @@
             padding: 0;
             margin: 0;
             width: 100%;
-            height: 450px;
+            height: 100vh;
             z-index: -1;
         }
 
@@ -186,7 +186,7 @@
         </button>
     </div>
     <div id="back">
-        <a href="{{ url('/admin/monitoring/proyek-kontrak') }}">
+        <a href="{{ url('/') }}">
             <button data-toggle="tooltip" data-placement="right" title="Kembali kehalaman Sebelumnya">
                 <i class="feather icon-arrow-left"></i>
             </button>
@@ -223,14 +223,9 @@
             <div class="form-group">
                 <label for="kegiatan"><i class="feather icon-activity text-warning"></i> Kegiatan</label>
                 <select data-placeholder="Pilih kegiatan" multiple class="chosen-select" tabindex="8" id="kegiatan">
-                    <option value="ruasjalan">Ruas Jalan</option>
-                    <option value="pembangunan">Pembangunan</option>
-                    <option value="peningkatan">Peningkatan</option>
-                    <option value="rehabilitasi">Rehabilitasi</option>
-                    <option value="jembatan">Jembatan</option>
                 </select>
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="proyek"><i class="feather icon-calendar text-success"></i> Proyek Kontrak</label>
                 <select class="chosen-select form-control" id="proyek" data-placeholder="Pilih kegiatan" multiple tabindex="4">
                     <option value="onprogress">On-Progress</option>
@@ -238,7 +233,7 @@
                     <option value="offprogress">Off Progress</option>
                     <option value="finish">Finish</option>
                 </select>
-            </div>
+            </div> -->
             <!-- <div class="form-group">
                 <label for="basemap">Basemap</label>
                 <select data-placeholder="Basemap..." class="chosen-select form-control" id="basemap" tabindex="-1">
@@ -483,12 +478,7 @@
 
         $("#kegiatan").empty();
         kegiatan = `<option value="ruasjalan">Ruas Jalan</option>
-                    <option value="pembangunan">Pembangunan</option>
-                    <option value="peningkatan">Peningkatan</option>
                     <option value="rehabilitasi">Rehabilitasi</option>
-                    <option value="pemeliharaan">Pemeliharaan</option>
-                    <option value="vehiclecounting">Vehicle Counting</option>
-                    <option value="kemantapanjalan">Kemantapan Jalan</option>
                     <option value="jembatan">Jembatan</option>
                     <option value="datarawanbencana">Data Rawan Bencana</option>`;
         $('#kegiatan').html(kegiatan).trigger('liszt:updated');
@@ -649,6 +639,13 @@
                     kegiatan.splice(kegiatan.indexOf('kemantapanjalan'), 1); // remove 'kemantapanjalan' dari kegiatan
                 } else {
                     map.remove(map.findLayerById('rj_mantap'));
+                }
+
+                if ($.inArray('datarawanbencana', kegiatan) >= 0) {
+                    rawanBencana();
+                    kegiatan.splice(kegiatan.indexOf('datarawanbencana'), 1); // remove 'ruasjalan' dari kegiatan
+                } else {
+                    map.remove(map.findLayerById('rbl'));
                 }
 
                 if (kegiatan.length > 0) { // kalau masih ada pilihan lain di kegiatan
@@ -1019,6 +1016,126 @@
                     layer.popupTemplate = popupTemplate;
                     return layer;
                 }
+            }
+
+            function rawanBencana() {
+                let rawanBencanaLayer = map.findLayerById('rbl');
+                if (!rawanBencanaLayer) {
+                    rawanBencanaLayer = new GroupLayer({
+                        title: 'Rawan Bencana',
+                        id: 'rbl'
+                    });
+
+                    rawanBencanaLayer.add(rawanGempaBumi(), 1);
+                    rawanBencanaLayer.add(rawanGerakanTanah(), 0);
+                    rawanBencanaLayer.add(rawanLongsor(), 3);
+                    
+                    map.add(rawanBencanaLayer);
+                }
+
+                function rawanGempaBumi() {
+                    const popupTemplate = {
+                        title: "{nm_ruas}",
+                        content: [{
+                            type: "fields",
+                            fieldInfos: [{
+                                    fieldName: "UNSUR",
+                                    label: "Unsur"
+                                },
+                                {
+                                    fieldName: "KETERANGAN",
+                                    label: "Keterangan"
+                                }
+                            ]
+                        }]
+                    }
+                    let rgt = map.findLayerById('rgtId');
+                    if (!rgt) {
+                        rgt = new FeatureLayer({
+                            url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/SATUPETA_BPBD/Kebencanaan/MapServer/1",
+                            title: 'Gempa Bumi',
+                            id: 'rgtId',
+                            popupTemplate: popupTemplate
+                        });
+                        rgt.refresh();
+                    }
+                    return rgt;
+                }
+
+                function rawanGerakanTanah() {
+                    const popupTemplate = {
+                        title: "{nm_ruas}",
+                        content: [{
+                            type: "fields",
+                            fieldInfos: [{
+                                    fieldName: "GERTAN",
+                                    label: "gertan"
+                                },
+                                {
+                                    fieldName: "SUMBER",
+                                    label: "sumber"
+                                }
+                            ]
+                        }]
+                    }
+                    let rgt2 = map.findLayerById('rgt2Id');
+                    if (!rgt2) {
+                        rgt2 = new FeatureLayer({
+                            url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/SATUPETA_BPBD/Kebencanaan/MapServer/0",
+                            title: 'Rawan Gerakan Tanah',
+                            id: 'rgt2Id',
+                            popupTemplate: popupTemplate
+                        });
+                        rgt2.refresh();
+                    }
+                    return rgt2;
+                }
+
+                function rawanLongsor() {
+                    const popupTemplate = {
+                        title: "{nm_ruas}",
+                        content: [{
+                            type: "fields",
+                            fieldInfos: [{
+                                    fieldName: "Shape",
+                                    label: "Shape"
+                                },
+                                {
+                                    fieldName: "OBJECTID",
+                                    label: "OBJECTID "
+                                },
+                                {
+                                    fieldName: "GRIDCODE",
+                                    label: "GRIDCODE"
+                                },
+                                {
+                                    fieldName: "kelas",
+                                    label: "kelas "
+                                },
+                                {
+                                    fieldName: "Shape_Leng",
+                                    label: "Shape_Leng "
+                                },
+                                {
+                                    fieldName: "Shape_Area",
+                                    label: "Shape_Area "
+                                }
+                            ]
+                        }]
+                    }
+                    let longsor = map.findLayerById('longsorId');
+                    if (!longsor) {
+                        longsor = new FeatureLayer({
+                            url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/SATUPETA_BPBD/Kebencanaan/MapServer/9",
+                            title: 'Longsor',
+                            id: 'longsorId',
+                            popupTemplate: popupTemplate
+                        });
+                        longsor.refresh();
+                    }
+                    return longsor;
+                }
+
             }
 
             function addKemantapanJalan() {
@@ -2371,116 +2488,6 @@
                         type: "string"
                     }
                 ];
-
-                // cari dan hapus layer bila ada pd map
-                let allProgressLayer = map.findLayerById('progress_all');
-                if (allProgressLayer) {
-                    map.remove(allProgressLayer);
-                }
-                let newAllProgressLayer = new GroupLayer({
-                    title: 'Progress Mingguan Proyek Kontrak',
-                    id: 'progress_all'
-                });
-
-                // buat layer baru
-                let newOn = [],
-                    newOff = [],
-                    newCrit = [],
-                    newFin = [];
-                progress.forEach(item => {
-                    let point = new Point(item.LNG, item.LAT);
-                    let fitur = new Graphic({
-                        geometry: point,
-                        attributes: item
-                    });
-                    switch (item.STATUS_PROYEK) {
-                        case "ON PROGRESS":
-                            newOn.push(fitur);
-                            break;
-                        case "OFF PROGRESS":
-                            newOff.push(fitur);
-                            break;
-                        case "CRITICAL CONTRACT":
-                            newCrit.push(fitur);
-                            break;
-                        case "FINISH":
-                            newFin.push(fitur);
-                            break;
-                        default:
-                            break;
-                    }
-                });
-
-                let onProgress = new FeatureLayer({
-                    title: "On-Progress",
-                    id: "onprogress",
-                    fields: fields,
-                    objectIdField: "ID",
-                    geometryType: "point",
-                    spatialReference: {
-                        wkid: 4326
-                    },
-                    source: newOn,
-                    popupTemplate: popupTemplate,
-                    renderer: {
-                        type: "simple",
-                        symbol: symbol
-                    }
-                });
-                let offProgress = new FeatureLayer({
-                    title: "Off-Progress",
-                    id: "offprogress",
-                    fields: fields,
-                    objectIdField: "ID",
-                    geometryType: "point",
-                    spatialReference: {
-                        wkid: 4326
-                    },
-                    source: newOff,
-                    popupTemplate: popupTemplate,
-                    renderer: {
-                        type: "simple",
-                        symbol: symbol
-                    }
-                });
-                let criticalProgress = new FeatureLayer({
-                    title: "Critical",
-                    id: "criticalprogress",
-                    fields: fields,
-                    objectIdField: "ID",
-                    geometryType: "point",
-                    spatialReference: {
-                        wkid: 4326
-                    },
-                    source: newCrit,
-                    popupTemplate: popupTemplate,
-                    renderer: {
-                        type: "simple",
-                        symbol: symbol
-                    }
-                });
-                let finishProgress = new FeatureLayer({
-                    title: "Finish",
-                    id: "finishprogress",
-                    fields: fields,
-                    objectIdField: "ID",
-                    geometryType: "point",
-                    spatialReference: {
-                        wkid: 4326
-                    },
-                    source: newFin,
-                    popupTemplate: popupTemplate,
-                    renderer: {
-                        type: "simple",
-                        symbol: symbol
-                    }
-                });
-
-                newAllProgressLayer.add(onProgress);
-                newAllProgressLayer.add(offProgress);
-                newAllProgressLayer.add(criticalProgress);
-                newAllProgressLayer.add(finishProgress);
-                map.add(newAllProgressLayer);
             }
         });
         // end dimz-add
