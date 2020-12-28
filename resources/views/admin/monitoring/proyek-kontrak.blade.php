@@ -89,7 +89,7 @@
                                             <option value="rehabilitasi">Rehabilitasi</option>
                                         </select>
                                     </div>
-                                    {{-- <div class="col-sm-12 col-xl-3 m-b-30">
+                                    <div class="col-sm-12 col-xl-3 m-b-30">
                                         <h4 class="sub-title">Dari Tanggal</h4>
                                         <input type="date" id="filterDateFrom" name="dateFrom" class="form-control form-control-primary">
                                         </input>
@@ -98,7 +98,7 @@
                                         <h4 class="sub-title">Ke Tanggal</h4>
                                         <input type="date" id="filterDateTo" name="dateTo" class="form-control form-control-primary">
                                         </input>
-                                    </div> --}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -116,7 +116,7 @@
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
-                    <div class="col-8"><a href="proyek-kontrak/status/CRITICAL CONTRACT">
+                    <div class="col-8"><a href="kendali-kontrak/status/CRITICAL CONTRACT">
                         <h4 class="text-c-yellow f-w-600">{{$countCritical}}</h4></a>
                         <h6 class="text-muted m-b-0">Critical Contract</h6>
                     </div>
@@ -142,7 +142,7 @@
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
-                    <div class="col-8"><a href="proyek-kontrak/status/ON PROGRESS">
+                    <div class="col-8"><a href="kendali-kontrak/status/ON PROGRESS">
                         <h4 class="text-c-green f-w-600">{{ $countOnProgress }}</h4> </a>
                         <h6 class="text-muted m-b-0">On Progress</h6>
                     </div>
@@ -167,8 +167,8 @@
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
-                    <div class="col-8"><a href="proyek-kontrak/status/FINISH">
-                        <h4 class="text-c-blue f-w-600">{{$countFinish}}</h4>
+                    <div class="col-8"><a href="kendali-kontrak/status/FINISH">
+                        <h4 class="text-c-blue f-w-600">{{$countFinish}}</h4></a>
                         <h6 class="text-muted m-b-0">Finish</h6>
                     </div>
                     <div class="col-4 text-right">
@@ -220,12 +220,11 @@
 
 <script>
 
-    function chart(data, uptd, tahun, kegiatan){
-        if(data.REALISASI.length > 0){
+    function chart(data, uptd, tahun){
+        if(data){
             let text = "Target dan Realisasi Fisik Kendali Kontrak ";
             text += (uptd != '') ? 'UPTD '+uptd : '';
             text += (tahun != '') ? ' Tahun '+tahun : ' ';
-            text += (kegiatan != '') ? ' Kategori '+kegiatan : ' ';
             Highcharts.chart('container', {
                 chart: {
                     type: 'column'
@@ -256,20 +255,6 @@
                     column: {
                         pointPadding: 0.2,
                         borderWidth: 0
-                    },
-                    series: {
-                        cursor: 'pointer',
-                        point: {
-                            events: {
-                                click: function () {
-                                    let url = "{{route('monitoring-kontrak-progress')}}?bulan="+this.category;
-                                    url += (uptd != '') ? '&uptd='+uptd : '';
-                                    url += (tahun != '') ? '&tahun='+tahun : '';
-                                    url += (kegiatan != '') ? '&kegiatan='+kegiatan : '';
-                                    location.href = url;
-                                }
-                            }
-                        }
                     }
                 },
                 series: [{
@@ -290,7 +275,6 @@
         const baseUrl = "{{url('')}}/map/proyek-kontrak";
         let tahun = $("#filterTahun").val();
         let uptd = $("#filterUPTD").val();
-        let kegiatan = $("#filterKegiatan").val();
 
         Highcharts.setOptions({
             lang: {
@@ -299,21 +283,20 @@
             }
         });
 
-        $.get(baseUrl, { tahun: tahun, uptd: uptd, kegiatan: kegiatan},
+        $.get(baseUrl, { tahun: tahun, uptd: uptd},
             function(response){
                 const data = response.data;
-                chart(data, uptd, tahun, kegiatan);
+                chart(data, uptd, tahun);
             });
 
-        $("#filterTahun, #filterUPTD, #filterKegiatan").change(function () {
+        $("#filterTahun, #filterUPTD").change(function () {
             tahun = $("#filterTahun").val();
             uptd = $("#filterUPTD").val();
-            kegiatan = $("#filterKegiatan").val();
 
-            $.get(baseUrl, { tahun: tahun, uptd: uptd, kegiatan: kegiatan},
+            $.get(baseUrl, { tahun: tahun, uptd: uptd},
             function(response){
                 const data = response.data;
-                chart(data, uptd, tahun, kegiatan);
+                chart(data, uptd, tahun);
             });
         });
     });

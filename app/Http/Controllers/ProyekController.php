@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
+use App\Model\DWH\ProgressMingguan;
 
 class ProyekController extends Controller
 {
@@ -31,6 +32,36 @@ class ProyekController extends Controller
             ]);
     }
 
+    public function getProyekDetail($status)
+    {
+        if($status == "ON PROGRESS"){
+            $getProyekDetail = DB::connection('dwh')->table('TBL_TALIKUAT_TRX_PROYEK_KONTRAK_PROGRESS_HARIAN as a')
+            ->leftJoin('vw_uptd_trx_detail_proyek_kontrak as b','a.NMP','=','b.NO_PAKET')
+            ->distinct()
+            ->whereRaw('BINARY STATUS_PROYEK = "ON PROGRESS"')
+            ->get();
+        }
+        else if($status == "CRITICAL CONTRACT"){
+            $getProyekDetail = DB::connection('dwh')->table('TBL_TALIKUAT_TRX_PROYEK_KONTRAK_PROGRESS_HARIAN as a')
+            ->leftJoin('vw_uptd_trx_detail_proyek_kontrak as b','a.NMP','=','b.NO_PAKET')
+            ->distinct()
+            ->whereRaw('BINARY STATUS_PROYEK = "CRITICAL CONTRACT"')
+            ->get();
+        }
+        else if($status == "FINISH"){
+            $getProyekDetail = DB::connection('dwh')->table('TBL_TALIKUAT_TRX_PROYEK_KONTRAK_PROGRESS_HARIAN as a')
+            ->leftJoin('vw_uptd_trx_detail_proyek_kontrak as b','a.NMP','=','b.NO_PAKET')
+            ->distinct()
+            ->whereRaw('BINARY STATUS_PROYEK = "FINISH"')
+            ->get();
+        }
+        $proyekdetail = ProgressMingguan::get()->filter(function ($item) use ($status) {
+            return $item->STATUS_PROYEK === $status;
+        });
+        return view('admin.monitoring.proyek-kontrak-detail',
+            ['proyekdetail' => $proyekdetail,
+            'getProyekDetail' => $getProyekDetail]);
+    }
 
     public function getKendaliKontrakProgress(Request $request)
     {
