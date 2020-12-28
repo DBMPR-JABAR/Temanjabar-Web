@@ -91,7 +91,7 @@
                                     </div>
                                     <div class="col-sm-12 col-xl-3 m-b-30">
                                         <h4 class="sub-title">Dari Tanggal</h4>
-                                        <input type="date" id="filterDateFrom" name="dateFrom" class="form-control form-control-primary">
+                                        <input type="date" id="filterDateFrom" name="dateFrom" class="form-control form-control-primary" >
                                         </input>
                                     </div>
                                     <div class="col-sm-12 col-xl-3 m-b-30">
@@ -112,7 +112,7 @@
 
 
     <!-- task, page, download counter  start -->
-    <div class="col-xl-4 col-md-6">
+    {{-- <div class="col-xl-4 col-md-6">
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
@@ -187,7 +187,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <!-- task, page, download counter  end -->
     <div class="col-xl-12 col-md-12">
@@ -478,14 +478,34 @@ function proyekKontrak(data) {
     }
 }
 
-$(document).ready(function() {
-    const baseUrl = "{{url('')}}/map/proyek-kontrak";
+function lastTanggal(year,bulan) {
+    let tanggal = '31';
+    let abnormal = [2,4,6,9,11];
+    if(abnormal.includes(bulan)){
+        if(bulan == 2){
+            tanggal = (year % 4 == 0) ? '29' : '28';
+        }else{
+            tanggal = '30';
+        }
+    }
+    if(bulan < 10){
+        bulan = '0'+bulan;
+    }
+    return `${year}-${bulan}-${tanggal}`;
+}
 
-    let tahun = $("#filterTahun").val();
-    let uptd = $("#filterUPTD").val();
-    let kegiatan = $("#filterKegiatan").val();
-    let dateFrom = $("#filterDateFrom").val();
-    let dateTo = $("#filterDateTo").val();
+$(document).ready(function() {
+    const baseUrl = "{{url('')}}/map/proyek-kontrak-progress";
+
+    let date = new Date();
+    let year = parseInt(date.getFullYear());
+    let bulan = parseInt('{{$bulan}}');
+
+    let tahun = $("#filterTahun").val('{{$tahun}}');
+    let uptd = $("#filterUPTD").val('{{$uptd}}');
+    let kegiatan = $("#filterKegiatan").val('{{$kegiatan}}');
+    let dateFrom = $("#filterDateFrom").val('2000-01-01');
+    let dateTo = $("#filterDateTo").val(lastTanggal(year,bulan));
 
     $.get(baseUrl, { tahun: tahun, uptd: uptd, kegiatan: kegiatan, dateFrom: dateFrom, dateTo: dateTo},
         function(response){
