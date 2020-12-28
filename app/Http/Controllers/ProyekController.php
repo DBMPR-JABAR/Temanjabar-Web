@@ -117,7 +117,8 @@ class ProyekController extends Controller
                         ]
                     ],
                     [
-                        "name"  => "<span style='font-size:1em; font-weight:bold'>Deviasi = ".$proyek->DEVIASI_PROGRESS_FISIK."</span>",
+                        "name"  => "<span style='font-size:1.2em; font-weight:bold'>Deviasi = ".$proyek->DEVIASI_PROGRESS_FISIK."</span><br>
+                                    <a href='#' style='font-size:1em'>Detail</a>",
                         "parent" => $proyek->ID,
                     ]
                 ]

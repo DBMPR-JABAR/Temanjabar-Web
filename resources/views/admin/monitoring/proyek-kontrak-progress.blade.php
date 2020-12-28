@@ -391,7 +391,7 @@ today = today.getTime();
 
 function proyekKontrak(data) {
     if(data.length > 0){
-        Highcharts.ganttChart('container', {
+        const chart = Highcharts.ganttChart('container', {
             navigator: {
                 enabled: true,
                 liveRedraw: true,
