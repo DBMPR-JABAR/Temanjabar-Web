@@ -13,7 +13,6 @@
         <div class="page-header-title">
             <div class="d-inline">
                 <h4>Kendali Kontrak</h4>
-
             </div>
         </div>
     </div>
@@ -168,7 +167,7 @@
             <div class="card-block">
                 <div class="row align-items-center">
                     <div class="col-8"><a href="proyek-kontrak/status/FINISH">
-                        <h4 class="text-c-blue f-w-600">{{$countFinish}}</h4>
+                        <h4 class="text-c-blue f-w-600">{{$countFinish}}</h4> </a>
                         <h6 class="text-muted m-b-0">Finish</h6>
                     </div>
                     <div class="col-4 text-right">
