@@ -627,6 +627,12 @@
                 let sup = $("#spp_filter").val();
                 let kegiatan = $("#kegiatan").val();
                 // kegiatan.push("progressmingguan");
+                if ($.inArray('datarawanbencana', kegiatan) >= 0) {
+                    rawanBencana();
+                    kegiatan.splice(kegiatan.indexOf('datarawanbencana'), 1); // remove 'ruasjalan' dari kegiatan
+                } else {
+                    map.remove(map.findLayerById('rbl'));
+                }
 
                 if ($.inArray('ruasjalan', kegiatan) >= 0) {
                     addRuteJalan();
@@ -641,12 +647,7 @@
                     map.remove(map.findLayerById('rj_mantap'));
                 }
 
-                if ($.inArray('datarawanbencana', kegiatan) >= 0) {
-                    rawanBencana();
-                    kegiatan.splice(kegiatan.indexOf('datarawanbencana'), 1); // remove 'ruasjalan' dari kegiatan
-                } else {
-                    map.remove(map.findLayerById('rbl'));
-                }
+               
 
                 if (kegiatan.length > 0) { // kalau masih ada pilihan lain di kegiatan
                     // Request data from API
