@@ -701,7 +701,7 @@
                                 map.remove(map.findLayerById('vc'));
                             }
                             if (kegiatan.indexOf('rawanbencana') >= 0) {
-                                addVehicleCounting(data.rawanbencana);
+                                addTitikRawanBencana(data.rawanbencana);
                             } else {
                                 map.remove(map.findLayerById('tx_rawanbencana'));
                             }
@@ -1039,7 +1039,7 @@
                     rawanBencanaLayer.add(rawanGempaBumi(), 1);
                     rawanBencanaLayer.add(rawanGerakanTanah(), 0);
                     rawanBencanaLayer.add(rawanLongsor(), 3);
-                    
+
                     map.add(rawanBencanaLayer);
                 }
 
