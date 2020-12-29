@@ -760,7 +760,7 @@
                     rutejalanLayer.add(jalanTolKonstruksi(), 0);
                     rutejalanLayer.add(jalanTolOperasi(), 1);
                     rutejalanLayer.add(jalanNasional(), 2);
-                    rutejalanLayer.add(gerbangTol(), 4);
+                   // rutejalanLayer.add(gerbangTol(), 4);
 
                     map.add(rutejalanLayer);
                 }
@@ -839,11 +839,11 @@
                                 color: "green",
                                 width: "2px",
                                 style: "solid",
-                                marker: { // autocasts from LineSymbolMarker
-                                    color: "orange",
-                                    placement: "begin-end",
-                                    style: "circle"
-                                }
+                                //marker: { // autocasts from LineSymbolMarker
+                                //    color: "orange",
+                                //    placement: "begin-end",
+                                //    style: "circle"
+                               //}
                             }
                         }
                     } else {
