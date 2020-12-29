@@ -59,45 +59,14 @@
                                                                 <!-- Tab panes -->
             <div class="tab-content tabs card-block">
                 <div class="tab-pane active" id="Detail" role="tabpanel">
-                     <table style="padding:0;margin:0" class="table table-striped table-bordered nowrap dataTable">
-                     <tr><td>	User Role</td><td>{{$user_role[0]->role}}</td></tr>
-                      <tr><td>	Menu</td><td>
-                          @php
-                            $i=0;
-                                while($i< count($menu)){
-                                                echo $menu[$i]->menu;
-                                                echo ", ";
-                                                if($i%6==0){
-                                                        echo "<br/>";
-                                                }
-                                }
-                          @endphp
-                      </td></tr>
-                      <tr><td>  Role Access</td>
-                      <td>@php
-                            $i=0;
-                            while($i< count($role_access)){
-                                echo $role_access[$i]->role_access;
-                                echo ", ";
-                                if($i%6==0){
-                                    echo "<br/>";
-                                }
-                            }
-                          @endphp</td>
-                      </tr>
-                      <tr><td>  UPTD Access</td>
-                      <td>@php
-                            $i=0;
-                            while($i< count($uptd_access)){
-                                echo $uptd_access[$i]->uptd_name;
-                                echo ", ";
-                                if($i%6==0){
-                                    echo "<br/>";
-                                }
-                            }
-                          @endphp</td>
-                      </tr>
-                     </table>
+                    <div class="dt-responsive table-responsive">
+                      <table style="padding:0;margin:0" class="table table-striped table-bordered nowrap dataTable">
+                         <tr><td>	User Role</td><td>{{$user_role_list[0]->role}}</td></tr>
+                          <tr><td>	Menu</td><td>{{ $user_role_list[0]->menu_user }}</td></tr>
+                          <tr><td>  Role Access</td><td>{{ $role_access[0] }}</td></tr>
+                          <tr><td>  UPTD Access</td><td>{{ $uptd_access[0] }}</td></tr>
+                      </table>
+                    </div>
                  </div>
                         
             </div>

@@ -70,6 +70,7 @@
                                 <th>Description</th>
                                 <th>Category</th>
                                 <th>Status</th>
+                                <th>Enable Vehicle Counting</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -77,17 +78,18 @@
                              @foreach ($cctv as $data)
                                 <tr>
                                     <td>{{$loop->index + 1}}</td>
-                                    <td>{{$data->LOKASI}}</td>
-                                    <td>{{$data->LAT}}</td>
-                                    <td>{{$data->LONG}}</td>
-                                    <td>{{$data->URL}}</td>
-                                    <td>{{$data->DESCRIPTION}}</td>
-                                    <td>{{$data->CATEGORY}}</td>
-                                    <td>{{$data->STATUS}}</td>
+                                    <td>{{$data->lokasi}}</td>
+                                    <td>{{$data->lat}}</td>
+                                    <td>{{$data->long}}</td>
+                                    <td>{{$data->url}}</td>
+                                    <td>{{$data->description}}</td>
+                                    <td>{{$data->category}}</td>
+                                    <td>{{$data->status}}</td>
+                                    <td>{{$data->enable_vehicle_counting}}</td>
                                     <td> 
-                                            <a type='button' href="{{ route('detailDataCCTV',$data->ID ) }}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Rincian</a>
-                                            <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$data->ID}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a> 
-                                            <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data->ID}}'     class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Hapus</a><br/>     
+                                            <a type='button' href="{{ route('detailDataCCTV',$data->id ) }}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Rincian</a>
+                                            <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$data->id}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a> 
+                                            <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data->id}}'     class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Hapus</a><br/>     
                                     </td>
                                 </tr>
                             @endforeach
@@ -236,6 +238,15 @@
                                 <input type="text" name="status" class="form-control"></input>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Enable Vehicle Counting</label>
+                            <div class="col-md-9">
+                                <select name="enable_vehicle_counting" class="form-control">
+                                    <option value="0" >0</option>
+                                    <option value="1" >1</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="modal-footer">
@@ -309,6 +320,15 @@
                                 <input type="text" name="status" id="status" class="form-control"></input>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Enable Vehicle Counting</label>
+                            <div class="col-md-9">
+                                <select name="enable_vehicle_counting" id="enable_vehicle_counting" class="form-control">
+                                    <option value="0" id="e_1">0</option>
+                                    <option value="1" id="e_2">1</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="modal-footer">
@@ -355,14 +375,21 @@
             const baseUrl = `{{ url('admin/master-data/CCTV/edit') }}/` + id;
             $.get(baseUrl, { id: id },
                 function(response){
-                    $('#id').val(response.cctv[0].ID);
-                    $('#lokasi').val(response.cctv[0].LOKASI);
-                    $('#lat').val(response.cctv[0].LAT);
-                    $('#long').val(response.cctv[0].LONG);
-                    $('#url').val(response.cctv[0].URL);
-                    $('#description').val(response.cctv[0].DESCRIPTION);
-                    $('#category').val(response.cctv[0].CATEGORY);
-                    $('#status').val(response.cctv[0].STATUS);
+                    $('#id').val(response.cctv[0].id);
+                    $('#lokasi').val(response.cctv[0].lokasi);
+                    $('#lat').val(response.cctv[0].lat);
+                    $('#long').val(response.cctv[0].long);
+                    $('#url').val(response.cctv[0].url);
+                    $('#description').val(response.cctv[0].description);
+                    $('#category').val(response.cctv[0].category);
+                    $('#status').val(response.cctv[0].status);
+                    $('#e_1').removeAttr("selected");
+                    $('#e_2').removeAttr("selected");
+                    for(var i=1;i<=2;i++){
+                        if($('#e_'+i).val() == response.cctv[0].enable_vehicle_counting){
+                            $('#e_'+i).attr("selected","selected");
+                        }
+                    }
                 });
             });
 

@@ -73,61 +73,25 @@
                         </thead>
                         <tbody id="bodyJembatan">
                             @php
-                                $i=0;$j=0;
+                                $i=0;
                             @endphp
                              @foreach ($user_role_list as $data)
                                 
                                 <tr>
                                     <td>{{$loop->index + 1}}</td>
                                     <td>{{$data->role}}</td>
-                                    <td>
-                                        @php
-                                        while($menu[$i]->internal_role_id == $data->role_id){
-                                          echo $menu[$i]->menu;
-                                          echo ", ";
-                                          $i++;
-                                          if($i%6==0){
-                                            echo "<br/>";
-                                          }
-                                          if($i==count($menu)-1){
-                                             break;
-                                          }
-                                        }
-                                        @endphp
-                                    </td>
-                                    <td>
-                                        @php
-                                        $k=0;
-                                        $id_role_access = $role_access_list[$j]->role_id;
-                                        while($k<count($role_access)){
-                                            if($role_access[$k]->master_grant_role_aplikasi_id == $id_role_access){
-                                                echo $role_access[$k]->role_access.", ";
-                                            }
-                                            $k++;
-                                        }
-                                        $j++;
-                                        @endphp
-                                    </td>
-                                    <td>
-                                        @php
-                                        $k=0;
-                                        $j=0;
-                                        $id_uptd_access = $uptd_access_list[$j]->role_uptd_id;
-                                        while($k<count($uptd_access)){
-                                            if($uptd_access[$k]->master_grant_role_aplikasi_id == $id_uptd_access){
-                                                echo $uptd_access[$k]->uptd_name.", ";
-                                            }
-                                            $k++;
-                                        }
-                                        $j++;
-                                        @endphp
-                                    </td>
+                                    <td>{{$data->menu_user}}</td>
+                                    <td>{{$role_access[$i]}}</td>
+                                    <td>{{$uptd_access[$i]}}</td>
                                     <td> 
                                             <a type='button' href="{{ route('detailRoleAkses', $data->role_id) }}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Rincian</a>
                                             <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$data->role_id}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a> 
                                             <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data->role_id}}'     class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Hapus</a><br/>     
                                     </td>
                                 </tr>
+                                @php
+                                    $i++;
+                                @endphp
                             @endforeach
                         </tbody>
                     </table>
@@ -236,7 +200,7 @@
                             <div class="col-md-9">
                                 
                                 <select  name="user_role" tabindex="4" required>
-                                    @foreach($user_role_list as $data)
+                                    @foreach($user_role as $data)
                                             <option value="{{$data->role}}">{{$data->role}}</option>
                                     @endforeach
                                 </select>
@@ -317,7 +281,7 @@
                             <div class="col-md-9">
                                 
                                 <select  name="user_role" id="select_user_role" tabindex="4" required>
-                                    @foreach($user_role_list as $data)
+                                    @foreach($user_role as $data)
                                             <option value="{{$data->role}}" id="edit_user_role_{{$loop->index + 1}}">{{$data->role}}</option>
                                     @endforeach
                                 </select>
