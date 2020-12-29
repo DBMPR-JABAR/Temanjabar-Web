@@ -51,8 +51,8 @@
             top: 15px;
             right: 55px;
             width: 300px;
-            max-height: 500px;
-            overflow-y: scroll;
+            max-height: 350px;
+            overflow-y: auto;
             transform: translate(1200px, 0);
             transition: transform 0.3s ease-in-out;
         }
@@ -148,6 +148,15 @@
             background-position: center;
             object-fit: cover;
         }
+        .chosen-container-multi .chosen-choices {
+            max-height: 100px;
+            overflow-y: scroll;
+        }
+
+        div.chosen-drop {
+            max-height: 80px;
+            overflow-y: scroll;
+        }
     </style>
     <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -199,13 +208,13 @@
             </div>
             <hr> --}}
             <div class="form-group">
-                <label for="kegiatan"><i class="feather icon-target text-primary"></i> UPTD</label>
-                <select class="form-control chosen-select chosen-select-uptd" id="uptd" multiple data-placeholder="Pilih UPTD">
+                <label for="uptd"><i class="feather icon-target text-primary"></i> UPTD</label>
+                <select id="uptd" class="form-control chosen-select chosen-select-uptd" id="uptd" multiple data-placeholder="Pilih UPTD">
                     <option value=""></option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="uptdSpp"><i class="feather icon-corner-down-right text-danger"></i> SPP / SUP</label>
+                <label for="spp_filter"><i class="feather icon-corner-down-right text-danger"></i> SPP / SUP</label>
                 <select id="spp_filter" data-placeholder="Pilih UPTD dengan SPP" class="chosen-select" multiple tabindex="6">
                     <option value=""></option>
                 </select>
@@ -213,21 +222,16 @@
             <div class="form-group">
                 <label for="kegiatan"><i class="feather icon-activity text-warning"></i> Kegiatan</label>
                 <select data-placeholder="Pilih kegiatan" multiple class="chosen-select" tabindex="8" id="kegiatan">
-                    <option value="ruasjalan">Ruas Jalan</option>
-                    <option value="pembangunan">Pembangunan</option>
-                    <option value="peningkatan">Peningkatan</option>
-                    <option value="rehabilitasi">Rehabilitasi</option>
-                    <option value="jembatan">Jembatan</option>
                 </select>
             </div>
-            {{-- <div class="form-group">
+            <!-- {{-- <div class="form-group">
                 <label for="proyek"><i class="feather icon-calendar text-success"></i> Proyek Kontrak</label>
                 <select class="chosen-select form-control" id="proyek" data-placeholder="Pilih kegiatan" multiple tabindex="4">
                     <option value="onprogress">On-Progress</option>
                     <option value="critical">Critical Contract</option>
                     <option value="finish">Finish</option>
                 </select>
-            </div> --}}
+            </div> --}} -->
             <!-- <div class="form-group">
                 <label for="basemap">Basemap</label>
                 <select data-placeholder="Basemap..." class="chosen-select form-control" id="basemap" tabindex="-1">
@@ -240,7 +244,7 @@
                 </select>
             </div> -->
             <div class="form-group">
-                <label for="exampleFormControlSelect1"><i class="feather icon-zoom-in"></i> Zoom</label>
+                <label for="zoom"><i class="feather icon-zoom-in"></i> Zoom</label>
                 <select class="chosen-select form-control" id="zoom">
                     <option value="5">5</option>
                     <option value="6">6</option>
@@ -479,8 +483,7 @@
                     <option value="vehiclecounting">Vehicle Counting</option>
                     <option value="kemantapanjalan">Kemantapan Jalan</option>
                     <option value="jembatan">Jembatan</option>
-                    <option value="rawanbencana">Titik Rawan Bencana</option>
-                    <option value="datarawanbencana">Area Rawan Bencana</option>`;
+                    <option value="datarawanbencana">Data Rawan Bencana</option>`;
         $('#kegiatan').html(kegiatan).trigger('liszt:updated');
         $('#kegiatan').trigger("chosen:updated");
 
@@ -756,7 +759,7 @@
                     rutejalanLayer.add(jalanTolKonstruksi(), 0);
                     rutejalanLayer.add(jalanTolOperasi(), 1);
                     rutejalanLayer.add(jalanNasional(), 2);
-                   // rutejalanLayer.add(gerbangTol(), 4);
+                    rutejalanLayer.add(gerbangTol(), 4);
 
                     map.add(rutejalanLayer);
                 }
@@ -1148,164 +1151,6 @@
 
             }
 
-            function addTitikRawanBencana(rawanbencana) {
-                const symbol = {
-                    type: "picture-marker", // autocasts as new PictureMarkerSymbol()
-                    url: baseUrl + "/assets/images/marker/rawanbencana.png",
-                    width: "28px",
-                    height: "28px"
-                };
-                const popupTemplate = {
-                    title: "{ruas_jalan}",
-                    content: [
-                        {
-                            type: "fields",
-                            fieldInfos: [
-                                {
-                                    fieldName: "no_ruas",
-                                    label: "Nomor Ruas",
-                                },
-                                {
-                                    fieldName: "status",
-                                    label: "Status",
-                                },
-                                {
-                                    fieldName: "lokasi",
-                                    label: "Lokasi",
-                                },
-                                {
-                                    fieldName: "daerah",
-                                    label: "Daerah",
-                                },
-                                {
-                                    fieldName: "lat",
-                                    label: "Latitude",
-                                },
-                                {
-                                    fieldName: "long",
-                                    label: "Longitude",
-                                },
-                                {
-                                    fieldName: "keterangan",
-                                    label: "Keterangan",
-                                },
-                                {
-                                    fieldName: "SUP",
-                                    label: "SUP",
-                                },
-                                {
-                                    fieldName: "uptd_id",
-                                    label: "UPTD",
-                                }
-                            ]
-                        },
-                        {
-                            type: "media",
-                            mediaInfos: [{
-                                title: "<b>Foto Aktual</b>",
-                                type: "image",
-                                value: {
-                                    sourceURL: baseUrl + "/assets/images/sample/sample.png"
-                                }
-                            }]
-                        }
-                    ]
-                };
-
-                // cari dan hapus layer bila ada pd map
-                let titikRawanBencanaLayer = map.findLayerById('tx_rawanbencana');
-                if (titikRawanBencanaLayer) {
-                    map.remove(titikRawanBencanaLayer);
-                }
-
-                // buat layer baru
-                let newTitikRawanBencana = [];
-                rawanbencana.forEach(item => {
-                    let point = new Point(item.long, item.lat);
-                    newTitikRawanBencana.push(new Graphic({
-                        geometry: point,
-                        attributes: item
-                    }));
-                });
-                let newTitikRawanBencanaLayer = new FeatureLayer({
-                    title: 'Titik Rawan Bencana',
-                    id: 'tx_rawanbencana',
-                    fields: [{
-                            name: "id",
-                            alias: "ID",
-                            type: "integer"
-                        },
-                        {
-                            name: "no_ruas",
-                            alias: "Nomor Ruas",
-                            type: "string"
-                        },
-                        {
-                            name: "status",
-                            alias: "Status",
-                            type: "string"
-                        },
-                        {
-                            name: "ruas_jalan",
-                            alias: "Ruas Jalan",
-                            type: "string"
-                        },
-                        {
-                            name: "lokasi",
-                            alias: "Lokasi",
-                            type: "string"
-                        },
-                        {
-                            name: "daerah",
-                            alias: "Daerah",
-                            type: "string"
-                        },
-                        {
-                            name: "lat",
-                            alias: "Latitude",
-                            type: "double"
-                        },
-                        {
-                            name: "long",
-                            alias: "Longitude",
-                            type: "double"
-                        },
-                        {
-                            name: "keterangan",
-                            alias: "Keterangan",
-                            type: "string"
-                        },
-                        {
-                            name: "foto",
-                            alias: "Foto",
-                            type: "string"
-                        },
-                        {
-                            name: "SUP",
-                            alias: "SUP",
-                            type: "string"
-                        },
-                        {
-                            name: "uptd_id",
-                            alias: "UPTD",
-                            type: "string"
-                        }
-                    ],
-                    objectIdField: "id",
-                    geometryType: "point",
-                    spatialReference: {
-                        wkid: 4326
-                    },
-                    source: newTitikRawanBencana,
-                    popupTemplate: popupTemplate,
-                    renderer: {
-                        type: "simple",
-                        symbol: symbol
-                    }
-                });
-                map.add(newTitikRawanBencanaLayer);
-            }
-
             function addKemantapanJalan() {
                 const popupTemplate = {
                     title: "{nm_ruas}",
@@ -1406,11 +1251,11 @@
                             color: "green",
                             width: "2px",
                             style: "solid",
-                         //   marker: { // autocasts from LineSymbolMarker
-                         //       color: "orange",
-                         //       placement: "begin-end",
-                         //       style: "circle"
-                         //   }
+                            marker: { // autocasts from LineSymbolMarker
+                                color: "orange",
+                                placement: "begin-end",
+                                style: "circle"
+                            }
                         }
                     }
                 } else {
