@@ -177,7 +177,7 @@
                 </button>
             </div>
             <div id="back">
-                <a href="{{ url('/admin/monitoring/kendali-kontrak') }}">
+                <a href="{{ url('/admin/monitoring/proyek-kontrak') }}">
                     <button data-toggle="tooltip" data-placement="right" title="Kembali kehalaman Sebelumnya">
                         <i class="feather icon-arrow-left"></i>
                     </button>
@@ -756,7 +756,7 @@
                     rutejalanLayer.add(jalanTolKonstruksi(), 0);
                     rutejalanLayer.add(jalanTolOperasi(), 1);
                     rutejalanLayer.add(jalanNasional(), 2);
-                    rutejalanLayer.add(gerbangTol(), 4);
+                   // rutejalanLayer.add(gerbangTol(), 4);
 
                     map.add(rutejalanLayer);
                 }
@@ -1039,8 +1039,8 @@
                     rawanBencanaLayer.add(rawanGempaBumi(), 1);
                     rawanBencanaLayer.add(rawanGerakanTanah(), 0);
                     rawanBencanaLayer.add(rawanLongsor(), 3);
-
-                    map.add(rawanBencanaLayer, 0);
+                    
+                    map.add(rawanBencanaLayer);
                 }
 
                 function rawanGempaBumi() {
@@ -1406,11 +1406,11 @@
                             color: "green",
                             width: "2px",
                             style: "solid",
-                            marker: { // autocasts from LineSymbolMarker
-                                color: "orange",
-                                placement: "begin-end",
-                                style: "circle"
-                            }
+                         //   marker: { // autocasts from LineSymbolMarker
+                         //       color: "orange",
+                         //       placement: "begin-end",
+                         //       style: "circle"
+                         //   }
                         }
                     }
                 } else {
