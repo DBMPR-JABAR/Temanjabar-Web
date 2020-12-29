@@ -55,7 +55,7 @@ class RawanBencanaController extends Controller
         ->distinct()
         ->where('a.uptd_id',$id)
         ->get();
-        return response()->json(['sup'=>$sup], 200);  
+        return response()->json(['sup'=>$sup], 200);
     }
     public function editData($id)
     {
@@ -78,8 +78,8 @@ class RawanBencanaController extends Controller
         $rawan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
         if ($req->foto != null) {
             $path = 'rawanbencana/' . Str::snake(date("YmdHis") . ' ' . $req->foto->getClientOriginalName());
-            $req->foto->storeAs('storage/', $path);
-            $rawan['foto'] = $path;
+            $req->foto->storeAs('public/', $path);
+            $rawan['foto'] = url('storage/'.$path);
         }
 
         DB::table('master_rawan_bencana')->insert($rawan);
@@ -94,8 +94,8 @@ class RawanBencanaController extends Controller
         $rawan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
         if ($req->foto != null) {
             $path = 'rawanbencana/' . Str::snake(date("YmdHis") . ' ' . $req->foto->getClientOriginalName());
-            $req->foto->storeAs('storage/', $path);
-            $rawan['foto'] = $path;
+            $req->foto->storeAs('public/', $path);
+            $rawan['foto'] = url('storage/'.$path);
         }
 
         $old = DB::table('master_rawan_bencana')->where('id', $req->id)->first();
