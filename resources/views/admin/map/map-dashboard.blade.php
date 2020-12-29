@@ -1151,7 +1151,7 @@
             function addTitikRawanBencana(rawanbencana) {
                 const symbol = {
                     type: "picture-marker", // autocasts as new PictureMarkerSymbol()
-                    url: baseUrl + "/assets/images/marker/rawanbencara.png",
+                    url: baseUrl + "/assets/images/marker/rawanbencana.png",
                     width: "28px",
                     height: "28px"
                 };
@@ -1190,7 +1190,7 @@
                                     label: "Keterangan",
                                 },
                                 {
-                                    fieldName: "sup",
+                                    fieldName: "SUP",
                                     label: "SUP",
                                 },
                                 {
@@ -1281,7 +1281,7 @@
                             type: "string"
                         },
                         {
-                            name: "sup",
+                            name: "SUP",
                             alias: "SUP",
                             type: "string"
                         },
