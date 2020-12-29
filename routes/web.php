@@ -297,7 +297,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     });
 });
 Route::get('map/target-realisasi', 'ProyekController@getTargetRealisasiAPI')->name('api.targetrealisasi');
-Route::get('map/proyek-kontrak', 'ProyekController@getProyekKontrakAPI')->name('api.proyekkontrak');
+Route::get('map/kendali-kontrak', 'ProyekController@getProyekKontrakAPI')->name('api.proyekkontrak');
 Route::get('map/proyek-kontrak-progress', 'ProyekController@getProgressProyekKontrakAPI')->name('api.proyekkontrakprogress');
 
 Route::get('map/laporan-masyarakat', 'MonitoringController@getLaporanAPI')->name('api.laporan');
