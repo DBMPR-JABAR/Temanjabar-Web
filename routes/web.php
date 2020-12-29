@@ -211,6 +211,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('create', 'MasterData\RawanBencanaController@createData')->name('createDataBencana');
             Route::get('delete/{id}', 'MasterData\RawanBencanaController@deleteData')->name('deleteDataBencana');
             Route::get('json', 'MasterData\RawanBencanaController@json')->name('getJsonDataBencana');
+            Route::get('getDataSUP/{id}', 'MasterData\RawanBencanaController@getDataSUP')->name('getDataSUP');
+        });
+        Route::group(['prefix' => 'CCTV'], function () {
+            Route::get('/', 'MasterData\CCTVController@index')->name('getDataCCTV');
+            Route::get('detail/{id}', 'MasterData\CCTVController@detail')->name('detailDataCCTV');
+            Route::post('create', 'MasterData\CCTVController@create')->name('createCCTV');
+            Route::get('edit/{id}', 'MasterData\CCTVController@edit')->name('editCCTV');
+            Route::post('update', 'MasterData\CCTVController@update')->name('updateDataCCTV');
+            Route::get('delete/{id}', 'MasterData\CCTVController@delete')->name('deleteDataCCTV');
+
         });
     });
 

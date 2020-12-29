@@ -65,6 +65,10 @@
                                 <th>Ruas Jalan</th>
                                 <th>Lokasi</th>
                                 <th>Daerah</th>
+                                <th>Lat</th>
+                                <th>Long</th>
+                                <th>Foto</th>
+                                <th>SUP</th>
                                 <th>Keterangan</th>
                                 <th>Status</th>
                                 <th style="min-width: 100px;">Aksi</th>
@@ -78,6 +82,9 @@
                                 <td>{{$data->ruas_jalan}}</td>
                                 <td>{{$data->lokasi}}</td>
                                 <td>{{$data->daerah}}</td>
+                                <td>{{$data->lat}}</td>
+                                <td>{{$data->long}}</td>
+                                <td>{{$data->foto}}</td>
                                 <td>{{$data->keterangan}}</td>
                                 <td>{{$data->status}}</td>
                                 <td style="min-width: 75px;">
@@ -167,6 +174,31 @@
                             <label class="col-md-2 col-form-label">Daerah</label>
                             <div class="col-md-10">
                                 <input name="daerah" type="text" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Lat</label>
+                            <div class="col-md-10">
+                                <input name="lat" type="number" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Long</label>
+                            <div class="col-md-10">
+                                <input name="long" type="number" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Foto</label>
+                            <div class="col-md-10">
+                                <input name="foto" type="text" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">SUP</label>
+                            <div class="col-md-10">
+                                <select class="form-control" name="sup" id="sup">
+                                </select>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -278,6 +310,22 @@
                     name: 'daerah'
                 },
                 {
+                    data: 'lat',
+                    name: 'lat'
+                },
+                {
+                    data: 'long',
+                    name: 'long'
+                },
+                {
+                    data: 'foto',
+                    name: 'foto'
+                },
+                {
+                    data: 'SUP',
+                    name: 'SUP'
+                },
+                {
                     data: 'keterangan',
                     name: 'keterangan'
                 },
@@ -304,7 +352,26 @@
         text = 'Pilih Ruas Jalan'
         option = 'nama_ruas_jalan'
 
-        setDataSelect(id, url, id_select, text, option, option)
+        setDataSelect(id, url, id_select, text, option, option);
+
+        const baseUrl = `{{ url('admin/master-data/rawanbencana/getDataSUP/') }}/` + id;
+            $.get(baseUrl, { id: id },
+                function(response){
+                    $('.sup').remove();
+                    for(var i=0;i<response.sup.length;i++){
+                        $('#sup').append("<option value='"+id+"' class='sup' >"+response.sup[i].name+"</option>");
+                    }
+                    // $('#id').val(response.users[0].id);
+                    // $('#nama').val(response.users[0].name);
+                    // $('#email').val(response.users[0].email);
+                    // $('#role').val(response.users[0].role);
+                    
+                    // for(let i=1;i<=jml;i++){
+                    //     if($("#id-"+i).val() == response.users[0].internal_role_id){
+                    //         $("#id-"+i).attr("selected","selected");
+                    //     }
+                    // }
+                });
     }
 </script>
 @endsection

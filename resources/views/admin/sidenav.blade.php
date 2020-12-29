@@ -147,6 +147,13 @@
                         </a>
                     </li>
                     @endif
+
+                    <li class="{{(Request::segment(3) == 'CCTV') ? 'active' : ''}}">
+                        <a href="{{ url('admin/master-data/CCTV') }}">
+                            <span class="pcoded-mtext">CCTV</span>
+                        </a>
+                    </li>
+
                 </ul>
             </li>
         </ul>

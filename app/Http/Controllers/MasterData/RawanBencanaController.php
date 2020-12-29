@@ -49,6 +49,13 @@ class RawanBencanaController extends Controller
         $uptd = DB::table('landing_uptd')->get();
         return view('admin.master.rawanbencana.index', compact('rawan', 'ruas', 'uptd'));
     }
+    public function getDataSUP($id){
+        $sup = DB::table('utils_sup as a')
+        ->distinct()
+        ->where('a.uptd_id',$id)
+        ->get();
+        return response()->json(['sup'=>$sup], 200);  
+    }
     public function editData($id)
     {
         $rawan = DB::table('master_rawan_bencana')->where('id', $id)->first();
@@ -57,7 +64,11 @@ class RawanBencanaController extends Controller
         $ruas = DB::table('master_ruas_jalan');
         $ruas = $ruas->where('master_ruas_jalan.uptd_id', $rawan->uptd_id);
         $ruas = $ruas->get();
-        return view('admin.master.rawanbencana.edit', compact('rawan', 'ruas', 'uptd'));
+
+        $sup = DB::table('utils_sup')
+        ->where('uptd_id',$rawan->uptd_id)
+        ->get();
+        return view('admin.master.rawanbencana.edit', compact('rawan', 'ruas', 'uptd','sup'));
     }
     public function createData(Request $req)
     {
