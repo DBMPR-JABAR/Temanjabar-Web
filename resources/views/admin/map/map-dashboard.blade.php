@@ -51,8 +51,8 @@
             top: 15px;
             right: 55px;
             width: 300px;
-            max-height: 500px;
-            overflow-y: scroll;
+            max-height: 350px;
+            overflow-y: auto;
             transform: translate(1200px, 0);
             transition: transform 0.3s ease-in-out;
         }
@@ -148,6 +148,11 @@
             background-position: center;
             object-fit: cover;
         }
+
+        /*  */
+        .form-group select {
+            height: 50px;
+        }
     </style>
     <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -199,13 +204,13 @@
             </div>
             <hr> --}}
             <div class="form-group">
-                <label for="kegiatan"><i class="feather icon-target text-primary"></i> UPTD</label>
-                <select class="form-control chosen-select chosen-select-uptd" id="uptd" multiple data-placeholder="Pilih UPTD">
+                <label for="uptd"><i class="feather icon-target text-primary"></i> UPTD</label>
+                <select id="uptd" class="form-control chosen-select chosen-select-uptd" id="uptd" multiple data-placeholder="Pilih UPTD">
                     <option value=""></option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="uptdSpp"><i class="feather icon-corner-down-right text-danger"></i> SPP / SUP</label>
+                <label for="spp_filter"><i class="feather icon-corner-down-right text-danger"></i> SPP / SUP</label>
                 <select id="spp_filter" data-placeholder="Pilih UPTD dengan SPP" class="chosen-select" multiple tabindex="6">
                     <option value=""></option>
                 </select>
@@ -213,21 +218,16 @@
             <div class="form-group">
                 <label for="kegiatan"><i class="feather icon-activity text-warning"></i> Kegiatan</label>
                 <select data-placeholder="Pilih kegiatan" multiple class="chosen-select" tabindex="8" id="kegiatan">
-                    <option value="ruasjalan">Ruas Jalan</option>
-                    <option value="pembangunan">Pembangunan</option>
-                    <option value="peningkatan">Peningkatan</option>
-                    <option value="rehabilitasi">Rehabilitasi</option>
-                    <option value="jembatan">Jembatan</option>
                 </select>
             </div>
-            {{-- <div class="form-group">
+            <!-- {{-- <div class="form-group">
                 <label for="proyek"><i class="feather icon-calendar text-success"></i> Proyek Kontrak</label>
                 <select class="chosen-select form-control" id="proyek" data-placeholder="Pilih kegiatan" multiple tabindex="4">
                     <option value="onprogress">On-Progress</option>
                     <option value="critical">Critical Contract</option>
                     <option value="finish">Finish</option>
                 </select>
-            </div> --}}
+            </div> --}} -->
             <!-- <div class="form-group">
                 <label for="basemap">Basemap</label>
                 <select data-placeholder="Basemap..." class="chosen-select form-control" id="basemap" tabindex="-1">
@@ -240,7 +240,7 @@
                 </select>
             </div> -->
             <div class="form-group">
-                <label for="exampleFormControlSelect1"><i class="feather icon-zoom-in"></i> Zoom</label>
+                <label for="zoom"><i class="feather icon-zoom-in"></i> Zoom</label>
                 <select class="chosen-select form-control" id="zoom">
                     <option value="5">5</option>
                     <option value="6">6</option>
