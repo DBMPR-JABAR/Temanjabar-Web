@@ -90,9 +90,9 @@
                                     href="{{ url('map/map-dashboard-masyarakat') }}">Map DBMPR</a>
                             </li>
                             <li><a href="{{url('/')}}#about" class="pagescroll scrollupto">Tentang Kami</a></li>
-                            <li><a href="{{url('/')}}#portfolio" class="pagescroll">UPTD</a></li>
-                            <li><a href="{{url('/')}}#ourfaq" class="pagescroll">Pengaduan</a></li>
-                            <li><a href="{{url('/')}}#stayconnect1"" class=" pagescroll">Kontak</a></li>
+                            <li><a href="{{url('/')}}#uptd" class="pagescroll">UPTD</a></li>
+                            <li><a href="{{url('/')}}#laporan" class="pagescroll">Pengaduan</a></li>
+                            <li><a href="{{url('/')}}#kontak"" class=" pagescroll">Kontak</a></li>
                         </ul>
                     </div>
                 </div>

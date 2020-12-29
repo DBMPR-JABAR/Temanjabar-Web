@@ -13,7 +13,6 @@
         <div class="page-header-title">
             <div class="d-inline">
                 <h4>Kendali Kontrak</h4>
-
             </div>
         </div>
     </div>
@@ -89,7 +88,7 @@
                                             <option value="rehabilitasi">Rehabilitasi</option>
                                         </select>
                                     </div>
-                                    <div class="col-sm-12 col-xl-3 m-b-30">
+                                    {{-- <div class="col-sm-12 col-xl-3 m-b-30">
                                         <h4 class="sub-title">Dari Tanggal</h4>
                                         <input type="date" id="filterDateFrom" name="dateFrom" class="form-control form-control-primary">
                                         </input>
@@ -98,7 +97,7 @@
                                         <h4 class="sub-title">Ke Tanggal</h4>
                                         <input type="date" id="filterDateTo" name="dateTo" class="form-control form-control-primary">
                                         </input>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -168,7 +167,7 @@
             <div class="card-block">
                 <div class="row align-items-center">
                     <div class="col-8"><a href="kendali-kontrak/status/FINISH">
-                        <h4 class="text-c-blue f-w-600">{{$countFinish}}</h4></a>
+                        <h4 class="text-c-blue f-w-600">{{$countFinish}}</h4> </a>
                         <h6 class="text-muted m-b-0">Finish</h6>
                     </div>
                     <div class="col-4 text-right">
@@ -219,12 +218,31 @@
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
 <script>
+    const monthName = ['A','Januari', 'Februari', 'Maret', 'April', 'Mei','Juni','Juli','Agustus',
+                   'September', 'Oktober', 'November','Desember'];
 
-    function chart(data, uptd, tahun){
-        if(data){
+    function chart(data, uptd, tahun, kegiatan){
+        if(data.REALISASI.length > 0){
+            let rencana = [];
+            data.RENCANA.forEach((val,i) => {
+                rencana.push({y: val, bulan: data.BULAN[i], tahun: data.TAHUN[i]});
+            });
+
+            let realisasi = [];
+            data.REALISASI.forEach((val,i) => {
+                realisasi.push({y: val, bulan: data.BULAN[i], tahun: data.TAHUN[i]});
+            });
+
+            let month = [];
+            data.BULAN.forEach((val,i) => {
+                month.push(monthName[val]);
+            });
+
+
             let text = "Target dan Realisasi Fisik Kendali Kontrak ";
             text += (uptd != '') ? 'UPTD '+uptd : '';
             text += (tahun != '') ? ' Tahun '+tahun : ' ';
+            text += (kegiatan != '') ? ' Kategori '+kegiatan : ' ';
             Highcharts.chart('container', {
                 chart: {
                     type: 'column'
@@ -234,7 +252,7 @@
                     text: text
                 },
                 xAxis: {
-                    categories: data.BULAN,
+                    categories: month,
                     crosshair: true
                 },
                 yAxis: {
@@ -244,8 +262,8 @@
                     }
                 },
                 tooltip: {
-                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    headerFormat: '<span style="font-size:20px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name} {point.tahun}: </td>' +
                         '<td style="padding:0"><b>{point.y:,.2f}%</b></td></tr>',
                     footerFormat: '</table>',
                     shared: true,
@@ -255,14 +273,27 @@
                     column: {
                         pointPadding: 0.2,
                         borderWidth: 0
+                    },
+                    series: {
+                        cursor: 'pointer',
+                        point: {
+                            events: {
+                                click: function () {
+                                    let url = "{{route('monitoring-kontrak-progress')}}?bulan="+this.options.bulan+"&tahun="+this.options.tahun;
+                                    url += (uptd != '') ? '&uptd='+uptd : '';
+                                    url += (kegiatan != '') ? '&kegiatan='+kegiatan : '';
+                                    location.href = url;
+                                }
+                            }
+                        }
                     }
                 },
                 series: [{
                     name: 'Rencana',
-                    data: data.RENCANA
+                    data: rencana
                 }, {
                     name: 'Realisasi',
-                    data: data.REALISASI
+                    data: realisasi
                 }]
             });
         }else{
@@ -272,9 +303,10 @@
     }
 
     $(document).ready(function () {
-        const baseUrl = "{{url('')}}/map/proyek-kontrak";
+        const baseUrl = "{{url('')}}/map/kendali-kontrak";
         let tahun = $("#filterTahun").val();
         let uptd = $("#filterUPTD").val();
+        let kegiatan = $("#filterKegiatan").val();
 
         Highcharts.setOptions({
             lang: {
@@ -283,20 +315,21 @@
             }
         });
 
-        $.get(baseUrl, { tahun: tahun, uptd: uptd},
+        $.get(baseUrl, { tahun: tahun, uptd: uptd, kegiatan: kegiatan},
             function(response){
                 const data = response.data;
-                chart(data, uptd, tahun);
+                chart(data, uptd, tahun, kegiatan);
             });
 
-        $("#filterTahun, #filterUPTD").change(function () {
+        $("#filterTahun, #filterUPTD, #filterKegiatan").change(function () {
             tahun = $("#filterTahun").val();
             uptd = $("#filterUPTD").val();
+            kegiatan = $("#filterKegiatan").val();
 
-            $.get(baseUrl, { tahun: tahun, uptd: uptd},
+            $.get(baseUrl, { tahun: tahun, uptd: uptd, kegiatan: kegiatan},
             function(response){
                 const data = response.data;
-                chart(data, uptd, tahun);
+                chart(data, uptd, tahun, kegiatan);
             });
         });
     });
