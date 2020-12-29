@@ -95,6 +95,36 @@
                         </div>
                     </div>
                     <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Lat</label>
+                        <div class="col-md-10">
+                            <input name="lat" type="number" class="form-control" required value="{{$rawan->lat}}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Long</label>
+                        <div class="col-md-10">
+                            <input name="long" type="number" class="form-control" required value="{{$rawan->long}}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Foto</label>
+                        <div class="col-md-10">
+                            <input name="foto" type="text" class="form-control" required value="{{$rawan->foto}}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">SUP</label>
+                        <div class="col-md-10">
+                            <select id="sup" name="SUP" class="form-control" required>
+                                <option value="{{$rawan->SUP}}" class="sup">{{$rawan->SUP}}</option>>
+                                <option class="sup"></option>
+                                @foreach ($sup as $data)
+                                <option value="{{$data->name}}" class="sup">{{$data->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
                         <label class="col-md-2 col-form-label">Status</label>
                         <div class="col-md-10">
                             <select class="form-control" name="status">
@@ -138,7 +168,15 @@
         text = 'Pilih Ruas Jalan'
         option = 'nama_ruas_jalan'
 
-        setDataSelect(id, url, id_select, text, option, option)
+        setDataSelect(id, url, id_select, text, option, option);
+        const baseUrl = `{{ url('admin/master-data/rawanbencana/getDataSUP/') }}/` + id;
+        $.get(baseUrl, { id: id },
+                function(response){
+                    $('.sup').remove();
+                    for(var i=0;i<response.sup.length;i++){
+                        $('#sup').append("<option value='"+id+"' class='sup' >"+response.sup[i].name+"</option>");
+                    }
+                });
     }
 </script>
 @endsection

@@ -82,17 +82,17 @@ class MapDashboardController extends Controller
                 //     $data = RuasJalan::whereIn('SUP',$request->sup)->get();
                 //     $this->response['data']['ruasjalan'] = $data;
                 // }
-                if(in_array('progressmingguan', $request->kegiatan)){
-                    $data = ProgressMingguan::whereIn('SUP',$request->sup)->get();
-                    $this->response['data']['progressmingguan'] = $data;
-                }
+                // if(in_array('progressmingguan', $request->kegiatan)){
+                //     $data = ProgressMingguan::whereIn('SUP',$request->sup)->get();
+                //     $this->response['data']['progressmingguan'] = $data;
+                // }
                 if(in_array('vehiclecounting', $request->kegiatan)){
                     $data = VehicleCounting::whereIn('SUP',$request->sup)->get();
                     $this->response['data']['vehiclecounting'] = $data;
                 }
-                if(in_array('kemantapanjalan', $request->kegiatan)){
-                    $data = KemantapanJalan::whereIn('SUP',$request->sup)->get();
-                    $this->response['data']['kemantapanjalan'] = $data;
+                if(in_array('rawanbencana', $request->kegiatan)){
+                    $data = DB::table('master_rawan_bencana')->whereIn('SUP',$request->sup)->get();
+                    $this->response['data']['rawanbencana'] = $data;
                 }
             }
 

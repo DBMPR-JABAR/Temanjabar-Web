@@ -182,7 +182,7 @@
                 </button>
             </div>
             <div id="back">
-                <a href="{{ url('/admin/monitoring/kendali-kontrak') }}">
+                <a href="{{ url('/admin/monitoring/proyek-kontrak') }}">
                     <button data-toggle="tooltip" data-placement="right" title="Kembali kehalaman Sebelumnya">
                         <i class="feather icon-arrow-left"></i>
                     </button>
@@ -479,7 +479,8 @@
                     <option value="vehiclecounting">Vehicle Counting</option>
                     <option value="kemantapanjalan">Kemantapan Jalan</option>
                     <option value="jembatan">Jembatan</option>
-                    <option value="datarawanbencana">Data Rawan Bencana</option>`;
+                    <option value="rawanbencana">Titik Rawan Bencana</option>
+                    <option value="datarawanbencana">Area Rawan Bencana</option>`;
         $('#kegiatan').html(kegiatan).trigger('liszt:updated');
         $('#kegiatan').trigger("chosen:updated");
 
@@ -647,7 +648,7 @@
                     map.remove(map.findLayerById('rj_mantap'));
                 }
 
-               
+
 
                 if (kegiatan.length > 0) { // kalau masih ada pilihan lain di kegiatan
                     // Request data from API
@@ -698,6 +699,11 @@
                                 addVehicleCounting(data.vehiclecounting);
                             } else {
                                 map.remove(map.findLayerById('vc'));
+                            }
+                            if (kegiatan.indexOf('rawanbencana') >= 0) {
+                                addVehicleCounting(data.rawanbencana);
+                            } else {
+                                map.remove(map.findLayerById('tx_rawanbencana'));
                             }
                             /* Deleted Proyek Kontrak
                                 if (kegiatan.indexOf('progressmingguan') >= 0) {
@@ -750,7 +756,7 @@
                     rutejalanLayer.add(jalanTolKonstruksi(), 0);
                     rutejalanLayer.add(jalanTolOperasi(), 1);
                     rutejalanLayer.add(jalanNasional(), 2);
-                    rutejalanLayer.add(gerbangTol(), 4);
+                   // rutejalanLayer.add(gerbangTol(), 4);
 
                     map.add(rutejalanLayer);
                 }
@@ -1033,8 +1039,8 @@
                     rawanBencanaLayer.add(rawanGempaBumi(), 1);
                     rawanBencanaLayer.add(rawanGerakanTanah(), 0);
                     rawanBencanaLayer.add(rawanLongsor(), 3);
-
-                    map.add(rawanBencanaLayer, 0);
+                    
+                    map.add(rawanBencanaLayer);
                 }
 
                 function rawanGempaBumi() {
@@ -1142,6 +1148,164 @@
 
             }
 
+            function addTitikRawanBencana(rawanbencana) {
+                const symbol = {
+                    type: "picture-marker", // autocasts as new PictureMarkerSymbol()
+                    url: baseUrl + "/assets/images/marker/rawanbencana.png",
+                    width: "28px",
+                    height: "28px"
+                };
+                const popupTemplate = {
+                    title: "{ruas_jalan}",
+                    content: [
+                        {
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "no_ruas",
+                                    label: "Nomor Ruas",
+                                },
+                                {
+                                    fieldName: "status",
+                                    label: "Status",
+                                },
+                                {
+                                    fieldName: "lokasi",
+                                    label: "Lokasi",
+                                },
+                                {
+                                    fieldName: "daerah",
+                                    label: "Daerah",
+                                },
+                                {
+                                    fieldName: "lat",
+                                    label: "Latitude",
+                                },
+                                {
+                                    fieldName: "long",
+                                    label: "Longitude",
+                                },
+                                {
+                                    fieldName: "keterangan",
+                                    label: "Keterangan",
+                                },
+                                {
+                                    fieldName: "SUP",
+                                    label: "SUP",
+                                },
+                                {
+                                    fieldName: "uptd_id",
+                                    label: "UPTD",
+                                }
+                            ]
+                        },
+                        {
+                            type: "media",
+                            mediaInfos: [{
+                                title: "<b>Foto Aktual</b>",
+                                type: "image",
+                                value: {
+                                    sourceURL: baseUrl + "/assets/images/sample/sample.png"
+                                }
+                            }]
+                        }
+                    ]
+                };
+
+                // cari dan hapus layer bila ada pd map
+                let titikRawanBencanaLayer = map.findLayerById('tx_rawanbencana');
+                if (titikRawanBencanaLayer) {
+                    map.remove(titikRawanBencanaLayer);
+                }
+
+                // buat layer baru
+                let newTitikRawanBencana = [];
+                rawanbencana.forEach(item => {
+                    let point = new Point(item.long, item.lat);
+                    newTitikRawanBencana.push(new Graphic({
+                        geometry: point,
+                        attributes: item
+                    }));
+                });
+                let newTitikRawanBencanaLayer = new FeatureLayer({
+                    title: 'Titik Rawan Bencana',
+                    id: 'tx_rawanbencana',
+                    fields: [{
+                            name: "id",
+                            alias: "ID",
+                            type: "integer"
+                        },
+                        {
+                            name: "no_ruas",
+                            alias: "Nomor Ruas",
+                            type: "string"
+                        },
+                        {
+                            name: "status",
+                            alias: "Status",
+                            type: "string"
+                        },
+                        {
+                            name: "ruas_jalan",
+                            alias: "Ruas Jalan",
+                            type: "string"
+                        },
+                        {
+                            name: "lokasi",
+                            alias: "Lokasi",
+                            type: "string"
+                        },
+                        {
+                            name: "daerah",
+                            alias: "Daerah",
+                            type: "string"
+                        },
+                        {
+                            name: "lat",
+                            alias: "Latitude",
+                            type: "double"
+                        },
+                        {
+                            name: "long",
+                            alias: "Longitude",
+                            type: "double"
+                        },
+                        {
+                            name: "keterangan",
+                            alias: "Keterangan",
+                            type: "string"
+                        },
+                        {
+                            name: "foto",
+                            alias: "Foto",
+                            type: "string"
+                        },
+                        {
+                            name: "SUP",
+                            alias: "SUP",
+                            type: "string"
+                        },
+                        {
+                            name: "uptd_id",
+                            alias: "UPTD",
+                            type: "string"
+                        }
+                    ],
+                    objectIdField: "id",
+                    geometryType: "point",
+                    spatialReference: {
+                        wkid: 4326
+                    },
+                    source: newTitikRawanBencana,
+                    popupTemplate: popupTemplate,
+                    renderer: {
+                        type: "simple",
+                        symbol: symbol
+                    }
+                });
+                map.add(newTitikRawanBencanaLayer);
+            }
+
             function addKemantapanJalan() {
                 const popupTemplate = {
                     title: "{nm_ruas}",
@@ -1242,11 +1406,11 @@
                             color: "green",
                             width: "2px",
                             style: "solid",
-                            marker: { // autocasts from LineSymbolMarker
-                                color: "orange",
-                                placement: "begin-end",
-                                style: "circle"
-                            }
+                         //   marker: { // autocasts from LineSymbolMarker
+                         //       color: "orange",
+                         //       placement: "begin-end",
+                         //       style: "circle"
+                         //   }
                         }
                     }
                 } else {
