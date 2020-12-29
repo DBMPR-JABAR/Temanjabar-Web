@@ -78,12 +78,6 @@
                                                 </div>
                                                 <div class="col-12">
                                                     <select data-placeholder="Pilih kegiatan" multiple class="chosen-select w-100" tabindex="8" id="kegiatan">
-                                                        <option value="ruasjalan">Ruas Jalan</option>
-                                                        <option value="pembangunan">Pembangunan</option>
-                                                        <option value="peningkatan">Peningkatan</option>
-                                                        <option value="rehabilitasi">Rehabilitasi</option>
-                                                        <option value="jembatan">Jembatan</option>
-
                                                     </select>
                                                 </div>
                                             </div>
@@ -251,7 +245,6 @@
                     <option value="rehabilitasi">Rehabilitasi</option>
                     <option value="pemeliharaan">Pemeliharaan</option>
                     <option value="vehiclecounting">Vehicle Counting</option>
-                    <option value="kemantapanjalan">Kemantapan Jalan</option>
                     <option value="jembatan">Jembatan</option>
                     <option value="rawanbencana">Rawan Bencana</option>`;
         $('#kegiatan').html(kegiatan).trigger('liszt:updated');
