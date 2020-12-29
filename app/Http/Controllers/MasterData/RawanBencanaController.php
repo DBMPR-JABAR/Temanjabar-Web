@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Yajra\Datatables\DataTables;
 
 class RawanBencanaController extends Controller
@@ -75,6 +76,11 @@ class RawanBencanaController extends Controller
         $rawan = $req->except('_token');
         // $rawan['slug'] = Str::slug($req->nama, '');
         $rawan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
+        if ($req->foto != null) {
+            $path = 'rawanbencana/' . Str::snake(date("YmdHis") . ' ' . $req->foto->getClientOriginalName());
+            $req->foto->storeAs('storage/', $path);
+            $rawan['foto'] = $path;
+        }
 
         DB::table('master_rawan_bencana')->insert($rawan);
 
@@ -86,6 +92,11 @@ class RawanBencanaController extends Controller
     {
         $rawan = $req->except('_token', 'id');
         $rawan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
+        if ($req->foto != null) {
+            $path = 'rawanbencana/' . Str::snake(date("YmdHis") . ' ' . $req->foto->getClientOriginalName());
+            $req->foto->storeAs('storage/', $path);
+            $rawan['foto'] = $path;
+        }
 
         $old = DB::table('master_rawan_bencana')->where('id', $req->id)->first();
 

@@ -179,19 +179,19 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Lat</label>
                             <div class="col-md-10">
-                                <input name="lat" type="number" class="form-control" required>
+                                <input name="lat" type="text" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Long</label>
                             <div class="col-md-10">
-                                <input name="long" type="number" class="form-control" required>
+                                <input name="long" type="text" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Foto</label>
                             <div class="col-md-10">
-                                <input name="foto" type="text" class="form-control" required>
+                                <input name="foto" type="file" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group row">

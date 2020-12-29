@@ -11,13 +11,156 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/prism.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/chosen.css') }}">
-    
+
+    <title>Map Dashboard</title>
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            z-index: -1;
+        }
+
+        #grupKontrol {
+            display: inline-flex;
+            box-shadow: none;
+        }
+
+        #showFilter,
+        #showBaseMaps,
+        #fullscreen,
+        #back {
+            padding-bottom: 1px;
+        }
+
+        #showFilter button {
+            width: 32px;
+            height: 32px;
+            background-color: white;
+            border: none;
+            outline: none;
+            cursor: pointer;
+        }
+
+        #filter {
+            position: fixed;
+            padding: 20px;
+            top: 15px;
+            right: 55px;
+            width: 300px;
+            max-height: 350px;
+            overflow-y: auto;
+            transform: translate(1200px, 0);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        #filter.open {
+            transform: translate(0, 0);
+        }
+
+        #filter .form-group>* {
+            font-size: 13px;
+            margin: 0px;
+        }
+
+        #logo {
+            margin-top: 15px;
+            margin-right: 33px;
+        }
+
+        #showBaseMaps button {
+            width: 32px;
+            height: 32px;
+            background-color: white;
+            border: none;
+            outline: none;
+            cursor: pointer;
+        }
+
+        #fullscreen button {
+            width: 32px;
+            height: 32px;
+            background-color: white;
+            border: none;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 1px;
+        }
+
+        #back button {
+            width: 32px;
+            height: 32px;
+            background-color: white;
+            border: none;
+            outline: none;
+            cursor: pointer;
+        }
+
+        #baseMaps {
+            position: fixed;
+            padding: 15px;
+            top: 15px;
+            right: 55px;
+            width: 320px;
+            max-height: 500px;
+            transform: translate(1200px, 0);
+            transition: transform 0.3s ease-in-out;
+            overflow-y: scroll;
+        }
+
+        #baseMaps.open {
+            transform: translate(0, 0);
+        }
+
+        #baseMaps .listMaps ul.row {
+            display: flex;
+        }
+
+        #baseMaps .listMaps ul li {
+            padding: 0;
+            margin: 5px;
+            list-style: none;
+        }
+
+        #baseMaps .listMaps ul li button {
+            border: 1px solid #222;
+            padding: 0;
+        }
+
+        #baseMaps .listMaps ul li button:hover {
+            border: 3px solid green;
+        }
+
+        #baseMaps .listMaps ul li button:focus {
+            border: 3px solid green;
+        }
+
+        #baseMaps .listMaps ul li img {
+            display: block;
+            width: 84px;
+            max-height: 56px;
+            background-position: center;
+            object-fit: cover;
+        }
+        .chosen-container-multi .chosen-choices {
+            max-height: 100px;
+            overflow-y: scroll;
+        }
+
+        div.chosen-drop {
+            max-height: 80px;
+            overflow-y: scroll;
+        }
+    </style>
     <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <script src='https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js'></script>
-    <link rel="stylesheet" href="{{ asset('assets/css/filterMapsInternal.css') }}">
-    
-    <title>Map Dashboard</title>
 </head>
 
 <body>
@@ -617,7 +760,7 @@
                     rutejalanLayer.add(jalanTolKonstruksi(), 0);
                     rutejalanLayer.add(jalanTolOperasi(), 1);
                     rutejalanLayer.add(jalanNasional(), 2);
-                   // rutejalanLayer.add(gerbangTol(), 4);
+                    rutejalanLayer.add(gerbangTol(), 4);
 
                     map.add(rutejalanLayer);
                 }
@@ -696,11 +839,11 @@
                                 color: "green",
                                 width: "2px",
                                 style: "solid",
-                                //marker: { // autocasts from LineSymbolMarker
-                                //    color: "orange",
-                                //    placement: "begin-end",
-                                //    style: "circle"
-                               //}
+                                marker: { // autocasts from LineSymbolMarker
+                                    color: "orange",
+                                    placement: "begin-end",
+                                    style: "circle"
+                                }
                             }
                         }
                     } else {
