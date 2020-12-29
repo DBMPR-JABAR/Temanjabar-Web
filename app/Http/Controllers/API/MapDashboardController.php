@@ -78,6 +78,10 @@ class MapDashboardController extends Controller
                     $data = Kemandoran::whereIn('SUP',$request->sup)->get();
                     $this->response['data']['rehabilitasi'] = $data;
                 }
+                if(in_array('cctv', $request->kegiatan)){
+                    $data = DB::table('cctv')->get();
+                    $this->response['data']['rehabilitasi'] = $data;
+                }
                 // if(in_array('ruasjalan', $request->kegiatan)){
                 //     $data = RuasJalan::whereIn('SUP',$request->sup)->get();
                 //     $this->response['data']['ruasjalan'] = $data;
