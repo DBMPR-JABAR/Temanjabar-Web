@@ -213,6 +213,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('json', 'MasterData\RawanBencanaController@json')->name('getJsonDataBencana');
             Route::get('getDataSUP/{id}', 'MasterData\RawanBencanaController@getDataSUP')->name('getDataSUP');
         });
+        
         Route::group(['prefix' => 'CCTV'], function () {
             Route::get('/', 'MasterData\CCTVController@index')->name('getDataCCTV');
             Route::get('detail/{id}', 'MasterData\CCTVController@detail')->name('detailDataCCTV');
