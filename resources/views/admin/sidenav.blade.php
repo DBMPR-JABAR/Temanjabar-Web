@@ -45,13 +45,13 @@
                         </a>
                     </li>
                     @endif
-                    @if (hasAccess(Auth::user()->internal_role_id, "Survey Kondisi Jalan", "View"))
+                    {{-- @if (hasAccess(Auth::user()->internal_role_id, "Survey Kondisi Jalan", "View"))
                     <li class="{{(Request::segment(3) == 'survey-kondisi-jalan') ? 'active' : ''}}">
                         <a href="{{ url('admin/monitoring/survey-kondisi-jalan') }}">
                             <span class="pcoded-mtext">Survey Kondisi Jalan</span>
                         </a>
                     </li>
-                    @endif
+                    @endif --}}
                 </ul>
             </li>
         </ul>
