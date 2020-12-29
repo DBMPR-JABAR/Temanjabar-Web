@@ -62,19 +62,51 @@
                                                 <th>No Paket</th>
                                                 <th>UPTD</th>
                                                 <th>Nama Kegiatan</th>
-                                                <th>Jenis Pekrjaan</th>
+                                                <th>Jenis Pekerjaan</th>
                                                 <th>Penyedia Jasa</th>
                                                 <th>Tanggal</th>
-                                                <th>Date from</th>
-                                                <th>Date To</th> 
+                                                <th>Rencana Volume Harian</th>
+                                                <th>Rencana Volume Kumulatif</th>
+                                                <th>Realisasi Volume Harian</th>
+                                                <th>Realisasi Volume Kumulatif</th>
+                                                <th>Progress Fisik Rencana Bobot</th>
+                                                <th>Progress Fisik Rencana Kumulatif</th> 
+                                                <th>Progress Fisik Realisasi Bobot</th>
                                                 <th>Progress Fisik Realisasi Kumulatif</th>
-                                                <th>Progress Fisik Rencana Kumulatif</th>
                                                 <th>Deviasi Progress Fisik</th>
+                                                <th>Rencana Keuangan Harian</th>
+                                                <th>Rencana Keuangan Komulatif</th>
+                                                <th>Realisasi Keuangan Harian</th>
+                                                <th>Realisasi Keuangan Harian1</th>
                                                 <th>Status Proyek</th>
                                             </tr>
                                         </thead>
                                         <tbody id="bodyJembatan">
-                                            
+                                            @foreach ($getProyekDetail as $data)
+                                            <tr>
+                                                <td>{{$loop->index + 1}}</td>
+                                                <td>{{$data->NMP}}</td>
+                                                <td>{{$data->UPTD}}</td>
+                                                <td>{{$data->NAMA_KEGIATAN}}</td>
+                                                <td>{{$data->JENIS_PEKERJAAN}}</td>
+                                                <td>{{$data->PENYEDIA_JASA}}</td>
+                                                <td>{{$data->TANGGAL}}</td>
+                                                <td>{{number_format($data->RENCANA_VOLUME_HARIAN*100,2) . "%"}}</td>
+                                                <td>{{number_format($data->RENCANA_VOLUME_KUMULATIF*100,2) ."%"}}</td>
+                                                <td>{{number_format($data->REALISASI_VOLUME_HARIAN*100,2) ."%"}}</td>
+                                                <td>{{number_format($data->REALISASI_VOLUME_KOMULATIF*100,2) ."%"}}</td>
+                                                <td>{{number_format($data->PROGRESS_FISIK_RENCANA_BOBOT*100,2) ."%"}}</td>
+                                                <td>{{number_format($data->PROGRESS_FISIK_RENCANA_KUMULATIF*100,2) ."%"}}</td>
+                                                <td>{{number_format($data->PROGRESS_FISIK_REALISASI_BOBOT*100,2) ."%"}}</td>
+                                                <td>{{number_format($data->PROGRESS_FISIK_REALISASI_KUMULATIF*100,2) ."%"}}</td>
+                                                <td>{{number_format($data->DEVIASI_PROGRESS_FISIK*100,2) ."%"}}</td>
+                                                <td>{{$data->RENCANA_KEUANGAN_HARIAN}}</td>
+                                                <td>{{$data->RENCANA_KEUANGAN_KOMULATIF}}</td>
+                                                <td>{{$data->REALISASI_KEUANGAN_HARIAN}}</td>
+                                                <td>{{$data->REALISASI_KEUANGAN_HARIAN1}}</td>
+                                                <td>{{$data->STATUS_PROYEK}}</td>
+                                            </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -91,36 +123,7 @@
      
 </div>
  
-<div class="row">
-    <div class="col-xl-12 col-md-12" >
-        <div class="card feed-card">
-            <div class="card-header">
-                    <h5> Tindak Lanjut </h5>
-            </div>
-        <div class="card-block"> 
-            <div class="dt-responsive table-responsive">
-                <table id="dttable" class="table table-striped table-bordered able-responsive">
-                <thead>
-                     <th>No</th>
-                     <th>No Paket</th>
-                      <th>UPTD</th>
-                     <th>Nama Kegiatan</th>
-                      <th>Jenis Pekrjaan</th>
-                                                <th>Penyedia Jasa</th>
-                     <th>Tanggal</th>
-                                                <th>Date from</th>
-                                                <th>Date To</th> 
-                                                <th>Progress Fisik Realisasi Kumulatif</th>
-                     <th>Progress Fisik Rencana Kumulatif</th>
-                                                <th>Deviasi Progress Fisik</th>
-                     <th>Status Proyek</th>
-                </thead>
-                <tbody>
-                </tbody>
-                </table>
-        </div>
-    </div>
-</div>
+
 @endsection
 @section('script')
 <script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>

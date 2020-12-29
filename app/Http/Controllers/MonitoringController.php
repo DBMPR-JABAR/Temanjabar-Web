@@ -148,15 +148,12 @@ class MonitoringController extends Controller
 
     public function getProyekDetail($status)
     {
-        $getProyekDetail = DB::connection('dwh')->table('vw_uptd_trx_detail_proyek_kontrak')
-        ->get();
-        
+        print_r($status);
         $proyekdetail = ProgressMingguan::get()->filter(function ($item) use ($status) {
             return $item->STATUS_PROYEK === $status;
         });
         return view('admin.monitoring.proyek-kontrak-detail',
             ['proyekdetail' => $proyekdetail,
-            'getProyekDetail' => $getProyekDetail
-        ]);
+            'getProyekDetail' => $getProyekDetail]);
     }
 }
