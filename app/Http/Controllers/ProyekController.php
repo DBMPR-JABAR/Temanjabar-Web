@@ -54,6 +54,13 @@ class ProyekController extends Controller
             ->distinct()
             ->whereRaw('BINARY STATUS_PROYEK = "FINISH"')
             ->get();
+        }else{
+            $getProyekDetail = DB::connection('dwh')->table('TBL_TALIKUAT_TRX_PROYEK_KONTRAK_PROGRESS_HARIAN as a')
+            ->select("*","b.ID as ID_VIEW")
+            ->leftJoin('vw_uptd_trx_detail_proyek_kontrak as b','a.NMP','=','b.NO_PAKET')
+            ->distinct()
+            ->where('b.ID',$status)
+            ->get();
         }
         $proyekdetail = ProgressMingguan::get()->filter(function ($item) use ($status) {
             return $item->STATUS_PROYEK === $status;
@@ -62,6 +69,7 @@ class ProyekController extends Controller
             ['proyekdetail' => $proyekdetail,
             'getProyekDetail' => $getProyekDetail]);
     }
+
 
     public function getKendaliKontrakProgress(Request $request)
     {
@@ -149,7 +157,7 @@ class ProyekController extends Controller
                     ],
                     [
                         "name"  => "<span style='font-size:1.2em; font-weight:bold'>Deviasi = ".$proyek->DEVIASI_PROGRESS_FISIK."</span><br>
-                                    <a href='#' style='font-size:1em'>Detail</a>",
+                                    <a href='detail/".$proyek->ID."' style='font-size:1em'>Detail</a>",
                         "parent" => $proyek->ID,
                     ]
                 ]
