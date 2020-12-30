@@ -322,8 +322,8 @@
                     name: 'foto'
                 },
                 {
-                    data: 'SUP',
-                    name: 'SUP'
+                    data: 'sup',
+                    name: 'sup'
                 },
                 {
                     data: 'keterangan',
