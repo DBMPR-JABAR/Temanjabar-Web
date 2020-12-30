@@ -1023,37 +1023,37 @@
                     height: "28px"
                 };
                 const popupTemplate = {
-                    title: "{ruas_jalan}",
+                    title: "{RUAS_JALAN}",
                     content: [
                         {
                             type: "fields",
                             fieldInfos: [
                                 {
-                                    fieldName: "no_ruas",
+                                    fieldName: "NO_RUAS",
                                     label: "Nomor Ruas",
                                 },
                                 {
-                                    fieldName: "status",
+                                    fieldName: "STATUS",
                                     label: "Status",
                                 },
                                 {
-                                    fieldName: "lokasi",
+                                    fieldName: "LOKASI",
                                     label: "Lokasi",
                                 },
                                 {
-                                    fieldName: "daerah",
+                                    fieldName: "DAERAH",
                                     label: "Daerah",
                                 },
                                 {
-                                    fieldName: "lat",
+                                    fieldName: "LAT",
                                     label: "Latitude",
                                 },
                                 {
-                                    fieldName: "long",
+                                    fieldName: "LONG",
                                     label: "Longitude",
                                 },
                                 {
-                                    fieldName: "keterangan",
+                                    fieldName: "KETERANGAN",
                                     label: "Keterangan",
                                 },
                                 {
@@ -1061,7 +1061,7 @@
                                     label: "SUP",
                                 },
                                 {
-                                    fieldName: "uptd_id",
+                                    fieldName: "UPTD_ID",
                                     label: "UPTD",
                                 }
                             ]
@@ -1072,7 +1072,7 @@
                                 title: "<b>Foto Aktual</b>",
                                 type: "image",
                                 value: {
-                                    sourceURL: "{foto}"
+                                    sourceURL: "{FOTO}"
                                 }
                             }]
                         }
@@ -1088,7 +1088,7 @@
                 // buat layer baru
                 let newTitikRawanBencana = [];
                 rawanbencana.forEach(item => {
-                    let point = new Point(item.long, item.lat);
+                    let point = new Point(item.LONG, item.LAT);
                     newTitikRawanBencana.push(new Graphic({
                         geometry: point,
                         attributes: item
@@ -1098,52 +1098,52 @@
                     title: 'Titik Rawan Bencana',
                     id: 'tx_rawanbencana',
                     fields: [{
-                            name: "id",
+                            name: "ID",
                             alias: "ID",
                             type: "integer"
                         },
                         {
-                            name: "no_ruas",
+                            name: "NO_RUAS",
                             alias: "Nomor Ruas",
                             type: "string"
                         },
                         {
-                            name: "status",
+                            name: "STATUS",
                             alias: "Status",
                             type: "string"
                         },
                         {
-                            name: "ruas_jalan",
+                            name: "RUAS_JALAN",
                             alias: "Ruas Jalan",
                             type: "string"
                         },
                         {
-                            name: "lokasi",
+                            name: "LOKASI",
                             alias: "Lokasi",
                             type: "string"
                         },
                         {
-                            name: "daerah",
+                            name: "DAERAH",
                             alias: "Daerah",
                             type: "string"
                         },
                         {
-                            name: "lat",
+                            name: "LAT",
                             alias: "Latitude",
                             type: "double"
                         },
                         {
-                            name: "long",
+                            name: "LONG",
                             alias: "Longitude",
                             type: "double"
                         },
                         {
-                            name: "keterangan",
+                            name: "KETERANGAN",
                             alias: "Keterangan",
                             type: "string"
                         },
                         {
-                            name: "foto",
+                            name: "FOTO",
                             alias: "Foto",
                             type: "string"
                         },
@@ -1153,7 +1153,7 @@
                             type: "string"
                         },
                         {
-                            name: "uptd_id",
+                            name: "UPTD_ID",
                             alias: "UPTD",
                             type: "string"
                         }
