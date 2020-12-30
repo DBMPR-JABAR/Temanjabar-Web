@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 // {SiteURL}
 Route::get('/', 'LandingController@index');
 Route::get('login', 'LandingController@login')->name('login');
@@ -221,6 +222,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('edit/{id}', 'MasterData\CCTVController@edit')->name('editCCTV');
             Route::post('update', 'MasterData\CCTVController@update')->name('updateDataCCTV');
             Route::get('delete/{id}', 'MasterData\CCTVController@delete')->name('deleteDataCCTV');
+            Route::get('getDataSUP/{id}', 'MasterData\CCTVController@getDataSUP')->name('getDataCCTVSUP');
 
         });
     });

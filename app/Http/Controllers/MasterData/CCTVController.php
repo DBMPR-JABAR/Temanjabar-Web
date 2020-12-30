@@ -14,7 +14,8 @@ class CCTVController extends Controller
 {
     public function index(){
     	$cctv = DB::table('cctv')->get();
-    	return view('admin.master.CCTV.index',compact('cctv'));
+        $uptd = DB::table('landing_uptd')->select('id','nama')->get();
+    	return view('admin.master.CCTV.index',compact('cctv','uptd'));
     }
 
     public function create(Request $request){
@@ -26,6 +27,8 @@ class CCTVController extends Controller
     	$cctv['category'] = $request->category;
     	$cctv['status'] = $request->status;
         $cctv['enable_vehicle_counting'] = $request->enable_vehicle_counting;
+        $cctv['uptd_id'] = $request->uptd_id;
+        $cctv['sup'] = $request->sup;
     	DB::table('cctv')->insert($cctv);
     	$color = "success";
         $msg = "Berhasil Menambah Data CCTV";
@@ -53,6 +56,8 @@ class CCTVController extends Controller
     	$cctv['category'] = $request->category;
     	$cctv['status'] = $request->status;
         $cctv['enable_vehicle_counting'] = $request->enable_vehicle_counting;
+        $cctv['uptd_id'] = $request->uptd_id;
+        $cctv['sup'] = $request->sup;
     	DB::table('cctv')->where('ID',$request->id)->update($cctv);
     	$color = "success";
         $msg = "Berhasil Mengupdate Data CCTV";
@@ -67,5 +72,13 @@ class CCTVController extends Controller
         $color = "success";
         $msg = "Berhasil Menghapus Data CCTV";
         return back()->with(compact('color', 'msg')); 
+    }
+
+    public function getDataSUP($id){
+        $sup = DB::table('utils_sup as a')
+        ->distinct()
+        ->where('a.uptd_id',$id)
+        ->get();
+        return response()->json(['sup'=>$sup], 200);
     }
 }
