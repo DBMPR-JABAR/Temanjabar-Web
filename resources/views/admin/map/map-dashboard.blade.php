@@ -1158,7 +1158,7 @@
                             type: "string"
                         }
                     ],
-                    objectIdField: "id",
+                    objectIdField: "ID",
                     geometryType: "point",
                     spatialReference: {
                         wkid: 4326
