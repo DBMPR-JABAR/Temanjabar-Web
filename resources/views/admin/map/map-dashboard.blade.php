@@ -2437,7 +2437,7 @@
                 view.popup.on("trigger-action", function(event) {
                     if (event.action.id === "prep-vid") {
                         prepVid();
-                        $('div.esri-popup__action[title="Lihat Video"]').remove();
+                        // $('div.esri-popup__action[title="Lihat Video"]').remove();
                     }
                 });
 
