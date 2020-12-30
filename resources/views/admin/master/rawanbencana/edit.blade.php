@@ -174,7 +174,7 @@
                 function(response){
                     $('.sup').remove();
                     for(var i=0;i<response.sup.length;i++){
-                        $('#sup').append("<option value='"+id+"' class='sup' >"+response.sup[i].name+"</option>");
+                        $('#sup').append("<option value='"+response.sup[i].name+"' class='sup' >"+response.sup[i].name+"</option>");
                     }
                 });
     }

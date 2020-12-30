@@ -359,13 +359,13 @@
                 function(response){
                     $('.sup').remove();
                     for(var i=0;i<response.sup.length;i++){
-                        $('#sup').append("<option value='"+id+"' class='sup' >"+response.sup[i].name+"</option>");
+                        $('#sup').append("<option value='"+response.sup[i].name+"' class='sup' >"+response.sup[i].name+"</option>");
                     }
                     // $('#id').val(response.users[0].id);
                     // $('#nama').val(response.users[0].name);
                     // $('#email').val(response.users[0].email);
                     // $('#role').val(response.users[0].role);
-                    
+
                     // for(let i=1;i<=jml;i++){
                     //     if($("#id-"+i).val() == response.users[0].internal_role_id){
                     //         $("#id-"+i).attr("selected","selected");

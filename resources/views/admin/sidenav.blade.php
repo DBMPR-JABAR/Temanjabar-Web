@@ -56,6 +56,7 @@
             </li>
         </ul>
         @endif
+        <!--
         @if (hasAccess(Auth::user()->internal_role_id, "Disposisi", "View"))
         <div class="pcoded-navigatio-lavel">Disposisi</div>
         <ul class="pcoded-item pcoded-left-item">
@@ -91,7 +92,7 @@
             </li>
         </ul>
         @endif
-
+        -->
         @if (hasAccess(Auth::user()->internal_role_id, "Manage", "View"))
         <div class="pcoded-navigatio-lavel">Manage</div>
         <ul class="pcoded-item pcoded-left-item">

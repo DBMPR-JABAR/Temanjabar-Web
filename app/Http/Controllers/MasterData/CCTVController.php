@@ -18,13 +18,14 @@ class CCTVController extends Controller
     }
 
     public function create(Request $request){
-    	$cctv['LOKASI'] = $request->lokasi;
-    	$cctv['LAT'] = $request->lat;
-    	$cctv['LONG'] = $request->long;
-    	$cctv['URL'] = $request->url;
-    	$cctv['DESCRIPTION'] = $request->description;
-    	$cctv['CATEGORY'] = $request->category;
-    	$cctv['STATUS'] = $request->status;
+    	$cctv['lokasi'] = $request->lokasi;
+    	$cctv['lat'] = $request->lat;
+    	$cctv['long'] = $request->long;
+    	$cctv['url'] = $request->url;
+    	$cctv['description'] = $request->description;
+    	$cctv['category'] = $request->category;
+    	$cctv['status'] = $request->status;
+        $cctv['enable_vehicle_counting'] = $request->enable_vehicle_counting;
     	DB::table('cctv')->insert($cctv);
     	$color = "success";
         $msg = "Berhasil Menambah Data CCTV";
@@ -44,13 +45,14 @@ class CCTVController extends Controller
     }
 
     public function update(Request $request){
-    	$cctv['LOKASI'] = $request->lokasi;
-    	$cctv['LAT'] = $request->lat;
-    	$cctv['LONG'] = $request->long;
-    	$cctv['URL'] = $request->url;
-    	$cctv['DESCRIPTION'] = $request->description;
-    	$cctv['CATEGORY'] = $request->category;
-    	$cctv['STATUS'] = $request->status;
+    	$cctv['lokasi'] = $request->lokasi;
+    	$cctv['lat'] = $request->lat;
+    	$cctv['long'] = $request->long;
+    	$cctv['url'] = $request->url;
+    	$cctv['description'] = $request->description;
+    	$cctv['category'] = $request->category;
+    	$cctv['status'] = $request->status;
+        $cctv['enable_vehicle_counting'] = $request->enable_vehicle_counting;
     	DB::table('cctv')->where('ID',$request->id)->update($cctv);
     	$color = "success";
         $msg = "Berhasil Mengupdate Data CCTV";
