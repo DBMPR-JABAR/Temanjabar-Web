@@ -70,6 +70,8 @@
                                 <th>Description</th>
                                 <th>Category</th>
                                 <th>Status</th>
+                                <th>SUP</th>
+                                <th>UPTD</th>
                                 <th>Enable Vehicle Counting</th>
                                 <th>Aksi</th>
                             </tr>
@@ -85,6 +87,8 @@
                                     <td>{{$data->description}}</td>
                                     <td>{{$data->category}}</td>
                                     <td>{{$data->status}}</td>
+                                    <td>{{$data->sup}}</td>
+                                    <td>{{$data->uptd_id}}</td>
                                     <td>{{$data->enable_vehicle_counting}}</td>
                                     <td> 
                                             <a type='button' href="{{ route('detailDataCCTV',$data->id ) }}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Rincian</a>
@@ -149,6 +153,7 @@
             </div>
         </div>
     </div>
+
 
 
     <div class="modal fade" id="disposisiModal" tabindex="-1" role="dialog">
@@ -239,6 +244,24 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Uptd</label>
+                            <div class="col-md-9">
+                                <select class="form-control" id="uptd" name="uptd_id" onchange="ubahOption()">
+                                    <option>Pilih UPTD</option>
+                                    @foreach ($uptd as $data)
+                                    <option value="{{$data->id}}">{{$data->nama}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">SUP</label>
+                            <div class="col-md-9">
+                                <select class="form-control sup_select" name="sup" id="sup">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label class="col-md-3 col-form-label">Enable Vehicle Counting</label>
                             <div class="col-md-9">
                                 <select name="enable_vehicle_counting" class="form-control">
@@ -321,6 +344,24 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Uptd</label>
+                            <div class="col-md-9">
+                                <select class="form-control" id="edit_uptd" name="uptd_id" onchange="editOption('-')">
+                                    <option>Pilih UPTD</option>
+                                    @foreach ($uptd as $data)
+                                    <option value="{{$data->id}}" id="uptd_{{$data->id}}">{{$data->nama}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">SUP</label>
+                            <div class="col-md-9">
+                                <select class="form-control edit_sup_select" name="sup" id="edit_sup_select">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label class="col-md-3 col-form-label">Enable Vehicle Counting</label>
                             <div class="col-md-9">
                                 <select name="enable_vehicle_counting" id="enable_vehicle_counting" class="form-control">
@@ -354,6 +395,47 @@
 <script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/chosen.jquery.js') }}" type="text/javascript"></script>
 
 <script>
+        function ubahOption() {
+
+            //untuk select Ruas
+            id = document.getElementById("uptd").value;
+
+            const baseUrl = `{{ url('admin/master-data/CCTV/getDataSUP/') }}/` + id;
+            $.get(baseUrl, { id: id },
+                function(response){
+                    $('.sup').remove();
+                    for(var i=0;i<response.sup.length;i++){
+                         $('.sup_select').append("<option value='"+response.sup[i].name+"' class='sup' >"+response.sup[i].name+"</option>");
+                    }
+            });
+        }
+
+        function change(sup){
+                    for(var i=0;i<$('#edit_sup_select > option').length;i++){
+                        if($('#edit_sup_'+i).val() == sup){
+                            $('#edit_sup_'+i).attr("selected","selected");
+                            
+                        }
+                    }
+        }
+
+        function editOption(sup) {
+
+            //untuk select Ruas
+            id = document.getElementById("edit_uptd").value;
+
+            const baseUrl = `{{ url('admin/master-data/CCTV/getDataSUP/') }}/` + id;
+            $.get(baseUrl, { id: id },
+                function(response){
+                    $('.sup').remove();
+                    for(var i=0;i<response.sup.length;i++){
+                         $('.edit_sup_select').append("<option value='"+response.sup[i].name+"' class='sup' id='edit_sup_"+i+"'>"+response.sup[i].name+"</option>");
+                    }
+                    change(sup);
+            });
+            
+        }
+
     $(document).ready(function() {
         $(".chosen-select").chosen( { width: '100%' } );
         $(".chosen-jenis-instruksi").chosen( { width: '100%' } );
@@ -390,10 +472,15 @@
                             $('#e_'+i).attr("selected","selected");
                         }
                     }
+                    for(var i=1;i<=6;i++){
+                        if($('#uptd_'+i).val() == response.cctv[0].uptd_id){
+                            $('#uptd_'+i).attr("selected","selected");
+                            editOption(response.cctv[0].sup);
+                        }
+                    }
+                    
                 });
             });
-
-
     });
 </script>
 @endsection
