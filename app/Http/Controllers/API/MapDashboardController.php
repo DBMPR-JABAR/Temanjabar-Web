@@ -78,10 +78,6 @@ class MapDashboardController extends Controller
                     $data = Kemandoran::whereIn('SUP',$request->sup)->get();
                     $this->response['data']['rehabilitasi'] = $data;
                 }
-                if(in_array('cctv', $request->kegiatan)){
-                    $data = DB::table('cctv')->get();
-                    $this->response['data']['rehabilitasi'] = $data;
-                }
                 // if(in_array('ruasjalan', $request->kegiatan)){
                 //     $data = RuasJalan::whereIn('SUP',$request->sup)->get();
                 //     $this->response['data']['ruasjalan'] = $data;
@@ -95,8 +91,14 @@ class MapDashboardController extends Controller
                     $this->response['data']['vehiclecounting'] = $data;
                 }
                 if(in_array('rawanbencana', $request->kegiatan)){
-                    $data = DB::table('master_rawan_bencana')->whereIn('SUP',$request->sup)->get();
+                    $data = DB::connection('dwh')->table('TBL_TMNJABAR_TRX_MASTER_RAWAN_BENCANA')
+                            ->whereIn('SUP',$request->sup)->get();
                     $this->response['data']['rawanbencana'] = $data;
+                }
+                if(in_array('cctv', $request->kegiatan)){
+                    $data = DB::connection('dwh')->table('TBL_TMNJABAR_TRX_CCTV')
+                            ->whereIn('SUP',$request->sup)->get();
+                    $this->response['data']['cctv'] = $data;
                 }
             }
 

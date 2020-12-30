@@ -11,12 +11,12 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/prism.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/chosen.css') }}">
-    
-    <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.18/esri/themes/light/main.css">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <script src='https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js'></script>
     <link rel="stylesheet" href="{{ asset('assets/css/filterMapsInternal.css') }}">
-    
+
     <title>Map Dashboard</title>
 </head>
 
@@ -253,7 +253,7 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<script src="https://js.arcgis.com/4.17/"></script>
+<script src="https://js.arcgis.com/4.18/"></script>
 
 <script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/chosen.jquery.js') }}" type="text/javascript"></script>
 <script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/prism.js') }}" type="text/javascript" charset="utf-8"></script>
@@ -340,6 +340,7 @@
                     <option value="vehiclecounting">Vehicle Counting</option>
                     <option value="kemantapanjalan">Kemantapan Jalan</option>
                     <option value="jembatan">Jembatan</option>
+                    <option value="cctv">CCTV</option>
                     <option value="rawanbencana">Titik Rawan Bencana</option>
                     <option value="datarawanbencana">Area Rawan Bencana</option>`;
         $('#kegiatan').html(kegiatan).trigger('liszt:updated');
@@ -565,6 +566,11 @@
                                 addTitikRawanBencana(data.rawanbencana);
                             } else {
                                 map.remove(map.findLayerById('tx_rawanbencana'));
+                            }
+                            if (kegiatan.indexOf('cctv') >= 0) {
+                                addCCTV(data.cctv);
+                            } else {
+                                map.remove(map.findLayerById('tx_cctv'));
                             }
                             /* Deleted Proyek Kontrak
                                 if (kegiatan.indexOf('progressmingguan') >= 0) {
@@ -1017,37 +1023,37 @@
                     height: "28px"
                 };
                 const popupTemplate = {
-                    title: "{ruas_jalan}",
+                    title: "{RUAS_JALAN}",
                     content: [
                         {
                             type: "fields",
                             fieldInfos: [
                                 {
-                                    fieldName: "no_ruas",
+                                    fieldName: "NO_RUAS",
                                     label: "Nomor Ruas",
                                 },
                                 {
-                                    fieldName: "status",
+                                    fieldName: "STATUS",
                                     label: "Status",
                                 },
                                 {
-                                    fieldName: "lokasi",
+                                    fieldName: "LOKASI",
                                     label: "Lokasi",
                                 },
                                 {
-                                    fieldName: "daerah",
+                                    fieldName: "DAERAH",
                                     label: "Daerah",
                                 },
                                 {
-                                    fieldName: "lat",
+                                    fieldName: "LAT",
                                     label: "Latitude",
                                 },
                                 {
-                                    fieldName: "long",
+                                    fieldName: "LONG",
                                     label: "Longitude",
                                 },
                                 {
-                                    fieldName: "keterangan",
+                                    fieldName: "KETERANGAN",
                                     label: "Keterangan",
                                 },
                                 {
@@ -1055,7 +1061,7 @@
                                     label: "SUP",
                                 },
                                 {
-                                    fieldName: "uptd_id",
+                                    fieldName: "UPTD_ID",
                                     label: "UPTD",
                                 }
                             ]
@@ -1066,7 +1072,7 @@
                                 title: "<b>Foto Aktual</b>",
                                 type: "image",
                                 value: {
-                                    sourceURL: "{foto}"
+                                    sourceURL: "{FOTO}"
                                 }
                             }]
                         }
@@ -1082,7 +1088,7 @@
                 // buat layer baru
                 let newTitikRawanBencana = [];
                 rawanbencana.forEach(item => {
-                    let point = new Point(item.long, item.lat);
+                    let point = new Point(item.LONG, item.LAT);
                     newTitikRawanBencana.push(new Graphic({
                         geometry: point,
                         attributes: item
@@ -1092,52 +1098,52 @@
                     title: 'Titik Rawan Bencana',
                     id: 'tx_rawanbencana',
                     fields: [{
-                            name: "id",
+                            name: "ID",
                             alias: "ID",
                             type: "integer"
                         },
                         {
-                            name: "no_ruas",
+                            name: "NO_RUAS",
                             alias: "Nomor Ruas",
                             type: "string"
                         },
                         {
-                            name: "status",
+                            name: "STATUS",
                             alias: "Status",
                             type: "string"
                         },
                         {
-                            name: "ruas_jalan",
+                            name: "RUAS_JALAN",
                             alias: "Ruas Jalan",
                             type: "string"
                         },
                         {
-                            name: "lokasi",
+                            name: "LOKASI",
                             alias: "Lokasi",
                             type: "string"
                         },
                         {
-                            name: "daerah",
+                            name: "DAERAH",
                             alias: "Daerah",
                             type: "string"
                         },
                         {
-                            name: "lat",
+                            name: "LAT",
                             alias: "Latitude",
                             type: "double"
                         },
                         {
-                            name: "long",
+                            name: "LONG",
                             alias: "Longitude",
                             type: "double"
                         },
                         {
-                            name: "keterangan",
+                            name: "KETERANGAN",
                             alias: "Keterangan",
                             type: "string"
                         },
                         {
-                            name: "foto",
+                            name: "FOTO",
                             alias: "Foto",
                             type: "string"
                         },
@@ -1147,12 +1153,12 @@
                             type: "string"
                         },
                         {
-                            name: "uptd_id",
+                            name: "UPTD_ID",
                             alias: "UPTD",
                             type: "string"
                         }
                     ],
-                    objectIdField: "id",
+                    objectIdField: "ID",
                     geometryType: "point",
                     spatialReference: {
                         wkid: 4326
@@ -2143,8 +2149,6 @@
                                 const vidElem = document.createElement('video');
                                 vidElem.id = 'vid'; // + f.graphic.attributes.ID;
                                 // vidElem.class = 'hls-video';
-                                // vidElem.src = 'http://45.118.114.26:80/camera/Supratman.m3u8';
-                                // vidElem.type = 'application/x-mpegURL';
                                 vidElem.style = 'background:gray;';
                                 vidElem.width = '275';
                                 vidElem.height = '200';
@@ -2323,6 +2327,202 @@
                     }
                 });
                 map.add(newVeCountLayer);
+            }
+
+            function addCCTV(cctv) {
+                const symbol = {
+                    type: "picture-marker", // autocasts as new PictureMarkerSymbol()
+                    url: baseUrl + "/assets/images/marker/cctv.png",
+                    width: "24px",
+                    height: "24px"
+                };
+                // Aksi untuk siapkan video player dari selected feature
+                var prepVidAction = {
+                    title: "Lihat Video",
+                    id: "prep-vid",
+                    className: "feather icon-video"
+                };
+                const popupTemplate = {
+                    title: "{LOKASI}",
+                    content: [
+                        {
+                            title: "Video",
+                            type: "custom",
+                            outFields: ["*"],
+                            creator: function(graphic) {
+                                const vidElem = document.createElement('video');
+                                vidElem.id = 'vid'; // + f.graphic.attributes.ID;
+                                vidElem.style = 'background:gray;';
+                                vidElem.width = '275';
+                                vidElem.height = '200';
+                                return vidElem;
+                            }
+                        },
+                        {
+                            type: "fields",
+                            fieldInfos: [{
+                                    fieldName: "LAT",
+                                    label: "Latitude"
+                                },
+                                {
+                                    fieldName: "LONG",
+                                    label: "Longitude"
+                                },
+                                {
+                                    fieldName: "URL",
+                                    label: "Url"
+                                },
+                                {
+                                    fieldName: "DESCRIPTION",
+                                    label: "Deskripsi"
+                                },
+                                {
+                                    fieldName: "CATEGORY",
+                                    label: "Kategori"
+                                },
+                                {
+                                    fieldName: "STATUS",
+                                    label: "Status"
+                                },
+                                {
+                                    fieldName: "SUP",
+                                    label: "SUP"
+                                },
+                                {
+                                    fieldName: "UPTD_ID",
+                                    label: "UPTD"
+                                }
+                            ]
+                        }
+                    ],
+                    actions: [prepVidAction]
+                };
+                var player;
+
+                view.when(function () {
+                    view.popup.watch("selectedFeature", function (graphic) {
+                        if (graphic) {
+                        var graphicTemplate = graphic.getEffectivePopupTemplate();
+                        graphicTemplate.actions.items[0].visible = graphic.attributes.URL
+                            ? true
+                            : false;
+                        }
+                    });
+                });
+
+                function prepVid() {
+                    // bila player udah didefinisikan sebelumnya
+                    if (typeof(player) != 'undefined') {
+                        player = null; // kosongkan pointer player
+                    }
+                    var attributes = view.popup.viewModel.selectedFeature.attributes;
+                    var url = attributes.URL;
+
+                    const vidElem = document.getElementById('vid');
+                    const vidSrcElem = document.createElement('source');
+                    vidSrcElem.src = url;
+                    vidSrcElem.type = 'application/x-mpegURL';
+                    vidElem.appendChild(vidSrcElem);
+
+                    player = fluidPlayer(
+                        'vid', {
+                            layoutControls: {
+                                fillToContainer: true,
+                                autoPlay: true,
+                            }
+                        }
+                    );
+                }
+
+                view.popup.on("trigger-action", function(event) {
+                    if (event.action.id === "prep-vid") {
+                        prepVid();
+                        // $('div.esri-popup__action[title="Lihat Video"]').remove();
+                    }
+                });
+
+                // cari dan hapus layer bila ada pd map
+                let cctvLayer = map.findLayerById('tx_cctv');
+                if (cctvLayer) {
+                    map.remove(cctvLayer);
+                }
+
+                // buat layer baru
+                let newCCTV = [];
+                cctv.forEach(item => {
+                    let point = new Point(item.LONG, item.LAT);
+                    newCCTV.push(new Graphic({
+                        geometry: point,
+                        attributes: item
+                    }));
+                });
+                let newCCTVLayer = new FeatureLayer({
+                    title: 'CCTV',
+                    id: 'tx_cctv',
+                    fields: [{
+                            name: "ID",
+                            alias: "ID",
+                            type: "integer"
+                        },
+                        {
+                            name: "LOKASI",
+                            alias: "Lokasi",
+                            type: "string"
+                        },
+                        {
+                            name: "LAT",
+                            alias: "Latitude",
+                            type: "double"
+                        },
+                        {
+                            name: "LONG",
+                            alias: "Longitude",
+                            type: "double"
+                        },
+                        {
+                            name: "DESCRIPTION",
+                            alias: "Deskripsi",
+                            type: "string"
+                        },
+                        {
+                            name: "CATEGORY",
+                            alias: "Kategori",
+                            type: "string"
+                        },
+                        {
+                            name: "URL",
+                            alias: "URL",
+                            type: "string"
+                        },
+                        {
+                            name: "STATUS",
+                            alias: "Status",
+                            type: "string"
+                        },
+                        {
+                            name: "SUP",
+                            alias: "SUP",
+                            type: "string"
+                        },
+                        {
+                            name: "UPTD_ID",
+                            alias: "UPTD_ID",
+                            type: "string"
+                        }
+                    ],
+                    objectIdField: "ID",
+                    geometryType: "point",
+                    spatialReference: {
+                        wkid: 4326
+                    },
+                    source: newCCTV,
+                    popupTemplate: popupTemplate,
+                    renderer: {
+                        type: "simple",
+                        symbol: symbol
+                    }
+                });
+                map.add(newCCTVLayer);
             }
 
             /* Deleted Proyek Kontrak
