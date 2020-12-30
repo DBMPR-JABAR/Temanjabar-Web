@@ -2346,6 +2346,19 @@
                     title: "{LOKASI}",
                     content: [
                         {
+                            title: "Video",
+                            type: "custom",
+                            outFields: ["*"],
+                            creator: function(graphic) {
+                                const vidElem = document.createElement('video');
+                                vidElem.id = 'vid'; // + f.graphic.attributes.ID;
+                                vidElem.style = 'background:gray;';
+                                vidElem.width = '275';
+                                vidElem.height = '200';
+                                return vidElem;
+                            }
+                        },
+                        {
                             type: "fields",
                             fieldInfos: [{
                                     fieldName: "LAT",
@@ -2380,20 +2393,7 @@
                                     label: "UPTD"
                                 }
                             ]
-                        },
-                        {
-                            title: "Video",
-                            type: "custom",
-                            outFields: ["*"],
-                            creator: function(graphic) {
-                                const vidElem = document.createElement('video');
-                                vidElem.id = 'vid'; // + f.graphic.attributes.ID;
-                                vidElem.style = 'background:gray;';
-                                vidElem.width = '275';
-                                vidElem.height = '200';
-                                return vidElem;
-                            }
-                        },
+                        }
                     ],
                     actions: [prepVidAction]
                 };
