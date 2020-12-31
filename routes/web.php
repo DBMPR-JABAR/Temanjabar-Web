@@ -213,6 +213,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('delete/{id}', 'MasterData\RawanBencanaController@deleteData')->name('deleteDataBencana');
             Route::get('json', 'MasterData\RawanBencanaController@json')->name('getJsonDataBencana');
             Route::get('getDataSUP/{id}', 'MasterData\RawanBencanaController@getDataSUP')->name('getDataSUP');
+            Route::get('getURL/{id}', 'MasterData\RawanBencanaController@getURL');
         });
         
         Route::group(['prefix' => 'CCTV'], function () {
@@ -224,6 +225,15 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('delete/{id}', 'MasterData\CCTVController@delete')->name('deleteDataCCTV');
             Route::get('getDataSUP/{id}', 'MasterData\CCTVController@getDataSUP')->name('getDataCCTVSUP');
 
+        });
+
+        Route::group(['prefix' => 'icon'], function () {
+            Route::get('/', 'MasterData\IconController@index');
+            Route::post('create', 'MasterData\IconController@create')->name('createIcon');
+            Route::get('detail/{id}', 'MasterData\IconController@detail')->name('detailIcon');
+            Route::get('edit/{id}', 'MasterData\IconController@edit')->name('detailIcon');
+            Route::post('update', 'MasterData\IconController@update')->name('updateIcon');
+            Route::get('delete/{id}', 'MasterData\IconController@delete')->name('deleteIcon');
         });
     });
 

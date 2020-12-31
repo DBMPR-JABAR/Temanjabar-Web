@@ -30,7 +30,7 @@ class RawanBencanaController extends Controller
             $laporan = $rawanbencana->where('uptd_id', $uptd_id);
         }
         $rawanbencana = $rawanbencana->get();
-        return view('admin.master.rawanbencana.index', compact('rawanbencana'));
+        return view('admin.master.rawanbencana.index', compact('rawanbencana','icon'));
     }
 
 
@@ -48,7 +48,8 @@ class RawanBencanaController extends Controller
         $rawan = $rawan->get();
         $ruas = $ruas->get();
         $uptd = DB::table('landing_uptd')->get();
-        return view('admin.master.rawanbencana.index', compact('rawan', 'ruas', 'uptd'));
+        $icon = DB::table('icon_titik_rawan_bencana')->get();
+        return view('admin.master.rawanbencana.index', compact('rawan', 'ruas', 'uptd','icon'));
     }
     public function getDataSUP($id){
         $sup = DB::table('utils_sup as a')
@@ -56,6 +57,13 @@ class RawanBencanaController extends Controller
         ->where('a.uptd_id',$id)
         ->get();
         return response()->json(['sup'=>$sup], 200);
+    }
+    public function getURL($id){
+        $icon = DB::table('icon_titik_rawan_bencana as a')
+        ->distinct()
+        ->where('a.id',$id)
+        ->get();
+        return response()->json(['icon'=>$icon], 200);
     }
     public function editData($id)
     {
@@ -69,7 +77,14 @@ class RawanBencanaController extends Controller
         $sup = DB::table('utils_sup')
         ->where('uptd_id',$rawan->uptd_id)
         ->get();
-        return view('admin.master.rawanbencana.edit', compact('rawan', 'ruas', 'uptd','sup'));
+        
+        $icon = DB::table('icon_titik_rawan_bencana')->get();
+
+        $icon_curr = DB::table('icon_titik_rawan_bencana as a')
+        ->distinct()
+        ->where('a.id',$rawan->icon_id)
+        ->first();
+        return view('admin.master.rawanbencana.edit', compact('rawan', 'ruas', 'uptd','sup','icon','icon_curr'));
     }
     public function createData(Request $req)
     {
@@ -81,7 +96,8 @@ class RawanBencanaController extends Controller
             $req->foto->storeAs('public/', $path);
             $rawan['foto'] = url('storage/'.$path);
         }
-
+        $icon_image = DB::table('icon_titik_rawan_bencana')->where('id',$req->icon_id)->get();
+        $rawan['icon_image'] = $icon_image[0]->icon_image;
         DB::table('master_rawan_bencana')->insert($rawan);
 
         $color = "success";
@@ -99,6 +115,9 @@ class RawanBencanaController extends Controller
         }
 
         $old = DB::table('master_rawan_bencana')->where('id', $req->id)->first();
+
+        $icon_image = DB::table('icon_titik_rawan_bencana')->where('id',$req->icon_id)->get();
+        $rawan['icon_image'] = $icon_image[0]->icon_image;
 
         DB::table('master_rawan_bencana')->where('id', $req->id)->update($rawan);
 

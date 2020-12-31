@@ -71,6 +71,7 @@
                                 <th>SUP</th>
                                 <th>Keterangan</th>
                                 <th>Status</th>
+                                <th>Icon</th>
                                 <th style="min-width: 100px;">Aksi</th>
                             </tr>
                         </thead>
@@ -218,6 +219,18 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Icon</label>
+                            <div class="col-md-10">
+                                <select name="icon" class="form-control" onchange="getURL()" id="icon" >
+                                    @foreach($icon as $data)
+                                        <option value="{{ $data->id }}">{{ $data->icon_name }}</option>
+                                    @endforeach
+                                </select>
+                                <img class="img-fluid mt-2" style="max-width: 100px" src="{{ $icon[0]->icon_image }}" alt="" srcset="" id="icon-img">
+                            </div>
+                        </div>
+
                     </div>
 
                     <div class="modal-footer">
@@ -334,6 +347,11 @@
                     name: 'status'
                 },
                 {
+                    'mRender': function(data, type, full) {
+                        return '<img class="img-fluid" style="max-width: 100px" src="' + full['icon_image'] + '" alt="" srcset="">';
+                    }
+                },
+                {
                     data: 'action',
                     name: 'action',
                     orderable: false,
@@ -361,17 +379,20 @@
                     for(var i=0;i<response.sup.length;i++){
                         $('#sup').append("<option value='"+response.sup[i].name+"' class='sup' >"+response.sup[i].name+"</option>");
                     }
-                    // $('#id').val(response.users[0].id);
-                    // $('#nama').val(response.users[0].name);
-                    // $('#email').val(response.users[0].email);
-                    // $('#role').val(response.users[0].role);
-
-                    // for(let i=1;i<=jml;i++){
-                    //     if($("#id-"+i).val() == response.users[0].internal_role_id){
-                    //         $("#id-"+i).attr("selected","selected");
-                    //     }
-                    // }
                 });
+    }
+
+    $('#addModal').on('show.bs.modal', function(event) {
+            $('#icon-img').attr('src','<?php echo $icon[0]->icon_image; ?>');
+    });
+    function getURL(){
+        var id = document.getElementById("icon").value;
+        const baseUrl = `{{ url('admin/master-data/rawanbencana/getURL') }}/` + id;
+        $.get(baseUrl, { id: id },
+            function(response){
+                console.log(response);
+                $('#icon-img').attr('src',response.icon[0].icon_image);
+        });
     }
 </script>
 @endsection

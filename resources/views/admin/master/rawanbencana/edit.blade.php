@@ -97,26 +97,26 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Lat</label>
                         <div class="col-md-10">
-                            <input name="lat" type="text" class="form-control" required value="{{$rawan->lat}}">
+                            <input name="lat" type="text" class="form-control"  value="{{$rawan->lat}}">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Long</label>
                         <div class="col-md-10">
-                            <input name="long" type="text" class="form-control" required value="{{$rawan->long}}">
+                            <input name="long" type="text" class="form-control"  value="{{$rawan->long}}">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Foto</label>
                         <div class="col-md-10">
-                            <input name="foto" type="file" class="form-control" required value="{{$rawan->foto}}">
+                            <input name="foto" type="file" class="form-control" value="{{$rawan->foto}}">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">SUP</label>
                         <div class="col-md-10">
                             <select id="sup" name="SUP" class="form-control" required>
-                                <option value="{{$rawan->SUP}}" class="sup">{{$rawan->SUP}}</option>>
+                                <option value="{{$rawan->sup}}" class="sup">{{$rawan->sup}}</option>>
                                 <option class="sup"></option>
                                 @foreach ($sup as $data)
                                 <option value="{{$data->name}}" class="sup">{{$data->name}}</option>
@@ -139,6 +139,23 @@
                         <div class="col-md-10">
                             <textarea name="keterangan" rows="3" cols="3" class="form-control" placeholder="Masukkan Keterangan" required>{{$rawan->keterangan}}</textarea>
                         </div>
+                    </div>
+
+                    <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Icon</label>
+                            <div class="col-md-10">
+                                <select name="icon_id" class="form-control" onchange="getURL()" id="icon" >
+                                    @foreach($icon as $data)
+                                        <option value="{{ $data->id }}">{{ $data->icon_name }}</option>
+                                    @endforeach
+                                </select>
+                                @if($icon_curr == null)
+                                <img class="img-fluid mt-2" style="max-width: 100px" src="#" alt="" srcset="" id="icon-img">
+                                @endif
+                                @if($icon_curr != null)
+                                <img class="img-fluid mt-2" style="max-width: 100px" src="{{ $icon_curr->icon_image }}" alt="" srcset="" id="icon-img">
+                                @endif
+                            </div>
                     </div>
 
                     <button type="submit" class="btn btn-mat btn-success">Simpan Perubahan</button>
@@ -176,7 +193,16 @@
                     for(var i=0;i<response.sup.length;i++){
                         $('#sup').append("<option value='"+response.sup[i].name+"' class='sup' >"+response.sup[i].name+"</option>");
                     }
-                });
+        });
+    }
+    function getURL(){
+        var id = document.getElementById("icon").value;
+        const baseUrl = `{{ url('admin/master-data/rawanbencana/getURL') }}/` + id;
+        $.get(baseUrl, { id: id },
+            function(response){
+                console.log(response);
+                $('#icon-img').attr('src',response.icon[0].icon_image);
+        });
     }
 </script>
 @endsection

@@ -1,6 +1,6 @@
 @extends('admin.t_index')
 
-@section('title') Rincian CCTV @endsection
+@section('title') Rincian Icon @endsection
 @section('head')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/buttons.dataTables.min.css') }}">
@@ -25,7 +25,7 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Rincian CCTV</h4>
+                <h4>Rincian Icon</h4>
 
             </div>
         </div>
@@ -36,7 +36,7 @@
                 <li class="breadcrumb-item">
                     <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
                 </li>
-                <li class="breadcrumb-item"><a href="#!">Rincian CCTV</a> </li>
+                <li class="breadcrumb-item"><a href="#!">Rincian Icon</a> </li>
             </ul>
         </div>
     </div>
@@ -60,16 +60,10 @@
             <div class="tab-content tabs card-block">
                 <div class="tab-pane active" id="Detail" role="tabpanel">
                      <table style="padding:0;margin:0" class="table table-striped table-bordered nowrap dataTable table-responsive row">
-                      <tr><td class="col-4">Lokasi</td><td class="col-8">{{$cctv[0]->lokasi}}</td></tr>
-                      <tr><td class="col-4">Lat</td><td class="col-8">{{$cctv[0]->lat}}</td></tr>
-                      <tr><td class="col-4">Long</td><td class="col-8">{{$cctv[0]->long}}</td></tr>
-                      <tr><td class="col-4">Url</td><td class="col-8">{{$cctv[0]->url}}</td></tr>
-                      <tr><td class="col-4">Description</td><td class="col-8">{{$cctv[0]->description}}</td></tr>
-                      <tr><td class="col-4">Category</td><td class="col-8">{{$cctv[0]->category}}</td></tr>
-                      <tr><td class="col-4">Status</td><td class="col-8">{{$cctv[0]->status}}</td></tr>
+                      <tr><td class="col-4">Icon Name</td><td class="col-8">{{$icon[0]->icon_name}}</td></tr>
+                      <tr><td class="col-4">Icon Image</td><td class="col-8">{{$icon[0]->icon_image}}</td></tr>
                      </table>
                  </div>
-                        
             </div>
         </div>    
 

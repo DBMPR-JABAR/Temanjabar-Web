@@ -155,6 +155,12 @@
                         </a>
                     </li>
 
+                    <li class="{{(Request::segment(3) == 'icon') ? 'active' : ''}}">
+                        <a href="{{ url('admin/master-data/icon') }}">
+                            <span class="pcoded-mtext">Icon Rawan Bencana</span>
+                        </a>
+                    </li>
+
                 </ul>
             </li>
         </ul>
