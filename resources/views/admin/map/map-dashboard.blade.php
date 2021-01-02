@@ -563,7 +563,7 @@
                                 map.remove(map.findLayerById('vc'));
                             }
                             if (kegiatan.indexOf('rawanbencana') >= 0) {
-                                addTitikRawanBencana(data.rawanbencana);
+                                addTitikRawanBencana(data.rawanbencana, data.iconrawanbencana);
                             } else {
                                 map.remove(map.findLayerById('tx_rawanbencana'));
                             }
@@ -906,7 +906,9 @@
                     rawanBencanaLayer.add(rawanGempaBumi(), 1);
                     rawanBencanaLayer.add(rawanGerakanTanah(), 0);
                     rawanBencanaLayer.add(rawanLongsor(), 3);
-
+                    rawanBencanaLayer.add(indexResikoBanjir(),4);
+                    rawanBencanaLayer.add(indexResikoBanjirBandang(),5);    
+                    
                     map.add(rawanBencanaLayer);
                 }
 
@@ -968,6 +970,82 @@
                     return rgt2;
                 }
 
+
+                function indexResikoBanjir() {
+                    const popupTemplate = {
+                        title: "{nm_ruas}",
+                        content: [{
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "kelas",
+                                    label: "kelas"
+                                },
+                                {
+                                    fieldName: "Shape_Leng",
+                                    label: "Shape Leng"
+                                },
+                                {
+                                    fieldName: "Shape_Area",
+                                    label: "Shape Area"
+                                },
+                                {
+                                    fieldName: "Luas_HA",
+                                    label: "Luas HA"
+                                }
+                            ]
+                        }]
+                    }
+                    let irb = map.findLayerById('irbId');
+                    if (!irb) {
+                        irb = new FeatureLayer({
+                            url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/SATUPETA_BPBD/Kebencanaan/MapServer/7",
+                            title: 'Index Resiko Banjir',
+                            id: 'irbId',
+                            popupTemplate: popupTemplate
+                        });
+                        irb.refresh();
+                    }
+                    return irb;
+                }
+
+
+                function indexResikoBanjirBandang() {
+                    const popupTemplate = {
+                        title: "{nm_ruas}",
+                        content: [{
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "kelas",
+                                    label: "kelas"
+                                },
+                                {
+                                    fieldName: "Shape_Leng",
+                                    label: "Shape Leng"
+                                },
+                                {
+                                    fieldName: "Shape_Area",
+                                    label: "Shape Area"
+                                } 
+                                 
+                            ]
+                        }]
+                    }
+                    let irbb = map.findLayerById('irbbId');
+                    if (!irbb) {
+                        irbb = new FeatureLayer({
+                            url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/SATUPETA_BPBD/Kebencanaan/MapServer/8",
+                            title: 'Index Resiko Banjir Bandang',
+                            id: 'irbbId',
+                            popupTemplate: popupTemplate
+                        });
+                        irbb.refresh();
+                    }
+                    return irbb;
+                }
+
+
                 function rawanLongsor() {
                     const popupTemplate = {
                         title: "{nm_ruas}",
@@ -1015,13 +1093,23 @@
 
             }
 
-            function addTitikRawanBencana(rawanbencana) {
-                const symbol = {
-                    type: "picture-marker", // autocasts as new PictureMarkerSymbol()
-                    url: baseUrl + "/assets/images/marker/rawanbencana.png",
-                    width: "28px",
-                    height: "28px"
-                };
+            function addTitikRawanBencana(rawanbencana, iconrawanbencana) {
+                let uniqueValue = [];
+                console.log(rawanbencana);
+                iconrawanbencana.forEach((data) => {
+                    uniqueValue.push(
+                        {
+                            value: data.ICON_NAME,
+                            symbol: {
+                                type: "picture-marker", // autocasts as new PictureMarkerSymbol()
+                                url: data.ICON_IMAGE,
+                                width: "28px",
+                                height: "28px"
+                            }
+                        }
+                    );
+                });
+
                 const popupTemplate = {
                     title: "{RUAS_JALAN}",
                     content: [
@@ -1153,11 +1241,22 @@
                             type: "string"
                         },
                         {
+                            name: "ICON_NAME",
+                            alias: "Jenis Titik Rawan Bencana",
+                            type: "string"
+                        },
+                        {
+                            name: "ICON_IMAGE",
+                            alias: "Icon Image",
+                            type: "string"
+                        },
+                        {
                             name: "UPTD_ID",
                             alias: "UPTD",
                             type: "string"
                         }
                     ],
+                    outFields: ["*"],
                     objectIdField: "ID",
                     geometryType: "point",
                     spatialReference: {
@@ -1166,8 +1265,9 @@
                     source: newTitikRawanBencana,
                     popupTemplate: popupTemplate,
                     renderer: {
-                        type: "simple",
-                        symbol: symbol
+                        type: "unique-value",  // autocasts as new UniqueValueRenderer()
+                        field: "ICON_NAME",
+                        uniqueValueInfos: uniqueValue
                     }
                 });
                 map.add(newTitikRawanBencanaLayer);

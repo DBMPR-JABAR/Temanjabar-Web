@@ -26,7 +26,7 @@
         <div class="page-header-title">
             <div class="d-inline">
                 <h4>Grant Access Role Aplikasi </h4>
-                
+
             </div>
         </div>
     </div>
@@ -48,7 +48,7 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="card">
-            <div class="card-header"> 
+            <div class="card-header">
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
                         <li><i class="feather icon-maximize full-card"></i></li>
@@ -76,17 +76,17 @@
                                 $i=0;
                             @endphp
                              @foreach ($user_role_list as $data)
-                                
+
                                 <tr>
                                     <td>{{$loop->index + 1}}</td>
                                     <td>{{$data->role}}</td>
                                     <td>{{$data->menu_user}}</td>
                                     <td>{{$role_access[$i]}}</td>
                                     <td>{{$uptd_access[$i]}}</td>
-                                    <td> 
+                                    <td>
                                             <a type='button' href="{{ route('detailRoleAkses', $data->role_id) }}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Rincian</a>
-                                            <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$data->role_id}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a> 
-                                            <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data->role_id}}'     class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Hapus</a><br/>     
+                                            <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$data->role_id}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a>
+                                            <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data->role_id}}'     class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Hapus</a><br/>
                                     </td>
                                 </tr>
                                 @php
@@ -107,7 +107,7 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h4 class="modal-title">Hapus Data Disposisi</h4>
+                    <h4 class="modal-title">Hapus Data Role Akses</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -198,7 +198,7 @@
                     <div class="form-group row">
                             <label class="col-md-3 col-form-label">User Role</label>
                             <div class="col-md-9">
-                                
+
                                 <select  name="user_role" tabindex="4" required>
                                     @foreach($user_role as $data)
                                             <option value="{{$data->role}}">{{$data->role}}</option>
@@ -243,8 +243,8 @@
                             </select>
                             </div>
                         </div>
- 
- 
+
+
 
                     </div>
 
@@ -279,7 +279,7 @@
                             <input name="id" id="id" class="form-control" hidden></input>
                             <label class="col-md-3 col-form-label">User Role</label>
                             <div class="col-md-9">
-                                
+
                                 <select  name="user_role" id="select_user_role" tabindex="4" required>
                                     @foreach($user_role as $data)
                                             <option value="{{$data->role}}" id="edit_user_role_{{$loop->index + 1}}">{{$data->role}}</option>
@@ -324,8 +324,8 @@
                             </select>
                             </div>
                         </div>
- 
- 
+
+
 
                     </div>
 
@@ -346,7 +346,7 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h4 class="modal-title">Hapus Data Disposisi</h4>
+                    <h4 class="modal-title">Hapus Data Role Akses</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

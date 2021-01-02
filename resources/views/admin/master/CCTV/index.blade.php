@@ -26,7 +26,7 @@
         <div class="page-header-title">
             <div class="d-inline">
                 <h4>CCTV </h4>
-                
+
             </div>
         </div>
     </div>
@@ -48,7 +48,7 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="card">
-            <div class="card-header"> 
+            <div class="card-header">
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
                         <li><i class="feather icon-maximize full-card"></i></li>
@@ -90,10 +90,10 @@
                                     <td>{{$data->sup}}</td>
                                     <td>{{$data->uptd_id}}</td>
                                     <td>{{$data->enable_vehicle_counting}}</td>
-                                    <td> 
-                                            <a type='button' href="{{ route('detailDataCCTV',$data->id ) }}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Rincian</a>
-                                            <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$data->id}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a> 
-                                            <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data->id}}'     class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Hapus</a><br/>     
+                                    <td>
+                                            {{-- <a type='button' href="{{ route('detailDataCCTV',$data->id ) }}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Rincian</a> --}}
+                                            <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$data->id}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a>
+                                            <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data->id}}'     class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Hapus</a><br/>
                                     </td>
                                 </tr>
                             @endforeach
@@ -414,7 +414,7 @@
                     for(var i=0;i<$('#edit_sup_select > option').length;i++){
                         if($('#edit_sup_'+i).val() == sup){
                             $('#edit_sup_'+i).attr("selected","selected");
-                            
+
                         }
                     }
         }
@@ -433,7 +433,7 @@
                     }
                     change(sup);
             });
-            
+
         }
 
     $(document).ready(function() {
@@ -478,7 +478,7 @@
                             editOption(response.cctv[0].sup);
                         }
                     }
-                    
+
                 });
             });
     });

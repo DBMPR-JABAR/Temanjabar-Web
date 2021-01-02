@@ -26,7 +26,7 @@
         <div class="page-header-title">
             <div class="d-inline">
                 <h4>Icon </h4>
-                
+
             </div>
         </div>
     </div>
@@ -48,7 +48,7 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="card">
-            <div class="card-header"> 
+            <div class="card-header">
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
                         <li><i class="feather icon-maximize full-card"></i></li>
@@ -74,10 +74,10 @@
                                     <td>{{$loop->index + 1}}</td>
                                     <td>{{$data->icon_name}}</td>
                                     <td><center><img class="img-fluid" style="max-width: 100px" src="{{$data->icon_image}}" alt="" srcset=""></center></td>
-                                    <td> 
-                                            <a type='button' href="{{ route('detailIcon',$data->id ) }}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Rincian</a>
-                                            <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$data->id}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a> 
-                                            <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data->id}}'     class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Hapus</a><br/>     
+                                    <td>
+                                            {{-- <a type='button' href="{{ route('detailIcon',$data->id ) }}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Rincian</a> --}}
+                                            <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$data->id}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a>
+                                            <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data->id}}'     class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Hapus</a><br/>
                                     </td>
                                 </tr>
                             @endforeach
@@ -114,7 +114,7 @@
         </div>
     </div>
 
-    
+
 
 
 
