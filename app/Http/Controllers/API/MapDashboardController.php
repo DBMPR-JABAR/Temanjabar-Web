@@ -93,7 +93,11 @@ class MapDashboardController extends Controller
                 if(in_array('rawanbencana', $request->kegiatan)){
                     $data = DB::connection('dwh')->table('TBL_TMNJABAR_TRX_MASTER_RAWAN_BENCANA')
                             ->whereIn('SUP',$request->sup)->get();
+                    $icon = DB::connection('dwh')->table('TBL_TMNJABAR_TRX_MASTER_RAWAN_BENCANA')->select('ICON_NAME','ICON_IMAGE')
+                            ->whereIn('SUP',$request->sup)->whereNotNull('ICON_IMAGE')
+                            ->groupBy('ICON_IMAGE')->get();
                     $this->response['data']['rawanbencana'] = $data;
+                    $this->response['data']['iconrawanbencana'] = $icon;
                 }
                 if(in_array('cctv', $request->kegiatan)){
                     $data = DB::connection('dwh')->table('TBL_TMNJABAR_TRX_CCTV')

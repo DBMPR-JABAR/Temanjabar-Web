@@ -26,7 +26,7 @@
         <div class="page-header-title">
             <div class="d-inline">
                 <h4>Manajemen User </h4>
-                
+
             </div>
         </div>
     </div>
@@ -48,7 +48,7 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="card">
-            <div class="card-header"> 
+            <div class="card-header">
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
                         <li><i class="feather icon-maximize full-card"></i></li>
@@ -90,10 +90,10 @@
                                     <td>{{$data->remember_token}}</td>
                                     <td>{{$data->created_at}}</td>
                                     <td>{{$data->updated_at}}</td>
-                                    <td> 
+                                    <td>
                                             <a type='button' href="{{ route('detailMasterUser',$data->id ) }}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Rincian</a>
-                                            <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$data->id}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a> 
-                                            <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data->id}}'     class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Hapus</a><br/>     
+                                            <a type='button' href='{{route('editUser',$data->id)}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a>
+                                            <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data->id}}'     class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Hapus</a><br/>
                                     </td>
                                 </tr>
                             @endforeach
@@ -111,7 +111,7 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h4 class="modal-title">Hapus Data Disposisi</h4>
+                    <h4 class="modal-title">Hapus Data User</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -255,7 +255,7 @@
                 <form action="{{route('updateUser')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-header">
-                        <h4 class="modal-title">Tambah User</h4>
+                        <h4 class="modal-title">Edit User</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -361,27 +361,6 @@
             const modal = $(this);
             modal.find('.modal-footer #delHref').attr('href', url);
         });
-
-        $('#editModal').on('show.bs.modal', function(event) {
-            const link = $(event.relatedTarget);
-            const id = link.data('id');
-            console.log(id);
-            const baseUrl = `{{ url('admin/master-data/user/manajemen/edit') }}/` + id;
-            $.get(baseUrl, { id: id },
-                function(response){
-                    $('#id').val(response.users[0].id);
-                    $('#nama').val(response.users[0].name);
-                    $('#email').val(response.users[0].email);
-                    $('#role').val(response.users[0].role);
-                    var jml = <?php echo count($users); ?>;
-                    for(let i=1;i<=jml;i++){
-                        if($("#id-"+i).val() == response.users[0].internal_role_id){
-                            $("#id-"+i).attr("selected","selected");
-                        }
-                    }
-                });
-            });
-
 
     });
 </script>

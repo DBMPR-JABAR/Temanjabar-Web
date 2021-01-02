@@ -563,7 +563,7 @@
                                 map.remove(map.findLayerById('vc'));
                             }
                             if (kegiatan.indexOf('rawanbencana') >= 0) {
-                                addTitikRawanBencana(data.rawanbencana);
+                                addTitikRawanBencana(data.rawanbencana, data.iconrawanbencana);
                             } else {
                                 map.remove(map.findLayerById('tx_rawanbencana'));
                             }
@@ -1015,13 +1015,23 @@
 
             }
 
-            function addTitikRawanBencana(rawanbencana) {
-                const symbol = {
-                    type: "picture-marker", // autocasts as new PictureMarkerSymbol()
-                    url: baseUrl + "/assets/images/marker/rawanbencana.png",
-                    width: "28px",
-                    height: "28px"
-                };
+            function addTitikRawanBencana(rawanbencana, iconrawanbencana) {
+                let uniqueValue = [];
+                console.log(rawanbencana);
+                iconrawanbencana.forEach((data) => {
+                    uniqueValue.push(
+                        {
+                            value: data.ICON_NAME,
+                            symbol: {
+                                type: "picture-marker", // autocasts as new PictureMarkerSymbol()
+                                url: data.ICON_IMAGE,
+                                width: "28px",
+                                height: "28px"
+                            }
+                        }
+                    );
+                });
+
                 const popupTemplate = {
                     title: "{RUAS_JALAN}",
                     content: [
@@ -1153,11 +1163,22 @@
                             type: "string"
                         },
                         {
+                            name: "ICON_NAME",
+                            alias: "Jenis Titik Rawan Bencana",
+                            type: "string"
+                        },
+                        {
+                            name: "ICON_IMAGE",
+                            alias: "Icon Image",
+                            type: "string"
+                        },
+                        {
                             name: "UPTD_ID",
                             alias: "UPTD",
                             type: "string"
                         }
                     ],
+                    outFields: ["*"],
                     objectIdField: "ID",
                     geometryType: "point",
                     spatialReference: {
@@ -1166,8 +1187,9 @@
                     source: newTitikRawanBencana,
                     popupTemplate: popupTemplate,
                     renderer: {
-                        type: "simple",
-                        symbol: symbol
+                        type: "unique-value",  // autocasts as new UniqueValueRenderer()
+                        field: "ICON_NAME",
+                        uniqueValueInfos: uniqueValue
                     }
                 });
                 map.add(newTitikRawanBencanaLayer);
