@@ -906,7 +906,7 @@
                     rawanBencanaLayer.add(rawanGempaBumi(), 1);
                     rawanBencanaLayer.add(rawanGerakanTanah(), 0);
                     rawanBencanaLayer.add(rawanLongsor(), 3);
-
+                    rawanBencanaLayer.add(indexResikoBanjir(),4);    
                     map.add(rawanBencanaLayer);
                 }
 
@@ -967,6 +967,46 @@
                     }
                     return rgt2;
                 }
+
+
+                function indexResikoBanjir() {
+                    const popupTemplate = {
+                        title: "{nm_ruas}",
+                        content: [{
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "kelas",
+                                    label: "kelas"
+                                },
+                                {
+                                    fieldName: "Shape_Leng",
+                                    label: "Shape Leng"
+                                },
+                                {
+                                    fieldName: "Shape_Area",
+                                    label: "Shape Area"
+                                },
+                                {
+                                    fieldName: "Luas_HA",
+                                    label: "Luas HA"
+                                }
+                            ]
+                        }]
+                    }
+                    let irb = map.findLayerById('irbId');
+                    if (!irb) {
+                        irb = new FeatureLayer({
+                            url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/SATUPETA_BPBD/Kebencanaan/MapServer/7",
+                            title: 'Index Resiko Banjir',
+                            id: 'irbId',
+                            popupTemplate: popupTemplate
+                        });
+                        irb.refresh();
+                    }
+                    return irb;
+                }
+
 
                 function rawanLongsor() {
                     const popupTemplate = {
