@@ -72,7 +72,7 @@
                                 <th style="min-width: 100px;">Aksi</th>
                             </tr>
                         </thead>
-                        <!-- <tbody id="bodyJembatan">
+                        {{-- <!-- <tbody id="bodyJembatan">
                             @foreach ($jembatan as $data)
                             <tr>
                                 <td>{{$loop->index + 1}}</td>
@@ -96,7 +96,7 @@
                                 </td>
                             </tr>
                             @endforeach
-                        </tbody> -->
+                        </tbody> --> --}}
                     </table>
                 </div>
             </div>
