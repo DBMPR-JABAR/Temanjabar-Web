@@ -288,7 +288,7 @@ class PekerjaanController extends Controller
                 }
 
                 if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update")) {
-                    $btn = $btn . '<a href="#delModal" data-id="' . $row->id_pek . '" data-toggle="modal"><button class="btn btn-success btn-sm waves-effect waves-light" data-toggle="tooltip" title="Submit"><i class="icofont icofont-check-circled"></i></button></a>';
+                    $btn = $btn . '<a href="#submitModal" data-id="' . $row->id_pek . '" data-toggle="modal"><button class="btn btn-success btn-sm waves-effect waves-light" data-toggle="tooltip" title="Submit"><i class="icofont icofont-check-circled"></i></button></a>';
                 }
 
                 $btn = $btn . '</div>';

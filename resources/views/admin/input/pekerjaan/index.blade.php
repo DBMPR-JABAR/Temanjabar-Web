@@ -336,7 +336,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                        <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Hapus</a>
+                        <a id="submitHref" href="" class="btn btn-danger waves-effect waves-light ">Submit</a>
                     </div>
                 </div>
             </div>
@@ -382,7 +382,7 @@
                 const url = `{{ url('admin/input-data/pekerjaan/submit') }}/` + id;
                 console.log(url);
                 const modal = $(this);
-                modal.find('.modal-footer #delHref').attr('href', url);
+                modal.find('.modal-footer #submitHref').attr('href', url);
             });
 
             // $('select').attr('value').trigger('change');
