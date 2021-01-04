@@ -188,6 +188,12 @@
                             <input name="long_ctr" type="text" class="form-control formatLatLong" required value="{{$ruasJalan->long_ctr}}">
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Wilayah UPTD</label>
+                        <div class="col-md-10">
+                            <input name="wil_uptd" type="text" class="form-control" required value="{{$ruasJalan->wil_uptd}}">
+                        </div>
+                    </div>
 
                     <button type="submit" class="btn btn-mat btn-success">Simpan Perubahan</button>
                 </form>

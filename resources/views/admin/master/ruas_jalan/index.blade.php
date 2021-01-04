@@ -61,7 +61,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Id Jalan</th>
+                                <th>Kode Ruas Jalan</th>
                                 <th>Nama Ruas Jalan</th>
                                 <th>Sup</th>
                                 <th>Lokasi</th>
@@ -77,6 +77,7 @@
                                 <th>Nama SPPJJ</th>
                                 <th>Lat Ctr</th>
                                 <th>Long Ctr</th>
+                                <th>Wilayah UPTD</th>
                                 <th style="min-width: 100px;">Aksi</th>
                             </tr>
                         </thead>
@@ -154,7 +155,7 @@
                     <div class="modal-body p-5">
 
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Id Ruas Jalan</label>
+                            <label class="col-md-3 col-form-label">Kode Ruas Jalan</label>
                             <div class="col-md-9">
                                 <input name="id_ruas_jalan" type="text" class="form-control" maxlength="6" required>
                             </div>
@@ -286,6 +287,13 @@
                                 <input name="long_ctr" type="text" class="form-control formatLatLong" required>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Wilayah UPTD</label>
+                            <div class="col-md-9">
+                                <input name="wil_uptd" type="text" class="form-control" required>
+                            </div>
+                        </div>
+
                     </div>
 
                     <div class="modal-footer">
@@ -430,6 +438,10 @@
                 {
                     data: 'long_ctr',
                     name: 'long_ctr'
+                },
+                {
+                    data: 'wil_uptd',
+                    name: 'wil_uptd'
                 },
                 {
                     data: 'action',
