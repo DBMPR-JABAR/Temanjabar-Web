@@ -31,13 +31,12 @@ class AddColumnsJembatan extends Migration
      */
     public function down()
     {
-        Schema::table('user_role', function (Blueprint $table) {
+        Schema::table('master_jembatan', function (Blueprint $table) {
             $table->dropColumn('status');
             $table->dropColumn('kondisi');
             $table->dropColumn('debit_air');
             $table->dropColumn('tinggi_jagaan');
-            $table->dropColumn('jenis');
-            $table->dropColumn('parent_id');
+            $table->dropColumn('id_jenis_jembatan');
         });
     }
 }
