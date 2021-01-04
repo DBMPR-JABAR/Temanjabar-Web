@@ -49,7 +49,7 @@
                             <hr>
                         </div>
                         <div class="card-block pl-5 pr-5 pb-5">
-                            <center><img class="img-fluid" style="width: 300px;height: 300px;" src="/storage/{{$data->foto}}" alt="" srcset=""></center>
+                            <center><img class="img-fluid" style="width: 300px;height: 300px;" src="/storage/{{$data->foto}}" alt="" srcset=""></center> 
                         </div>
                     </div>
                 </div>
