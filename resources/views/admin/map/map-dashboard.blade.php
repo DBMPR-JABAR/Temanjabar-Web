@@ -719,7 +719,7 @@
 
                 function jalanNasional() {
                     const layer = new FeatureLayer({
-                        url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/3/",
+                        url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/2/",
                         title: 'Ruas Jalan Nasional'
                     });
                     const popupTemplate = {
@@ -769,7 +769,7 @@
 
                 function jalanTolOperasi() {
                     const layer = new FeatureLayer({
-                        url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/4/",
+                        url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/3/",
                         title: 'Ruas Jalan Tol (Operasional)'
                     });
                     const popupTemplate = {
@@ -819,7 +819,7 @@
 
                 function jalanTolKonstruksi() {
                     const layer = new FeatureLayer({
-                        url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/5/",
+                        url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/4/",
                         title: 'Ruas Jalan Tol (Konstruksi)'
                     });
                     const popupTemplate = {
@@ -869,7 +869,7 @@
 
                 function gerbangTol() {
                     const layer = new FeatureLayer({
-                        url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/6/",
+                        url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/5/",
                         title: 'Gerbang Tol'
                     });
                     const popupTemplate = {
@@ -907,8 +907,8 @@
                     rawanBencanaLayer.add(rawanGerakanTanah(), 0);
                     rawanBencanaLayer.add(rawanLongsor(), 3);
                     rawanBencanaLayer.add(indexResikoBanjir(),4);
-                    rawanBencanaLayer.add(indexResikoBanjirBandang(),5);    
-                    
+                    rawanBencanaLayer.add(indexResikoBanjirBandang(),5);
+
                     map.add(rawanBencanaLayer);
                 }
 
@@ -1027,8 +1027,8 @@
                                 {
                                     fieldName: "Shape_Area",
                                     label: "Shape Area"
-                                } 
-                                 
+                                }
+
                             ]
                         }]
                     }

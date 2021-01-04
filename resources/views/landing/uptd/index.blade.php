@@ -917,7 +917,7 @@
                     }
 
                     function jalanNasional() {
-                        const layer = new FeatureLayer({url: gsvrUrl+"/geoserver/gsr/services/temanjabar/FeatureServer/3/"});
+                        const layer = new FeatureLayer({url: gsvrUrl+"/geoserver/gsr/services/temanjabar/FeatureServer/2/"});
                         const popupTemplate = {
                             title: "{NAMA_SK}",
                             content: [{
@@ -964,7 +964,7 @@
                     }
 
                     function jalanTolOperasi() {
-                        const layer = new FeatureLayer({url: gsvrUrl+"/geoserver/gsr/services/temanjabar/FeatureServer/4/"});
+                        const layer = new FeatureLayer({url: gsvrUrl+"/geoserver/gsr/services/temanjabar/FeatureServer/3/"});
                         const popupTemplate = {
                             title: "{NAMA}",
                             content: [{
@@ -1011,7 +1011,7 @@
                     }
 
                     function jalanTolKonstruksi() {
-                        const layer = new FeatureLayer({url: gsvrUrl+"/geoserver/gsr/services/temanjabar/FeatureServer/5/"});
+                        const layer = new FeatureLayer({url: gsvrUrl+"/geoserver/gsr/services/temanjabar/FeatureServer/4/"});
                         const popupTemplate = {
                             title: "{Nama}",
                             content: [{
@@ -1066,7 +1066,7 @@
                     }
 
                     function gerbangTol() {
-                        const layer = new FeatureLayer({url: gsvrUrl+"/geoserver/gsr/services/temanjabar/FeatureServer/6/"});
+                        const layer = new FeatureLayer({url: gsvrUrl+"/geoserver/gsr/services/temanjabar/FeatureServer/5/"});
                         const popupTemplate = {
                             title: "{Nama}",
                             content: [

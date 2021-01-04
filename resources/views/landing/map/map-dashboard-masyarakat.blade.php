@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <script src='https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js'></script>
-    
+
     <title>Map Dashboard</title>
 </head>
 
@@ -599,11 +599,12 @@ $(document).ready(function() {
                 rutejalanLayer.add(jalanTolKonstruksi(), 0);
                 rutejalanLayer.add(jalanTolOperasi(), 1);
                 rutejalanLayer.add(jalanNasional(), 2);
-                rutejalanLayer.add(gerbangTol(), 4);
+                // rutejalanLayer.add(gerbangTol(), 4);
+
                 map.add(rutejalanLayer);
             }
             rutejalanLayer.add(jalanProvinsi(), 3);
-            rutejalanLayer.reorder();
+            // rutejalanLayer.reorder();
 
             function jalanProvinsi() {
                 const popupTemplate = {
@@ -677,11 +678,11 @@ $(document).ready(function() {
                             color: "green",
                             width: "2px",
                             style: "solid",
-                            marker: { // autocasts from LineSymbolMarker
-                                color: "orange",
-                                placement: "begin-end",
-                                style: "circle"
-                            }
+                            //marker: { // autocasts from LineSymbolMarker
+                            //    color: "orange",
+                            //    placement: "begin-end",
+                            //    style: "circle"
+                            //}
                         }
                     }
                 } else {
@@ -694,7 +695,7 @@ $(document).ready(function() {
 
             function jalanNasional() {
                 const layer = new FeatureLayer({
-                    url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/3/",
+                    url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/2/",
                     title: 'Ruas Jalan Nasional'
                 });
                 const popupTemplate = {
@@ -732,11 +733,11 @@ $(document).ready(function() {
                         color: "red",
                         width: "2px",
                         style: "solid",
-                        marker: { // autocasts from LineSymbolMarker
-                            color: "orange",
-                            placement: "begin-end",
-                            style: "circle"
-                        }
+                        //   marker: { // autocasts from LineSymbolMarker
+                        //      color: "orange",
+                            //   placement: "begin-end",
+                            // style: "circle"
+                        // }
                     }
                 }
                 return layer;
@@ -744,7 +745,7 @@ $(document).ready(function() {
 
             function jalanTolOperasi() {
                 const layer = new FeatureLayer({
-                    url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/4/",
+                    url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/3/",
                     title: 'Ruas Jalan Tol (Operasional)'
                 });
                 const popupTemplate = {
@@ -782,11 +783,11 @@ $(document).ready(function() {
                         color: "yellow",
                         width: "2px",
                         style: "solid",
-                        marker: { // autocasts from LineSymbolMarker
-                            color: "orange",
-                            placement: "begin-end",
-                            style: "circle"
-                        }
+                        //marker: { // autocasts from LineSymbolMarker
+                            //   color: "orange",
+                            // placement: "begin-end",
+                            //style: "circle"
+                        //}
                     }
                 }
                 return layer;
@@ -794,7 +795,7 @@ $(document).ready(function() {
 
             function jalanTolKonstruksi() {
                 const layer = new FeatureLayer({
-                    url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/5/",
+                    url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/4/",
                     title: 'Ruas Jalan Tol (Konstruksi)'
                 });
                 const popupTemplate = {
@@ -832,11 +833,11 @@ $(document).ready(function() {
                         color: "purple",
                         width: "2px",
                         style: "solid",
-                        marker: { // autocasts from LineSymbolMarker
-                            color: "orange",
-                            placement: "begin-end",
-                            style: "circle"
-                        }
+                        // marker: { // autocasts from LineSymbolMarker
+                            //   color: "orange",
+                            // placement: "begin-end",
+                            //style: "circle"
+                        //}
                     }
                 }
                 return layer;
@@ -844,7 +845,7 @@ $(document).ready(function() {
 
             function gerbangTol() {
                 const layer = new FeatureLayer({
-                    url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/6/",
+                    url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/5/",
                     title: 'Gerbang Tol'
                 });
                 const popupTemplate = {
