@@ -143,9 +143,10 @@
                                             <input name="idBentang{{$i}}" type="number" class="form-control h-100" value="{{@$dataBentang[$i]->id}}" hidden>
                                         </div>
                                         <div class="col-md-5">
-                                            <input name="panjangBentang{{$i}}" type="number" class="form-control h-100" step="any" value="{{@$dataBentang[$i]->panjang}}"></div>
+                                            <input name="panjangBentang{{$i}}" type="number" class="form-control h-100" step="any" value="{{@$dataBentang[$i]->panjang}}" required>
+                                        </div>
                                         <div class="col-md-5">
-                                            <select class="form-control" name="tipe{{$i}}">
+                                            <select class="form-control" name="tipe{{$i}}" required>
                                                 @foreach ($tipe as $data)
                                                 @if(@$dataBentang[$i]->tipe_bangunan_atas_id == $data->id)
                                                 <option value="{{$data->id}}" selected>{{$data->nama}}</option>
