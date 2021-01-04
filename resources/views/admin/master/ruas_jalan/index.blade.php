@@ -66,7 +66,18 @@
                                 <th>Sup</th>
                                 <th>Lokasi</th>
                                 <th>Panjang (meter)</th>
-                                <th>Aksi</th>
+                                <th>Status Awal</th>
+                                <th>Status Akhir</th>
+                                <th>Lat Awal</th>
+                                <th>Long Awal</th>
+                                <th>Lat Akhir</th>
+                                <th>Long Akhir</th>
+                                <th>Kabupaten Kota</th>
+                                <th>Kode SPPJJ</th>
+                                <th>Nama SPPJJ</th>
+                                <th>Lat Ctr</th>
+                                <th>Long Ctr</th>
+                                <th style="min-width: 100px;">Aksi</th>
                             </tr>
                         </thead>
                         <!-- <tbody id="bodyJembatan">
@@ -201,7 +212,7 @@
                             </div>
                         </div>
 
-                        <!-- <div class="form-group row">
+                        <div class="form-group row">
                             <label class="col-md-3 col-form-label">Status Awal</label>
                             <div class="col-md-9">
                                 <input name="sta_awal" type="number" step="any" class="form-control" required>
@@ -218,30 +229,63 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Lat Awal</label>
                             <div class="col-md-9">
-                                <input name="lat_awal" type="text" class="form-control" required>
+                                <input name="lat_awal" type="text" class="form-control formatLatLong" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Long Awal</label>
                             <div class="col-md-9">
-                                <input name="long_awal" type="text" class="form-control" required>
+                                <input name="long_awal" type="text" class="form-control formatLatLong" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Lat Akhir</label>
                             <div class="col-md-9">
-                                <input name="lat_akhir" type="text" class="form-control" required>
+                                <input name="lat_akhir" type="text" class="form-control formatLatLong" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Long Akhir</label>
                             <div class="col-md-9">
-                                <input name="long_akhir" type="text" class="form-control" required>
+                                <input name="long_akhir" type="text" class="form-control formatLatLong" required>
                             </div>
-                        </div> -->
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Kabupaten Kota</label>
+                            <div class="col-md-9">
+                                <input name="kab_kota" type="text" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Kode SPPJJ</label>
+                            <div class="col-md-9">
+                                <input name="kd_sppjj" type="text" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Nama SPPJJ</label>
+                            <div class="col-md-9">
+                                <input name="nm_sppjj" type="text" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Lat ctr</label>
+                            <div class="col-md-9">
+                                <input name="lat_ctr" type="text" class="form-control formatLatLong" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Long ctr</label>
+                            <div class="col-md-9">
+                                <input name="long_ctr" type="text" class="form-control formatLatLong" required>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="modal-footer">
@@ -309,6 +353,11 @@
             reverse: true
         });
 
+        // Format untuk lat long.
+        $('.formatLatLong').keypress(function(evt) {
+            return (/^\-?[0-9]*\.?[0-9]*$/).test($(this).val() + evt.key);
+        });
+
         var table = $('#dttable').DataTable({
             processing: true,
             serverSide: true,
@@ -338,7 +387,50 @@
                     data: 'panjang',
                     name: 'panjang'
                 },
-
+                {
+                    data: 'sta_awal',
+                    name: 'sta_awal'
+                },
+                {
+                    data: 'sta_akhir',
+                    name: 'sta_akhir'
+                },
+                {
+                    data: 'lat_awal',
+                    name: 'lat_awal'
+                },
+                {
+                    data: 'long_awal',
+                    name: 'long_awal'
+                },
+                {
+                    data: 'lat_akhir',
+                    name: 'lat_akhir'
+                },
+                {
+                    data: 'long_akhir',
+                    name: 'long_akhir'
+                },
+                {
+                    data: 'kab_kota',
+                    name: 'kab_kota'
+                },
+                {
+                    data: 'kd_sppjj',
+                    name: 'kd_sppjj'
+                },
+                {
+                    data: 'nm_sppjj',
+                    name: 'nm_sppjj'
+                },
+                {
+                    data: 'lat_ctr',
+                    name: 'lat_ctr'
+                },
+                {
+                    data: 'long_ctr',
+                    name: 'long_ctr'
+                },
                 {
                     data: 'action',
                     name: 'action',

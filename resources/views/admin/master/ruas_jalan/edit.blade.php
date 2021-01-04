@@ -113,7 +113,7 @@
                             <input name="panjang" type="text" class="form-control formatRibuan" required value="{{$ruasJalan->panjang}}">
                         </div>
                     </div>
-                    <!-- 
+
                     <div class=" form-group row">
                         <label class="col-md-2 col-form-label">Status Awal</label>
                         <div class="col-md-10">
@@ -154,7 +154,40 @@
                         <div class="col-md-10">
                             <input name="long_akhir" type="text" class="form-control" required value="{{$ruasJalan->long_akhir}}">
                         </div>
-                    </div> -->
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Kabupaten Kota</label>
+                        <div class="col-md-10">
+                            <input name="kab_kota" type="text" class="form-control" required value="{{$ruasJalan->kab_kota}}">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Kode SPPJJ</label>
+                        <div class="col-md-10">
+                            <input name="kd_sppjj" type="text" class="form-control" required value="{{$ruasJalan->kd_sppjj}}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Nama SPPJJ</label>
+                        <div class="col-md-10">
+                            <input name="nm_sppjj" type="text" class="form-control" required value="{{$ruasJalan->nm_sppjj}}">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Lat ctr</label>
+                        <div class="col-md-10">
+                            <input name="lat_ctr" type="text" class="form-control formatLatLong" required value="{{$ruasJalan->lat_ctr}}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Long ctr</label>
+                        <div class="col-md-10">
+                            <input name="long_ctr" type="text" class="form-control formatLatLong" required value="{{$ruasJalan->long_ctr}}">
+                        </div>
+                    </div>
 
                     <button type="submit" class="btn btn-mat btn-success">Simpan Perubahan</button>
                 </form>

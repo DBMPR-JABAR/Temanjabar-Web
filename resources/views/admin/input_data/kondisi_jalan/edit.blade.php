@@ -164,12 +164,13 @@
                         <label class="col-md-3 col-form-label">Kondisi Jalan</label>
                         <div class="col-md-9">
                             @if($kondisiJalan->kondisi =='Mantap')
-                            <input type="radio" name="kondisi" value="Mantap" checked> Mantap
-                            <input class="ml-4" type="radio" name="kondisi" value="Tidak Mantap"> Tidak Mantap
+                            <input type="radio" name="kondisi" id="kondisi" value="Mantap" onchange="my_function('Mantap')" checked> Mantap
+                            <input class="ml-4" type="radio" name="kondisi" id="kondisi" value="Tidak" onchange="my_function('tidakMantap')"> Tidak Mantap
                             @else
-                            <input type="radio" name="kondisi" value="Mantap"> Mantap
-                            <input class="ml-4" type="radio" name="kondisi" value="Tidak Mantap" checked> Tidak Mantap
+                            <input type="radio" name="kondisi" id="kondisi" value="Mantap" onchange="my_function('Mantap')"> Mantap
+                            <input class="ml-4" type="radio" name="kondisi" id="kondisi" value="Tidak" onchange="my_function('tidakMantap')" checked> Tidak Mantap
                             @endif
+                            <input type="text" class="form-control ml-4" name="kondisi1" id="kondisi1" value="{{$kondisiJalan->kondisi}}" hidden>
                         </div>
                     </div>
                     <div id="form-mantap">
@@ -599,7 +600,24 @@
         $('.formatLatLong').keypress(function(evt) {
             return (/^\-?[0-9]*\.?[0-9]*$/).test($(this).val() + evt.key);
         });
+
+        val = document.getElementById("kondisi1").value
+        console.log(val)
+        my_function(val)
     });
+
+    function my_function(val) {
+        // alert(val);
+        if (val == 'Mantap') {
+            $("#form-mantap").show();
+            $("#form-tidak-mantap").hide();
+
+        } else {
+            $("#form-tidak-mantap").show();
+            $("#form-mantap").hide();
+            // }
+        }
+    }
 
     function ubahDataRuasJalan() {
 

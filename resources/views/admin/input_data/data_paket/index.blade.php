@@ -168,33 +168,82 @@
             processing: true,
             serverSide: true,
             ajax: 'data-paket/json',
-            columns: [
-                {'mRender': function (data, type, full,meta) {
-                    return +meta.row +1;  
+            columns: [{
+                    'mRender': function(data, type, full, meta) {
+                        return +meta.row + meta.settings._iDisplayStart + 1;
                     }
                 },
-                { data: 'nama_paket', name: 'nama_paket' },
-                { data: 'lokasi_pekerjaan', name: 'lokasi_pekerjaan' },
-                { data: 'pagu_anggaran', name: 'nama_paket' },
-                { data: 'target_panjang', name: 'target_panjang' },
-                { data: 'jenis_penanganan', name: 'jenis_penanganan' },
-                { data: 'penyedia_jasa', name: 'penyedia_jasa' },
-                { data: 'nomor_kontrak', name: 'nomor_kontrak' },
-                { data: 'tgl_kontrak', name: 'tgl_kontrak' },
-                { data: 'nilai_kontrak', name: 'nilai_kontrak' },
-                { data: 'nilai_tambahan', name: 'nilai_tambahan' },
-                { data: 'nilai_kontrak_perubahan', name: 'nilai_kontrak_perubahan' },
-                { data: 'total_tambahan', name: 'total_tambahan' },
-                { data: 'total_sisa_lelang', name: 'total_sisa_lelang' },
-                { data: 'action', name: 'action' },
+                {
+                    data: 'nama_paket',
+                    name: 'nama_paket'
+                },
+                {
+                    data: 'lokasi_pekerjaan',
+                    name: 'lokasi_pekerjaan'
+                },
+                {
+                    data: 'pagu_anggaran',
+                    name: 'nama_paket'
+                },
+                {
+                    data: 'target_panjang',
+                    name: 'target_panjang'
+                },
+                {
+                    data: 'waktu_pelaksanaan_hk',
+                    name: 'waktu_pelaksanaan_hk'
+                },
+                {
+                    data: 'jenis_penanganan',
+                    name: 'jenis_penanganan'
+                },
+                {
+                    data: 'penyedia_jasa',
+                    name: 'penyedia_jasa'
+                },
+                {
+                    data: 'nomor_kontrak',
+                    name: 'nomor_kontrak'
+                },
+                {
+                    data: 'tgl_kontrak',
+                    name: 'tgl_kontrak'
+                },
+                {
+                    data: 'nilai_kontrak',
+                    name: 'nilai_kontrak'
+                },
+                {
+                    data: 'nilai_tambahan',
+                    name: 'nilai_tambahan'
+                },
+                {
+                    data: 'nilai_kontrak_perubahan',
+                    name: 'nilai_kontrak_perubahan'
+                },
+                {
+                    data: 'total_tambahan',
+                    name: 'total_tambahan'
+                },
+                {
+                    data: 'total_sisa_lelang',
+                    name: 'total_sisa_lelang'
+                },
+                {
+                    data: 'action',
+                    name: 'action'
+                },
             ]
         });
 
-        table.on( 'order.dt search.dt', function () {
-            table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-                cell.innerHTML = i+1;
-            } );
-        } ).draw();
+        table.on('order.dt search.dt', function() {
+            table.column(0, {
+                search: 'applied',
+                order: 'applied'
+            }).nodes().each(function(cell, i) {
+                cell.innerHTML = i + 1;
+            });
+        }).draw();
     });
 </script>
 @endsection
