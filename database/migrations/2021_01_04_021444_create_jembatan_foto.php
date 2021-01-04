@@ -30,6 +30,6 @@ class CreateJembatanFoto extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('jembatan_foto');
+        Schema::dropIfExists('master_jembatan_foto');
     }
 }
