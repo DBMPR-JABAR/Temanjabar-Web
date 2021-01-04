@@ -68,7 +68,7 @@
                                 <th>Panjang (meter)</th>
                                 <th>Lebar (meter)</th>
                                 <th>Ruas Jalan</th>
-                                <th>Foto</th>
+                                <!-- <th>Foto</th> -->
                                 <th style="min-width: 100px;">Aksi</th>
                             </tr>
                         </thead>
@@ -344,11 +344,11 @@
                     data: 'ruas_jalan',
                     name: 'ruas_jalan'
                 },
-                {
-                    'mRender': function(data, type, full) {
-                        return '<img class="img-fluid" style="max-width: 100px" src="/storage/' + full['foto'] + '" alt="" srcset="">';
-                    }
-                },
+                // {
+                //     'mRender': function(data, type, full) {
+                //         return '<img class="img-fluid" style="max-width: 100px" src="/storage/' + full['foto'] + '" alt="" srcset="">';
+                //     }
+                // },
                 {
                     data: 'action',
                     name: 'action',

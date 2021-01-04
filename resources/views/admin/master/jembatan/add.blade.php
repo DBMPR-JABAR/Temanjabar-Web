@@ -57,6 +57,12 @@
                                 <input name="nama_jembatan" type="text" class="form-control" required>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Status</label>
+                            <div class="col-md-10">
+                                <input name="status" type="text" class="form-control" required>
+                            </div>
+                        </div>
 
                         @if(Auth::user()->internalRole->uptd)
                         <input type="hidden" id="uptd" name="uptd" value="{{Auth::user()->internalRole->uptd}}">
@@ -124,6 +130,38 @@
                                 <input name="lebar" type="text" class="form-control formatRibuan" required>
                             </div>
                         </div>
+                         <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Debit Air</label>
+                            <div class="col-md-10">
+                                <input name="debit_air" type="text" class="form-control formatRibuan" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Tinggi Jagaan</label>
+                            <div class="col-md-10">
+                                <input name="tinggi_jagaan" type="number" class="form-control" step="any" required>
+                            </div>
+                        </div>
+                         <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Kondisi</label>
+                            <div class="col-md-10">
+                                <input name="kondisi" type="text" class="form-control" required>
+                            </div>
+                        </div>
+
+                         <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Jenis</label>
+                            <div class="col-md-10">
+                                <select class="form-control" name="id_jenis_jembatan" required>
+                                    <option>Pilih Jenis</option>
+                                    @foreach ($jenis as $data)
+                                    <option value="{{$data->id}}">{{$data->name}}</option>
+                                    @endforeach
+                                  
+                                </select>
+                            </div>
+                        </div>
+
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Jumlah Bentang</label>
@@ -161,12 +199,22 @@
                                 <input name="ket" type="text" class="form-control" required>
                             </div>
                         </div>
+                        <hr>
                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Foto Jembatan</label>
-                            <div class="col-md-6">
-                                <input name="foto" type="file" class="form-control">
+                            <label class="col-md-2 col-form-label">Foto Jembatan</label><br>    
+                        </div>
+                        <div id="inputFormRow">
+                           <div class="input-group">
+                                <input type="text" name="nama[]" class="form-control m-input" placeholder="Judul Foto" autocomplete="off" required>
+                                <input type="file" name="foto[]" class="form-control m-input" accept="image/*" required>
+                                <div class="input-group-append">                
+                                    <button id="removeRow" type="button" class="btn btn-danger">Hapus</button>
+                                </div>
                             </div>
                         </div>
+
+                        <div id="newRow"></div>
+                        <button id="addRow" type="button" class="btn btn-info">Tambah Foto Jembatan</button>
 
                     </div>
 
@@ -257,6 +305,26 @@
                 alert('Isi jumlah bentang terlebih dahulu')
             }
         });
+    });
+
+     $("#addRow").click(function () {
+            var html = '';
+        html += '<div id="inputFormRow">';
+        html += '<div class="input-group">';
+        html += '<input type="text" name="nama[]" class="form-control m-input" placeholder="Enter title" autocomplete="off" required>';
+        html += '<input type="file" name="foto[]" class="form-control m-input" required>';
+        html += '<div class="input-group-append">';
+        html += '<button id="removeRow" type="button" class="btn btn-danger">Hapus</button>';
+        html += '</div>';
+        html += '</div>';
+ 
+
+        $('#newRow').append(html);
+    });
+
+    // remove row
+    $(document).on('click', '#removeRow', function () {
+        $(this).closest('#inputFormRow').remove();
     });
 
     function ubahOption() {

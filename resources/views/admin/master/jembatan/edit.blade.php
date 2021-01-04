@@ -58,6 +58,13 @@
                         </div>
                     </div>
 
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Status</label>
+                        <div class="col-md-10">
+                            <input name="status" type="text" class="form-control" value="{{$jembatan->status}}" required>
+                        </div>
+                    </div>
+
                     @if(Auth::user()->internalRole->uptd)
                     <input type="hidden" id="uptd" name="uptd" value="{{$jembatan->uptd}}">
                     @else
@@ -119,6 +126,40 @@
                         <label class="col-md-2 col-form-label">Lebar (meter)</label>
                         <div class="col-md-10">
                             <input name="lebar" type="text" class="form-control formatRibuan" required value="{{$jembatan->lebar}}">
+                        </div>
+                    </div>
+
+                     <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Debit Air</label>
+                        <div class="col-md-10">
+                            <input name="debit_air" type="text" class="form-control formatRibuan" required value="{{$jembatan->debit_air}}">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Tinggi Jagaan</label>
+                        <div class="col-md-10">
+                            <input name="tinggi_jagaan" type="number" class="form-control" step="any" required value="{{$jembatan->tinggi_jagaan}}">
+                        </div>
+                    </div>
+
+                     <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Kondisi</label>
+                        <div class="col-md-10">
+                            <input name="kondisi" type="text" class="form-control" required value="{{$jembatan->kondisi}}">
+                        </div>
+                    </div>
+
+                     <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Jenis</label>
+                        <div class="col-md-10">
+                            <select class="form-control" name="id_jenis_jembatan" value="{{$jembatan->id_jenis_jembatan}}" required>
+                                <!-- <option value="">Pilih Jenis</option> -->
+                                @foreach ($jenis as $data)
+                                <option value="{{$data->id}}" {{ ( $data->id == $jembatan->id_jenis_jembatan) ? 'selected' : ''}}>{{$data->name}}</option>
+                                @endforeach
+                              
+                            </select>
                         </div>
                     </div>
 
@@ -184,15 +225,37 @@
                         </div>
                     </div>
 
-                    <div class="form-group row">
+                     <hr>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Foto Jembatan</label><br>    
+                        <small class="form-text text-muted">Hapus semua foto jika tidak akan merubah foto jembatan</small>
+                        </div>
+                        @foreach($foto as $i => $data)
+                        <div id="inputFormRow">
+                           <div class="input-group">
+                                <input type="text" name="nama[]" class="form-control m-input" value="{{$data->nama}}" placeholder="Judul Foto" autocomplete="off" required>
+                                <input type="file" name="foto[]" class="form-control m-input" accept="image/*" required>
+                                <div class="input-group-append">                
+                                    <button id="removeRow" type="button" class="btn btn-danger">Hapus</button>
+                                </div>
+                            </div>
+                        </div>
+                         @endforeach
+
+                        <div id="newRow"></div>
+                        <button id="addRow" type="button" class="btn btn-info">Tambah Foto Jembatan</button>
+
+                   <!--  <div class="form-group row">
                         <label class="col-md-2 col-form-label">Foto Jembatan</label>
                         <div class="col-md-6">
                             <input name="foto" type="file" class="form-control">
                             <small class="form-text text-muted">Kosongkan jika tidak akan merubah foto jembatan</small>
                         </div>
-                    </div>
+                    </div> -->
 
+                    <div class="modal-footer">
                     <button type="submit" class="btn btn-mat btn-success">Simpan Perubahan</button>
+                </div>
                 </form>
 
             </div>
@@ -222,6 +285,27 @@
             return (/^\-?[0-9]*\.?[0-9]*$/).test($(this).val() + evt.key);
         });
     });
+
+    $("#addRow").click(function () {
+            var html = '';
+        html += '<div id="inputFormRow">';
+        html += '<div class="input-group">';
+        html += '<input type="text" name="nama[]" class="form-control m-input" placeholder="Enter title" autocomplete="off" required>';
+        html += '<input type="file" name="foto[]" class="form-control m-input" required>';
+        html += '<div class="input-group-append">';
+        html += '<button id="removeRow" type="button" class="btn btn-danger">Hapus</button>';
+        html += '</div>';
+        html += '</div>';
+ 
+
+        $('#newRow').append(html);
+    });
+
+    // remove row
+    $(document).on('click', '#removeRow', function () {
+        $(this).closest('#inputFormRow').remove();
+    });
+
 
     function ubahOption() {
 

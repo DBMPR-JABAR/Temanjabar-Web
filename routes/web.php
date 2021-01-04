@@ -161,6 +161,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::group(['prefix' => 'jembatan'], function () {
             Route::get('/', 'MasterData\JembatanController@index')->name('getMasterJembatan');
             Route::get('edit/{id}', 'MasterData\JembatanController@edit')->name('editJembatan');
+            Route::get('viewPhoto/{id}', 'MasterData\JembatanController@viewPhoto')->name('viewPhotoJembatan');
             Route::get('add', 'MasterData\JembatanController@add')->name('addJembatan');
             Route::post('create', 'MasterData\JembatanController@store')->name('createJembatan');
             Route::post('update', 'MasterData\JembatanController@update')->name('updateJembatan');
