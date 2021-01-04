@@ -67,7 +67,7 @@
                         <div class="col-md-10">
                             <select class="form-control" name="nama_paket" required value="{{$progress->nama_paket}}">
                                 @foreach ($paket as $data)
-                                <option value="{{$data}}"> {{ ( $data == $progress->nama_paket) ? 'selected' : ''}}>{{$data}}</option>
+                                <option value="{{$data}}" {{ ( $data == $progress->nama_paket) ? 'selected' : ''}}>{{$data}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -77,7 +77,7 @@
                         <div class="col-md-10">
                             <select class="form-control" name="penyedia_jasa" required value="{{$progress->penyedia_jasa}}">
                                 @foreach ($penyedia as $data)
-                                <option value="{{$data}}"> {{ ( $data == $progress->penyedia_jasa) ? 'selected' : ''}}>{{$data}}</option>
+                                <option value="{{$data}}" {{ ( $data == $progress->penyedia_jasa) ? 'selected' : ''}}>{{$data}}</option>
                                 @endforeach
                             </select>
                         </div>

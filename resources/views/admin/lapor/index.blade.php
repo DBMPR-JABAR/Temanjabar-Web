@@ -178,13 +178,13 @@
                     name: 'permasalahan'
                 },
                 {
-                    data: 'status',
-                    name: 'status'
-                },
-                {
                     'mRender': function(data, type, full) {
                         return '<img class="img-fluid" style="max-width: 100px" src="/storage/' + full['foto_awal'] + '" alt="" srcset="">';
                     }
+                },
+                {
+                    data: 'status',
+                    name: 'status'
                 },
                 {
                     data: 'action',
