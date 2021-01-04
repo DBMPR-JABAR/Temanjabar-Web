@@ -77,7 +77,7 @@
                             </tr>
                         </thead>
                         <tbody id="bodyJembatan">
-                            <!--   @foreach ($pekerjaan as $data)
+                          <!--   @foreach ($pekerjaan as $data)
                             <tr>
                                 <td>{{$loop->index + 1}}</td>
                                 <td>{{$data->tanggal}}</td>
@@ -367,73 +367,52 @@
             autoclose: true,
         });
 
-        let table = $('#progress-table').DataTable({
+         let table = $('#progress-table').DataTable({
             processing: true,
             serverSide: true,
             ajax: 'progresskerja/json',
-            columns: [{
-                    'mRender': function(data, type, full, meta) {
-                        return +meta.row + meta.settings._iDisplayStart + 1;
-
+            columns: [
+                {'mRender': function (data, type, full,meta) {
+                    return +meta.row +1;  
                     }
                 },
-                {
-                    data: 'tanggal',
-                    name: 'tanggal'
-                },
-                {
-                    data: 'penyedia_jasa',
-                    name: 'penyedia_jasa'
-                },
-                {
-                    data: 'nama_paket',
-                    name: 'nama_paket'
-                },
-                {
-                    data: 'rencana_temp',
-                    name: 'rencana_temp'
-                },
-                {
-                    data: 'waktu_temp',
-                    name: 'waktu_temp'
-                },
-                {
-                    data: 'nilai_kontrak',
-                    name: 'nilai_kontrak'
-                },
-                {
-                    data: 'keuangan',
-                    name: 'keuangan'
-                },
-                {
-                    'mRender': function(data, type, full) {
-                        return '<img class="img-fluid" style="max-width: 100px" src="' + `{{!! url('storage/') }}` + '/progresskerja/' + full['foto'] + '" alt="" srcset="">';
+                { data: 'tanggal', name: 'tanggal' },
+                { data: 'penyedia_jasa', name: 'penyedia_jasa' },
+                { data: 'nama_paket', name: 'nama_paket' },
+                // { data: 'rencana_temp', name: 'rencana_temp' },
+                // { data: 'waktu_temp', name: 'waktu_temp' },
+                {'mRender': function (data, type, full) {
+                    return full['rencana']+"<br />"+full['realisasi']+"<br>"+full['deviasi'];  
                     }
                 },
-                {
-                    'mRender': function(data, type, full) {
-                        return '<video width="150" height="100" controls><source src="' + `{!! url('storage/'}}` + '/progresskerja/' + full['video'] + '" type="video/*" Sorry, your browser doesnt support the video element.></video>';
+                {'mRender': function (data, type, full) {
+                    return full['waktu_kontrak']+"<br />"+full['terpakai']+"<br>"+full['sisa']+"<br>"+full['prosentase'];  
                     }
                 },
-                {
-                    data: 'status',
-                    name: 'status'
+                { data: 'nilai_kontrak', name: 'nilai_kontrak' },
+                {'mRender': function (data, type, full) {
+                    var databayar = parseFloat(full['bayar']);
+                    return full['bayar']+"<br />"+databayar.toFixed(2);  
+                    }
                 },
-                {
-                    data: 'action',
-                    name: 'action'
+                {'mRender': function (data, type, full) {
+                    return '<img class="img-fluid" style="max-width: 100px" src="'+`{{!! url('storage/') }}` +'/progresskerja/'+full['foto']+'" alt="" srcset="">';  
+                    }
                 },
+                {'mRender': function (data, type, full) {
+                    return '<video width="150" height="100" controls><source src="'+`{!! url('storage/'}}`+'/progresskerja/'+full['video'] +'" type="video/*" Sorry, your browser doesnt support the video element.></video>';  
+                    }
+                },
+                { data: 'status', name: 'status' },
+                { data: 'action', name: 'action' },
             ]
         });
 
-        table.on('order.dt search.dt', function() {
-            table.column(0, {
-                search: 'applied',
-                order: 'applied'
-            }).nodes().each(function(cell, i) {
-                cell.innerHTML = i + 1;
-            });
-        }).draw();
+        table.on( 'order.dt search.dt', function () {
+            table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                cell.innerHTML = i+1;
+            } );
+        } ).draw();
     });
 
     function ubahOption() {
