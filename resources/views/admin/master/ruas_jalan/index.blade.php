@@ -75,8 +75,8 @@
                                 <th>Kabupaten Kota</th>
                                 <th>Kode SPPJJ</th>
                                 <th>Nama SPPJJ</th>
-                                <th>Lat Ctr</th>
-                                <th>Long Ctr</th>
+                                <th>Latatitude Titik Tengah (Centroid)</th>
+                                <th>Longitude Titik Tengah (Centroid)</th>
                                 <th>Wilayah UPTD</th>
                                 <th style="min-width: 100px;">Aksi</th>
                             </tr>
@@ -228,28 +228,28 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Lat Awal</label>
+                            <label class="col-md-3 col-form-label">Latitude Awal</label>
                             <div class="col-md-9">
                                 <input name="lat_awal" type="text" class="form-control formatLatLong" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Long Awal</label>
+                            <label class="col-md-3 col-form-label">Longitude Awal</label>
                             <div class="col-md-9">
                                 <input name="long_awal" type="text" class="form-control formatLatLong" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Lat Akhir</label>
+                            <label class="col-md-3 col-form-label">Latitude Akhir</label>
                             <div class="col-md-9">
                                 <input name="lat_akhir" type="text" class="form-control formatLatLong" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Long Akhir</label>
+                            <label class="col-md-3 col-form-label">Longitude Akhir</label>
                             <div class="col-md-9">
                                 <input name="long_akhir" type="text" class="form-control formatLatLong" required>
                             </div>
@@ -276,15 +276,15 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Lat ctr</label>
+                            <label class="col-md-3 col-form-label">Latitude Titik Tengah (Centroid)</label>
                             <div class="col-md-9">
-                                <input name="lat_ctr" type="text" class="form-control formatLatLong" required>
+                                <input name="lat_ctr" type="text" class="form-control formatLatLong">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Long ctr</label>
+                            <label class="col-md-3 col-form-label">Longitude Titik Tengah (Centroid)</label>
                             <div class="col-md-9">
-                                <input name="long_ctr" type="text" class="form-control formatLatLong" required>
+                                <input name="long_ctr" type="text" class="form-control formatLatLong">
                             </div>
                         </div>
                         <div class="form-group row">

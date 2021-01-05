@@ -177,15 +177,15 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Lat ctr</label>
+                        <label class="col-md-2 col-form-label">Latitude Titik Tengah (Centroid)</label>
                         <div class="col-md-10">
-                            <input name="lat_ctr" type="text" class="form-control formatLatLong" required value="{{$ruasJalan->lat_ctr}}">
+                            <input name="lat_ctr" type="text" class="form-control formatLatLong" value="{{$ruasJalan->lat_ctr}}">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Long ctr</label>
+                        <label class="col-md-2 col-form-label">Longitude Titik Tengah (Centroid)</label>
                         <div class="col-md-10">
-                            <input name="long_ctr" type="text" class="form-control formatLatLong" required value="{{$ruasJalan->long_ctr}}">
+                            <input name="long_ctr" type="text" class="form-control formatLatLong" value="{{$ruasJalan->long_ctr}}">
                         </div>
                     </div>
                     <div class="form-group row">
