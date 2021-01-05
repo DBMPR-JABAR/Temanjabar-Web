@@ -161,10 +161,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::group(['prefix' => 'jembatan'], function () {
             Route::get('/', 'MasterData\JembatanController@index')->name('getMasterJembatan');
             Route::get('edit/{id}', 'MasterData\JembatanController@edit')->name('editJembatan');
+            Route::get('editPhoto/{id}', 'MasterData\JembatanController@editPhoto')->name('editPhotoJembatan');
             Route::get('viewPhoto/{id}', 'MasterData\JembatanController@viewPhoto')->name('viewPhotoJembatan');
             Route::get('add', 'MasterData\JembatanController@add')->name('addJembatan');
             Route::post('create', 'MasterData\JembatanController@store')->name('createJembatan');
             Route::post('update', 'MasterData\JembatanController@update')->name('updateJembatan');
+            Route::post('updatePhoto', 'MasterData\JembatanController@updatePhoto')->name('updatePhotoJembatan');
+            Route::get('deletePhoto/{id}', 'MasterData\JembatanController@deletePhoto')->name('deletePhotoJembatan');
+            Route::get('delPhoto/{id}', 'MasterData\JembatanController@delPhoto')->name('delPhotoJembatan');
             Route::get('delete/{id}', 'MasterData\JembatanController@delete')->name('deleteJembatan');
             Route::get('getTipeBangunan', 'MasterData\JembatanController@getTipeBangunan')->name('getTipeBangunan');
             Route::get('json', 'MasterData\JembatanController@json')->name('getJsonJembatan');

@@ -225,26 +225,6 @@
                         </div>
                     </div>
 
-                     <hr>
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Foto Jembatan</label><br>    
-                        <small class="form-text text-muted">Hapus semua foto jika tidak akan merubah foto jembatan</small>
-                        </div>
-                        @foreach($foto as $i => $data)
-                        <div id="inputFormRow">
-                           <div class="input-group">
-                                <input type="text" name="nama[]" class="form-control m-input" value="{{$data->nama}}" placeholder="Judul Foto" autocomplete="off" required>
-                                <input type="file" name="foto[]" class="form-control m-input" accept="image/*" required>
-                                <div class="input-group-append">                
-                                    <button id="removeRow" type="button" class="btn btn-danger">Hapus</button>
-                                </div>
-                            </div>
-                        </div>
-                         @endforeach
-
-                        <div id="newRow"></div>
-                        <button id="addRow" type="button" class="btn btn-info">Tambah Foto Jembatan</button>
-
                    <!--  <div class="form-group row">
                         <label class="col-md-2 col-form-label">Foto Jembatan</label>
                         <div class="col-md-6">

@@ -158,6 +158,22 @@ class JembatanController extends Controller
         return view('admin.master.jembatan.edit', compact('jembatan', 'ruasJalan', 'sup', 'uptd', 'dataBentang', 'tipe','jenis','foto'));
     }
 
+    public function deletePhoto($id)
+    {
+        $id = (int) $id;
+        $foto = DB::table('master_jembatan_foto')->where('id_jembatan',$id)->get();
+
+        return view('admin.master.jembatan.deletePhoto', compact('foto'));
+    }
+
+     public function editPhoto($id)
+    {   
+        $jembatan = Jembatan::find($id);
+        $foto = DB::table('master_jembatan_foto')->where('id_jembatan',$jembatan->id)->get();
+
+        return view('admin.master.jembatan.editPhoto', compact('jembatan','foto'));
+    }
+
 
     public function update(Request $request)
     {
@@ -224,16 +240,72 @@ class JembatanController extends Controller
         return redirect(route('getMasterJembatan'))->with(compact('color', 'msg'));
     }
 
+    public function updatePhoto(Request $request)
+    {
+
+        $oldfoto = DB::table('master_jembatan_foto')->where('id_jembatan', $request->id)->get();
+
+        $old=array();
+        foreach ($oldfoto as $i => $val) {
+            array_push($old, $val->id);
+        }
+        
+        foreach ($request->id_j as $k => $val) {
+            if($val!=''){
+
+                if(in_array($val, $old)){
+                    $foto['nama']=$request->nama[$k];
+                    if(array_key_exists($k, $request->foto)){
+                       $path = 'jembatan/' . Str::snake(date("YmdHis") . ' ' . $request->foto[$k]->getClientOriginalName());
+                        $request->foto[$k]->storeAs('public/', $path);
+                        $foto['foto'] = $path;
+                    }else{
+                        unset($foto['foto']);
+                    }
+
+                    $foto['id_jembatan']=$request->id;
+                    DB::table('master_jembatan_foto')->where('id', $val)->update($foto);
+                }
+                
+            }else{
+                 
+                if(array_key_exists($k, $request->foto)){
+                    $path = 'jembatan/' . Str::snake(date("YmdHis") . ' ' . $request->foto[$k]->getClientOriginalName());
+                    $request->foto[$k]->storeAs('public/', $path);
+                    $file['nama'] = $request->nama[$k];
+                    $file['id_jembatan'] = $request->id;
+                    $file['foto'] = $path;
+                    DB::table('master_jembatan_foto')->insert($file);
+                }
+            }
+        }
+        
+        $color = "success";
+        $msg = "Berhasil Memperbaharui Foto Jembatan";
+
+        return redirect(route('getMasterJembatan'))->with(compact('color', 'msg'));
+    }
+
     public function delete($id)
     {
         $jembatan = DB::table('master_jembatan');
         $old = $jembatan->where('id', $id);
         $old->first()->foto ?? Storage::delete('public/' . $old->first()->foto);
-
         $old->delete();
+
+        $foto = DB::table('master_jembatan_foto')->where('id_jembatan', $id)->delete();
 
         $color = "success";
         $msg = "Berhasil Menghapus Data Jembatan";
+        return redirect(route('getMasterJembatan'))->with(compact('color', 'msg'));
+    }
+
+    public function delPhoto($id)
+    {
+        $foto = DB::table('master_jembatan_foto')->where('id', $id)->delete();
+
+        $color = "success";
+        $msg = "Berhasil Menghapus Foto Jembatan";
         return redirect(route('getMasterJembatan'))->with(compact('color', 'msg'));
     }
 
@@ -269,6 +341,13 @@ class JembatanController extends Controller
 
                 if (hasAccess(Auth::user()->internal_role_id, "Jembatan", "View")) {
                     $btn = $btn . '<a href="' . route("viewPhotoJembatan", $row->id) . '"><button data-toggle="tooltip" title="Lihat Foto" class="btn btn-success btn-sm waves-effect waves-light"><i class="icofont icofont-eye"></i></button></a>';
+                }
+
+                if (hasAccess(Auth::user()->internal_role_id, "Jembatan", "Update")) {
+                    $btn = $btn . '<a href="' . route("editPhotoJembatan", $row->id) . '"><button data-toggle="tooltip" title="Edit Foto" class="btn btn-warning btn-sm waves-effect waves-light"><i class="icofont icofont-image"></i></button></a>';
+                }
+                if (hasAccess(Auth::user()->internal_role_id, "Jembatan", "Delete")) {
+                    $btn = $btn . '<a href="' . route("deletePhotoJembatan", $row->id) . '"><button data-toggle="tooltip" title="Hapus Foto" class="btn btn-danger btn-sm waves-effect waves-light"><i class="icofont icofont-delete"></i></button></a>';
                 }
                 $btn = $btn . '</div>';
 
