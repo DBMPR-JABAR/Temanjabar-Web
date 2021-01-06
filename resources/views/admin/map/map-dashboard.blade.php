@@ -22,6 +22,26 @@
 
 <body>
     <div id="viewDiv"></div>
+    <div id="showDate">
+        <button data-toggle="tooltip" data-placement="right" title="Filter Waktu">
+            <i class="feather icon-calendar"></i>
+        </button>
+    </div>
+    <div id="filterDate" class="p-2">
+        <form class="form-inline">
+            <div class="form-group form-inline mx-1">
+                <label class="mx-2" for="dari">Dari: </label>
+                <input type="date" class="form-control" id="dari">
+            </div>
+            <div class="form-group form-inline mx-1">
+                <label class="mx-2" for="sampai">Sampai: </label>
+                <input type="date" class="form-control" id="sampai">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-block btn-primary">Filter</button>
+            </div>
+        </form>
+    </div>
     <div id="grupKontrol" style="display:inline-flex;">
         <div id="logo">
             <img width="200" class="img-fluid" src="{{ asset('assets/images/brand/text_putih.png')}}" alt="Logo DBMPR">
@@ -199,6 +219,8 @@
     const mainElement = document.querySelector("#viewDiv");
     const showBaseMapsElmnt = document.querySelector("#showBaseMaps");
     const baseMaps = document.querySelector("#baseMaps");
+    const showFilterDate = document.querySelector('#showDate');
+    const filterDate = document.querySelector("#filterDate");
 
     //create chevron elmn
     let chevron = document.createElement('i');
@@ -216,9 +238,16 @@
         event.stopPropagation();
     });
 
+    showFilterDate.addEventListener("click", event => {
+        filterDate.classList.toggle("open");
+        filter.classList.contains('open') ? filter.classList.toggle('open') : '';
+        event.stopPropagation();
+    });
+
     mainElement.addEventListener("click", event => {
         filter.classList.remove("open");
         baseMaps.classList.remove("open");
+        filterDate.classList.remove("open");
         event.stopPropagation();
     })
 
