@@ -164,8 +164,7 @@
                 </li>
                 <li>
                     <button class="baseMapBtn" data-map="topo">
-                        <img _ngcontent-lqn-c5="" alt="Topographic" title="Topographic" src="https://satupeta-dev.digitalservice.id/assets/img/basemap-thumbnail/topo.png"></button>
-                </li>
+                        <img _ngcontent-lqn-c5="" alt="Topographic" title="Topographic" src="https://satupeta-dev.digitalservice.id/assets/img/basemap-thumbnail/topo.png"></button></li>
                 </button>
                 </li>
                 <li>
@@ -427,10 +426,7 @@
                 container: "viewDiv",
                 map: map,
                 center: [107.6191, -6.9175], // longitude, latitude
-                zoom: 9,
-                extent: {
-                    spatialReference: 4326
-                }
+                zoom: 9
             });
             const layerList = new Expand({
                 content: new LayerList({
@@ -454,32 +450,9 @@
                 expandTooltip: 'Legenda'
             });
 
-            // Persiapan Street View
-            var msLat = 0,
-                msLong = 0;
-            view.on("click", function(event) {
-                // Get the coordinates of the click on the view
-                msLat = Math.round(event.mapPoint.latitude * 10000) / 10000;
-                msLong = Math.round(event.mapPoint.longitude * 10000) / 10000;
-            });
-            // aksi untuk siapkan SV dari selected feature
-            let prepSVAction = {
-                title: "Lihat Street View",
-                id: "prep-sv",
-                className: "feather icon-video"
-            };
-            // fungsi yg dipanggil saat trigger aktif
-            function prepSV() {
-                window.open('http://maps.google.com/maps?q=&layer=c&cbll=' + msLat + ',' + msLong, 'SV_map_bmpr');
-            }
-            view.popup.on("trigger-action", function(event) {
-                if (event.action.id === "prep-sv") {
-                    prepSV();
-                }
-            });
+            view.ui.add('grupKontrol', 'top-right');
 
             // Button Initialization
-            view.ui.add('grupKontrol', 'top-right');
             $("#spp_filter, #kegiatan").chosen().change(function() {
                 changeBtnProses();
             });
@@ -536,6 +509,8 @@
                 } else {
                     map.remove(map.findLayerById('rj_mantap'));
                 }
+
+
 
                 if (kegiatan.length > 0) { // kalau masih ada pilihan lain di kegiatan
                     // Request data from API
@@ -648,7 +623,7 @@
                     rutejalanLayer.add(jalanTolKonstruksi(), 0);
                     rutejalanLayer.add(jalanTolOperasi(), 1);
                     rutejalanLayer.add(jalanNasional(), 2);
-                    // rutejalanLayer.add(gerbangTol(), 4);
+                   // rutejalanLayer.add(gerbangTol(), 4);
 
                     map.add(rutejalanLayer);
                 }
@@ -701,39 +676,44 @@
                             name: "pjg_km",
                             title: "Panjang Ruas (KM)",
                             expression: "Round($feature.pjg_ruas_m / 1000, 2)"
-                        }],
-                        actions: [prepSVAction]
+                        }]
                     };
+                    let rjp = rutejalanLayer.findLayerById('rjp');
                     let uptdSel = $('#uptd').val();
                     let whereUptd = 'uptd=' + uptdSel.shift().charAt(4);
                     $.each(uptdSel, function(idx, elem) {
                         whereUptd = whereUptd + ' OR uptd=' + elem.charAt(4);
                     });
-                    let rjp = rutejalanLayer.findLayerById('rjp');
                     if (!rjp) {
                         rjp = new FeatureLayer({
                             url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/0/",
                             title: 'Ruas Jalan Provinsi',
-                            id: 'rjp',
-                            outFields: ["*"],
-                            popupTemplate: popupTemplate,
-                            renderer: {
-                                type: "simple", // autocasts as new SimpleRenderer()
-                                symbol: {
-                                    type: "simple-line", // autocasts as new SimpleLineSymbol()
-                                    color: "green",
-                                    width: "2px",
-                                    style: "solid",
-                                    //   marker: { // autocasts from LineSymbolMarker
-                                    //      color: "orange",
-                                    //   placement: "begin-end",
-                                    // style: "circle"
-                                    // }
-                                }
-                            }
+                            id: 'rjp'
                         });
                     }
-                    rjp.definitionExpression = whereUptd;
+
+                    if ($('#uptd').val().length != 0) {
+                        rjp.popupTemplate = popupTemplate;
+                        rjp.definitionExpression = whereUptd;
+                        rjp.renderer = {
+                            type: "simple", // autocasts as new SimpleRenderer()
+                            symbol: {
+                                type: "simple-line", // autocasts as new SimpleLineSymbol()
+                                color: "green",
+                                width: "2px",
+                                style: "solid",
+                                //marker: { // autocasts from LineSymbolMarker
+                                //    color: "orange",
+                                //    placement: "begin-end",
+                                //    style: "circle"
+                               //}
+                            }
+                        }
+                    } else {
+                        rjp.definitionExpression = '0=1';
+                    }
+
+                    rjp.refresh();
                     return rjp;
                 }
 
@@ -767,8 +747,7 @@
                                     label: "Tahun"
                                 }
                             ]
-                        }],
-                        actions: [prepSVAction]
+                        }]
                     };
                     layer.popupTemplate = popupTemplate;
                     layer.renderer = {
@@ -778,11 +757,11 @@
                             color: "red",
                             width: "2px",
                             style: "solid",
-                            //   marker: { // autocasts from LineSymbolMarker
-                            //      color: "orange",
-                            //   placement: "begin-end",
-                            // style: "circle"
-                            // }
+                         //   marker: { // autocasts from LineSymbolMarker
+                           //      color: "orange",
+                             //   placement: "begin-end",
+                               // style: "circle"
+                           // }
                         }
                     }
                     return layer;
@@ -829,9 +808,9 @@
                             width: "2px",
                             style: "solid",
                             //marker: { // autocasts from LineSymbolMarker
-                            //   color: "orange",
-                            // placement: "begin-end",
-                            //style: "circle"
+                             //   color: "orange",
+                               // placement: "begin-end",
+                                //style: "circle"
                             //}
                         }
                     }
@@ -878,10 +857,10 @@
                             color: "purple",
                             width: "2px",
                             style: "solid",
-                            // marker: { // autocasts from LineSymbolMarker
-                            //   color: "orange",
-                            // placement: "begin-end",
-                            //style: "circle"
+                           // marker: { // autocasts from LineSymbolMarker
+                             //   color: "orange",
+                               // placement: "begin-end",
+                                //style: "circle"
                             //}
                         }
                     }
@@ -927,8 +906,8 @@
                     rawanBencanaLayer.add(rawanGempaBumi(), 1);
                     rawanBencanaLayer.add(rawanGerakanTanah(), 0);
                     rawanBencanaLayer.add(rawanLongsor(), 3);
-                    rawanBencanaLayer.add(indexResikoBanjir(), 4);
-                    rawanBencanaLayer.add(indexResikoBanjirBandang(), 5);
+                    rawanBencanaLayer.add(indexResikoBanjir(),4);
+                    rawanBencanaLayer.add(indexResikoBanjirBandang(),5);
 
                     map.add(rawanBencanaLayer);
                 }
@@ -997,7 +976,8 @@
                         title: "{nm_ruas}",
                         content: [{
                             type: "fields",
-                            fieldInfos: [{
+                            fieldInfos: [
+                                {
                                     fieldName: "kelas",
                                     label: "kelas"
                                 },
@@ -1035,7 +1015,8 @@
                         title: "{nm_ruas}",
                         content: [{
                             type: "fields",
-                            fieldInfos: [{
+                            fieldInfos: [
+                                {
                                     fieldName: "kelas",
                                     label: "kelas"
                                 },
@@ -1116,22 +1097,26 @@
                 let uniqueValue = [];
                 console.log(rawanbencana);
                 iconrawanbencana.forEach((data) => {
-                    uniqueValue.push({
-                        value: data.ICON_NAME,
-                        symbol: {
-                            type: "picture-marker", // autocasts as new PictureMarkerSymbol()
-                            url: data.ICON_IMAGE,
-                            width: "28px",
-                            height: "28px"
+                    uniqueValue.push(
+                        {
+                            value: data.ICON_NAME,
+                            symbol: {
+                                type: "picture-marker", // autocasts as new PictureMarkerSymbol()
+                                url: data.ICON_IMAGE,
+                                width: "28px",
+                                height: "28px"
+                            }
                         }
-                    });
+                    );
                 });
 
                 const popupTemplate = {
                     title: "{RUAS_JALAN}",
-                    content: [{
+                    content: [
+                        {
                             type: "fields",
-                            fieldInfos: [{
+                            fieldInfos: [
+                                {
                                     fieldName: "NO_RUAS",
                                     label: "Nomor Ruas",
                                 },
@@ -1280,7 +1265,7 @@
                     source: newTitikRawanBencana,
                     popupTemplate: popupTemplate,
                     renderer: {
-                        type: "unique-value", // autocasts as new UniqueValueRenderer()
+                        type: "unique-value",  // autocasts as new UniqueValueRenderer()
                         field: "ICON_NAME",
                         uniqueValueInfos: uniqueValue
                     }
@@ -1364,37 +1349,41 @@
                         }
                     ]
                 };
+                let rj_mantap = map.findLayerById('rj_mantap');
                 let uptdSel = $('#uptd').val();
                 let whereUptd = 'uptd=' + uptdSel.shift().charAt(4);
                 $.each(uptdSel, function(idx, elem) {
                     whereUptd = whereUptd + ' OR uptd=' + elem.charAt(4);
                 });
-                let rj_mantap = map.findLayerById('rj_mantap');
                 if (!rj_mantap) {
                     rj_mantap = new FeatureLayer({
                         url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/1/",
                         title: 'Kemantapan Jalan',
-                        id: 'rj_mantap',
-                        outFields: ["*"],
-                        popupTemplate: popupTemplate,
-                        renderer: {
-                            type: "simple", // autocasts as new SimpleRenderer()
-                            symbol: {
-                                type: "simple-line", // autocasts as new SimpleLineSymbol()
-                                color: "green",
-                                width: "2px",
-                                style: "solid",
-                                marker: { // autocasts from LineSymbolMarker
-                                    color: "orange",
-                                    placement: "begin-end",
-                                    style: "circle"
-                                }
-                            }
-                        }
+                        id: 'rj_mantap'
                     });
                     map.add(rj_mantap);
                 }
-                rj_mantap.definitionExpression = whereUptd;
+                if ($('#uptd').val().length != 0) {
+                    rj_mantap.popupTemplate = popupTemplate;
+                    rj_mantap.definitionExpression = whereUptd;
+                    rj_mantap.renderer = {
+                        type: "simple", // autocasts as new SimpleRenderer()
+                        symbol: {
+                            type: "simple-line", // autocasts as new SimpleLineSymbol()
+                            color: "green",
+                            width: "2px",
+                            style: "solid",
+                            marker: { // autocasts from LineSymbolMarker
+                                color: "orange",
+                                placement: "begin-end",
+                                style: "circle"
+                            }
+                        }
+                    }
+                } else {
+                    rj_mantap.definitionExpression = '0=1';
+                }
+                rj_mantap.refresh();
             }
 
             function addJembatan(jembatan) {
@@ -2455,7 +2444,8 @@
                 };
                 const popupTemplate = {
                     title: "{LOKASI}",
-                    content: [{
+                    content: [
+                        {
                             title: "Video",
                             type: "custom",
                             outFields: ["*"],
@@ -2509,13 +2499,13 @@
                 };
                 var player;
 
-                view.when(function() {
-                    view.popup.watch("selectedFeature", function(graphic) {
+                view.when(function () {
+                    view.popup.watch("selectedFeature", function (graphic) {
                         if (graphic) {
-                            var graphicTemplate = graphic.getEffectivePopupTemplate();
-                            graphicTemplate.actions.items[0].visible = graphic.attributes.URL ?
-                                true :
-                                false;
+                        var graphicTemplate = graphic.getEffectivePopupTemplate();
+                        graphicTemplate.actions.items[0].visible = graphic.attributes.URL
+                            ? true
+                            : false;
                         }
                     });
                 });
