@@ -15,6 +15,7 @@ use App\Model\DWH\KemantapanJalan;
 use App\Model\Transactional\LaporanMasyarakat;
 
 use Illuminate\Support\Facades\DB;
+use PDO;
 
 class MapDashboardController extends Controller
 {
@@ -63,19 +64,43 @@ class MapDashboardController extends Controller
                     $this->response['data']['jembatan'] = $data;
                 }
                 if(in_array('pembangunan', $request->kegiatan)){
-                    $data = Pembangunan::whereIn('SUP',$request->sup)->where('KATEGORI','LIKE','pb%')->get();
+                    $data = Pembangunan::whereIn('SUP',$request->sup)->where('KATEGORI','LIKE','pb%');
+
+                    if($request->has(['date_from','date_to'])){
+                        $data = $data->whereBetween('TGL_KONTRAK', [$request->date_from, $request->date_to]);
+                    }
+
+                    $data = $data->get();
                     $this->response['data']['pembangunan'] = $data;
                 }
                 if(in_array('peningkatan', $request->kegiatan)){
-                    $data = Pembangunan::whereIn('SUP',$request->sup)->where('KATEGORI','LIKE','pn%')->get();
+                    $data = Pembangunan::whereIn('SUP',$request->sup)->where('KATEGORI','LIKE','pn%');
+
+                    if($request->has(['date_from','date_to'])){
+                        $data = $data->whereBetween('TGL_KONTRAK', [$request->date_from, $request->date_to]);
+                    }
+
+                    $data = $data->get();
                     $this->response['data']['peningkatan'] = $data;
                 }
                 if(in_array('rehabilitasi', $request->kegiatan)){
-                    $data = Pembangunan::whereIn('SUP',$request->sup)->where('KATEGORI','LIKE','rb%')->get();
+                    $data = Pembangunan::whereIn('SUP',$request->sup)->where('KATEGORI','LIKE','rb%');
+
+                    if($request->has(['date_from','date_to'])){
+                        $data = $data->whereBetween('TGL_KONTRAK', [$request->date_from, $request->date_to]);
+                    }
+
+                    $data = $data->get();
                     $this->response['data']['rehabilitasi'] = $data;
                 }
                 if(in_array('pemeliharaan', $request->kegiatan)){
-                    $data = Kemandoran::whereIn('SUP',$request->sup)->get();
+                    $data = Kemandoran::whereIn('SUP',$request->sup);
+
+                    if($request->has(['date_from','date_to'])){
+                        $data = $data->whereBetween('TANGGAL', [$request->date_from, $request->date_to]);
+                    }
+
+                    $data = $data->get();
                     $this->response['data']['rehabilitasi'] = $data;
                 }
                 // if(in_array('ruasjalan', $request->kegiatan)){
