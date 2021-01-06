@@ -161,31 +161,3 @@ html,body,#viewDiv {
   max-height: 30px;
   overflow-y: auto;
 }
-
-/* filter date */
-#showDate {
-  position: absolute;
-  top: 80px;
-  left: 15px;
-}
-#showDate button{
-  width: 32px;
-  height: 32px;
-  background-color: white;
-  border: none;
-  outline: none;
-  cursor: pointer;
-}
-
-#filterDate {
-  position: absolute;
-  top: 15px;
-  left: 70px;
-  background-color: white;
-  transform: translate(-800px, 0);
-  transition: transform 0.3s ease-in-out;
-}
-
-#filterDate.open {
-  transform: translate(0, 0);
-}
