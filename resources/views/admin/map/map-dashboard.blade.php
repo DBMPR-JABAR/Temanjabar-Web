@@ -525,10 +525,16 @@
                 view.zoom = zoom;
             });
 
+            function hasTanggal(kegiatan) {
+                const result = kegiatan.includes('pembangunan') || kegiatan.includes('rehabilitasi') ||
+                               kegiatan.includes('peningkatan') || kegiatan.includes('pemeliharaan');
+                return result;
+            }
+
             function changeBtnProses() {
                 let sup = $("#spp_filter").val().length !== 0;
-                // let kegiatan = $("#kegiatan").val().length !== 0;
-                // if (sup && kegiatan) {
+                let kegiatan = $("#kegiatan").val();
+
                 if (sup) {
                     $('#btnProses').addClass('btn-primary');
                     $('#btnProses').removeAttr('disabled');
@@ -536,6 +542,13 @@
                     $('#btnProses').removeClass('btn-primary');
                     $('#btnProses').attr('disabled', 'disabled');
                 }
+
+                if(hasTanggal(kegiatan)){
+                    console.log('ada Tanggalnya');
+                }else{
+                    console.log('Gak ada tanggalnya');
+                }
+
             }
             $("#btnProses").click(function(event) {
                 caseRender();
