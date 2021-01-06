@@ -167,7 +167,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('create', 'MasterData\JembatanController@store')->name('createJembatan');
             Route::post('update', 'MasterData\JembatanController@update')->name('updateJembatan');
             Route::post('updatePhoto', 'MasterData\JembatanController@updatePhoto')->name('updatePhotoJembatan');
-            Route::get('deletePhoto/{id}', 'MasterData\JembatanController@deletePhoto')->name('deletePhotoJembatan');
+            // Route::get('deletePhoto/{id}', 'MasterData\JembatanController@deletePhoto')->name('deletePhotoJembatan');
             Route::get('delPhoto/{id}', 'MasterData\JembatanController@delPhoto')->name('delPhotoJembatan');
             Route::get('delete/{id}', 'MasterData\JembatanController@delete')->name('deleteJembatan');
             Route::get('getTipeBangunan', 'MasterData\JembatanController@getTipeBangunan')->name('getTipeBangunan');
@@ -220,7 +220,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('getDataSUP/{id}', 'MasterData\RawanBencanaController@getDataSUP')->name('getDataSUP');
             Route::get('getURL/{id}', 'MasterData\RawanBencanaController@getURL');
         });
-        
+
         Route::group(['prefix' => 'CCTV'], function () {
             Route::get('/', 'MasterData\CCTVController@index')->name('getDataCCTV');
             Route::get('detail/{id}', 'MasterData\CCTVController@detail')->name('detailDataCCTV');
@@ -229,7 +229,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('update', 'MasterData\CCTVController@update')->name('updateDataCCTV');
             Route::get('delete/{id}', 'MasterData\CCTVController@delete')->name('deleteDataCCTV');
             Route::get('getDataSUP/{id}', 'MasterData\CCTVController@getDataSUP')->name('getDataCCTVSUP');
-
         });
 
         Route::group(['prefix' => 'icon'], function () {

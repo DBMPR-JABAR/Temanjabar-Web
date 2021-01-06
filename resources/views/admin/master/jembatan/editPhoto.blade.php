@@ -44,36 +44,74 @@
                     @csrf
                     <input type="hidden" name="id" value="{{$jembatan->id}}">
 
-                   
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Foto Jembatan</label><br>    
-                        <small class="form-text text-muted">Hapus semua foto jika tidak akan merubah foto jembatan</small>
+
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Foto Jembatan</label><br>
+                    </div>
+                    @foreach($foto as $i => $data)
+                    <div class="row">
+                        <div class="col-md-2 col-sm-12">
+                            <img class="img-fluid" style="width: 100%;height: auto;object-fit: cover;" src="/storage/{{$data->foto}}" alt="" srcset="">
                         </div>
-                        @foreach($foto as $i => $data)
-                        <div id="inputFormRow">
-                           <div class="input-group">
-                                <input type="hidden" name="id_j[]" class="form-control m-input" value="{{$data->id}}" required>
-                                <input type="text" name="nama[]" class="form-control m-input" value="{{$data->nama}}" placeholder="Judul Foto" autocomplete="off" required>
-                                <input type="file" name="foto[]" class="form-control m-input" value="{{$data->foto}}" accept="image/*"><span><?php if($data->foto!=''){ echo '<label class="label label-success">Ada Foto</label>';}else{echo '<label class="label label-danger">Kosong</label>';}?></span>
-                               <!--  <div class="input-group-append">                
-                                    <button id="removeRow" type="button" class="btn btn-danger">Hapus</button>
-                                </div> -->
+                        <div class="row col-md-10 col-sm-12  d-flex align-items-center">
+                            <div id="inputFormRow" class="col-md-12 col-sm-12">
+                                <div class="input-group">
+                                    <input type="hidden" name="id_j[]" class="form-control m-input" value="{{$data->id}}" required>
+                                    <input type="text" name="nama[]" class="form-control m-input" value="{{$data->nama}}" placeholder="Judul Foto" autocomplete="off" required>
+                                    <input type="file" name="foto[]" class="form-control m-input" value="{{$data->foto}}" accept="image/*">
+                                    <!-- <span> -->
+                                    <?php if ($data->foto != '') {
+                                        echo '<a href="#delPhotoModal" data-id="' . $data->id . '" data-toggle="modal"><button data-toggle="tooltip" title="Hapus Foto" class="btn btn-danger btn-sm waves-effect waves-light">Hapus</button></a>';
+                                    } else {
+                                        echo '<label class="label label-danger">Foto belum diupload</label>';
+                                    } ?>
+                                    <!-- </span> -->
+                                </div>
+                                <small class="form-text text-muted">Kosong form foto jika tidak akan merubah foto</small>
                             </div>
                         </div>
-                         @endforeach
+                    </div>
 
-                        <div id="newRow"></div>
-                        <button id="addRow" type="button" class="btn btn-info">Tambah Foto Jembatan</button>
+                    @endforeach
+                    <hr>
+                    <div id="newRow"></div>
+                    <button id="addRow" type="button" class="btn btn-info">Tambah Foto Jembatan</button>
 
                     <div class="modal-footer">
-                    <button type="submit" class="btn btn-mat btn-success">Simpan Perubahan</button>
-                </div>
+                        <button type="submit" class="btn btn-mat btn-success">Simpan Perubahan</button>
+                    </div>
                 </form>
 
             </div>
         </div>
     </div>
 </div>
+
+@if (hasAccess(Auth::user()->internal_role_id, "Jembatan", "Update") )
+<div class="modal fade" id="delPhotoModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Hapus Foto Jembatan</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <p>Apakah anda yakin ingin menghapus foto ini?</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Hapus</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+@endif
 
 @endsection
 
@@ -98,8 +136,8 @@
         });
     });
 
-    $("#addRow").click(function () {
-            var html = '';
+    $("#addRow").click(function() {
+        var html = '';
         html += '<div id="inputFormRow">';
         html += '<div class="input-group">';
         html += '<input type="hidden" name="id_j[]" class="form-control m-input">';
@@ -109,13 +147,13 @@
         html += '<button id="removeRow" type="button" class="btn btn-danger">Hapus</button>';
         html += '</div>';
         html += '</div>';
- 
+
 
         $('#newRow').append(html);
     });
 
     // remove row
-    $(document).on('click', '#removeRow', function () {
+    $(document).on('click', '#removeRow', function() {
         $(this).closest('#inputFormRow').remove();
     });
 
@@ -141,5 +179,27 @@
 
         setDataSelect(id, url, id_select, text, option, option)
     }
+
+    $(document).ready(function() {
+        // $("#dttable").DataTable();
+        $('#delPhotoModal').on('show.bs.modal', function(event) {
+            const link = $(event.relatedTarget);
+            const id = link.data('id');
+            console.log(id);
+            const url = `{{ url('admin/master-data/jembatan/delPhoto') }}/` + id;
+            console.log(url);
+            const modal = $(this);
+            modal.find('.modal-footer #delHref').attr('href', url);
+        });
+        // Format mata uang.
+        $('.formatRibuan').mask('000.000.000.000.000', {
+            reverse: true
+        });
+
+        // Format untuk lat long.
+        $('.formatLatLong').keypress(function(evt) {
+            return (/^\-?[0-9]*\.?[0-9]*$/).test($(this).val() + evt.key);
+        });
+    });
 </script>
 @endsection
