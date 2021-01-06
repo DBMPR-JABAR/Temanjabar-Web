@@ -634,65 +634,91 @@
                 // rutejalanLayer.reorder();
 
                 function jalanProvinsi() {
-	const popupTemplate = {
-		title: "{NAMA_SK}",
-		content: [{
-			type: "fields",
-			fieldInfos: [{
-					fieldName: "nm_ruas",
-					label: "Nomor Ruas"
-				},
-				{
-					fieldName: "PJG_SK",
-					label: "Panjang (KM)"
-				},
-				{
-					fieldName: "KLS_JALAN",
-					label: "Kelas Jalan"
-				},
-				{
-					fieldName: "LINTAS",
-					label: "Lintas"
-				},
-				{
-					fieldName: "TAHUN",
-					label: "Tahun"
-				}
-			]
-		}]
-	};
-	let uptdSel = $('#uptd').val();
-	let whereUptd = 'uptd=' + uptdSel.shift().charAt(4);
-	$.each(uptdSel, function(idx, elem) {
-		whereUptd = whereUptd + ' OR uptd=' + elem.charAt(4);
-	});
-	let rjp = rutejalanLayer.findLayerById('rjp');
-	if (!rjp) {
-		rjp = new FeatureLayer({
-			url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/0/",
-			title: 'Ruas Jalan Provinsi',
-			id: 'rjp',
-			outFields: ["*"],
-			popupTemplate: popupTemplate,
-			renderer: {
-				type: "simple", // autocasts as new SimpleRenderer()
-				symbol: {
-					type: "simple-line", // autocasts as new SimpleLineSymbol()
-					color: "green",
-					width: "2px",
-					style: "solid",
-					//   marker: { // autocasts from LineSymbolMarker
-					//      color: "orange",
-					//   placement: "begin-end",
-					// style: "circle"
-					// }
-				}
-			}
-		});
-	}
-	rjp.definitionExpression = whereUptd;
-	return rjp;
-}
+                    const popupTemplate = {
+                        title: "{nm_ruas}",
+                        content: [{
+                            type: "fields",
+                            fieldInfos: [{
+                                    fieldName: "IDruas",
+                                    label: "Kode Ruas"
+                                },
+                                {
+                                    fieldName: "LAT_AWAL",
+                                    label: "Latitude 0"
+                                },
+                                {
+                                    fieldName: "LONG_AWAL",
+                                    label: "Longitude 0"
+                                },
+                                {
+                                    fieldName: "LAT_AKHIR",
+                                    label: "Latitude 1"
+                                },
+                                {
+                                    fieldName: "LONG_AKHIR",
+                                    label: "Longitude 1"
+                                },
+                                {
+                                    fieldName: "kab_kota",
+                                    label: "Kab/Kota"
+                                },
+                                {
+                                    fieldName: "wil_uptd",
+                                    label: "UPTD"
+                                },
+                                {
+                                    fieldName: "nm_sppjj",
+                                    label: "SUP"
+                                },
+                                {
+                                    fieldName: "expression/pjg_km",
+                                }
+                            ]
+                        }],
+                        expressionInfos: [{
+                            name: "pjg_km",
+                            title: "Panjang Ruas (KM)",
+                            expression: "Round($feature.pjg_ruas_m / 1000, 2)"
+                        }]
+                    };
+                    let rjp = rutejalanLayer.findLayerById('rjp');
+                    let uptdSel = $('#uptd').val();
+                    let whereUptd = 'uptd=' + uptdSel.shift().charAt(4);
+                    $.each(uptdSel, function(idx, elem) {
+                        whereUptd = whereUptd + ' OR uptd=' + elem.charAt(4);
+                    });
+                    if (!rjp) {
+                        rjp = new FeatureLayer({
+                            url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/0/",
+                            title: 'Ruas Jalan Provinsi',
+                            id: 'rjp'
+                        });
+                    }
+
+                    if ($('#uptd').val().length != 0) {
+                        rjp.popupTemplate = popupTemplate;
+                        rjp.definitionExpression = whereUptd;
+                        rjp.renderer = {
+                            type: "simple", // autocasts as new SimpleRenderer()
+                            symbol: {
+                                type: "simple-line", // autocasts as new SimpleLineSymbol()
+                                color: "green",
+                                width: "2px",
+                                style: "solid",
+                                //marker: { // autocasts from LineSymbolMarker
+                                //    color: "orange",
+                                //    placement: "begin-end",
+                                //    style: "circle"
+                               //}
+                            }
+                        }
+                    } else {
+                        rjp.definitionExpression = '0=1';
+                    }
+
+                    rjp.refresh();
+                    return rjp;
+                }
 
                 function jalanNasional() {
                     const layer = new FeatureLayer({
@@ -1251,113 +1277,117 @@
             }
 
             function addKemantapanJalan() {
-	const popupTemplate = {
-		title: "{nm_ruas}",
-		content: [{
-				type: "media",
-				mediaInfos: [{
-					title: "<b>Kondisi Jalan</b>",
-					type: "pie-chart",
-					caption: "Dari Luas Jalan {l} m2",
-					value: {
-						fields: ["sangat_baik", "baik", "sedang", "jelek", "parah", "sangat_parah", "hancur"]
-					}
-				}]
-			},
-			{
-				type: "media",
-				mediaInfos: [{
-					title: "<b>Jalan Mantap</b>",
-					type: "pie-chart",
-					value: {
-						fields: ["sangat_baik", "baik", "sedang"]
-					}
-				}]
-			},
-			{
-				type: "media",
-				mediaInfos: [{
-					title: "<b>Jalan Tidak Mantap</b>",
-					type: "pie-chart",
-					value: {
-						fields: ["jelek", "parah", "sangat_parah", "hancur"]
-					}
-				}]
-			},
-			{
-				type: "fields",
-				fieldInfos: [{
-						fieldName: "idruas",
-						label: "Nomor Ruas"
-					},
-					{
-						fieldName: "KOTA_KAB",
-						label: "Kota/Kabupaten"
-					},
-					{
-						fieldName: "LAT_AWAL",
-						label: "Latitude Awal"
-					},
-					{
-						fieldName: "LONG_AWAL",
-						label: "Longitude Awal"
-					},
-					{
-						fieldName: "LAT_AKHIR",
-						label: "Latitude Akhir"
-					},
-					{
-						fieldName: "LONG_AKHIR",
-						label: "Longitude Akhir"
-					},
-					{
-						fieldName: "KETERANGAN",
-						label: "Keterangan"
-					},
-					{
-						fieldName: "nm_sppjj",
-						label: "SPP/ SUP"
-					},
-					{
-						fieldName: "wil_uptd",
-						label: "UPTD"
-					}
-				]
-			}
-		]
-	};
-	let uptdSel = $('#uptd').val();
-	let whereUptd = 'uptd=' + uptdSel.shift().charAt(4);
-	$.each(uptdSel, function(idx, elem) {
-		whereUptd = whereUptd + ' OR uptd=' + elem.charAt(4);
-	});
-	let rj_mantap = map.findLayerById('rj_mantap');
-	if (!rj_mantap) {
-		rj_mantap = new FeatureLayer({
-			url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/1/",
-			title: 'Kemantapan Jalan',
-			id: 'rj_mantap',
-			outFields: ["*"],
-			popupTemplate: popupTemplate,
-			renderer: {
-				type: "simple", // autocasts as new SimpleRenderer()
-				symbol: {
-					type: "simple-line", // autocasts as new SimpleLineSymbol()
-					color: "green",
-					width: "2px",
-					style: "solid",
-					marker: { // autocasts from LineSymbolMarker
-						color: "orange",
-						placement: "begin-end",
-						style: "circle"
-					}
-				}
-			}
-		});
-		map.add(rj_mantap);
-	}
-	rj_mantap.definitionExpression = whereUptd;
-}
+                const popupTemplate = {
+                    title: "{nm_ruas}",
+                    content: [{
+                            type: "media",
+                            mediaInfos: [{
+                                title: "<b>Kondisi Jalan</b>",
+                                type: "pie-chart",
+                                caption: "Dari Luas Jalan {l} m2",
+                                value: {
+                                    fields: ["sangat_baik", "baik", "sedang", "jelek", "parah", "sangat_parah", "hancur"]
+                                }
+                            }]
+                        },
+                        {
+                            type: "media",
+                            mediaInfos: [{
+                                title: "<b>Jalan Mantap</b>",
+                                type: "pie-chart",
+                                value: {
+                                    fields: ["sangat_baik", "baik", "sedang"]
+                                }
+                            }]
+                        },
+                        {
+                            type: "media",
+                            mediaInfos: [{
+                                title: "<b>Jalan Tidak Mantap</b>",
+                                type: "pie-chart",
+                                value: {
+                                    fields: ["jelek", "parah", "sangat_parah", "hancur"]
+                                }
+                            }]
+                        },
+                        {
+                            type: "fields",
+                            fieldInfos: [{
+                                    fieldName: "idruas",
+                                    label: "Nomor Ruas"
+                                },
+                                {
+                                    fieldName: "KOTA_KAB",
+                                    label: "Kota/Kabupaten"
+                                },
+                                {
+                                    fieldName: "LAT_AWAL",
+                                    label: "Latitude Awal"
+                                },
+                                {
+                                    fieldName: "LONG_AWAL",
+                                    label: "Longitude Awal"
+                                },
+                                {
+                                    fieldName: "LAT_AKHIR",
+                                    label: "Latitude Akhir"
+                                },
+                                {
+                                    fieldName: "LONG_AKHIR",
+                                    label: "Longitude Akhir"
+                                },
+                                {
+                                    fieldName: "KETERANGAN",
+                                    label: "Keterangan"
+                                },
+                                {
+                                    fieldName: "nm_sppjj",
+                                    label: "SPP/ SUP"
+                                },
+                                {
+                                    fieldName: "wil_uptd",
+                                    label: "UPTD"
+                                }
+                            ]
+                        }
+                    ]
+                };
+                let rj_mantap = map.findLayerById('rj_mantap');
+                let uptdSel = $('#uptd').val();
+                let whereUptd = 'uptd=' + uptdSel.shift().charAt(4);
+                $.each(uptdSel, function(idx, elem) {
+                    whereUptd = whereUptd + ' OR uptd=' + elem.charAt(4);
+                });
+                if (!rj_mantap) {
+                    rj_mantap = new FeatureLayer({
+                        url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/1/",
+                        title: 'Kemantapan Jalan',
+                        id: 'rj_mantap'
+                    });
+                    map.add(rj_mantap);
+                }
+                if ($('#uptd').val().length != 0) {
+                    rj_mantap.popupTemplate = popupTemplate;
+                    rj_mantap.definitionExpression = whereUptd;
+                    rj_mantap.renderer = {
+                        type: "simple", // autocasts as new SimpleRenderer()
+                        symbol: {
+                            type: "simple-line", // autocasts as new SimpleLineSymbol()
+                            color: "green",
+                            width: "2px",
+                            style: "solid",
+                            marker: { // autocasts from LineSymbolMarker
+                                color: "orange",
+                                placement: "begin-end",
+                                style: "circle"
+                            }
+                        }
+                    }
+                } else {
+                    rj_mantap.definitionExpression = '0=1';
+                }
+                rj_mantap.refresh();
+            }
 
             function addJembatan(jembatan) {
                 const symbol = {
