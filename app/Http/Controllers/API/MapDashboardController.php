@@ -66,9 +66,7 @@ class MapDashboardController extends Controller
                 if(in_array('pembangunan', $request->kegiatan)){
                     $data = Pembangunan::whereIn('SUP',$request->sup)->where('KATEGORI','LIKE','pb%');
 
-                    if($request->has(['date_from','date_to'])){
-                        $data = $data->whereBetween('TGL_KONTRAK', [$request->date_from, $request->date_to]);
-                    }
+                    $data = $data->whereBetween('TGL_KONTRAK', [$request->date_from, $request->date_to]);
 
                     $data = $data->get();
                     $this->response['data']['pembangunan'] = $data;
@@ -76,19 +74,15 @@ class MapDashboardController extends Controller
                 if(in_array('peningkatan', $request->kegiatan)){
                     $data = Pembangunan::whereIn('SUP',$request->sup)->where('KATEGORI','LIKE','pn%');
 
-                    if($request->has(['date_from','date_to'])){
-                        $data = $data->whereBetween('TGL_KONTRAK', [$request->date_from, $request->date_to]);
-                    }
+                    $data = $data->whereBetween('TGL_KONTRAK', [$request->date_from, $request->date_to]);
 
                     $data = $data->get();
-                    $this->response['data']['peningkatan'] = $data;
+                    $this->response['data']['peningkatan'] = [$request->date_from, $request->date_to];
                 }
                 if(in_array('rehabilitasi', $request->kegiatan)){
                     $data = Pembangunan::whereIn('SUP',$request->sup)->where('KATEGORI','LIKE','rb%');
 
-                    if($request->has(['date_from','date_to'])){
-                        $data = $data->whereBetween('TGL_KONTRAK', [$request->date_from, $request->date_to]);
-                    }
+                    $data = $data->whereBetween('TGL_KONTRAK', [$request->date_from, $request->date_to]);
 
                     $data = $data->get();
                     $this->response['data']['rehabilitasi'] = $data;
@@ -96,9 +90,7 @@ class MapDashboardController extends Controller
                 if(in_array('pemeliharaan', $request->kegiatan)){
                     $data = Kemandoran::whereIn('SUP',$request->sup);
 
-                    if($request->has(['date_from','date_to'])){
-                        $data = $data->whereBetween('TANGGAL', [$request->date_from, $request->date_to]);
-                    }
+                    $data = $data->whereBetween('TANGGAL', [$request->date_from, $request->date_to]);
 
                     $data = $data->get();
                     $this->response['data']['rehabilitasi'] = $data;

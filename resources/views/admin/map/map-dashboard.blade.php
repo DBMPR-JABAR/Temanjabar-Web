@@ -569,6 +569,11 @@
                     let requestUrl = baseUrl + '/api/map/dashboard/data';
                     let requestBody = new FormData();
 
+                    const date_from = $('.mulaiTanggal').val();
+                    const date_to = $('.sampaiTanggal').val();
+                    requestBody.append("date_from",date_from);
+                    requestBody.append("date_to",date_to);
+
                     for (i in kegiatan) {
                         requestBody.append("kegiatan[]", kegiatan[i]);
                     }
@@ -583,6 +588,9 @@
                     }).then(function(response) {
                         let json = response.data;
                         let data = json.data;
+                        console.log(date_from);
+                        console.log(date_to);
+                        console.log(json);
                         if (json.status === "success") {
                             if (kegiatan.indexOf('jembatan') >= 0) {
                                 addJembatan(data.jembatan);
