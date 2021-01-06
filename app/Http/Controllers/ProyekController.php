@@ -34,67 +34,22 @@ class ProyekController extends Controller
 
     public function getProyekStatus($status)
     {
-        if($status == "ON PROGRESS"){
-            $getProyekDetail = DB::connection('dwh')->table('TBL_TALIKUAT_TRX_PROYEK_KONTRAK_PROGRESS_HARIAN as a')
-            ->leftJoin('vw_uptd_trx_rekap_proyek_kontrak as b','a.NMP','=','b.NO_PAKET')
-            ->distinct()
-            ->whereRaw('BINARY STATUS_PROYEK = "ON PROGRESS"')
-            ->get();
-        }
-        else if($status == "CRITICAL CONTRACT"){
-            $getProyekDetail = DB::connection('dwh')->table('TBL_TALIKUAT_TRX_PROYEK_KONTRAK_PROGRESS_HARIAN as a')
-            ->leftJoin('vw_uptd_trx_rekap_proyek_kontrak as b','a.NMP','=','b.NO_PAKET')
-            ->distinct()
-            ->whereRaw('BINARY STATUS_PROYEK = "CRITICAL CONTRACT"')
-            ->get();
-        }
-        else if($status == "FINISH"){
-            $getProyekDetail = DB::connection('dwh')->table('TBL_TALIKUAT_TRX_PROYEK_KONTRAK_PROGRESS_HARIAN as a')
-            ->leftJoin('vw_uptd_trx_rekap_proyek_kontrak as b','a.NMP','=','b.NO_PAKET')
-            ->distinct()
-            ->whereRaw('BINARY STATUS_PROYEK = "FINISH"')
-            ->get();
-        }else{
-            $getProyekDetail = DB::connection('dwh')->table('TBL_TALIKUAT_TRX_PROYEK_KONTRAK_PROGRESS_HARIAN as a')
-            ->select("*","b.ID as ID_VIEW")
-            ->leftJoin('vw_uptd_trx_rekap_proyek_kontrak as b','a.NMP','=','b.NO_PAKET')
-            ->distinct()
-            ->where('b.ID',$status)
-            ->get();
-        }
-        return view('admin.monitoring.proyek-kontrak-detail',
+        $getProyekDetail = DB::connection('dwh')->table('vw_uptd_trx_rekap_proyek_kontrak')
+                                                ->whereRaw('BINARY STATUS_PROYEK = "'.$status.'"')
+                                                ->get();
+
+        return view('admin.monitoring.proyek-kontrak-status',
             ['getProyekDetail' => $getProyekDetail]);
     }
-    public function getProyekDetail($status)
+    public function getProyekDetail($id)
     {
-        if($status == "ON PROGRESS"){
-            $getProyekDetail = DB::connection('dwh')->table('TBL_TALIKUAT_TRX_PROYEK_KONTRAK_PROGRESS_HARIAN as a')
-            ->leftJoin('vw_uptd_trx_rekap_proyek_kontrak as b','a.NMP','=','b.NO_PAKET')
-            ->distinct()
-            ->whereRaw('BINARY STATUS_PROYEK = "ON PROGRESS"')
-            ->get();
-        }
-        else if($status == "CRITICAL CONTRACT"){
-            $getProyekDetail = DB::connection('dwh')->table('TBL_TALIKUAT_TRX_PROYEK_KONTRAK_PROGRESS_HARIAN as a')
-            ->leftJoin('vw_uptd_trx_rekap_proyek_kontrak as b','a.NMP','=','b.NO_PAKET')
-            ->distinct()
-            ->whereRaw('BINARY STATUS_PROYEK = "CRITICAL CONTRACT"')
-            ->get();
-        }
-        else if($status == "FINISH"){
-            $getProyekDetail = DB::connection('dwh')->table('TBL_TALIKUAT_TRX_PROYEK_KONTRAK_PROGRESS_HARIAN as a')
-            ->leftJoin('vw_uptd_trx_rekap_proyek_kontrak as b','a.NMP','=','b.NO_PAKET')
-            ->distinct()
-            ->whereRaw('BINARY STATUS_PROYEK = "FINISH"')
-            ->get();
-        }else{
-            $getProyekDetail = DB::connection('dwh')->table('TBL_TALIKUAT_TRX_PROYEK_KONTRAK_PROGRESS_HARIAN as a')
-            ->select("*","b.ID as ID_VIEW")
-            ->leftJoin('vw_uptd_trx_rekap_proyek_kontrak as b','a.NMP','=','b.NO_PAKET')
-            ->distinct()
-            ->where('b.ID',$status)
-            ->get();
-        }
+        $getProyekDetail = DB::connection('dwh')->table('TBL_TALIKUAT_TRX_PROYEK_KONTRAK_PROGRESS_HARIAN as a')
+                                                ->select("*","a.TANGGAL as DETAIL_TANGGAL","b.ID as ID_VIEW")
+                                                ->leftJoin('vw_uptd_trx_rekap_proyek_kontrak as b','a.NMP','=','b.NO_PAKET')
+                                                ->distinct()
+                                                ->where('b.ID',$id)
+                                                ->orderBy("a.TANGGAL",'desc')
+                                                ->get();
         return view('admin.monitoring.proyek-kontrak-detail',
             ['getProyekDetail' => $getProyekDetail]);
     }

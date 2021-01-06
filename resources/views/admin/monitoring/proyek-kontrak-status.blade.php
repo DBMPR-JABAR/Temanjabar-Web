@@ -28,7 +28,7 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Detail Kendali Kontrak </h4>
+                <h4>Kendali Kontrak per Status</h4>
 
             </div>
         </div>
@@ -59,52 +59,27 @@
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>No Paket</th>
+                                                <th>Nomor Paket</th>
                                                 <th>UPTD</th>
                                                 <th>Nama Kegiatan</th>
                                                 <th>Jenis Pekerjaan</th>
                                                 <th>Penyedia Jasa</th>
-                                                <th>Tanggal</th>
-                                                <th>Rencana Volume Harian</th>
-                                                <th>Rencana Volume Kumulatif</th>
-                                                <th>Realisasi Volume Harian</th>
-                                                <th>Realisasi Volume Kumulatif</th>
-                                                <th>Progress Fisik Rencana Bobot</th>
-                                                <th>Progress Fisik Rencana Kumulatif</th>
-                                                <th>Progress Fisik Realisasi Bobot</th>
-                                                <th>Progress Fisik Realisasi Kumulatif</th>
-                                                <th>Deviasi Progress Fisik</th>
-                                                <th>Rencana Keuangan Harian</th>
-                                                <th>Rencana Keuangan Komulatif</th>
-                                                <th>Realisasi Keuangan Harian</th>
-                                                <th>Realisasi Keuangan Harian1</th>
                                                 <th>Status Proyek</th>
+                                                <th>Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody id="bodyJembatan">
                                             @foreach ($getProyekDetail as $data)
                                             <tr>
                                                 <td>{{$loop->index + 1}}</td>
-                                                <td>{{$data->NMP}}</td>
+                                                <td>{{$data->NO_PAKET}}</td>
                                                 <td>{{$data->UPTD}}</td>
                                                 <td>{{$data->NAMA_KEGIATAN}}</td>
                                                 <td>{{$data->JENIS_PEKERJAAN}}</td>
                                                 <td>{{$data->PENYEDIA_JASA}}</td>
-                                                <td>{{$data->TANGGAL}}</td>
-                                                <td>{{number_format($data->RENCANA_VOLUME_HARIAN*100,2) . "%"}}</td>
-                                                <td>{{number_format($data->RENCANA_VOLUME_KUMULATIF*100,2) ."%"}}</td>
-                                                <td>{{number_format($data->REALISASI_VOLUME_HARIAN*100,2) ."%"}}</td>
-                                                <td>{{number_format($data->REALISASI_VOLUME_KOMULATIF*100,2) ."%"}}</td>
-                                                <td>{{number_format($data->PROGRESS_FISIK_RENCANA_BOBOT*100,2) ."%"}}</td>
-                                                <td>{{number_format($data->PROGRESS_FISIK_RENCANA_KUMULATIF*100,2) ."%"}}</td>
-                                                <td>{{number_format($data->PROGRESS_FISIK_REALISASI_BOBOT*100,2) ."%"}}</td>
-                                                <td>{{number_format($data->PROGRESS_FISIK_REALISASI_KUMULATIF*100,2) ."%"}}</td>
-                                                <td>{{number_format($data->DEVIASI_PROGRESS_FISIK*100,2) ."%"}}</td>
-                                                <td>{{$data->RENCANA_KEUANGAN_HARIAN}}</td>
-                                                <td>{{$data->RENCANA_KEUANGAN_KOMULATIF}}</td>
-                                                <td>{{$data->REALISASI_KEUANGAN_HARIAN}}</td>
-                                                <td>{{$data->REALISASI_KEUANGAN_HARIAN1}}</td>
                                                 <td>{{$data->STATUS_PROYEK}}</td>
+                                                <td><a href="{{route('detailProyekKontrakID',$data->ID)}}"><button data-toggle="tooltip" title="Rincian" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-check-circled"></i></button></a></td>
+
                                             </tr>
                                             @endforeach
                                         </tbody>
