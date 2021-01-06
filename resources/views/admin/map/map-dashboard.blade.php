@@ -111,13 +111,15 @@
                     <option value="10">10</option>
                 </select>
             </div>
-            <div class="form-group mt-2">
-                <label for="dari"><i class="feather icon-calendar text-success"></i> Mulai Tanggal: </label>
-                <input class="form-control" type="date" id="dari" style="height: 30px;">
-            </div>
-            <div class="form-group mt-2">
-                <label for="sampai"><i class="feather icon-calendar text-primary"></i> Sampai Tanggal: </label>
-                <input class="form-control" type="date" id="sampai" style="height: 30px;">
+            <div id="filterDate" class="d-none">
+                <div class="form-group mt-2">
+                    <label for="dari"><i class="feather icon-calendar text-success"></i> Mulai Tanggal: </label>
+                    <input class="form-control mulaiTanggal" type="date" id="dari" style="height: 30px;">
+                </div>
+                <div class="form-group mt-2">
+                    <label for="sampai"><i class="feather icon-calendar text-primary"></i> Sampai Tanggal: </label>
+                    <input class="form-control sampaiTanggal" type="date" id="sampai" style="height: 30px;">
+                </div>
             </div>
 
             <!-- dimz-add -->
@@ -523,9 +525,13 @@
                 }
 
                 if(hasTanggal(kegiatan)){
-                    console.log('ada Tanggalnya');
+                    $('#filterDate').removeClass('d-none');
+
+                    let today = new Date().toISOString().substr(0, 10);;
+                    $('.sampaiTanggal').val(today);
+                    $('.mulaiTanggal').val("2000-01-01");
                 }else{
-                    console.log('Gak ada tanggalnya');
+                    $('#filterDate').addClass('d-none');
                 }
 
             }
