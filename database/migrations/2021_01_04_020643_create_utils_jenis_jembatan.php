@@ -13,10 +13,12 @@ class CreateUtilsJenisJembatan extends Migration
      */
     public function up()
     {
-        Schema::create('utils_jenis_jembatan', function (Blueprint $table) {
-            $table->id();
-            $table->string("name", 12);
-        });
+        if (!Schema::hasTable('utils_jenis_jembatan')) {
+            Schema::create('utils_jenis_jembatan', function (Blueprint $table) {
+                $table->id();
+                $table->string("name", 12);
+            });
+        }
     }
 
     /**

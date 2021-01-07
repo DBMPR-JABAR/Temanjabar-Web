@@ -13,12 +13,14 @@ class CreateLog extends Migration
      */
     public function up()
     {
-        Schema::create('log', function (Blueprint $table) {
-            $table->id();
-            $table->string('activity',100);
-            $table->string('description',255);
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('log')) {
+            Schema::create('log', function (Blueprint $table) {
+                $table->id();
+                $table->string('activity',100);
+                $table->string('description',255);
+                $table->timestamps();
+            });
+        }
     }
 
     /**
