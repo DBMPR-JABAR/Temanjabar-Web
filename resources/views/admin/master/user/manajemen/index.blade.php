@@ -66,11 +66,9 @@
                                 <th>Nama</th>
                                 <th>Email</th>
                                 <th>Email Verified At</th>
-                                <th>Password</th>
                                 <th>Kode OTP</th>
                                 <th>Role</th>
                                 <th>Internal Role Id</th>
-                                <th>Remember Token</th>
                                 <th>Created At</th>
                                 <th>Updated At</th>
                                 <th>Aksi</th>
@@ -78,16 +76,17 @@
                         </thead>
                         <tbody id="bodyJembatan">
                              @foreach ($users as $data)
+                             @php
+                                $role = App\Model\Transactional\Role::find($data->internal_role_id);
+                             @endphp
                                 <tr>
                                     <td>{{$loop->index + 1}}</td>
                                     <td>{{$data->name}}</td>
                                     <td>{{$data->email}}</td>
                                     <td>{{$data->email_verified_at}}</td>
-                                    <td>{{$data->password}}</td>
                                     <td>{{$data->kode_otp}}</td>
                                     <td>{{$data->role}}</td>
-                                    <td>{{$data->internal_role_id}}</td>
-                                    <td>{{$data->remember_token}}</td>
+                                    <td>{{$role->role ?? ''}}</td>
                                     <td>{{$data->created_at}}</td>
                                     <td>{{$data->updated_at}}</td>
                                     <td>
@@ -130,57 +129,6 @@
         </div>
     </div>
 
-    <div class="modal fade" id="acceptModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h4 class="modal-title">Disposisi Diterima?</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <p>Apakah anda yakin menerima disposisi ini?</p>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                    <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Terima</a>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-
-    <div class="modal fade" id="disposisiModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h4 class="modal-title">Disposisi Diterima?</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <p>Apakah anda yakin menerima disposisi ini?</p>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                    <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Terima</a>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-
-
 </div>
 
 <div class="modal-only">
@@ -199,19 +147,24 @@
 
                     <div class="modal-body p-5">
 
-                    <div class="form-group row">
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">NIP</label>
+                            <div class="col-md-9">
+                                <input type="text" name="no_pegawai" class="form-control"></input>
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label class="col-md-3 col-form-label">Nama</label>
                             <div class="col-md-9">
-                                <input type="text" name="nama" class="form-control"></input>
+                                <input type="text" name="name" class="form-control"></input>
                             </div>
-                    </div>
+                        </div>
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Email</label>
                             <div class="col-md-9">
                                 <input type="email" name="email" class="form-control"></input>
                             </div>
                         </div>
-
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Password</label>
                             <div class="col-md-9">
@@ -219,13 +172,13 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Role</label>
+                            <label class="col-md-3 col-form-label">No Telp</label>
                             <div class="col-md-9">
-                                <input type="text" name="role" class="form-control"></input>
+                                <input type="text" name="no_tlp" class="form-control"></input>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Internal Role Id</label>
+                            <label class="col-md-3 col-form-label">Internal Role</label>
                             <div class="col-md-9">
                                 <select  class="chosen-select"  name="internal_role_id" tabindex="4">
                                     @foreach($roles as $data)
@@ -262,13 +215,13 @@
                     </div>
 
                     <div class="modal-body p-5">
-                    <input type="text" name="id" id="id" class="form-control" hidden></input>
-                    <div class="form-group row">
+                        <input type="text" name="id" id="id" class="form-control" hidden></input>
+                        <div class="form-group row">
                             <label class="col-md-3 col-form-label">Nama</label>
                             <div class="col-md-9">
-                                <input type="text" name="nama" id="nama" class="form-control"></input>
+                                <input type="text" name="name" id="nama" class="form-control"></input>
                             </div>
-                    </div>
+                        </div>
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Email</label>
                             <div class="col-md-9">
@@ -283,13 +236,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Role</label>
-                            <div class="col-md-9">
-                                <input type="text" name="role" id="role" class="form-control"></input>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Internal Role Id</label>
+                            <label class="col-md-3 col-form-label">Internal Role</label>
                             <div class="col-md-9">
                                 <select  class="chosen-select"  name="internal_role_id" tabindex="4">
                                     @foreach($roles as $data)

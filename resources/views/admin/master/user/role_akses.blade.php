@@ -200,9 +200,11 @@
                             <div class="col-md-9">
 
                                 <select  name="user_role" tabindex="4" required>
-                                    @foreach($user_role as $data)
-                                            <option value="{{$data->role}}">{{$data->role}}</option>
-                                    @endforeach
+                                    @forelse ($user_role as $data)
+                                    <option value="{{$data->id}}">{{$data->role}}</option>
+                                    @empty
+                                    <option disabled value="" selected>Semua Role Terisi</option>
+                                    @endforelse
                                 </select>
                             </div>
                         </div>
@@ -220,7 +222,7 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Role Access</label>
                             <div class="col-md-9">
-                            <select data-placeholder="User Role..." class="chosen-select" multiple  name="role_access[]" tabindex="4">
+                            <select data-placeholder="User Role..." class="chosen-select" multiple  name="role_access[]" tabindex="4" required>
                                  <option value="Create" >Create</option>
                                  <option value="View">View</option>
                                  <option value="Update">Update</option>
@@ -232,13 +234,13 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">UPTD Access</label>
                             <div class="col-md-9">
-                            <select data-placeholder="UPTD Access..." class="chosen-select" multiple name="uptd_access[]" tabindex="4">
-                                    <option value="UPTD 1">UPTD 1</option>
-                                    <option value="UPTD 2">UPTD 2</option>
-                                    <option value="UPTD 3">UPTD 3</option>
-                                    <option value="UPTD 4">UPTD 4</option>
-                                    <option value="UPTD 5">UPTD 5</option>
-                                    <option value="UPTD 6">UPTD 6</option>
+                            <select data-placeholder="UPTD Access..." class="chosen-select" multiple name="uptd_access[]" tabindex="4" required>
+                                    <option value="1">UPTD 1</option>
+                                    <option value="2">UPTD 2</option>
+                                    <option value="3">UPTD 3</option>
+                                    <option value="4">UPTD 4</option>
+                                    <option value="5">UPTD 5</option>
+                                    <option value="6">UPTD 6</option>
 
                             </select>
                             </div>
@@ -279,11 +281,7 @@
                             <input name="id" id="id" class="form-control" hidden></input>
                             <label class="col-md-3 col-form-label">User Role</label>
                             <div class="col-md-9">
-
                                 <select  name="user_role" id="select_user_role" tabindex="4" required>
-                                    @foreach($user_role as $data)
-                                            <option value="{{$data->role}}" id="edit_user_role_{{$loop->index + 1}}">{{$data->role}}</option>
-                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -292,7 +290,7 @@
                             <div class="col-md-9">
                                 <select data-placeholder="Menu..." class="chosen-select" multiple  name="menu[]" id="#edit_select_menu" tabindex="4" required tabindex="4">
                                     @foreach($menu as $data)
-                                            <option value="{{$data->menu}}" id="menu_{{$loop->index + 1}}">{{$data->menu}}</option>
+                                        <option value="{{$data->menu}}" id="menu_{{$loop->index + 1}}">{{$data->menu}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -301,7 +299,7 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Role Access</label>
                             <div class="col-md-9">
-                            <select data-placeholder="Role Access..." class="chosen-select" multiple  name="role_access[]" id="edit_role_access" tabindex="4">
+                            <select data-placeholder="Role Access..." class="chosen-select" multiple  name="role_access[]" id="edit_role_access" tabindex="4" required>
                                  <option value="Create" id="user_role_1" >Create</option>
                                  <option value="View" id="user_role_2">View</option>
                                  <option value="Update" id="user_role_3">Update</option>
@@ -313,13 +311,13 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">UPTD Access</label>
                             <div class="col-md-9">
-                            <select data-placeholder="UPTD Access..." class="chosen-select" multiple name="uptd_access[]" id="edit_uptd_access" tabindex="4">
-                                    <option value="UPTD 1" id="uptd_1">UPTD 1</option>
-                                    <option value="UPTD 2" id="uptd_2">UPTD 2</option>
-                                    <option value="UPTD 3" id="uptd_3">UPTD 3</option>
-                                    <option value="UPTD 4" id="uptd_4">UPTD 4</option>
-                                    <option value="UPTD 5" id="uptd_5">UPTD 5</option>
-                                    <option value="UPTD 6" id="uptd_6">UPTD 6</option>
+                            <select data-placeholder="UPTD Access..." class="chosen-select" multiple name="uptd_access[]" id="edit_uptd_access" tabindex="4" required>
+                                    <option value="1" id="uptd_1">UPTD 1</option>
+                                    <option value="2" id="uptd_2">UPTD 2</option>
+                                    <option value="3" id="uptd_3">UPTD 3</option>
+                                    <option value="4" id="uptd_4">UPTD 4</option>
+                                    <option value="5" id="uptd_5">UPTD 5</option>
+                                    <option value="6" id="uptd_6">UPTD 6</option>
 
                             </select>
                             </div>
@@ -398,13 +396,10 @@
             const baseUrl = `{{ url('admin/master-data/user/role-akses/getData') }}/` + id;
             $.get(baseUrl, { id: id },
                 function(response){
+
                         console.log(response);
-                        $('#id').val(id);
-                        for(var i=1; i<=$('#select_user_role').children('option').length;i++){
-                            if($('#edit_user_role_'+i).val() == response.user_role_list[0].role){
-                                $('#edit_user_role_'+i).attr("selected","selected");
-                            }
-                        }
+                        $("#select_user_role").html(`<option value="${response.user_role_list[0].role_id}">${response.user_role_list[0].role}</option>`);
+
                         for(var i=1; i<=$('#edit_select_menu').children('option').length;i++){
                             for(var j=0; j<response.user_role.length;j++){
                                 if($('#menu_'+i).val() == response.user_role[j].menu){
@@ -412,27 +407,24 @@
                                 }
                             }
                         }
-                        for(var i=1; i<=$('#edit_role_access').children('option').length;i++){
-                            for(var j=0; j<response.role_access.length;j++){
-                                if($('#user_role_'+i).val() == response.role_access[j].menu){
-                                    $('#user_role_'+i).attr("selected","selected");
-                                }
-                            }
-                        }
-                        for(var i=1; i<=$('#edit_role_access').children('option').length;i++){
-                            for(var j=0; j<response.role_access.length;j++){
-                                if($('#user_role_'+i).val() == response.role_access[j].menu){
+                        for(var i=1; i<=$('#edit_role_access > option').length;i++){
+                            for(var j=0; j < response.role_access.length ;j++){
+                                if($('#user_role_'+i).val() == response.role_access[j].role_access){
                                     $('#user_role_'+i).attr("selected","selected");
                                 }
                             }
                         }
                         for(var i=1; i<=$('#edit_uptd_access').children('option').length;i++){
                             for(var j=0; j<response.uptd_access.length;j++){
-                                if($('#uptd_'+i).val() == response.uptd_access[j].menu){
-                                    $('#uptd'+i).attr("selected","selected");
+                                if($('#uptd_'+i).val() == response.uptd_access[j].uptd_name){
+                                    $('#uptd_'+i).attr("selected","selected");
                                 }
                             }
                         }
+                        $("#edit_select_menu").chosen( { width: '100%' } );
+                        $("#edit_role_access").chosen( { width: '100%' } );
+                        $("#edit_uptd_access").chosen( { width: '100%' } );
+
             });
         });
 

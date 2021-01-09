@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use App\Model\DWH\ProgressMingguan;
-
+use Illuminate\Support\Facades\Auth;
 class ProyekController extends Controller
 {
     public function getKendaliKontrak()
@@ -15,6 +15,10 @@ class ProyekController extends Controller
         // $finishquery->whereIn('TANGGAL', function ($querySubTanggal) {
         //     $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('vw_uptd_trx_rekap_proyek_kontrak');
         // });
+        if(Auth::user()->internalRole->uptd){
+            $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
+            $finishquery = $finishquery->where('UPTD',$uptd_id);
+        }
 
         $criticalquery = clone $finishquery;
         $onprogressquery = clone $finishquery;
