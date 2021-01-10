@@ -399,12 +399,12 @@
                                                 <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
-                                            <div class="modal-body">
-                                                <div id="mapLatLong"></div>
+                                            <div class="modal-body w-100">
+                                                <div id="mapLatLong" class="full-map"></div>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary">Save changes</button>
+                                                <button type="button" class="btn btn-primary">Done</button>
                                             </div>
                                         </div>
                                     </div>
