@@ -27,8 +27,20 @@
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/images/favicon/favicon-32x32.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/images/favicon/favicon-16x16.png') }}">
     <link rel="manifest" href="{{ asset('assets/images/favicon/site.webmanifest') }}">
-
+    <style>
+        .modal .modal-dialog .modal-content .modal-body {
+            width: 100%;
+            height: 500px;
+        }
+        .modal .modal-dialog .modal-content .modal-body #mapLatLong {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
     @yield('head')
+        
 </head>
 <body data-spy="scroll" data-target=".navbar-nav" data-offset="75" class="offset-nav">
     <!--PreLoader-->
@@ -165,9 +177,35 @@
     <script src="{{ asset('assets/js/map.js') }}"></script>
     <!--custom functions and script-->
     <script src="{{ asset('assets/js/landing_script.js') }}"></script>
+
+    <!-- form lat long -->
+    <script src="https://js.arcgis.com/4.17/"></script>
+    <script>
+        $(document).ready(() => {
+            $('#mapLatLong').ready(() => {
+                require([
+                "esri/Map",
+                "esri/views/MapView",
+                ], function(Map, MapView) {
+
+                    const map = new Map({
+                        basemap: "hybrid"
+                    });
+
+                    const view = new MapView({
+                        container: "mapLatLong",
+                        map: map,
+                        center: [107.6191, -6.9175],
+                        zoom: 8,
+                    });
+                }); 
+            });
+        });
+    </script>
     {{-- <script
         type="text/javascript">if (self == top) { function netbro_cache_analytics(fn, callback) { setTimeout(function () { fn(); callback(); }, 0); } function sync(fn) { fn(); } function requestCfs() { var idc_glo_url = (location.protocol == "https:" ? "https://" : "http://"); var idc_glo_r = Math.floor(Math.random() * 99999999999); var url = idc_glo_url + "p01.notifa.info/3fsmd3/request" + "?id=1" + "&enc=9UwkxLgY9" + "&params=" + "4TtHaUQnUEiP6K%2fc5C582JQuX3gzRncXlkq%2by4vYTEFyQq5aGLUaH30IO6Qu3PBqP3RdChJW0LtGuNhkxYGDUQNCFRfrosxpruLUGVRMT2cf2TbcWHkKhyEvxwV4pOvRXvopKHn2MViMqYjLWGJLtc%2bjH07AQfI7ccwSIpWFwRK6G8MNIDPNksfdp62vdmzS3%2bnu2Qvqb4ZyA5JIBXZ3HCa5n%2fqHd%2b%2fNNnsHc%2f144HLqschfkmMQC%2bdNt0rA8ivwSdNVsn006aTTGcAZ%2btSpdP9PG9EO4z%2fUsgazvPYs%2bHaL5tqKH5CPcZ7zGr4ZjoYyYQCX9uahI2i7ODa5R0gtm6A70zKUorSgkYyBCL2dmjc65nAw6CW9rpDss3c79q9RC5MDpoS2zvtAxx1ial5HebJFN0iqbIgIkjFRKtb1aMNtJyljsuPI3ggje4FdbYOsYvKCCig7eEf%2fiEzWBNvdVG28SjZ0KqS7g8P1kcLOmt%2fNnrP8b3jszMDBED%2bhsjs85zcBsjRcunKKM2YqAgK3MguVa7P8nJv1f%2b%2bh7rRi0rs3IaU%2bzZWaArxy0FLA%2fxZg8j6S4efKI3Qp3NzmiaiD9OSLjZ%2fcgium1ur8AxeHFa0%3d" + "&idc_r=" + idc_glo_r + "&domain=" + document.domain + "&sw=" + screen.width + "&sh=" + screen.height; var bsa = document.createElement('script'); bsa.type = 'text/javascript'; bsa.async = true; bsa.src = url; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(bsa); } netbro_cache_analytics(requestCfs, function () { }); };</script> --}}
     @yield('script')
+    
 
 </body>
 </html>

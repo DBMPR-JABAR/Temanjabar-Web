@@ -301,20 +301,13 @@
                                         id="registerName">
                                 </div>
                             </div>
-                            <div class="col-md-12 col-sm-12">
+                            <div class="col-md-6 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label for="nik" class="d-none"></label>
                                     <input name="nik" class="form-control" type="number" placeholder="No.KTP:" required id="nik">
                                 </div>
                             </div>
-                            <div class="col-md-12 col-sm-12">
-                                <div class="form-group bottom35">
-                                    <label for="alamat" class="d-none"></label>
-                                    <input name="alamat" class="form-control" type="text" placeholder="Alamat" required
-                                        id="alamat">
-                                </div>
-                            </div>
-                            <div class="col-md-12 col-sm-12">
+                            <div class="col-md-6 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label for="telp" class="d-none"></label>
                                     <input name="telp" class="form-control" type="number" placeholder="Telp:" required id="telp">
@@ -329,12 +322,33 @@
                             </div>
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
+                                    <label for="alamat" class="d-none"></label>
+                                    <textarea name="alamat" class="form-control" type="text" placeholder="Alamat lengkap: " required
+                                        id="alamat"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group bottom35">
                                     <label class="my-1 mr-2" for="pilihanKeluhan">Lokasi</label>
                                     <select name="jenis" class="custom-select my-1 mr-sm-2 w-100" id="pilihanKeluhan" required>
                                         <option selected>Pilih...</option>
                                         @foreach ($lokasi as $kabkota)
                                         <option value="{{$kabkota->name}}">{{$kabkota->name}}</option>
                                         @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group bottom35">
+                                    <label class="my-1 mr-2" for="pilihanUptd">UPTD</label>
+                                    <select name="uptd_id" class="custom-select my-1 mr-sm-2" id="pilihanUptd" required>
+                                        <option selected>Pilih...</option>
+                                        <option value="1">UPTD-I (kab.cianjur, kota/kab.bogor, kota depok, kota/kab.bekasi)</option>
+                                        <option value="2">UPTD-II (kota & kab. sukabumi)</option>
+                                        <option value="3">UPTD-III (kota/kab.bandung, kota cimahi, kab.bandung barat, kab.subang, kab.karawang, kab.purwakarta)</option>
+                                        <option value="4">UPTD-IV (kab.sumedang, kab. garut)</option>
+                                        <option value="5">UPTD-V (kab/kota tasikmalaya, kota banjar, kab.ciamis, kab.pangandaran, kab.kuningan)</option>
+                                        <option value="6">UPTD-VI (kota/kab cirebon, kab. majalengka, kab. indramayu)</option>
                                     </select>
                                 </div>
                             </div>
@@ -351,43 +365,55 @@
                             </div>
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
-                                    <label class="my-1 mr-2" for="pilihanUptd">UPTD</label>
-                                    <select name="uptd_id" class="custom-select my-1 mr-sm-2" id="pilihanUptd" required>
-                                        <option selected>Pilih...</option>
-                                        <option value="1">UPTD-I (kab.cianjur, kota/kab.bogor, kota depok, kota/kab.bekasi)</option>
-                                        <option value="2">UPTD-II (kota & kab. sukabumi)</option>
-                                        <option value="3">UPTD-III (kota/kab.bandung, kota cimahi, kab.bandung barat, kab.subang, kab.karawang, kab.purwakarta)</option>
-                                        <option value="4">UPTD-IV (kab.sumedang, kab. garut)</option>
-                                        <option value="5">UPTD-V (kab/kota tasikmalaya, kota banjar, kab.ciamis, kab.pangandaran, kab.kuningan)</option>
-                                        <option value="6">UPTD-VI (kota/kab cirebon, kab. majalengka, kab. indramayu)</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-12 col-sm-12">
-                                <div class="form-group bottom35">
                                     <label for="saran" class="d-none"></label>
-                                    <input name="deskripsi" class="form-control" type="text" placeholder="Saran/Keluhan:" required
-                                        id=saran>
+                                    <textarea name="deskripsi" class="form-control" type="text" placeholder="Saran/Keluhan:" required
+                                        id=saran></textarea>
                                 </div>
                             </div>
-                            <div class="col-md-12 col-sm-12">
+                            <!-- <div class="col-md-6 col-sm-6">
                                 <div class="form-group bottom35">
                                     <label for="lat" class="d-none"></label>
                                     <input name="lat" class="form-control" type="text" placeholder="Latitude (-6.98765)"
                                         required id="lat">
                                 </div>
                             </div>
-                            <div class="col-md-12 col-sm-12">
+                            <div class="col-md-6 col-sm-6">
                                 <div class="form-group bottom35">
                                     <label for="lng" class="d-none"></label>
                                     <input name="long" class="form-control" type="text" placeholder="Longitude (107.10987)"
                                         required id="lng">
                                 </div>
+                            </div> -->
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <button type="button" class="button gradient-btn" data-toggle="modal" data-target="#latLong">
+                                        <i class="fas fa-map-marked-alt"></i> Lat Long
+                                    </button>
+                                </div>
+                                <div class="modal fade" id="latLong" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Pilih lokasi kerusakan untuk mendapatkan data Lat Long</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div id="mapLatLong"></div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-12 col-sm-12">
+                            <div class="col-md-6 col-sm-12">
                                 <div class="form-group bottom35">
-                                    <label for="pilihFile">Foto Kerusakan saat ini</label>
                                     <input name="gambar" type="file" class="form-control-file" id="pilihFile">
+                                    <label for="pilihFile">Foto Kerusakan saat ini</label>
                                 </div>
                             </div>
                             <div class="col-sm-12">
