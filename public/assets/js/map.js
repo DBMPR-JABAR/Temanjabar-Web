@@ -1,126 +1,58 @@
-/* ----- Google Map ----- */
-if ($("#map").length) {
-    function initialize() {
-        var myLatLng = {lat: -6.92132, lng: 107.6088113};
-        var mapOptions = {
-            zoom: 17,
-            scrollwheel: false,
-            styles: [
-                {
-                    "featureType": "landscape",
-                    "elementType": "all",
-                    "stylers": [
-                        {
-                            "hue": "#999999"
-                        },
-                        {
-                            "saturation": -100
-                        },
-                        {
-                            "lightness": -33
-                        },
-                        {
-                            "visibility": "on"
-                        }
-                    ]
-                },
-                {
-                    "featureType": "landscape.man_made",
-                    "elementType": "geometry.fill",
-                    "stylers": [
-                        {
-                            "visibility": "on"
-                        },
-                        {
-                            "color": "#b1b1b1"
-                        }
-                    ]
-                },
-                {
-                    "featureType": "landscape",
-                    "elementType": "geometry.fill",
-                    "stylers": [
-                        {
-                            "color": "#d1d1d1"
-                        }
-                    ]
-                },
-                {
-                    "featureType": "poi",
-                    "elementType": "all",
-                    "stylers": [
-                        {
-                            "hue": "#aaaaaa"
-                        },
-                        {
-                            "saturation": -100
-                        },
-                        {
-                            "lightness": -15
-                        },
-                        {
-                            "visibility": "on"
-                        }
-                    ]
-                },
-                {
-                    "featureType": "road",
-                    "elementType": "all",
-                    "stylers": [
-                        {
-                            "hue": "#999999"
-                        },
-                        {
-                            "saturation": -100
-                        },
-                        {
-                            "lightness": -6
-                        },
-                        {
-                            "visibility": "on"
-                        }
-                    ]
-                },
-                {
-                    "featureType": "transit",
-                    "elementType": "all",
-                    "stylers": [
-                        {
-                            "visibility": "off"
-                        }
-                    ]
-                },
-                {
-                    "featureType": "water",
-                    "elementType": "geometry.fill",
-                    "stylers": [
-                        {
-                            "color": "#afe0ff"
-                        }
-                    ]
-                },
-                {
-                    "featureType": "poi",
-                    "elementType": "all",
-                    "stylers": [
-                        {
-                            "visibility": "off"
-                        }
-                    ]
-                }
-            ],
-            center: myLatLng //please add your location here
-        };
+$(document).ready(() => {
+    const baseUrl = "{{url('/')}}";
 
-        var map = new google.maps.Map(document.getElementById('map'),
-            mapOptions);
-        var marker = new google.maps.Marker({
-            position: {lat: -6.9212667417539455, lng: 107.61112874273829},
-            // icon: 'assets/images/location-pin.png', //if u want custom
-            animation: google.maps.Animation.DROP,
-            map: map,
-            title:"Trax Founder's Agency"
-        });
-    }
-    google.maps.event.addDomListener(window, 'load', initialize);
-}
+    $('#mapLatLong').ready(() => {
+        require([
+        "esri/Map",
+        "esri/views/MapView",
+        ], function(Map, MapView) {
+
+            const map = new Map({
+                basemap: "hybrid"
+            });
+
+            const view = new MapView({
+                container: "mapLatLong",
+                map: map,
+                center: [107.6191, -6.9175],
+                zoom: 8,
+            });
+        }); 
+    });
+    
+    $('#mapOffice').ready(() => {
+        require([
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/Graphic",
+        ], function(Map, MapView, Graphic) {
+            const map = new Map({
+                basemap: "streets-relief-vector"
+            });
+
+            const view = new MapView({
+                container: "mapOffice",
+                map: map,
+                center: [107.6088113, -6.9213147],
+                zoom: 16,
+            });
+
+            const point = { 
+                type: "point", 
+                longitude: 107.6108861, 
+                latitude: -6.9213706
+            }; 
+            
+            const marker = {
+                type: "picture-marker",
+                url: "https://static.arcgis.com/images/Symbols/Shapes/BlackStarLargeB.png",
+                width: "64px",
+                height: "64px"
+            };
+
+            const pointGraphic = new Graphic({ geometry: point, symbol: marker });
+            
+            view.graphics.add(pointGraphic);
+        }); 
+    });
+});

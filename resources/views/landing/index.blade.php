@@ -550,7 +550,7 @@
 <!-- Contact US ends -->
 <!-- map -->
 <div class="w-100">
-    <div id="map" class="full-map"></div>
+    <div id="mapOffice" class="full-map"></div>
 </div>
 <!-- map end -->
 <!-- Contact US ends -->
