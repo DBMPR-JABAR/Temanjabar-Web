@@ -15,7 +15,7 @@
                         <a class="nav-link active pagescroll" href="#home">Beranda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" 
+                        <a class="nav-link active"
                             href="{{ url('map/map-dashboard-masyarakat') }}">Map DBMPR</a>
                     </li>
                     <li class="nav-item">
@@ -58,7 +58,7 @@
                         <a class="nav-link active pagescroll" href="#home">Beranda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" 
+                        <a class="nav-link active"
                             href="{{ url('map/map-dashboard-masyarakat') }}">Map DBMPR</a>
                     </li>
                     <li class="nav-item">
@@ -330,7 +330,7 @@
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label class="my-1 mr-2" for="pilihanKeluhan">Lokasi</label>
-                                    <select name="jenis" class="custom-select my-1 mr-sm-2 w-100" id="pilihanKeluhan" required>
+                                    <select name="lokasi" class="custom-select my-1 mr-sm-2 w-100" id="pilihanKeluhan" required>
                                         <option selected>Pilih...</option>
                                         @foreach ($lokasi as $kabkota)
                                         <option value="{{$kabkota->name}}">{{$kabkota->name}}</option>
@@ -370,11 +370,12 @@
                                         id=saran></textarea>
                                 </div>
                             </div>
+                            <input name="lat" type="hidden" id="lat">
+                            <input name="long" type="hidden" id="long">
                             <!-- <div class="col-md-6 col-sm-6">
                                 <div class="form-group bottom35">
                                     <label for="lat" class="d-none"></label>
-                                    <input name="lat" class="form-control" type="text" placeholder="Latitude (-6.98765)"
-                                        required id="lat">
+
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-6">
@@ -404,7 +405,6 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary">Done</button>
                                             </div>
                                         </div>
                                     </div>

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use App\Model\Transactional\LaporanMasyarakat;
 
 class LandingController extends Controller
 {
@@ -50,15 +51,23 @@ class LandingController extends Controller
     }
 
     // POST
-    public function createLaporan(Request $req)
+    public function createLaporan(Request $request)
     {
         $color = 'success';
         $msg = 'Berhasil menambahkan laporan, tanggapan akan dikirim melalui email anda';
+        $rand = rand(100000,999999);
 
-        $data = $req->except(['_token', 'agreed', 'gambar']);
-        $data['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
-
-        DB::table('monitoring_laporan_masyarakat')->insert($data);
+        $kode = "P-".$rand;
+        $laporanMasyarakat = new LaporanMasyarakat;
+        $laporanMasyarakat->fill($request->except(['gambar']));
+        if($request->gambar != null){
+            $path = 'laporan_masyarakat/'.date("YmdHis").'_'.$request->gambar->getClientOriginalName();
+            $request->gambar->storeAs('public/',$path);
+            $laporanMasyarakat['gambar'] = url('storage/'.$path);
+        }
+        $laporanMasyarakat->nomorPengaduan = $kode;
+        $laporanMasyarakat->status = 'Submitted';
+        $laporanMasyarakat->save();
 
         return redirect('/#laporan')->with(['color' => $color, 'laporan-msg' => $msg]);
     }
