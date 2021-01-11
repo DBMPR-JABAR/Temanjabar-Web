@@ -57,8 +57,13 @@ class LaporController extends Controller
         $ruasJalan = $ruasJalan->where('uptd_id', $aduan->uptd_id);
         $ruasJalan = $ruasJalan->get();
         $uptd = DB::table('landing_uptd')->get();
+        $status = array(
+                        array('id'=>'menunggu','name'=>'menunggu'),
+                        array('id'=>'Dalam proses','name'=>'Dalam proses'),
+                        array('id'=>'selesai','name'=>'selesai')
+                        );
 
-        return view('admin.lapor.edit', compact('aduan', 'ruasJalan', 'uptd'));
+        return view('admin.lapor.edit', compact('aduan', 'ruasJalan', 'uptd','status'));
     }
 
 

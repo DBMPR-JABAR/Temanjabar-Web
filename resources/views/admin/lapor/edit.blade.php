@@ -151,8 +151,13 @@
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Status</label>
-                        <div class="col-md-10">
-                            <input name="status" type="text" class="form-control" disabled required>
+                        <div class="col-md-6">
+                            <select class="form-control" name="status">
+                                @foreach ($status as $data)
+                                <option value="{{$data['id']}}" {{ ( $data['name'] == $aduan->status) ? 'selected' : ''}}>{{$data['name']}}</option>
+                                @endforeach
+                            </select>
+                            <!-- <input name="status" type="text" class="form-control" disabled required> -->
                         </div>
                     </div>
 
