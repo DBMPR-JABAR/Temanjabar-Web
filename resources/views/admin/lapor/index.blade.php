@@ -62,37 +62,14 @@
                                 <th>Nama</th>
                                 <th>NIK</th>
                                 <th>Alamat</th>
-                                <th>Ruas Jalan</th>
-                                <th>Permasalahan</th>
+                                <th>Email</th>
+                                <th>Deskripsi</th>
                                 <th>Foto</th>
                                 <th>Status</th>
                                 <th style="min-width: 100px;">Aksi</th>
                             </tr>
                         </thead>
-                        <!-- <tbody id="bodyJembatan">
-                            @foreach ($aduan as $data)
-                            <tr>
-                                <td>{{$loop->index + 1}}</td>
-                                <td>{{$data->nama}}</td>
-                                <td>{{$data->nik}}</td>
-                                <td>{{$data->alamat}}</td>
-                                <td>{{$data->ruas_jalan}}</td>
-                                <td>{{$data->permasalahan}}</td>
-                                <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/'.$data->foto_awal) !!}" alt="" srcset=""></td>
-                                <td>{{$data->status}}</td>
-                                <td style="min-width: 75px;">
-                                    <div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">
-                                        @if (hasAccess(Auth::user()->internal_role_id, "Lapor", "Update"))
-                                        <a href="{{ route('editLapor',$data->id) }}"><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>
-                                        @endif
-                                        @if (hasAccess(Auth::user()->internal_role_id, "Lapor", "Delete"))
-                                        <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal"><button data-toggle="tooltip" title="Hapus" class="btn btn-danger btn-sm waves-effect waves-light"><i class="icofont icofont-trash"></i></button></a>
-                                        @endif
-                                    </div>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody> -->
+                        
                     </table>
                 </div>
             </div>
@@ -170,16 +147,16 @@
                     name: 'alamat'
                 },
                 {
-                    data: 'ruas_jalan',
-                    name: 'ruas_jalan'
-                },
+                    data: 'email',
+                    name: 'email'
+                }, 
                 {
-                    data: 'permasalahan',
-                    name: 'permasalahan'
-                },
+                    data: 'deskripsi',
+                    name: 'deskripsi'
+                }, 
                 {
                     'mRender': function(data, type, full) {
-                        return '<img class="img-fluid" style="max-width: 100px" src="/storage/' + full['foto_awal'] + '" alt="" srcset="">';
+                        return '<img class="img-fluid" style="max-width: 100px" src="/storage/' + full['gambar'] + '" alt="" srcset="">';
                     }
                 },
                 {
