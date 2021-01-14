@@ -41,10 +41,53 @@
 
 @section('page-body')
 <div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-block accordion-block">
+                <div id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="accordion-panel">
+                        <div class="accordion-heading" role="tab" id="headingOne">
+                            <h3 class="card-title accordion-title">
+                                <a class="accordion-msg" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Filter
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse in show" role="tabpanel" aria-labelledby="headingOne">
+                            <div class="accordion-content accordion-desc">
+                                <div class="card-block">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-xl-3 m-b-30">
+                                            <h4 class="sub-title">Dari Tahun</h4>
+                                            <select id="yearFrom" name="tahun" class="form-control form-control-primary">
+                                                <option value="2019" selected>2019</option>
+                                                @for ($i = 2020; $i <= date("Y"); $i++)
+                                                <option value="{{$i}}" {{($i == date("Y")) ? 'selected' : ''}}>{{$i}}</option>
+                                                @endfor
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-12 col-xl-3 m-b-30">
+                                            <h4 class="sub-title">Ke Tahun</h4>
+                                            <select id="yearTo" name="tahun" class="form-control form-control-primary">
+                                                <option value="2019">2019</option>
+                                                @for ($i = 2020; $i <= date("Y"); $i++)
+                                                <option value="{{$i}}" {{($i == date("Y")) ? 'selected' : ''}}>{{$i}}</option>
+                                                @endfor
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header">
-                <h5>Tabel Pekerjaan</h5>
+                <h5 id="tbltitle">Tabel Pekerjaan</h5>
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
                         <li><i class="feather icon-maximize full-card"></i></li>
@@ -384,17 +427,29 @@
                 const modal = $(this);
                 modal.find('.modal-footer #submitHref').attr('href', url);
             });
-
             // $('select').attr('value').trigger('change');
 
-            var table = $('#dttable').DataTable({
+            function getYearFilter() {
+                return {
+                    yearFrom : $("#yearFrom").val(),
+                    yearTo : $("#yearTo").val()
+                };
+            }
+
+            $('#dttable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ url('admin/input-data/pekerjaan/json') }}",
+                ajax: {
+                    url: "{{ url('admin/input-data/pekerjaan/json') }}",
+                    data: function(d){
+                        d.year_from = getYearFilter().yearFrom;
+                        d.year_to = getYearFilter().yearTo;
+                    }
+                },
                 columns: [{
                         'mRender': function(data, type, full, meta) {
+                            console.log(full['intro']);
                             return +meta.row + meta.settings._iDisplayStart + 1;
-
                         }
                     },
                     {
@@ -461,6 +516,14 @@
                     },
                 ]
             });
+            $("#tbltitle").html(`Data Pekerjaan dari Tahun ${getYearFilter().yearFrom} hingga Tahun ${getYearFilter().yearTo}`);
+
+
+            $('#yearFrom, #yearTo').change(function () {
+                $("#tbltitle").html(`Data Pekerjaan dari Tahun ${getYearFilter().yearFrom} hingga Tahun ${getYearFilter().yearTo}`);
+                $('#dttable').DataTable().ajax.reload(null, false);
+            })
+
         });
 
         function ubahOption() {

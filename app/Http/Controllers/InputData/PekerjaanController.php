@@ -262,7 +262,7 @@ class PekerjaanController extends Controller
         return redirect(route('getDataPekerjaan'))->with(compact('color', 'msg'));
     }
 
-    public function json()
+    public function json(Request $request)
     {
         $pekerjaan = DB::table('kemandoran');
         $pekerjaan = $pekerjaan->leftJoin('master_ruas_jalan', 'master_ruas_jalan.id', '=', 'kemandoran.ruas_jalan')->select('kemandoran.*', 'master_ruas_jalan.nama_ruas_jalan');
@@ -271,6 +271,9 @@ class PekerjaanController extends Controller
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
             $pekerjaan = $pekerjaan->where('kemandoran.uptd_id', $uptd_id);
         }
+        $from = $request->year_from;
+        $to = $request->year_to;
+        $pekerjaan = $pekerjaan->whereRaw("YEAR(tanggal) BETWEEN $from AND $to");
         $pekerjaan = $pekerjaan->where('is_deleted', 0)->get();
 
         return DataTables::of($pekerjaan)
