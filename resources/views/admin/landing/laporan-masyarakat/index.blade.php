@@ -90,10 +90,10 @@
                             <td>UPTD {{$data->uptd_id}}</td>
                             <td>{{$data->created_at}}</td>
                             <td>{{$data->updated_at}}</td>
-                            <td> 
+                            <td>
                                 <a type="button" href="{{ route('detailLandingLaporanMasyarakat',$data->id) }}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Rincian</a>
-                                <a type="button" href="#editModal" data-toggle="modal" data-id="{{$data->id}}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Edit</a> 
-                                <a type="button"href="#delModal"  data-toggle="modal" data-id="{{$data->id}}"     class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Hapus</a>       
+                                <a type="button" href="#editModal" data-toggle="modal" data-id="{{$data->id}}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Edit</a>
+                                <a type="button"href="#delModal"  data-toggle="modal" data-id="{{$data->id}}"     class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Hapus</a>
                             </td>
                         </tr>
                         @endforeach
@@ -127,7 +127,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label">NIK</label>
+                            <label class="col-md-2 col-form-label">No KTP</label>
                             <div class="col-md-10">
                                 <input name="nik" type="text" class="form-control" required>
                             </div>

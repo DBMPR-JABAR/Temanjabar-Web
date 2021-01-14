@@ -1,3 +1,7 @@
+@php
+    $jenis_laporan = DB::table('utils_jenis_laporan')->get();
+    $lokasi = DB::table('utils_lokasi')->get();
+@endphp
 @extends('admin.t_index')
 
 @section('title') Admin Dashboard @endsection
@@ -82,7 +86,12 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Jenis</label>
                             <div class="col-md-10">
-                                <input name="jenis" type="text" class="form-control" value="{{$data->jenis}}" required>
+                                <select name="jenis" class="custom-select my-1 mr-sm-2 w-100" id="pilihanKeluhan" required>
+                                    <option selected>Pilih...</option>
+                                    @foreach ($jenis_laporan as $laporan)
+                                    <option value="{{$laporan->id}}" {{($laporan->id == $data->jenis) ? 'selected' : ''}}>{{$laporan->name}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
@@ -99,7 +108,12 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">lokasi</label>
                             <div class="col-md-10">
-                                <input name="lokasi" type="text" class="form-control" value="{{$data->lokasi}}" required>
+                                <select name="lokasi" class="custom-select my-1 mr-sm-2 w-100" id="pilihanKeluhan" required>
+                                    <option selected>Pilih...</option>
+                                    @foreach ($lokasi as $kabkota)
+                                    <option value="{{$kabkota->name}}" {{($kabkota->name == $data->lokasi) ? 'selected' : ''}}>{{$kabkota->name}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
@@ -137,8 +151,8 @@
                                     </select>
                         </div>
 
-                    
 
+                    <a href="{{ route('getLapor') }}"><button type="button" class="btn btn-default waves-effect">Kembali</button></a>
                     <button type="submit" class="btn btn-mat btn-success">Simpan Perubahan</button>
                 </form>
 

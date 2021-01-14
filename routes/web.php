@@ -116,15 +116,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
         });
 
-        // {SiteURL}/admin/landing-page/uptd
-        Route::group(['prefix' => 'uptd'], function () {
-            Route::get('/', 'LandingController@getUPTD')->name('getLandingUPTD');
-            Route::get('edit/{id}', 'LandingController@editUPTD')->name('editLandingUPTD');
-            Route::post('create', 'LandingController@createUPTD')->name('createLandingUPTD');
-            Route::post('update', 'LandingController@updateUPTD')->name('updateLandingUPTD');
-            Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
-        });
-
 
         // {SiteURL}/admin/landing-page/laporan-masyarakat
         Route::group(['prefix' => 'laporan-masyarakat'], function () {
@@ -306,12 +297,19 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
     Route::group(['prefix' => 'lapor'], function () {
         Route::get('/', 'LaporController@index')->name('getLapor');
-        Route::get('edit/{id}', 'LaporController@edit')->name('editLapor');
-        Route::get('/add', 'LaporController@create')->name('addLapor');
-        Route::post('/create', 'LaporController@store')->name('createLapor');
-        Route::post('update', 'LaporController@update')->name('updateLapor');
-        Route::get('delete/{id}', 'LaporController@delete')->name('deleteLapor');
+        // Route::get('/add', 'LaporController@create')->name('addLapor');
+        // Route::get('edit/{id}', 'LaporController@edit')->name('editLapor');
+        // Route::post('/create', 'LaporController@store')->name('createLapor');
+        // Route::post('update', 'LaporController@update')->name('updateLapor');
+        // Route::get('delete/{id}', 'LaporController@delete')->name('deleteLapor');
         Route::get('json', 'LaporController@json')->name('getJsonLapor');
+
+        Route::get('/add', 'LandingController@addLaporanMasyarakat')->name('addLapor');
+        Route::post('create', 'LandingController@createLaporanMasyarakat')->name('createLapor');
+        Route::get('edit/{id}', 'LandingController@editLaporanMasyarakat')->name('editLapor');
+        Route::post('update', 'LandingController@updateLaporanMasyarakat')->name('updateLapor');
+        Route::get('delete/{id}', 'LandingController@deleteLaporanMasyarakat')->name('deleteLapor');
+
     });
 });
 Route::get('map/target-realisasi', 'ProyekController@getTargetRealisasiAPI')->name('api.targetrealisasi');

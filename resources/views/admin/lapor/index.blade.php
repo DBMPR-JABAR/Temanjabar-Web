@@ -59,17 +59,21 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>No Pengaduan</th>
                                 <th>Nama</th>
                                 <th>NIK</th>
                                 <th>Alamat</th>
+                                <th>Telp</th>
                                 <th>Email</th>
+                                <th>Jenis</th>
                                 <th>Deskripsi</th>
                                 <th>Foto</th>
+                                <th>UPTD</th>
                                 <th>Status</th>
                                 <th style="min-width: 100px;">Aksi</th>
                             </tr>
                         </thead>
-                        
+
                     </table>
                 </div>
             </div>
@@ -135,6 +139,10 @@
                     }
                 },
                 {
+                    data: 'nomorPengaduan',
+                    name: 'nomorPengaduan'
+                },
+                {
                     data: 'nama',
                     name: 'nama'
                 },
@@ -147,17 +155,29 @@
                     name: 'alamat'
                 },
                 {
+                    data: 'telp',
+                    name: 'telp'
+                },
+                {
                     data: 'email',
                     name: 'email'
-                }, 
+                },
+                {
+                    data: 'jenis',
+                    name: 'jenis'
+                },
                 {
                     data: 'deskripsi',
                     name: 'deskripsi'
-                }, 
+                },
                 {
                     'mRender': function(data, type, full) {
-                        return '<img class="img-fluid" style="max-width: 100px" src="/storage/' + full['gambar'] + '" alt="" srcset="">';
+                        return '<img class="img-fluid" style="max-width: 100px" src="' + full['gambar'] + '" alt="" srcset="">';
                     }
+                },
+                {
+                    data: 'uptd_id',
+                    name: 'uptd_id'
                 },
                 {
                     data: 'status',

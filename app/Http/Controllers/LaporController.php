@@ -27,11 +27,10 @@ class LaporController extends Controller
         $aduan = DB::table('monitoring_laporan_masyarakat');
 
         if (Auth::user()->internalRole->uptd) {
-            if (Auth::user()->internalRole->uptd) {
-                $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
-                $aduan = $aduan->where('uptd_id', $uptd_id);
-            }
+            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+            $aduan = $aduan->where('uptd_id', $uptd_id);
         }
+
         $aduan = $aduan->get();
         return view('admin.lapor.index', compact('aduan'));
     }
@@ -123,12 +122,12 @@ class LaporController extends Controller
         return DataTables::of(DB::table('monitoring_laporan_masyarakat'))
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
-                $btn = '<div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">';                 
-                
+                $btn = '<div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">';
+
                 if (hasAccess(Auth::user()->internal_role_id, "Lapor", "Update")) {
                     $btn = $btn . '<a href="' . route('editLapor', $row->id) . '"><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>';
                 }
- 
+
                 if (hasAccess(Auth::user()->internal_role_id, "Lapor", "Delete")) {
                     $btn = $btn . '<a href="#delModal" data-id="' . $row->id . '" data-toggle="modal"><button data-toggle="tooltip" title="Hapus" class="btn btn-danger btn-sm waves-effect waves-light"><i class="icofont icofont-trash"></i></button></a>';
                 }

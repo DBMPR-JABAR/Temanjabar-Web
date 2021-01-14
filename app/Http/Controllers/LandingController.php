@@ -339,27 +339,29 @@ class LandingController extends Controller
         return view('admin.landing.laporan-masyarakat.index', compact('laporan'));
     }
 
-    public function createLaporanMasyarakat(Request $req)
+    public function addLaporanMasyarakat()
     {
-        $data['nama'] = $req->nama;
-        $data['nik'] = $req->nik;
-        $data['alamat'] = $req->alamat;
-        $data['telp'] = $req->telp;
-        $data['email'] = $req->email;
-        $data['jenis'] = $req->jenis;
-        if ($req->gambar != null) {
-            $path = 'landing/laporan-masyarakat/' . Str::snake(date("YmdHis") . ' ' . $req->gambar->getClientOriginalName());
-            $req->gambar->storeAs('public/', $path);
-            $data['gambar'] = $path;
-        }
-        $data['lokasi'] = $req->lokasi;
-        $data['lat'] = $req->lat;
-        $data['long'] = $req->long;
-        $data['deskripsi'] = $req->deskripsi;
-        $data['uptd_id'] = $req->uptd_id;
-        $data['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
+        $uptd = DB::table('landing_uptd')->get();
 
-        DB::table('monitoring_laporan_masyarakat')->insert($data);
+        return view('admin.landing.laporan-masyarakat.add', compact('uptd'));
+    }
+
+    public function createLaporanMasyarakat(Request $request)
+    {
+        $rand = rand(100000,999999);
+
+        $kode = "P-".$rand;
+        $laporanMasyarakat = new LaporanMasyarakat;
+        $laporanMasyarakat->fill($request->except(['gambar']));
+        if($request->gambar != null){
+            $path = 'laporan_masyarakat/'.date("YmdHis").'_'.$request->gambar->getClientOriginalName();
+            $request->gambar->storeAs('public/',$path);
+            $laporanMasyarakat['gambar'] = url('storage/'.$path);
+        }
+        $laporanMasyarakat->nomorPengaduan = $kode;
+        $laporanMasyarakat->status = 'Submitted';
+        $laporanMasyarakat->save();
+
 
         $color = "success";
         $msg = "Berhasil Menambah Data Laporan Masyarakat";
@@ -373,8 +375,10 @@ class LandingController extends Controller
     }
     public function editLaporanMasyarakat($id)
     {
-        $data = DB::table('monitoring_laporan_masyarakat')->where('id', $id)->get();
-        return response()->json(['data' => $data], 200);
+        $data = DB::table('monitoring_laporan_masyarakat')->where('id', $id)->first();
+        return view('admin.landing.laporan-masyarakat.edit', ['data' => $data]);
+
+        // return response()->json(['data' => $data], 200);
     }
 
     public function deleteLaporanMasyarakat($id)
@@ -383,7 +387,7 @@ class LandingController extends Controller
 
         $color = "success";
         $msg = "Berhasil Menghapus Laporan Masyarakat";
-        return redirect(route('getLandingLaporanMasyarakat'))->with(compact('color', 'msg'));
+        return back()->with(compact('color', 'msg'));
     }
     public function updateLaporanMasyarakat(Request $req)
     {
@@ -393,10 +397,10 @@ class LandingController extends Controller
         $data['telp'] = $req->telp;
         $data['email'] = $req->email;
         $data['jenis'] = $req->jenis;
-        if ($req->gambar != null) {
-            $path = 'landing/laporan-masyarakat/' . Str::snake(date("YmdHis") . ' ' . $req->gambar->getClientOriginalName());
-            $req->gambar->storeAs('public/', $path);
-            $data['gambar'] = $path;
+        if($req->gambar != null){
+            $path = 'laporan_masyarakat/'.date("YmdHis").'_'.$req->gambar->getClientOriginalName();
+            $req->gambar->storeAs('public/',$path);
+            $data['gambar'] = url('storage/'.$path);
         }
         $data['lokasi'] = $req->lokasi;
         $data['lat'] = $req->lat;
@@ -409,6 +413,6 @@ class LandingController extends Controller
 
         $color = "success";
         $msg = "Berhasil Menambah Data Laporan Masyarakat";
-        return redirect(route('getLandingLaporanMasyarakat'))->with(compact('color', 'msg'));
+        return back()->with(compact('color', 'msg'));
     }
 }
