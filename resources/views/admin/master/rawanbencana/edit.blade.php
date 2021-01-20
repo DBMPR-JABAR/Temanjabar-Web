@@ -49,7 +49,7 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">No Ruas</label>
                         <div class="col-md-10">
-                            <input name="no_ruas" type="text" class="form-control" required value="{{$rawan->no_ruas}}">
+                            <input name="no_ruas" type="text" class="form-control" value="{{$rawan->no_ruas}}">
                         </div>
                     </div>
 
@@ -71,7 +71,7 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Ruas Jalan</label>
                         <div class="col-md-10">
-                            <select id="ruas_jalan" name="ruas_jalan" class="form-control" required>
+                            <select id="ruas_jalan" name="ruas_jalan" class="form-control">
                                 <option value="{{$rawan->ruas_jalan}}">{{$rawan->ruas_jalan}}</option>>
                                 <option></option>
                                 @foreach ($ruas as $data)
@@ -84,38 +84,38 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Lokasi</label>
                         <div class="col-md-10">
-                            <input name="lokasi" type="text" class="form-control" required value="{{$rawan->lokasi}}">
+                            <input name="lokasi" type="text" class="form-control" value="{{$rawan->lokasi}}">
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Daerah</label>
                         <div class="col-md-10">
-                            <input name="daerah" type="text" class="form-control" required value="{{$rawan->daerah}}">
+                            <input name="daerah" type="text" class="form-control" value="{{$rawan->daerah}}">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Lat</label>
                         <div class="col-md-10">
-                            <input name="lat" type="text" class="form-control" required value="{{$rawan->lat}}">
+                            <input name="lat" type="text" class="form-control" value="{{$rawan->lat}}">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Long</label>
                         <div class="col-md-10">
-                            <input name="long" type="text" class="form-control" required value="{{$rawan->long}}">
+                            <input name="long" type="text" class="form-control" value="{{$rawan->long}}">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Foto</label>
                         <div class="col-md-10">
-                            <input name="foto" type="file" class="form-control" required value="{{$rawan->foto}}">
+                            <input name="foto" type="file" class="form-control" value="{{$rawan->foto}}">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">SUP</label>
                         <div class="col-md-10">
-                            <select id="sup" name="SUP" class="form-control" required>
+                            <select id="sup" name="SUP" class="form-control">
                                 <option value="{{$rawan->sup}}" class="sup">{{$rawan->sup}}</option>>
                                 <option class="sup"></option>
                                 @foreach ($sup as $data)
@@ -137,7 +137,7 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Keterangan</label>
                         <div class="col-md-10">
-                            <textarea name="keterangan" rows="3" cols="3" class="form-control" placeholder="Masukkan Keterangan" required>{{$rawan->keterangan}}</textarea>
+                            <textarea name="keterangan" rows="3" cols="3" class="form-control" placeholder="Masukkan Keterangan">{{$rawan->keterangan}}</textarea>
                         </div>
                     </div>
 
