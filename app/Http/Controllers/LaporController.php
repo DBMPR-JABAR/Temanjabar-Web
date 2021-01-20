@@ -121,6 +121,11 @@ class LaporController extends Controller
     {
         return DataTables::of(DB::table('monitoring_laporan_masyarakat'))
             ->addIndexColumn()
+            ->addColumn('imglaporan', function ($row) {
+                $path_foto = explode('/',$row->gambar);
+                $img = '<img class="img-fluid" style="max-width: 100px" src="'.url('storage/'.$row->gambar).'"  alt="'.end($path_foto).'" />';
+                return $img;
+            })
             ->addColumn('action', function ($row) {
                 $btn = '<div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">';
 
@@ -137,7 +142,7 @@ class LaporController extends Controller
 
                 return $btn;
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action','imglaporan'])
             ->make(true);
     }
 }

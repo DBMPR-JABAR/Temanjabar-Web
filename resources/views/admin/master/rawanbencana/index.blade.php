@@ -331,8 +331,8 @@
                     name: 'long'
                 },
                 {
-                    data: 'foto',
-                    name: 'foto'
+                    data: 'imgbencana',
+                    name: 'imgbencana'
                 },
                 {
                     data: 'sup',

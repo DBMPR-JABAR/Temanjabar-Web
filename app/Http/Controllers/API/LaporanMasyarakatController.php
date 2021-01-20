@@ -56,7 +56,7 @@ class LaporanMasyarakatController extends Controller
             if($request->gambar != null){
                 $path = 'laporan_masyarakat/'.date("YmdHis").'_'.$request->gambar->getClientOriginalName();
                 $request->gambar->storeAs('public/',$path);
-                $laporanMasyarakat['gambar'] = url('storage/'.$path);
+                $laporanMasyarakat['gambar'] = $path;
             }
             $laporanMasyarakat->nomorPengaduan = $kode;
             $laporanMasyarakat->status = 'Submitted';
@@ -105,7 +105,7 @@ class LaporanMasyarakatController extends Controller
             if($request->dokumentasi != null){
                 $path = 'laporan_masyarakat_progress/'.date("YmdHis").'_'.$request->dokumentasi->getClientOriginalName();
                 $request->dokumentasi->storeAs('public/',$path);
-                $progress['dokumentasi'] = url('storage/'.$path);
+                $progress['dokumentasi'] = $path;
             }
             $progress->save();
             if($progress->persentase >= 100){

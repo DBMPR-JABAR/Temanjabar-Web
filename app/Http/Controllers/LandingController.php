@@ -63,7 +63,7 @@ class LandingController extends Controller
         if($request->gambar != null){
             $path = 'laporan_masyarakat/'.date("YmdHis").'_'.$request->gambar->getClientOriginalName();
             $request->gambar->storeAs('public/',$path);
-            $laporanMasyarakat['gambar'] = url('storage/'.$path);
+            $laporanMasyarakat['gambar'] = $path;
         }
         $laporanMasyarakat->nomorPengaduan = $kode;
         $laporanMasyarakat->status = 'Submitted';
@@ -356,7 +356,7 @@ class LandingController extends Controller
         if($request->gambar != null){
             $path = 'laporan_masyarakat/'.date("YmdHis").'_'.$request->gambar->getClientOriginalName();
             $request->gambar->storeAs('public/',$path);
-            $laporanMasyarakat['gambar'] = url('storage/'.$path);
+            $laporanMasyarakat['gambar'] = $path;
         }
         $laporanMasyarakat->nomorPengaduan = $kode;
         $laporanMasyarakat->status = 'Submitted';
@@ -400,7 +400,7 @@ class LandingController extends Controller
         if($req->gambar != null){
             $path = 'laporan_masyarakat/'.date("YmdHis").'_'.$req->gambar->getClientOriginalName();
             $req->gambar->storeAs('public/',$path);
-            $data['gambar'] = url('storage/'.$path);
+            $data['gambar'] = $path;
         }
         $data['lokasi'] = $req->lokasi;
         $data['lat'] = $req->lat;

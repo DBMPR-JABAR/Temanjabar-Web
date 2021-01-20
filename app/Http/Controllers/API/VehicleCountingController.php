@@ -43,7 +43,7 @@ class VehicleCountingController extends Controller
             if($request->GAMBAR != null){
                 // $path = 'vehicle_counting/'.date("YmdHis").'_'.$request->GAMBAR->getClientOriginalName();
                 // $request->GAMBAR->storeAs('public/',$path);
-                // $vehicleCounting['GAMBAR'] = url('storage/'.$path);
+                // $vehicleCounting['GAMBAR'] = $path;
 
                 if (preg_match('/^data:image\/(\w+);base64,/', $request->GAMBAR, $type)) {
                     $random = rand(100000,999999);

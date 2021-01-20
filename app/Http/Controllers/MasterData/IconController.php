@@ -22,7 +22,7 @@ class IconController extends Controller
     	if ($req->icon_image != null) {
             $path = 'rawanbencana/icon' . Str::snake(date("YmdHis") . ' ' . $req->icon_image->getClientOriginalName());
             $req->icon_image->storeAs('public/', $path);
-            $icon['icon_image'] = url('storage/'.$path);
+            $icon['icon_image'] = $path;
         }
         DB::table('icon_titik_rawan_bencana')->insert($icon);
     	$color = "success";
@@ -37,7 +37,7 @@ class IconController extends Controller
 
     public function edit($id){
     	$icon = DB::table('icon_titik_rawan_bencana')->where('id',$id)->get();
-    	return response()->json(["icon" => $icon], 200); 
+    	return response()->json(["icon" => $icon], 200);
     }
 
     public function update(Request $req){
@@ -45,8 +45,8 @@ class IconController extends Controller
     	if ($req->icon_image != null) {
             $path = 'rawanbencana/icon' . Str::snake(date("YmdHis") . ' ' . $req->icon_image->getClientOriginalName());
             $req->icon_image->storeAs('public/', $path);
-            $icon['icon_image'] = url('storage/'.$path);
-            $icon_rawan['icon_image'] = url('storage/'.$path);
+            $icon['icon_image'] = $path;
+            $icon_rawan['icon_image'] = $path;
         }
         DB::table('icon_titik_rawan_bencana')->where('id',$req->id)->update($icon);
         DB::table('master_rawan_bencana')->where('icon_id',$req->id)->update($icon_rawan);

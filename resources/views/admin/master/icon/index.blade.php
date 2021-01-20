@@ -73,7 +73,7 @@
                                 <tr>
                                     <td>{{$loop->index + 1}}</td>
                                     <td>{{$data->icon_name}}</td>
-                                    <td><center><img class="img-fluid" style="max-width: 100px" src="{{$data->icon_image}}" alt="" srcset=""></center></td>
+                                    <td><center><img class="img-fluid" style="max-width: 100px" src="{{url('storage/'.$data->icon_image)}}" alt="" srcset=""></center></td>
                                     <td>
                                             {{-- <a type='button' href="{{ route('detailIcon',$data->id ) }}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Rincian</a> --}}
                                             <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$data->id}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a>
