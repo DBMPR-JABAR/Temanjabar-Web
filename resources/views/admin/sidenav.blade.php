@@ -321,8 +321,8 @@
             </li>
             @endif
         </ul>
-        <div class="pcoded-navigatio-lavel d-lg-none d-xl-block">Other</div>
-        <ul class="pcoded-item pcoded-left-item d-lg-none d-xl-block">
+        <div class="pcoded-navigatio-lavel d-lg-none">Other</div>
+        <ul class="pcoded-item pcoded-left-item d-lg-none">
             <li>
                 <a href="{{ url('logout') }}">
                     <span class="pcoded-micon"><i class="feather icon-log-out"></i></span>
