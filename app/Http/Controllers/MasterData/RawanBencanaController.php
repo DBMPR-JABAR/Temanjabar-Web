@@ -77,7 +77,7 @@ class RawanBencanaController extends Controller
         $sup = DB::table('utils_sup')
         ->where('uptd_id',$rawan->uptd_id)
         ->get();
-        
+
         $icon = DB::table('icon_titik_rawan_bencana')->get();
 
         $icon_curr = DB::table('icon_titik_rawan_bencana as a')
@@ -139,6 +139,11 @@ class RawanBencanaController extends Controller
     {
         return DataTables::of(DB::table('master_rawan_bencana'))
             ->addIndexColumn()
+            ->addColumn('imgbencana', function ($row) {
+                $path_foto = explode('/',$row->foto);
+                $img = '<img class="img-fluid" style="max-width: 100px" src="'.$row->foto.'"  alt="'.end($path_foto).'" />';
+                return $img;
+            })
             ->addColumn('action', function ($row) {
                 $btn = '<div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">';
 
@@ -153,7 +158,7 @@ class RawanBencanaController extends Controller
 
                 return $btn;
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action','imgbencana'])
             ->make(true);
     }
 }

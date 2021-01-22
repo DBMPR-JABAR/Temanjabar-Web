@@ -171,9 +171,8 @@
                     name: 'deskripsi'
                 },
                 {
-                    'mRender': function(data, type, full) {
-                        return '<img class="img-fluid" style="max-width: 100px" src="' + full['gambar'] + '" alt="" srcset="">';
-                    }
+                    data: 'imglaporan',
+                    name: 'imglaporan'
                 },
                 {
                     data: 'uptd_id',

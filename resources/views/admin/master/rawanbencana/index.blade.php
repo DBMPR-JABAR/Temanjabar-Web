@@ -222,7 +222,7 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Icon</label>
                             <div class="col-md-10">
-                                <select name="icon" class="form-control" onchange="getURL()" id="icon" >
+                                <select name="icon_id" class="form-control" onchange="getURL()" id="icon" >
                                     @foreach($icon as $data)
                                         <option value="{{ $data->id }}">{{ $data->icon_name }}</option>
                                     @endforeach
@@ -331,8 +331,8 @@
                     name: 'long'
                 },
                 {
-                    data: 'foto',
-                    name: 'foto'
+                    data: 'imgbencana',
+                    name: 'imgbencana'
                 },
                 {
                     data: 'sup',
