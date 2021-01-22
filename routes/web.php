@@ -179,7 +179,15 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
         Route::group(['prefix' => 'user'], function () {
             Route::get('role-akses', 'MasterData\UserController@getDaftarRoleAkses')->name('getRoleAkses');
+            Route::get('role-akses/create', 'MasterData\UserController@createRoleAccess')->name('createRoleAccess');
+            Route::post('role-akses/store', 'MasterData\UserController@storeRoleAccess')->name('storeRoleAccess');
+            Route::get('role-akses/edit/{id}', 'MasterData\UserController@editRoleAccess')->name('editRoleAccess');
+            Route::post('role-akses/update', 'MasterData\UserController@updateRoleAccess')->name('updateRoleAccess');
+
+
+
             Route::post('role-akses/create', 'MasterData\UserController@createRoleAkses')->name('createRoleAkses');
+
             Route::get('role-akses/detail/{id}', 'MasterData\UserController@detailRoleAkses')->name('detailRoleAkses');
             Route::get('role-akses/delete/{id}', 'MasterData\UserController@deleteRoleAkses')->name('deleteRoleAkses');
             Route::get('role-akses/getData/{id}', 'MasterData\UserController@getDataRoleAkses')->name('getDataRoleAkses');

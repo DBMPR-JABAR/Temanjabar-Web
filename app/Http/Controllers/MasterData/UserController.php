@@ -181,12 +181,31 @@ class UserController extends Controller
 
         $user_role_list = DB::table('user_role as a')
         ->distinct()
-        ->select('a.role','a.id as role_id',DB::raw('GROUP_CONCAT(b.menu SEPARATOR ", ") as menu_user'))
+        ->select('a.role','a.id as role_id',DB::raw('GROUP_CONCAT(b.menu SEPARATOR ", ") as menu_user'),DB::raw('GROUP_CONCAT(b.id SEPARATOR ", ") as id_menu'),DB::raw('GROUP_CONCAT(c.role_access SEPARATOR ", ") as role_access'))
         ->join('master_grant_role_aplikasi as b','a.id','=','b.internal_role_id')
+        ->join('utils_role_access as c','b.id','=','c.master_grant_role_aplikasi_id')
         ->where('b.menu','NOT LIKE','%disposisi%')
         ->groupBy('a.role')
         ->orderBy('a.id')
         ->get();
+        $alldata=array();
+        $counter=0;
+        foreach($user_role_list as $data){
+            $permiss =array();
+            $men = explode(",",$data->menu_user);
+            $aks = explode(",",$data->role_access);
+            $counting = 0;
+            
+            foreach($men as $no){
+                $temp = $no.'.'.$aks[$counting];
+                array_push($permiss,$temp) ;
+            }
+            $permission = implode(",", $permiss);
+            $alldata[$counter]['role_id'] = $data->role_id;
+            $alldata[$counter]['role'] = $data->role;
+            $alldata[$counter]['permissions'] = $permission;
+            $counter++;
+        }
 
         $internal = DB::table('master_grant_role_aplikasi as a')
         ->select('a.id','internal_role_id')
@@ -196,12 +215,13 @@ class UserController extends Controller
 
         foreach ($internal as $data) {
             $role_access = DB::table('utils_role_access as a')
-            ->distinct()
+            // ->distinct()
             ->select('*',DB::raw('GROUP_CONCAT(a.role_access SEPARATOR ", ") as role_akses'))
             ->where('a.master_grant_role_aplikasi_id',$data->id)
             ->orderBy('a.master_grant_role_aplikasi_id')
             ->get();
             $role_akses[] = $role_access[0]->role_akses;
+            
             $uptd_access = DB::table('utils_role_access_uptd as a')
             ->distinct()
             ->select(DB::raw('GROUP_CONCAT(a.uptd_name SEPARATOR ", ") as uptd_akses'))
@@ -211,6 +231,7 @@ class UserController extends Controller
             $uptd_akses[] = $uptd_access[0]->uptd_akses;
 
         }
+        // dd($role_akses);
         $menu = DB::table('master_grant_role_aplikasi as a')
         ->distinct()
         ->where('menu','NOT LIKE', '%Disposisi%')
@@ -220,11 +241,122 @@ class UserController extends Controller
             [
                 'user_role' => $user_role,
                 'role_access' => $role_akses,
+                'menu_access' => $alldata,
                 'uptd_access' => $uptd_akses,
                 'user_role_list' => $user_role_list,
                 'menu' => $menu
             ]);
     }
+
+    public function createRoleAccess(){
+        $roleExist = DB::table('master_grant_role_aplikasi')->distinct()->pluck('internal_role_id');
+
+        $menu = DB::table('master_grant_role_aplikasi as a')
+        ->distinct()
+        ->where('menu','NOT LIKE', '%Disposisi%')
+        ->groupBy('a.menu')
+        ->get();
+        $user_role = DB::table('user_role as a')
+                       ->whereNotIn('id',$roleExist)
+                       ->get();
+        return view('admin.master.user.role_akses_add',compact('menu','user_role'));
+    }
+    
+    public function storeRoleAccess(Request $request){
+        $roleExist = DB::table('master_grant_role_aplikasi')->distinct()->pluck('internal_role_id');
+        $role_access=array();
+        $data = ([
+           'user_role'=>$request->user_role,
+           'menu'=>$request->menu,
+           'uptd_access'=>$request->uptd_access
+       ]);
+      
+       $master_grant['internal_role_id']  = $data['user_role'];
+       echo $data['user_role'];
+       for($i=0;$i<count($data['menu']);$i++){
+            $ex = explode(".",$data['menu'][$i]);
+            array_push($role_access,
+                        [
+                        'menu'=>$ex[0],
+                        'access'=>$ex[1],
+                    ]
+            );
+            $master_grant['menu'] = $ex[0];
+            $master_grant['created_date'] = date('Y-m-d H:i:s');
+            echo $ex[0] . date('Y-m-d H:i:s') .'<br>';
+            DB::table('master_grant_role_aplikasi')->insert($master_grant);
+            // get db master grant
+
+            $master= DB::table('master_grant_role_aplikasi as a')
+            ->select('a.id')
+            ->where('a.internal_role_id',$data['user_role'])
+            ->where('a.pointer',null)
+            ->get();
+            $maser_id= $master[0]->id;
+            $role_access_list['master_grant_role_aplikasi_id'] = $maser_id;
+            $role_access_list['role_access'] = $ex[1];
+            DB::table('utils_role_access')->insert($role_access_list);
+
+            $pointer['pointer']=1;
+            DB::table('master_grant_role_aplikasi')->where('id',$maser_id)->update($pointer);
+            for($j=0;$j<count($data['uptd_access']);$j++){
+                $uptd_access_list['uptd_name'] = $data['uptd_access'][$j];
+                $uptd_access_list['master_grant_role_aplikasi_id'] = $maser_id;
+                DB::table('utils_role_access_uptd')->insert($uptd_access_list);
+            }
+       }
+       $color = "success";
+        $msg = "Berhasil Menambah Data Grant Access Role Aplikasi";
+        return redirect()->route('getRoleAkses')->with(compact('color', 'msg'));
+       
+    }
+
+    public function editRoleAccess($id){
+        $roleExist = DB::table('master_grant_role_aplikasi')->distinct()->pluck('internal_role_id');
+        
+        $user_role_list = DB::table('user_role as a')
+        ->distinct()
+        ->select('a.role','a.id as role_id',DB::raw('GROUP_CONCAT(b.menu SEPARATOR ", ") as menu_user'),DB::raw('GROUP_CONCAT(b.id SEPARATOR ", ") as id_menu'),DB::raw('GROUP_CONCAT(c.role_access SEPARATOR ", ") as role_access'))
+        ->join('master_grant_role_aplikasi as b','a.id','=','b.internal_role_id')
+        ->join('utils_role_access as c','b.id','=','c.master_grant_role_aplikasi_id')
+        ->where('a.id',$id)
+        ->where('b.menu','NOT LIKE','%disposisi%')
+        ->groupBy('a.role')
+        ->orderBy('a.id')
+        ->get();
+        $alldata=array();
+        $counter=0;
+        foreach($user_role_list as $data){
+            $permiss =array();
+            $men = explode(",",$data->menu_user);
+            $aks = explode(",",$data->role_access);
+            $counting = 0;
+            
+            foreach($men as $no){
+                $temp = $no.'.'.$aks[$counting];
+                array_push($permiss,$temp) ;
+            }
+            $permission = implode(",", $permiss);
+            $alldata[$counter]['role_id'] = $data->role_id;
+            $alldata[$counter]['role'] = $data->role;
+            $alldata[$counter]['permissions'] = $permission;
+            $counter++;
+        }
+
+
+
+        $menu = DB::table('master_grant_role_aplikasi as a')
+        ->distinct()
+        ->where('menu','NOT LIKE', '%Disposisi%')
+        ->groupBy('a.menu')
+        ->get();
+        $user_role = DB::table('user_role as a')
+                       ->where('id',$id)
+                       ->get();
+                        
+        return view('admin.master.user.role_akses_edit',compact('menu','user_role','alldata'));
+    }
+
     public function createRoleAkses(Request $request)
     {
 
@@ -259,10 +391,6 @@ class UserController extends Controller
             }
 
         }
-
-
-
-
         $color = "success";
         $msg = "Berhasil Menambah Data Grant Access Role Aplikasi";
         return back()->with(compact('color', 'msg'));
