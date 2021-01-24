@@ -52,7 +52,7 @@ class JembatanController extends Controller
         $sup = DB::table('utils_sup');
         $ruasJalan = DB::table('master_ruas_jalan');
         $uptd = DB::table('landing_uptd');
-        $jenis = DB::table('utils_jenis_jembatan');
+        //$jenis = DB::table('utils_jenis_jembatan');
 
         if (Auth::user()->internalRole->uptd) {
             if (Auth::user()->internalRole->uptd) {
@@ -64,9 +64,9 @@ class JembatanController extends Controller
         $sup = $sup->get();
         $ruasJalan = $ruasJalan->get();
         $uptd = $uptd->get();
-        $jenis = $jenis->get();
+        //$jenis = $jenis->get();
 
-        return view('admin.master.jembatan.add', compact('sup', 'ruasJalan', 'uptd', 'jenis'));
+        return view('admin.master.jembatan.add', compact('sup', 'ruasJalan', 'uptd'));
     }
 
     public function store(Request $request)
@@ -92,6 +92,7 @@ class JembatanController extends Controller
         $jembatan['ket'] = $request->ket;
         $jembatan['kategori'] = "";
         $jembatan['created_by'] = Auth::user()->id;
+        $jembatan['tipe'] = $request->tipe;
 
         $jembatanModel = new Jembatan();
         $result_jembatan = $jembatanModel->insert($jembatan);
@@ -144,7 +145,7 @@ class JembatanController extends Controller
         $sup = $sup->where('uptd_id', $id);
         $sup = $sup->get();
         $uptd = DB::table('landing_uptd')->get();
-        $jenis = DB::table('utils_jenis_jembatan')->get();
+        //$jenis = DB::table('utils_jenis_jembatan')->get();
         $foto = DB::table('master_jembatan_foto')->where('id_jembatan', $jembatan->id)->get();
 
         $dataBentang = DB::table('master_jembatan_bentang');
@@ -154,7 +155,7 @@ class JembatanController extends Controller
         $tipe = DB::table('utils_tipe_bangunan_atas');
         $tipe = $tipe->get();
 
-        return view('admin.master.jembatan.edit', compact('jembatan', 'ruasJalan', 'sup', 'uptd', 'dataBentang', 'tipe', 'jenis', 'foto'));
+        return view('admin.master.jembatan.edit', compact('jembatan', 'ruasJalan', 'sup', 'uptd', 'tipe', 'dataBentang', 'foto'));
     }
 
     public function deletePhoto($id)
@@ -194,6 +195,7 @@ class JembatanController extends Controller
         $jembatan['lat'] = $request->lat;
         $jembatan['lng'] = $request->lng;
         $jembatan['ket'] = $request->ket;
+        $jembatan['tipe'] = $request->tipe;
 
         $oldfoto = DB::table('master_jembatan_foto')->where('id_jembatan', $request->id)->get();
 

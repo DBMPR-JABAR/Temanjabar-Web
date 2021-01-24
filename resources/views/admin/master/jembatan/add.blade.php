@@ -149,16 +149,11 @@
                             </div>
                         </div>
 
+
                          <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Jenis</label>
+                            <label class="col-md-2 col-form-label">Tipe</label>
                             <div class="col-md-10">
-                                <select class="form-control" name="id_jenis_jembatan" required>
-                                    <option>Pilih Jenis</option>
-                                    @foreach ($jenis as $data)
-                                    <option value="{{$data->id}}">{{$data->name}}</option>
-                                    @endforeach
-                                  
-                                </select>
+                                <input name="tipe" type="text" class="form-control" required>
                             </div>
                         </div>
 
@@ -201,13 +196,13 @@
                         </div>
                         <hr>
                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Foto Jembatan</label><br>    
+                            <label class="col-md-2 col-form-label">Foto Jembatan</label><br>
                         </div>
                         <div id="inputFormRow">
                            <div class="input-group">
                                 <input type="text" name="nama[]" class="form-control m-input" placeholder="Judul Foto" autocomplete="off" required>
                                 <input type="file" name="foto[]" class="form-control m-input" accept="image/*" required>
-                                <div class="input-group-append">                
+                                <div class="input-group-append">
                                     <button id="removeRow" type="button" class="btn btn-danger">Hapus</button>
                                 </div>
                             </div>
@@ -317,7 +312,7 @@
         html += '<button id="removeRow" type="button" class="btn btn-danger">Hapus</button>';
         html += '</div>';
         html += '</div>';
- 
+
 
         $('#newRow').append(html);
     });
