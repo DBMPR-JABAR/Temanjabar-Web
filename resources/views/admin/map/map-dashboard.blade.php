@@ -2287,7 +2287,7 @@
                     className: "feather icon-video"
                 };
                 const popupTemplate = {
-                    title: "{RUAS_JALAN}",
+                    title: "{LOKASI}",
                     content: [{
                             type: "custom",
                             outFields: ["*"],
@@ -2299,7 +2299,7 @@
                                 vidElem.width = '275';
                                 vidElem.height = '200';
                                 const vidSrcElem = document.createElement('source');
-                                vidSrcElem.src = 'http://45.118.114.26:80/camera/Supratman.m3u8';
+                                vidSrcElem.src = 'http://45.118.114.26:80/camera/TolPasteur.m3u8';
                                 vidSrcElem.type = 'application/x-mpegURL';
                                 vidElem.appendChild(vidSrcElem);
                                 return vidElem;
@@ -2307,7 +2307,12 @@
                         },
                         {
                             type: "fields",
-                            fieldInfos: [{
+                            fieldInfos: [
+                                {
+                                    fieldName: "CHANNEL",
+                                    label: "Channel"
+                                },
+                                {
                                     fieldName: "LAT",
                                     label: "Latitude"
                                 },
@@ -2316,24 +2321,64 @@
                                     label: "Longitude"
                                 },
                                 {
-                                    fieldName: "JUMLAH_MOBIL",
-                                    label: "Jumlah Mobil"
+                                    fieldName: "JUMLAH_ORANG_UP",
+                                    label: "Jumlah Orang Up"
                                 },
                                 {
-                                    fieldName: "JUMLAH_MOTOR",
-                                    label: "Jumlah Motor"
+                                    fieldName: "JUMLAH_ORANG_DOWN",
+                                    label: "Jumlah Orang Down"
                                 },
                                 {
-                                    fieldName: "JUMLAH_BIS",
-                                    label: "Jumlah Bis"
+                                    fieldName: "JUMLAH_ORANG_STAY",
+                                    label: "Jumlah Orang Stay"
                                 },
                                 {
-                                    fieldName: "JUMLAH_TRUK_BOX",
-                                    label: "Jumlah Truk Box"
+                                    fieldName: "JUMLAH_MOBIL_UP",
+                                    label: "Jumlah Mobil Up"
                                 },
                                 {
-                                    fieldName: "JUMLAH_TRUK_TRAILER",
-                                    label: "Jumlah Truk Trailer"
+                                    fieldName: "JUMLAH_MOBIL_DOWN",
+                                    label: "Jumlah Mobil Down"
+                                },
+                                {
+                                    fieldName: "JUMLAH_MOBIL_STAY",
+                                    label: "Jumlah Mobil Stay"
+                                },
+                                {
+                                    fieldName: "JUMLAH_MOTOR_UP",
+                                    label: "Jumlah Motor Up"
+                                },
+                                {
+                                    fieldName: "JUMLAH_MOTOR_DOWN",
+                                    label: "Jumlah Motor Down"
+                                },
+                                {
+                                    fieldName: "JUMLAH_MOTOR_STAY",
+                                    label: "Jumlah Motor Stay"
+                                },
+                                {
+                                    fieldName: "JUMLAH_BIS_UP",
+                                    label: "Jumlah Bis Up"
+                                },
+                                {
+                                    fieldName: "JUMLAH_BIS_DOWN",
+                                    label: "Jumlah Bis Down"
+                                },
+                                {
+                                    fieldName: "JUMLAH_BIS_STAY",
+                                    label: "Jumlah Bis Stay"
+                                },
+                                {
+                                    fieldName: "JUMLAH_TRUK_UP",
+                                    label: "Jumlah Truk Up"
+                                },
+                                {
+                                    fieldName: "JUMLAH_TRUK_DOWN",
+                                    label: "Jumlah Truk Down"
+                                },
+                                {
+                                    fieldName: "JUMLAH_TRUK_STAY",
+                                    label: "Jumlah Truk Stay"
                                 },
                                 {
                                     fieldName: "SUP",
@@ -2347,18 +2392,11 @@
                                     fieldName: "CREATED_AT",
                                     label: "Terakhir Diperbarui"
                                 },
+                                {
+                                    fieldName: "UPDATED_AT",
+                                    label: "Upload Terakhir"
+                                },
                             ]
-                        },
-                        {
-                            type: "media",
-                            mediaInfos: [{
-                                title: "<b>Foto Aktual</b>",
-                                type: "image",
-                                caption: "{CREATED_AT}",
-                                value: {
-                                    sourceURL: "{GAMBAR}"
-                                }
-                            }]
                         }
                     ],
                     actions: [prepVidAction]
@@ -2410,6 +2448,16 @@
                             type: "integer"
                         },
                         {
+                            name: "LOKASI",
+                            alias: "Lokasi",
+                            type: "string"
+                        },
+                        {
+                            name: "CHANNEL",
+                            alias: "Channel",
+                            type: "string"
+                        },
+                        {
                             name: "LAT",
                             alias: "Latitude",
                             type: "double"
@@ -2420,28 +2468,78 @@
                             type: "double"
                         },
                         {
-                            name: "JUMLAH_MOBIL",
-                            alias: "Jumlah Mobil",
+                            name: "JUMLAH_ORANG_UP",
+                            alias: "Jumlah Orang Up",
                             type: "string"
                         },
                         {
-                            name: "JUMLAH_MOTOR",
-                            alias: "Jumlah Motor",
+                            name: "JUMLAH_ORANG_DOWN",
+                            alias: "Jumlah Orang Down",
                             type: "string"
                         },
                         {
-                            name: "JUMLAH_BIS",
-                            alias: "Jumlah Bis",
+                            name: "JUMLAH_ORANG_STAY",
+                            alias: "Jumlah Orang Stay",
                             type: "string"
                         },
                         {
-                            name: "JUMLAH_TRUK_BOX",
-                            alias: "Jumlah Truk Box",
+                            name: "JUMLAH_MOBIL_UP",
+                            alias: "Jumlah Mobil Up",
                             type: "string"
                         },
                         {
-                            name: "JUMLAH_TRUK_TRAILER",
-                            alias: "Jumlah Truk Trailer",
+                            name: "JUMLAH_MOBIL_DOWN",
+                            alias: "Jumlah Mobil Down",
+                            type: "string"
+                        },
+                        {
+                            name: "JUMLAH_MOBIL_STAY",
+                            alias: "Jumlah Mobil Stay",
+                            type: "string"
+                        },
+                        {
+                            name: "JUMLAH_MOTOR_UP",
+                            alias: "Jumlah Motor Up",
+                            type: "string"
+                        },
+                        {
+                            name: "JUMLAH_MOTOR_DOWN",
+                            alias: "Jumlah Motor Down",
+                            type: "string"
+                        },
+                        {
+                            name: "JUMLAH_MOTOR_STAY",
+                            alias: "Jumlah Motor Stay",
+                            type: "string"
+                        },
+                        {
+                            name: "JUMLAH_BIS_UP",
+                            alias: "Jumlah Bis Up",
+                            type: "string"
+                        },
+                        {
+                            name: "JUMLAH_BIS_DOWN",
+                            alias: "Jumlah Bis Down",
+                            type: "string"
+                        },
+                        {
+                            name: "JUMLAH_BIS_STAY",
+                            alias: "Jumlah Bis Stay",
+                            type: "string"
+                        },
+                        {
+                            name: "JUMLAH_TRUK_UP",
+                            alias: "Jumlah Truk Up",
+                            type: "string"
+                        },
+                        {
+                            name: "JUMLAH_TRUK_DOWN",
+                            alias: "Jumlah Truk Down",
+                            type: "string"
+                        },
+                        {
+                            name: "JUMLAH_TRUK_STAY",
+                            alias: "Jumlah Truk Stay",
                             type: "string"
                         },
                         {
@@ -2457,6 +2555,11 @@
                         {
                             name: "CREATED_AT",
                             alias: "Terakhir Diperbarui",
+                            type: "string"
+                        },
+                        {
+                            name: "UPDATED_AT",
+                            alias: "Upload Terakhir",
                             type: "string"
                         },
                     ],
