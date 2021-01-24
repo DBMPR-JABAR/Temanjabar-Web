@@ -2299,7 +2299,7 @@
                                 vidElem.width = '275';
                                 vidElem.height = '200';
                                 const vidSrcElem = document.createElement('source');
-                                vidSrcElem.src = 'https://45.118.114.26:80/camera/TolPasteur.m3u8';
+                                vidSrcElem.src = 'http://45.118.114.26:80/camera/TolPasteur.m3u8';
                                 vidSrcElem.type = 'application/x-mpegURL';
                                 vidElem.appendChild(vidSrcElem);
                                 return vidElem;
