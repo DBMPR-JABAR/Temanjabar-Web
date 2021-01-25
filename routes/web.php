@@ -73,6 +73,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
         Route::get('kemantapan-jalan', 'MonitoringController@getKemantapanJalan');
         // Route::view('kemantapan-jalan-detail', 'admin.monitoring.kemantapan-jalan-detail');
+        Route::get('cctv', 'MonitoringController@getCCTV');
     });
 
     // {SiteURL}/admin/rekomendasi/*

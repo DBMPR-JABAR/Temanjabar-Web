@@ -45,6 +45,11 @@
                         </a>
                     </li>
                     @endif
+                    <li class="{{(Request::segment(3) == 'cctv') ? 'active' : ''}}">
+                        <a href="{{ url('admin/monitoring/cctv') }}">
+                            <span class="pcoded-mtext">CCTV Command Center</span>
+                        </a>
+                    </li>
                     {{-- @if (hasAccess(Auth::user()->internal_role_id, "Survey Kondisi Jalan", "View"))
                     <li class="{{(Request::segment(3) == 'survey-kondisi-jalan') ? 'active' : ''}}">
                         <a href="{{ url('admin/monitoring/survey-kondisi-jalan') }}">

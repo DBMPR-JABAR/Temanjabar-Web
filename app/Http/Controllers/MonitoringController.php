@@ -10,7 +10,7 @@ use App\Http\Resources\GeneralResource;
 use App\Model\DWH\KemantapanJalan;
 use DateTime;
 use Illuminate\Support\Carbon;
-
+use PhpParser\Node\Stmt\Echo_;
 
 class MonitoringController extends Controller
 {
@@ -155,5 +155,15 @@ class MonitoringController extends Controller
         return view('admin.monitoring.proyek-kontrak-detail',
             ['proyekdetail' => $proyekdetail,
             'getProyekDetail' => $getProyekDetail]);
+    }
+
+    public function getCCTV()
+    {
+        $cctv = DB::connection('dwh')->table("tbl_tmnjabar_trx_cctv")
+        ->select('*')->get();
+        //dd($cctv);
+        return view('admin.monitoring.cctv-command-center', [
+            'cctv'=> $cctv
+        ]);
     }
 }
