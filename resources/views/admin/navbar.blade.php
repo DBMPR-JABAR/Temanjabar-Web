@@ -5,7 +5,7 @@
             <a class="mobile-menu" id="mobile-collapse" href="#!">
                 <i class="feather icon-menu"></i>
             </a>
-            <a href="{{ url('') }}">
+            <a href="{{ url('admin/home') }}">
                 <img class="img-fluid" width="150" src="{{ asset('assets/images/brand/text_putih.png')}} " alt="Theme-Logo">
             </a>
             <a class="mobile-options">

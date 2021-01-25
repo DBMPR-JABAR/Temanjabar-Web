@@ -45,10 +45,12 @@
 @endsection
 
 @section('page-body')
-<form action="{{route('storeRoleAccess')}}" method="post" enctype="multipart/form-data">
+<form action="{{route('updateRoleAccess',$alldata['role_id'])}}" method="post" enctype="multipart/form-data">
     @csrf
+    {{-- @method('PUT') --}}
+
     <div class="modal-header">
-        <h4 class="modal-title">Edit Role Access</h4>
+        <h4 class="modal-title">Edit Role Access </h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -78,11 +80,12 @@
                 </select>
             </div> --}}
             <div class="col-md-9">       
-                @foreach($menu as $data)
-                    <input type="checkbox" class="custom-checkbox" name="menu[]" value="{{$data->menu}}.Create" >{{$data->menu}}.Create&nbsp;
-                    <input type="checkbox" class="custom-checkbox" name="menu[]" value="{{$data->menu}}.View" >{{$data->menu}}.View&nbsp;
-                    <input type="checkbox" class="custom-checkbox" name="menu[]" value="{{$data->menu}}.Update" >{{$data->menu}}.Update&nbsp;
-                    <input type="checkbox" class="custom-checkbox" name="menu[]" value="{{$data->menu}}.Delete" >{{$data->menu}}.Delete&nbsp;
+                @foreach($alldata['menu'] as $data)
+                    @foreach ($alldata['permissions'] as $item)
+                       
+                    @endforeach
+                    <input type="checkbox" class="custom-checkbox" name="menu[]" value="{{$data}}" @if(strpos( $item, $data ) !== false) checked @endif>{{$data}}&nbsp;
+
                 @endforeach
             </div>
         </div>
@@ -104,7 +107,16 @@
             <div class="col-md-9">
                 
                 @foreach ($uptd_lists as $no => $uptd_list) 
-                    <input type="checkbox" class="custom-checkbox" name="uptd_access[]" value="{{ $uptd_list->id }}" id="uptd_{{ $uptd_list->id }}" >{{ $uptd_list->nama }}&nbsp;
+                    @foreach ($alldata['uptd_akses'] as $item)
+                        @php
+                        $act = " ";
+                            if ($item == $uptd_list->id) {
+                                $act = "Checked";
+                                break;
+                            }
+                        @endphp
+                    @endforeach
+                    <input type="checkbox" class="custom-checkbox" name="uptd_access[]" value="{{ $uptd_list->id }}" id="uptd_{{ $uptd_list->id }}" {{ $act }}>{{ $uptd_list->nama }}&nbsp;
                 @endforeach
             </div>
         </div>

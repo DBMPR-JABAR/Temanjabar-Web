@@ -46,6 +46,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     });
     Route::get('pesan', 'LandingController@getPesan');
     Route::get('log', 'LandingController@getLog');
+    Route::get('home', 'Home@index')->name('admin-home');
 
     Route::view('map-dashboard', 'admin.map.map-dashboard');
     Route::view('map-dashboard-canggih', 'admin.map.map-dashboard-canggih');
@@ -182,9 +183,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('role-akses/create', 'MasterData\UserController@createRoleAccess')->name('createRoleAccess');
             Route::post('role-akses/store', 'MasterData\UserController@storeRoleAccess')->name('storeRoleAccess');
             Route::get('role-akses/edit/{id}', 'MasterData\UserController@editRoleAccess')->name('editRoleAccess');
-            Route::post('role-akses/update', 'MasterData\UserController@updateRoleAccess')->name('updateRoleAccess');
-
-
+            Route::post('role-akses/update/{id}', 'MasterData\UserController@updateRoleAccess')->name('updateRoleAccess');
 
             Route::post('role-akses/create', 'MasterData\UserController@createRoleAkses')->name('createRoleAkses');
 
