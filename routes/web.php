@@ -47,7 +47,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('pesan', 'LandingController@getPesan');
     Route::get('log', 'LandingController@getLog');
     Route::get('home', 'Home@index')->name('admin-home');
-
+    Route::get('/', 'Home@index');
     Route::view('map-dashboard', 'admin.map.map-dashboard');
     Route::view('map-dashboard-canggih', 'admin.map.map-dashboard-canggih');
     // {SiteURL}/admin/monitoring/*
