@@ -170,7 +170,7 @@
                             <input type="radio" name="kondisi" id="kondisi" value="Mantap" onchange="my_function('Mantap')"> Mantap
                             <input class="ml-4" type="radio" name="kondisi" id="kondisi" value="Tidak" onchange="my_function('tidakMantap')" checked> Tidak Mantap
                             @endif
-                            <input type="text" class="form-control ml-4" name="kondisi1" id="kondisi1" value="{{$kondisiJalan->kondisi}}" hidden>
+                            <input type="radio" class="form-control ml-4" name="kondisi" id="kondisiInit" value="{{$kondisiJalan->kondisi}}" hidden>
                         </div>
                     </div>
                     <div id="form-mantap">
@@ -601,7 +601,7 @@
             return (/^\-?[0-9]*\.?[0-9]*$/).test($(this).val() + evt.key);
         });
 
-        val = document.getElementById("kondisi1").value
+        val = document.getElementById("kondisiInit").value
         console.log(val)
         my_function(val)
     });
