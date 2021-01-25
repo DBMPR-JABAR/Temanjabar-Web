@@ -9,7 +9,7 @@ class SurveiController extends Controller
 {
     public function getCCTV()
     {
-        $cctv = DB::connection('dwh')->table("tbl_tmnjabar_trx_cctv")
+        $cctv = DB::connection('dwh')->table("TBL_TMNJABAR_TRX_CCTV")
             ->select('*')->get();
         //dd($cctv);
         return view('admin.monitoring.cctv-command-center', [
