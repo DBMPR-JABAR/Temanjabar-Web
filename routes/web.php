@@ -69,11 +69,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
         Route::get('laporan-kerusakan', 'MonitoringController@getLaporan');
         Route::view('realisasi-keuangan', 'admin.monitoring.realisasi-keuangan');
-        Route::view('audit-keuangan', 'admin.monitoring.audit-keuangan');
+        Route::view('audit-keuangan', 'audit-keuangan');
 
         Route::get('kemantapan-jalan', 'MonitoringController@getKemantapanJalan');
         // Route::view('kemantapan-jalan-detail', 'admin.monitoring.kemantapan-jalan-detail');
         Route::get('cctv', 'MonitoringController@getCCTV');
+        // parameternya dari id ruas jalan
+        Route::get('roadroid-survei-kondisi-jalan/{id}', 'MonitoringController@getRoadroidSKJ');
     });
 
     // {SiteURL}/admin/rekomendasi/*

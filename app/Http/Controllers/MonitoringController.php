@@ -166,4 +166,9 @@ class MonitoringController extends Controller
             'cctv'=> $cctv
         ]);
     }
+    public function getRoadroidSKJ($id)
+    {
+       //dd($id);
+       return view('admin.monitoring.roadroid-survei-kondisi-jalan', ['id'=> $id]);
+    }
 }
