@@ -1,17 +1,23 @@
-<figure class="highcharts-figure">
-    <div id="containerEiri"></div>
-    <p class="highcharts-description">
-        {{ $id }}
-    </p>
-</figure>
-<figure class="highcharts-figure">
-    <div id="containerSpeedAltitude"></div>
-    <p class="highcharts-description">
-        {{ $id }}
-    </p>
-</figure>
+@if (count($surveiKondisiJalan) > 0)
+    <figure class="highcharts-figure">
+        <div id="containerEiri"></div>
+        <p class="highcharts-description">
 
+        </p>
+    </figure>
+    <figure class="highcharts-figure">
+        <div id="containerSpeedAltitude"></div>
+        <p class="highcharts-description">
+
+        </p>
+    </figure>
+    @else
+        <div><h2 id="noData">Belum Ada Data</h2></div>
+@endif
 <style>
+    #noData {
+        text-align: center
+    }
     .highcharts-figure,
     .highcharts-data-table table {
         min-width: 360px;
@@ -64,55 +70,48 @@
 
 <!-- Chart code -->
 <script>
-    function getData(n) {
-        var arr = [],
-            i,
-            x,
-            a,
-            b,
-            c,
-            spike;
-        let dummy = 0;
-        for (
-            i = 0, x = 550 - n * 36e5; i < n; i = i + 1, x = x + 36e5
-        ) {
-            if (i % 100 === 0) {
-                a = 2 * Math.random();
-            }
-            if (i % 1000 === 0) {
-                b = 2 * Math.random();
-            }
-            if (i % 10000 === 0) {
-                c = 2 * Math.random();
-            }
-            if (i % 50000 === 0) {
-                spike = 10;
-            } else {
-                spike = 0;
-            }
-            arr.push([
-                dummy++,
-                2 * Math.sin(i / 100) + a + b + c + spike + Math.random()
-            ]);
-        }
-        return arr;
-    }
-    var n = 500,
-        dataAltitude = getData(n),
-        dataSpeed = getData(n),
-        dataEiri = getData(n),
-        dataCiri = getData(n);;
+    const surveiKondisiJalan = @json($surveiKondisiJalan);
+    //console.log(surveiKondisiJalan)
 
-    console.log(dataAltitude)
-    console.log(dataSpeed)
+    const surveiKondisiJalanOrder = surveiKondisiJalan.sort((a, b) => {
+        return Number(a.distance) > Number(b.distance) ? 1 : -1;
+    })
+
+    //console.log(surveiKondisiJalanOrder)
+
+    const eiri = [],
+        ciri = [],
+        speed = [],
+        altitude = [];
+
+    surveiKondisiJalanOrder.forEach(items => {
+        eiri.push([
+            Number(items.distance),
+            Number(items.eiri)
+        ])
+        ciri.push([
+            Number(items.distance),
+            Number(items.ciri)
+        ])
+        speed.push([
+            Number(items.distance),
+            Number(items.speed)
+        ])
+        altitude.push([
+            Number(items.distance),
+            Number(items.altitude)
+        ])
+    });
+
+    //console.log(eiri, ciri, altitude, speed)
+
     Highcharts.chart('containerEiri', {
 
         chart: {
             zoomType: 'x'
         },
 
-        colors: ['red', 'green',
-        ],
+        colors: ['red', 'green', ],
 
         title: {
             text: 'eIRI & cIRI'
@@ -131,12 +130,12 @@
         },
 
         series: [{
-                data: dataEiri,
+                data: eiri,
                 lineWidth: 0.5,
                 name: 'eIRI'
             },
             {
-                data: dataCiri,
+                data: ciri,
                 lineWidth: 0.5,
                 name: 'cIRI'
             }
@@ -149,10 +148,9 @@
         chart: {
             zoomType: 'x'
         },
-        colors: ['green','red',
-        ],
+        colors: ['red', 'green', ],
         title: {
-            text: 'Speed Altitude'
+            text: 'Speed & Altitude'
         },
 
         // subtitle: {
@@ -168,14 +166,14 @@
         },
 
         series: [{
-                data: dataAltitude,
-                lineWidth: 0.5,
-                name: 'Altitude'
-            },
-            {
-                data: dataSpeed,
+                data: speed,
                 lineWidth: 0.5,
                 name: 'Speed'
+            },
+            {
+                data: altitude,
+                lineWidth: 0.5,
+                name: 'Altitude'
             }
         ]
     });

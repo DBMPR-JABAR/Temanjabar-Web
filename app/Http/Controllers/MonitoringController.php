@@ -34,7 +34,7 @@ class MonitoringController extends Controller
         $kondisi['SANGAT_PARAH'] = KemantapanJalan::sum('SANGAT_PARAH');
         $kondisi['HANCUR'] = KemantapanJalan::sum('HANCUR');
 
-        return view('admin.monitoring.kemantapan-jalan',compact('luas','kondisi'));
+        return view('admin.monitoring.kemantapan-jalan', compact('luas', 'kondisi'));
     }
     public function getLaporanAPI()
     {
@@ -43,9 +43,9 @@ class MonitoringController extends Controller
             'data' => []
         ];
         $laporan = DB::table('monitoring_laporan_masyarakat');
-        if(Auth::user()->internalRole->uptd){
-            $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
-            $laporan = $laporan->where('uptd_id',$uptd_id);
+        if (Auth::user()->internalRole->uptd) {
+            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+            $laporan = $laporan->where('uptd_id', $uptd_id);
         }
         $laporan = $laporan->get();
         $response['data'] = $laporan;
@@ -86,8 +86,7 @@ class MonitoringController extends Controller
         $query = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN')
             ->select('NAMA_PAKET', 'TANGGAL', 'PENYEDIA_JASA', 'KEGIATAN', 'RUAS_JALAN', 'LOKASI', 'RENCANA', 'REALISASI', 'DEVIASI', 'JENIS_PEKERJAAN', 'UPTD');
         $query->whereIn('TANGGAL', function ($querySubTanggal) {
-            $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('TBL_UPTD_TRX_PROGRESS_MINGGUAN')
-            ;
+            $querySubTanggal->select(DB::raw('MAX(TANGGAL)'))->from('TBL_UPTD_TRX_PROGRESS_MINGGUAN');
         });
 
         $queryCritical = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN')
@@ -112,17 +111,16 @@ class MonitoringController extends Controller
 
 
         $anggaranUPTD = DB::connection('dwh')->table('TBL_UPTD_TRX_PEMBANGUNAN')
-        ->select('UPTD', DB::raw('SUM(PAGU_ANGGARAN) AS PAGU_ANGGARAN'), DB::raw('SUM(NILAI_KONTRAK) AS NILAI_KONTRAK'), DB::raw('SUM(TOTAL_SISA_LELANG) AS TOTAL_SISA_LELANG'))
-                        ->groupBy('UPTD')->get();
-        $anggaranData= array();
-        foreach($anggaranUPTD as $anggaran){
-            $anggaranData[] ='
-                "'.$anggaran->UPTD.'": {
-                  "pagu ": '.$anggaran->PAGU_ANGGARAN.',
-                  "Kontrak": '.$anggaran->NILAI_KONTRAK.',
-                  "Sisa": '.$anggaran->TOTAL_SISA_LELANG.'
+            ->select('UPTD', DB::raw('SUM(PAGU_ANGGARAN) AS PAGU_ANGGARAN'), DB::raw('SUM(NILAI_KONTRAK) AS NILAI_KONTRAK'), DB::raw('SUM(TOTAL_SISA_LELANG) AS TOTAL_SISA_LELANG'))
+            ->groupBy('UPTD')->get();
+        $anggaranData = array();
+        foreach ($anggaranUPTD as $anggaran) {
+            $anggaranData[] = '
+                "' . $anggaran->UPTD . '": {
+                  "pagu ": ' . $anggaran->PAGU_ANGGARAN . ',
+                  "Kontrak": ' . $anggaran->NILAI_KONTRAK . ',
+                  "Sisa": ' . $anggaran->TOTAL_SISA_LELANG . '
                 }';
-
         }
         $deviasi = -5;
 
@@ -136,14 +134,17 @@ class MonitoringController extends Controller
         $countOffProgress = $offProgress->get()->count();
         //echo "<script>alert('".$countOnProgress."')</script>";
         $countFinish = $finish->get()->count();
-        return view('admin.monitoring.proyek-kontrak',
-            ['listProjectContract' => $listProjectContract,
+        return view(
+            'admin.monitoring.proyek-kontrak',
+            [
+                'listProjectContract' => $listProjectContract,
                 'countCritical' => $countCritical,
                 'countOnProgress' => $countOnProgress,
                 'countOffProgress' => $countOffProgress,
                 'countFinish' => $countFinish,
-                'anggaranData' => implode(",",$anggaranData)
-            ]);
+                'anggaranData' => implode(",", $anggaranData)
+            ]
+        );
     }
 
     public function getProyekDetail($status)
@@ -152,23 +153,28 @@ class MonitoringController extends Controller
         $proyekdetail = ProgressMingguan::get()->filter(function ($item) use ($status) {
             return $item->STATUS_PROYEK === $status;
         });
-        return view('admin.monitoring.proyek-kontrak-detail',
-            ['proyekdetail' => $proyekdetail,
-            'getProyekDetail' => $getProyekDetail]);
+        return view(
+            'admin.monitoring.proyek-kontrak-detail',
+            [
+                'proyekdetail' => $proyekdetail,
+                'getProyekDetail' => $getProyekDetail
+            ]
+        );
     }
 
     public function getCCTV()
     {
         $cctv = DB::connection('dwh')->table("tbl_tmnjabar_trx_cctv")
-        ->select('*')->get();
+            ->select('*')->get();
         //dd($cctv);
         return view('admin.monitoring.cctv-command-center', [
-            'cctv'=> $cctv
+            'cctv' => $cctv
         ]);
     }
     public function getRoadroidSKJ($id)
     {
-       //dd($id);
-       return view('admin.monitoring.roadroid-survei-kondisi-jalan', ['id'=> $id]);
+        $surveiKondisiJalan = DB::table('roadroid_trx_survey_kondisi_jalans')->where('id_ruas_jalan', $id)->orderBy('id')->get();
+        //dd($surveiKondisiJalan);
+        return view('admin.monitoring.roadroid-survei-kondisi-jalan', ['id' => $id, 'surveiKondisiJalan' => $surveiKondisiJalan]);
     }
 }
