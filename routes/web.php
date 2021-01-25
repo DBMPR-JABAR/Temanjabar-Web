@@ -340,6 +340,7 @@ Route::get('debug/pushnow', 'API\PushNotifController@debug');
 Route::view('debug/map-dashboard', 'debug.map-dashboard');
 Route::view('debug/map-filter', 'debug.map-filter');
 Route::view('coba-map', 'debug.coba-map');
+Route::view('coba-roaddroid', 'debug.map-roaddroid');
 Route::view('map-progress-mingguan', 'debug.map-progress-mingguan');
 Route::view('map-ruas-jalan', 'debug.map-ruas-jalan');
 
