@@ -73,9 +73,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
         Route::get('kemantapan-jalan', 'MonitoringController@getKemantapanJalan');
         // Route::view('kemantapan-jalan-detail', 'admin.monitoring.kemantapan-jalan-detail');
-        Route::get('cctv', 'MonitoringController@getCCTV');
+        Route::get('cctv', 'SurveiController@getCCTV');
         // parameternya dari id ruas jalan
-        Route::get('roadroid-survei-kondisi-jalan/{id}', 'MonitoringController@getRoadroidSKJ');
+        Route::get('roadroid-survei-kondisi-jalan/{id}', 'SurveiController@getRoadroidSKJ');
         Route::view('roadroid-survei-kondisi-jalan', 'admin.map.map-roaddroid');
     });
 
