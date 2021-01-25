@@ -32,7 +32,7 @@
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
-                    <div class="col-8"><a href="kendali-kontrak/status/CRITICAL CONTRACT">
+                    <div class="col-8"><a href="{{ url('admin/master-data/ruas-jalan') }}">
                         <h4 class="text-c-yellow f-w-600">{{ count($ruas_jalan_lists) }}</h4></a>
                         {{-- <h6 class="text-muted m-b-0">Critical Contract</h6> --}}
                     </div>
@@ -58,7 +58,7 @@
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
-                    <div class="col-8"><a href="kendali-kontrak/status/ON PROGRESS">
+                    <div class="col-8"><a href="{{ url('admin/master-data/jembatan') }}">
                         <h4 class="text-c-green f-w-600">{{ count($jembatan_lists) }}</h4> </a>
                         {{-- <h6 class="text-muted m-b-0">On Progress</h6> --}}
                     </div>
@@ -83,7 +83,7 @@
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
-                    <div class="col-8"><a href="kendali-kontrak/status/FINISH">
+                    <div class="col-8"><a href="{{ url('admin/master-data/CCTV') }}">
                         <h4 class="text-c-blue f-w-600">{{ count($cctv_lists) }}</h4> </a>
                         {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
                     </div>
@@ -108,7 +108,7 @@
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
-                    <div class="col-8"><a href="kendali-kontrak/status/FINISH">
+                    <div class="col-8"><a href="{{ url('admin/master-data/rawanbencana') }}">
                         <h4 class="text-c-yellow f-w-600">{{ count($rawan_bencana_lists) }}</h4> </a>
                         {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
                     </div>
@@ -129,31 +129,33 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-6 col-md-12">
-        <div class="card">
-            <div class="card-block">
-                <div class="row align-items-center">
-                    <div class="col-8"><a href="kendali-kontrak/status/FINISH">
-                        <h4 class="text-c-blue f-w-600">{{ count($user_lists) }}</h4> </a>
-                        {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
-                    </div>
-                    <div class="col-4 text-right">
-                        <i class="feather icon-users f-28"></i>
+    @if (hasAccess(Auth::user()->internal_role_id, "User", "View"))
+        <div class="col-xl-6 col-md-12">
+            <div class="card">
+                <div class="card-block">
+                    <div class="row align-items-center">
+                        <div class="col-8"><a href="{{ route('getMasterUser') }}">
+                            <h4 class="text-c-blue f-w-600">{{ count($user_lists) }}</h4> </a>
+                            {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
+                        </div>
+                        <div class="col-4 text-right">
+                            <i class="feather icon-users f-28"></i>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="card-footer bg-c-blue">
-                <div class="row align-items-center">
-                    <div class="col-9">
-                        <p class="text-white m-b-0">Registered Users</p>
-                    </div>
-                    <div class="col-3 text-right">
-                        <i class="feather icon-trending-up text-white f-16"></i>
+                <div class="card-footer bg-c-blue">
+                    <div class="row align-items-center">
+                        <div class="col-9">
+                            <p class="text-white m-b-0">Registered Users</p>
+                        </div>
+                        <div class="col-3 text-right">
+                            <i class="feather icon-trending-up text-white f-16"></i>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
 
     
 
