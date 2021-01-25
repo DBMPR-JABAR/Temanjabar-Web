@@ -101,7 +101,7 @@ class JembatanController extends Controller
         if ($result_jembatan) {
             if ($request->foto != null) {
                 foreach ($request->foto as $i => $val) {
-                    $path = 'jembatan/' . Str::snake(date("YmdHis") . ' ' . $val->getClientOriginalName());
+                    $path = 'jembatan/' . Str::snake(date("YmdHis").'_'.$val->getClientOriginalName());
                     $val->storeAs('public/', $path);
                     $file['foto'] = $path;
                     $file['nama'] = $request->nama[$i];

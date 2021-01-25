@@ -85,7 +85,7 @@
                                             <a type='button' href="{{ route('detailRoleAkses', $data['role_id']) }}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Rincian</a>
                                             <a type='button' href='{{ route('editRoleAccess', $data['role_id']) }}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a>
                                             
-                                            <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$data['role_id']}}' data-uptd_access='{{$uptd_access[$i]}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a>
+                                            {{-- <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$data['role_id']}}' data-uptd_access='{{$uptd_access[$i]}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a> --}}
                                             <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data['role_id']}}'     class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Hapus</a><br/>
                                     </td>
                                 </tr>
