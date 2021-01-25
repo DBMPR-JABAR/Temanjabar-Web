@@ -45,7 +45,7 @@
                 </button>
             </div>
             <div id="back">
-                <a href="{{ url('/admin/monitoring/kendali-kontrak') }}">
+                <a href="{{ url('/admin') }}">
                     <button data-toggle="tooltip" data-placement="right" title="Kembali kehalaman Sebelumnya">
                         <i class="feather icon-arrow-left"></i>
                     </button>
