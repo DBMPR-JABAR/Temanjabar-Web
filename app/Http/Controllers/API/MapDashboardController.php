@@ -8,9 +8,11 @@ use App\Model\DWH\Pembangunan;
 use App\Model\DWH\RuasJalan;
 use App\Model\DWH\Kemandoran;
 use App\Model\DWH\ProgressMingguan;
-use App\Model\DWH\Jembatan;
+// use App\Model\DWH\Jembatan;
+use App\Model\Transactional\Jembatan;
 use App\Model\DWH\VehicleCounting;
 use App\Http\Resources\GeneralResource;
+use App\Http\Resources\MapJembatanResource;
 use App\Model\DWH\KemantapanJalan;
 use App\Model\Transactional\LaporanMasyarakat;
 
@@ -45,6 +47,22 @@ class MapDashboardController extends Controller
         }
     }
 
+    public function getJembatan(Request $request)
+    {
+        try {
+            // $jembatan = (new MapJembatanResource());
+            $jembatan = MapJembatanResource::collection(Jembatan::whereIn('UPTD',['uptd3'])->get());
+            // $jembatan = Jembatan::whereIn('UPTD',['uptd1'])->get();
+            $this->response['status'] = 'success';
+            $this->response['data']['jembatan'] = $jembatan;
+
+            return response()->json($this->response, 200);
+        } catch (\Exception $th) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
+
     public function getData(Request $request)
     {
         try {
@@ -60,7 +78,9 @@ class MapDashboardController extends Controller
 
             if ($request->has('kegiatan')) {
                 if(in_array('jembatan', $request->kegiatan)){
-                    $data = Jembatan::whereIn('SUP',$request->sup)->get();
+                    // $data = Jembatan::whereIn('SUP',$request->sup)->get();
+                    $data = MapJembatanResource::collection(Jembatan::whereIn('SUP',$request->sup)->get());
+
                     $this->response['data']['jembatan'] = $data;
                 }
                 if(in_array('pembangunan', $request->kegiatan)){
@@ -180,7 +200,7 @@ class MapDashboardController extends Controller
     public function filter(Request $request)
     {
         try {
-            $jembatan = Jembatan::whereIn('SUP',$request->sup)->get();
+            $jembatan = (new MapJembatanResource(Jembatan::whereIn('UPTD','uptd1')->get()));
 
             $this->response['status'] = 'success';
             $this->response['data']['jembatan'] = $jembatan;

@@ -81,6 +81,7 @@ Route::post('map/dashboard/sup', 'API\MapDashboardController@getSUP')->name('api
 Route::post('map/dashboard/filter', 'API\MapDashboardController@filter');
 Route::post('map/dashboard/data', 'API\MapDashboardController@getData');
 Route::post('map/dashboard/data-proyek', 'API\MapDashboardController@getDataProyek');
+Route::post('map/dashboard/jembatan', 'API\MapDashboardController@getJembatan');
 
 Route::resource('vehicle-counting', 'API\VehicleCountingController');
 

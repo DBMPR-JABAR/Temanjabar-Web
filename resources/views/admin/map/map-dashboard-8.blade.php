@@ -1435,11 +1435,6 @@
             }
 
             function addJembatan(jembatan) {
-                var prepImg = {
-                    title: "Lihat Foto",
-                    id: "prep-img",
-                    className: "feather icon-image"
-                };
                 const symbol = {
                     type: "picture-marker", // autocasts as new PictureMarkerSymbol()
                     url: baseUrl + "/assets/images/marker/jembatan.png",
@@ -1448,8 +1443,7 @@
                 };
                 const popupTemplate = {
                     title: "{NAMA_JEMBATAN}",
-                    content: [
-                        {
+                    content: [{
                             type: "fields",
                             fieldInfos: [{
                                     fieldName: "PANJANG",
@@ -1486,17 +1480,16 @@
                             ]
                         },
                         {
-                            type: "custom",
-                            title: "<b>Foto Jembatan</b>",
-                            outFields: ["*"],
-                            creator: function(graphic) {
-                                const vidElem = document.createElement('div');
-                                vidElem.id = 'imgjembatan'; // + f.graphic.attributes.ID;
-                                return vidElem;
-                            }
+                            type: "media",
+                            mediaInfos: [{
+                                title: "<b>Foto Pekerjaan</b>",
+                                type: "image",
+                                value: {
+                                    sourceURL: "{FOTO}"
+                                }
+                            }]
                         }
-                    ],
-                    actions: [prepImg]
+                    ]
                 };
 
                 // cari dan hapus layer bila ada pd map
@@ -1566,11 +1559,6 @@
                             name: "UPTD",
                             alias: "UPTD",
                             type: "string"
-                        },
-                        {
-                            name: "FOTO",
-                            alias: "Foto",
-                            type: "string"
                         }
                     ],
                     objectIdField: "ID",
@@ -1585,34 +1573,6 @@
                         symbol: symbol
                     }
                 });
-
-
-                view.popup.on("trigger-action", function(event) {
-                    if (event.action.id === "prep-img") {
-                        var attributes = view.popup.viewModel.selectedFeature.attributes;
-                        var foto = attributes.FOTO;
-                        let fotoArr = foto.split(',');
-                        const vidElem = document.getElementById('imgjembatan');
-                        fotoArr.forEach(foto => {
-                            vidElem.innerHTML += `
-                                <img src="${baseUrl}/storage/${foto}"/>
-                            `;
-                        });
-                        $('div.esri-popup__action[title="Lihat Foto"]').remove();
-                    }
-                });
-
-                view.when(function() {
-                    view.popup.watch("selectedFeature", function(graphic) {
-                        if (graphic) {
-                            var graphicTemplate = graphic.getEffectivePopupTemplate();
-                            graphicTemplate.actions.items[0].visible = (graphic.attributes.FOTO != '') ?
-                                true :
-                                false;
-                        }
-                    });
-                });
-
                 map.add(newJembatanLayer);
             }
 
