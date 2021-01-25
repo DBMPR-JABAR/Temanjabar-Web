@@ -50,6 +50,12 @@
                             <span class="pcoded-mtext">CCTV Command Center</span>
                         </a>
                     </li>
+                    <li class="{{(Request::segment(3) == 'roadroid-survei-kondisi-jalan') ? 'active' : ''}}">
+                        <a href="{{ url('/admin/monitoring/roadroid-survei-kondisi-jalan') }}">
+                            <span class="pcoded-mtext">Survei Kondisi Jalan</span>
+                        </a>
+                    </li>
+
                     {{-- @if (hasAccess(Auth::user()->internal_role_id, "Survey Kondisi Jalan", "View"))
                     <li class="{{(Request::segment(3) == 'survey-kondisi-jalan') ? 'active' : ''}}">
                         <a href="{{ url('admin/monitoring/survey-kondisi-jalan') }}">

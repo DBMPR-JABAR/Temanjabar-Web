@@ -76,6 +76,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::get('cctv', 'MonitoringController@getCCTV');
         // parameternya dari id ruas jalan
         Route::get('roadroid-survei-kondisi-jalan/{id}', 'MonitoringController@getRoadroidSKJ');
+        Route::view('roadroid-survei-kondisi-jalan', 'admin.map.map-roaddroid');
     });
 
     // {SiteURL}/admin/rekomendasi/*
