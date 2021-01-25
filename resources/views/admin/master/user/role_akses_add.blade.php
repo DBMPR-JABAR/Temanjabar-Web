@@ -45,91 +45,98 @@
 @endsection
 
 @section('page-body')
-<form action="{{route('storeRoleAccess')}}" method="post" enctype="multipart/form-data">
-    @csrf
-    <div class="modal-header">
-        <h4 class="modal-title">Tambah Role Access</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-
-    <div class="modal-body p-5">
-
-        <div class="form-group row">
-                <label class="col-md-3 col-form-label">User Role</label>
-                <div class="col-md-9">
-
-                    <select  name="user_role" tabindex="4" required>
-                        @forelse ($user_role as $data)
-                        <option value="{{$data->id}}">{{$data->role}}</option>
-                        @empty
-                        <option disabled value="" selected>Semua Role Terisi</option>
-                        @endforelse
-                    </select>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Tambah Role Access</h4>
+                {{-- <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span> --}}
+                <div class="card-header-right">
+                    <ul class="list-unstyled card-option">
+                        <li><i class="feather icon-maximize full-card"></i></li>
+                        <li><i class="feather icon-minus minimize-card"></i></li>
+                    </ul>
                 </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-md-3 col-form-label">Menu</label>
-            {{-- <div class="col-md-9">
-                <select data-placeholder="User Role..." class="chosen-select" multiple  name="menu[]" tabindex="4" required>
-                @foreach($menu as $data)
-                    <option value="{{$data->menu}}.Create" >{{$data->menu}}.Create</option>
-                    <option value="{{$data->menu}}.View">{{$data->menu}}.View</option>
-                    <option value="{{$data->menu}}.Update">{{$data->menu}}.Update</option>
-                    <option value="{{$data->menu}}.Delete">{{$data->menu}}.Delete</option>
-                @endforeach
-                </select>
-            </div> --}}
-            <div class="col-md-9">       
-                @foreach($menu as $data)
-                    <input type="checkbox" class="custom-checkbox" name="menu[]" value="{{$data->menu}}.Create" >{{$data->menu}}.Create&nbsp;
-                    <input type="checkbox" class="custom-checkbox" name="menu[]" value="{{$data->menu}}.View" >{{$data->menu}}.View&nbsp;
-                    <input type="checkbox" class="custom-checkbox" name="menu[]" value="{{$data->menu}}.Update" >{{$data->menu}}.Update&nbsp;
-                    <input type="checkbox" class="custom-checkbox" name="menu[]" value="{{$data->menu}}.Delete" >{{$data->menu}}.Delete&nbsp;|
-                @endforeach
+            </div>
+            <div class="card-block">
+                <form action="{{route('storeRoleAccess')}}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">User Role</label>
+                        <div class="col-md-9">
+        
+                            <select class="form-control"  name="user_role" tabindex="4" required>
+                                @forelse ($user_role as $data)
+                                <option value="{{$data->id}}">{{$data->role}}</option>
+                                @empty
+                                <option disabled value="" selected>Semua Role Terisi</option>
+                                @endforelse
+                            </select>
+                        </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label">Menu</label>
+                    <div class="col-md-9">
+                        <select data-placeholder="User Role..." class="chosen-select" multiple  name="menu[]" tabindex="4" required>
+                        @foreach($menu as $data)
+                            <option value="{{$data->menu}}.Create" >{{$data->menu}}.Create</option>
+                            <option value="{{$data->menu}}.View">{{$data->menu}}.View</option>
+                            <option value="{{$data->menu}}.Update">{{$data->menu}}.Update</option>
+                            <option value="{{$data->menu}}.Delete">{{$data->menu}}.Delete</option>
+                        @endforeach
+                        </select>
+                    </div>
+                    {{-- <div class="col-md-9 ">       
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" value="">Option 1
+                                @foreach($menu as $data)
+                                <input type="checkbox" class="form-check-input" name="menu[]" value="{{$data->menu}}.Create" >{{$data->menu}}.Create&nbsp;
+                                <input type="checkbox" class="form-check-input" name="menu[]" value="{{$data->menu}}.View" >{{$data->menu}}.View&nbsp;
+                                <input type="checkbox" class="form-check-input" name="menu[]" value="{{$data->menu}}.Update" >{{$data->menu}}.Update&nbsp;
+                                <input type="checkbox" class="form-check-input" name="menu[]" value="{{$data->menu}}.Delete" >{{$data->menu}}.Delete&nbsp;
+                            @endforeach
+                            </label>
+                        </div>
+                        
+                    </div> --}}
+                </div>
+        
+                {{-- <div class="form-group row">
+                    <label class="col-md-3 col-form-label">Role Access</label>
+                    <div class="col-md-9">
+                        <select data-placeholder="User Role..." class="chosen-select" multiple  name="role_access[]" tabindex="4" required>
+                            <option value="Create" >Create</option>
+                            <option value="View">View</option>
+                            <option value="Update">Update</option>
+                            <option value="Delete">Delete</option>
+                        </select>
+                    </div>
+                </div> --}}
+        
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label">UPTD Access</label>
+                    <div class="col-md-9">
+                        {{-- <select data-placeholder="UPTD Access..." class="chosen-select" multiple name="uptd_access[]" tabindex="4" required>
+                            <option value="1">UPTD 1</option>
+                            <option value="2">UPTD 2</option>
+                            <option value="3">UPTD 3</option>
+                            <option value="4">UPTD 4</option>
+                            <option value="5">UPTD 5</option>
+                            <option value="6">UPTD 6</option>
+                        </select> --}}
+                        @foreach ($uptd_lists as $no => $uptd_list) 
+                            <input type="checkbox" class="custom-checkbox" name="uptd_access[]" value="{{ $uptd_list->id }}" id="uptd_{{ $uptd_list->id }}" >{{ $uptd_list->nama }}&nbsp;
+                        @endforeach
+                    </div>
+                </div>
+        
+                </form>
             </div>
         </div>
-
-        {{-- <div class="form-group row">
-            <label class="col-md-3 col-form-label">Role Access</label>
-            <div class="col-md-9">
-                <select data-placeholder="User Role..." class="chosen-select" multiple  name="role_access[]" tabindex="4" required>
-                    <option value="Create" >Create</option>
-                    <option value="View">View</option>
-                    <option value="Update">Update</option>
-                    <option value="Delete">Delete</option>
-                </select>
-            </div>
-        </div> --}}
-
-        <div class="form-group row">
-            <label class="col-md-3 col-form-label">UPTD Access</label>
-            <div class="col-md-9">
-                {{-- <select data-placeholder="UPTD Access..." class="chosen-select" multiple name="uptd_access[]" tabindex="4" required>
-                    <option value="1">UPTD 1</option>
-                    <option value="2">UPTD 2</option>
-                    <option value="3">UPTD 3</option>
-                    <option value="4">UPTD 4</option>
-                    <option value="5">UPTD 5</option>
-                    <option value="6">UPTD 6</option>
-                </select> --}}
-                @foreach ($uptd_lists as $no => $uptd_list) 
-                    <input type="checkbox" class="custom-checkbox" name="uptd_access[]" value="{{ $uptd_list->id }}" id="uptd_{{ $uptd_list->id }}" checked>{{ $uptd_list->nama }}&nbsp;
-                @endforeach
-            </div>
-        </div>
-
-
-
     </div>
+</div>
 
-    <div class="modal-footer">
-        <button type="button" class="btn btn-danger waves-effect " data-dismiss="modal">Kembali</button>
-        <button type="submit" class="btn btn-primary waves-effect waves-light ">Simpan</button>
-    </div>
-
-</form>
 @endsection
 @section('script')
 <script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
