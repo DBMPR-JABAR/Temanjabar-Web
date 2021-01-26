@@ -1,17 +1,18 @@
 @extends('admin.t_index')
 
-@section('title') CCTV Command Center @endsection
+@section('title') CCTV Control Room @endsection
 
 @section('head')
     <link href="https://vjs.zencdn.net/7.2.3/video-js.css" rel="stylesheet">
-    <link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet" />
+    <link href="https://unpkg.com/@videojs/themes@1/dist/forest/index.css" rel="stylesheet">
+
 @endsection
 @section('page-header')
     <div class="row align-items-end">
         <div class="col-lg-8">
             <div class="page-header-title">
                 <div class="d-inline">
-                    <h4>CCTV Command Center</h4>
+                    <h4>CCTV Control Room</h4>
                 </div>
             </div>
         </div>
@@ -21,7 +22,7 @@
                     <li class="breadcrumb-item">
                         <a href="{{ url('admin') }}"> <i class="feather icon-home"></i> </a>
                     </li>
-                    <li class="breadcrumb-item"><a href="#!">CCTV Command Center</a> </li>
+                    <li class="breadcrumb-item"><a href="#!">CCTV Control Room</a> </li>
                 </ul>
             </div>
         </div>
@@ -51,7 +52,7 @@
                                             <div class="col-sm-12 col-xl-3 m-b-30">
                                                 <h4 class="sub-title">UPTD</h4>
                                                 <select id="filterUPTD" name="select"
-                                                    class="form-control form-control-primary" onchange="changeUPTD(this)">
+                                                    class="form-control form-control-primary" onchange="changeUPTD(this,true)">
                                                     @if (Auth::user()->internalRole->uptd)
                                                         <option value="{{ Auth::user()->internalRole->uptd }}" selected>
                                                             UPTD
@@ -75,26 +76,8 @@
             </div>
         </div>
         <div class="col-lg-12">
-            <div class="card pt-3 pb-3">
-                <div class="row gx-2">
-                    @foreach ($cctv as $item)
-                        <div
-                            class="col-xl-4 col-md-6 d-flex justify-content-center mx-auto {{ 'ID-' . $item->UPTD_ID }} cctvItem">
-                            <div class="card videoContainer">
-                                <video id='{{ 'CCTV-' . $item->ID }}' class="video-js vjs-theme-city9 videoIdentity"
-                                    controls autoplay>
-                                    <source type="application/x-mpegURL" src="{{ $item->URL }}">
-                                </video>
-                                <div class="card-footer bg-c-blue">
-                                    <div class="row align-items-center">
-                                        <div class="col-9">
-                                            <p class="text-white m-b-0">{{ $item->LOKASI }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
+            <div class="card p-3">
+                <div  id="containerVideo" class="row g-1">
                 </div>
             </div>
         </div>
@@ -109,11 +92,6 @@
             width: 100%;
             height: 100%;
         }
-
-        .ID-3 {
-            display: none
-        }
-
     </style>
 @endsection
 
@@ -124,36 +102,67 @@
 
     <script>
         const cctvs = @json($cctv)
-        //  const uptds = @json($uptd_lists)
-        // console.log(uptds)
-        $(document).ready(()=>{
-            cctvs.forEach((cctv) => {
-                videojs(`CCTV-${cctv.ID}`).play()
-            })
-            videojs.options.autoplay = true;
+
+        $(document).ready(() => {
+            const init = []
+            init.value = "semua"
+            changeUPTD(init,false)
         })
         const uptdList = {!!json_encode($uptd_lists->toArray())!!};
-        //console.log(uptdList)
+            //console.log(uptdList)
 
-        function changeUPTD(val) {
-            console.log(val.value)
-
-           const uptd1 = cctvs.filter((item)=>{
-               return item.id
-           })
-
-            if (val.value == 'semua') {
-                uptdList.forEach((uptd) => {
-                    $(`.ID-${uptd.id}`).hide();
-                    console.log(uptd.id)
+            const templateCCTV = (data) => {
+                let html = "";
+                data.forEach((item)=>{
+                    html += `<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center cctvItem">
+                            <div class="card videoContainer">
+                                <video id='CCTV-${item.ID}' class="video-js vjs-theme-forest videoIdentity"
+                                    controls autoplay>
+                                    <source type="application/x-mpegURL" src="${item.URL}">
+                                </video>
+                                <div class="card-footer bg-c-blue">
+                                    <div class="row align-items-center">
+                                        <div class="col-9">
+                                            <p class="text-white m-b-0">${item.LOKASI}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>`
                 })
-            } else {
-                uptdList.forEach((uptd) => {
-                    $(`.ID-${uptd.id}`).hide();
-                })
-                $(`.ID-${val.value}`).show();
+
+                if(data.length == 0) {
+                    html = `<div class="col-12 d-flex justify-content-center mx-auto cctvItem mt-3"><p style="text-align : center;">Tidak ada data</p></div>`
+                }
+                return html;
             }
-        }
 
+           function changeUPTD(filter,isUpdate) {
+                let cctvList;
+                let html;
+
+                if (filter.value == "semua") {
+                    cctvList = cctvs
+                } else {
+                     cctvList = cctvs.filter((item) => {
+                        return item.UPTD_ID == filter.value
+                    })
+                }
+
+                if(isUpdate) {
+                    cctvList.forEach((item) => {
+                    const player = videojs(`CCTV-${item.ID}`)
+                    player.dispose()
+                })
+                }
+
+                html = templateCCTV(cctvList)
+                document.getElementById("containerVideo").innerHTML = html
+
+                cctvList.forEach((item) => {
+                   const player = videojs(`CCTV-${item.ID}`)
+                   player.autoplay(true)
+                })
+            }
     </script>
 @endsection

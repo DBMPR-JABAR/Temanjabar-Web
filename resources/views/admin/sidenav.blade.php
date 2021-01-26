@@ -47,7 +47,7 @@
                     @endif
                     <li class="{{(Request::segment(3) == 'cctv') ? 'active' : ''}}">
                         <a href="{{ url('admin/monitoring/cctv') }}">
-                            <span class="pcoded-mtext">CCTV Command Center</span>
+                            <span class="pcoded-mtext">CCTV Control Room</span>
                         </a>
                     </li>
                     <li class="{{(Request::segment(3) == 'roadroid-survei-kondisi-jalan') ? 'active' : ''}}">
