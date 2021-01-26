@@ -18,7 +18,7 @@
                 <li class="breadcrumb-item">
                     <a href="{{ url('admin') }}"> <i class="feather icon-home"></i> </a>
                 </li>
-                <li class="breadcrumb-item"><a href="#!">Widget</a> </li>
+                <li class="breadcrumb-item"><a href="#!">Home</a> </li>
             </ul>
         </div>
     </div>
@@ -79,7 +79,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-4 col-md-12">
+    <div class="col-xl-4 col-md-12 col-sm-12">
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
