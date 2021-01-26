@@ -16,14 +16,18 @@ class CreateRoadroidTrxSurveyKondisiJalansTable extends Migration
         Schema::create('roadroid_trx_survey_kondisi_jalan', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_ruas_jalan')->unsigned()->nullable();
+            $table->bigInteger('id_segmen')->unsigned()->nullable();
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
             $table->string('distance')->nullable();
             $table->string('speed')->nullable();
+            $table->string('avg_speed')->nullable();
             $table->string('altitude')->nullable();
-            $table->string('altitude-10')->nullable();
-            $table->string('eiri')->nullable();
-            $table->string('ciri')->nullable();
+            $table->string('altitude_10')->nullable();
+            $table->string('e_iri')->nullable();
+            $table->string('c_iri')->nullable();
+            $table->bigInteger('created_user')->unsigned()->nullable();
+            $table->bigInteger('updated_user')->unsigned()->nullable();
             $table->timestamps();
         });
     }
