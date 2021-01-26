@@ -3455,10 +3455,10 @@ CREATE TABLE `rekap` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `roadroid_trx_survey_kondisi_jalans`
+-- Table structure for table `roadroid_trx_survey_kondisi_jalan`
 --
 
-CREATE TABLE `roadroid_trx_survey_kondisi_jalans` (
+CREATE TABLE `roadroid_trx_survey_kondisi_jalan` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `id_ruas_jalan` bigint(20) UNSIGNED DEFAULT NULL,
   `latitude` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -3474,10 +3474,10 @@ CREATE TABLE `roadroid_trx_survey_kondisi_jalans` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `roadroid_trx_survey_kondisi_jalans`
+-- Dumping data for table `roadroid_trx_survey_kondisi_jalan`
 --
 
-INSERT INTO `roadroid_trx_survey_kondisi_jalans` (`id`, `id_ruas_jalan`, `latitude`, `longitude`, `distance`, `speed`, `altitude`, `altitude-10`, `eiri`, `ciri`, `created_at`, `updated_at`) VALUES
+INSERT INTO `roadroid_trx_survey_kondisi_jalan` (`id`, `id_ruas_jalan`, `latitude`, `longitude`, `distance`, `speed`, `altitude`, `altitude-10`, `eiri`, `ciri`, `created_at`, `updated_at`) VALUES
 (1, 9, '-6.915635', '107.630117', '0', '39', '128.2082', '12.82082', '2.876433', '4.512167', NULL, NULL),
 (2, 9, '-6.915454', '107.630493', '50', '55', '128.5056', '12.85056', '2.789588', '4.18245', NULL, NULL),
 (3, 9, '-6.915219', '107.630911', '100', '50', '128.8161', '12.88161', '3.418956', '4.668244', NULL, NULL),
