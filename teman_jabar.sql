@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 26, 2021 at 08:38 AM
+-- Generation Time: Jan 26, 2021 at 08:42 AM
 -- Server version: 5.7.24
 -- PHP Version: 7.4.14
 
@@ -3469,6 +3469,21 @@ CREATE TABLE `roadroid_trx_survey_kondisi_jalan` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `roadroid_trx_survey_kondisi_jalan`
+--
+
+INSERT INTO `roadroid_trx_survey_kondisi_jalan` (`id`, `id_ruas_jalan`, `id_segmen`, `latitude`, `longitude`, `distance`, `speed`, `avg_speed`, `altitude`, `altitude_10`, `e_iri`, `c_iri`, `created_user`, `updated_user`, `created_at`, `updated_at`) VALUES
+(1, 9, NULL, '-6.915635', '107.630117', '0', '39', NULL, '128.2082', '12.82082', '2.876433', '4.512167', NULL, NULL, NULL, NULL),
+(2, 9, NULL, '-6.915454', '107.630493', '50', '55', NULL, '128.5056', '12.85056', '2.789588', '4.18245', NULL, NULL, NULL, NULL),
+(3, 9, NULL, '-6.915219', '107.630911', '100', '50', NULL, '128.8161', '12.88161', '3.418956', '4.668244', NULL, NULL, NULL, NULL),
+(4, 9, NULL, '-6.914996', '107.631276', '150', '32', NULL, '129.0784', '12.90784', '3.684656', '4.387678', NULL, NULL, NULL, NULL),
+(5, 9, NULL, '-6.914804', '107.631662', '200', '31', NULL, '129.0249', '12.90249', '2.576422', '4.295356', NULL, NULL, NULL, NULL),
+(6, 9, NULL, '-6.91458', '107.632113', '250', '52', NULL, '128.944', '12.8944', '2.073247', '4.060471', NULL, NULL, NULL, NULL),
+(7, 9, NULL, '-6.914357', '107.632488', '300', '51', NULL, '130.2685', '13.02685', '2.675967', '5.830217', NULL, NULL, NULL, NULL),
+(8, 9, NULL, '-6.914165', '107.632885', '350', '52', NULL, '130.2186', '13.02186', '2.711089', '7.014867', NULL, NULL, NULL, NULL),
+(9, 9, NULL, '-6.913993', '107.633294', '400', '25', NULL, '130.3062', '13.03062', '1.81006', '1.42253', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -9352,7 +9367,7 @@ ALTER TABLE `rekap`
 -- AUTO_INCREMENT for table `roadroid_trx_survey_kondisi_jalan`
 --
 ALTER TABLE `roadroid_trx_survey_kondisi_jalan`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_uptd_trx_master_kondisi_jalan`
