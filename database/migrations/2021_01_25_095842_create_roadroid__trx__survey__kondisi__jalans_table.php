@@ -13,7 +13,7 @@ class CreateRoadroidTrxSurveyKondisiJalansTable extends Migration
      */
     public function up()
     {
-        Schema::create('roadroid_trx_survey_kondisi_jalans', function (Blueprint $table) {
+        Schema::create('roadroid_trx_survey_kondisi_jalan', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_ruas_jalan')->unsigned()->nullable();
             $table->string('latitude')->nullable();
