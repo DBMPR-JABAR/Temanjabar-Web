@@ -305,8 +305,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('json', 'InputData\RekapController@json')->name('json');
         });
 
-        Route::resource('survei-kondisi-jalan', 'InputData\SurveiKondisiJalanController');
-
+        Route::resource('survei_kondisi_jalan', 'InputData\SurveiKondisiJalanController');
+        Route::group(['prefix' => 'survei_kondisi_jalan'], function () {
+            Route::get('delete/{id}', 'InputData\SurveiKondisiJalanController@destroy');
+            Route::get('import', 'InputData\SurveiKondisiJalanController@import')->name('importSurveiKondisiJalan');
+            Route::post('import', 'InputData\SurveiKondisiJalanController@importExcel');
+        });
     });
 
     Route::group(['prefix' => 'lapor'], function () {
@@ -323,7 +327,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::get('edit/{id}', 'LandingController@editLaporanMasyarakat')->name('editLapor');
         Route::post('update', 'LandingController@updateLaporanMasyarakat')->name('updateLapor');
         Route::get('delete/{id}', 'LandingController@deleteLaporanMasyarakat')->name('deleteLapor');
-
     });
 });
 Route::get('map/target-realisasi', 'ProyekController@getTargetRealisasiAPI')->name('api.targetrealisasi');
