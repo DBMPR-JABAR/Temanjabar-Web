@@ -87,11 +87,11 @@
     surveiKondisiJalanOrder.forEach(items => {
         eiri.push([
             Number(items.distance),
-            Number(items.eiri)
+            Number(items.e_iri)
         ])
         ciri.push([
             Number(items.distance),
-            Number(items.ciri)
+            Number(items.c_iri)
         ])
         speed.push([
             Number(items.distance),

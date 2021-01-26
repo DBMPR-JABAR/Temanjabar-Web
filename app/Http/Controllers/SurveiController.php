@@ -18,7 +18,7 @@ class SurveiController extends Controller
     }
     public function getRoadroidSKJ($id)
     {
-        $surveiKondisiJalan = DB::table('roadroid_trx_survey_kondisi_jalans')->where('id_ruas_jalan', $id)->orderBy('id')->get();
+        $surveiKondisiJalan = DB::table('roadroid_trx_survey_kondisi_jalan')->where('id_ruas_jalan', $id)->orderBy('id')->get();
         //dd($surveiKondisiJalan);
         return view('admin.monitoring.roadroid-survei-kondisi-jalan', ['id' => $id, 'surveiKondisiJalan' => $surveiKondisiJalan]);
     }

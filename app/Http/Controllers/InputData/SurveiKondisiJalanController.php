@@ -4,6 +4,7 @@ namespace App\Http\Controllers\InputData;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SurveiKondisiJalanController extends Controller
 {
@@ -14,7 +15,9 @@ class SurveiKondisiJalanController extends Controller
      */
     public function index()
     {
-        //
+        $surveiKondisiJalan = DB::table('roadroid_trx_survey_kondisi_jalan')->get();
+        return view('admin.input_data.survei_kondisi_jalan.index',
+    ["surveiKondisiJalan" => $surveiKondisiJalan]);
     }
 
     /**
