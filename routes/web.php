@@ -189,7 +189,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('role-akses/edit/{id}', 'MasterData\UserController@editRoleAccess')->name('editRoleAccess');
             Route::post('role-akses/update/{id}', 'MasterData\UserController@updateRoleAccess')->name('updateRoleAccess');
 
-            Route::post('role-akses/create', 'MasterData\UserController@createRoleAkses')->name('createRoleAkses');
+            // Route::post('role-akses/create', 'MasterData\UserController@createRoleAkses')->name('createRoleAkses');
 
             Route::get('role-akses/detail/{id}', 'MasterData\UserController@detailRoleAkses')->name('detailRoleAkses');
             Route::get('role-akses/delete/{id}', 'MasterData\UserController@deleteRoleAkses')->name('deleteRoleAkses');
