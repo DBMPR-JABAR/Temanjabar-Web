@@ -304,6 +304,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('delete/{id}', 'InputData\RekapController@deleteData')->name('deleteDataRekap');
             Route::get('json', 'InputData\RekapController@json')->name('json');
         });
+
+        Route::resource('survei-kondisi-jalan', 'InputData\SurveiKondisiJalanController');
+
     });
 
     Route::group(['prefix' => 'lapor'], function () {
