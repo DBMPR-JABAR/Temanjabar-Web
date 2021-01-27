@@ -56,7 +56,7 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Mandor</label>
                         <div class="col-md-10">
-                            <select class="form-control" name="nama_mandor" required>
+                            <select class="form-control searchableField" name="nama_mandor" required>
                                 @foreach ($mandor as $data)
                                 <option value="{{$data->name}}" {{ ( $data->name == $pekerjaan->nama_mandor) ? 'selected' : ''}}>{{$data->name}}</option>
                                 @endforeach
@@ -67,7 +67,7 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Jenis Pekerjaan</label>
                         <div class="col-md-10">
-                            <select class="form-control" name="jenis_pekerjaan" required value="{{$pekerjaan->jenis_pekerjaan}}">
+                            <select class="form-control searchableField" name="jenis_pekerjaan" required value="{{$pekerjaan->jenis_pekerjaan}}">
                                 @foreach ($jenis as $data)
                                 <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $pekerjaan->jenis_pekerjaan) ? 'selected' : ''}}>{{$data->nama_item}}</option>
                                 @endforeach
@@ -87,7 +87,7 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Uptd</label>
                         <div class="col-md-10">
-                            <select class="form-control" id="uptd" name="uptd_id" value="{{$pekerjaan->uptd_id}}" onchange="ubahOption()">
+                            <select class="form-control searchableField" id="uptd" name="uptd_id" value="{{$pekerjaan->uptd_id}}" onchange="ubahOption()">
                                 @foreach ($uptd as $data)
                                 <option value="{{$data->id}}" {{ ( $data->id == $pekerjaan->uptd_id) ? 'selected' : ''}}>{{$data->nama}}</option>
                                 @endforeach
@@ -98,7 +98,7 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">SUP</label>
                         <div class="col-md-10">
-                            <select class="form-control" id="sup" name="sup" required value="{{$pekerjaan->sup}}">
+                            <select class="form-control searchableField" id="sup" name="sup" required value="{{$pekerjaan->sup}}">
                                 <option value="{{$pekerjaan->sup}}">{{$pekerjaan->sup}}</option>
                                 <option></option>
                                 @foreach ($sup as $data)
@@ -110,7 +110,7 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Ruas Jalan</label>
                         <div class="col-md-10">
-                            <select class="form-control" id="ruas_jalan" name="ruas_jalan" required value="{{$pekerjaan->ruas_jalan}}">
+                            <select class="form-control searchableField" id="ruas_jalan" name="ruas_jalan" required value="{{$pekerjaan->ruas_jalan}}">
                                 <option value="{{$pekerjaan->ruas_jalan}}">{{$pekerjaan->ruas_jalan}}</option>
                                 <option></option>
                                 @foreach ($ruas_jalan as $data)

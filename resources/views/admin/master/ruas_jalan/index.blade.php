@@ -139,7 +139,7 @@
 
 <div class="modal-only">
     @if (hasAccess(Auth::user()->internal_role_id, "Ruas Jalan", "Create"))
-    <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
+    <div class="modal fade searchableModalContainer" id="addModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
 
@@ -174,7 +174,7 @@
                         <div class=" form-group row">
                             <label class="col-md-3 col-form-label">UPTD</label>
                             <div class="col-md-9">
-                                <select class="form-control select2" id="uptd_id" name="uptd_id" style="min-width: 100%;" onchange="ubahDataSUP()">
+                                <select class="form-control searchableModalField" id="uptd_id" name="uptd_id" style="min-width: 100%;" onchange="ubahDataSUP()">
                                     <option>Pilih UPTD</option>
                                     @foreach ($uptd as $uptdData)
                                     <option value="{{$uptdData->id}}">{{$uptdData->nama}}</option>
@@ -187,7 +187,7 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">SUP</label>
                             <div class="col-md-9">
-                                <select class="form-control select2" id="sup" name="sup" style="min-width: 100%;">
+                                <select class="form-control searchableModalField" id="sup" name="sup" style="min-width: 100%;">
                                     @if (Auth::user()->internalRole->uptd)
                                     @foreach ($sup as $supData)
                                     <option value="<?php echo $supData->id; ?>"><?php echo $supData->name; ?></option>

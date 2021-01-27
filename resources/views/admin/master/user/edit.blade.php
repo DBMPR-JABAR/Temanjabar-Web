@@ -87,7 +87,7 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">SPP</label>
                         <div class="col-md-10">
-                            <select class="form-control" required name="sup">
+                            <select class="form-control searchableField" required name="sup">
                                 <option value="{{$user->sup}}">{{$user->sup}}</option>
                                 <option></option>
                                 @foreach ($sup as $data)
@@ -100,7 +100,7 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Pilih Jabatan</label>
                         <div class="col-md-10">
-                            <select class="form-control" required name="internal_role_id">
+                            <select class="form-control searchableField" required name="internal_role_id">
                                 <option>Pilih Jabatan</option>
                                 @foreach ($role as $data)
                                 <option value="{{$data->id}}" @if($user->internal_role_id == $data->id) selected @endif>{{$data->role}}</option>

@@ -36,6 +36,10 @@
     <link rel="stylesheet" href="{{ asset('assets/scss/partials/menu/_pcmenu.scss') }}">
     <!-- new by rahman -->
     <link rel="stylesheet" href="{{ asset('assets/css/second_style.css') }}">
+    <!-- searchable field, kalau kau pake tinggal tambahin class searchableField
+        !!jika ada dalam modal, modalnya kasih class searchableModalContainer fieldnya kasih class searchableModalField -->
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css" integrity="sha512-kq3FES+RuuGoBW3a9R2ELYKRywUEQv0wvPTItv3DSGqjpbNtGWVdvT8qwdKkqvPzT93jp8tSF4+oN4IeTEIlQA==" crossorigin="anonymous" />
 
     @yield('head')
 </head>
@@ -214,8 +218,23 @@
   gtag('js', new Date());
 
   gtag('config', 'UA-23581568-13');
-</script>
 
+</script>
+<!-- searchable field -->
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(()=>{
+        $(".searchableModalField").select2({
+            dropdownParent: $('.searchableModalContainer'),
+            theme: "bootstrap"
+        })
+        $(".searchableField").select2({
+            theme: "bootstrap"
+        })
+        $(".select2-selection").css("border-radius",0);
+    })
+</script>
 @yield('script')
 </body>
 

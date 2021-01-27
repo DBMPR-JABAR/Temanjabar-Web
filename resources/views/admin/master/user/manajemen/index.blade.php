@@ -132,7 +132,7 @@
 </div>
 
 <div class="modal-only">
-    <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
+    <div class="modal fade searchableModalContainer" id="addModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
 
@@ -180,7 +180,7 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Internal Role</label>
                             <div class="col-md-9">
-                                <select  class="chosen-select"  name="internal_role_id" tabindex="4">
+                                <select  class="searchableModalField form-control"  name="internal_role_id" tabindex="4">
                                     @foreach($roles as $data)
                                         <option value="{{$data->id}}">{{$data->role}}</option>
                                     @endforeach

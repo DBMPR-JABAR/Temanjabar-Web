@@ -70,7 +70,7 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">UPTD</label>
                             <div class="col-md-10">
-                                <select class="form-control" id="uptd" name="uptd" required onchange="ubahOption()">
+                                <select class="form-control searchableField" id="uptd" name="uptd" required onchange="ubahOption()">
                                     <option>Pilih UPTD</option>
                                     @foreach ($uptd as $data)
                                     <option value="{{$data->slug}}">{{$data->nama}}</option>
@@ -83,7 +83,7 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Ruas Jalan</label>
                             <div class="col-md-10">
-                                <select id="ruas_jalan" id="ruas_jalan" name="ruas_jalan" class="form-control" required>
+                                <select id="ruas_jalan" id="ruas_jalan" name="ruas_jalan" class="form-control searchableField" required>
                                     @if (Auth::user()->internalRole->uptd)
                                     @foreach ($ruasJalan as $data)
                                     <option value="{{$data->nama_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
@@ -98,7 +98,7 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">SUP</label>
                             <div class="col-md-10">
-                                <select class="form-control" id="sup" name="sup" required>
+                                <select class="form-control searchableField" id="sup" name="sup" required>
                                     @if (Auth::user()->internalRole->uptd)
                                     @foreach ($sup as $data)
                                     <option value="{{$data->name}}">{{$data->name}}</option>

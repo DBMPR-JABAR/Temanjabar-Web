@@ -164,7 +164,7 @@
 </div>
 
 <div class="modal-only">
-    <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
+    <div class="modal fade searchableModalContainer" id="addModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
 
@@ -184,7 +184,7 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Mandor</label>
                             <div class="col-md-10">
-                                <select class="form-control" name="nama_mandor" required>
+                                <select class="form-control searchableModalField" name="nama_mandor" required>
                                     @foreach ($mandor as $data)
                                     <option value="{{$data->name}}">{{$data->name}}</option>
                                     @endforeach
@@ -195,7 +195,7 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Jenis Pekerjaan</label>
                             <div class="col-md-10">
-                                <select class="form-control" name="jenis_pekerjaan" required>
+                                <select class="form-control searchableModalField" name="jenis_pekerjaan" required>
                                     @foreach ($jenis as $data)
                                     <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
                                     @endforeach
@@ -221,7 +221,7 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Uptd</label>
                             <div class="col-md-10">
-                                <select class="form-control" id="uptd" name="uptd_id" onchange="ubahOption()">
+                                <select class="form-control searchableModalField" id="uptd" name="uptd_id" onchange="ubahOption()">
                                     <option>Pilih UPTD</option>
                                     @foreach ($uptd as $data)
                                     <option value="{{$data->id}}">{{$data->nama}}</option>
@@ -233,7 +233,7 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">SUP</label>
                             <div class="col-md-10">
-                                <select class="form-control" id="sup" name="sup" required>
+                                <select class="form-control searchableModalField" id="sup" name="sup" required>
                                     @if (Auth::user()->internalRole->uptd)
                                     @foreach ($sup as $data)
                                     <option value="{{$data->name}}">{{$data->name}}</option>
@@ -247,7 +247,7 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Ruas Jalan</label>
                             <div class="col-md-10">
-                                <select class="form-control" id="ruas_jalan" name="ruas_jalan" required>
+                                <select class="form-control searchableModalField" id="ruas_jalan" name="ruas_jalan" required>
                                     @if (Auth::user()->internalRole->uptd)
                                     @foreach ($ruas_jalan as $data)
                                     <option value="{{$data->nama_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
@@ -385,6 +385,7 @@
             </div>
         </div>
     </div>
+
     @endsection
     @section('script')
     <!-- <script src="{{ asset('assets/vendor/jquery/js/jquery-3.4.1.min.js') }}" ></script> -->
@@ -395,9 +396,9 @@
     <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
-    <script>
-        $(document).ready(function() {
 
+   <script>
+        $(document).ready(function() {
             // Format mata uang.
             $('.formatRibuan').mask('000.000.000.000.000', {
                 reverse: true

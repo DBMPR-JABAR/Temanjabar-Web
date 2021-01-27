@@ -70,7 +70,7 @@
                         <div class=" form-group row">
                             <label class="col-md-2 col-form-label">UPTD</label>
                             <div class="col-md-10">
-                                <select class="form-control select2" id="uptd_id" name="uptd_id" style="min-width: 100%;" onchange="ubahDataSUP()">
+                                <select class="form-control searchableField" id="uptd_id" name="uptd_id" style="min-width: 100%;" onchange="ubahDataSUP()">
                                     @foreach ($uptd as $uptdData)
                                     @if($ruasJalan->uptd_id == $uptdData->id)
                                     <option value="<?php echo $uptdData->id; ?>" selected><?php echo $uptdData->nama; ?></option>
@@ -86,7 +86,7 @@
                     <div class=" form-group row">
                         <label class="col-md-2 col-form-label">SUP</label>
                         <div class="col-md-10">
-                            <select class="form-control select2" id="sup" name="sup" style="min-width: 100%;">
+                            <select class="form-control searchableField" id="sup" name="sup" style="min-width: 100%;">
                                 <!-- <option value="" selected>- Event Name -</option> -->
 
                                 @foreach ($sup as $supData)
