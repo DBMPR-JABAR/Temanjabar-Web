@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 26, 2021 at 08:42 AM
+-- Generation Time: Jan 27, 2021 at 02:00 AM
 -- Server version: 5.7.24
 -- PHP Version: 7.4.14
 
@@ -827,7 +827,11 @@ INSERT INTO `log` (`id`, `activity`, `description`, `created_at`, `updated_at`) 
 (144, 'Login', 'User Kadis Logged In To Web', '2021-01-24 06:17:03', '2021-01-24 06:17:03'),
 (145, 'Login', 'User Kadis Logged In To Web', '2021-01-24 18:38:43', '2021-01-24 18:38:43'),
 (146, 'Login', 'User Kadis Logged In To Web', '2021-01-24 20:37:04', '2021-01-24 20:37:04'),
-(147, 'Login', 'User Kadis Logged In To Web', '2021-01-25 20:51:29', '2021-01-25 20:51:29');
+(147, 'Login', 'User Kadis Logged In To Web', '2021-01-25 20:51:29', '2021-01-25 20:51:29'),
+(148, 'Login', 'User Kadis Logged In To Web', '2021-01-26 06:12:31', '2021-01-26 06:12:31'),
+(149, 'Login', 'User Kadis Logged In To Web', '2021-01-26 07:12:46', '2021-01-26 07:12:46'),
+(150, 'Login', 'User Kadis Logged In To Web', '2021-01-26 11:06:12', '2021-01-26 11:06:12'),
+(151, 'Login', 'User Kadis Logged In To Web', '2021-01-26 17:19:42', '2021-01-26 17:19:42');
 
 -- --------------------------------------------------------
 
@@ -2691,28 +2695,28 @@ INSERT INTO `master_rawan_bencana` (`id`, `no_ruas`, `status`, `ruas_jalan`, `lo
 (38, '191', 'P', 'Sukabumi – Sagaranten', 'Bdg 102+600', 'Sukabumi', NULL, NULL, NULL, 'SPP SUKABUMI 3', 'Badan jalan rawan amblas', 1, 4, 'http://103.131.0.197/storage/rawanbencana/icon20210102114521_rawan_amblas.gif', NULL, NULL, NULL, NULL),
 (39, '191', 'P', 'Sukabumi – Sagaranten', 'Bdg 111+025', 'Sukabumi', NULL, NULL, NULL, 'SPP SUKABUMI 3', 'Badan jalan rawan amblas', 1, 4, 'http://103.131.0.197/storage/rawanbencana/icon20210102114521_rawan_amblas.gif', NULL, NULL, NULL, NULL),
 (40, '365', 'P', 'Sp. Munjul – Ciparay - Majalaya', 'Bdg 10+800  ', 'Bandung', -7.0166, 107.801, 'http://localhost:8000/assets/images/sample/sample.png', 'SUP KAB BANDUNG', 'Rawan Banjir', 3, 5, 'http://103.131.0.197/storage/rawanbencana/icon20210102114537_rawan_banjir.gif', NULL, NULL, NULL, NULL),
-(41, '365', 'P', 'Sp. Munjul – Ciparay - Majalaya', 'Bdg 22+500  ', 'Bandung', NULL, NULL, NULL, 'SUP KAB BANDUNG', 'Rawan Banjir', 3, 5, 'http://103.131.0.197/storage/rawanbencana/icon20210102114537_rawan_banjir.gif', NULL, NULL, NULL, NULL),
-(42, '365', 'P', 'Sp. Munjul – Ciparay - Majalaya', 'Bdg 23+000  ', 'Bandung', NULL, NULL, NULL, 'SUP KAB BANDUNG', 'Rawan Banjir', 3, 5, 'http://103.131.0.197/storage/rawanbencana/icon20210102114537_rawan_banjir.gif', NULL, NULL, NULL, NULL),
-(43, '365', 'P', 'Sp. Munjul – Ciparay - Majalaya', 'Bdg 26+000  ', 'Bandung', NULL, NULL, NULL, 'SUP KAB BANDUNG', 'Rawan Banjir', 3, 5, 'http://103.131.0.197/storage/rawanbencana/icon20210102114537_rawan_banjir.gif', NULL, NULL, NULL, NULL),
-(44, '365', 'P', 'Sp. Munjul – Ciparay - Majalaya', 'Bdg 26+200  ', 'Bandung', NULL, NULL, NULL, 'SUP KAB BANDUNG', 'Rawan Banjir', 3, 5, 'http://103.131.0.197/storage/rawanbencana/icon20210102114537_rawan_banjir.gif', NULL, NULL, NULL, NULL),
-(45, '365', 'P', 'Sp. Munjul – Ciparay - Majalaya', 'Bdg 28+500  ', 'Bandung', NULL, NULL, NULL, 'SUP KAB BANDUNG', 'Rawan Banjir', 3, 5, 'http://103.131.0.197/storage/rawanbencana/icon20210102114537_rawan_banjir.gif', NULL, NULL, NULL, NULL),
-(46, '365', 'P', 'Sp. Munjul – Ciparay - Majalaya', 'Bdg 29+500  ', 'Bandung', NULL, NULL, NULL, 'SUP KAB BANDUNG', 'Rawan Banjir', 3, 5, 'http://103.131.0.197/storage/rawanbencana/icon20210102114537_rawan_banjir.gif', NULL, NULL, NULL, NULL),
-(47, '365', 'P', 'Sp. Munjul – Ciparay - Majalaya', 'Bdg 33+050  ', 'Bandung', NULL, NULL, NULL, 'SUP KAB BANDUNG', 'Rawan Banjir', 3, 5, 'http://103.131.0.197/storage/rawanbencana/icon20210102114537_rawan_banjir.gif', NULL, NULL, NULL, NULL),
+(41, '365', 'P', 'Sp. Munjul – Ciparay - Majalaya', 'Bdg 22+500', 'Bandung', -7.02579, 107.691, 'http://temanjabar-laravel.test/storage/rawanbencana/20210127003200_banjir-majalaya-soreang_20170116_100847.jpg', 'SUP KOTA BANDUNG', 'Rawan Banjir', 3, 1, 'http://103.131.0.197/storage/rawanbencana/icon20210103101912_bahu_jalan_rusak.gif', NULL, NULL, NULL, NULL),
+(42, '365', 'P', 'Sp. Munjul – Ciparay - Majalaya', 'Bdg 23+000', 'Bandung', -7.02427, 107.693, 'http://temanjabar-laravel.test/storage/rawanbencana/20210127003356_banjir-majalaya.jpeg', 'SUP KOTA BANDUNG', 'Rawan Banjir', 3, 1, 'http://103.131.0.197/storage/rawanbencana/icon20210103101912_bahu_jalan_rusak.gif', NULL, NULL, NULL, NULL),
+(43, '365', 'P', 'Sp. Munjul – Ciparay - Majalaya', 'Bdg 26+000', 'Bandung', -7.02859, 107.698, 'http://temanjabar-laravel.test/storage/rawanbencana/20210127003501_banjir-bandang-terjang-ciparay-kabupaten-bandung-hujan-deras-air-dari-pegunungan-meluap.jpg', 'SUP KOTA BANDUNG', 'Rawan Banjir', 3, 1, 'http://103.131.0.197/storage/rawanbencana/icon20210103101912_bahu_jalan_rusak.gif', NULL, NULL, NULL, NULL),
+(44, '365', 'P', 'Sp. Munjul – Ciparay - Majalaya', 'Bdg 26+200', 'Bandung', -7.03898, 107.698, 'http://temanjabar-laravel.test/storage/rawanbencana/20210127003833_banjir-majalaya-soreang_20170116_100847.jpg', 'SUP KOTA BANDUNG', 'Rawan Banjir', 3, 1, 'http://103.131.0.197/storage/rawanbencana/icon20210103101912_bahu_jalan_rusak.gif', NULL, NULL, NULL, NULL),
+(45, '365', 'P', 'Sp. Munjul – Ciparay - Majalaya', 'Bdg 28+500  ', 'Bandung', -7.05287, 107.711, 'http://temanjabar-laravel.test/storage/rawanbencana/20210127003200_banjir-majalaya-soreang_20170116_100847.jpg', 'SUP KAB BANDUNG', 'Rawan Banjir', 3, 5, 'http://103.131.0.197/storage/rawanbencana/icon20210102114537_rawan_banjir.gif', NULL, NULL, NULL, NULL),
+(46, '365', 'P', 'Sp. Munjul – Ciparay - Majalaya', 'Bdg 29+500  ', 'Bandung', -7.04163, 107.718, 'http://temanjabar-laravel.test/storage/rawanbencana/20210127003356_banjir-majalaya.jpeg', 'SUP KAB BANDUNG', 'Rawan Banjir', 3, 5, 'http://103.131.0.197/storage/rawanbencana/icon20210102114537_rawan_banjir.gif', NULL, NULL, NULL, NULL),
+(47, '365', 'P', 'Sp. Munjul – Ciparay - Majalaya', 'Bdg 33+050  ', 'Bandung', -7.06411, 107.712, 'http://temanjabar-laravel.test/storage/rawanbencana/20210127003200_banjir-majalaya-soreang_20170116_100847.jpg', 'SUP KAB BANDUNG', 'Rawan Banjir', 3, 5, 'http://103.131.0.197/storage/rawanbencana/icon20210102114537_rawan_banjir.gif', NULL, NULL, NULL, NULL),
 (48, '0', 'P', 'Bts. Cileunyi - Nagreg', 'Bdg 23+500 - 24+100', 'Bandung', NULL, NULL, NULL, 'SUP KAB BANDUNG', 'Rawan Banjir (PT. Kahatex)', 1, 5, 'http://103.131.0.197/storage/rawanbencana/icon20210102114537_rawan_banjir.gif', NULL, NULL, NULL, NULL),
-(49, '349', 'P', 'Nagreg', 'Bdg 41+200  ', 'Bandung', NULL, NULL, NULL, 'SUP KAB BANDUNG', 'Rawan longsor', 3, 7, 'http://103.131.0.197/storage/rawanbencana/icon20210102114558_rawan_longsor.gif', NULL, NULL, NULL, NULL),
-(50, '367', 'P', 'Cijapati', 'Bdg 38+560  ', 'Bandung', NULL, NULL, NULL, 'SUP KAB BANDUNG', 'Rawan longsor', 3, 7, 'http://103.131.0.197/storage/rawanbencana/icon20210102114558_rawan_longsor.gif', NULL, NULL, NULL, NULL),
+(49, '349', 'P', 'Nagreg - Bts. Bandung/Garut', 'Bdg 41+200', 'Bandung', -7.04497, 107.885, 'http://temanjabar-laravel.test/storage/rawanbencana/20210127004829_download.jpg', 'SUP KOTA BANDUNG', 'Rawan longsor', 3, 1, 'http://103.131.0.197/storage/rawanbencana/icon20210103101912_bahu_jalan_rusak.gif', NULL, NULL, NULL, NULL),
+(50, '367', 'P', 'Cijapati', 'Bdg 38+560', 'Bandung', -7.07777, 107.845, 'http://temanjabar-laravel.test/storage/rawanbencana/20210127005727_download(1).jpg', 'SUP KOTA BANDUNG', 'Rawan longsor', 3, 1, 'http://103.131.0.197/storage/rawanbencana/icon20210103101912_bahu_jalan_rusak.gif', NULL, NULL, NULL, NULL),
 (51, '401', 'P', 'Sawahbera - Parakanmuncang', 'Bdg 34+300', 'Bandung', NULL, NULL, NULL, 'SUP KAB BANDUNG', 'Rawan Banjir (Pabrik Sanatama)', 1, 5, 'http://103.131.0.197/storage/rawanbencana/icon20210102114537_rawan_banjir.gif', NULL, NULL, NULL, NULL),
-(52, '252', 'P', 'Jl. Bandung – Bts. Subang', 'Jkt 156+300  ', 'Purwakarta dan Subang', NULL, NULL, NULL, 'SUP KAB SUBANG 1', 'Rawan longsor', 3, 7, 'http://103.131.0.197/storage/rawanbencana/icon20210102114558_rawan_longsor.gif', NULL, NULL, NULL, NULL),
-(53, '252', 'P', 'Jl. Bandung – Bts. Subang', 'Jkt 158+500  ', 'Purwakarta dan Subang', NULL, NULL, NULL, 'SUP KAB SUBANG 1', 'Rawan longsor', 3, 7, 'http://103.131.0.197/storage/rawanbencana/icon20210102114558_rawan_longsor.gif', NULL, NULL, NULL, NULL),
-(54, '252', 'P', 'Jl. Bandung – Bts. Subang', 'Jkt 159+000  ', 'Purwakarta dan Subang', NULL, NULL, NULL, 'SUP KAB SUBANG 1', 'Rawan longsor', 3, 7, 'http://103.131.0.197/storage/rawanbencana/icon20210102114558_rawan_longsor.gif', NULL, NULL, NULL, NULL),
-(55, '252', 'P', 'Jl. Bandung – Bts. Subang', 'Jkt 176+000  ', 'Purwakarta dan Subang', NULL, NULL, NULL, 'SUP KAB SUBANG 1', 'Rawan longsor', 3, 7, 'http://103.131.0.197/storage/rawanbencana/icon20210102114558_rawan_longsor.gif', NULL, NULL, NULL, NULL),
-(56, '252', 'P', 'Jl. Bandung – Bts. Subang', 'Jkt 181+300  ', 'Purwakarta dan Subang', NULL, NULL, NULL, 'SUP KAB SUBANG 1', 'Rawan longsor', 3, 7, 'http://103.131.0.197/storage/rawanbencana/icon20210102114558_rawan_longsor.gif', NULL, NULL, NULL, NULL),
-(57, '253', 'P', 'Dalam Kota Purwakarta', 'Jkt 115+400  ', 'Purwakarta dan Subang', NULL, NULL, NULL, 'SUP KAB PURWAKARTA', 'Rawan banjir', 3, 5, 'http://103.131.0.197/storage/rawanbencana/icon20210102114537_rawan_banjir.gif', NULL, NULL, NULL, NULL),
-(58, '254', 'P', 'Wanayasa – Bts. Purwakarta/Subang', 'Jkt 135+200  ', 'Purwakarta dan Subang', NULL, NULL, NULL, 'SUP KAB PURWAKARTA', 'Rawan longsor', 3, 7, 'http://103.131.0.197/storage/rawanbencana/icon20210102114558_rawan_longsor.gif', NULL, NULL, NULL, NULL),
-(59, '255', 'P', 'Cagak – Bts. Wanayasa', 'Jkt 168+700  ', 'Purwakarta dan Subang', NULL, NULL, NULL, 'SUP KAB SUBANG 1', 'Rawan longsor', 3, 7, 'http://103.131.0.197/storage/rawanbencana/icon20210102114558_rawan_longsor.gif', NULL, NULL, NULL, NULL),
-(60, '255', 'P', 'Cagak – Bts. Wanayasa', 'Jkt 169+300  ', 'Purwakarta dan Subang', NULL, NULL, NULL, 'SUP KAB SUBANG 1', 'Rawan longsor', 3, 7, 'http://103.131.0.197/storage/rawanbencana/icon20210102114558_rawan_longsor.gif', NULL, NULL, NULL, NULL),
-(61, '255', 'P', 'Cagak – Bts. Wanayasa', 'Jkt 173+300  ', 'Purwakarta dan Subang', NULL, NULL, NULL, 'SUP KAB SUBANG 1', 'Rawan longsor', 3, 7, 'http://103.131.0.197/storage/rawanbencana/icon20210102114558_rawan_longsor.gif', NULL, NULL, NULL, NULL),
-(62, '257', 'P', 'Cagak – Bts. Cikaramas', 'Jkt 171+100  ', 'Purwakarta dan Subang', NULL, NULL, NULL, 'SUP KAB SUBANG 1', 'Rawan banjir', 3, 5, 'http://103.131.0.197/storage/rawanbencana/icon20210102114537_rawan_banjir.gif', NULL, NULL, NULL, NULL),
+(52, '252', 'P', 'Jl. Bandung – Bts. Subang', 'Jkt 156+300', 'Purwakarta dan Subang', -6.54803, 107.774, 'http://temanjabar-laravel.test/storage/rawanbencana/20210127010225_longsor-di-_subang-_selatan-720x375.jpg', 'SUP KOTA BANDUNG', 'Rawan longsor', 3, 1, 'http://103.131.0.197/storage/rawanbencana/icon20210103101912_bahu_jalan_rusak.gif', NULL, NULL, NULL, NULL),
+(53, '252', 'P', 'Jl. Bandung – Bts. Subang', 'Jkt 158+500', 'Purwakarta dan Subang', -6.56883, 107.701, 'http://temanjabar-laravel.test/storage/rawanbencana/20210127010406_download(2).jpg', 'SUP KOTA BANDUNG', 'Rawan longsor', 3, 1, 'http://103.131.0.197/storage/rawanbencana/icon20210103101912_bahu_jalan_rusak.gif', NULL, NULL, NULL, NULL),
+(54, '252', 'P', 'Jl. Bandung – Bts. Subang', 'Jkt 159+000', 'Purwakarta dan Subang', -6.54706, 107.598, 'http://temanjabar-laravel.test/storage/rawanbencana/20210127010526_tvhrag5fnlhw8uxr6p7e.jpg', 'SUP KOTA BANDUNG', 'Rawan longsor', 3, 1, 'http://103.131.0.197/storage/rawanbencana/icon20210103101912_bahu_jalan_rusak.gif', NULL, NULL, NULL, NULL),
+(55, '252', 'P', 'Jl. Bandung – Bts. Subang', 'Jkt 176+000', 'Purwakarta dan Subang', -6.68424, 107.781, 'http://temanjabar-laravel.test/storage/rawanbencana/20210127010830_images.jpg', 'SUP KOTA BANDUNG', 'Rawan longsor', 3, 1, 'http://103.131.0.197/storage/rawanbencana/icon20210103101912_bahu_jalan_rusak.gif', NULL, NULL, NULL, NULL),
+(56, '252', 'P', 'Jl. Bandung – Bts. Subang', 'Jkt 181+300  ', 'Purwakarta dan Subang', -6.65322, 107.786, 'http://temanjabar-laravel.test/storage/rawanbencana/20210127010406_download(2).jpg', 'SUP KAB SUBANG 1', 'Rawan longsor', 3, 7, 'http://103.131.0.197/storage/rawanbencana/icon20210102114558_rawan_longsor.gif', NULL, NULL, NULL, NULL),
+(57, '253', 'P', 'Dalam Kota Purwakarta', 'Jkt 115+400', 'Purwakarta dan Subang', -6.5259, 107.457, 'http://temanjabar-laravel.test/storage/rawanbencana/20210127012516_unnamed.jpg', 'SUP KOTA BANDUNG', 'Rawan banjir', 3, 1, 'http://103.131.0.197/storage/rawanbencana/icon20210103101912_bahu_jalan_rusak.gif', NULL, NULL, NULL, NULL),
+(58, '254', 'P', 'Wanayasa - Bts. Purwakarta/Subang', 'Jkt 135+200', 'Purwakarta dan Subang', -6.71888, 107.566, 'http://temanjabar-laravel.test/storage/rawanbencana/20210127014039_lokasi-longsor-di-jalan-penghubung-wanayasa-bojong-purwakarta_20171024_105950.jpg', 'SUP KOTA BANDUNG', 'Rawan longsor', 3, 1, 'http://103.131.0.197/storage/rawanbencana/icon20210103101912_bahu_jalan_rusak.gif', NULL, NULL, NULL, NULL),
+(59, '255', 'P', 'Cagak – Bts. Cikaramas', 'Jkt 168+700', 'Purwakarta dan Subang', -6.65813, 107.69, 'http://temanjabar-laravel.test/storage/rawanbencana/20210127014831_longsor.jpg', 'SUP KOTA BANDUNG', 'Rawan longsor', 3, 1, 'http://103.131.0.197/storage/rawanbencana/icon20210103101912_bahu_jalan_rusak.gif', NULL, NULL, NULL, NULL),
+(60, '255', 'P', 'Cagak – Bts. Cikaramas', 'Jkt 169+300', 'Purwakarta dan Subang', -6.64074, 107.686, 'http://temanjabar-laravel.test/storage/rawanbencana/202101270149323e8a96927d7a4b0df82bb16fcd4b2228.jpg', 'SUP KOTA BANDUNG', 'Rawan longsor', 3, 1, 'http://103.131.0.197/storage/rawanbencana/icon20210103101912_bahu_jalan_rusak.gif', NULL, NULL, NULL, NULL),
+(61, '255', 'P', 'Cagak – Bts. Cikaramas', 'Jkt 173+300', 'Purwakarta dan Subang', -6.69282, 107.661, 'http://temanjabar-laravel.test/storage/rawanbencana/20210127015020_download.gif', 'SUP KOTA BANDUNG', 'Rawan longsor', 3, 1, 'http://103.131.0.197/storage/rawanbencana/icon20210103101912_bahu_jalan_rusak.gif', NULL, NULL, NULL, NULL),
+(62, '257', 'P', 'Cagak – Bts. Cikaramas', 'Jkt 171+100', 'Purwakarta dan Subang', -6.62714, 107.681, 'http://temanjabar-laravel.test/storage/rawanbencana/20210127015359_banjir-subang.jpg', 'SUP KAB SUBANG 1', 'Rawan banjir', 3, 1, 'http://103.131.0.197/storage/rawanbencana/icon20210103101912_bahu_jalan_rusak.gif', NULL, NULL, NULL, NULL),
 (63, '257', 'P', 'Cagak – Bts. Cikaramas', 'Jkt 173+350  ', 'Purwakarta dan Subang', NULL, NULL, NULL, 'SUP KAB SUBANG 1', 'Rawan longsor', 3, 7, 'http://103.131.0.197/storage/rawanbencana/icon20210102114558_rawan_longsor.gif', NULL, NULL, NULL, NULL),
 (64, '257', 'P', 'Cagak – Bts. Cikaramas', 'Jkt 177+600  ', 'Purwakarta dan Subang', NULL, NULL, NULL, 'SUP KAB SUBANG 1', 'Rawan longsor', 3, 7, 'http://103.131.0.197/storage/rawanbencana/icon20210102114558_rawan_longsor.gif', NULL, NULL, NULL, NULL),
 (65, '257', 'P', 'Cagak – Bts. Cikaramas', 'Jkt 181+500  ', 'Purwakarta dan Subang', NULL, NULL, NULL, 'SUP KAB SUBANG 1', 'Rawan longsor', 3, 7, 'http://103.131.0.197/storage/rawanbencana/icon20210102114558_rawan_longsor.gif', NULL, NULL, NULL, NULL),
@@ -9289,7 +9293,7 @@ ALTER TABLE `landing_uptd`
 -- AUTO_INCREMENT for table `log`
 --
 ALTER TABLE `log`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=148;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=152;
 
 --
 -- AUTO_INCREMENT for table `master_disposisi_instruksi`
