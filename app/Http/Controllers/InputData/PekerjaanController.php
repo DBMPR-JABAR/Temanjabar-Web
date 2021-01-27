@@ -64,7 +64,12 @@ class PekerjaanController extends Controller
         $mandor = $mandor->leftJoin('user_role', 'user_role.id', '=', 'users.internal_role_id')->select('users.*', 'user_role.id as id_role');
         $mandor = $mandor->get();
 
-        $uptd = DB::table('landing_uptd')->get();
+        $userUptd= DB::table('user_role')->where('id',Auth::user()->internal_role_id)->first();
+        if($userUptd->uptd == NULL) $uptd = DB::table('landing_uptd')->get();
+        else {
+            $uptd = DB::table('landing_uptd')->where('slug',$userUptd->uptd);
+        }
+        //dd($uptd);
         return view('admin.input.pekerjaan.index', compact('pekerjaan', 'ruas_jalan', 'sup', 'uptd', 'mandor', 'jenis'));
     }
     public function editData($id)
