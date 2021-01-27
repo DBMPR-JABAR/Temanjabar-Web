@@ -267,6 +267,12 @@ class UserController extends Controller
     }
     
     public function storeRoleAccess(Request $request){
+        $this->validate($request, [
+            'uptd_access' => 'required',
+            'user_role' => 'required',
+            'menu' => 'required',
+
+        ]);
         $roleExist = DB::table('master_grant_role_aplikasi')->distinct()->pluck('internal_role_id');
         $role_access=array();
         $data = ([
@@ -285,24 +291,26 @@ class UserController extends Controller
                         'access'=>$ex[1],
                     ]
             );
-            $master_grant['menu'] = $ex[0];
-            $master_grant['created_date'] = date('Y-m-d H:i:s');
-            echo $ex[0] . date('Y-m-d H:i:s') .'<br>';
-            DB::table('master_grant_role_aplikasi')->insert($master_grant);
-            // get db master grant
+            $cek = DB::table('master_grant_role_aplikasi')
+                    ->where(['internal_role_id' => $data['user_role'], 'menu' => $ex[0]])->exists();
+                    // dd( $cek);
+            if(!$cek){
+                $master_grant['menu'] = $ex[0];
+                $master_grant['created_date'] = date('Y-m-d H:i:s');
+                DB::table('master_grant_role_aplikasi')->insert($master_grant);
+            }
 
             $master= DB::table('master_grant_role_aplikasi as a')
             ->select('a.id')
             ->where('a.internal_role_id',$data['user_role'])
-            ->where('a.pointer',null)
+            
             ->get();
             $maser_id= $master[0]->id;
             $role_access_list['master_grant_role_aplikasi_id'] = $maser_id;
             $role_access_list['role_access'] = $ex[1];
             DB::table('utils_role_access')->insert($role_access_list);
 
-            $pointer['pointer']=1;
-            DB::table('master_grant_role_aplikasi')->where('id',$maser_id)->update($pointer);
+           
             for($j=0;$j<count($data['uptd_access']);$j++){
                 $uptd_access_list['uptd_name'] = $data['uptd_access'][$j];
                 $uptd_access_list['master_grant_role_aplikasi_id'] = $maser_id;
@@ -393,6 +401,12 @@ class UserController extends Controller
     }
 
     public function updateRoleAccess(Request $request, $id){
+        $this->validate($request, [
+            'uptd_access' => 'required',
+            'user_role' => 'required',
+            'menu' => 'required',
+
+        ]);
         // dd($request);
         
         // dd($data);
@@ -435,24 +449,27 @@ class UserController extends Controller
                         'access'=>$ex[1],
                     ]
             );
-            $master_grant['menu'] = $ex[0];
-            $master_grant['created_date'] = date('Y-m-d H:i:s');
-            echo $ex[0] . date('Y-m-d H:i:s') .'<br>';
-            DB::table('master_grant_role_aplikasi')->insert($master_grant);
-            // get db master grant
-            // dd($master_grant);
+            
+            $cek = DB::table('master_grant_role_aplikasi')
+            ->where(['internal_role_id' => $data['user_role'], 'menu' => $ex[0]])->exists();
+            // dd( $cek);
+            if(!$cek){
+                $master_grant['menu'] = $ex[0];
+                $master_grant['created_date'] = date('Y-m-d H:i:s');
+                DB::table('master_grant_role_aplikasi')->insert($master_grant);
+            }
             $master= DB::table('master_grant_role_aplikasi as a')
             ->select('a.id')
             ->where('a.internal_role_id',$data['user_role'])
-            ->where('a.pointer',null)
+            
             ->get();
+            
             $maser_id= $master[0]->id;
             $role_access_list['master_grant_role_aplikasi_id'] = $maser_id;
             $role_access_list['role_access'] = $ex[1];
             DB::table('utils_role_access')->insert($role_access_list);
 
-            $pointer['pointer']=1;
-            DB::table('master_grant_role_aplikasi')->where('id',$maser_id)->update($pointer);
+           
             for($j=0;$j<count($data['uptd_access']);$j++){
                 $uptd_access_list['uptd_name'] = $data['uptd_access'][$j];
                 $uptd_access_list['master_grant_role_aplikasi_id'] = $maser_id;
