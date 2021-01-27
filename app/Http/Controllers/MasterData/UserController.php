@@ -393,7 +393,7 @@ class UserController extends Controller
     public function updateRoleAccess(Request $request, $id){
         // dd($request);
         
-    //    dd($data);
+        // dd($data);
             //Delete data
         $menu = DB::table('master_grant_role_aplikasi')
         ->where('internal_role_id',$id)
@@ -424,7 +424,7 @@ class UserController extends Controller
         ]);
         // dd($data);
        $master_grant['internal_role_id']  = $data['user_role'];
-    //    echo $data['user_role'];
+        // echo $data['user_role'];
        for($i=0;$i<count($data['menu']);$i++){
             $ex = explode(".",$data['menu'][$i]);
             array_push($role_access,
@@ -504,43 +504,78 @@ class UserController extends Controller
 
     public function detailRoleAkses($id)
     {
-        $user_role_list = DB::table('user_role as a')
-        ->distinct()
-        ->select('a.role','a.id as role_id',DB::raw('GROUP_CONCAT(b.menu SEPARATOR ", ") as menu_user'))
-        ->join('master_grant_role_aplikasi as b','a.id','=','b.internal_role_id')
-        ->where('a.id',$id)
-        ->where('b.menu','NOT LIKE','%disposisi%')
-        ->groupBy('a.role')
-        ->orderBy('a.id')
-        ->get();
-        $internal = DB::table('master_grant_role_aplikasi as a')
-        ->select('a.id','internal_role_id')
-        ->where('a.internal_role_id',$id)
-        ->groupBy('internal_role_id')
-        ->get();
-        foreach ($internal as $data) {
-            $role_access = DB::table('utils_role_access as a')
+       
+            $user_role_list = DB::table('user_role as a')
             ->distinct()
-            ->select('*',DB::raw('GROUP_CONCAT(a.role_access SEPARATOR ", ") as role_akses'))
-            ->where('a.master_grant_role_aplikasi_id',$data->id)
-            ->orderBy('a.master_grant_role_aplikasi_id')
+            ->select('a.role','a.id as role_id',DB::raw('GROUP_CONCAT(b.menu SEPARATOR ", ") as menu_user'),DB::raw('GROUP_CONCAT(b.id SEPARATOR ", ") as id_menu'),DB::raw('GROUP_CONCAT(c.role_access SEPARATOR ", ") as role_access'))
+            ->join('master_grant_role_aplikasi as b','a.id','=','b.internal_role_id')
+            ->join('utils_role_access as c','b.id','=','c.master_grant_role_aplikasi_id')
+            ->where('a.id',$id)
+            ->where('b.menu','NOT LIKE','%disposisi%')
+            ->groupBy('a.role')
+            ->orderBy('a.id')
             ->get();
-            $role_akses[] = $role_access[0]->role_akses;
-            $uptd_access = DB::table('utils_role_access_uptd as a')
+            $alldata=array();
+            $counter=0;
+            foreach($user_role_list as $data){
+                $permiss =array();
+                $men = explode(", ",$data->menu_user);
+                $aks = explode(", ",$data->role_access);
+                $counting = 0;
+                
+                foreach($men as $no){
+                    $temp = $no.'.'.$aks[$counting];
+                    array_push($permiss,$temp) ;
+                    $counting++;
+    
+                }
+                // dd($user_role_list);
+                $permission = implode(", ", $permiss);
+                $alldata['role_id'] = $data->role_id;
+                $alldata['role'] = $data->role;
+                $alldata['id_menu'] = $data->id_menu;
+                $alldata['permissions'] = $permission;
+                $counter++;
+            }
+    
+            $menu = DB::table('master_grant_role_aplikasi as a')
             ->distinct()
-            ->select(DB::raw('GROUP_CONCAT(a.uptd_name SEPARATOR ", ") as uptd_akses'))
-            ->where('a.master_grant_role_aplikasi_id',$data->id)
-            ->orderBy('a.master_grant_role_aplikasi_id')
+            ->where('menu','NOT LIKE', '%Disposisi%')
+            ->groupBy('a.menu')
             ->get();
-            $uptd_akses[] = $uptd_access[0]->uptd_akses;
-
-        }
-        return view('admin.master.user.detail_role_akses',
-            [
-                'role_access' => $role_akses,
-                'uptd_access' => $uptd_akses,
-                'user_role_list' => $user_role_list
-            ]);
+            $tempi = array();
+            foreach($menu as $item => $as){
+                array_push($tempi,$as->menu.'.Create');
+                array_push($tempi,$as->menu.'.View');
+                array_push($tempi,$as->menu.'.Update');
+                array_push($tempi,$as->menu.'.Delete');
+              
+            }
+            // dd($menu);
+            // dd($tempi);
+            $user_role = DB::table('user_role as a')
+                           ->where('id',$id)
+                           ->get();
+             
+            $alldata['menu']=$tempi ;
+    
+            foreach (explode(",",$alldata['id_menu']) as $data) {
+                $uptd_access = DB::table('utils_role_access_uptd as a')
+                ->distinct()
+                ->select(DB::raw('GROUP_CONCAT(a.uptd_name SEPARATOR ", ") as uptd_akses'))
+                ->where('a.master_grant_role_aplikasi_id',$data)
+                ->orderBy('a.master_grant_role_aplikasi_id')
+                ->get();
+                $uptd_akses[] = $uptd_access[0]->uptd_akses;
+            }
+            $alldata['uptd_akses']=explode(", ",$uptd_akses[0]) ;
+            $int = array();
+            foreach($alldata['uptd_akses'] as $tem){
+                array_push($int, (int) $tem);
+            }
+            $alldata['uptd_akses']= $int;
+                //    dd($alldata);         
+            return view('admin.master.user.detail_role_akses',compact('alldata'));
     }
     public function deleteRoleAkses($id){
 

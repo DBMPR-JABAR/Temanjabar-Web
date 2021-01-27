@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 25, 2021 at 11:19 AM
+-- Generation Time: Jan 26, 2021 at 08:42 AM
 -- Server version: 5.7.24
 -- PHP Version: 7.4.14
 
@@ -826,7 +826,8 @@ INSERT INTO `log` (`id`, `activity`, `description`, `created_at`, `updated_at`) 
 (143, 'Login', 'User Kadis Logged In To Web', '2021-01-22 00:45:54', '2021-01-22 00:45:54'),
 (144, 'Login', 'User Kadis Logged In To Web', '2021-01-24 06:17:03', '2021-01-24 06:17:03'),
 (145, 'Login', 'User Kadis Logged In To Web', '2021-01-24 18:38:43', '2021-01-24 18:38:43'),
-(146, 'Login', 'User Kadis Logged In To Web', '2021-01-24 20:37:04', '2021-01-24 20:37:04');
+(146, 'Login', 'User Kadis Logged In To Web', '2021-01-24 20:37:04', '2021-01-24 20:37:04'),
+(147, 'Login', 'User Kadis Logged In To Web', '2021-01-25 20:51:29', '2021-01-25 20:51:29');
 
 -- --------------------------------------------------------
 
@@ -3113,22 +3114,14 @@ CREATE TABLE `migrations` (
   `id` int(10) UNSIGNED NOT NULL,
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(1, '2014_10_12_000000_create_users_table', 1),
-(2, '2019_08_19_000000_create_failed_jobs_table', 1),
-(3, '2020_12_04_231552_create_log', 2),
-(4, '2020_12_04_231921_add_column_parent', 2),
-(5, '2020_12_07_043443_create_jobs_table', 3),
-(6, '2021_01_04_020643_create_utils_jenis_jembatan', 3),
-(7, '2021_01_04_020833_add_columns_jembatan', 3),
-(8, '2021_01_04_021444_create_jembatan_foto', 3),
-(9, '2021_01_25_095842_create_roadroid__trx__survey__kondisi__jalans_table', 4);
+(1, '2021_01_25_095842_create_roadroid__trx__survey__kondisi__jalans_table', 1);
 
 -- --------------------------------------------------------
 
@@ -3455,38 +3448,42 @@ CREATE TABLE `rekap` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `roadroid_trx_survey_kondisi_jalans`
+-- Table structure for table `roadroid_trx_survey_kondisi_jalan`
 --
 
-CREATE TABLE `roadroid_trx_survey_kondisi_jalans` (
+CREATE TABLE `roadroid_trx_survey_kondisi_jalan` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `id_ruas_jalan` bigint(20) UNSIGNED DEFAULT NULL,
+  `id_segmen` bigint(20) UNSIGNED DEFAULT NULL,
   `latitude` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `longitude` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `distance` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `speed` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `avg_speed` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `altitude` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `altitude-10` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `eiri` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ciri` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `altitude_10` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `e_iri` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `c_iri` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_user` bigint(20) UNSIGNED DEFAULT NULL,
+  `updated_user` bigint(20) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `roadroid_trx_survey_kondisi_jalans`
+-- Dumping data for table `roadroid_trx_survey_kondisi_jalan`
 --
 
-INSERT INTO `roadroid_trx_survey_kondisi_jalans` (`id`, `id_ruas_jalan`, `latitude`, `longitude`, `distance`, `speed`, `altitude`, `altitude-10`, `eiri`, `ciri`, `created_at`, `updated_at`) VALUES
-(1, 9, '-6.915635', '107.630117', '0', '39', '128.2082', '12.82082', '2.876433', '4.512167', NULL, NULL),
-(2, 9, '-6.915454', '107.630493', '50', '55', '128.5056', '12.85056', '2.789588', '4.18245', NULL, NULL),
-(3, 9, '-6.915219', '107.630911', '100', '50', '128.8161', '12.88161', '3.418956', '4.668244', NULL, NULL),
-(4, 9, '-6.914996', '107.631276', '150', '32', '129.0784', '12.90784', '3.684656', '4.387678', NULL, NULL),
-(5, 9, '-6.914804', '107.631662', '200', '31', '129.0249', '12.90249', '2.576422', '4.295356', NULL, NULL),
-(6, 9, '-6.91458', '107.632113', '250', '52', '128.944', '12.8944', '2.073247', '4.060471', NULL, NULL),
-(7, 9, '-6.914357', '107.632488', '300', '51', '130.2685', '13.02685', '2.675967', '5.830217', NULL, NULL),
-(8, 9, '-6.914165', '107.632885', '350', '52', '130.2186', '13.02186', '2.711089', '7.014867', NULL, NULL),
-(9, 9, '-6.913993', '107.633294', '400', '25', '130.3062', '13.03062', '1.81006', '1.42253', NULL, NULL);
+INSERT INTO `roadroid_trx_survey_kondisi_jalan` (`id`, `id_ruas_jalan`, `id_segmen`, `latitude`, `longitude`, `distance`, `speed`, `avg_speed`, `altitude`, `altitude_10`, `e_iri`, `c_iri`, `created_user`, `updated_user`, `created_at`, `updated_at`) VALUES
+(1, 9, NULL, '-6.915635', '107.630117', '0', '39', NULL, '128.2082', '12.82082', '2.876433', '4.512167', NULL, NULL, NULL, NULL),
+(2, 9, NULL, '-6.915454', '107.630493', '50', '55', NULL, '128.5056', '12.85056', '2.789588', '4.18245', NULL, NULL, NULL, NULL),
+(3, 9, NULL, '-6.915219', '107.630911', '100', '50', NULL, '128.8161', '12.88161', '3.418956', '4.668244', NULL, NULL, NULL, NULL),
+(4, 9, NULL, '-6.914996', '107.631276', '150', '32', NULL, '129.0784', '12.90784', '3.684656', '4.387678', NULL, NULL, NULL, NULL),
+(5, 9, NULL, '-6.914804', '107.631662', '200', '31', NULL, '129.0249', '12.90249', '2.576422', '4.295356', NULL, NULL, NULL, NULL),
+(6, 9, NULL, '-6.91458', '107.632113', '250', '52', NULL, '128.944', '12.8944', '2.073247', '4.060471', NULL, NULL, NULL, NULL),
+(7, 9, NULL, '-6.914357', '107.632488', '300', '51', NULL, '130.2685', '13.02685', '2.675967', '5.830217', NULL, NULL, NULL, NULL),
+(8, 9, NULL, '-6.914165', '107.632885', '350', '52', NULL, '130.2186', '13.02186', '2.711089', '7.014867', NULL, NULL, NULL, NULL),
+(9, 9, NULL, '-6.913993', '107.633294', '400', '25', NULL, '130.3062', '13.03062', '1.81006', '1.42253', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -9030,7 +9027,7 @@ ALTER TABLE `master_ruas_jalan`
 -- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
-  ADD PRIMARY KEY (`id`) USING BTREE;
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `monitoring_laporan_masyarakat`
@@ -9064,9 +9061,9 @@ ALTER TABLE `rekap`
   ADD PRIMARY KEY (`no`) USING BTREE;
 
 --
--- Indexes for table `roadroid_trx_survey_kondisi_jalans`
+-- Indexes for table `roadroid_trx_survey_kondisi_jalan`
 --
-ALTER TABLE `roadroid_trx_survey_kondisi_jalans`
+ALTER TABLE `roadroid_trx_survey_kondisi_jalan`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -9292,7 +9289,7 @@ ALTER TABLE `landing_uptd`
 -- AUTO_INCREMENT for table `log`
 --
 ALTER TABLE `log`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=147;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=148;
 
 --
 -- AUTO_INCREMENT for table `master_disposisi_instruksi`
@@ -9304,7 +9301,7 @@ ALTER TABLE `master_disposisi_instruksi`
 -- AUTO_INCREMENT for table `master_grant_role_aplikasi`
 --
 ALTER TABLE `master_grant_role_aplikasi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=834;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=830;
 
 --
 -- AUTO_INCREMENT for table `master_jembatan`
@@ -9334,7 +9331,7 @@ ALTER TABLE `master_ruas_jalan`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `monitoring_laporan_masyarakat`
@@ -9367,9 +9364,9 @@ ALTER TABLE `rekap`
   MODIFY `no` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `roadroid_trx_survey_kondisi_jalans`
+-- AUTO_INCREMENT for table `roadroid_trx_survey_kondisi_jalan`
 --
-ALTER TABLE `roadroid_trx_survey_kondisi_jalans`
+ALTER TABLE `roadroid_trx_survey_kondisi_jalan`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
@@ -9382,7 +9379,7 @@ ALTER TABLE `tbl_uptd_trx_master_kondisi_jalan`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `user_bidang`
@@ -9394,13 +9391,13 @@ ALTER TABLE `user_bidang`
 -- AUTO_INCREMENT for table `user_pegawai`
 --
 ALTER TABLE `user_pegawai`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1376;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `user_role`
 --
 ALTER TABLE `user_role`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `utils_jenis_pekerjaan`
@@ -9424,13 +9421,13 @@ ALTER TABLE `utils_notifikasi`
 -- AUTO_INCREMENT for table `utils_role_access`
 --
 ALTER TABLE `utils_role_access`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2468;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2464;
 
 --
 -- AUTO_INCREMENT for table `utils_role_access_uptd`
 --
 ALTER TABLE `utils_role_access_uptd`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4480;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4468;
 
 --
 -- AUTO_INCREMENT for table `utils_sup`

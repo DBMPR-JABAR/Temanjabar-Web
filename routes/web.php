@@ -189,7 +189,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('role-akses/edit/{id}', 'MasterData\UserController@editRoleAccess')->name('editRoleAccess');
             Route::post('role-akses/update/{id}', 'MasterData\UserController@updateRoleAccess')->name('updateRoleAccess');
 
-            Route::post('role-akses/create', 'MasterData\UserController@createRoleAkses')->name('createRoleAkses');
+            // Route::post('role-akses/create', 'MasterData\UserController@createRoleAkses')->name('createRoleAkses');
 
             Route::get('role-akses/detail/{id}', 'MasterData\UserController@detailRoleAkses')->name('detailRoleAkses');
             Route::get('role-akses/delete/{id}', 'MasterData\UserController@deleteRoleAkses')->name('deleteRoleAkses');
@@ -304,6 +304,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('delete/{id}', 'InputData\RekapController@deleteData')->name('deleteDataRekap');
             Route::get('json', 'InputData\RekapController@json')->name('json');
         });
+
+        Route::resource('survei_kondisi_jalan', 'InputData\SurveiKondisiJalanController');
+        Route::group(['prefix' => 'survei_kondisi_jalan'], function () {
+            Route::get('delete/{id}', 'InputData\SurveiKondisiJalanController@destroy');
+            Route::get('import', 'InputData\SurveiKondisiJalanController@import')->name('importSurveiKondisiJalan');
+            Route::post('import', 'InputData\SurveiKondisiJalanController@importExcel');
+        });
     });
 
     Route::group(['prefix' => 'lapor'], function () {
@@ -320,7 +327,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::get('edit/{id}', 'LandingController@editLaporanMasyarakat')->name('editLapor');
         Route::post('update', 'LandingController@updateLaporanMasyarakat')->name('updateLapor');
         Route::get('delete/{id}', 'LandingController@deleteLaporanMasyarakat')->name('deleteLapor');
-
     });
 });
 Route::get('map/target-realisasi', 'ProyekController@getTargetRealisasiAPI')->name('api.targetrealisasi');

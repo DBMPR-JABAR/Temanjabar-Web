@@ -47,7 +47,7 @@
                     @endif
                     <li class="{{(Request::segment(3) == 'cctv') ? 'active' : ''}}">
                         <a href="{{ url('admin/monitoring/cctv') }}">
-                            <span class="pcoded-mtext">CCTV Command Center</span>
+                            <span class="pcoded-mtext">CCTV Control Room</span>
                         </a>
                     </li>
                     <li class="{{(Request::segment(3) == 'roadroid-survei-kondisi-jalan') ? 'active' : ''}}">
@@ -198,6 +198,13 @@
                     <li class="{{(Request::segment(3) == 'kondisi-jalan') ? 'active' : ''}}">
                         <a href="{{ url('admin/input-data/kondisi-jalan') }}">
                             <span class="pcoded-mtext">Kondisi Jalan</span>
+                        </a>
+                    </li>
+                    @endif
+                    @if (hasAccess(Auth::user()->internal_role_id, "Kondisi Jalan", "View"))
+                    <li class="{{(Request::segment(3) == 'survei_kondisi_jalan') ? 'active' : ''}}">
+                        <a href="{{ url('admin/input-data/survei_kondisi_jalan') }}">
+                            <span class="pcoded-mtext">Survei Kondisi Jalan</span>
                         </a>
                     </li>
                     @endif

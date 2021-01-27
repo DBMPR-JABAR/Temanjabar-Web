@@ -22,7 +22,7 @@
 
 @section('page-header')
 <div class="row align-items-end">
-    <div class="col-lg-8">
+    <div class="col-lg-6">
         <div class="page-header-title">
             <div class="d-inline">
                 <h4>Rincian Grant access Role Aplikasi</h4>
@@ -30,12 +30,14 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-6">
         <div class="page-header-breadcrumb">
             <ul class="breadcrumb-title">
                 <li class="breadcrumb-item">
                     <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
                 </li>
+                <li class="breadcrumb-item"><a href="{{ route('getRoleAkses') }}">Role Akses</a> </li>
+
                 <li class="breadcrumb-item"><a href="#!">Rincian Grant access Role Aplikasi</a> </li>
             </ul>
         </div>
@@ -45,33 +47,37 @@
 
 @section('page-body')
 <div class="row">
-<div class="col-xl-8 col-md-12">
+<div class="col-xl-12 col-md-12">
     <div class="card">
-                                                    
-        <div class="card-block-big">
-            <ul class="nav nav-tabs  tabs" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#Detail" role="tab">Detail</a>
-                 </li>
-                                                                   
-
-            </ul>
-                                                                <!-- Tab panes -->
-            <div class="tab-content tabs card-block">
-                <div class="tab-pane active" id="Detail" role="tabpanel">
-                    <div class="dt-responsive table-responsive">
-                      <table style="padding:0;margin:0" class="table table-striped table-bordered nowrap dataTable">
-                         <tr><td>	User Role</td><td>{{$user_role_list[0]->role}}</td></tr>
-                          <tr><td>	Menu</td><td>{{ $user_role_list[0]->menu_user }}</td></tr>
-                          <tr><td>  Role Access</td><td>{{ $role_access[0] }}</td></tr>
-                          <tr><td>  UPTD Access</td><td>{{ $uptd_access[0] }}</td></tr>
-                      </table>
+        <div class="card-header">
+            <h4 class="card-title">{{Str::title($alldata['role'])}}</h4>
+           
+        </div>
+        <div class="card-block">
+                <div class="modal-body p-2">                 
+                    <div class="form-group row">
+                        <label class="col-md-2">Role Akses</label>        
+                        <div class="col-md-10">
+                           @foreach ($alldata['menu'] as $item)
+                           <button class="button btn-sm btn-success mb-1 mr-1">
+                               {{$item}}    
+                           </button>   
+                           @endforeach
+                        </div>
+                    </div>       
+                    <div class="form-group row">
+                        <label class="col-md-2">UPTD Access</label>
+                        <div class="col-md-10">
+                            @foreach ($alldata['uptd_akses'] as $item)
+                           <button class="button btn-sm btn-success mb-1 mr-1">
+                               UPTD {{$item}}    
+                           </button>   
+                           @endforeach
+                        </div>
                     </div>
-                 </div>
-                        
-            </div>
-        </div>    
-
+                </div>
+               
+        </div>
     </div>
 </div>
 </div>
