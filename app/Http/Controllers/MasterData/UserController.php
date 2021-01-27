@@ -179,24 +179,24 @@ class UserController extends Controller
                        ->whereNotIn('id',$roleExist)
                        ->get();
 
-        $user_role_list = DB::table('user_role as a')
-        ->distinct()
-        ->select('a.role','a.id as role_id',DB::raw('GROUP_CONCAT(b.menu SEPARATOR ", ") as menu_user'),DB::raw('GROUP_CONCAT(b.id SEPARATOR ", ") as id_menu'),DB::raw('GROUP_CONCAT(c.role_access SEPARATOR ", ") as role_access'))
-        ->join('master_grant_role_aplikasi as b','a.id','=','b.internal_role_id')
-        ->join('utils_role_access as c','b.id','=','c.master_grant_role_aplikasi_id')
-        ->where('b.menu','NOT LIKE','%disposisi%')
-        ->groupBy('a.role')
-        ->orderBy('a.id')
-        ->get();
         // $user_role_list = DB::table('user_role as a')
         // ->distinct()
-        // ->select('a.role','a.id as role_id','b.menu as menu_user','b.id as id_menu','c.role_access as role_access')
+        // ->select('a.role','a.id as role_id',DB::raw('GROUP_CONCAT(b.menu SEPARATOR ", ") as menu_user'),DB::raw('GROUP_CONCAT(b.id SEPARATOR ", ") as id_menu'),DB::raw('GROUP_CONCAT(c.role_access SEPARATOR ", ") as role_access'))
         // ->join('master_grant_role_aplikasi as b','a.id','=','b.internal_role_id')
         // ->join('utils_role_access as c','b.id','=','c.master_grant_role_aplikasi_id')
         // ->where('b.menu','NOT LIKE','%disposisi%')
         // ->groupBy('a.role')
         // ->orderBy('a.id')
         // ->get();
+        $user_role_list = DB::table('user_role as a')
+        ->distinct()
+        ->select('a.role','a.id as role_id','b.menu as menu_user','b.id as id_menu','c.role_access as role_access')
+        ->join('master_grant_role_aplikasi as b','a.id','=','b.internal_role_id')
+        ->join('utils_role_access as c','b.id','=','c.master_grant_role_aplikasi_id')
+        ->where('b.menu','NOT LIKE','%disposisi%')
+        ->groupBy('a.role')
+        ->orderBy('a.id')
+        ->get();
         $alldata=array();
         $counter=0;
         dd($user_role_list);
