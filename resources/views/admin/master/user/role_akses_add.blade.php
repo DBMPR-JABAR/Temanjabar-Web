@@ -130,7 +130,8 @@
                         @endforeach
                     </div>
                 </div>
-        
+                <button type="button" class="btn btn-danger waves-effect " data-dismiss="modal">Kembali</button>
+                <button type="submit" class="btn btn-primary waves-effect waves-light ">Simpan</button>
                 </form>
             </div>
         </div>
