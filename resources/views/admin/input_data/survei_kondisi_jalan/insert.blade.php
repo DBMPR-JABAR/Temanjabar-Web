@@ -34,7 +34,7 @@
                     @if ($action == 'store')
                         <h5>Tambah Data Survei Kondisi Jalan</h5>
                     @else
-                        <h5>Ubah Data Survei Kondisi Jalan</h5>
+                        <h5>Perbaharui Data Survei Kondisi Jalan</h5>
                     @endif
                     <div class="card-header-right">
                         <ul class="list-unstyled card-option">
@@ -86,10 +86,18 @@
                     </div>
 
                     <div class=" form-group row">
-                        <label class="col-md-3 col-form-label">Jarak (m)</label>
+                        <label class="col-md-3 col-form-label">Jarak (m) dan Id Segmen</label>
                         <div class="col-md-9">
-                            <input name="distance" value="{{ @$surveiKondisiJalan->distance }}" type="text"
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input name="distance" value="{{ @$surveiKondisiJalan->distance }}" type="text"
                                 class="form-control formatLatLong">
+                                </div>
+                                <div class="col-md-6">
+                                    <input name="id_segmen" value="{{ @$surveiKondisiJalan->avg_speed }}" type="text"
+                                        class="form-control formatLatLong" required>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

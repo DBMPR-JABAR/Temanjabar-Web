@@ -59,8 +59,9 @@
                 <div class="card-block">
                     @if (hasAccess(Auth::user()->internal_role_id, 'Kondisi Jalan', 'Create'))
                         <a href="{{ route('survei_kondisi_jalan.create') }}" class="btn btn-mat btn-primary mb-3">Tambah</a>
-                        <a href="{{ route('importSurveiKondisiJalan') }}" class="btn btn-mat btn-primary mb-3">Import
-                            Excel</a>
+                        <button type="button" class="btn btn-mat btn-primary mb-3" data-toggle="modal" data-target="#importExcel">
+                                Import
+                        </button>
                     @endif
                     <div class="dt-responsive table-responsive">
                         <table id="surveikondisijalan-table" class="table table-striped table-bordered able-responsive">
@@ -85,7 +86,7 @@
                                 @foreach ($surveiKondisiJalan as $data)
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $data->id_ruas_jalan }}</td>
+                                        <td>{{ $ruasJalan->where('id',$data->id_ruas_jalan)->first()->nama_ruas_jalan }}</td>
                                         <td>{{ $data->latitude }}</td>
                                         <td>{{ $data->longitude }}</td>
                                         <td>{{ $data->distance }}</td>
@@ -132,6 +133,47 @@
         </div>
     </div>
     <div class="modal-only">
+
+        <!-- Import Excel -->
+        <div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <form method="post" action="{{ route('importSurveiRuasJalan') }}" enctype="multipart/form-data">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>
+                        </div>
+                        <div class="modal-body">
+
+                            {{ csrf_field() }}
+
+                            <label>Pilih file excel</label>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Nama Ruas Jalan</label>
+                                <div class="col-md-9">
+                                    <select id="id_ruas_jalan" name="id_ruas_jalan" class="form-control" required>
+                                        @foreach ($ruasJalan as $data)
+                                            <option value="{{ $data->id }}"w>
+                                                {{ $data->nama_ruas_jalan }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <label class="col-md-3 col-form-label">File Excel</label>
+                                <div class="col-md-9">
+                                    <input type="file" name="survei_excel"
+                                        class="form-control formatLatLong" required>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Import</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
 
         <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">

@@ -305,12 +305,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('json', 'InputData\RekapController@json')->name('json');
         });
 
-        Route::resource('survei_kondisi_jalan', 'InputData\SurveiKondisiJalanController');
         Route::group(['prefix' => 'survei_kondisi_jalan'], function () {
             Route::get('delete/{id}', 'InputData\SurveiKondisiJalanController@destroy');
-            Route::get('import', 'InputData\SurveiKondisiJalanController@import')->name('importSurveiKondisiJalan');
-            Route::post('import', 'InputData\SurveiKondisiJalanController@importExcel');
+            Route::post('import', 'InputData\SurveiKondisiJalanController@import')->name('importSurveiRuasJalan');
         });
+        Route::resource('survei_kondisi_jalan', 'InputData\SurveiKondisiJalanController');
     });
 
     Route::group(['prefix' => 'lapor'], function () {
