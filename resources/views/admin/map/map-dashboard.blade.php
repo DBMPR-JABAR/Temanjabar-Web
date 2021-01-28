@@ -2458,7 +2458,7 @@
                 // Aksi untuk siapkan video player dari selected feature
                 var prepVidAction = {
                     title: "Lihat Video",
-                    id: "prep-vid",
+                    id: "prep-vid-vc",
                     className: "feather icon-video"
                 };
                 const popupTemplate = {
@@ -2469,14 +2469,9 @@
                             creator: (function(f) {
                                 const vidElem = document.createElement('video');
                                 vidElem.id = 'vid'; // + f.graphic.attributes.ID;
-                                // vidElem.class = 'hls-video';
                                 vidElem.style = 'background:gray;';
                                 vidElem.width = '275';
                                 vidElem.height = '200';
-                                const vidSrcElem = document.createElement('source');
-                                vidSrcElem.src = 'http://45.118.114.26:80/camera/TolPasteur.m3u8';
-                                vidSrcElem.type = 'application/x-mpegURL';
-                                vidElem.appendChild(vidSrcElem);
                                 return vidElem;
                             })
                         },
@@ -2578,11 +2573,31 @@
                 };
                 var player;
 
-                function prepVid() {
+                view.when(function() {
+                    view.popup.watch("selectedFeature", function(graphic) {
+                        if (graphic) {
+                            var graphicTemplate = graphic.getEffectivePopupTemplate();
+                            graphicTemplate.actions.items[0].visible = graphic.attributes.URL ?
+                                true :
+                                false;
+                        }
+                    });
+                });
+
+                function aprepVid() {
                     // bila player udah didefinisikan sebelumnya
                     if (typeof(player) != 'undefined') {
                         player = null; // kosongkan pointer player
                     }
+                    var attributes = view.popup.viewModel.selectedFeature.attributes;
+                    var url = attributes.URL;
+
+                    const vidElem = document.getElementById('vid');
+                    const vidSrcElem = document.createElement('source');
+                    vidSrcElem.src = url;
+                    vidSrcElem.type = 'application/x-mpegURL';
+                    vidElem.appendChild(vidSrcElem);
+
                     player = fluidPlayer(
                         'vid', {
                             layoutControls: {
@@ -2592,10 +2607,11 @@
                         }
                     );
                 }
+
                 view.popup.on("trigger-action", function(event) {
-                    if (event.action.id === "prep-vid") {
-                        prepVid();
-                        $('div.esri-popup__action[title="Lihat Video"]').remove();
+                    if (event.action.id === "prep-vid-vc") {
+                        aprepVid();
+                        // $('div.esri-popup__action[title="Lihat Video"]').remove();
                     }
                 });
 
@@ -2630,6 +2646,11 @@
                         {
                             name: "CHANNEL",
                             alias: "Channel",
+                            type: "string"
+                        },
+                        {
+                            name: "URL",
+                            alias: "URL",
                             type: "string"
                         },
                         {
