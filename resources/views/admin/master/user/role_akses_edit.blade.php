@@ -147,7 +147,8 @@
                     </div>
                 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger waves-effect " data-dismiss="modal">Kembali</button>
+                
+                        <a href="{{ url()->previous() }}"><button type="button" class="btn btn-danger waves-effect " data-dismiss="modal">Kembali</button></a>        
                         <button type="submit" class="btn btn-primary waves-effect waves-light ">Simpan</button>
                     </div>
                 

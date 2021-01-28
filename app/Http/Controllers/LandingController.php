@@ -337,6 +337,7 @@ class LandingController extends Controller
     public function getLaporanMasyarakat()
     {
         $laporan = DB::table('monitoring_laporan_masyarakat')->get();
+        // dd($laporan);
         return view('admin.landing.laporan-masyarakat.index', compact('laporan'));
     }
 

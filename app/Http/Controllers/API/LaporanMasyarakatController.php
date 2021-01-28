@@ -34,13 +34,20 @@ class LaporanMasyarakatController extends Controller
      */
     public function index()
     {
-        $laporan = DB::table('monitoring_laporan_masyarakat')->get();
+        $aduan = DB::table('monitoring_laporan_masyarakat');
+
+        if (Auth::user()->internalRole->uptd) {
+            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+            $aduan = $aduan->where('uptd_id', $uptd_id);
+        }
+
+        $aduan = $aduan->get();
         return response()->json([
             "response" => [
                 "status"    => 200,
                 "message"   => "List Data Laporan Kerusakan"
             ],
-            "data" => $laporan
+            "data" => $aduan
         ], 200);
 
         // if($request->has("skip")){

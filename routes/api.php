@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::post('laporan-masyarakat/store', 'API\LaporanMasyarakatController@store');
-Route::get('/laporan-masyarakat', 'API\LaporanMasyarakatController@index');
+Route::get('/lap-masyarakat', 'API\LapMasyarakatController@index');
 
 
 Route::group(['prefix' => 'auth'], function () {
