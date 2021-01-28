@@ -16,9 +16,22 @@ class KerusakanJalanResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "latitude" => 0+$this->lat,
-            "longitude" => 0+$this->long,
-            "keterangan" => $this->jenis
+            "nomorPengaduan" => $this->nomorPengaduan,
+            "nama" => $this->nama,
+            "nik" => $this->nik,
+            "alamat" => $this->alamat,
+            "telp" => $this->telp,
+            "email" => $this->email,
+            "jenis" => $this->jenis,
+            "gambar" => $this->gambar,
+            "lokasi" => $this->lokasi,
+            "lat" => 0+$this->lat,
+            "long" => 0+$this->long,
+            "deskripsi" => $this->deskripsi,
+            "status" => $this->status,
+            "uptd_id" => $this->uptd_id,
+            "created_at" => $this->created_at,
+            "updated_at" => $this->updated_at,
         ];
     }
     public function with($request)

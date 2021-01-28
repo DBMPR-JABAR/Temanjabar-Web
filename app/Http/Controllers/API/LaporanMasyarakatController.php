@@ -19,41 +19,25 @@ use Illuminate\Support\Str;
 
 class LaporanMasyarakatController extends Controller
 {
-    // private $response;
-    // public function __construct() {
-    //     $this->response = [
-    //         'status' => 'false',
-    //         'data' => []
-    //     ];
-    // }
+    private $response;
+    public function __construct() {
+        $this->response = [
+            'status' => 'false',
+            'data' => []
+        ];
+    }
 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $aduan = DB::table('monitoring_laporan_masyarakat');
-
-        if (Auth::user()->internalRole->uptd) {
-            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
-            $aduan = $aduan->where('uptd_id', $uptd_id);
+        if($request->has("skip")){
+            return (KerusakanJalanResource::collection(LaporanMasyarakat::skip($request->skip)->take($request->take)->get())->additional(['status' => 'success']));
         }
-
-        $aduan = $aduan->get();
-        return response()->json([
-            "response" => [
-                "status"    => 200,
-                "message"   => "List Data Laporan Kerusakan"
-            ],
-            "data" => $aduan
-        ], 200);
-
-        // if($request->has("skip")){
-        //     return (KerusakanJalanResource::collection(LaporanMasyarakat::skip($request->skip)->take($request->take)->get())->additional(['status' => 'success']));
-        // }
-        // return (KerusakanJalanResource::collection(LaporanMasyarakat::all())->additional(['status' => 'success']));
+        return (KerusakanJalanResource::collection(LaporanMasyarakat::all())->additional(['status' => 'success']));
     }
 
     /**
