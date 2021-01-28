@@ -15,10 +15,11 @@ class LapMasyarakatController extends Controller
         $aduan = DB::table('monitoring_laporan_masyarakat')->get();
         return response()->json([
             "response" => [
-                "status"    => 200,
+                
                 "message"   => "List Data Laporan Kerusakan"
             ],
-            "data" => $aduan
+            "data" => $aduan,
+            "status"    => 'Success'
         ], 200);
 
         // if($request->has("skip")){
