@@ -38,7 +38,7 @@ class LaporanMasyarakatController extends Controller
         return response()->json([
             "response" => [
                 "status"    => 200,
-                "message"   => "List Data Posts"
+                "message"   => "List Data Laporan Kerusakan"
             ],
             "data" => $laporan
         ], 200);
