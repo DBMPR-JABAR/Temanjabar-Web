@@ -32,7 +32,7 @@ class LaporController extends Controller
         }
 
         $aduan = $aduan->get();
-        dd($aduan);
+        // dd($aduan);
         return view('admin.lapor.index', compact('aduan'));
     }
 

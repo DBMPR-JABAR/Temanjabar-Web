@@ -194,6 +194,7 @@
                             <input name="wil_uptd" type="text" class="form-control" required value="{{$ruasJalan->wil_uptd}}">
                         </div>
                     </div>
+                    <a href="{{ url()->previous() }}"><button type="button" class="btn btn-danger waves-effect " data-dismiss="modal">Kembali</button></a>
 
                     <button type="submit" class="btn btn-mat btn-success">Simpan Perubahan</button>
                 </form>
