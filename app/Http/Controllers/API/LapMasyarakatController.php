@@ -12,7 +12,7 @@ class LapMasyarakatController extends Controller
     //
     public function index()
     {
-        $aduan = DB::table('monitoring_laporan_masyarakat')->get();
+        $aduan = DB::table('monitoring_laporan_masyarakat')->latest()->paginate(6);
         return response()->json([
             "response" => [
                 
