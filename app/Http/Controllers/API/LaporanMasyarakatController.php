@@ -32,12 +32,21 @@ class LaporanMasyarakatController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        if($request->has("skip")){
-            return (KerusakanJalanResource::collection(LaporanMasyarakat::skip($request->skip)->take($request->take)->get())->additional(['status' => 'success']));
-        }
-        return (KerusakanJalanResource::collection(LaporanMasyarakat::all())->additional(['status' => 'success']));
+        $laporan = DB::table('monitoring_laporan_masyarakat')->get();
+        return response()->json([
+            "response" => [
+                "status"    => 200,
+                "message"   => "List Data Posts"
+            ],
+            "data" => $laporan
+        ], 200);
+
+        // if($request->has("skip")){
+        //     return (KerusakanJalanResource::collection(LaporanMasyarakat::skip($request->skip)->take($request->take)->get())->additional(['status' => 'success']));
+        // }
+        // return (KerusakanJalanResource::collection(LaporanMasyarakat::all())->additional(['status' => 'success']));
     }
 
     /**
