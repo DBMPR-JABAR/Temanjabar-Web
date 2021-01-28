@@ -282,7 +282,7 @@ class UserController extends Controller
        ]);
       
        $master_grant['internal_role_id']  = $data['user_role'];
-       echo $data['user_role'];
+    //    echo $data['user_role'];
        for($i=0;$i<count($data['menu']);$i++){
             $ex = explode(".",$data['menu'][$i]);
             array_push($role_access,
@@ -294,15 +294,15 @@ class UserController extends Controller
             $cek = DB::table('master_grant_role_aplikasi')
                     ->where(['internal_role_id' => $data['user_role'], 'menu' => $ex[0]])->exists();
                     // dd( $cek);
-            $ko=0;
+            
             // dd( $cek);
-            if(!$cek){
+            if($cek== false){
                 
                 $master_grant['menu'] = $ex[0];
                 $master_grant['created_date'] = date('Y-m-d H:i:s');
                 $master_grant['pointer'] = 0;
                 DB::table('master_grant_role_aplikasi')->insert($master_grant);
-                $ko=1;
+                
             }else{
 
                 $masters= DB::table('master_grant_role_aplikasi as a')
@@ -327,7 +327,7 @@ class UserController extends Controller
             DB::table('utils_role_access')->insert($role_access_list);
             $pointer['pointer']=1;
             DB::table('master_grant_role_aplikasi')->where('id',$maser_id)->update($pointer);
-            if($ko=1){
+            if($cek== false){
                 for($j=0;$j<count($data['uptd_access']);$j++){
                     $uptd_access_list['uptd_name'] = $data['uptd_access'][$j];
                     $uptd_access_list['master_grant_role_aplikasi_id'] = $maser_id;
@@ -467,15 +467,15 @@ class UserController extends Controller
             );
             $cek = DB::table('master_grant_role_aplikasi')
             ->where(['internal_role_id' => $data['user_role'], 'menu' => $ex[0]])->exists();
-            $ko=0;
-            // dd( $cek);
-            if(!$cek){
+            
+            if($cek== false){
                 
                 $master_grant['menu'] = $ex[0];
                 $master_grant['created_date'] = date('Y-m-d H:i:s');
                 $master_grant['pointer'] = 0;
+                // dd( $master_grant);
                 DB::table('master_grant_role_aplikasi')->insert($master_grant);
-                $ko=1;
+                
             }else{
 
                 $masters= DB::table('master_grant_role_aplikasi as a')
@@ -500,7 +500,7 @@ class UserController extends Controller
             DB::table('utils_role_access')->insert($role_access_list);
             $pointer['pointer']=1;
             DB::table('master_grant_role_aplikasi')->where('id',$maser_id)->update($pointer);
-            if($ko=1){
+            if($cek== false){
                 for($j=0;$j<count($data['uptd_access']);$j++){
                     $uptd_access_list['uptd_name'] = $data['uptd_access'][$j];
                     $uptd_access_list['master_grant_role_aplikasi_id'] = $maser_id;
