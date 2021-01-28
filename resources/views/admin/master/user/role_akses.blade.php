@@ -63,8 +63,8 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>User Role</th>
-                                <th>Menu</th>
+                                <th width="50%">User Role</th>
+                                {{-- <th>Menu</th> --}}
                                 <th>UPTD Access</th>
                                 <th>Aksi</th>
 
@@ -79,7 +79,7 @@
                                 <tr>
                                     <td>{{$loop->index + 1}}</td>
                                     <td>{{$data['role']}}</td>
-                                    <td>{{$data['permissions']}}</td>
+                                    {{-- <td>{{$data['permissions']}}</td> --}}
                                     <td>{{$uptd_access[$i]}}</td>
                                     <td>
                                             <a type='button' href="{{ route('detailRoleAkses', $data['role_id']) }}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Rincian</a>

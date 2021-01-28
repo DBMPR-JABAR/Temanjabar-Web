@@ -128,6 +128,8 @@
                         @foreach ($uptd_lists as $no => $uptd_list) 
                             <input type="checkbox" class="custom-checkbox" name="uptd_access[]" value="{{ $uptd_list->id }}" id="uptd_{{ $uptd_list->id }}" >{{ $uptd_list->nama }}&nbsp;
                         @endforeach
+                        <br>
+                            <i style="color :red; font-size: 10px;">Wajib isi</i>
                     </div>
                 </div>
                 <a href="{{ url()->previous() }}"><button type="button" class="btn btn-danger waves-effect " data-dismiss="modal">Kembali</button></a>
