@@ -40,6 +40,7 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::post('laporan-masyarakat/store', 'API\LaporanMasyarakatController@store');
+Route::get('laporan-masyarakat', 'API\LaporanMasyarakatController@index');
 
 Route::group(['middleware' => ['jwt.auth']], function () {
     Route::resource('laporan-masyarakat', 'API\LaporanMasyarakatController');
