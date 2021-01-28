@@ -195,7 +195,7 @@
         <div class="card">
             
             <div class="card-header">
-                <h5>Hello {{ Auth::user()->name }}</h5>
+                <h5>Selamat Datang {{ Auth::user()->name }}</h5>
                 {{-- <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span> --}}
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
