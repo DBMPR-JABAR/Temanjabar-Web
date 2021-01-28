@@ -30,6 +30,7 @@ class PekerjaanController extends Controller
             $laporan = $pekerjaan->where('UPTD', $uptd_id);
         }
         $pekerjaan = $pekerjaan->get();
+        
         return view('admin.input.pekerjaan.index', compact('pekerjaan'));
     }
 
@@ -40,10 +41,11 @@ class PekerjaanController extends Controller
         $pekerjaan = $pekerjaan->leftJoin('master_ruas_jalan', 'master_ruas_jalan.id', '=', 'kemandoran.ruas_jalan')->select('kemandoran.*', 'master_ruas_jalan.nama_ruas_jalan');
         // print_r(Auth::user()->internalRole->uptd);
         $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
-
+        
         if (Auth::user()->internalRole->uptd) {
             $pekerjaan = $pekerjaan->where('kemandoran.uptd_id', $uptd_id);
         }
+        
         $pekerjaan = $pekerjaan->where('is_deleted', 0)->get();
 
         $ruas_jalan = DB::table('master_ruas_jalan');

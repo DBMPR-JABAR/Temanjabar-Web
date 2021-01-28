@@ -316,18 +316,18 @@ class LandingController extends Controller
     public function howToInsert(Request $req)
     {
         // Cara 1
-        $data = [
-            'nama' => $req->nama,
-            'nik' => $req->nik,
-            'telp' => $req->telp,
-            'email' => $req->email,
-            'jenis' => $req->jenis,
-            'deskripsi' => $req->deskripsi,
-            'lat' => $req->lat,
-            'long' => $req->long,
-            'uptd_id' => $req->uptd_id,
-            'created_at' => Carbon::now()->format('Y-m-d H:i:s')
-        ];
+        // $data = [
+        //     'nama' => $req->nama,
+        //     'nik' => $req->nik,
+        //     'telp' => $req->telp,
+        //     'email' => $req->email,
+        //     'jenis' => $req->jenis,
+        //     'deskripsi' => $req->deskripsi,
+        //     'lat' => $req->lat,
+        //     'long' => $req->long,
+        //     'uptd_id' => $req->uptd_id,
+        //     'created_at' => Carbon::now()->format('Y-m-d H:i:s')
+        // ];
 
         // Cara 2 : Pastikan input name sama dengan kolom tabel
         $data = $req->except(['_token', 'input_name_lain']);

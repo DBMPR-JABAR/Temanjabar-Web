@@ -87,7 +87,7 @@
                                 <td>{{$data->long}}</td>
                                 <td>{{$data->foto}}</td>
                                 <td>{{$data->keterangan}}</td>
-                                {{-- <td>{{$data->status}}</td> --}}
+                                <td>{{$data->status}}</td>
                                 <td style="min-width: 75px;">
                                     <div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">
                                         @if (hasAccess(Auth::user()->internal_role_id, "Rawan Bencana", "Update"))
@@ -342,10 +342,7 @@
                     data: 'keterangan',
                     name: 'keterangan'
                 },
-                {
-                    data: 'status',
-                    name: 'status'
-                },
+                
                 {
                     'mRender': function(data, type, full) {
                         return '<img class="img-fluid" style="max-width: 100px" src="' + full['icon_image'] + '" alt="" srcset="">';
