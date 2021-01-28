@@ -130,6 +130,7 @@
                                 <input name="lebar" type="text" class="form-control formatRibuan" required>
                             </div>
                         </div>
+                        <!--
                          <div class="form-group row">
                             <label class="col-md-2 col-form-label">Debit Air</label>
                             <div class="col-md-10">
@@ -140,6 +141,13 @@
                             <label class="col-md-2 col-form-label">Tinggi Jagaan</label>
                             <div class="col-md-10">
                                 <input name="tinggi_jagaan" type="number" class="form-control" step="any" required>
+                            </div>
+                        </div> -->
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Tinggi Muka Air Banjir</label>
+                            <div class="col-md-10">
+                                <input name="tinggi_muka_air_banjir" type="text" class="form-control formatRibuan" required>
                             </div>
                         </div>
                          <div class="form-group row">
