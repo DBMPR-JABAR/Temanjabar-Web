@@ -291,7 +291,7 @@
             <div class="col-lg-6 col-md-12 col-sm-12 pr-lg-0 whitebox wow fadeInLeft">
                 <div class="widget logincontainer">
                     <h3 class="darkcolor bottom35 text-center text-md-left">Identitas Pelapor </h3>
-                    <form action="{{ url('tambah-laporan') }}" method="POST" class="getin_form border-form" id="register" enctype="multipart/form-data">
+                    <form action="{{ route('tambah-laporan') }}" method="POST" class="getin_form border-form" id="register" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-md-12 col-sm-12">

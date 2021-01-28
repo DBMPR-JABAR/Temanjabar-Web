@@ -53,8 +53,8 @@ class LandingController extends Controller
     // POST
     public function createLaporan(Request $request)
     {
-        $color = 'success';
-        $msg = 'Berhasil menambahkan laporan, tanggapan akan dikirim melalui email anda';
+        // dd($request);
+        
         $rand = rand(100000,999999);
 
         $kode = "P-".$rand;
@@ -68,7 +68,8 @@ class LandingController extends Controller
         $laporanMasyarakat->nomorPengaduan = $kode;
         $laporanMasyarakat->status = 'Submitted';
         $laporanMasyarakat->save();
-
+        $color = 'success';
+        $msg = 'Berhasil menambahkan laporan, tanggapan akan dikirim melalui email anda';
         return redirect('/#laporan')->with(['color' => $color, 'laporan-msg' => $msg]);
     }
 

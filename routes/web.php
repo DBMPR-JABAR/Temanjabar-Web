@@ -25,7 +25,9 @@ Route::get('forced-login/{encrypted_id}', 'AuthController@loginUsingId');
 
 Route::get('paket-pekerjaan', 'LandingController@paketPekerjaan');
 Route::get('progress-pekerjaan', 'LandingController@progressPekerjaan');
-Route::post('tambah-laporan', 'LandingController@createLaporan');
+Route::post('tambah-laporan', 'LandingController@createLaporan')->name('tambah-laporan');
+// Route::post('role-akses/store', 'MasterData\UserController@storeRoleAccess')->name('storeRoleAccess');
+
 Route::post('tambah-pesan', 'LandingController@createPesan');
 Route::get('admin/master/ruas_jalan', 'MasterController@getRuasJalan')->name('admin.master.ruas_jalan');
 Route::get('map/map-dashboard-masyarakat', 'LandingController@mapMasyarakat')->name('landing.map.map-dashboard-masyarakat');

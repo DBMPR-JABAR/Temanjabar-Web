@@ -39,6 +39,7 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('resendOTPMail', 'API\AuthController@resendOTPMail');
 });
 
+Route::post('laporan-masyarakat/store', 'API\LaporanMasyarakatController@store');
 
 Route::group(['middleware' => ['jwt.auth']], function () {
     Route::resource('laporan-masyarakat', 'API\LaporanMasyarakatController');
