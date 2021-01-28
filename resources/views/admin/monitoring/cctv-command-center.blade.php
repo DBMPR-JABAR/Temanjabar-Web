@@ -54,14 +54,14 @@
                                                 <select id="filterUPTD" name="select"
                                                     class="form-control form-control-primary" onchange="changeUPTD(this,true)">
                                                     @if (Auth::user()->internalRole->uptd)
-                                                        <option value="{{ Auth::user()->internalRole->uptd }}" selected>
+                                                        <option id="initUptd" value="{{ Auth::user()->internalRole->uptd }}" selected>
                                                             UPTD
                                                             {{ str_replace('uptd', '', Auth::user()->internalRole->uptd) }}
                                                         </option>
                                                     @else
-                                                        <option value="semua" selected>Semua</option>
-                                                        @foreach ($uptd_lists as $uptd)
-                                                            <option value="{{ $uptd->id }}">{{ $uptd->nama }}</option>
+                                                        <option id="initUptd" value="semua" selected>Semua</option>
+                                                        @foreach ($userUptdList as $uptd)
+                                                            <option value="{{ $uptd->slug }}">{{ $uptd->nama }}</option>
                                                         @endforeach
                                                     @endif
                                                 </select>
@@ -104,8 +104,7 @@
         const cctvs = @json($cctv)
 
         $(document).ready(() => {
-            const init = []
-            init.value = "semua"
+            const init = document.getElementById("initUptd");
             changeUPTD(init,false)
         })
         const uptdList = {!!json_encode($uptd_lists->toArray())!!};
@@ -116,14 +115,14 @@
                 data.forEach((item)=>{
                     html += `<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center cctvItem">
                             <div class="card videoContainer">
-                                <video id='CCTV-${item.ID}' class="video-js vjs-theme-forest videoIdentity"
+                                <video id='CCTV-${item.id}' class="video-js vjs-theme-forest videoIdentity"
                                     controls autoplay>
-                                    <source type="application/x-mpegURL" src="${item.URL}">
+                                    <source type="application/x-mpegURL" src="${item.url}">
                                 </video>
                                 <div class="card-footer bg-c-blue">
                                     <div class="row align-items-center">
                                         <div class="col-9">
-                                            <p class="text-white m-b-0">${item.LOKASI}</p>
+                                            <p class="text-white m-b-0">${item.lokasi}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -145,13 +144,14 @@
                     cctvList = cctvs
                 } else {
                      cctvList = cctvs.filter((item) => {
-                        return item.UPTD_ID == filter.value
+                        console.log(filter.value.substring(4),item.uptd_id)
+                        return item.uptd_id == Number(filter.value.substring(4))
                     })
                 }
 
                 if(isUpdate) {
                     cctvList.forEach((item) => {
-                    const player = videojs(`CCTV-${item.ID}`)
+                    const player = videojs(`CCTV-${item.id}`)
                     player.dispose()
                 })
                 }
@@ -160,8 +160,8 @@
                 document.getElementById("containerVideo").innerHTML = html
 
                 cctvList.forEach((item) => {
-                   const player = videojs(`CCTV-${item.ID}`)
-                   player.autoplay(true)
+                   const player = videojs(`CCTV-${item.id}`)
+                   player.autoplay(false)
                 })
             }
     </script>

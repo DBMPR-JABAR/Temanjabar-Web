@@ -3,17 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class SurveiController extends Controller
 {
     public function getCCTV()
     {
-        $cctv = DB::connection('dwh')->table("TBL_TMNJABAR_TRX_CCTV")
+        $cctv = DB::table("cctv")
             ->select('*')->get();
         //dd($cctv);
+        $userUptd= DB::table('user_role')->where('id',Auth::user()->internal_role_id)->first();
+        if($userUptd->uptd == NULL) $uptd = DB::table('landing_uptd')->get();
+        else {
+            $uptd = DB::table('landing_uptd')->where('slug',$userUptd->uptd);
+        }
         return view('admin.monitoring.cctv-command-center', [
-            'cctv' => $cctv
+            'cctv' => $cctv,
+            'userUptdList' => $uptd
         ]);
     }
     public function getRoadroidSKJ($id)
