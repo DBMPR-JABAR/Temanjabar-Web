@@ -59,9 +59,10 @@
                         <label class="col-md-3 col-form-label">Nama Ruas Jalan</label>
                         <div class="col-md-9">
                             <select id="id_ruas_jalan" name="id_ruas_jalan" class="form-control" required>
-                                @foreach ($ruasJalan as $data)
-                                    <option value="{{ $data->id }}" @isset($surveiKondisiJalan)
-                                        {{ $data->id == $surveiKondisiJalan->id_ruas_jalan ? 'selected' : '' }} @endisset>
+                                @foreach ($ruas_jalan_lists as $data)
+                                    <option value="{{ $data->id_ruas_jalan }}" @isset($surveiKondisiJalan)
+                                            {{ $data->id_ruas_jalan == $surveiKondisiJalan->id_ruas_jalan ? 'selected' : '' }}
+                                        @endisset>
                                         {{ $data->nama_ruas_jalan }}
                                     </option>
                                 @endforeach
@@ -91,10 +92,10 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <input name="distance" value="{{ @$surveiKondisiJalan->distance }}" type="text"
-                                class="form-control formatLatLong">
+                                        class="form-control formatLatLong">
                                 </div>
                                 <div class="col-md-6">
-                                    <input name="id_segmen" value="{{ @$surveiKondisiJalan->avg_speed }}" type="text"
+                                    <input name="id_segmen" value="{{ @$surveiKondisiJalan->id_segmen }}" type="text"
                                         class="form-control formatLatLong" required>
                                 </div>
                             </div>

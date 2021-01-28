@@ -59,8 +59,9 @@
                 <div class="card-block">
                     @if (hasAccess(Auth::user()->internal_role_id, 'Kondisi Jalan', 'Create'))
                         <a href="{{ route('survei_kondisi_jalan.create') }}" class="btn btn-mat btn-primary mb-3">Tambah</a>
-                        <button type="button" class="btn btn-mat btn-primary mb-3" data-toggle="modal" data-target="#importExcel">
-                                Import
+                        <button type="button" class="btn btn-mat btn-primary mb-3" data-toggle="modal"
+                            data-target="#importExcel">
+                            Import
                         </button>
                     @endif
                     <div class="dt-responsive table-responsive">
@@ -68,11 +69,12 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
+                                    <th>Id Segmen</th>
                                     <th>Nama Ruas Jalan</th>
                                     <th>Latitude</th>
                                     <th>Longitude</th>
-                                    <th>Distance</th>
-                                    <th>Speed</th>
+                                    <th>Jarak (m)</th>
+                                    <th>Kecepatan (km/j)</th>
                                     <th>Altitude</th>
                                     <th>Altitude-10</th>
                                     <th>eIri</th>
@@ -86,7 +88,9 @@
                                 @foreach ($surveiKondisiJalan as $data)
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $ruasJalan->where('id',$data->id_ruas_jalan)->first()->nama_ruas_jalan }}</td>
+                                        <td>{{ $data->id_segmen }}</td>
+                                        <td>{{ @$ruas_jalan_lists->where('id_ruas_jalan', $data->id_ruas_jalan)->first()->nama_ruas_jalan }}
+                                        </td>
                                         <td>{{ $data->latitude }}</td>
                                         <td>{{ $data->longitude }}</td>
                                         <td>{{ $data->distance }}</td>
@@ -135,7 +139,8 @@
     <div class="modal-only">
 
         <!-- Import Excel -->
-        <div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <form method="post" action="{{ route('importSurveiRuasJalan') }}" enctype="multipart/form-data">
                     <div class="modal-content">
@@ -151,8 +156,8 @@
                                 <label class="col-md-3 col-form-label">Nama Ruas Jalan</label>
                                 <div class="col-md-9">
                                     <select id="id_ruas_jalan" name="id_ruas_jalan" class="form-control" required>
-                                        @foreach ($ruasJalan as $data)
-                                            <option value="{{ $data->id }}"w>
+                                        @foreach ($ruas_jalan_lists as $data)
+                                            <option value="{{ $data->id_ruas_jalan }}" w>
                                                 {{ $data->nama_ruas_jalan }}
                                             </option>
                                         @endforeach
@@ -160,8 +165,7 @@
                                 </div>
                                 <label class="col-md-3 col-form-label">File Excel</label>
                                 <div class="col-md-9">
-                                    <input type="file" name="survei_excel"
-                                        class="form-control formatLatLong" required>
+                                    <input type="file" name="survei_excel" class="form-control formatLatLong" required>
                                 </div>
                             </div>
 

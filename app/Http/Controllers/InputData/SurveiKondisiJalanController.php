@@ -19,7 +19,6 @@ class SurveiKondisiJalanController extends Controller
      */
     public function index()
     {
-        $ruasJalan = DB::table('master_ruas_jalan')->get();
         $surveiKondisiJalan = DB::table('roadroid_trx_survey_kondisi_jalan')->get();
         $users = DB::table('users')->get();
         return view(
@@ -27,7 +26,6 @@ class SurveiKondisiJalanController extends Controller
             [
                 "surveiKondisiJalan" => $surveiKondisiJalan,
                 "users" => $users,
-                'ruasJalan' => $ruasJalan
             ]
         );
     }
@@ -84,10 +82,8 @@ class SurveiKondisiJalanController extends Controller
     public function edit($id)
     {
         $surveiKondisiJalan = DB::table('roadroid_trx_survey_kondisi_jalan')->where('id', $id)->first();
-        $ruasJalan = DB::table('master_ruas_jalan')->get();
         return view('admin.input_data.survei_kondisi_jalan.insert', [
             'action' => 'update',
-            'ruasJalan' => $ruasJalan,
             "surveiKondisiJalan" => $surveiKondisiJalan
         ]);
     }
@@ -127,12 +123,11 @@ class SurveiKondisiJalanController extends Controller
 
     public function import(Request $request)
     {
-        Excel::import(new SurveiKondisiJalanImport($request->id_ruas_jalan),$request->file('survei_excel'));
-        $ruasJalan = DB::table('master_ruas_jalan')->get();
+        Excel::import(new SurveiKondisiJalanImport($request->id_ruas_jalan), $request->file('survei_excel'));
         $surveiKondisiJalan = DB::table('roadroid_trx_survey_kondisi_jalan')->get();
         $users = DB::table('users')->get();
         $color = "success";
         $msg = "Berhasil Menimport Data Survei Kondisi Jalan";
-        return redirect(route('survei_kondisi_jalan.index'))->with(compact('color', 'msg','ruasJalan','surveiKondisiJalan','users'));
+        return redirect(route('survei_kondisi_jalan.index'))->with(compact('color', 'msg', 'surveiKondisiJalan', 'users'));
     }
 }
