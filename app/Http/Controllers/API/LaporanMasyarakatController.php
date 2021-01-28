@@ -19,13 +19,13 @@ use Illuminate\Support\Str;
 
 class LaporanMasyarakatController extends Controller
 {
-    private $response;
-    public function __construct() {
-        $this->response = [
-            'status' => 'false',
-            'data' => []
-        ];
-    }
+    // private $response;
+    // public function __construct() {
+    //     $this->response = [
+    //         'status' => 'false',
+    //         'data' => []
+    //     ];
+    // }
 
     /**
      * Display a listing of the resource.

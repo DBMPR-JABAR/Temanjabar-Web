@@ -18,6 +18,10 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+Route::post('laporan-masyarakat/store', 'API\LaporanMasyarakatController@store');
+Route::get('/laporan-masyarakat', 'API\LaporanMasyarakatController@index');
+
+
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login', 'API\AuthController@login');
     Route::post('logout', 'API\AuthController@logout');
@@ -39,8 +43,7 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('resendOTPMail', 'API\AuthController@resendOTPMail');
 });
 
-Route::post('laporan-masyarakat/store', 'API\LaporanMasyarakatController@store');
-Route::get('laporan-masyarakat', 'API\LaporanMasyarakatController@index');
+
 
 Route::group(['middleware' => ['jwt.auth']], function () {
     Route::resource('laporan-masyarakat', 'API\LaporanMasyarakatController');
