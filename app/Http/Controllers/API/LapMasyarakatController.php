@@ -19,7 +19,7 @@ class LapMasyarakatController extends Controller
                 "message"   => "List Data Laporan Kerusakan"
             ],
             "data" => $aduan,
-            "status"    => 'Success'
+            "status"    => 'success'
         ], 200);
 
         // if($request->has("skip")){
