@@ -339,6 +339,7 @@
             </li>
             @endif
         </ul>
+        <!--
         <div class="pcoded-navigatio-lavel d-lg-none">Other</div>
         <ul class="pcoded-item pcoded-left-item d-lg-none">
             <li>
@@ -348,6 +349,7 @@
                 </a>
             </li>
         </ul>
+    -->
     </div>
 </nav>
 
