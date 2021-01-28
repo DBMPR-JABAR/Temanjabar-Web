@@ -26,7 +26,7 @@
         <div class="page-header-title">
             <div class="d-inline">
                 <h4>User Role </h4>
-                
+
             </div>
         </div>
     </div>
@@ -47,7 +47,7 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="card">
-            <div class="card-header"> 
+            <div class="card-header">
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
                         <li><i class="feather icon-maximize full-card"></i></li>
@@ -112,13 +112,13 @@
                                         }
                                     @endphp</td>
                                     <td>{{$data->uptd}}</td>
-                                   
+
                                     <td>{{$data->created_by}}</td>
                                     <td>{{$data->updated_by}}</td>
-                                    <td> 
+                                    <td>
                                         <a type="button" href="{{ route('detailUserRole',$data->id) }}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Rincian</a>
-                                        <a type="button"href="#editModal"  data-toggle="modal" data-id="{{$data->id}}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Edit</a> 
-                                        <a type="button"href="#delModal"  data-toggle="modal" data-id="{{$data->id}}"     class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Hapus</a>       
+                                        <a type="button"href="#editModal"  data-toggle="modal" data-id="{{$data->id}}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Edit</a>
+                                        <a type="button"href="#delModal"  data-toggle="modal" data-id="{{$data->id}}"     class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Hapus</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -217,7 +217,7 @@
                                 </select>
                             </div>
                         </div>
-
+                        <!--
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Is Deleted?</label>
                             <div class="col-md-9">
@@ -227,7 +227,7 @@
                                 </select>
                             </div>
                         </div>
-
+                        -->
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">UPTD</label>
                             <div class="col-md-9">
@@ -241,8 +241,8 @@
                             </select>
                             </div>
                         </div>
- 
- 
+
+
 
                     </div>
 
@@ -340,8 +340,8 @@
                             </select>
                             </div>
                         </div>
- 
- 
+
+
 
                     </div>
 
@@ -393,7 +393,7 @@
                     console.log(response);
                     $('#user_role').val(response.user_role[0].role);
                     $('#parent').val(response.user_role[0].parent);
-                    
+
                     $('#keterangan').html(response.user_role[0].keterangan);
                     const keterangan = response.user_role[0].keterangan;
 

@@ -81,9 +81,10 @@ class JembatanController extends Controller
         $jembatan['lokasi'] = $request->lokasi;
         $jembatan['status'] = $request->status;
         $jembatan['kondisi'] = $request->kondisi;
-        $jembatan['debit_air'] = $request->debit_air;
-        $jembatan['tinggi_jagaan'] = $request->tinggi_jagaan;
-        $jembatan['id_jenis_jembatan'] = $request->id_jenis_jembatan;
+        //$jembatan['debit_air'] = $request->debit_air;
+        //$jembatan['tinggi_jagaan'] = $request->tinggi_jagaan;
+        //$jembatan['id_jenis_jembatan'] = $request->id_jenis_jembatan;
+        $jembatan['tinggi_muka_air_banjir'] = $request->tinggi_muka_air_banjir;
         $jembatan['panjang'] = $request->panjang;
         $jembatan['lebar'] = $request->lebar;
         $jembatan['jumlah_bentang'] = $request->jumlah_bentang;
@@ -186,9 +187,10 @@ class JembatanController extends Controller
         $jembatan['lokasi'] = $request->lokasi;
         $jembatan['status'] = $request->status;
         $jembatan['kondisi'] = $request->kondisi;
-        $jembatan['debit_air'] = $request->debit_air;
-        $jembatan['tinggi_jagaan'] = $request->tinggi_jagaan;
-        $jembatan['id_jenis_jembatan'] = $request->id_jenis_jembatan;
+        //$jembatan['debit_air'] = $request->debit_air;
+        //$jembatan['tinggi_jagaan'] = $request->tinggi_jagaan;
+        //$jembatan['id_jenis_jembatan'] = $request->id_jenis_jembatan;
+        $jembatan['tinggi_muka_air_banjir'] = $request->tinggi_muka_air_banjir;
         $jembatan['panjang'] = $request->panjang;
         $jembatan['lebar'] = $request->lebar;
         $jembatan['jumlah_bentang'] = $request->jumlah_bentang;
