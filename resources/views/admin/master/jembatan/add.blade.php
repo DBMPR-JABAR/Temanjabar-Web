@@ -214,7 +214,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <a href="{{ url('admin/master-data/jembatan') }}" class="btn btn-default waves-effect">Kembali</a>
+                        <a href="{{ url()->previous() }}"><button type="button" class="btn btn-danger waves-effect " data-dismiss="modal">Kembali</button></a>
                         <button type="submit" class="btn btn-primary waves-effect waves-light ">Simpan</button>
                     </div>
 

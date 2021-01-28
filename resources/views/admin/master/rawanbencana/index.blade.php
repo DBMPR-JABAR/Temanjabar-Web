@@ -70,7 +70,7 @@
                                 <th>Foto</th>
                                 <th>SUP</th>
                                 <th>Keterangan</th>
-                                <th>Status</th>
+                                {{-- <th>Status</th> --}}
                                 <th>Icon</th>
                                 <th style="min-width: 100px;">Aksi</th>
                             </tr>
@@ -87,7 +87,7 @@
                                 <td>{{$data->long}}</td>
                                 <td>{{$data->foto}}</td>
                                 <td>{{$data->keterangan}}</td>
-                                <td>{{$data->status}}</td>
+                                {{-- <td>{{$data->status}}</td> --}}
                                 <td style="min-width: 75px;">
                                     <div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">
                                         @if (hasAccess(Auth::user()->internal_role_id, "Rawan Bencana", "Update"))
@@ -202,7 +202,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group row">
+                        {{-- <div class="form-group row">
                             <label class="col-md-2 col-form-label">Status</label>
                             <div class="col-md-10">
                                 <select class="form-control" name="status">
@@ -210,7 +210,7 @@
                                     <option value="N">N</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Keterangan</label>

@@ -69,8 +69,8 @@
                                 <th>Is Active</th>
                                 <th>Is Deleted</th>
                                 <th>UPTD</th>
-                                <th>Created at</th>
-                                <th>Updated at</th>
+                                {{-- <th>Created at</th>
+                                <th>Updated at</th> --}}
                                 <th>Created by</th>
                                 <th>Updated by</th>
                                 <th>Aksi</th>
@@ -112,8 +112,7 @@
                                         }
                                     @endphp</td>
                                     <td>{{$data->uptd}}</td>
-                                    <td>{{$data->created_at}}</td>
-                                    <td>{{$data->updated_at}}</td>
+                                   
                                     <td>{{$data->created_by}}</td>
                                     <td>{{$data->updated_by}}</td>
                                     <td> 
@@ -293,8 +292,8 @@
                             <label class="col-md-3 col-form-label">Is Superadmin?</label>
                             <div class="col-md-9">
                                 <select  name="super_admin" id="super_admin" tabindex="4" required>
-                                    <option value="1" id="super_admin_1">Yes</option>
-                                    <option value="0" id="super_admin_2">No</option>
+                                    <option value="1" id="is_superadmin_1">Yes</option>
+                                    <option value="0" id="is_superadmin_2">No</option>
                                 </select>
                             </div>
                         </div>
@@ -394,14 +393,16 @@
                     console.log(response);
                     $('#user_role').val(response.user_role[0].role);
                     $('#parent').val(response.user_role[0].parent);
-                    if($('#is_superadmin_1').val()== response.user_role[0].is_superadmin){ $('#super_admin_1').attr("selected","selected")};
-                    if($('#is_superadmin_2').val()== response.user_role[0].is_superadmin){ $('#super_admin_2').attr("selected","selected")};
+                    
                     $('#keterangan').html(response.user_role[0].keterangan);
                     const keterangan = response.user_role[0].keterangan;
+
                     if($('#is_active_1').val() == response.user_role[0].is_active){ $('#is_active_1').attr("selected","selected")};
                     if($('#is_active_2').val() == response.user_role[0].is_active){ $('#is_active_2').attr("selected","selected")};
                     if($('#is_deleted_1').val()== response.user_role[0].is_deleted){ $('#is_deleted_1').attr("selected","selected")};
                     if($('#is_deleted_2').val()== response.user_role[0].is_deleted){ $('#is_deleted_2').attr("selected","selected")};
+                    if($('#is_superadmin_1').val()== response.user_role[0].is_superadmin){ $('#is_superadmin_1').attr("selected","selected")};
+                    if($('#is_superadmin_2').val()== response.user_role[0].is_superadmin){ $('#is_superadmin_2').attr("selected","selected")};
                     for(let i=1;i<=6;i++){
                         if($('#uptd'+i).val() == response.user_role[0].uptd){
                             $('#uptd'+i).attr("selected","selected");

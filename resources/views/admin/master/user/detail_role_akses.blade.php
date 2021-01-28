@@ -76,6 +76,7 @@
                         </div>
                     </div>
                 </div>
+                <a href="{{ url()->previous() }}"><button type="button" class="btn btn-danger waves-effect " data-dismiss="modal">Kembali</button></a>
                
         </div>
     </div>
