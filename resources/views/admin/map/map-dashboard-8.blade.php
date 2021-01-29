@@ -3085,6 +3085,132 @@
                     map.add(newAllProgressLayer);
                 }
             */
+                        /* replaced
+            function addKondisiJalan(){
+                const popupTemplate = {
+                    title: "{nm_ruas}",
+                    content: [
+                        {
+                            type: "custom",
+                            title: "<b>Survei Kondisi Jalan</b>",
+                            outFields: ["*"],
+                            creator: function (feature) {
+                                var id = feature.graphic.attributes.idruas;
+                                var div = document.createElement("div");
+                                console.log(feature.graphic.attributes);
+                                div.className = "myClass";
+                                div.innerHTML = `<h5>Kode Ruas Jalan: ${id}</h5>
+                                                <iframe
+                                                    src="${baseUrl}/admin/monitoring/roadroid-survei-kondisi-jalan/${id}"
+                                                    title="W3Schools Free Online Web Tutorials"
+                                                    style="width:100%"/>
+                                                `;
+                                return div;
+                            }
+                        },
+                        {
+                            type: "fields",
+                            fieldInfos: [{
+                                    fieldName: "idruas",
+                                    label: "Nomor Ruas"
+                                },
+                                {
+                                    fieldName: "idsegmen",
+                                    label: "Nomor Segmen"
+                                },
+                                {
+                                    fieldName: "KOTA_KAB",
+                                    label: "Kota/Kabupaten"
+                                },
+                                {
+                                    fieldName: "e_IRI",
+                                    label: "Estimasi IRI"
+                                },
+                                {
+                                    fieldName: "c_IRI",
+                                    label: "Kalkulasi IRI"
+                                },
+                                {
+                                    fieldName: "avg_speed",
+                                    label: "Kecepatan Rata-Rata Pengukuran IRI"
+                                },
+                                {
+                                    fieldName: "KETERANGAN",
+                                    label: "Keterangan"
+                                },
+                                {
+                                    fieldName: "nm_sppjj",
+                                    label: "SPP/ SUP"
+                                },
+                                {
+                                    fieldName: "wil_uptd",
+                                    label: "UPTD"
+                                }
+                            ]
+                        }
+                    ],
+                    actions: [prepSVAction]
+                };
+                let uptdSel = $('#uptd').val();
+                let whereUptd = 'uptd=' + uptdSel.shift().charAt(4);
+                $.each(uptdSel, function(idx, elem) {
+                    whereUptd = whereUptd + ' OR uptd=' + elem.charAt(4);
+                });
+                let rjp_skj = map.findLayerById('rjp_skj');
+                if (!rjp_skj) {
+                    rjp_skj = new FeatureLayer({
+                        url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/6/",
+                        title: 'Hasil Survei Kondisi Jalan',
+                        id: 'rjp_skj',
+                        outFields: ["*"],
+                        popupTemplate: popupTemplate,
+                        renderer: {
+                            type: "unique-value", // autocasts as new UniqueValueRenderer()
+                            valueExpression: "When($feature.e_iri <= 4, 'Baik', $feature.e_iri > 4 && $feature.e_iri <= 8, 'Sedang', $feature.e_iri > 8 && $feature.e_iri <= 12, 'Rusak Ringan', 'Rusak Berat')",
+                            uniqueValueInfos: [{
+                                    value: 'Baik',
+                                    symbol: {
+                                        type: "simple-line", // autocasts as new SimpleLineSymbol()
+                                        color: "green",
+                                        width: "2px",
+                                        style: "solid",
+                                    },
+                                },
+                                {
+                                    value: 'Sedang',
+                                    symbol: {
+                                        type: "simple-line", // autocasts as new SimpleLineSymbol()
+                                        color: "orange",
+                                        width: "2px",
+                                        style: "solid",
+                                    },
+                                },
+                                {
+                                    value: 'Rusak Ringan',
+                                    symbol: {
+                                        type: "simple-line", // autocasts as new SimpleLineSymbol()
+                                        color: "red",
+                                        width: "2px",
+                                        style: "solid",
+                                    },
+                                },
+                                {
+                                    value: 'Rusak Berat',
+                                    symbol: {
+                                        type: "simple-line", // autocasts as new SimpleLineSymbol()
+                                        color: "#990b0b",
+                                        width: "2px",
+                                        style: "solid",
+                                    },
+                                },
+                            ]
+                        }
+                    });
+                    map.add(rjp_skj);
+                }
+                rjp_skj.definitionExpression = whereUptd;
+            }
+            */
         });
         // end dimz-add
     });
