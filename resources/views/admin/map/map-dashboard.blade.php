@@ -1445,61 +1445,40 @@
             function addTitikKondisiJalan() {
                 const popupTemplate = {
                     title: "{nm_ruas}",
-                    content: [{
-                            type: "custom",
-                            title: "<b>Survei Kondisi Jalan</b>",
-                            outFields: ["*"],
-                            creator: function(feature) {
-                                var id = feature.graphic.attributes.idruas;
-                                var div = document.createElement("div");
-                                console.log(feature.graphic.attributes);
-                                div.className = "myClass";
-                                div.innerHTML = `<h5>Kode Ruas Jalan: ${id}</h5>
-                                                <iframe
-                                                    src="${baseUrl}/admin/monitoring/roadroid-survei-kondisi-jalan/${id}"
-                                                    title="KondisiJalan"
-                                                    style="width:100%"/>
-                                                `;
-                                return div;
-                            }
-                        },
+                    content: [
                         {
                             type: "fields",
                             fieldInfos: [{
-                                    fieldName: "idruas",
+                                    fieldName: "id_ruas_jalan",
                                     label: "Nomor Ruas"
                                 },
                                 {
-                                    fieldName: "idsegmen",
-                                    label: "Nomor Segmen"
+                                    fieldName: "latitude",
+                                    label: "Latitude"
                                 },
                                 {
-                                    fieldName: "KOTA_KAB",
-                                    label: "Kota/Kabupaten"
+                                    fieldName: "longitude",
+                                    label: "Longitude"
                                 },
                                 {
-                                    fieldName: "e_IRI",
+                                    fieldName: "distance",
+                                    label: "Jarak"
+                                },
+                                {
+                                    fieldName: "altitude",
+                                    label: "Altitude"
+                                },
+                                {
+                                    fieldName: "altitude_10",
+                                    label: "Altitude 10"
+                                },
+                                {
+                                    fieldName: "eiri",
                                     label: "Estimasi IRI"
                                 },
                                 {
-                                    fieldName: "c_IRI",
+                                    fieldName: "ciri",
                                     label: "Kalkulasi IRI"
-                                },
-                                {
-                                    fieldName: "avg_speed",
-                                    label: "Kecepatan Rata-Rata Pengukuran IRI"
-                                },
-                                {
-                                    fieldName: "KETERANGAN",
-                                    label: "Keterangan"
-                                },
-                                {
-                                    fieldName: "nm_sppjj",
-                                    label: "SPP/ SUP"
-                                },
-                                {
-                                    fieldName: "wil_uptd",
-                                    label: "UPTD"
                                 }
                             ]
                         }
@@ -1518,7 +1497,7 @@
                         title: 'Hasil Survei Kondisi Jalan (Titik)',
                         id: 'rjp_skj_titik',
                         outFields: ["*"],
-                        // popupTemplate: popupTemplate,
+                        popupTemplate: popupTemplate,
                         renderer: {
                             type: "unique-value", // autocasts as new UniqueValueRenderer()
                             valueExpression: "When($feature.eiri <= 4, 'Baik', $feature.eiri > 4 && $feature.eiri <= 8, 'Sedang', $feature.eiri > 8 && $feature.eiri <= 12, 'Rusak Ringan', 'Rusak Berat')",
