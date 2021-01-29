@@ -12,7 +12,7 @@
                 <ul class="pcoded-submenu">
                     @if (hasAccess(Auth::user()->internal_role_id, "Executive Dashboard", "View"))
                     <li class="{{(Request::segment(3) == 'map-dashboard') ? 'active' : ''}}">
-                        <a href="{{ url('admin/map-dashboard') }}">
+                        <a href="{{ url('admin/map-dashboard') }}" target="_blank">
                             <span class="pcoded-mtext">Executive Dashboard</span>
                         </a>
                     </li>

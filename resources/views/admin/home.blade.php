@@ -36,16 +36,17 @@
 <div class="row">
     <div class="col-xl-{{ $number }} col-md-6">
         <div class="card">
+            <a href="{{ url('admin/master-data/ruas-jalan') }}">
             <div class="card-block">
                 <div class="row align-items-center">
-                    <div class="col-8"><a href="{{ url('admin/master-data/ruas-jalan') }}">
+                    <div class="col-8">
                         <h4 class="text-c-yellow f-w-600">
                             @if(Auth::user()->internalRole->uptd == null)
                                 {{ count($ruas_jalan_lists) }}
                             @else
                                 {{ count($ruas_jalan_lists_uptd) }}
                             @endif
-                        </h4></a>
+                        </h4>
                         {{-- <h6 class="text-muted m-b-0">Critical Contract</h6> --}}
                     </div>
                     <div class="col-4 text-right">
@@ -53,6 +54,7 @@
                     </div>
                 </div>
             </div>
+            </a>
             <div class="card-footer bg-c-yellow">
                 <div class="row align-items-center">
                     <div class="col-9">
@@ -68,9 +70,10 @@
     </div>
     <div class="col-xl-{{ $number }} col-md-6">
         <div class="card">
+            <a href="{{ url('admin/master-data/jembatan') }}">
             <div class="card-block">
                 <div class="row align-items-center">
-                    <div class="col-8"><a href="{{ url('admin/master-data/jembatan') }}">
+                    <div class="col-8">
                         <h4 class="text-c-green f-w-600">
                             @if(Auth::user()->internalRole->uptd == null)
                             {{ count($jembatan_lists) }}
@@ -78,7 +81,7 @@
                             {{ count($jembatan_lists_uptd) }}
                             @endif
                         
-                        </h4> </a>
+                        </h4> 
                         {{-- <h6 class="text-muted m-b-0">On Progress</h6> --}}
                     </div>
                     <div class="col-4 text-right">
@@ -86,6 +89,7 @@
                     </div>
                 </div>
             </div>
+            </a>
             <div class="card-footer bg-c-green">
                 <div class="row align-items-center">
                     <div class="col-9">
@@ -100,16 +104,17 @@
     </div>
     <div class="col-xl-{{ $number }} col-md-12 col-sm-12">
         <div class="card">
+            <a href="{{ url('admin/master-data/CCTV') }}">
             <div class="card-block">
                 <div class="row align-items-center">
-                    <div class="col-8"><a href="{{ url('admin/master-data/CCTV') }}">
+                    <div class="col-8">
                         <h4 class="text-c-blue f-w-600">
                             @if(Auth::user()->internalRole->uptd == null)
                                 {{ count($cctv_lists) }}
                             @else
                                 {{ count($cctv_lists_uptd) }}
                             @endif
-                        </h4> </a>
+                        </h4> 
                         {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
                     </div>
                     <div class="col-4 text-right">
@@ -117,6 +122,7 @@
                     </div>
                 </div>
             </div>
+            </a>
             <div class="card-footer bg-c-blue">
                 <div class="row align-items-center">
                     <div class="col-9">
@@ -132,16 +138,17 @@
     
     <div class="col-xl-6 col-md-12">
         <div class="card">
+            <a href="{{ url('admin/master-data/rawanbencana') }}">
             <div class="card-block">
                 <div class="row align-items-center">
-                    <div class="col-8"><a href="{{ url('admin/master-data/rawanbencana') }}">
+                    <div class="col-8">
                         <h4 class="text-c-yellow f-w-600">
                             @if(Auth::user()->internalRole->uptd == null)
                                 {{ count($rawan_bencana_lists) }}
                             @else
                                 {{ count($rawan_bencana_lists_uptd) }}
                             @endif
-                        </h4> </a>
+                        </h4> 
                         {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
                     </div>
                     <div class="col-4 text-right">
@@ -149,6 +156,7 @@
                     </div>
                 </div>
             </div>
+            </a>
             <div class="card-footer bg-c-yellow">
                 <div class="row align-items-center">
                     <div class="col-9">
@@ -164,10 +172,11 @@
     @if (hasAccess(Auth::user()->internal_role_id, "User", "View"))
         <div class="col-xl-6 col-md-12">
             <div class="card">
+                <a href="{{ route('getMasterUser') }}">
                 <div class="card-block">
                     <div class="row align-items-center">
-                        <div class="col-8"><a href="{{ route('getMasterUser') }}">
-                            <h4 class="text-c-blue f-w-600">{{ count($user_lists) }}</h4> </a>
+                        <div class="col-8">
+                            <h4 class="text-c-blue f-w-600">{{ count($user_lists) }}</h4>
                             {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
                         </div>
                         <div class="col-4 text-right">
@@ -175,6 +184,7 @@
                         </div>
                     </div>
                 </div>
+                </a>
                 <div class="card-footer bg-c-blue">
                     <div class="row align-items-center">
                         <div class="col-9">
