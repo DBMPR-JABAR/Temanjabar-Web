@@ -538,14 +538,14 @@
                     map.remove(map.findLayerById('rjp_skj_titik'));
                 }
 
-                // view.when(function() {
-                //     if (!view.ui.find("layerList")) {
-                //         view.ui.add(layerList, "bottom-right");
-                //     }
-                //     if (!view.ui.find("lgd")) {
-                //         view.ui.add(legend, "bottom-left");
-                //     }
-                // });
+                view.when(function() {
+                    if (!view.ui.find("layerList")) {
+                        view.ui.add(layerList, "bottom-right");
+                    }
+                    if (!view.ui.find("lgd")) {
+                        view.ui.add(legend, "bottom-left");
+                    }
+                });
             }
             function addTitikKondisiJalan() {
                 const popupTemplate = {
