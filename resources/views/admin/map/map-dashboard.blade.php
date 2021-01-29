@@ -1447,6 +1447,24 @@
                     title: "{nm_ruas}",
                     content: [
                         {
+                            type: "custom",
+                            title: "<b>Survei Kondisi Jalan</b>",
+                            outFields: ["*"],
+                            creator: function (feature) {
+                                var id = feature.graphic.attributes.id_ruas_jalan;
+                                var div = document.createElement("div");
+                                console.log(feature.graphic.attributes);
+                                div.className = "myClass";
+                                div.innerHTML = `<h5>Kode Ruas Jalan: ${id}</h5>
+                                                <iframe
+                                                    src="${baseUrl}/admin/monitoring/roadroid-survei-kondisi-jalan/${id}"
+                                                    title="W3Schools Free Online Web Tutorials"
+                                                    style="width:100%"/>
+                                                `;
+                                return div;
+                            }
+                        },
+                        {
                             type: "fields",
                             fieldInfos: [{
                                     fieldName: "id_ruas_jalan",
