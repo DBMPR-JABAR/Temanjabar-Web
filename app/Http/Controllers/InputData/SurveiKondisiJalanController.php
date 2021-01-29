@@ -123,11 +123,14 @@ class SurveiKondisiJalanController extends Controller
 
     public function import(Request $request)
     {
-        Excel::import(new SurveiKondisiJalanImport($request->id_ruas_jalan), $request->file('survei_excel'));
+        //dd($request->is_deleted);
+        Excel::import(new SurveiKondisiJalanImport($request->id_ruas_jalan,$request->is_deleted), $request->file('survei_excel'));
         $surveiKondisiJalan = DB::table('roadroid_trx_survey_kondisi_jalan')->get();
         $users = DB::table('users')->get();
         $color = "success";
         $msg = "Berhasil Menimport Data Survei Kondisi Jalan";
+        if($request->is_deleted == "Y")
+        $msg = "Berhasil Menghapus Data Survei Kondisi Jalan";
         return redirect(route('survei_kondisi_jalan.index'))->with(compact('color', 'msg', 'surveiKondisiJalan', 'users'));
     }
 }
