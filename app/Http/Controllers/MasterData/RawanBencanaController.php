@@ -94,7 +94,7 @@ class RawanBencanaController extends Controller
         if ($req->foto != null) {
             $path = 'rawanbencana/' . Str::snake(date("YmdHis") . ' ' . $req->foto->getClientOriginalName());
             $req->foto->storeAs('public/', $path);
-            $rawan['foto'] = url('storage/'.$path);
+            $rawan['foto'] = $path;
         }
         $icon_image = DB::table('icon_titik_rawan_bencana')->where('id',$req->icon_id)->get();
         $rawan['icon_image'] = $icon_image[0]->icon_image;
@@ -111,7 +111,7 @@ class RawanBencanaController extends Controller
         if ($req->foto != null) {
             $path = 'rawanbencana/' . Str::snake(date("YmdHis") . ' ' . $req->foto->getClientOriginalName());
             $req->foto->storeAs('public/', $path);
-            $rawan['foto'] = url('storage/'.$path);
+            $rawan['foto'] = $path;
         }
 
         $old = DB::table('master_rawan_bencana')->where('id', $req->id)->first();
@@ -141,7 +141,7 @@ class RawanBencanaController extends Controller
             ->addIndexColumn()
             ->addColumn('imgbencana', function ($row) {
                 $path_foto = explode('/',$row->foto);
-                $img = '<img class="img-fluid" style="max-width: 100px" src="'.$row->foto.'"  alt="'.end($path_foto).'" />';
+                $img = '<img class="img-fluid" style="max-width: 100px" src="/storage/'.$row->foto.'"  alt="'.end($path_foto).'" />';
                 return $img;
             })
             ->addColumn('action', function ($row) {

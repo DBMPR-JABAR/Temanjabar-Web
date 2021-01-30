@@ -289,7 +289,7 @@
                 function(response){
                     $('#id').val(response.icon[0].id);
                     $('#icon_name').val(response.icon[0].icon_name);
-                    $('#edit-icon').attr('src',response.icon[0].icon_image);
+                    $('#edit-icon').attr('src',`/storage/${response.icon[0].icon_image}`);
                 });
             });
 

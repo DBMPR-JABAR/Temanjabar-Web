@@ -52,12 +52,10 @@
                         </div>
                     </div>
 
-
-
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Gambar</label>
                         <div class="col-md-5">
-                            <img src="{!! $slideshow->gambar !!}" class="img-fluid" alt="">
+                            <img src="{{url('storage/' . $slideshow->gambar)}}" class="img-thumbnail rounded mx-auto d-block" alt="">
                         </div>
                         <div class="col-md-5">
                             <input name="gambar" type="file" class="form-control">
