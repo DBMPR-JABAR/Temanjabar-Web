@@ -25,9 +25,10 @@ class LandingController extends Controller
         $slideshow = DB::table('landing_slideshow')->get();
         $lokasi = DB::table('utils_lokasi')->get();
         $jenis_laporan = DB::table('utils_jenis_laporan')->get();
+        $ruas_jalan = DB::table('master_ruas_jalan')->get();
 
         // Compact mengubah variabel profil untuk dijadikan variabel yang dikirim
-        return view('landing.index', compact('profil', 'fitur', 'uptd', 'slideshow', 'lokasi', 'jenis_laporan'));
+        return view('landing.index', compact('profil', 'fitur', 'uptd', 'slideshow', 'lokasi', 'jenis_laporan','ruas_jalan'));
     }
     public function login()
     {
