@@ -192,7 +192,7 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Foto Dokumentasi</label>
                         <div class="col-md-5">
-                            <img class="img-thumbnail rounded mx-auto d-block" src="{{ url('storage/progresskerja/'.$progress->foto) }}" alt="">
+                            <img style="max-height: 400px;" class="img-thumbnail rounded mx-auto d-block" src="{{ url('storage/progresskerja/'.$progress->foto) }}" alt="">
                         </div>
                         <div class="col-md-5">
                             <input name="foto" type="file" class="form-control">
@@ -200,8 +200,13 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Video Dokumentasi</label>
-                        <div class="col-md-10">
-                            <input name="video" type="file" class="form-control" value="{{$progress->video}}" accept="video/*">
+                        <div class="col-md-5">
+                            <video style="max-height: 400px;" controls class="img-thumbnail rounded mx-auto d-block">
+                                <source src="{{ url('storage/progresskerja/'.$progress->video) }}" type="video/mp4" />
+                            </video>
+                        </div>
+                        <div class="col-md-5">
+                            <input name="video" type="file" class="form-control" accept="video/mp4">
                         </div>
                     </div>
 
