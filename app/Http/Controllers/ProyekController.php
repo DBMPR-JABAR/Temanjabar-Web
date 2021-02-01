@@ -164,7 +164,7 @@ class ProyekController extends Controller
         if ($request->uptd != "") $uptdList = $uptdList->where('UPTD', '=', $request->uptd);
         if ($request->tahun != "") $uptdList = $uptdList->whereYear('TAHUN', '=', $request->tahun);
 
-        $dataAll = $request->all();
+        $dataAll = [];
 
 
         foreach ($uptdList->get() as $data) {
