@@ -162,7 +162,7 @@ class ProyekController extends Controller
         $uptdList = DB::connection('dwh')->table('TBL_XLS_REKAP_TARGET_REALISASI_KEUANGAN');
 
         if ($request->uptd != "") $uptdList = $uptdList->where('UPTD', '=', $request->uptd);
-        if ($request->tahun != "") $uptdList = $uptdList->whereYear('TAHUN', '=', $request->tahun);
+        if ($request->tahun != "") $uptdList = $uptdList->where('TAHUN', '=', $request->tahun);
 
         $dataAll = [];
 
