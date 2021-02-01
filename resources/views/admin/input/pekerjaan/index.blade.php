@@ -487,17 +487,17 @@
                     },
                     {
                         'mRender': function(data, type, full) {
-                            return '<img class="img-fluid" style="max-width: 100px" src="/storage/pekerjaan/' + full['foto_awal'] + '" alt="" srcset="">';
+                            return '<img class="img-fluid" style="max-width: 100px" src="'+`{!! url('storage/pekerjaan/') !!}`+'/'+ full['foto_awal'] + '" alt="" srcset="">';
                         }
                     },
                     {
                         'mRender': function(data, type, full) {
-                            return '<img class="img-fluid" style="max-width: 100px" src="/storage/pekerjaan/' + full['foto_sedang'] + '" alt="" srcset="">';
+                            return '<img class="img-fluid" style="max-width: 100px" src="'+`{!! url('storage/pekerjaan/') !!}`+'/'+ full['foto_sedang'] + '" alt="" srcset="">';
                         }
                     },
                     {
                         'mRender': function(data, type, full) {
-                            return '<img class="img-fluid" style="max-width: 100px" src="/storage/pekerjaan/' + full['foto_akhir'] + '" alt="" srcset="">';
+                            return '<img class="img-fluid" style="max-width: 100px" src="'+`{!! url('storage/pekerjaan/') !!}`+'/'+ full['foto_akhir'] + '" alt="" srcset="">';
                         }
                     },
                     {

@@ -54,6 +54,7 @@
                             <img class="img-fluid" style="width: 100%;height: auto;object-fit: cover;" src="/storage/{{$data->foto}}" alt="" srcset="">
                         </div>
                         <div class="row col-md-10 col-sm-12  d-flex align-items-center">
+                            <img class="img-thumbnail rounded mx-auto d-block text-center mb-2" src="{{ url('storage/'.$data->foto) }}" style="max-height: 400px">
                             <div id="inputFormRow" class="col-md-12 col-sm-12">
                                 <div class="input-group">
                                     <input type="hidden" name="id_j[]" class="form-control m-input" value="{{$data->id}}" required>
