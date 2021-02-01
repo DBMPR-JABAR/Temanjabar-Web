@@ -141,7 +141,7 @@ class RawanBencanaController extends Controller
             ->addIndexColumn()
             ->addColumn('imgbencana', function ($row) {
                 $path_foto = explode('/',$row->foto);
-                $img = '<img class="img-fluid" style="max-width: 100px" src="/storage/'.$row->foto.'"  alt="'.end($path_foto).'" />';
+                $img = '<img class="img-fluid" style="max-width: 100px" src="'. url('/storage/'.$row->foto) .'"  alt="'.end($path_foto).'" />';
                 return $img;
             })
             ->addColumn('action', function ($row) {

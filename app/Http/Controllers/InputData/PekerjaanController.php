@@ -24,6 +24,7 @@ class PekerjaanController extends Controller
             'status' => 'false',
             'data' => []
         ];
+        
         $pekerjaan = new Pekerjaan();
         if (Auth::user()->internalRole->uptd) {
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
@@ -47,7 +48,6 @@ class PekerjaanController extends Controller
         }
         
         $pekerjaan = $pekerjaan->where('is_deleted', 0)->get();
-
         $ruas_jalan = DB::table('master_ruas_jalan');
         if (Auth::user()->internalRole->uptd) {
             $ruas_jalan = $ruas_jalan->where('uptd_id', $uptd_id);

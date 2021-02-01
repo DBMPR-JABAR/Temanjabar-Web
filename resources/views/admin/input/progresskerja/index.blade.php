@@ -264,7 +264,7 @@
                         <div class="form-group row">
                             <label class="col-md-4 col-form-label">Nilai Kontrak</label>
                             <div class="col-md-6">
-                                <input type="text" name="nilai_kontrak" class="form-control">
+                                <input type="number" name="nilai_kontrak" class="form-control">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -283,7 +283,7 @@
                         <div class="form-group row">
                             <label class="col-md-4 col-form-label">Video Dokumentasi</label>
                             <div class="col-md-6">
-                                <input name="video" type="file" class="form-control" accept="video/*">
+                                <input name="video" type="file" class="form-control" accept="video/mp4">
                             </div>
                         </div>
                     </div>
@@ -373,7 +373,7 @@
             ajax: 'progresskerja/json',
             columns: [
                 {'mRender': function (data, type, full,meta) {
-                    return +meta.row +1;  
+                    return +meta.row +1;
                     }
                 },
                 { data: 'tanggal', name: 'tanggal' },
@@ -382,25 +382,25 @@
                 // { data: 'rencana_temp', name: 'rencana_temp' },
                 // { data: 'waktu_temp', name: 'waktu_temp' },
                 {'mRender': function (data, type, full) {
-                    return full['rencana']+"<br />"+full['realisasi']+"<br>"+full['deviasi'];  
+                    return full['rencana']+"<br />"+full['realisasi']+"<br>"+full['deviasi'];
                     }
                 },
                 {'mRender': function (data, type, full) {
-                    return full['waktu_kontrak']+"<br />"+full['terpakai']+"<br>"+full['sisa']+"<br>"+full['prosentase'];  
+                    return full['waktu_kontrak']+"<br />"+full['terpakai']+"<br>"+full['sisa']+"<br>"+full['prosentase'];
                     }
                 },
                 { data: 'nilai_kontrak', name: 'nilai_kontrak' },
                 {'mRender': function (data, type, full) {
                     var databayar = parseFloat(full['bayar']);
-                    return full['bayar']+"<br />"+databayar.toFixed(2);  
+                    return full['bayar']+"<br />"+databayar.toFixed(2);
                     }
                 },
                 {'mRender': function (data, type, full) {
-                    return '<img class="img-fluid" style="max-width: 100px" src="'+`{{!! url('storage/') }}` +'/progresskerja/'+full['foto']+'" alt="" srcset="">';  
+                    return '<img class="img-fluid" style="max-width: 100px" src="'+`{!! url('storage/progresskerja/') !!}` +'/'+ full['foto']+'" alt="" srcset="">';
                     }
                 },
                 {'mRender': function (data, type, full) {
-                    return '<video width="150" height="100" controls><source src="'+`{!! url('storage/'}}`+'/progresskerja/'+full['video'] +'" type="video/*" Sorry, your browser doesnt support the video element.></video>';  
+                    return '<video width="150" height="100" controls><source src="'+`{!! url('storage/progresskerja/') !!}`+'/'+full['video'] +'" type="video/mp4" Sorry, your browser doesnt support the video element.></video>';
                     }
                 },
                 { data: 'status', name: 'status' },

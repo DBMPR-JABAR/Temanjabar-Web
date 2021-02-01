@@ -25,9 +25,10 @@ class LandingController extends Controller
         $slideshow = DB::table('landing_slideshow')->get();
         $lokasi = DB::table('utils_lokasi')->get();
         $jenis_laporan = DB::table('utils_jenis_laporan')->get();
+        $ruas_jalan = DB::table('master_ruas_jalan')->get();
 
         // Compact mengubah variabel profil untuk dijadikan variabel yang dikirim
-        return view('landing.index', compact('profil', 'fitur', 'uptd', 'slideshow', 'lokasi', 'jenis_laporan'));
+        return view('landing.index', compact('profil', 'fitur', 'uptd', 'slideshow', 'lokasi', 'jenis_laporan','ruas_jalan'));
     }
     public function login()
     {
@@ -407,12 +408,16 @@ class LandingController extends Controller
         $data['long'] = $req->long;
         $data['deskripsi'] = $req->deskripsi;
         $data['uptd_id'] = $req->uptd_id;
+        $data['status'] = $req->status;
+
         $data['updated_at'] = Carbon::now()->format('Y-m-d H:i:s');
 
         DB::table('monitoring_laporan_masyarakat')->where('id', $req->id)->update($data);
 
         $color = "success";
         $msg = "Berhasil Menambah Data Laporan Masyarakat";
-        return back()->with(compact('color', 'msg'));
+        return redirect(url('admin/lapor'))->with(compact('color', 'msg'));
+
+        // return back()->with(compact('color', 'msg'));
     }
 }

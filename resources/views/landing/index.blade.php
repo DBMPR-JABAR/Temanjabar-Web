@@ -329,8 +329,26 @@
                             </div>
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group bottom35">
+                                    <label class="my-1 mr-2" for="pilihanUptd">UPTD</label>
+                                    <select name="uptd_id" class="custom-select my-1 mr-sm-2" id="pilihanUptd" onchange="ubahOption()" required>
+                                        <option selected>Pilih...</option>
+                                        @foreach ($uptd_lists as $no => $uptd_list) 
+                                            <option value="{{ $uptd_list->id }}">{{ $uptd_list->nama }} ({{ $uptd_list->deskripsi }})</option>
+                                        @endforeach
+                                        {{-- <option value="1">UPTD-I (kab.cianjur, kota/kab.bogor, kota depok, kota/kab.bekasi)</option>
+                                        <option value="2">UPTD-II (kota & kab. sukabumi)</option>
+                                        <option value="3">UPTD-III (kota/kab.bandung, kota cimahi, kab.bandung barat, kab.subang, kab.karawang, kab.purwakarta)</option>
+                                        <option value="4">UPTD-IV (kab.sumedang, kab. garut)</option>
+                                        <option value="5">UPTD-V (kab/kota tasikmalaya, kota banjar, kab.ciamis, kab.pangandaran, kab.kuningan)</option>
+                                        <option value="6">UPTD-VI (kota/kab cirebon, kab. majalengka, kab. indramayu)</option> --}}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group bottom35">
                                     <label class="my-1 mr-2" for="pilihanKeluhan">Lokasi</label>
-                                    <select name="lokasi" class="custom-select my-1 mr-sm-2 w-100" id="pilihanKeluhan" required>
+                                    <select name="lokasi" class="custom-select my-1 mr-sm-2 w-100" id="ruas_jalan" required>
                                         <option selected>Pilih...</option>
                                         @foreach ($lokasi as $kabkota)
                                         <option value="{{$kabkota->name}}">{{$kabkota->name}}</option>
@@ -338,20 +356,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-sm-12">
-                                <div class="form-group bottom35">
-                                    <label class="my-1 mr-2" for="pilihanUptd">UPTD</label>
-                                    <select name="uptd_id" class="custom-select my-1 mr-sm-2" id="pilihanUptd" required>
-                                        <option selected>Pilih...</option>
-                                        <option value="1">UPTD-I (kab.cianjur, kota/kab.bogor, kota depok, kota/kab.bekasi)</option>
-                                        <option value="2">UPTD-II (kota & kab. sukabumi)</option>
-                                        <option value="3">UPTD-III (kota/kab.bandung, kota cimahi, kab.bandung barat, kab.subang, kab.karawang, kab.purwakarta)</option>
-                                        <option value="4">UPTD-IV (kab.sumedang, kab. garut)</option>
-                                        <option value="5">UPTD-V (kab/kota tasikmalaya, kota banjar, kab.ciamis, kab.pangandaran, kab.kuningan)</option>
-                                        <option value="6">UPTD-VI (kota/kab cirebon, kab. majalengka, kab. indramayu)</option>
-                                    </select>
-                                </div>
-                            </div>
+                            
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label class="my-1 mr-2" for="pilihanKeluhan">Keluhan</label>
@@ -641,5 +646,17 @@ $(document).ready(() => {
     });
 });
 
+
+    function ubahOption() {
+
+
+        //untuk select Ruas
+        url = "{{ url('/') }}"
+        id_select = '#ruas_jalan'
+        text = 'Pilih Ruas Jalan'
+        option = 'nama_ruas_jalan'
+
+        setDataSelect(id, url, id_select, text, option, option)
+    }
 </script>
 @endsection
