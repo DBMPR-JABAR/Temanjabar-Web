@@ -153,51 +153,54 @@
 
                     <hr>
                     <div class="form-group row">
-                        <label class="col-md-4 col-form-label">Rencana</label>
-                        <div class="col-md-6">
+                        <label class="col-md-2 col-form-label">Rencana</label>
+                        <div class="col-md-10">
                             <input type="text" name="rencana" class="form-control" value="{{$progress->rencana}}">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-4 col-form-label">Realisasi</label>
-                        <div class="col-md-6">
+                        <label class="col-md-2 col-form-label">Realisasi</label>
+                        <div class="col-md-10">
                             <input type="text" name="realisasi" class="form-control" value="{{$progress->realisasi}}">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-4 col-form-label">Waktu Kontrak</label>
-                        <div class="col-md-6">
+                        <label class="col-md-2 col-form-label">Waktu Kontrak</label>
+                        <div class="col-md-10">
                             <input type="text" name="waktu_kontrak" class="form-control" value="{{$progress->waktu_kontrak}}">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-4 col-form-label">Terpakai</label>
-                        <div class="col-md-6">
+                        <label class="col-md-2 col-form-label">Terpakai</label>
+                        <div class="col-md-10">
                             <input type="text" name="terpakai" class="form-control" value="{{$progress->terpakai}}">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-4 col-form-label">Nilai Kontrak</label>
-                        <div class="col-md-6">
+                        <label class="col-md-2 col-form-label">Nilai Kontrak</label>
+                        <div class="col-md-10">
                             <input type="text" name="nilai_kontrak" class="form-control" value="{{$progress->nilai_kontrak}}">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-4 col-form-label">Keuangan</label>
-                        <div class="col-md-6">
+                        <label class="col-md-2 col-form-label">Keuangan</label>
+                        <div class="col-md-10">
                             <input type="text" name="bayar" class="form-control" value="{{$progress->bayar}}">
                         </div>
                     </div>
                     <hr>
                     <div class="form-group row">
-                        <label class="col-md-4 col-form-label">Foto Dokumentasi</label>
-                        <div class="col-md-6">
-                            <input name="foto" type="file" class="form-control" value="{{$progress->foto}}" accept="image/*">
+                        <label class="col-md-2 col-form-label">Foto Dokumentasi</label>
+                        <div class="col-md-5">
+                            <img class="img-thumbnail rounded mx-auto d-block" src="{{ url('storage/progresskerja/'.$progress->foto) }}" alt="">
+                        </div>
+                        <div class="col-md-5">
+                            <input name="foto" type="file" class="form-control">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-4 col-form-label">Video Dokumentasi</label>
-                        <div class="col-md-6">
+                        <label class="col-md-2 col-form-label">Video Dokumentasi</label>
+                        <div class="col-md-10">
                             <input name="video" type="file" class="form-control" value="{{$progress->video}}" accept="video/*">
                         </div>
                     </div>

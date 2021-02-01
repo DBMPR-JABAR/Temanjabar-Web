@@ -156,21 +156,28 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-4 col-form-label">Foto Dokumentasi (0%)</label>
-                        <div class="col-md-6">
-                            <input name="foto_awal" type="file" class="form-control" accept="image/*">
+                        <label class="col-md-3 col-form-label">Foto Dokumentasi (0%)</label>
+                        <div class="col-md-4">
+                            <img class="img-thumbnail rounded mx-auto d-block" src="{{ url('storage/pekerjaan/'.$pekerjaan->foto_awal) }}" alt="">
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-4 col-form-label">Foto Dokumentasi (50%)</label>
-                        <div class="col-md-6">
-                            <input name="foto_sedang" type="file" class="form-control" accept="image/*">
+                        <div class="col-md-5">
+                            <input name="foto_awal" type="file" class="form-control">
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-4 col-form-label">Foto Dokumentasi (100%)</label>
-                        <div class="col-md-6">
-                            <input name="foto_akhir" type="file" class="form-control" accept="image/*">
+                    </div><div class="form-group row">
+                        <label class="col-md-3 col-form-label">Foto Dokumentasi (50%)</label>
+                        <div class="col-md-4">
+                            <img class="img-thumbnail rounded mx-auto d-block" src="{{ url('storage/pekerjaan/'.$pekerjaan->foto_sedang) }}" alt="">
+                        </div>
+                        <div class="col-md-5">
+                            <input name="foto_sedang" type="file" class="form-control">
+                        </div>
+                    </div><div class="form-group row">
+                        <label class="col-md-3 col-form-label">Foto Dokumentasi (100%)</label>
+                        <div class="col-md-4">
+                            <img class="img-thumbnail rounded mx-auto d-block" src="{{ url('storage/pekerjaan/'.$pekerjaan->foto_akhir) }}" alt="">
+                        </div>
+                        <div class="col-md-5">
+                            <input name="foto_akhir" type="file" class="form-control">
                         </div>
                     </div>
                     <div class="form-group row">

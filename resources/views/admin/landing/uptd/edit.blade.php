@@ -65,11 +65,10 @@
                             <textarea name="deskripsi" rows="3" cols="3" class="form-control" placeholder="Masukkan Deskripsi" required>{{$uptd->deskripsi}}</textarea>
                         </div>
                     </div>
-
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Gambar</label>
                         <div class="col-md-5">
-                            <img src="{!! $uptd->gambar !!}" class="img-fluid" alt="">
+                            <img class="img-thumbnail rounded mx-auto d-block" src="{{url('storage/' . $uptd->gambar)}}"  alt="">
                         </div>
                         <div class="col-md-5">
                             <input name="gambar" type="file" class="form-control">

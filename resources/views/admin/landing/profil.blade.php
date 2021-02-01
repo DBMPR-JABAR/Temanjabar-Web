@@ -61,7 +61,7 @@
                         <input name="gambar" type="file" class="form-control">
                     </div>
                     <div class="col-md-5">
-                        <img class="img-fluid" src="{!! url('storage/'.$profil->gambar) !!}" alt="" srcset="">
+                        <img class="img-thumbnail rounded mx-auto d-block" src="{!! url('storage/'.$profil->gambar) !!}" alt="" srcset="">
                     </div>
                 </div>
 

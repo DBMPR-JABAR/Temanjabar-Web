@@ -6,15 +6,18 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\ToCollection;
+use phpDocumentor\Reflection\Types\Boolean;
+use PHPUnit\Framework\Constraint\Count;
 
 class SurveiKondisiJalanImport implements ToCollection
 {
 
-    private $idRuasJalan;
+    private $idRuasJalan,$isDeleted;
 
-    public function __construct(string $idRuasJalan)
+    public function __construct(string $idRuasJalan, string $isDeleted)
     {
         $this->idRuasJalan = $idRuasJalan;
+        $this->isDeleted = $isDeleted;
     }
     /**
      * @param Collection $collection
@@ -60,7 +63,17 @@ class SurveiKondisiJalanImport implements ToCollection
                     'created_user' => Auth::user()->id,
                 ];
 
-                DB::table('roadroid_trx_survey_kondisi_jalan')->insert($surveiKondisiJalan);
+                $skjTable = DB::table('roadroid_trx_survey_kondisi_jalan')->where([
+                    ['id_ruas_jalan' ,'=', $this->idRuasJalan],
+                    ['latitude', '=', $row[0]],
+                    ['longitude', '=', $row[1]],
+                ]);
+                if($this->isDeleted == "Y")
+                    $skjTable->delete();
+                else if(Count($skjTable->get()))
+                    $skjTable->update($surveiKondisiJalan);
+                else
+                    $skjTable->insert($surveiKondisiJalan);
             }
             $isFirst = $isFirst + 1;
         }

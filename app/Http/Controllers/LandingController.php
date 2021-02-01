@@ -54,8 +54,6 @@ class LandingController extends Controller
     // POST
     public function createLaporan(Request $request)
     {
-        dd($request);
-        
         $rand = rand(100000,999999);
 
         $kode = "P-".$rand;

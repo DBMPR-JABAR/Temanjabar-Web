@@ -108,8 +108,11 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Foto</label>
-                        <div class="col-md-10">
-                            <input name="foto" type="file" class="form-control" value="{{$rawan->foto}}">
+                        <div class="col-md-5">
+                            <img class="img-thumbnail rounded mx-auto d-block" src="{{ url('storage/'.$rawan->foto) }}" alt="">
+                        </div>
+                        <div class="col-md-5">
+                            <input name="foto" type="file" class="form-control">
                         </div>
                     </div>
                     <div class="form-group row">

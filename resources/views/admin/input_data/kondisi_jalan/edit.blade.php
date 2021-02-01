@@ -557,13 +557,15 @@
                         </div>
                     </div>
 
-                    <div class=" form-group row">
-                        <label class="col-md-3 col-form-label">Upload Foto Dokumentasi</label>
-                        <div class="col-md-9">
-                            <input name="foto_dokumentasi" type="file" accept=".jpg,.jpeg,.png" class="form-control" value="{{$kondisiJalan->foto_dokumentasi}}">
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Foto Dokumentasi</label>
+                        <div class="col-md-4">
+                            <img class="img-thumbnail rounded mx-auto d-block" src="{{ url('storage/'.$kondisiJalan->foto_dokumentasi) }}" alt="">
+                        </div>
+                        <div class="col-md-5">
+                            <input name="foto_dokumentasi" type="file" class="form-control">
                         </div>
                     </div>
-
                     <div class=" form-group row">
                         <label class="col-md-3 col-form-label">Keterangan</label>
                         <div class="col-md-9">
