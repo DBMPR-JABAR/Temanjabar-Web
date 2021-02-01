@@ -60,8 +60,6 @@ class LaporanMasyarakatController extends Controller
             }
             $laporanMasyarakat->nomorPengaduan = $kode;
             $laporanMasyarakat->status = 'Submitted';
-            
-
             $laporanMasyarakat->save();
             $this->response['status'] = 'success';
             

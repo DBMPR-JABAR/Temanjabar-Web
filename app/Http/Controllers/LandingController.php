@@ -408,12 +408,16 @@ class LandingController extends Controller
         $data['long'] = $req->long;
         $data['deskripsi'] = $req->deskripsi;
         $data['uptd_id'] = $req->uptd_id;
+        $data['status'] = $req->status;
+
         $data['updated_at'] = Carbon::now()->format('Y-m-d H:i:s');
 
         DB::table('monitoring_laporan_masyarakat')->where('id', $req->id)->update($data);
 
         $color = "success";
         $msg = "Berhasil Menambah Data Laporan Masyarakat";
-        return back()->with(compact('color', 'msg'));
+        return redirect(url('admin/lapor'))->with(compact('color', 'msg'));
+
+        // return back()->with(compact('color', 'msg'));
     }
 }
