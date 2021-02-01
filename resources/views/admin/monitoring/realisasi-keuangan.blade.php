@@ -343,6 +343,7 @@
 
         $.get(baseUrl, { tahun: tahun, uptd: uptd},
             function(response){
+                console.log(response);
                 const data = response.data;
                 chart(data, uptd, tahun);
             });
