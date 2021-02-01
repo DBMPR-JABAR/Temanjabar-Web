@@ -25,13 +25,13 @@ class LaporController extends Controller
         ];
 
         $aduan = DB::table('monitoring_laporan_masyarakat');
-
+        
         if (Auth::user()->internalRole->uptd) {
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
             $aduan = $aduan->where('uptd_id', $uptd_id);
         }
 
-        $aduan = $aduan->get();
+        $aduan = $aduan->latest();
         // dd($aduan);
         return view('admin.lapor.index', compact('aduan'));
     }
