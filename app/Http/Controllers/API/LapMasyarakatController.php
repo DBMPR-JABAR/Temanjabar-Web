@@ -35,7 +35,7 @@ class LaporanMasyarakatController extends Controller
     public function index(Request $request)
     {
         if($request->has("skip")){
-            return (KerusakanJalanResource::collection(LaporanMasyarakat::skip($request->skip)->take($request->take)->get())->additional(['status' => 'success']));
+            return (KerusakanJalanResource::collection(LaporanMasyarakat::email($request->email)->skip($request->skip)->take($request->take)->get())->additional(['status' => 'success']));
         }
         return (KerusakanJalanResource::collection(LaporanMasyarakat::all())->additional(['status' => 'success']));
     }
