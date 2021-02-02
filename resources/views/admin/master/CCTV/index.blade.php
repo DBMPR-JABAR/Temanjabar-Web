@@ -89,7 +89,7 @@
                                     <td>{{$data->status}}</td>
                                     <td>{{$data->sup}}</td>
                                     <td>{{$data->uptd_id}}</td>
-                                    <td>{{$data->enable_vehicle_counting}}</td>
+                                    {{-- <td>{{$data->enable_vehicle_counting}}</td> --}}
                                     <td>
                                             {{-- <a type='button' href="{{ route('detailDataCCTV',$data->id ) }}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Rincian</a> --}}
                                             <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$data->id}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a>
@@ -261,7 +261,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group row">
+                        {{-- <div class="form-group row">
                             <label class="col-md-3 col-form-label">Enable Vehicle Counting</label>
                             <div class="col-md-9">
                                 <select name="enable_vehicle_counting" class="form-control">
@@ -269,7 +269,7 @@
                                     <option value="1" >1</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
 
                     <div class="modal-footer">
@@ -361,7 +361,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group row">
+                        {{-- <div class="form-group row">
                             <label class="col-md-3 col-form-label">Enable Vehicle Counting</label>
                             <div class="col-md-9">
                                 <select name="enable_vehicle_counting" id="enable_vehicle_counting" class="form-control">
@@ -369,7 +369,7 @@
                                     <option value="1" id="e_2">1</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
 
                     <div class="modal-footer">
@@ -467,11 +467,11 @@
                     $('#status').val(response.cctv[0].status);
                     $('#e_1').removeAttr("selected");
                     $('#e_2').removeAttr("selected");
-                    for(var i=1;i<=2;i++){
-                        if($('#e_'+i).val() == response.cctv[0].enable_vehicle_counting){
-                            $('#e_'+i).attr("selected","selected");
-                        }
-                    }
+                    // for(var i=1;i<=2;i++){
+                    //     if($('#e_'+i).val() == response.cctv[0].enable_vehicle_counting){
+                    //         $('#e_'+i).attr("selected","selected");
+                    //     }
+                    // }
                     for(var i=1;i<=6;i++){
                         if($('#uptd_'+i).val() == response.cctv[0].uptd_id){
                             $('#uptd_'+i).attr("selected","selected");

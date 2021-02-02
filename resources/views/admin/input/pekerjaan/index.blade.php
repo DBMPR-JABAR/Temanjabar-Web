@@ -315,7 +315,7 @@
                         <div class="form-group row">
                             <label class="col-md-4 col-form-label">Video Dokumentasi</label>
                             <div class="col-md-6">
-                                <input name="video" type="file" class="form-control" accept="video/*">
+                                <input name="video" type="file" class="form-control" accept="video/mp4">
                             </div>
                         </div>
 
@@ -487,22 +487,22 @@
                     },
                     {
                         'mRender': function(data, type, full) {
-                            return '<img class="img-fluid" style="max-width: 100px" src="/storage/pekerjaan/' + full['foto_awal'] + '" alt="" srcset="">';
+                            return '<img class="img-fluid" style="max-width: 100px" src="'+`{!! url('storage/pekerjaan/') !!}`+'/'+ full['foto_awal'] + '" alt="" srcset="">';
                         }
                     },
                     {
                         'mRender': function(data, type, full) {
-                            return '<img class="img-fluid" style="max-width: 100px" src="/storage/pekerjaan/' + full['foto_sedang'] + '" alt="" srcset="">';
+                            return '<img class="img-fluid" style="max-width: 100px" src="'+`{!! url('storage/pekerjaan/') !!}`+'/'+ full['foto_sedang'] + '" alt="" srcset="">';
                         }
                     },
                     {
                         'mRender': function(data, type, full) {
-                            return '<img class="img-fluid" style="max-width: 100px" src="/storage/pekerjaan/' + full['foto_akhir'] + '" alt="" srcset="">';
+                            return '<img class="img-fluid" style="max-width: 100px" src="'+`{!! url('storage/pekerjaan/') !!}`+'/'+ full['foto_akhir'] + '" alt="" srcset="">';
                         }
                     },
                     {
                         'mRender': function(data, type, full) {
-                            return `<video width='150' height='100' controls><source src="/storage/pekerjaan/` + full['video'] + `" type='video/*' Sorry, your browser doesn't support the video element.></video>`
+                            return `<video width='150' height='100' controls><source src="{!! url('storage/pekerjaan/') !!}`+'/' + full['video'] + `" type="video/mp4" /></video>`
                         }
                     },
                     {

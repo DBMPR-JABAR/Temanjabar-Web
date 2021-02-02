@@ -352,6 +352,7 @@
                     <option value="vehiclecounting">Vehicle Counting</option>
                     <option value="kemantapanjalan">Kemantapan Jalan</option>
                     <option value="kondisijalan">Survei Kondisi Jalan</option>
+                    <option value="kondisijalan_titik">Survei Kondisi Jalan (Titik)</option>
                     <option value="jembatan">Jembatan</option>
                     <option value="cctv">CCTV</option>
                     <option value="rawanbencana">Titik Rawan Bencana</option>
@@ -510,7 +511,7 @@
 
             function hasTanggal(kegiatan) {
                 const result = kegiatan.includes('pembangunan') || kegiatan.includes('rehabilitasi') ||
-                               kegiatan.includes('peningkatan') || kegiatan.includes('pemeliharaan');
+                    kegiatan.includes('peningkatan') || kegiatan.includes('pemeliharaan');
                 return result;
             }
 
@@ -526,16 +527,15 @@
                     $('#btnProses').attr('disabled', 'disabled');
                 }
 
-                if(hasTanggal(kegiatan)){
+                if (hasTanggal(kegiatan)) {
                     $('#filterDate').removeClass('d-none');
 
                     let today = new Date().toISOString().substr(0, 10);;
                     $('.sampaiTanggal').val(today);
                     $('.mulaiTanggal').val("2000-01-01");
-                }else{
+                } else {
                     $('#filterDate').addClass('d-none');
                 }
-
             }
             $("#btnProses").click(function(event) {
                 caseRender();
@@ -572,7 +572,12 @@
                 } else {
                     map.remove(map.findLayerById('rjp_skj'));
                 }
-
+                if ($.inArray('kondisijalan_titik', kegiatan) >= 0) {
+                    addTitikKondisiJalan();
+                    kegiatan.splice(kegiatan.indexOf('kondisijalan_titik'), 1); // remove 'kemantapanjalan' dari kegiatan
+                } else {
+                    map.remove(map.findLayerById('rjp_skj_titik'));
+                }
 
                 if (kegiatan.length > 0) { // kalau masih ada pilihan lain di kegiatan
                     // Request data from API
@@ -581,8 +586,8 @@
 
                     const date_from = $('.mulaiTanggal').val();
                     const date_to = $('.sampaiTanggal').val();
-                    requestBody.append("date_from",date_from);
-                    requestBody.append("date_to",date_to);
+                    requestBody.append("date_from", date_from);
+                    requestBody.append("date_to", date_to);
 
                     for (i in kegiatan) {
                         requestBody.append("kegiatan[]", kegiatan[i]);
@@ -1442,15 +1447,14 @@
                 rj_mantap.definitionExpression = whereUptd;
             }
 
-            function addKondisiJalan(){
+            function addKondisiJalan() {
                 const popupTemplate = {
                     title: "{nm_ruas}",
-                    content: [
-                        {
+                    content: [{
                             type: "custom",
                             title: "<b>Survei Kondisi Jalan</b>",
                             outFields: ["*"],
-                            creator: function (feature) {
+                            creator: function(feature) {
                                 var id = feature.graphic.attributes.idruas;
                                 var div = document.createElement("div");
                                 console.log(feature.graphic.attributes);
@@ -1567,6 +1571,107 @@
                 rjp_skj.definitionExpression = whereUptd;
             }
 
+            function addTitikKondisiJalan() {
+                const popupTemplate = {
+                    title: "{nm_ruas}",
+                    content: [{
+                        type: "fields",
+                        fieldInfos: [{
+                                fieldName: "id_ruas_jalan",
+                                label: "Nomor Ruas"
+                            },
+                            {
+                                fieldName: "latitude",
+                                label: "Latitude"
+                            },
+                            {
+                                fieldName: "longitude",
+                                label: "Longitude"
+                            },
+                            {
+                                fieldName: "distance",
+                                label: "Jarak"
+                            },
+                            {
+                                fieldName: "altitude",
+                                label: "Altitude"
+                            },
+                            {
+                                fieldName: "altitude_10",
+                                label: "Altitude 10"
+                            },
+                            {
+                                fieldName: "eiri",
+                                label: "Estimasi IRI"
+                            },
+                            {
+                                fieldName: "ciri",
+                                label: "Kalkulasi IRI"
+                            }
+                        ]
+                    }],
+                    actions: [prepSVAction]
+                };
+                // let uptdSel = $('#uptd').val();
+                // let whereUptd = 'uptd=' + uptdSel.shift().charAt(4);
+                // $.each(uptdSel, function(idx, elem) {
+                //     whereUptd = whereUptd + ' OR uptd=' + elem.charAt(4);
+                // });
+                let rjp_skj_titik = map.findLayerById('rjp_skj_titik');
+                if (!rjp_skj_titik) {
+                    rjp_skj_titik = new FeatureLayer({
+                        url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/7",
+                        title: 'Hasil Survei Kondisi Jalan (Titik)',
+                        id: 'rjp_skj_titik',
+                        outFields: ["*"],
+                        popupTemplate: popupTemplate,
+                        renderer: {
+                            type: "unique-value", // autocasts as new UniqueValueRenderer()
+                            valueExpression: "When($feature.eiri <= 4, 'Baik', $feature.eiri > 4 && $feature.eiri <= 8, 'Sedang', $feature.eiri > 8 && $feature.eiri <= 12, 'Rusak Ringan', 'Rusak Berat')",
+                            uniqueValueInfos: [{
+                                    value: 'Baik',
+                                    symbol: {
+                                        type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
+                                        color: "green",
+                                        size: "15px",
+                                        style: "circle",
+                                    },
+                                },
+                                {
+                                    value: 'Sedang',
+                                    symbol: {
+                                        type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
+                                        color: "orange",
+                                        size: "15px",
+                                        style: "circle",
+                                    },
+                                },
+                                {
+                                    value: 'Rusak Ringan',
+                                    symbol: {
+                                        type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
+                                        color: "red",
+                                        size: "15px",
+                                        style: "circle",
+                                    },
+                                },
+                                {
+                                    value: 'Rusak Berat',
+                                    symbol: {
+                                        type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
+                                        color: "#990b0b",
+                                        size: "15px",
+                                        style: "circle",
+                                    },
+                                },
+                            ]
+                        }
+                    });
+                    map.add(rjp_skj_titik, 0);
+                }
+                // rjp_skj.definitionExpression = whereUptd;
+            }
+
             function addJembatan(jembatan) {
                 var prepImg = {
                     title: "Lihat Foto",
@@ -1581,8 +1686,7 @@
                 };
                 const popupTemplate = {
                     title: "{NAMA_JEMBATAN}",
-                    content: [
-                        {
+                    content: [{
                             type: "fields",
                             fieldInfos: [{
                                     fieldName: "PANJANG",
@@ -2458,7 +2562,7 @@
                 // Aksi untuk siapkan video player dari selected feature
                 var prepVidAction = {
                     title: "Lihat Video",
-                    id: "prep-vid",
+                    id: "prep-vid-vc",
                     className: "feather icon-video"
                 };
                 const popupTemplate = {
@@ -2469,21 +2573,15 @@
                             creator: (function(f) {
                                 const vidElem = document.createElement('video');
                                 vidElem.id = 'vid'; // + f.graphic.attributes.ID;
-                                // vidElem.class = 'hls-video';
                                 vidElem.style = 'background:gray;';
                                 vidElem.width = '275';
                                 vidElem.height = '200';
-                                const vidSrcElem = document.createElement('source');
-                                vidSrcElem.src = 'http://45.118.114.26:80/camera/TolPasteur.m3u8';
-                                vidSrcElem.type = 'application/x-mpegURL';
-                                vidElem.appendChild(vidSrcElem);
                                 return vidElem;
                             })
                         },
                         {
                             type: "fields",
-                            fieldInfos: [
-                                {
+                            fieldInfos: [{
                                     fieldName: "CHANNEL",
                                     label: "Channel"
                                 },
@@ -2578,11 +2676,31 @@
                 };
                 var player;
 
-                function prepVid() {
+                view.when(function() {
+                    view.popup.watch("selectedFeature", function(graphic) {
+                        if (graphic) {
+                            var graphicTemplate = graphic.getEffectivePopupTemplate();
+                            graphicTemplate.actions.items[0].visible = graphic.attributes.URL ?
+                                true :
+                                false;
+                        }
+                    });
+                });
+
+                function aprepVid() {
                     // bila player udah didefinisikan sebelumnya
                     if (typeof(player) != 'undefined') {
                         player = null; // kosongkan pointer player
                     }
+                    var attributes = view.popup.viewModel.selectedFeature.attributes;
+                    var url = attributes.URL;
+
+                    const vidElem = document.getElementById('vid');
+                    const vidSrcElem = document.createElement('source');
+                    vidSrcElem.src = url;
+                    vidSrcElem.type = 'application/x-mpegURL';
+                    vidElem.appendChild(vidSrcElem);
+
                     player = fluidPlayer(
                         'vid', {
                             layoutControls: {
@@ -2592,10 +2710,11 @@
                         }
                     );
                 }
+
                 view.popup.on("trigger-action", function(event) {
-                    if (event.action.id === "prep-vid") {
-                        prepVid();
-                        $('div.esri-popup__action[title="Lihat Video"]').remove();
+                    if (event.action.id === "prep-vid-vc") {
+                        aprepVid();
+                        // $('div.esri-popup__action[title="Lihat Video"]').remove();
                     }
                 });
 
@@ -2630,6 +2749,11 @@
                         {
                             name: "CHANNEL",
                             alias: "Channel",
+                            type: "string"
+                        },
+                        {
+                            name: "URL",
+                            alias: "URL",
                             type: "string"
                         },
                         {

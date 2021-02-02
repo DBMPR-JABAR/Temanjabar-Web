@@ -98,7 +98,7 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Gambar</label>
                             <div class="col-md-5">
-                                <img src="{{ $data->gambar }}" class="img-fluid" alt="">
+                                <img src="{{ url('storage/'.$data->gambar) }}" class="img-thumbnail rounded mx-auto d-block" alt="">
                             </div>
                             <div class="col-md-5">
                                 <input name="gambar" type="file" class="form-control">
@@ -130,6 +130,8 @@
                             </div>
                         </div>
 
+                       
+
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Deskripsi</label>
@@ -140,6 +142,7 @@
 
                         <div class="form-group row">
                                     <label class="col-md-2 col-form-label">UPTD</label>
+                            <div class="col-md-10">
                                     <select name="uptd_id" class="custom-select my-1 mr-sm-2" id="pilihanUptd" required>
                                         <option >Pilih...</option>
                                         <option value="1"<?php if($data->uptd_id == 1) echo "selected";?>>UPTD-I</option>
@@ -149,9 +152,21 @@
                                         <option value="5" <?php if($data->uptd_id == 5) echo "selected";?>>UPTD-V</option>
                                         <option value="6" <?php if($data->uptd_id == 6) echo "selected";?>>UPTD-VI</option>
                                     </select>
+                            </div>
                         </div>
 
-
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Status </label>
+                            <div class="col-md-10">
+                                <select class="form-control" name="status">
+                                    <option value="Approved" @if(strpos( $data->status,"Approved") !== false) selected @endif>Approved</option>
+                                    <option value="Progress" @if(strpos( $data->status,"Progress") !== false) selected @endif>Progress</option>
+                                    <option value="Submitted"  @if(strpos( $data->status,"Submitted") !== false) selected @endif>Submitted</option>
+                                    <option value="Done" @if(strpos( $data->status,"Done") !== false) selected @endif>Done</option>
+                                </select>
+                                <!-- <input name="status" type="text" class="form-control" disabled required> -->
+                            </div>
+                        </div>
                     <a href="{{ route('getLapor') }}"><button type="button" class="btn btn-default waves-effect">Kembali</button></a>
                     <button type="submit" class="btn btn-mat btn-success">Simpan Perubahan</button>
                 </form>

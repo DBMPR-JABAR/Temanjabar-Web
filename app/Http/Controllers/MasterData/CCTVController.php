@@ -26,7 +26,7 @@ class CCTVController extends Controller
     	$cctv['description'] = $request->description;
     	$cctv['category'] = $request->category;
     	$cctv['status'] = $request->status;
-        $cctv['enable_vehicle_counting'] = $request->enable_vehicle_counting;
+        // $cctv['enable_vehicle_counting'] = $request->enable_vehicle_counting;
         $cctv['uptd_id'] = $request->uptd_id;
         $cctv['sup'] = $request->sup;
     	DB::table('cctv')->insert($cctv);
@@ -39,7 +39,7 @@ class CCTVController extends Controller
         $cctv = DB::table('cctv')
         ->where('id',$id)
         ->get();
-        return response()->json(["cctv" => $cctv], 200); 
+        return response()->json(["cctv" => $cctv], 200);
 
     }
     public function detail($id){
@@ -55,7 +55,7 @@ class CCTVController extends Controller
     	$cctv['description'] = $request->description;
     	$cctv['category'] = $request->category;
     	$cctv['status'] = $request->status;
-        $cctv['enable_vehicle_counting'] = $request->enable_vehicle_counting;
+        // $cctv['enable_vehicle_counting'] = $request->enable_vehicle_counting;
         $cctv['uptd_id'] = $request->uptd_id;
         $cctv['sup'] = $request->sup;
     	DB::table('cctv')->where('ID',$request->id)->update($cctv);
@@ -71,7 +71,7 @@ class CCTVController extends Controller
 
         $color = "success";
         $msg = "Berhasil Menghapus Data CCTV";
-        return back()->with(compact('color', 'msg')); 
+        return back()->with(compact('color', 'msg'));
     }
 
     public function getDataSUP($id){

@@ -1,6 +1,6 @@
 @extends('admin.t_index')
 
-@section('title')Grant Access Role Aplikasi @endsection
+@section('title')Role Akses @endsection
 @section('head')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/buttons.dataTables.min.css') }}">
@@ -26,7 +26,7 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Grant Access Role Aplikasi </h4>
+                <h4>Role Akses </h4>
 
             </div>
         </div>
@@ -37,7 +37,7 @@
                 <li class="breadcrumb-item">
                     <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
                 </li>
-                <li class="breadcrumb-item"><a href="#!">Grant Access Role Aplikasi</a> </li>
+                <li class="breadcrumb-item"><a href="#!">Role Akses</a> </li>
             </ul>
         </div>
     </div>

@@ -151,7 +151,6 @@
 
                             {{ csrf_field() }}
 
-                            <label>Pilih file excel</label>
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Nama Ruas Jalan</label>
                                 <div class="col-md-9">
@@ -166,6 +165,15 @@
                                 <label class="col-md-3 col-form-label">File Excel</label>
                                 <div class="col-md-9">
                                     <input type="file" name="survei_excel" class="form-control formatLatLong" required>
+                                </div>
+                                <label class="col-md-3 col-form-label">Hapus masal?</label>
+                                <div class="col-md-9 mt-2">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="is_deleted" value="Y"> Ya
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="is_deleted" value="N" checked> Tidak
+                                    </label>
                                 </div>
                             </div>
 
