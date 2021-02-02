@@ -68,7 +68,7 @@
                                 <th>Keterangan</th>
                                 <th>Is Active</th>
                                 <th>Is Deleted</th>
-                                <th>UPTD</th>
+                                {{-- <th>UPTD</th> --}}
                                 {{-- <th>Created at</th>
                                 <th>Updated at</th> --}}
                                 <th>Created by</th>
@@ -111,7 +111,7 @@
                                             echo "Yes";
                                         }
                                     @endphp</td>
-                                    <td>{{$data->uptd}}</td>
+                                    {{-- <td>{{$data->uptd}}</td> --}}
 
                                     <td>{{$data->created_by}}</td>
                                     <td>{{$data->updated_by}}</td>
