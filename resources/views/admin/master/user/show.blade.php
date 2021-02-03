@@ -104,12 +104,13 @@
                                                     <td>Jenis Kelamin</td>
                                                     <td>
                                                         <select class="form-control" name="jenis_kelamin" >
+                                                          
                                                             <option>Select</option>
                                                             {{-- <option selected>
                                                                 {!! $profile->jenis_kelamin  !!}
                                                             </option> --}}
-                                                            <option value="Laki-laki" @if(strpos( 'Laki-laki', $profile->jenis_kelamin ) !== false) selected @endif>Laki-Laki</option>
-                                                            <option value="Perempuan" @if(strpos( 'Perempuan', $profile->jenis_kelamin ) !== false) selected @endif>Perempuan</option>
+                                                            <option value="Laki-laki" @if($profile->jenis_kelamin != null && strpos( 'Laki-laki', $profile->jenis_kelamin ) !== false) selected  @endif>Laki-Laki</option>
+                                                            <option value="Perempuan" @if($profile->jenis_kelamin != null && strpos( 'Perempuan', $profile->jenis_kelamin ) !== false) selected @endif>Perempuan</option>
                                                         </select>
                                                     </td>
                                                 </tr>
