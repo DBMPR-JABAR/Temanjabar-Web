@@ -413,7 +413,15 @@ class LandingController extends Controller
         $data['updated_at'] = Carbon::now()->format('Y-m-d H:i:s');
 
         DB::table('monitoring_laporan_masyarakat')->where('id', $req->id)->update($data);
-
+        $title = "Perubahan status laporan.";
+        $body = "Status laporan kamu saat ini berubah menjadi ".$req->status;
+        $userPelapor = DB::table("users")->where('email',$req->email)->first()->id;
+        //dd($userPelapor);
+        $users = [$userPelapor];
+        //$usersToken = DB::table('user_push_notification')->whereIn('user_id', $users)->pluck('device_token')->get();
+        //dd($usersToken);
+        
+        sendNotification($users,$title,$body);
         $color = "success";
         $msg = "Berhasil Menambah Data Laporan Masyarakat";
         return redirect(url('admin/lapor'))->with(compact('color', 'msg'));
