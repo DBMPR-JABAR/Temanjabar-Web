@@ -12,4 +12,11 @@ class Home extends Controller
         // Compact mengubah variabel profil untuk dijadikan variabel yang dikirim
         return view('admin.home');
     }
+
+    public function downloadFile()
+    {
+        $path = storage_path('app/public/manualbook.pdf');
+        return response()->download($path);
+        // return response()->download($myFile, $newName, $headers);
+    }	
 }

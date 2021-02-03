@@ -217,7 +217,7 @@
             <div class="card-block">
                 <p>
                     <h6>
-                        Panduan Penggunaan Teman Jabar : <a href="https://drive.google.com/file/d/1-X-WGW_u3SO-oSjXhxUDWBOFJ9wqzfOR/view?usp=sharing" style="color: blue; font-weight: bold" target="_blank">File here</a>
+                        Panduan Penggunaan Teman Jabar : <a href="{{ url('admin/file') }}" style="color: blue; font-weight: bold" target="_blank">File here</a>
                     </h6>
                 </p>
             </div>

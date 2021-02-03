@@ -114,7 +114,12 @@
                             <li>
                                 <a href="#" class="py-0">
                                     {{ Auth::user()->email }} <br>
-                                    {{ Auth::user()->internalRole->role }}
+                                    {{-- {{ Auth::user()->internalRole->role }} --}}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('admin/profile', Auth::user()->id) }}">
+                                    <i class="feather icon-user"></i> Profil
                                 </a>
                             </li>
                             <li>

@@ -46,10 +46,15 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('/', function () {
         return redirect(route('monitoring-kontrak'));
     });
+    Route::get('profile/{id}', 'DetailUserController@edit')->name('editProfile');
+    Route::post('user/profile/{id}', 'DetailUserController@update');
+
     Route::get('pesan', 'LandingController@getPesan');
     Route::get('log', 'LandingController@getLog');
     Route::get('home', 'Home@index')->name('admin-home');
     Route::get('/', 'Home@index');
+    Route::get('file', 'Home@downloadFile');
+
     Route::view('map-dashboard', 'admin.map.map-dashboard');
     Route::view('map-dashboard-canggih', 'admin.map.map-dashboard-canggih');
     // {SiteURL}/admin/monitoring/*
@@ -185,6 +190,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         });
 
         Route::group(['prefix' => 'user'], function () {
+
             Route::get('role-akses', 'MasterData\UserController@getDaftarRoleAkses')->name('getRoleAkses');
             Route::get('role-akses/create', 'MasterData\UserController@createRoleAccess')->name('createRoleAccess');
             Route::post('role-akses/store', 'MasterData\UserController@storeRoleAccess')->name('storeRoleAccess');

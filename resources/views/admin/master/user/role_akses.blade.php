@@ -45,138 +45,138 @@
 
 @section('page-body')
 
-<div class="row">
-    <div class="col-sm-12">
-        <div class="card">
-            <div class="card-header">
-                <div class="card-header-right">
-                    <ul class="list-unstyled card-option">
-                        <li><i class="feather icon-maximize full-card"></i></li>
-                        <li><i class="feather icon-minus minimize-card"></i></li>
-                    </ul>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-right">
+                        <ul class="list-unstyled card-option">
+                            <li><i class="feather icon-maximize full-card"></i></li>
+                            <li><i class="feather icon-minus minimize-card"></i></li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div class="card-block">
-                <a href="{{ route('createRoleAccess') }}" class="btn btn-mat btn-primary mb-3">Tambah</a>
-                <div class="dt-responsive table-responsive">
-                    <table id="dttable" class="table table-striped table-bordered able-responsive">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th width="50%">User Role</th>
-                                {{-- <th>Menu</th> --}}
-                                <th>UPTD Access</th>
-                                <th>Aksi</th>
-
-                            </tr>
-                        </thead>
-                        <tbody id="bodyJembatan">
-                            @php
-                                $i=0;
-                            @endphp
-                             @foreach ($menu_access as $data)
-
+                <div class="card-block">
+                    <a href="{{ route('createRoleAccess') }}" class="btn btn-mat btn-primary mb-3">Tambah</a>
+                    <div class="dt-responsive table-responsive">
+                        <table id="dttable" class="table table-striped table-bordered able-responsive">
+                            <thead>
                                 <tr>
-                                    <td>{{$loop->index + 1}}</td>
-                                    <td>{{$data['role']}}</td>
-                                    {{-- <td>{{$data['permissions']}}</td> --}}
-                                    <td>{{$uptd_access[$i]}}</td>
-                                    <td>
-                                            <a type='button' href="{{ route('detailRoleAkses', $data['role_id']) }}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Rincian</a>
-                                            <a type='button' href='{{ route('editRoleAccess', $data['role_id']) }}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a>
-                                            {{-- <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$data['role_id']}}' data-uptd_access='{{$uptd_access[$i]}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a> --}}
-                                            <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data['role_id']}}'     class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Hapus</a><br/>
-                                    </td>
+                                    <th>No</th>
+                                    <th width="50%">User Role</th>
+                                    {{-- <th>Menu</th> --}}
+                                    <th>UPTD Access</th>
+                                    <th>Aksi</th>
+
                                 </tr>
+                            </thead>
+                            <tbody id="bodyJembatan">
                                 @php
-                                    $i++;
+                                    $i=0;
                                 @endphp
-                            @endforeach
-                        </tbody>
-                    </table>
+                                @foreach ($menu_access as $data)
+
+                                    <tr>
+                                        <td>{{$loop->index + 1}}</td>
+                                        <td>{{$data['role']}}</td>
+                                        {{-- <td>{{$data['permissions']}}</td> --}}
+                                        <td>{{$uptd_access[$i]}}</td>
+                                        <td>
+                                                <a type='button' href="{{ route('detailRoleAkses', $data['role_id']) }}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Rincian</a>
+                                                <a type='button' href='{{ route('editRoleAccess', $data['role_id']) }}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a>
+                                                {{-- <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$data['role_id']}}' data-uptd_access='{{$uptd_access[$i]}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a> --}}
+                                                <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data['role_id']}}'     class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Hapus</a><br/>
+                                        </td>
+                                    </tr>
+                                    @php
+                                        $i++;
+                                    @endphp
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="modal-only">
+    <div class="modal-only">
 
-    <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+        <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
 
-                <div class="modal-header">
-                    <h4 class="modal-title">Hapus Data Role Akses</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <div class="modal-header">
+                        <h4 class="modal-title">Hapus Data Role Akses</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <p>Apakah anda yakin ingin menghapus data ini?</p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                        <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Hapus</a>
+                    </div>
+
                 </div>
-
-                <div class="modal-body">
-                    <p>Apakah anda yakin ingin menghapus data ini?</p>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                    <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Hapus</a>
-                </div>
-
             </div>
         </div>
-    </div>
 
-    <div class="modal fade" id="acceptModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+        <div class="modal fade" id="acceptModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
 
-                <div class="modal-header">
-                    <h4 class="modal-title">Disposisi Diterima?</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <div class="modal-header">
+                        <h4 class="modal-title">Disposisi Diterima?</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <p>Apakah anda yakin menerima disposisi ini?</p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                        <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Terima</a>
+                    </div>
+
                 </div>
-
-                <div class="modal-body">
-                    <p>Apakah anda yakin menerima disposisi ini?</p>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                    <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Terima</a>
-                </div>
-
             </div>
         </div>
-    </div>
 
 
-    <div class="modal fade" id="disposisiModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+        <div class="modal fade" id="disposisiModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
 
-                <div class="modal-header">
-                    <h4 class="modal-title">Disposisi Diterima?</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <div class="modal-header">
+                        <h4 class="modal-title">Disposisi Diterima?</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <p>Apakah anda yakin menerima disposisi ini?</p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                        <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Terima</a>
+                    </div>
+
                 </div>
-
-                <div class="modal-body">
-                    <p>Apakah anda yakin menerima disposisi ini?</p>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                    <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Terima</a>
-                </div>
-
             </div>
         </div>
+
+
+
     </div>
-
-
-
-</div>
 
 @endsection
 @section('script')
