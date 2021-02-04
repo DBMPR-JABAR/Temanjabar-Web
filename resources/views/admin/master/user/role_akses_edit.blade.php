@@ -99,9 +99,17 @@
                                     @foreach($alldata['menu'] as $data)
                                     <label class="form-check-label" for="check1">   
                                             @foreach ($alldata['permissions'] as $item)
-                                            
+                                            {{-- {{ $item }} --}}
+                                            @php
+                                                if(strpos( $item, $data ) !== false){
+                                                    $i = "checked";
+                                                    break;
+                                                }else{
+                                                    $i ="";
+                                                }
+                                            @endphp
                                             @endforeach
-                                            <input type="checkbox" class="form-check-input" name="menu[]" value="{{$data}}" @if(strpos( $item, $data ) !== false) checked @endif>{{$data}}&nbsp;
+                                            <input type="checkbox" class="form-check-input" name="menu[]" value="{{$data}}" {{$i}} >{{$data}}&nbsp;
                         
                                         </label>
                                         @endforeach

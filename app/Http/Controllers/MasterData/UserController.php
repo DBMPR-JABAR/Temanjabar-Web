@@ -355,28 +355,39 @@ class UserController extends Controller
         ->orderBy('a.id')
         ->get();
         $alldata=array();
+
         $counter=0;
         foreach($user_role_list as $data){
             $permiss =array();
+            $permissuser =array();
+
             $men = explode(", ",$data->menu_user);
             $aks = explode(", ",$data->role_access);
-            $counting = 0;
+            $id_men = explode(", ",$data->id_menu);
 
-            foreach($men as $no){
+            $counting = 0;
+            foreach($id_men as $now){
+                $id_menn = DB::table('master_grant_role_aplikasi')->where('id', $now)
+                ->select('menu')->first();
+                array_push($permissuser,$id_menn->menu) ;
+
+            }
+            
+            foreach($permissuser as $no){
                 $temp = $no.'.'.$aks[$counting];
                 array_push($permiss,$temp) ;
                 $counting++;
 
             }
-            // dd($user_role_list);
-            $permission = implode(",", $permiss);
+            $permission = implode(", ", $permiss);
             $alldata['role_id'] = $data->role_id;
             $alldata['role'] = $data->role;
             $alldata['id_menu'] = $data->id_menu;
             $alldata['permissions'] = $permission;
             $counter++;
         }
-
+        
+        // dd($id_men);
         $menu = DB::table('master_grant_role_aplikasi as a')
         ->distinct()
         ->where('menu','NOT LIKE', '%Disposisi%')
