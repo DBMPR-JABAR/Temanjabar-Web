@@ -76,9 +76,10 @@
                                     <th>Jarak (m)</th>
                                     <th>Kecepatan (km/j)</th>
                                     <th>Altitude</th>
-                                    <th>Altitude-10</th>
+                                    <th>Grade (%)</th>
                                     <th>eIri</th>
                                     <th>cIri</th>
+                                    <th>RoadId</th>
                                     <th>Dibuat</th>
                                     <th>Diupdate</th>
                                     <th style="min-width: 75px;">Aksi</th>
@@ -96,9 +97,10 @@
                                         <td>{{ $data->distance }}</td>
                                         <td>{{ $data->speed }}</td>
                                         <td>{{ $data->altitude }}</td>
-                                        <td>{{ $data->altitude_10 }}</td>
+                                        <td>{{ $data->grade }}</td>
                                         <td>{{ $data->e_iri }}</td>
                                         <td>{{ $data->c_iri }}</td>
+                                        <td>{{ $data->road_id }}</td>
                                         @if (Count($users->where('id', $data->created_user)) > 0)
                                             <td>{{ $users->where('id', $data->created_user)->first()->name }}</td>
                                         @else
@@ -139,7 +141,7 @@
     <div class="modal-only">
 
         <!-- Import Excel -->
-        <div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        <div class="modal fade searchableModalContainer" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <form method="post" action="{{ route('importSurveiRuasJalan') }}" enctype="multipart/form-data">
@@ -154,7 +156,7 @@
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Nama Ruas Jalan</label>
                                 <div class="col-md-9">
-                                    <select id="id_ruas_jalan" name="id_ruas_jalan" class="form-control" required>
+                                    <select id="id_ruas_jalan" name="id_ruas_jalan" class="form-control searchableModalField" required>
                                         @foreach ($ruas_jalan_lists as $data)
                                             <option value="{{ $data->id_ruas_jalan }}" w>
                                                 {{ $data->nama_ruas_jalan }}

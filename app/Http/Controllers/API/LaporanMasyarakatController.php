@@ -62,7 +62,7 @@ class LaporanMasyarakatController extends Controller
             $laporanMasyarakat->status = 'Submitted';
             $laporanMasyarakat->save();
             $this->response['status'] = 'success';
-            
+
             $this->response['data']['id'] = $laporanMasyarakat->id;
             return response()->json($this->response, 200);
         } catch (\Exception $th) {
@@ -188,6 +188,21 @@ class LaporanMasyarakatController extends Controller
     {
         try {
             $data = DB::table('utils_notifikasi')->where('role',auth('api')->user()->role)
+                                                 ->orderBy('created_at','desc');
+            if($data->count() > 0){
+                return (NotificationResource::collection($data->get())->additional(['status' => 'success']));
+            }
+            return response()->json($this->response, 500);
+        }catch(\Exception $e){
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
+
+    public function getNotifikasiByUserId($userId)
+    {
+        try {
+            $data = DB::table('utils_notifikasi')->where('user_id',$userId)
                                                  ->orderBy('created_at','desc');
             if($data->count() > 0){
                 return (NotificationResource::collection($data->get())->additional(['status' => 'success']));
