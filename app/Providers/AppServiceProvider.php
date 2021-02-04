@@ -93,9 +93,7 @@ class AppServiceProvider extends ServiceProvider
             }
         });
         View::composer('*', function ($view) {
-            
-            
-            if(Auth::user()->internalRole->uptd != null){
+            if(Auth::user() && Auth::user()->internalRole->uptd != null){
                 $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
                 $total_aduan_uptd = DB::table('monitoring_laporan_masyarakat')->where('uptd_id', $uptd_id )->get();
                 $submitted_uptd = DB::table('monitoring_laporan_masyarakat')->where('status', 'Submitted')->where('uptd_id', $uptd_id )->get();
