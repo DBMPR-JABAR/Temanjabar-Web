@@ -32,6 +32,7 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('user', 'API\AuthController@getUser');
 
     Route::post('change-password', 'API\AuthController@newPassword');
+    Route::post('change-detail','API\AuthController@changeDetail');
 
     // Login OTP
     Route::post('loginOTP', 'API\AuthController@loginOTP');

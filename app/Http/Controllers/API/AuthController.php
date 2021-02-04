@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
 use App\Model\Transactional\Log;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -46,9 +47,12 @@ class AuthController extends Controller
         if(auth('api')->user()->role == 'internal'){
             Log::create(['activity' => 'Login', 'description' => 'User '.auth('api')->user()->name.' Logged In To Android App']);
         }
+        $userMasyarakat = DB::table('user_masyarakat')->where('user_id',auth('api')->user()->id)->first();
         $this->response['status'] = 'success';
         $this->response['data']['token'] = $this->getToken($token);
         $this->response['data']['user'] = auth('api')->user();
+        $this->response['data']['user']['noTelp'] = $userMasyarakat->no_telp;
+        $this->response['data']['user']['alamat'] = $userMasyarakat->alamat;
         $this->response['data']['user']['encrypted_id'] = encrypt(auth('api')->user()->id);
         return response()->json($this->response, 200);
     }
@@ -129,7 +133,6 @@ class AuthController extends Controller
                 $this->response['data']['error'] = $validator->errors();
                 return response()->json($this->response, 200);
             }
-
             $user = User::where('id',auth()->user()->id)->first();
             if(Hash::check($req->passwordOld, $user->password)){
                 $user->password = Hash::make($req->get('passwordNew'));
@@ -143,6 +146,34 @@ class AuthController extends Controller
 
         } catch (\Exception $e) {
             $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response,500);
+        }
+    }
+
+    public function changeDetail(Request $req)
+    {
+        try {
+            $validator = Validator::make($req->all(), [
+                'noTelp' => 'min:8',
+                'alamat' => 'string|min:5',
+            ]);
+            if($validator->fails()){
+                $this->response['data']['error'] = $validator->errors();
+                return response()->json($this->response, 200);
+            }
+            $userId = auth('api')->user()->id;
+            DB::table('user_masyarakat')->where('user_id',$userId)->update([
+                'no_telp' => $req->get('noTelp'),
+                'alamat' => $req->get('alamat')
+            ]);
+            //$userMasyarakat->no_telp = $req->get('noTelp');
+            //$userMasyarakat->alamat = $req->get('alamat');
+            //$userMasyarakat->save();
+            $this->response['data']['message'] = "Berhasil Mengubah Identitas";
+            $this->response['status'] = 'success';
+            return response()->json($this->response,200);
+        } catch (\Exception $e) {
+            $this->response['data']['message'] = 'Internal Error'.$e;
             return response()->json($this->response,500);
         }
     }
@@ -348,6 +379,8 @@ class AuthController extends Controller
             $user->role = 'masyarakat';
             $user->kode_otp = $kode_otp;
             $user->save();
+
+            DB::table('user_masyarakat')->insert(['user_id' => $user->id]);
 
             // Send Email Verification
             $to_email = $user->email;
