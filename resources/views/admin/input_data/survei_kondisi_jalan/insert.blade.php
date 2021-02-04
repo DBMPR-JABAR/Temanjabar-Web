@@ -56,9 +56,11 @@
                     @csrf
 
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">Nama Ruas Jalan</label>
+                        <label class="col-md-3 col-form-label">Nama Ruas Jalan dan RoadId</label>
                         <div class="col-md-9">
-                            <select id="id_ruas_jalan" name="id_ruas_jalan" class="form-control" required>
+                            <div class="row">
+                                <div class="col-md-6">
+                            <select id="id_ruas_jalan" name="id_ruas_jalan" class="form-control searchableField" required>
                                 @foreach ($ruas_jalan_lists as $data)
                                     <option value="{{ $data->id_ruas_jalan }}" @isset($surveiKondisiJalan)
                                             {{ $data->id_ruas_jalan == $surveiKondisiJalan->id_ruas_jalan ? 'selected' : '' }}
@@ -67,6 +69,12 @@
                                     </option>
                                 @endforeach
                             </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <input name="road_id" value="{{ @$surveiKondisiJalan->road_id }}" type="text"
+                                    class="form-control formatLatLong" required>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -119,7 +127,7 @@
                     </div>
 
                     <div class=" form-group row">
-                        <label class="col-md-3 col-form-label">Altitude dan Altitude (/10)</label>
+                        <label class="col-md-3 col-form-label">Altitude dan Grade (%)</label>
                         <div class="col-md-9">
                             <div class="row">
                                 <div class="col-md-6">
@@ -127,7 +135,7 @@
                                         class="form-control formatLatLong" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <input name="altitude_10" value="{{ @$surveiKondisiJalan->altitude_10 }}" type="text"
+                                    <input name="grade" value="{{ @$surveiKondisiJalan->grade }}" type="text"
                                         class="form-control formatLatLong" required>
                                 </div>
                             </div>

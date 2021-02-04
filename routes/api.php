@@ -47,7 +47,7 @@ Route::group(['prefix' => 'auth'], function () {
 
 Route::group(['middleware' => ['jwt.auth']], function () {
     Route::resource('laporan-masyarakat', 'API\LaporanMasyarakatController');
-
+    Route::get('laporan-masyarakat/getNotifikasiByUserId/{userId}', 'API\LaporanMasyarakatController@getNotifikasiByUserId');
 
     Route::post('laporan-masyarakat/approve', 'API\LaporanMasyarakatController@approve');
     Route::post('laporan-masyarakat/progress', 'API\LaporanMasyarakatController@createProgress');

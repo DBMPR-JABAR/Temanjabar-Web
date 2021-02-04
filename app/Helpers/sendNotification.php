@@ -1,6 +1,8 @@
 <?php
 
 use App\Model\Push\UserPushNotification;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 function sendNotification($users, $title, $body)
     {
@@ -31,4 +33,16 @@ function sendNotification($users, $title, $body)
         curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
         $response = curl_exec($ch);
         //dd($response);
+        $publishDate = Carbon\Carbon::now();
+        $utilsNotifikasi = DB::table('utils_notifikasi');
+        $usersDb = DB::table('users');
+        foreach($users as $user) {
+            $utilsNotifikasi->insert([
+                "title" => $title,
+                "subtitle"=> $body,
+                "role"=> $usersDb->where('id', $user)->first()->role,
+                "user_id"=> $user,
+                "created_at" => $publishDate
+            ]);
+        }
     }
