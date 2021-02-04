@@ -15,6 +15,7 @@ class HelperServiceProvider extends ServiceProvider
     {
         require_once app_path('Helpers/Access.php');
         require_once app_path('Helpers/getDistanceBetweenLatLong.php');
+        require_once app_path('Helpers/sendNotification.php');
     }
 
     /**
