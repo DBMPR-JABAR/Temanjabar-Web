@@ -60,6 +60,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>No Pengaduan</th>
+                                <th>Status</th>
                                 <th>Nama</th>
                                 <th>NIK</th>
                                 <th>Alamat</th>
@@ -67,9 +68,8 @@
                                 <th>Email</th>
                                 <th>Jenis</th>
                                 <th>Deskripsi</th>
-                                <th>Foto</th>
                                 <th>UPTD</th>
-                                <th>Status</th>
+                                <th>Foto</th>
                                 <th style="min-width: 100px;">Aksi</th>
                             </tr>
                         </thead>
@@ -143,6 +143,10 @@
                     name: 'nomorPengaduan'
                 },
                 {
+                    data: 'status',
+                    name: 'status'
+                },
+                {
                     data: 'nama',
                     name: 'nama'
                 },
@@ -171,17 +175,14 @@
                     name: 'deskripsi'
                 },
                 {
-                    data: 'imglaporan',
-                    name: 'imglaporan'
-                },
-                {
                     data: 'uptd_id',
                     name: 'uptd_id'
                 },
                 {
-                    data: 'status',
-                    name: 'status'
+                    data: 'imglaporan',
+                    name: 'imglaporan'
                 },
+                
                 {
                     data: 'action',
                     name: 'action',

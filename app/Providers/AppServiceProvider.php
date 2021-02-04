@@ -92,5 +92,28 @@ class AppServiceProvider extends ServiceProvider
                 $view->with('cctv_lists_uptd', $cctv_lists_uptd);
             }
         });
+        View::composer('*', function ($view) {
+            
+            
+            if(Auth::user()->internalRole->uptd != null){
+                $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+                $total_aduan_uptd = DB::table('monitoring_laporan_masyarakat')->where('uptd_id', $uptd_id )->get();
+                $submitted_uptd = DB::table('monitoring_laporan_masyarakat')->where('status', 'Submitted')->where('uptd_id', $uptd_id )->get();
+                $approved_uptd = DB::table('monitoring_laporan_masyarakat')->where('status', 'Approved')->where('uptd_id', $uptd_id )->get();
+                $done_uptd = DB::table('monitoring_laporan_masyarakat')->where('status', 'Done')->where('uptd_id', $uptd_id )->get();
+                $progress_uptd = DB::table('monitoring_laporan_masyarakat')->where('status', 'like', '%Progress')->where('uptd_id', $uptd_id )->get();
+                $view->with(['total_aduan_uptd' => $total_aduan_uptd,'submitted_uptd' => $submitted_uptd, 'approved_uptd' => $approved_uptd, 'done_uptd' => $done_uptd, 'progress_uptd'=>$progress_uptd]);
+            }else{
+                $total_aduan = DB::table('monitoring_laporan_masyarakat')->get();
+                $submitted = DB::table('monitoring_laporan_masyarakat')->where('status', 'Submitted')->get();
+                $approved = DB::table('monitoring_laporan_masyarakat')->where('status', 'Approved')->get();
+                $done = DB::table('monitoring_laporan_masyarakat')->where('status', 'Done')->get();
+                $progress = DB::table('monitoring_laporan_masyarakat')->where('status', 'like', '%Progress')->get();
+                $view->with(['total_aduan' => $total_aduan,'submitted' => $submitted, 'approved' => $approved, 'done' => $done, 'progress'=>$progress]);
+            }
+
+        });
+        
+
     }
 }
