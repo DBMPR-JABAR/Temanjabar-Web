@@ -108,7 +108,7 @@
             <div class="card-block">
                 <div class="row align-items-center">
                     <div class="col-8">
-                        <h4 class="text-c-blue f-w-600">
+                        <h4 class="text-warning f-w-600">
                             @if(Auth::user()->internalRole->uptd == null)
                                 {{ count($cctv_lists) }}
                             @else
@@ -123,7 +123,7 @@
                 </div>
             </div>
             </a>
-            <div class="card-footer bg-c-blue">
+            <div class="card-footer bg-warning">
                 <div class="row align-items-center">
                     <div class="col-9">
                         <p class="text-white m-b-0">CCTV</p>
@@ -142,7 +142,7 @@
             <div class="card-block">
                 <div class="row align-items-center">
                     <div class="col-8">
-                        <h4 class="text-c-yellow f-w-600">
+                        <h4 class="text-danger f-w-600">
                             @if(Auth::user()->internalRole->uptd == null)
                                 {{ count($rawan_bencana_lists) }}
                             @else
@@ -157,7 +157,7 @@
                 </div>
             </div>
             </a>
-            <div class="card-footer bg-c-yellow">
+            <div class="card-footer bg-danger">
                 <div class="row align-items-center">
                     <div class="col-9">
                         <p class="text-white m-b-0">Rawan Bencana</p>
@@ -198,7 +198,189 @@
             </div>
         </div>
     @endif
+    
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Pengaduan</h4>
+                {{-- <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span> --}}
+                <div class="card-header-right">
+                    <ul class="list-unstyled card-option">
+                        <li><i class="feather icon-maximize full-card"></i></li>
+                        <li><i class="feather icon-minus minimize-card"></i></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-block">
+                
+                <div class="card-deck col-md-12">
+                    <div class="card w-100">
+                        <a href="{{ url('admin/lapor') }}">
+                        <div class="card-block">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h4 class="text-primary f-w-600">
+                                        @if(Auth::user()->internalRole->uptd == null)
+                                            {{ count($submitted) }}
+                                        @else
+                                            {{ count($submitted_uptd) }}
+                                        @endif
+                                    </h4> 
+                                    {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
+                                </div>
+                                <div class="col-4 text-right">
+                                    <i class="feather icon-arrow-down f-28"></i>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                        <div class="card-footer bg-primary">
+                            <div class="row align-items-center">
+                                <div class="col-9">
+                                    <p class="text-white m-b-0">Submitted</p>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <i class="feather icon-trending-up text-white f-16"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="card w-100">
+                        <a href="{{ url('admin/lapor') }}">
+                        <div class="card-block">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h4 class="text-c-blue f-w-600">
+                                        @if(Auth::user()->internalRole->uptd == null)
+                                            {{ count($approved) }}
+                                        @else
+                                            {{ count($approved_uptd) }}
+                                        @endif
+                                    </h4>
+                                    {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
+                                </div>
+                                <div class="col-4 text-right">
+                                    <i class="feather icon-arrow-up f-28"></i>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                        <div class="card-footer bg-c-blue">
+                            <div class="row align-items-center">
+                                <div class="col-9">
+                                    <p class="text-white m-b-0">Approved</p>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <i class="feather icon-trending-up text-white f-16"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="card w-100">
+                        <a href="{{ url('admin/lapor') }}">
+                        <div class="card-block">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h4 class="text-c-yellow f-w-600">
+                                        @if(Auth::user()->internalRole->uptd == null)
+                                            {{ count($progress) }}
+                                        @else
+                                            {{ count($progress_uptd) }}
+                                        @endif
+                                    </h4> 
+                                    {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
+                                </div>
+                                <div class="col-4 text-right">
+                                    <i class="feather icon-clock f-28"></i>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                        <div class="card-footer bg-c-yellow">
+                            <div class="row align-items-center">
+                                <div class="col-9">
+                                    <p class="text-white m-b-0">Progress</p>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <i class="feather icon-trending-up text-white f-16"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="card w-100">
+                        <a href="{{ url('admin/lapor') }}">
+                        <div class="card-block">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h4 class="text-c-green f-w-600">
+                                        @if(Auth::user()->internalRole->uptd == null)
+                                            {{ count($done) }}
+                                        @else
+                                            {{ count($done_uptd) }}
+                                        @endif  
+                                    </h4>
+                                    {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
+                                </div>
+                                <div class="col-4 text-right">
+                                    <i class="feather icon-check-circle f-28"></i>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                        <div class="card-footer bg-c-green">
+                            <div class="row align-items-center">
+                                <div class="col-9">
+                                    <p class="text-white m-b-0">Done</p>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <i class="feather icon-trending-up text-white f-16"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-deck col-md-12">
+                    <div class="card w-100">
+                        <a href="{{ url('admin/lapor') }}">
+                        <div class="card-block">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h4 class="text-danger f-w-600">
+                                        @if(Auth::user()->internalRole->uptd == null)
+                                            {{ count($total_aduan) }}
+                                        @else
+                                            {{ count($total_aduan_uptd) }}
+                                        @endif
+                                    </h4> 
+                                    {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
+                                </div>
+                                <div class="col-4 text-right">
+                                    {{-- <i class="feather-archive"></i> --}}
+                                    <i class="feather icon-clipboard f-28"></i>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                        <div class="card-footer bg-danger">
+                            <div class="row align-items-center">
+                                <div class="col-9">
+                                    <p class="text-white m-b-0">Total Pengaduan</p>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <i class="feather icon-trending-up text-white f-16"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+   
+
+            </div>
+        </div>
+    </div>
     
 
     <div class="col-sm-12">

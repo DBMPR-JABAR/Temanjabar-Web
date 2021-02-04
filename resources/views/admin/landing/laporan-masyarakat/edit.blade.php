@@ -159,9 +159,9 @@
                             <label class="col-md-2 col-form-label">Status </label>
                             <div class="col-md-10">
                                 <select class="form-control" name="status">
+                                    <option value="Submitted"  @if(strpos( $data->status,"Submitted") !== false) selected @endif>Submitted</option>
                                     <option value="Approved" @if(strpos( $data->status,"Approved") !== false) selected @endif>Approved</option>
                                     <option value="Progress" @if(strpos( $data->status,"Progress") !== false) selected @endif>Progress</option>
-                                    <option value="Submitted"  @if(strpos( $data->status,"Submitted") !== false) selected @endif>Submitted</option>
                                     <option value="Done" @if(strpos( $data->status,"Done") !== false) selected @endif>Done</option>
                                 </select>
                                 <!-- <input name="status" type="text" class="form-control" disabled required> -->
