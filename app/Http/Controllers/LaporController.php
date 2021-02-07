@@ -30,8 +30,11 @@ class LaporController extends Controller
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
             $aduan = $aduan->where('uptd_id', $uptd_id);
         }
-
-        $aduan = $aduan->latest();
+        
+        $aduan = $aduan->latest()->get();
+        // foreach($aduan as $ni){
+        //     echo $ni->status;
+        // }
         // dd($aduan);
         return view('admin.lapor.index', compact('aduan'));
     }

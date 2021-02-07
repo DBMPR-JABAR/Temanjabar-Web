@@ -67,7 +67,7 @@
                     @csrf
                     {{-- @method('PUT') --}}
                 
-                
+                    
                     <div class="modal-body p-5">
                 
                         <div class="form-group row">
@@ -82,55 +82,6 @@
                                    
                                 </div>
                         </div>
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Menu</label>
-                            {{-- <div class="col-md-10">
-                                <select data-placeholder="User Role..." class="chosen-select" multiple  name="menu[]" tabindex="4" required>
-                                @foreach($menu as $data)
-                                    <option value="{{$data->menu}}.Create" >{{$data->menu}}.Create</option>
-                                    <option value="{{$data->menu}}.View">{{$data->menu}}.View</option>
-                                    <option value="{{$data->menu}}.Update">{{$data->menu}}.Update</option>
-                                    <option value="{{$data->menu}}.Delete">{{$data->menu}}.Delete</option>
-                                @endforeach
-                                </select>
-                            </div> --}}
-                            <div class="col-md-10">
-                                <div class="form-check-inline">    
-                                    @foreach($alldata['menu'] as $data)
-                                    <label class="form-check-label" for="check1">   
-                                            @foreach ($alldata['permissions'] as $item)
-                                            {{-- {{ $item }} --}}
-                                            @php
-                                                if(strpos( $item, $data ) !== false){
-                                                    $i = "checked";
-                                                    break;
-                                                }else{
-                                                    $i ="";
-                                                }
-                                            @endphp
-                                            @endforeach
-                                            <input type="checkbox" class="form-check-input" name="menu[]" value="{{$data}}" {{$i}} >{{$data}}&nbsp;
-                        
-                                        </label>
-                                        @endforeach
-                                </div>
-                                
-
-                            </div>
-                        </div>
-                
-                        {{-- <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Role Access</label>
-                            <div class="col-md-10">
-                                <select data-placeholder="User Role..." class="chosen-select" multiple  name="role_access[]" tabindex="4" required>
-                                    <option value="Create" >Create</option>
-                                    <option value="View">View</option>
-                                    <option value="Update">Update</option>
-                                    <option value="Delete">Delete</option>
-                                </select>
-                            </div>
-                        </div> --}}
-                
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">UPTD Access</label>
                             <div class="col-md-10">
@@ -149,17 +100,99 @@
                                 @endforeach
                             </div>
                         </div>
-                
-                
-                
+                        <div class="form-group row">
+                            <label class="col-md-12 col-form-label">Menu</label>
+                            {{-- <div class="col-md-10">
+                                <select data-placeholder="User Role..." class="chosen-select" multiple  name="menu[]" tabindex="4" required>
+                                @foreach($menu as $data)
+                                    <option value="{{$data->menu}}.Create" >{{$data->menu}}.Create</option>
+                                    <option value="{{$data->menu}}.View">{{$data->menu}}.View</option>
+                                    <option value="{{$data->menu}}.Update">{{$data->menu}}.Update</option>
+                                    <option value="{{$data->menu}}.Delete">{{$data->menu}}.Delete</option>
+                                @endforeach
+                                </select>
+                            </div> --}}                               
+                            @php
+                                $pointer = count($alldata['menu'])/2;
+                                $pointer2 = round(count($alldata['menu'])/3);
+
+
+                                $pointer = round($pointer);
+                                $counting =0;
+                            @endphp
+                            <div class="card-deck col-md-12">    
+                                @foreach($alldata['menu'] as $data)
+                                    @if($counting == 0) 
+                                        <div class="card col-md-12">
+                                            <div class="card-block">
+                                                <div class="row align-items-center">
+                                                    <div class="col-12">
+                                    @elseif($counting == $pointer2)
+                                        <div class="card col-md-12">
+                                            <div class="card-block">
+                                                <div class="row align-items-center">
+                                                    <div class="col-12">
+                                    @elseif($counting == $pointer2+$pointer2)
+                                        <div class="card col-md-12">
+                                            <div class="card-block">
+                                                <div class="row align-items-center">
+                                                    <div class="col-12">
+                                    @endif
+                                        <label class="form-check-label" for="check1">   
+                                            @foreach ($alldata['permissions'] as $item)
+                                            {{-- {{ $item }} --}}
+                                            @php
+                                                if(strpos( $item, $data ) !== false){
+                                                    $i = "checked";
+                                                    break;
+                                                }else{
+                                                    $i ="";
+                                                }
+                                            @endphp
+                                            @endforeach
+                                            <input type="checkbox" class="form-check-input" name="menu[]" value="{{$data}}" {{$i}} >{{$data}}&nbsp;
+                        
+                                        </label>
+                                    @if($counting == $pointer2-1)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @elseif($counting == ($pointer2+$pointer2)-1)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>  
+                                    @elseif($counting+1 == count($alldata['menu']))
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>               
+                                    @endif
+                                    @php
+                                        $counting++;
+                                    @endphp
+                                @endforeach
+                                
+                            </div>
+                        </div>
+                        {{-- <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Role Access</label>
+                            <div class="col-md-10">
+                                <select data-placeholder="User Role..." class="chosen-select" multiple  name="role_access[]" tabindex="4" required>
+                                    <option value="Create" >Create</option>
+                                    <option value="View">View</option>
+                                    <option value="Update">Update</option>
+                                    <option value="Delete">Delete</option>
+                                </select>
+                            </div>
+                        </div> --}}
                     </div>
-                
-                    <div class="modal-footer">
-                
+                    {{-- <div class="clearfix"></div> --}}
+                    <div class="modal-footer p-5">
                         <a href="{{ url()->previous() }}"><button type="button" class="btn btn-danger waves-effect " data-dismiss="modal">Kembali</button></a>        
                         <button type="submit" class="btn btn-primary waves-effect waves-light ">Simpan</button>
                     </div>
-                
                 </form>
             </div>
         </div>

@@ -73,7 +73,11 @@
                                 <th style="min-width: 100px;">Aksi</th>
                             </tr>
                         </thead>
-
+                        <tbody>
+                            @foreach ($aduan as $no => $item)
+                                
+                            @endforeach
+                        </tbody>
                     </table>
                 </div>
             </div>
