@@ -96,7 +96,7 @@
                                             }
                                         @endphp
                                     @endforeach
-                                    <input type="checkbox" class="custom-checkbox" name="uptd_access[]" value="{{ $uptd_list->id }}" id="uptd_{{ $uptd_list->id }}" {{ $act }}>{{ $uptd_list->nama }}&nbsp;
+                                    <input type="checkbox" class="custom-checkbox" name="uptd_access[]" value="{{ $uptd_list->id }}" id="uptd_{{ $uptd_list->id }}" {{ $act }}>{{ $uptd_list->nama }}<br>
                                 @endforeach
                             </div>
                         </div>
@@ -151,6 +151,7 @@
                                             @endphp
                                             @endforeach
                                             <input type="checkbox" class="form-check-input" name="menu[]" value="{{$data}}" {{$i}} >{{$data}}&nbsp;
+                                            <br> 
                         
                                         </label>
                                     @if($counting == $pointer2-1)
