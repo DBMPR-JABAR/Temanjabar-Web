@@ -603,9 +603,9 @@
                     }).then(function(response) {
                         let json = response.data;
                         let data = json.data;
-                        console.log(date_from);
-                        console.log(date_to);
-                        console.log(json);
+                        // console.log(date_from);
+                        // console.log(date_to);
+                        // console.log(json);
                         if (json.status === "success") {
                             if (kegiatan.indexOf('jembatan') >= 0) {
                                 addJembatan(data.jembatan);
@@ -1164,7 +1164,7 @@
 
             function addTitikRawanBencana(rawanbencana, iconrawanbencana) {
                 let uniqueValue = [];
-                console.log(rawanbencana);
+                // console.log(rawanbencana);
                 iconrawanbencana.forEach((data) => {
                     uniqueValue.push({
                         value: data.ICON_NAME,
@@ -1457,7 +1457,7 @@
                             creator: function(feature) {
                                 var id = feature.graphic.attributes.idruas;
                                 var div = document.createElement("div");
-                                console.log(feature.graphic.attributes);
+                                // console.log(feature.graphic.attributes);
                                 div.className = "myClass";
                                 div.innerHTML = `<h5>Kode Ruas Jalan: ${id}</h5>
                                                 <iframe
