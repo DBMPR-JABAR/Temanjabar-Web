@@ -92,7 +92,7 @@ Route::post('map/dashboard/jembatan', 'API\MapDashboardController@getJembatan');
 Route::resource('vehicle-counting', 'API\VehicleCountingController');
 
 Route::post('save-token', 'API\PushNotifController@saveToken')->name('save-token');
-Route::post('send-notification', 'API\PushNotifController@sendNotification')->name('send.notification');
+Route::post('send-notification-user', 'API\PushNotifController@sendNotification')->name('send.notification');
 Route::post('debug-notification', 'API\PushNotifController@debugNotification')->name('debug.notification');
 
 Route::fallback(function(){
