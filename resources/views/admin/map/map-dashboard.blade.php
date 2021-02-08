@@ -1224,6 +1224,7 @@
                             mediaInfos: [{
                                 title: "<b>Foto Aktual</b>",
                                 type: "image",
+                                altText: "Foto Tidak Dapat Ditampilkan",
                                 value: {
                                     sourceURL: "{FOTO}"
                                 }
@@ -1598,7 +1599,7 @@
                             },
                             {
                                 fieldName: "altitude_10",
-                                label: "Altitude 10"
+                                label: "Altitude / 10"
                             },
                             {
                                 fieldName: "eiri",
@@ -1948,6 +1949,11 @@
                             type: "integer"
                         },
                         {
+                            name: "NAMA_PAKET",
+                            alias: "Nama Paket",
+                            type: "string"
+                        },
+                        {
                             name: "NOMOR_KONTRAK",
                             alias: "Nomor Kontrak",
                             type: "string"
@@ -2126,6 +2132,11 @@
                             name: "KODE_PAKET",
                             alias: "KODE_PAKET",
                             type: "integer"
+                        },
+                        {
+                            name: "NAMA_PAKET",
+                            alias: "Nama Paket",
+                            type: "string"
                         },
                         {
                             name: "NOMOR_KONTRAK",
@@ -2308,6 +2319,11 @@
                             type: "string"
                         },
                         {
+                            name: "NAMA_PAKET",
+                            alias: "Nama Paket",
+                            type: "string"
+                        },
+                        {
                             name: "TGL_KONTRAK",
                             alias: "Tanggal Kontrak",
                             type: "string"
@@ -2450,11 +2466,12 @@
                             title: "<b>Video Pekerjaan</b>",
                             type: "custom",
                             outFields: ["*"],
-                            creator: function(graphic) {
+                            creator: function(feature) {
+                                var video = feature.graphic.attributes.VIDEO;
                                 return `
                                     <div class="esri-feature-media__item">
                                         <video controls class="esri-feature-media__item">
-                                            <source src="${baseUrl}/assets/videos/sample.mp4" type="video/mp4">
+                                            <source src="${baseUrl}/assets/videos/talikuat/kemandoran/${video}" type="video/mp4">
                                         </video>
                                     </div>`;
                             }
@@ -2526,6 +2543,21 @@
                             type: "string"
                         },
                         {
+                            name: "RUAS_JALAN",
+                            alias: "Ruas Jalan",
+                            type: "string"
+                        },
+                        {
+                            name: "FOTO_AKHIR",
+                            alias: "Foto Akhir",
+                            type: "string"
+                        },
+                        {
+                            name: "VIDEO",
+                            alias: "Video",
+                            type: "string"
+                        },
+                        {
                             name: "SUP",
                             alias: "SUP",
                             type: "string"
@@ -2561,7 +2593,7 @@
 
                 // Aksi untuk siapkan video player dari selected feature
                 var prepVidAction = {
-                    title: "Lihat Video",
+                    title: "Lihat CCTV",
                     id: "prep-vid-vc",
                     className: "feather icon-video"
                 };
@@ -2714,7 +2746,7 @@
                 view.popup.on("trigger-action", function(event) {
                     if (event.action.id === "prep-vid-vc") {
                         aprepVid();
-                        // $('div.esri-popup__action[title="Lihat Video"]').remove();
+                        $('div.esri-popup__action[title="Lihat CCTV"]').remove();
                     }
                 });
 
@@ -2984,7 +3016,7 @@
                 view.popup.on("trigger-action", function(event) {
                     if (event.action.id === "prep-vid") {
                         prepVid();
-                        // $('div.esri-popup__action[title="Lihat Video"]').remove();
+                        $('div.esri-popup__action[title="Lihat Video"]').remove();
                     }
                 });
 

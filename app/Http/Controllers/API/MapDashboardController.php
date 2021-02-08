@@ -97,7 +97,7 @@ class MapDashboardController extends Controller
                     $data = $data->whereBetween('TGL_KONTRAK', [$request->date_from, $request->date_to]);
 
                     $data = $data->get();
-                    $this->response['data']['peningkatan'] = [$request->date_from, $request->date_to];
+                    $this->response['data']['peningkatan'] = $data;
                 }
                 if(in_array('rehabilitasi', $request->kegiatan)){
                     $data = Pembangunan::whereIn('SUP',$request->sup)->where('KATEGORI','LIKE','rb%');
@@ -113,7 +113,7 @@ class MapDashboardController extends Controller
                     $data = $data->whereBetween('TANGGAL', [$request->date_from, $request->date_to]);
 
                     $data = $data->get();
-                    $this->response['data']['rehabilitasi'] = $data;
+                    $this->response['data']['pemeliharaan'] = $data;
                 }
                 // if(in_array('ruasjalan', $request->kegiatan)){
                 //     $data = RuasJalan::whereIn('SUP',$request->sup)->get();

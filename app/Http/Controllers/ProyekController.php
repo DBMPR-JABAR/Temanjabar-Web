@@ -109,6 +109,7 @@ class ProyekController extends Controller
         foreach ($listProyekKontrak as $proyek) {
             $date_from = ($request->dateFrom != '') ? Carbon::parse($request->dateFrom) : Carbon::parse($proyek->DATE_FROM);
             $date_to = ($request->dateTo != '') ? Carbon::parse($request->dateTo) : Carbon::parse($proyek->DATE_TO);
+            $urlDetail = url('admin/monitoring/kendali-kontrak/detail/'.$proyek->ID);
             $ProyekKontrakData = [
                 "colors" => ["#f2f4f5"],
                 "name" => $proyek->NAMA_KEGIATAN,
@@ -147,7 +148,7 @@ class ProyekController extends Controller
                     ],
                     [
                         "name"  => "<span style='font-size:1.2em; font-weight:bold'>Deviasi = ".$proyek->DEVIASI_PROGRESS_FISIK."</span><br>
-                                    <a href='detail/".$proyek->ID."' style='font-size:1em'>Detail</a>",
+                                    <a href='".$urlDetail."' style='font-size:1em'>Detail</a>",
                         "parent" => $proyek->ID,
                     ]
                 ]
