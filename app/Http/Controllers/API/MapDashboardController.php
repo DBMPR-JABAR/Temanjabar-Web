@@ -15,7 +15,8 @@ use App\Http\Resources\GeneralResource;
 use App\Http\Resources\MapJembatanResource;
 use App\Model\DWH\KemantapanJalan;
 use App\Model\Transactional\LaporanMasyarakat;
-
+use Carbon\Carbon;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use PDO;
 
@@ -229,20 +230,27 @@ class MapDashboardController extends Controller
             $notId = $request->exclude;
 
             // 100m Radius
-            $qDistance = "(SQRT(POW(LNG - ($long), 2) + pow(LAT - ($lat), 2)) * 1.1 * 100 * 1000)";
+            $qDistance = "(SQRT(POW(LNG - ($long), 2) + pow(LAT - ($lat), 2)) * 1.1 * 200 * 1000)";
             $data = DB::connection('dwh')->table('TBL_UPTD_TRX_PEMBANGUNAN')
-                    ->select("KODE_PAKET AS ID", "LOKASI_PEKERJAAN AS RUAS_JALAN", "KEGIATAN", "LAT", "LNG", DB::raw("$qDistance AS DISTANCE"))
+                    ->select("KODE_PAKET AS ID","TGL_KONTRAK","WAKTU_PELAKSANAAN_HK", "LOKASI_PEKERJAAN AS RUAS_JALAN", "KEGIATAN", "LAT", "LNG", DB::raw("$qDistance AS DISTANCE"))
                     ->whereRaw("$qDistance <= 100");
 
             if($notId) $data = $data->whereNotIn("ID",$notId);
 
             $data = $data->orderBy("DISTANCE");
 
+            $firstData = $data->first();
+            $date = Carbon::createFromFormat('Y-m-d', $firstData->TGL_KONTRAK);
+            $daysToAdd = (float)$firstData->WAKTU_PELAKSANAAN_HK;
+            $dateExpired = $date->addDays($daysToAdd);
+            $filterData = Arr::except((array)$firstData, ['TGL_KONTRAK','WAKTU_PELAKSANAAN_HK']);
+            if($dateExpired < Carbon::now()) $filterData = null;
+
             $this->response['status'] = "success";
-            $this->response['data'] = $data->first();
+            $this->response['data'] = $filterData;
             return response()->json($this->response, 200);
         }catch (\Exception $th) {
-            $this->response['data']['message'] = 'Internal Error';
+            $this->response['data']['message'] = 'Internal Error' .$th;
             return response()->json($this->response, 500);
         }
     }
