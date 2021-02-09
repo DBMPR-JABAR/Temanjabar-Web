@@ -119,9 +119,10 @@
                             </li>
                             <li>
                                 <a href="{{ url('admin/profile', Auth::user()->id) }}">
-                                    <i class="feather icon-user"></i> Profil
+                                    <i class="feather icon-user"></i> Setting Akun & Profil
                                 </a>
                             </li>
+                           
                             <li>
                                 <a href="{{ url('logout') }}">
                                     <i class="feather icon-log-out"></i> Logout

@@ -25,7 +25,7 @@
         <div class="col-lg-8">
             <div class="page-header-title">
                 <div class="d-inline">
-                    <h4>Profil </h4>
+                    <h4>Akun & Profil </h4>
                 </div>
             </div>
         </div>
@@ -35,7 +35,7 @@
                     <li class="breadcrumb-item">
                         <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
                     </li>
-                    <li class="breadcrumb-item"><a href="#!">Profil</a> </li>
+                    <li class="breadcrumb-item"><a href="#!">Akun & Profil</a> </li>
                 </ul>
             </div>
         </div>
@@ -46,7 +46,56 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header ">
+                <h4 class="card-title">Akun</h4>
+                    <div class="card-header-right">
+                        <ul class="list-unstyled card-option">
+                            <li><i class="feather icon-maximize full-card"></i></li>
+                            <li><i class="feather icon-minus minimize-card"></i></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-block">
+                    {{-- <a href="{{ route('createRoleAccess') }}" class="btn btn-mat btn-primary mb-3">Tambah</a> --}}
+                    {{-- <form action="{{url('admin/user/account/'.Auth::user()->id)}}" method="post" enctype="multipart/form-data"> --}}
+                    <form action="{{url('admin/user/account/'.Auth::user()->id)}}" method="POST" enctype="multipart/form-data">
+
+                        @csrf
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label>E-mail</label>
+                                <input name="email" value="{{ old('email', Auth::user()->email) }}" type="text" class="form-control"  required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <input type="password" name="password" value="{{ old('password') }}" placeholder="Masukkan Password"
+                                        class="form-control @error('password') is-invalid @enderror">
+                                    @error('password')
+                                    <div class="invalid-feedback" style="display: block; color:red">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Ulangi Password</label>
+                                    <input type="password" name="password_confirmation" value="{{ old('password_confirmation') }}" placeholder="Masukkan Konfirmasi Password"
+                                        class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-responsive btn-primary"><i class="fa fa-paper-plane"></i> Save</button>
+
+                    </form>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header ">
+                <h4 class="card-title">Profil</h4>
                     <div class="card-header-right">
                         <ul class="list-unstyled card-option">
                             <li><i class="feather icon-maximize full-card"></i></li>

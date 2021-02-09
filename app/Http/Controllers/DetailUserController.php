@@ -129,6 +129,44 @@ class DetailUserController extends Controller
         }
     }
 
+    public function updateaccount(Request $request, $id)
+    {
+        //
+        if($id != Auth::user()->id){
+            $color = "danger";
+            $msg = "Somethink when wrong!";
+            return back()->with(compact('color', 'msg'));
+            // return redirect('admin/user/profile/'. auth()->user()->id)->with(['error' => 'Somethink when wrong!']);
+        }else{
+
+            $this->validate($request,[
+                'email' => 'required|email',
+              
+                'password'   => '',
+                'password_confirmation'    => ''
+            ]);
+            $useraccount['email'] = $request->input('email');
+            
+            $useraccount['password']     = bcrypt($request->input('password'));
+            // dd($useraccount['password']);
+            
+            $updateaccount = DB::table('users')
+            ->where('id', $id)->update($useraccount);
+            if($updateaccount){
+                //redirect dengan pesan sukses
+                $color = "success";
+                $msg = "Akun Berhasil Diupdate!";
+                return redirect(route('editProfile', $id))->with(compact('color','msg'));
+            }else{
+                //redirect dengan pesan error
+                $color = "danger";
+                $msg = "Akun Gagal Diupdate!";
+                return redirect(route('editProfile', $id))->with(compact('color', 'msg'));
+               
+            }
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      *
