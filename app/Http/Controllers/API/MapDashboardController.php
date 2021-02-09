@@ -240,14 +240,15 @@ class MapDashboardController extends Controller
             $data = $data->orderBy("DISTANCE");
 
             $firstData = $data->first();
+            if($firstData) {
             $date = Carbon::createFromFormat('Y-m-d', $firstData->TGL_KONTRAK);
             $daysToAdd = (float)$firstData->WAKTU_PELAKSANAAN_HK;
             $dateExpired = $date->addDays($daysToAdd);
-            $filterData = Arr::except((array)$firstData, ['TGL_KONTRAK','WAKTU_PELAKSANAAN_HK']);
-            if($dateExpired < Carbon::now()) $filterData = null;
-
+            $firstData = Arr::except((array)$firstData, ['TGL_KONTRAK','WAKTU_PELAKSANAAN_HK']);
+            if($dateExpired < Carbon::now()) $firstData = null;
+            }
             $this->response['status'] = "success";
-            $this->response['data'] = $filterData;
+            $this->response['data'] = $firstData;
             return response()->json($this->response, 200);
         }catch (\Exception $th) {
             $this->response['data']['message'] = 'Internal Error' .$th;
