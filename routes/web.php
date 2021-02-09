@@ -343,7 +343,7 @@ Route::get('map/kendali-kontrak', 'ProyekController@getProyekKontrakAPI')->name(
 Route::get('map/proyek-kontrak-progress', 'ProyekController@getProgressProyekKontrakAPI')->name('api.proyekkontrakprogress');
 
 Route::get('map/laporan-masyarakat', 'MonitoringController@getLaporanAPI')->name('api.laporan');
-Route::get('map/kemantapan-jalan', 'MonitoringController@getKemantapanJalanAPI')->name('api.kemantapanjalan');
+Route::view('map/kemantapan-jalan','admin.map.map-kemantapan-jalan')->name('map.kemantapanjalan');
 
 Route::post('getSupData', 'MonitoringController@getSupData')->name('getSupData.filter');
 

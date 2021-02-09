@@ -81,6 +81,24 @@ class PushNotifController extends Controller
         dd($response);
     }
 
+    public function sendNotificationUser(Request $request)
+    {
+        try{
+            $user = [$request->user_id];
+
+            sendNotification($user, $request->title, $request->body);
+
+            $this->response['status'] = 'success';
+            $this->response['data']['message'] =  "Notification Pushed";
+
+            return response()->json($this->response, 200);
+        }catch(\Exception $th){
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+
+    }
+
     public function debugNotification(Request $request)
     {
         $firebaseToken = UserPushNotification::whereNotNull('device_token')->pluck('device_token')->all();

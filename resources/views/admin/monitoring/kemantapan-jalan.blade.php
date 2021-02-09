@@ -2,11 +2,13 @@
 
 @section('title') Kemantapan Jalan @endsection
 @section('head')
+<meta name="csrf-token" content="{{ csrf_token() }}" />
+
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/buttons.dataTables.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/data-table/extensions/responsive/css/responsive.dataTables.css') }}">
 
-<link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
+<link rel="stylesheet" href="https://js.arcgis.com/4.18/esri/themes/light/main.css">
 
 <style>
     table.table-bordered tbody td {
@@ -70,7 +72,8 @@
                 </div>
             </div>
             <div class="card-block">
-                <div id="viewDiv" style="width:100%;height:600px;padding: 0;margin: 0;"></div>
+                {{-- <div id="viewDiv" ></div> --}}
+                <iframe src="{{url('map/kemantapan-jalan')}}" frameborder="0" style="width:100%;height:700px;padding: 0;margin: 0;"></iframe>
             </div>
         </div>
         {{-- <div class="card">
@@ -117,7 +120,7 @@
 <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
 
-<script src="https://js.arcgis.com/4.17/"></script>
+<script src="https://js.arcgis.com/4.18/"></script>
 <script>
     $(document).ready(function () {
         var kondisi = <?php echo json_encode($kondisi) ?>;// don't use quotes
@@ -145,144 +148,6 @@
 
         });
 
-        require([
-            "esri/Map",
-            "esri/views/MapView",
-            "esri/request",
-            "esri/geometry/Point",
-            "esri/Graphic",
-        ], function (Map, MapView, esriRequest, Point, Graphic) {
-            const baseUrl = "{{url('')}}";
-
-            const map = new Map({
-                basemap: "hybrid"
-            });
-            const view = new MapView({
-                container: "viewDiv",
-                map: map,
-                center: [107.6191, -6.9175], // longitude, latitude
-                zoom: 9
-            });
-
-            const symbol = {
-                type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
-                url: baseUrl + "/assets/images/marker/kemantapanjalan.png",
-                width: "32px",
-                height: "32px"
-            };
-            const popupTemplate = {
-                title: "{RUAS_JALAN}",
-                content: [
-                    {
-                        type: "fields",
-                        fieldInfos: [
-                            {
-                                fieldName: "NO_RUAS",
-                                label: "Nomor Ruas"
-                            },
-                            {
-                                fieldName: "SUB_RUAS",
-                                label: "Sub Ruas"
-                            },
-                            {
-                                fieldName: "SUFFIX",
-                                label: "Suffix"
-                            },
-                            {
-                                fieldName: "BULAN",
-                                label: "Bulan"
-                            },
-                            {
-                                fieldName: "TAHUN",
-                                label: "Tahun"
-                            },
-                            {
-                                fieldName: "KOTA_KAB",
-                                label: "Kota/Kabupaten"
-                            },
-                            {
-                                fieldName: "LAT_AWAL",
-                                label: "Latitude Awal"
-                            },
-                            {
-                                fieldName: "LONG_AWAL",
-                                label: "Longitude Awal"
-                            },
-                            {
-                                fieldName: "LAT_AKHIR",
-                                label: "Latitude Akhir"
-                            },
-                            {
-                                fieldName: "LONG_AKHIR",
-                                label: "Longitude Akhir"
-                            },
-                            {
-                                fieldName: "KETERANGAN",
-                                label: "Keterangan"
-                            },
-                            {
-                                fieldName: "SUP",
-                                label: "SPP/ SUP"
-                            },
-                            {
-                                fieldName: "UPTD",
-                                label: "UPTD"
-                            }
-                        ]
-                    },
-                    {
-                        type: "media",
-                        mediaInfos: [
-                            {
-                                title: "<b>Kondisi Jalan</b>",
-                                type: "pie-chart",
-                                caption: "Dari Luas Jalan {LUAS} m2",
-                                value: {
-                                    fields: ["SANGAT_BAIK","BAIK","SEDANG","JELEK","PARAH","SANGAT_PARAH"]
-                                }
-                            }
-                        ]
-                    }
-                ]
-            };
-
-
-            const url = baseUrl + "/map/kemantapan-jalan";
-            const requestLaporan = esriRequest(url, {
-                responseType: "json",
-            }).then(function(response){
-                const json = response.data;
-                const data = json.data;
-                const table = document.getElementById('bodyLaporan');
-                let i = 1;
-                if(data.length == 0){
-                    table.innerHTML =   `<tr>
-                                            <td colspan="5">Data Kosong</td>
-                                        </tr>`;
-                }else{
-                    data.forEach(item => {
-                        var point0 = new Point(item.LONG_AWAL, item.LAT_AWAL);
-                        view.graphics.add(new Graphic({
-                            geometry: point0,
-                            symbol: symbol,
-                            attributes: item,
-                            popupTemplate: popupTemplate
-                        }));
-                        var point1 = new Point(item.LONG_AKHIR, item.LAT_AKHIR);
-                        view.graphics.add(new Graphic({
-                            geometry: point1,
-                            symbol: symbol,
-                            attributes: item,
-                            popupTemplate: popupTemplate
-                        }));
-                    });
-                }
-            }).catch(function (error) {
-                console.log(error);
-            });
-
-
-        });
     });
 </script>
 @endsection

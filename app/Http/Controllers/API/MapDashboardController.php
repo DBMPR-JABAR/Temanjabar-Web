@@ -97,7 +97,7 @@ class MapDashboardController extends Controller
                     $data = $data->whereBetween('TGL_KONTRAK', [$request->date_from, $request->date_to]);
 
                     $data = $data->get();
-                    $this->response['data']['peningkatan'] = [$request->date_from, $request->date_to];
+                    $this->response['data']['peningkatan'] = $data;
                 }
                 if(in_array('rehabilitasi', $request->kegiatan)){
                     $data = Pembangunan::whereIn('SUP',$request->sup)->where('KATEGORI','LIKE','rb%');
@@ -113,7 +113,7 @@ class MapDashboardController extends Controller
                     $data = $data->whereBetween('TANGGAL', [$request->date_from, $request->date_to]);
 
                     $data = $data->get();
-                    $this->response['data']['rehabilitasi'] = $data;
+                    $this->response['data']['pemeliharaan'] = $data;
                 }
                 // if(in_array('ruasjalan', $request->kegiatan)){
                 //     $data = RuasJalan::whereIn('SUP',$request->sup)->get();
@@ -230,8 +230,8 @@ class MapDashboardController extends Controller
 
             // 100m Radius
             $qDistance = "(SQRT(POW(LNG - ($long), 2) + pow(LAT - ($lat), 2)) * 1.1 * 100 * 1000)";
-            $data = DB::connection('dwh')->table('TBL_UPTD_TRX_PROGRESS_MINGGUAN')
-                    ->select("ID", "RUAS_JALAN", "KEGIATAN", "LAT", "LNG", DB::raw("$qDistance AS DISTANCE"))
+            $data = DB::connection('dwh')->table('TBL_UPTD_TRX_PEMBANGUNAN')
+                    ->select("KODE_PAKET AS ID", "LOKASI_PEKERJAAN AS RUAS_JALAN", "KEGIATAN", "LAT", "LNG", DB::raw("$qDistance AS DISTANCE"))
                     ->whereRaw("$qDistance <= 100");
 
             if($notId) $data = $data->whereNotIn("ID",$notId);

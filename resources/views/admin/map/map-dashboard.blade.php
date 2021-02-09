@@ -128,6 +128,7 @@
                 <input type="button" class="form-control" id="btnProses" value="Proses" disabled>
             </div>
         </form>
+        <button type="button" class="btn bg-dark btn-block my-2 text-white close-btn">close</button>
     </div>
     <div id="baseMaps" class="bg-white">
         {{-- <div class="row">
@@ -200,6 +201,7 @@
                     </button>
                 </li>
             </ul>
+            <button type="button" class="btn bg-dark btn-block my-2 text-white close-btn">close</button>
         </div>
     </div>
 </body>
@@ -210,6 +212,7 @@
     const mainElement = document.querySelector("#viewDiv");
     const showBaseMapsElmnt = document.querySelector("#showBaseMaps");
     const baseMaps = document.querySelector("#baseMaps");
+    const btnCloseFilter = document.querySelectorAll('.close-btn');
 
     //create chevron elmn
     let chevron = document.createElement('i');
@@ -232,6 +235,14 @@
         baseMaps.classList.remove("open");
         event.stopPropagation();
     })
+
+    btnCloseFilter.forEach(e => {
+        e.addEventListener("click", event => {
+            filter.classList.remove("open");
+            baseMaps.classList.remove("open");
+            event.stopPropagation();
+        })
+    });
 
     //toggle fullscreen
     function getFullscreenElement() {
@@ -603,9 +614,9 @@
                     }).then(function(response) {
                         let json = response.data;
                         let data = json.data;
-                        console.log(date_from);
-                        console.log(date_to);
-                        console.log(json);
+                        // console.log(date_from);
+                        // console.log(date_to);
+                        // console.log(json);
                         if (json.status === "success") {
                             if (kegiatan.indexOf('jembatan') >= 0) {
                                 addJembatan(data.jembatan);
@@ -1164,7 +1175,7 @@
 
             function addTitikRawanBencana(rawanbencana, iconrawanbencana) {
                 let uniqueValue = [];
-                console.log(rawanbencana);
+                // console.log(rawanbencana);
                 iconrawanbencana.forEach((data) => {
                     uniqueValue.push({
                         value: data.ICON_NAME,
@@ -1224,6 +1235,7 @@
                             mediaInfos: [{
                                 title: "<b>Foto Aktual</b>",
                                 type: "image",
+                                altText: "Foto Tidak Dapat Ditampilkan",
                                 value: {
                                     sourceURL: "{FOTO}"
                                 }
@@ -1457,7 +1469,7 @@
                             creator: function(feature) {
                                 var id = feature.graphic.attributes.idruas;
                                 var div = document.createElement("div");
-                                console.log(feature.graphic.attributes);
+                                // console.log(feature.graphic.attributes);
                                 div.className = "myClass";
                                 div.innerHTML = `<h5>Kode Ruas Jalan: ${id}</h5>
                                                 <iframe
@@ -1598,7 +1610,7 @@
                             },
                             {
                                 fieldName: "altitude_10",
-                                label: "Altitude 10"
+                                label: "Altitude / 10"
                             },
                             {
                                 fieldName: "eiri",
@@ -1948,6 +1960,11 @@
                             type: "integer"
                         },
                         {
+                            name: "NAMA_PAKET",
+                            alias: "Nama Paket",
+                            type: "string"
+                        },
+                        {
                             name: "NOMOR_KONTRAK",
                             alias: "Nomor Kontrak",
                             type: "string"
@@ -2126,6 +2143,11 @@
                             name: "KODE_PAKET",
                             alias: "KODE_PAKET",
                             type: "integer"
+                        },
+                        {
+                            name: "NAMA_PAKET",
+                            alias: "Nama Paket",
+                            type: "string"
                         },
                         {
                             name: "NOMOR_KONTRAK",
@@ -2308,6 +2330,11 @@
                             type: "string"
                         },
                         {
+                            name: "NAMA_PAKET",
+                            alias: "Nama Paket",
+                            type: "string"
+                        },
+                        {
                             name: "TGL_KONTRAK",
                             alias: "Tanggal Kontrak",
                             type: "string"
@@ -2450,11 +2477,12 @@
                             title: "<b>Video Pekerjaan</b>",
                             type: "custom",
                             outFields: ["*"],
-                            creator: function(graphic) {
+                            creator: function(feature) {
+                                var video = feature.graphic.attributes.VIDEO;
                                 return `
                                     <div class="esri-feature-media__item">
                                         <video controls class="esri-feature-media__item">
-                                            <source src="${baseUrl}/assets/videos/sample.mp4" type="video/mp4">
+                                            <source src="${baseUrl}/assets/videos/talikuat/kemandoran/${video}" type="video/mp4">
                                         </video>
                                     </div>`;
                             }
@@ -2526,6 +2554,21 @@
                             type: "string"
                         },
                         {
+                            name: "RUAS_JALAN",
+                            alias: "Ruas Jalan",
+                            type: "string"
+                        },
+                        {
+                            name: "FOTO_AKHIR",
+                            alias: "Foto Akhir",
+                            type: "string"
+                        },
+                        {
+                            name: "VIDEO",
+                            alias: "Video",
+                            type: "string"
+                        },
+                        {
                             name: "SUP",
                             alias: "SUP",
                             type: "string"
@@ -2561,7 +2604,7 @@
 
                 // Aksi untuk siapkan video player dari selected feature
                 var prepVidAction = {
-                    title: "Lihat Video",
+                    title: "Lihat CCTV",
                     id: "prep-vid-vc",
                     className: "feather icon-video"
                 };
@@ -2714,7 +2757,7 @@
                 view.popup.on("trigger-action", function(event) {
                     if (event.action.id === "prep-vid-vc") {
                         aprepVid();
-                        // $('div.esri-popup__action[title="Lihat Video"]').remove();
+                        $('div.esri-popup__action[title="Lihat CCTV"]').remove();
                     }
                 });
 
@@ -2984,7 +3027,7 @@
                 view.popup.on("trigger-action", function(event) {
                     if (event.action.id === "prep-vid") {
                         prepVid();
-                        // $('div.esri-popup__action[title="Lihat Video"]').remove();
+                        $('div.esri-popup__action[title="Lihat Video"]').remove();
                     }
                 });
 

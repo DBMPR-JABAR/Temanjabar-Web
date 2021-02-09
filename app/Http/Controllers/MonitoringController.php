@@ -52,9 +52,13 @@ class MonitoringController extends Controller
         return response()->json($response, 200);
     }
 
-    public function getKemantapanJalanAPI()
+    public function getKemantapanJalanAPI(Request $request)
     {
-        return (new GeneralResource(KemantapanJalan::all()));
+        if($request->sup == ''){
+            return (new GeneralResource(KemantapanJalan::all()));
+        }else{
+            return (new GeneralResource(KemantapanJalan::whereIn('SUP',$request->sup)->get()));
+        }
     }
 
     public function getMainDashboard()

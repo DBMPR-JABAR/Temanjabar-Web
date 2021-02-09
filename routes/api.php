@@ -88,11 +88,13 @@ Route::post('map/dashboard/filter', 'API\MapDashboardController@filter');
 Route::post('map/dashboard/data', 'API\MapDashboardController@getData');
 Route::post('map/dashboard/data-proyek', 'API\MapDashboardController@getDataProyek');
 Route::post('map/dashboard/jembatan', 'API\MapDashboardController@getJembatan');
+Route::post('map/kemantapan-jalan', 'MonitoringController@getKemantapanJalanAPI')->name('api.kemantapanjalan');
+
 
 Route::resource('vehicle-counting', 'API\VehicleCountingController');
 
 Route::post('save-token', 'API\PushNotifController@saveToken')->name('save-token');
-Route::post('send-notification', 'API\PushNotifController@sendNotification')->name('send.notification');
+Route::post('send-notification-user', 'API\PushNotifController@sendNotificationUser')->name('send.notification');
 Route::post('debug-notification', 'API\PushNotifController@debugNotification')->name('debug.notification');
 
 Route::fallback(function(){
