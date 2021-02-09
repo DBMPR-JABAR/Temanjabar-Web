@@ -119,7 +119,12 @@
                             </li>
                             <li>
                                 <a href="{{ url('admin/profile', Auth::user()->id) }}">
-                                    <i class="feather icon-user"></i> Profil
+                                    <i class="feather icon-user"></i> Setting Akun & Profil
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('admin/profile', Auth::user()->id) }}">
+                                    <i class="feather icon-settings"></i> Pengaturan Akun
                                 </a>
                             </li>
                             <li>

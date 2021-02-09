@@ -48,6 +48,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     });
     Route::get('profile/{id}', 'DetailUserController@edit')->name('editProfile');
     Route::post('user/profile/{id}', 'DetailUserController@update');
+    Route::post('user/account/{id}', 'DetailUserController@updateaccount');
+
 
     Route::get('pesan', 'LandingController@getPesan');
     Route::get('log', 'LandingController@getLog');
