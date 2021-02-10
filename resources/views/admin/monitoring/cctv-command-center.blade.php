@@ -54,14 +54,14 @@
                                                 <select id="filterUPTD" name="select"
                                                     class="form-control form-control-primary" onchange="changeUPTD(this,true)">
                                                     @if (Auth::user()->internalRole->uptd)
-                                                        <option id="initUptd" value="{{ Auth::user()->internalRole->uptd }}" selected>
+                                                        <option id="initUptd" value="{{ str_replace('uptd', '', Auth::user()->internalRole->uptd) }}" selected>
                                                             UPTD
                                                             {{ str_replace('uptd', '', Auth::user()->internalRole->uptd) }}
                                                         </option>
                                                     @else
                                                         <option id="initUptd" value="semua" selected>Semua</option>
                                                         @foreach ($userUptdList as $uptd)
-                                                            <option value="{{ $uptd->slug }}">{{ $uptd->nama }}</option>
+                                                            <option value="{{ $uptd->id }}">{{ $uptd->nama }}</option>
                                                         @endforeach
                                                     @endif
                                                 </select>
@@ -144,8 +144,7 @@
                     cctvList = cctvs
                 } else {
                      cctvList = cctvs.filter((item) => {
-                        console.log(filter.value.substring(4),item.uptd_id)
-                        return item.uptd_id == Number(filter.value.substring(4))
+                        return item.uptd_id == Number(filter.value)
                     })
                 }
 
