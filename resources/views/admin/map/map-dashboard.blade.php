@@ -128,6 +128,7 @@
                 <input type="button" class="form-control" id="btnProses" value="Proses" disabled>
             </div>
         </form>
+        <button type="button" class="btn bg-dark btn-block my-2 text-white close-btn">close</button>
     </div>
     <div id="baseMaps" class="bg-white">
         {{-- <div class="row">
@@ -200,6 +201,7 @@
                     </button>
                 </li>
             </ul>
+            <button type="button" class="btn bg-dark btn-block my-2 text-white close-btn">close</button>
         </div>
     </div>
 </body>
@@ -210,6 +212,7 @@
     const mainElement = document.querySelector("#viewDiv");
     const showBaseMapsElmnt = document.querySelector("#showBaseMaps");
     const baseMaps = document.querySelector("#baseMaps");
+    const btnCloseFilter = document.querySelectorAll('.close-btn');
 
     //create chevron elmn
     let chevron = document.createElement('i');
@@ -232,6 +235,14 @@
         baseMaps.classList.remove("open");
         event.stopPropagation();
     })
+
+    btnCloseFilter.forEach(e => {
+        e.addEventListener("click", event => {
+            filter.classList.remove("open");
+            baseMaps.classList.remove("open");
+            event.stopPropagation();
+        })
+    });
 
     //toggle fullscreen
     function getFullscreenElement() {

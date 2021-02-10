@@ -65,9 +65,7 @@
             <div class="card-block">
                 <form action="{{route('updateRoleAccess',$alldata['role_id'])}}" method="post" enctype="multipart/form-data">
                     @csrf
-                    {{-- @method('PUT') --}}
-                
-                    
+                    {{-- @method('PUT') --}}   
                     <div class="modal-body p-5">
                 
                         <div class="form-group row">
