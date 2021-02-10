@@ -950,6 +950,7 @@
                             mediaInfos: [{
                                 title: "<b>Foto</b>",
                                 type: "image",
+                                altText: "Foto Tidak Dapat Ditampilkan",
                                 value: {
                                     sourceURL: "{foto}"
                                 }
@@ -2457,6 +2458,7 @@
                             mediaInfos: [{
                                 title: "<b>Foto Pekerjaan</b>",
                                 type: "image",
+                                altText: "Foto Tidak Dapat Ditampilkan",
                                 value: {
                                     sourceURL: "{FOTO_AKHIR}"
                                 }
@@ -2472,6 +2474,7 @@
                                     <div class="esri-feature-media__item">
                                         <video controls class="esri-feature-media__item">
                                             <source src="${baseUrl}/assets/videos/talikuat/kemandoran/${video}" type="video/mp4">
+                                            Video tidak ada atau tidak dapat ditampilkan!
                                         </video>
                                     </div>`;
                             }
