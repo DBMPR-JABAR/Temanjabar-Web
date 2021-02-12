@@ -141,15 +141,11 @@ class DetailUserController extends Controller
 
             $this->validate($request,[
                 'email' => 'required|email',
-              
-                'password'   => '',
-                'password_confirmation'    => ''
+                'password'   => 'confirmed'
             ]);
             $useraccount['email'] = $request->input('email');
-            
             $useraccount['password']     = bcrypt($request->input('password'));
             // dd($useraccount['password']);
-            
             $updateaccount = DB::table('users')
             ->where('id', $id)->update($useraccount);
             if($updateaccount){
@@ -162,7 +158,6 @@ class DetailUserController extends Controller
                 $color = "danger";
                 $msg = "Akun Gagal Diupdate!";
                 return redirect(route('editProfile', $id))->with(compact('color', 'msg'));
-               
             }
         }
     }
