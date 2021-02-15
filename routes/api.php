@@ -70,6 +70,13 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::get('proyek-kontrak/count', 'API\ProyekController@count');
     Route::get('proyek-kontrak/status/{status}', 'API\ProyekController@getByStatus');
 
+    Route::group(['prefix' => 'pekerjaan'], function () {
+        Route::get('get-sup','API\PekerjaanController@getSUP');
+        Route::get('get-ruas-jalan','API\PekerjaanController@getRuasJalan');
+        Route::get('get-jenis-pekerjaan','API\PekerjaanController@getJenisPekerjaan');
+    });
+    Route::resource('pekerjaan', 'API\PekerjaanController');
+
 });
 
 Route::resource('ruas-jalan', 'API\RuasJalanController');
