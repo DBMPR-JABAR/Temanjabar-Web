@@ -76,6 +76,10 @@ Route::group(['middleware' => ['jwt.auth']], function () {
         Route::get('get-jenis-pekerjaan','API\PekerjaanController@getJenisPekerjaan');
     });
     Route::resource('pekerjaan', 'API\PekerjaanController');
+    Route::prefix('progress-pekerjaan')->group(function () {
+        Route::get('get-paket-dan-penyedia','API\ProgressPekerjaanController@getPaketDanPenyedia');
+    });
+    Route::resource('progress-pekerjaan', 'API\ProgressPekerjaanController');
 
 });
 
