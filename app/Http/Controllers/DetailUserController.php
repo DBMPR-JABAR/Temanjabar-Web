@@ -148,6 +148,8 @@ class DetailUserController extends Controller
                 'kota' => '',
                 'kode_pos' => '',
                 'alamat' => '',
+                'agama' => '',
+
 
                 ]);
                 $temp = explode(",",$request->input('sup_id'));
