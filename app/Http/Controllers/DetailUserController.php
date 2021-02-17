@@ -148,21 +148,19 @@ class DetailUserController extends Controller
                 'kota' => '',
                 'kode_pos' => '',
                 'alamat' => '',
-                'agama' => '',
-
-
+                'agama' => 'required',
                 ]);
-                $temp = explode(",",$request->input('sup_id'));
+            $temp = explode(",",$request->input('sup_id'));
             
-                $userprofile['nama'] = $request->input('nama');
+            $userprofile['nama'] = $request->input('nama');
                 // $userprofile['frontDegree']     = $request->input('frontDegree'); 
                 // $userprofile['backDegree']     = $request->input('backDegree'); 
-                $userprofile['no_pegawai']     = $request->input('no_pegawai');
-                $userprofile['tgl_lahir']   = $request->input('tgl_lahir');  
-                $userprofile['tmp_lahir']   = $request->input('tmp_lahir');  
-                // $userprofile['agama']  = $request->input('agama');  
+            $userprofile['no_pegawai']     = $request->input('no_pegawai');
+            $userprofile['tgl_lahir']   = $request->input('tgl_lahir');  
+            $userprofile['tmp_lahir']   = $request->input('tmp_lahir');  
+            $userprofile['agama']  = $request->input('agama');  
 
-                $userprofile['jenis_kelamin'] = $request->input('jenis_kelamin');
+            $userprofile['jenis_kelamin'] = $request->input('jenis_kelamin');
             // dd($userprofile['jenis_kelamin']);
             $userprofile['no_tlp']  = $request->input('no_tlp');  
             $userprofile['no_tlp_rumah']  = $request->input('no_tlp_rumah');  
@@ -174,11 +172,12 @@ class DetailUserController extends Controller
             $userprofile['city_id']  = $request->input('kota');  
             $userprofile['kode_pos']  = $request->input('kode_pos');  
             $userprofile['alamat']  = $request->input('alamat');   
-            $userupdat['sup_id']= $temp[0]; 
-            // $userupdat['sup']= $temp[1]; 
-            // dd($temp[0]);
-            
-            $updatetouser = DB::table('users')->where('id', $id)->update($userupdat);
+            if($request->input('sup_id') != null){
+                $userupdat['sup_id']= $temp[0]; 
+                $userupdat['sup']= $temp[1]; 
+                // dd($temp[0]);
+                $updatetouser = DB::table('users')->where('id', $id)->update($userupdat);
+            }
             $updateprofile = DB::table('user_pegawai')
             ->where('user_id', $id)->update($userprofile);
             if($updateprofile){
