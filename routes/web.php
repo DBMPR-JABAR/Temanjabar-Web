@@ -32,6 +32,9 @@ Route::post('tambah-pesan', 'LandingController@createPesan');
 Route::get('admin/master/ruas_jalan', 'MasterController@getRuasJalan')->name('admin.master.ruas_jalan');
 Route::get('map/map-dashboard-masyarakat', 'LandingController@mapMasyarakat')->name('landing.map.map-dashboard-masyarakat');
 
+Route::post('dependent-dropdown', 'DropdownAddressController@store')
+    ->name('dependent-dropdown.store');
+Route::get('getCity', 'DropdownAddressController@getCity');
 
 // {SiteURL}/uptd/*
 Route::group(['prefix' => 'uptd'], function () {
@@ -46,8 +49,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('/', function () {
         return redirect(route('monitoring-kontrak'));
     });
-    Route::get('profile/{id}', 'DetailUserController@edit')->name('editProfile');
-    Route::post('user/profile/{id}', 'DetailUserController@update');
+    Route::get('profile/{id}', 'DetailUserController@show')->name('editProfile');
+    Route::get('edit/profile/{id}', 'DetailUserController@edit')->name('editDetailProfile');
+    Route::put('edit/profile/{id}', 'DetailUserController@update');
+
     Route::post('user/account/{id}', 'DetailUserController@updateaccount');
 
 
@@ -188,6 +193,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('update', 'MasterData\RuasJalanController@update')->name('updateMasterRuasJalan');
             Route::get('delete/{id}', 'MasterData\RuasJalanController@delete')->name('deleteRuasJalan');
             Route::get('getSUP', 'MasterData\RuasJalanController@getSUP')->name('getSUPRuasJalan');
+            Route::get('getCITIES', 'MasterData\RuasJalanController@getCITIES')->name('getSUPRuasJalan');
+
             Route::get('json', 'MasterData\RuasJalanController@json')->name('getJsonRuasJalan');
         });
 

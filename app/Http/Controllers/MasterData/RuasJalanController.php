@@ -118,6 +118,15 @@ class RuasJalanController extends Controller
 
         return response()->json($sup);
     }
+    public function getCITIES(Request $req)
+    {
+        $idSup = $req->id;
+        $sup = DB::table('indonesia_cities');
+        $sup = $sup->where('province_id', $idSup);
+        $sup = $sup->get();
+
+        return response()->json($sup);
+    }
 
     public function json()
     {

@@ -16,6 +16,7 @@ class AuthController extends Controller
     {
         $credentials = $req->only('email', 'password');
         $auth = Auth::attempt($credentials);
+        // dd($auth);
         if (!$auth) {
             return back()->with(['msg' => 'Email atau Password Salah', 'color' => 'danger']);
         }

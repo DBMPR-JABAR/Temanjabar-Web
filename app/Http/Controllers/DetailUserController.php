@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+
 
 
 class DetailUserController extends Controller
@@ -54,6 +56,20 @@ class DetailUserController extends Controller
     public function show($id)
     {
         //
+        if($id != Auth::user()->id){
+            $color = "danger";
+            $msg = "Somethink when wrong!";
+            return back()->with(compact('color', 'msg'));
+            // return redirect('admin/user/profile/'. auth()->user()->id)->with(['error' => 'Somethink when wrong!']);
+        }else{
+            $profile = DB::table('user_pegawai')->where('user_id',$id)->first();
+            $kota = DB::table('indonesia_cities')->where('id', $profile->city_id)->pluck('name')->first();
+            $provinsi = DB::table('indonesia_provinces')->where('id', $profile->province_id)->pluck('name')->first();
+            $profile->provinsi=$provinsi;
+            $profile->kota=$kota;
+            
+            return view('admin.master.user.show',compact('profile'));
+        }
     }
 
     /**
@@ -70,9 +86,29 @@ class DetailUserController extends Controller
             return back()->with(compact('color', 'msg'));
             // return redirect('admin/user/profile/'. auth()->user()->id)->with(['error' => 'Somethink when wrong!']);
         }else{
+            $provinces =  DB::table('indonesia_provinces')->pluck('name', 'id');
+            
             $profile = DB::table('user_pegawai')->where('user_id',$id)->first();
             // dd($profile);
-            return view('admin.master.user.show',compact('profile'));
+            $user = User::find($id);
+
+            $sup = DB::table('utils_sup');
+            if(Auth::user()->internalRole->uptd){
+                $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
+                $sup = $sup->where('uptd_id',$uptd_id);
+            }
+            $sup = $sup->get();
+            
+
+            $role = DB::table('user_role');
+            $role = $role->where('is_active', '1');
+            if(Auth::user()->internalRole->uptd){
+                $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
+                $role = $role->where('uptd_id',$uptd_id);
+            }
+            $role = $role->get();
+
+            return view('admin.master.user.edit_detail_user',compact('profile','user','sup','role','provinces'));
         }
     }
 
@@ -85,6 +121,7 @@ class DetailUserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        
         //
         if($id != Auth::user()->id){
             $color = "danger";
@@ -92,26 +129,54 @@ class DetailUserController extends Controller
             return back()->with(compact('color', 'msg'));
             // return redirect('admin/user/profile/'. auth()->user()->id)->with(['error' => 'Somethink when wrong!']);
         }else{
-
-            $this->validate($request,[
-                'nama' => '',
-                // 'frontDegree'    => '',
-                // 'backDegree'    => '',
-                'no_pegawai'   => '',
-                'tgl_lahir'    => '',
-                'jenis_kelamin'    => '',
-                'no_tlp'    => '',   
-            ]);
+            
             // dd($request);
-            $userprofile['nama'] = $request->input('nama');
-            // $userprofile['frontDegree']     = $request->input('frontDegree'); 
-            // $userprofile['backDegree']     = $request->input('backDegree'); 
-            $userprofile['no_pegawai']     = $request->input('no_pegawai');
-            $userprofile['tgl_lahir']   = $request->input('tgl_lahir');  
-            $userprofile['jenis_kelamin'] = $request->input('jenis_kelamin');
+            $this->validate($request,[
+                'nama' => 'required',
+                'no_pegawai'   => 'required',
+                'tgl_lahir'    => 'required',
+                'tmp_lahir'    => 'required',
+                'jenis_kelamin'    => 'required',
+                'no_tlp'    => 'numeric|digits_between:8,13',
+                'no_tlp_rumah'    => '',  
+                'sup_id' => '',
+                'tgl_mulai_kerja' => '',
+                'sekolah' => '',
+                'jejang' => '',
+                'jurusan_pendidikan' => '',
+                'provinsi' => '',
+                'kota' => '',
+                'kode_pos' => '',
+                'alamat' => '',
+
+                ]);
+                $temp = explode(",",$request->input('sup_id'));
+            
+                $userprofile['nama'] = $request->input('nama');
+                // $userprofile['frontDegree']     = $request->input('frontDegree'); 
+                // $userprofile['backDegree']     = $request->input('backDegree'); 
+                $userprofile['no_pegawai']     = $request->input('no_pegawai');
+                $userprofile['tgl_lahir']   = $request->input('tgl_lahir');  
+                $userprofile['tmp_lahir']   = $request->input('tmp_lahir');  
+                $userprofile['agama']  = $request->input('agama');  
+
+                $userprofile['jenis_kelamin'] = $request->input('jenis_kelamin');
             // dd($userprofile['jenis_kelamin']);
             $userprofile['no_tlp']  = $request->input('no_tlp');  
-
+            $userprofile['no_tlp_rumah']  = $request->input('no_tlp_rumah');  
+            $userprofile['tgl_mulai_kerja']  = $request->input('tgl_mulai_kerja');  
+            $userprofile['sekolah']  = $request->input('sekolah');  
+            $userprofile['jejang']  = $request->input('jejang');  
+            $userprofile['jurusan_pendidikan']  = $request->input('jurusan_pendidikan');  
+            $userprofile['provinsi']  = $request->input('provinsi');  
+            $userprofile['kota']  = $request->input('kota');  
+            $userprofile['kode_pos']  = $request->input('kode_pos');  
+            $userprofile['alamat']  = $request->input('alamat');   
+            $userupdat['sup_id']= $temp[0]; 
+            $userupdat['sup']= $temp[1]; 
+            // dd($temp[0]);
+            
+            $updatetouser = DB::table('users')->where('id', $id)->update($userupdat);
             $updateprofile = DB::table('user_pegawai')
             ->where('user_id', $id)->update($userprofile);
             if($updateprofile){
@@ -138,13 +203,36 @@ class DetailUserController extends Controller
             return back()->with(compact('color', 'msg'));
             // return redirect('admin/user/profile/'. auth()->user()->id)->with(['error' => 'Somethink when wrong!']);
         }else{
+            $datai=["email" => Auth::user()->email,
+                    "password" => $request->input('password_lama')];
+            $exist = Auth::attempt($datai);
+            // dd(bcrypt($request->input('password_lama')));
 
-            $this->validate($request,[
+            // echo Auth::user()->password;
+            $validator = Validator::make($request->all(), [
                 'email' => 'required|email',
                 'password'   => 'confirmed'
             ]);
+            if ($validator->fails()) {
+                $color = "danger";
+                $msg = $validator->messages()->first();
+                return redirect(route('editProfile', $id))->with(compact('color', 'msg'));
+            }
+            
+            // $this->validate($request,[
+            //     'email' => 'required|email',
+            //     'password'   => 'confirmed'
+            // ]);
+            if($request->input('password') != ""){
+                if($exist){
+                    $useraccount['password']     = bcrypt($request->input('password'));
+                }else{
+                    $color = "danger";
+                    $msg ="Password Lama Salah ";
+                    return redirect(route('editProfile', $id))->with(compact('color', 'msg'));
+                }
+            }
             $useraccount['email'] = $request->input('email');
-            $useraccount['password']     = bcrypt($request->input('password'));
             // dd($useraccount['password']);
             $updateaccount = DB::table('users')
             ->where('id', $id)->update($useraccount);

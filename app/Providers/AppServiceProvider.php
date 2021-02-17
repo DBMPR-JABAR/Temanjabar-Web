@@ -111,6 +111,13 @@ class AppServiceProvider extends ServiceProvider
             }
 
         });
+        View::composer('*', function ($view) {
+            if(Auth::user()){
+               
+                $profile_users = DB::table('user_pegawai')->where('user_id',Auth::user()->id)->first();
+                $view->with('profile_users', $profile_users);
+            }
+        });
         
 
     }
