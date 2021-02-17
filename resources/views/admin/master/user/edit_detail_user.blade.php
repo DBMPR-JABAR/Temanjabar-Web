@@ -282,9 +282,9 @@
                         <label>Provinsi</label>
                         
                         <select name="provinsi" id="province" class="form-control searchableField" onchange="ubahOption()">
-                            <option value="">Select Provinsi</option>
+                            <option value="">== Select Provinsi ==</option>
                             @foreach ($provinces as $id => $name)
-                                <option value="{{ $id }}">{{ $name }}</option>
+                                <option value="{{ $id }}" @if($profile->province_id != null && $profile->province_id == $id) selected @endif>{{ $name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -293,6 +293,13 @@
                        
                         <select name="kota" id="city" class="form-control searchableField">
                             <option value="">-</option>
+                            @if($profile->city_id != null)
+                                @foreach ($cities as $id => $name)
+                                <option value="{{ $id }}" @if($profile->city_id != null && $profile->city_id == $id) selected @endif>{{ $name }}</option>
+                                @endforeach
+                            @else
+                                <option value="">-</option>
+                            @endif
                         </select>
                     </div>
                     <div class="form-group">

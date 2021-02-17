@@ -171,6 +171,20 @@
                             <span class="pcoded-mtext">Icon Rawan Bencana</span>
                         </a>
                     </li>
+                    @if (hasAccess(Auth::user()->internal_role_id, "UPTD", "View"))
+                    <li class="{{(Request::segment(3) == 'uptd') ? 'active' : ''}}">
+                        <a href="{{ url('admin/landing-page/uptd') }}">
+                            <span class="pcoded-mtext">UPTD</span>
+                        </a>
+                    </li>
+                    @endif
+                    @if (hasAccess(Auth::user()->internal_role_id, "SUP", "View"))
+                    <li class="{{(Request::segment(3) == 'sup') ? 'active' : ''}}">
+                        <a href="{{ url('admin/master-data/sup') }}">
+                            <span class="pcoded-mtext">SUP</span>
+                        </a>
+                    </li>
+                    @endif
 
                 </ul>
             </li>
@@ -307,13 +321,7 @@
                         </li>
                         @endif
                     @endif
-                    @if (hasAccess(Auth::user()->internal_role_id, "UPTD", "View"))
-                    <li class="{{(Request::segment(3) == 'uptd') ? 'active' : ''}}">
-                        <a href="{{ url('admin/landing-page/uptd') }}">
-                            <span class="pcoded-mtext">UPTD</span>
-                        </a>
-                    </li>
-                    @endif
+                    
                     {{-- <li class="{{(Request::segment(3) == 'laporan-masyarakat') ? 'active' : ''}}">
                         <a href="{{ url('admin/landing-page/laporan-masyarakat') }}">
                             <span class="pcoded-mtext">Laporan Masyarakat</span>

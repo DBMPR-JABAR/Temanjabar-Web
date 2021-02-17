@@ -251,7 +251,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('delete/{id}', 'MasterData\CCTVController@delete')->name('deleteDataCCTV');
             Route::get('getDataSUP/{id}', 'MasterData\CCTVController@getDataSUP')->name('getDataCCTVSUP');
         });
-
+        Route::group(['prefix' => 'sup'], function () {
+            Route::get('/', 'MasterData\SUPController@index')->name('getSUP');
+            Route::get('create', 'MasterData\SUPController@create')->name('createSUP');
+            Route::get('edit/{id}', 'MasterData\SUPController@edit')->name('editSUP');
+            Route::post('store', 'MasterData\SUPController@store')->name('storeSUP');
+            Route::put('update/{id}', 'MasterData\SUPController@update')->name('updateSUP');
+            Route::get('delete/{id}', 'MasterData\SUPController@destroy')->name('deleteSUP');
+        });
         Route::group(['prefix' => 'icon'], function () {
             Route::get('/', 'MasterData\IconController@index');
             Route::post('create', 'MasterData\IconController@create')->name('createIcon');

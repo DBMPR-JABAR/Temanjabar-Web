@@ -87,9 +87,13 @@ class DetailUserController extends Controller
             // return redirect('admin/user/profile/'. auth()->user()->id)->with(['error' => 'Somethink when wrong!']);
         }else{
             $provinces =  DB::table('indonesia_provinces')->pluck('name', 'id');
-            
+            $cities ="";
             $profile = DB::table('user_pegawai')->where('user_id',$id)->first();
             // dd($profile);
+            if($profile->city_id != null){
+                $cities =  DB::table('indonesia_cities')->where('province_id', $profile->province_id)->pluck('name', 'id');
+            }
+            // dd($cities);
             $user = User::find($id);
 
             $sup = DB::table('utils_sup');
@@ -108,7 +112,7 @@ class DetailUserController extends Controller
             }
             $role = $role->get();
 
-            return view('admin.master.user.edit_detail_user',compact('profile','user','sup','role','provinces'));
+            return view('admin.master.user.edit_detail_user',compact('profile','user','sup','role','provinces','cities'));
         }
     }
 

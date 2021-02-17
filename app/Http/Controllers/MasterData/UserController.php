@@ -28,7 +28,7 @@ class UserController extends Controller
             $sup = $sup->where('uptd_id',$uptd_id);
         }
         $sup = $sup->get();
-
+        
         $role = DB::table('user_role');
         $role = $role->where('is_active', '1');
         if(Auth::user()->internalRole->uptd){
@@ -263,6 +263,7 @@ class UserController extends Controller
         $user_role = DB::table('user_role as a')
                        ->whereNotIn('id',$roleExist)
                        ->get();
+        // dd($menu);
         return view('admin.master.user.role_akses_add',compact('menu','user_role'));
     }
 
