@@ -170,8 +170,8 @@ class DetailUserController extends Controller
             $userprofile['sekolah']  = $request->input('sekolah');  
             $userprofile['jejang']  = $request->input('jejang');  
             $userprofile['jurusan_pendidikan']  = $request->input('jurusan_pendidikan');  
-            $userprofile['provinsi']  = $request->input('provinsi');  
-            $userprofile['kota']  = $request->input('kota');  
+            $userprofile['province_id']  = $request->input('provinsi');  
+            $userprofile['city_id']  = $request->input('kota');  
             $userprofile['kode_pos']  = $request->input('kode_pos');  
             $userprofile['alamat']  = $request->input('alamat');   
             $userupdat['sup_id']= $temp[0]; 
