@@ -175,7 +175,7 @@ class DetailUserController extends Controller
             $userprofile['kode_pos']  = $request->input('kode_pos');  
             $userprofile['alamat']  = $request->input('alamat');   
             $userupdat['sup_id']= $temp[0]; 
-            $userupdat['sup']= $temp[1]; 
+            // $userupdat['sup']= $temp[1]; 
             // dd($temp[0]);
             
             $updatetouser = DB::table('users')->where('id', $id)->update($userupdat);
