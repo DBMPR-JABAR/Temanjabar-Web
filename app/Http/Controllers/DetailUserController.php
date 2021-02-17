@@ -160,7 +160,7 @@ class DetailUserController extends Controller
                 $userprofile['no_pegawai']     = $request->input('no_pegawai');
                 $userprofile['tgl_lahir']   = $request->input('tgl_lahir');  
                 $userprofile['tmp_lahir']   = $request->input('tmp_lahir');  
-                $userprofile['agama']  = $request->input('agama');  
+                // $userprofile['agama']  = $request->input('agama');  
 
                 $userprofile['jenis_kelamin'] = $request->input('jenis_kelamin');
             // dd($userprofile['jenis_kelamin']);
