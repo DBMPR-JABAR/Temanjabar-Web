@@ -92,7 +92,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
 
-                <form action="" method="post" enctype="multipart/form-data">
+                <form action="{{ url('admin/master-data/sup/store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-header">
                         <h4 class="modal-title">Tambah Data SUP</h4>
@@ -106,14 +106,14 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">UPTD</label>
                             <div class="col-md-10">
-                                <input name="nama" type="text" class="form-control" required>
+                                <input name="uptd_id" type="text" class="form-control" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Nama SUP</label>
                             <div class="col-md-10">
-                                <input name="altnama" type="text" class="form-control" required>
+                                <input name="name" type="text" class="form-control" required>
                             </div>
                         </div>
 

@@ -50,6 +50,13 @@ class SUPController extends Controller
     public function store(Request $request)
     {
         //
+        $this->validate($request, [
+            'name'      => 'required',
+            'uptd_id'  => 'required'
+        ]);
+        $sup['name'] = $request->name;
+        $sup['uptd_id'] = $request->uptd_id;
+        
     }
 
     /**

@@ -253,17 +253,23 @@ class UserController extends Controller
     }
 
     public function createRoleAccess(){
+        $temp=array();
         $roleExist = DB::table('master_grant_role_aplikasi')->distinct()->pluck('internal_role_id');
-
+        foreach($roleExist as $data){
+        // echo $data."<br>";
+            if($data)
+                array_push($temp,$data);
+        
+        }
         $menu = DB::table('master_grant_role_aplikasi as a')
         ->distinct()
         ->where('menu','NOT LIKE', '%Disposisi%')
         ->groupBy('a.menu')
         ->get();
         $user_role = DB::table('user_role as a')
-                       ->whereNotIn('id',$roleExist)
+                       ->whereNotIn('id',$temp)
                        ->get();
-        // dd($menu);
+        // dd($user_role);
         return view('admin.master.user.role_akses_add',compact('menu','user_role'));
     }
 

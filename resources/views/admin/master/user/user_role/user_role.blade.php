@@ -331,6 +331,7 @@
                             <label class="col-md-3 col-form-label">UPTD</label>
                             <div class="col-md-9">
                             <select  name="uptd" id="uptd" tabindex="4" required>
+                                    <option value="-" id="uptd1">All</option>
                                     <option value="uptd1" id="uptd1">UPTD 1</option>
                                     <option value="uptd2" id="uptd2">UPTD 2</option>
                                     <option value="uptd3" id="uptd3">UPTD 3</option>

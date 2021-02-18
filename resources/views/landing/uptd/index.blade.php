@@ -40,7 +40,7 @@
                         <div class="widget heading_space text-center text-md-left">
                             <div class="sidebar-header mb-4 text-center">
                                 <img src="{{asset('assets/images/brand/jabar.png')}}">
-                                <h3>{{$uptd->nama}}</h3>
+                                <h3>{{substr($uptd->nama,0,6)}}</h3>
                                 <h6>{{$uptd->altnama}}</h6>
                             </div>
                             <div id="filter" class="bg-light">
@@ -230,7 +230,8 @@
     function initFilter(){
         $("#uptd").empty();
         const slug = `{{ $uptd->slug }}`;
-        select = `<option value="${slug}">UPTD ${slug.replace('uptd','')}</option>`;
+        const upt = `{{ substr($uptd->nama,0,6) }}`;
+        select = `<option value="${slug}">${upt}</option>`;
 
         $('#uptd').html(select).trigger('liszt:updated');
         $('#uptd').trigger("chosen:updated");
