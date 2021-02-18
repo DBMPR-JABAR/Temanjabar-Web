@@ -65,7 +65,7 @@
                             <td>{{$data->altnama}}</td>
                             <td>{{$data->deskripsi}}</td>
                             <td>
-                                <a href="{{ route('editLandingUPTD',$data->id) }}" class="mb-2 btn btn-block btn-warning btn-mat">Edit</a><br>
+                                <a href="{{ route('editMasterUPTD',$data->id) }}" class="mb-2 btn btn-block btn-warning btn-mat">Edit</a><br>
                                 <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-block btn-danger btn-mat">Hapus</a>
                             </td>
                         </tr>
