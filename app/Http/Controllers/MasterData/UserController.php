@@ -92,7 +92,7 @@ class UserController extends Controller
             $role = $role->where('uptd_id',$uptd_id);
         }
         $role = $role->get();
-
+        dd($role);
         return view('admin.master.user.edit', compact('user','sup','role'));
     }
 
