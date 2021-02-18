@@ -274,6 +274,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('update', 'LandingController@updateUPTD')->name('updateLandingUPTD');
             Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
         });
+        Route::get('/jenis_laporan/delete/{id}', 'MasterData\JenisLaporanController@destroy');
+        Route::resource('/jenis_laporan', 'MasterData\JenisLaporanController');
     });
 
     Route::group(['prefix' => 'input-data'], function () {

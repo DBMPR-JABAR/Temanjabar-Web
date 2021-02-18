@@ -185,7 +185,13 @@
                         </a>
                     </li>
                     @endif
-
+                    @if (hasAccess(Auth::user()->internal_role_id, "Lapor", "Create"))
+                    <li class="{{(Request::segment(3) == 'sup') ? 'active' : ''}}">
+                        <a href="{{ url('admin/master-data/jenis_laporan') }}">
+                            <span class="pcoded-mtext">Jenis Laporan</span>
+                        </a>
+                    </li>
+                    @endif
                 </ul>
             </li>
         </ul>
@@ -321,7 +327,7 @@
                         </li>
                         @endif
                     @endif
-                    
+
                     {{-- <li class="{{(Request::segment(3) == 'laporan-masyarakat') ? 'active' : ''}}">
                         <a href="{{ url('admin/landing-page/laporan-masyarakat') }}">
                             <span class="pcoded-mtext">Laporan Masyarakat</span>
