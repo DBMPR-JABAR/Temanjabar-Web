@@ -127,13 +127,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         });
 
         // {SiteURL}/admin/landing-page/uptd
-        Route::group(['prefix' => 'uptd'], function () {
-            Route::get('/', 'LandingController@getUPTD')->name('getLandingUPTD');
-            Route::get('edit/{id}', 'LandingController@editUPTD')->name('editLandingUPTD');
-            Route::post('create', 'LandingController@createUPTD')->name('createLandingUPTD');
-            Route::post('update', 'LandingController@updateUPTD')->name('updateLandingUPTD');
-            Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
-        });
+        // Route::group(['prefix' => 'uptd'], function () {
+        //     Route::get('/', 'LandingController@getUPTD')->name('getLandingUPTD');
+        //     Route::get('edit/{id}', 'LandingController@editUPTD')->name('editLandingUPTD');
+        //     Route::post('create', 'LandingController@createUPTD')->name('createLandingUPTD');
+        //     Route::post('update', 'LandingController@updateUPTD')->name('updateLandingUPTD');
+        //     Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
+        // });
 
 
         // {SiteURL}/admin/landing-page/laporan-masyarakat
@@ -266,6 +266,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('edit/{id}', 'MasterData\IconController@edit')->name('detailIcon');
             Route::post('update', 'MasterData\IconController@update')->name('updateIcon');
             Route::get('delete/{id}', 'MasterData\IconController@delete')->name('deleteIcon');
+        });
+        Route::group(['prefix' => 'uptd'], function () {
+            Route::get('/', 'LandingController@getUPTD')->name('getMasterUPTD');
+            Route::get('edit/{id}', 'LandingController@editUPTD')->name('editLandingUPTD');
+            Route::post('create', 'LandingController@createUPTD')->name('createLandingUPTD');
+            Route::post('update', 'LandingController@updateUPTD')->name('updateLandingUPTD');
+            Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
         });
     });
 

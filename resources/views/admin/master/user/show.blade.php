@@ -235,11 +235,13 @@
                                     </div>
                                 </div>
                             </div>
+                            <i style="color :red; font-size: 10px;">Biarkan jika tidak ada perubahan</i>
+
                         </div>
     
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                            <button type="submit" class="btn btn-primary waves-effect waves-light ">Simpan</button>
+                            <button type="button" class="btn btn-primary waves-effect " data-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-danger waves-effect waves-light ">Simpan</button>
                         </div>
                     </form>
     

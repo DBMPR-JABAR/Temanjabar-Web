@@ -6,8 +6,8 @@
         <div class="row">
             <div class="col-lg-12 offset-lg-2">
                 <div class="page-titles whitecolor text-center padding_top padding_bottom">
-                    <h2 class="font-xlight">Pemetaan</h2>
-                    <h2 class="font-bold">Progress Pekerjaan</h2>
+                    <h3 class="font-xlight">Pemetaan</h3>
+                    <h3 class="font-bold">Progress Pekerjaan</h3>
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@
 
             <div class="container-fluid">
                 <div class="row whitebox top15">
-                    <<div class="col-lg-12 col-md-12">
+                    <div class="col-lg-12 col-md-12">
                         <div class="image widget bottom20"><img alt="temanjabar" src="{{ asset('assets/images/brand/text_hitam.png') }}"></div>
                         <div class="widget heading_space text-center text-md-left">
                             <h4 class="text-capitalize darkcolor bottom20">Lapor?</h4>

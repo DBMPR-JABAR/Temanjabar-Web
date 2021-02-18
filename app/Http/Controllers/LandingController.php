@@ -296,7 +296,7 @@ class LandingController extends Controller
 
         $color = "success";
         $msg = "Berhasil Mengubah Data UPTD";
-        return redirect(route('getLandingUPTD'))->with(compact('color', 'msg'));
+        return redirect(route('getMasterUPTD'))->with(compact('color', 'msg'));
     }
     public function deleteUPTD($id)
     {
@@ -308,7 +308,7 @@ class LandingController extends Controller
 
         $color = "success";
         $msg = "Berhasil Menghapus Data UPTD";
-        return redirect(route('getLandingUPTD'))->with(compact('color', 'msg'));
+        return redirect(route('getMasterUPTD'))->with(compact('color', 'msg'));
     }
 
     // DEBUG

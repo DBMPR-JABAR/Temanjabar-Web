@@ -173,7 +173,7 @@
                     </li>
                     @if (hasAccess(Auth::user()->internal_role_id, "UPTD", "View"))
                     <li class="{{(Request::segment(3) == 'uptd') ? 'active' : ''}}">
-                        <a href="{{ url('admin/landing-page/uptd') }}">
+                        <a href="{{ url('admin/master-data/uptd') }}">
                             <span class="pcoded-mtext">UPTD</span>
                         </a>
                     </li>
