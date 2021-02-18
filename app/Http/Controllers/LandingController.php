@@ -89,6 +89,7 @@ class LandingController extends Controller
     {
         $profil = DB::table('landing_profil')->where('id', 1)->first();
         $uptd = DB::table('landing_uptd')->where('slug', $slug)->first();
+        // dd($uptd);
         $uptd_mapdata_all = [
             "uptd1" => ["ctr_lat" => -6.743473, "ctr_long" => 106.995262, "ctr_ext" => [-7.505569, -5.918148, 106.401085, 107.484841]],
             "uptd2" => ["ctr_lat" => -7.074604, "ctr_long" => 106.709829, "ctr_ext" => [-7.437657, -6.715317, 106.370304, 107.065018]],
@@ -97,6 +98,8 @@ class LandingController extends Controller
             "uptd5" => ["ctr_lat" => -7.381833, "ctr_long" => 108.351077, "ctr_ext" => [-7.820979, -6.78191, 107.904429, 108.801382]],
             "uptd6" => ["ctr_lat" => -6.629987, "ctr_long" => 108.288672, "ctr_ext" => [-7.074581, -6.221112, 107.850746, 108.846881]]
         ];
+        $slug=substr($slug,0,5);
+        // dd($slug);
         $uptd_mapdata = $uptd_mapdata_all[$slug];
         return view('landing.uptd.index', compact('profil', 'uptd', 'uptd_mapdata'));
     }
