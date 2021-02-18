@@ -92,7 +92,7 @@ class UserController extends Controller
             $role = $role->where('uptd_id',$uptd_id);
         }
         $role = $role->get();
-        dd($role);
+        // dd($role);
         return view('admin.master.user.edit', compact('user','sup','role'));
     }
 
@@ -768,12 +768,12 @@ class UserController extends Controller
         $create['is_superadmin'] = $request->super_admin;
         $create['parent'] = $request->parent;
         $create['keterangan'] = $request->keterangan;
-        $create['is_active'] = 0;
+        $create['is_active'] = $request->is_active;
         $create['is_deleted']= $request->is_deleted;
         $create['uptd'] = $request->uptd;
         $create['created_at'] = date('Y-m-d H:i:s');
         $create['created_by'] = Auth::user()->id;
-        $create['parent_id'] = 0;
+        $create['parent_id'] = $request->parent;
         DB::table('user_role')->insert($create);
         $color = "success";
         $msg = "Berhasil Menambah Data User Role";
