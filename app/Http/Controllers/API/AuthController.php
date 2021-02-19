@@ -18,8 +18,9 @@ class AuthController extends Controller
 {
     private $response;
 
-    public function __construct() {
-        $this->middleware('jwt.auth')->only(['getToken', 'getUser', 'refresh','newPassword']);
+    public function __construct()
+    {
+        $this->middleware('jwt.auth')->only(['getToken', 'getUser', 'refresh', 'newPassword']);
         $this->response = [
             'status' => 'false',
             'data' => []
@@ -39,15 +40,15 @@ class AuthController extends Controller
             return response()->json($this->response, 500);
         }
 
-        if(!auth('api')->user()->email_verified_at){
+        if (!auth('api')->user()->email_verified_at) {
             auth('api')->logout();
             $this->response['data']['message'] = 'Email Not Verified';
             return response()->json($this->response, 200);
         }
-        if(auth('api')->user()->role == 'internal'){
-            Log::create(['activity' => 'Login', 'description' => 'User '.auth('api')->user()->name.' Logged In To Android App']);
+        if (auth('api')->user()->role == 'internal') {
+            Log::create(['activity' => 'Login', 'description' => 'User ' . auth('api')->user()->name . ' Logged In To Android App']);
         }
-        $userMasyarakat = DB::table('user_masyarakat')->where('user_id',auth('api')->user()->id)->first();
+        $userMasyarakat = DB::table('user_masyarakat')->where('user_id', auth('api')->user()->id)->first();
         $this->response['status'] = 'success';
         $this->response['data']['token'] = $this->getToken($token);
         $this->response['data']['user'] = auth('api')->user();
@@ -60,17 +61,16 @@ class AuthController extends Controller
     public function logout()
     {
         try {
-            if(auth('api')->user()->role == 'internal'){
-                Log::create(['activity' => 'Logout', 'description' => 'User '.auth('api')->user()->name.' Logged Out From Android App']);
+            if (auth('api')->user()->role == 'internal') {
+                Log::create(['activity' => 'Logout', 'description' => 'User ' . auth('api')->user()->name . ' Logged Out From Android App']);
             }
             auth('api')->logout();
             $this->response['status'] = 'success';
             $this->response['data']['message'] = 'User Logged Out';
             return response()->json($this->response, 200);
-
         } catch (\Exception $th) {
             $this->response['data']['message'] = 'Internal Error';
-            return response()->json($this->response,500);
+            return response()->json($this->response, 500);
         }
     }
 
@@ -84,7 +84,7 @@ class AuthController extends Controller
                 'password' => 'required|string|min:6',
             ]);
 
-            if($validator->fails()){
+            if ($validator->fails()) {
                 $this->response['data']['error'] = $validator->errors();
                 return response()->json($this->response, 200);
             }
@@ -102,23 +102,22 @@ class AuthController extends Controller
             $to_name = $user->name;
             $data = [
                 'name' => $user->name,
-                'link' => url('verify-email/'.Crypt::encrypt($user->id))
+                'link' => url('verify-email/' . Crypt::encrypt($user->id))
             ];
-            Mail::send('mail.sendVerificationMail', $data, function($message) use ($to_name, $to_email) {
+            Mail::send('mail.sendVerificationMail', $data, function ($message) use ($to_name, $to_email) {
                 $message->to($to_email, $to_name)->subject('Verifikasi Akun Temanjabar');
 
-                $message->from(env('MAIL_USERNAME'),env('MAIL_FROM_NAME'));
+                $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
             });
 
             // Response
             $this->response['status'] = 'success';
             $this->response['data']['message'] = 'Email Verifikasi Dikirim';
 
-            return response()->json($this->response,200);
-
+            return response()->json($this->response, 200);
         } catch (\Exception $e) {
             $this->response['data']['message'] = 'Internal Error';
-            return response()->json($this->response,500);
+            return response()->json($this->response, 500);
         }
     }
 
@@ -129,24 +128,23 @@ class AuthController extends Controller
                 'passwordOld' => 'required|string|min:6',
                 'passwordNew' => 'required|string|min:6',
             ]);
-            if($validator->fails()){
+            if ($validator->fails()) {
                 $this->response['data']['error'] = $validator->errors();
                 return response()->json($this->response, 200);
             }
-            $user = User::where('id',auth()->user()->id)->first();
-            if(Hash::check($req->passwordOld, $user->password)){
+            $user = User::where('id', auth()->user()->id)->first();
+            if (Hash::check($req->passwordOld, $user->password)) {
                 $user->password = Hash::make($req->get('passwordNew'));
                 $user->save();
                 $this->response['data']['message'] = "Berhasil Mengubah Password";
-            }else{
+            } else {
                 $this->response['data']['message'] = "Password Lama Salah";
             }
             $this->response['status'] = 'success';
-            return response()->json($this->response,200);
-
+            return response()->json($this->response, 200);
         } catch (\Exception $e) {
             $this->response['data']['message'] = 'Internal Error';
-            return response()->json($this->response,500);
+            return response()->json($this->response, 500);
         }
     }
 
@@ -157,12 +155,12 @@ class AuthController extends Controller
                 'noTelp' => 'min:8',
                 'alamat' => 'string|min:5',
             ]);
-            if($validator->fails()){
+            if ($validator->fails()) {
                 $this->response['data']['error'] = $validator->errors();
                 return response()->json($this->response, 200);
             }
             $userId = auth('api')->user()->id;
-            DB::table('user_masyarakat')->where('user_id',$userId)->update([
+            DB::table('user_masyarakat')->where('user_id', $userId)->update([
                 'no_telp' => $req->get('noTelp'),
                 'alamat' => $req->get('alamat')
             ]);
@@ -171,10 +169,10 @@ class AuthController extends Controller
             //$userMasyarakat->save();
             $this->response['data']['message'] = "Berhasil Mengubah Identitas";
             $this->response['status'] = 'success';
-            return response()->json($this->response,200);
+            return response()->json($this->response, 200);
         } catch (\Exception $e) {
-            $this->response['data']['message'] = 'Internal Error'.$e;
-            return response()->json($this->response,500);
+            $this->response['data']['message'] = 'Internal Error' . $e;
+            return response()->json($this->response, 500);
         }
     }
 
@@ -184,14 +182,14 @@ class AuthController extends Controller
             $validator = Validator::make($req->all(), [
                 'email' => 'required|string|email|max:255|exists:users',
             ]);
-            if($validator->fails()){
+            if ($validator->fails()) {
                 $this->response['data']['error'] = $validator->errors();
                 return response()->json($this->response, 200);
             }
 
             $kode_otp = rand(100000, 999999);
 
-            $user = User::where('email',$req->email)->first();
+            $user = User::where('email', $req->email)->first();
             $user->kode_otp = $kode_otp;
             $user->save();
 
@@ -202,21 +200,20 @@ class AuthController extends Controller
             $to_email = $user->email;
             $to_name = $user->name;
 
-            Mail::send('mail.sendOTP', $data, function($message) use ($to_name, $to_email) {
+            Mail::send('mail.sendOTP', $data, function ($message) use ($to_name, $to_email) {
                 $message->to($to_email, $to_name)->subject('Verifikasi OTP Reset Password Akun Temanjabar');
 
-                $message->from(env('MAIL_USERNAME'),env('MAIL_FROM_NAME'));
+                $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
             });
 
             $this->response['status'] = 'success';
             $this->response['data']['kode_otp'] = $kode_otp;
             $this->response['data']['message'] = "Kode Verifikasi Dikirim";
 
-            return response()->json($this->response,200);
-
+            return response()->json($this->response, 200);
         } catch (\Exception $e) {
             $this->response['data']['message'] = 'Internal Error';
-            return response()->json($this->response,500);
+            return response()->json($this->response, 500);
         }
     }
     public function resetPassword(Request $req)
@@ -226,23 +223,22 @@ class AuthController extends Controller
                 'email' => 'required|string|email|max:255|exists:users',
                 'password' => 'required|string|min:6',
             ]);
-            if($validator->fails()){
+            if ($validator->fails()) {
                 $this->response['data']['error'] = $validator->errors();
                 return response()->json($this->response, 200);
             }
 
-            $user = User::where('email',$req->email)->first();
+            $user = User::where('email', $req->email)->first();
             $user->password = Hash::make($req->get('password'));
             $user->save();
 
             $this->response['status'] = 'success';
             $this->response['data']['message'] = "Berhasil Mengubah Password";
 
-            return response()->json($this->response,200);
-
+            return response()->json($this->response, 200);
         } catch (\Exception $e) {
             $this->response['data']['message'] = 'Internal Error';
-            return response()->json($this->response,500);
+            return response()->json($this->response, 500);
         }
     }
 
@@ -279,10 +275,10 @@ class AuthController extends Controller
 
     public function loginOTP(Request $req)
     {
-        $user = User::where('email',$req->email)->first();
+        $user = User::where('email', $req->email)->first();
         try {
-            if($user && Hash::check($req->password, $user->password)){
-                if(!$user->email_verified_at){
+            if ($user && Hash::check($req->password, $user->password)) {
+                if (!$user->email_verified_at) {
                     $this->response['data']['message'] = 'Email Not Verified';
                     return response()->json($this->response, 200);
                 }
@@ -297,37 +293,38 @@ class AuthController extends Controller
                     'kode_otp' => $kode_otp
                 ];
                 try {
-                    Mail::send('mail.sendOTP', $data, function($message) use ($to_name, $to_email) {
+                    Mail::send('mail.sendOTP', $data, function ($message) use ($to_name, $to_email) {
                         $message->to($to_email, $to_name)->subject('Kode OTP Temanjabar');
                         // $message->to('priyayidimas@upi.edu', 'Dimas Anom Priyayi')->subject('Kode OTP Temanjabar');
-                        $message->from(env('MAIL_USERNAME'),env('MAIL_FROM_NAME'));
+                        $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
                     });
                     $this->response['status'] = 'success';
                     $this->response['data']['otp'] = $kode_otp;
                     $this->response['data']['message'] = 'Kode OTP Terkirim';
                     return response()->json($this->response, 200);
-                }catch(\Exception $e){
+                } catch (\Exception $e) {
                     $this->response['data']['message'] = 'Internal Error';
                     return response()->json($this->response, 500);
                 }
-            }else{
+            } else {
                 throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException("User Email or Password Mismatch");
             }
-        }catch(\Exception $e){
-            if($e instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException){
+        } catch (\Exception $e) {
+            if ($e instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
                 $this->response['data']['message'] = 'User Email or Password Mismatch';
                 return response()->json($this->response, 200);
-            }else{
+            } else {
                 $this->response['data']['message'] = 'Internal Error';
                 return response()->json($this->response, 500);
             }
         }
     }
 
-    public function verifyOTPLogin(Request $req){
+    public function verifyOTPLogin(Request $req)
+    {
         try {
-            $user = User::where('email',$req->email)->where('kode_otp',$req->kode_otp)->first();
-            if(!$user || !$token = auth('api')->login($user)) {
+            $user = User::where('email', $req->email)->where('kode_otp', $req->kode_otp)->first();
+            if (!$user || !$token = auth('api')->login($user)) {
                 $this->response['data']['message'] = 'Invalid OTP';
                 return response()->json($this->response, 200);
             }
@@ -352,7 +349,7 @@ class AuthController extends Controller
                 'password' => 'required|string|min:6',
             ]);
 
-            if($validator->fails()){
+            if ($validator->fails()) {
                 $this->response['data']['error'] = $validator->errors();
                 return response()->json($this->response, 200);
             }
@@ -360,15 +357,17 @@ class AuthController extends Controller
             $kode_otp = rand(100000, 999999);
 
 
-            $existing = User::where('email',$req->email)->first();
-            if($existing){
-                if(!$existing->email_verified_at){
+            $existing = User::where('email', $req->email)->first();
+            if ($existing) {
+                if (!$existing->email_verified_at) {
                     $user = $existing;
-                }else{
-                    $this->response['data']['message'] = 'User Exists';
-                    return response()->json($this->response,200);
+                } else {
+                    $this->response['data']['message'] = 'Email sudah digunakan, mohon gunakan email yang lain';
+                    if ($existing->role == 'internal')
+                        $this->response['data']['message'] = 'Email telah digunakan sebagai internal user, mohon gunakan email yang lain';
+                    return response()->json($this->response, 200);
                 }
-            }else{
+            } else {
                 $user = new User;
             }
 
@@ -389,10 +388,10 @@ class AuthController extends Controller
                 'name' => $user->name,
                 'kode_otp' => $kode_otp
             ];
-            Mail::send('mail.sendOTP', $data, function($message) use ($to_name, $to_email) {
+            Mail::send('mail.sendOTP', $data, function ($message) use ($to_name, $to_email) {
                 $message->to($to_email, $to_name)->subject('Verifikasi OTP Akun Temanjabar');
 
-                $message->from(env('MAIL_USERNAME'),env('MAIL_FROM_NAME'));
+                $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
             });
 
             // Response
@@ -400,18 +399,18 @@ class AuthController extends Controller
             $this->response['data']['kode_otp'] = $kode_otp;
             $this->response['data']['message'] = 'Email Verifikasi Dikirim';
 
-            return response()->json($this->response,200);
-
+            return response()->json($this->response, 200);
         } catch (\Exception $e) {
             $this->response['data']['message'] = 'Internal Error';
-            return response()->json($this->response,500);
+            return response()->json($this->response, 500);
         }
     }
 
-    public function resendOTPMail(Request $req){
+    public function resendOTPMail(Request $req)
+    {
         $kode_otp = rand(100000, 999999);
 
-        $user = User::where('email',$req->email)->first();
+        $user = User::where('email', $req->email)->first();
         $user->kode_otp = $kode_otp;
         $user->save();
 
@@ -423,25 +422,26 @@ class AuthController extends Controller
             'kode_otp' => $kode_otp
         ];
         try {
-            Mail::send('mail.sendOTP', $data, function($message) use ($to_name, $to_email) {
+            Mail::send('mail.sendOTP', $data, function ($message) use ($to_name, $to_email) {
                 $message->to($to_email, $to_name)->subject('Verifikasi OTP Akun Temanjabar');
-                $message->from(env('MAIL_USERNAME'),env('MAIL_FROM_NAME'));
+                $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
             });
 
             $this->response['status'] = 'success';
             $this->response['data']['otp'] = $kode_otp;
             $this->response['data']['message'] = 'Kode OTP Terkirim';
             return response()->json($this->response, 200);
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             $this->response['data']['message'] = 'Internal Error';
             return response()->json($this->response, 500);
         }
     }
 
-    public function verifyOTP(Request $req){
+    public function verifyOTP(Request $req)
+    {
         try {
-            $user = User::where('email',$req->email)->where('kode_otp',$req->kode_otp)->first();
-            if(!$user) {
+            $user = User::where('email', $req->email)->where('kode_otp', $req->kode_otp)->first();
+            if (!$user) {
                 $this->response['data']['message'] = 'Invalid OTP';
                 return response()->json($this->response, 200);
             }
@@ -453,7 +453,6 @@ class AuthController extends Controller
             $this->response['data']['id'] = $user->id;
             $this->response['data']['message'] = 'Berhasil Verifikasi';
             return response()->json($this->response, 200);
-
         } catch (JWTException $e) {
             $this->response['data']['message'] = 'could_not_create_token';
             return response()->json($this->response, 500);
