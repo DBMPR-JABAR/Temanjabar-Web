@@ -126,6 +126,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('delete/{id}', 'LandingController@deleteFitur')->name('deleteLandingFitur');
         });
 
+        // {SiteURL}/admin/landing-page/video-controls
+        Route::group(['prefix' => 'video-controls'], function () {
+            Route::get('/', function() {
+                return view('admin.landing.video.index');
+            });
+        });
+
         // {SiteURL}/admin/landing-page/uptd
         Route::group(['prefix' => 'uptd'], function () {
             Route::get('/', 'LandingController@getUPTD')->name('getLandingUPTD');
