@@ -326,6 +326,13 @@
                             </a>
                         </li>
                         @endif
+                        {{-- @if (hasAccess(Auth::user()->internal_role_id, "Video", "View")) --}}
+                        <li class="{{(Request::segment(3) == 'video-controls') ? 'active' : ''}}">
+                            <a href="{{ url('admin/landing-page/video-controls') }}">
+                                <span class="pcoded-mtext">Video</span>
+                            </a>
+                        </li>
+                        {{-- @endif --}}
                     @endif
 
                     {{-- <li class="{{(Request::segment(3) == 'laporan-masyarakat') ? 'active' : ''}}">
