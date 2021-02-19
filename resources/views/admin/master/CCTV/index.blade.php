@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css"
         href="{{ asset('assets/vendor/data-table/extensions/responsive/css/responsive.dataTables.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/chosen.css') }}">
-    <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/4.18/esri/themes/light/main.css">
 
     <style>
         .chosen-container.chosen-container-single {
@@ -161,26 +161,29 @@
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Lokasi</label>
                                 <div class="col-md-9">
-                                    <input type="text" name="lokasi" class="form-control"></input>
+                                    <input type="text" name="lokasi" class="form-control" required></input>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Lat</label>
                                 <div class="col-md-9">
-                                    <input type="text" name="lat" class="form-control"></input>
+                                    <input type="text" name="lat" id="lat" class="form-control" required></input>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Long</label>
                                 <div class="col-md-9">
-                                    <input type="text" name="long" class="form-control"></input>
+                                    <input type="text" name="long" id="long" class="form-control" required></input>
                                 </div>
                             </div>
+
+                            <div id="mapLatLong" class="full-map mb-2" style="height: 300px; width: 100%"></div>
+
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Url</label>
                                 <div class="col-md-9">
-                                    <input type="text" name="url" class="form-control"></input>
+                                    <input type="text" name="url" class="form-control" required></input>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -204,7 +207,7 @@
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Uptd</label>
                                 <div class="col-md-9">
-                                    <select class="form-control" id="uptd" name="uptd_id" onchange="ubahOption()">
+                                    <select class="form-control" id="uptd" name="uptd_id" onchange="ubahOption()" required>
                                         <option>Pilih UPTD</option>
                                         @foreach ($uptd as $data)
                                             <option value="{{ $data->id }}">{{ $data->nama }}</option>
@@ -215,7 +218,7 @@
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">SUP</label>
                                 <div class="col-md-9">
-                                    <select class="form-control sup_select" name="sup" id="sup">
+                                    <select class="form-control sup_select" name="sup" id="sup" required>
                                     </select>
                                 </div>
                             </div>
@@ -261,26 +264,29 @@
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Lokasi</label>
                                 <div class="col-md-9">
-                                    <input type="text" name="lokasi" id="lokasi" class="form-control"></input>
+                                    <input type="text" name="lokasi" id="lokasi" class="form-control" required></input>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Lat</label>
                                 <div class="col-md-9">
-                                    <input type="text" name="lat" id="lat" class="form-control"></input>
+                                    <input type="text" name="lat" id="etlat" class="form-control" required></input>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Long</label>
                                 <div class="col-md-9">
-                                    <input type="text" name="long" id="long" class="form-control"></input>
+                                    <input type="text" name="long" id="etlong" class="form-control" required></input>
                                 </div>
                             </div>
+
+                            <div id="etmapLatLong" class="full-map mb-2" style="height: 300px; width: 100%"></div>
+
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Url</label>
                                 <div class="col-md-9">
-                                    <input type="text" name="url" id="url" class="form-control"></input>
+                                    <input type="text" name="url" id="url" class="form-control" required></input>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -304,7 +310,7 @@
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Uptd</label>
                                 <div class="col-md-9">
-                                    <select class="form-control" id="edit_uptd" name="uptd_id" onchange="editOption('-')">
+                                    <select class="form-control" id="edit_uptd" name="uptd_id" onchange="editOption('-')" required>
                                         <option>Pilih UPTD</option>
                                         @foreach ($uptd as $data)
                                             <option value="{{ $data->id }}" id="uptd_{{ $data->id }}">
@@ -316,7 +322,7 @@
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">SUP</label>
                                 <div class="col-md-9">
-                                    <select class="form-control edit_sup_select" name="sup" id="edit_sup_select">
+                                    <select class="form-control edit_sup_select" name="sup" id="edit_sup_select" required>
                                     </select>
                                 </div>
                             </div>
@@ -353,6 +359,8 @@
     <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/chosen.jquery.js') }}"
         type="text/javascript"></script>
+
+    <script src="https://js.arcgis.com/4.18/"></script>
 
     <script>
         $('#tabelcctv').DataTable();
@@ -426,14 +434,19 @@
                 const id = link.data('id');
                 console.log(id);
                 const baseUrl = `{{ url('admin/master-data/CCTV/edit') }}/` + id;
+                let etlong;
+                let etlat;
                 $.get(baseUrl, {
                         id: id
                     },
                     function(response) {
+                        etlat = response.cctv[0].lat;
+                        etlong = response.cctv[0].long;
+
                         $('#id').val(response.cctv[0].id);
                         $('#lokasi').val(response.cctv[0].lokasi);
-                        $('#lat').val(response.cctv[0].lat);
-                        $('#long').val(response.cctv[0].long);
+                        $('#etlat').val(etlat);
+                        $('#etlong').val(etlong);
                         $('#url').val(response.cctv[0].url);
                         $('#description').val(response.cctv[0].description);
                         $('#category').val(response.cctv[0].category);
@@ -452,8 +465,158 @@
                             }
                         }
 
+                        $('#etmapLatLong').ready(() => {
+                            require([
+                            "esri/Map",
+                            "esri/views/MapView",
+                            "esri/Graphic"
+                            ], function(Map, MapView, Graphic) {
+
+                                const map = new Map({
+                                    basemap: "hybrid"
+                                });
+
+                                const view = new MapView({
+                                    container: "etmapLatLong",
+                                    map: map,
+                                    center: [
+                                              (etlong != 0) ? etlong : 107.6191,
+                                              (etlat != 0) ? etlat : -6.9175
+                                            ],
+                                    zoom: 11,
+                                });
+
+                                let tempGraphic;
+                                if(etlong != 0 && etlat != 0){
+                                    var graphic = new Graphic({
+                                        geometry: {
+                                            type: "point",
+                                            longitude: etlong,
+                                            latitude: etlat
+                                        },
+                                        symbol: {
+                                            type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
+                                            url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+                                            width: "14px",
+                                            height: "24px"
+                                        }
+                                    });
+                                    tempGraphic = graphic;
+                                    view.graphics.add(graphic);
+                                }
+
+                                view.on("click", function(event){
+                                    if($("#etlat").val() != '' && $("#etlong").val() != ''){
+                                        view.graphics.remove(tempGraphic);
+                                    }
+                                    var graphic = new Graphic({
+                                        geometry: event.mapPoint,
+                                        symbol: {
+                                            type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
+                                            url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+                                            width: "14px",
+                                            height: "24px"
+                                        }
+                                    });
+                                    tempGraphic = graphic;
+                                    $("#etlat").val(event.mapPoint.latitude);
+                                    $("#etlong").val(event.mapPoint.longitude);
+
+                                    view.graphics.add(graphic);
+                                });
+                                $("#etlat, #etlong").keyup(function () {
+                                    if($("#etlat").val() != '' && $("#etlong").val() != ''){
+                                        view.graphics.remove(tempGraphic);
+                                    }
+                                    var graphic = new Graphic({
+                                        geometry: {
+                                            type: "point",
+                                            longitude: $("#etlong").val(),
+                                            latitude: $("#etlat").val()
+                                        },
+                                        symbol: {
+                                            type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
+                                            url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+                                            width: "14px",
+                                            height: "24px"
+                                        }
+                                    });
+                                    tempGraphic = graphic;
+
+                                    view.graphics.add(graphic);
+                                });
+                            });
+                        });
+
                     });
+
+
             });
+
+            $('#mapLatLong').ready(() => {
+                require([
+                "esri/Map",
+                "esri/views/MapView",
+                "esri/Graphic"
+                ], function(Map, MapView, Graphic) {
+
+                    const map = new Map({
+                        basemap: "hybrid"
+                    });
+
+                    const view = new MapView({
+                        container: "mapLatLong",
+                        map: map,
+                        center: [107.6191, -6.9175],
+                        zoom: 8,
+                    });
+
+                    let tempGraphic;
+                    view.on("click", function(event){
+                        if($("#lat").val() != '' && $("#long").val() != ''){
+                            view.graphics.remove(tempGraphic);
+                        }
+                        var graphic = new Graphic({
+                            geometry: event.mapPoint,
+                            symbol: {
+                                type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
+                                url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+                                width: "14px",
+                                height: "24px"
+                            }
+                        });
+                        tempGraphic = graphic;
+                        $("#lat").val(event.mapPoint.latitude);
+                        $("#long").val(event.mapPoint.longitude);
+
+                        view.graphics.add(graphic);
+                    });
+                    $("#lat, #long").keyup(function () {
+                        if($("#lat").val() != '' && $("#long").val() != ''){
+                            view.graphics.remove(tempGraphic);
+                        }
+                        var graphic = new Graphic({
+                            geometry: {
+                                type: "point",
+                                longitude: $("#long").val(),
+                                latitude: $("#lat").val()
+                            },
+                            symbol: {
+                                type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
+                                url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+                                width: "14px",
+                                height: "24px"
+                            }
+                        });
+                        tempGraphic = graphic;
+
+                        view.graphics.add(graphic);
+                    });
+                });
+            });
+
+
+
         });
 
     </script>
