@@ -61,8 +61,9 @@
                     <div class="footer_panel padding_bottom_half bottom20">
                         <a href="{{ url('') }}" class="footer_logo bottom25"><img src="{{ asset('assets/images/brand/text_putih.png') }}"
                                 alt="trax"></a>
-                        <p class="whitecolor bottom25">Aplikasi teman jabar merupakan teknologi monitoring pembangunan
+                        <p class="whitecolor">Aplikasi teman jabar merupakan teknologi monitoring pembangunan
                             yang dilakukan oleh Dinas Bina Marga dan Penataan Ruang Provinsi Jawa Barat </p>
+                        <a class="playstore-link m-2" href='https://play.google.com/store/apps/details?id=com.temanjabar&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Temukan di Google Play' src='https://play.google.com/intl/id/badges/static/images/badges/id_badge_web_generic.png'/></a>
                         <div class="d-table w-100 address-item whitecolor bottom25">
                             <span class="d-table-cell align-middle"><i class="fas fa-mobile-alt"></i></span>
                             <p class="d-table-cell align-middle bottom0">
@@ -71,10 +72,10 @@
                             </p>
                         </div>
                         <ul class="social-icons white wow fadeInUp" data-wow-delay="300ms">
-                            <li><a href="{!! $profil->link_facebook !!}" class="facebook"><i class="fab fa-facebook-f"></i> </a>
+                            <li><a href="{!! $profil->link_facebook !!}" target="_blank" class="facebook"><i class="fab fa-facebook-f"></i> </a>
                             </li>
-                            <li><a href="{!! $profil->link_twitter !!}" class="twitter"><i class="fab fa-twitter"></i> </a> </li>
-                            <li><a href="{!! $profil->link_instagram !!}" class="insta"><i class="fab fa-instagram"></i> </a> </li>
+                            <li><a href="{!! $profil->link_twitter !!}" target="_blank" class="twitter"><i class="fab fa-twitter"></i> </a> </li>
+                            <li><a href="{!! $profil->link_instagram !!}" target="_blank" class="insta"><i class="fab fa-instagram"></i> </a> </li>
                         </ul>
                     </div>
                 </div>
