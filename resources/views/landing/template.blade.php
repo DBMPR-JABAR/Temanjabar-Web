@@ -71,10 +71,10 @@
                             </p>
                         </div>
                         <ul class="social-icons white wow fadeInUp" data-wow-delay="300ms">
-                            <li><a href="{!! $profil->link_facebook !!}" class="facebook"><i class="fab fa-facebook-f"></i> </a>
+                            <li><a href="{!! $profil->link_facebook !!}" target="_blank" class="facebook"><i class="fab fa-facebook-f"></i> </a>
                             </li>
-                            <li><a href="{!! $profil->link_twitter !!}" class="twitter"><i class="fab fa-twitter"></i> </a> </li>
-                            <li><a href="{!! $profil->link_instagram !!}" class="insta"><i class="fab fa-instagram"></i> </a> </li>
+                            <li><a href="{!! $profil->link_twitter !!}" target="_blank" class="twitter"><i class="fab fa-twitter"></i> </a> </li>
+                            <li><a href="{!! $profil->link_instagram !!}" target="_blank" class="insta"><i class="fab fa-instagram"></i> </a> </li>
                         </ul>
                     </div>
                 </div>
