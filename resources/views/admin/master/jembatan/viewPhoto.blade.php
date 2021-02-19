@@ -1,7 +1,9 @@
 @extends('admin.t_index')
 
 @section('title') Admin Dashboard @endsection
-
+@section('head')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+@endsection
 @section('page-header')
 <div class="row align-items-end">
     <div class="col-lg-8">
@@ -49,7 +51,11 @@
                             <hr>
                         </div>
                         <div class="card-block pl-5 pr-5 pb-5">
-                            <center><img class="img-fluid" style="width: 100%;height: auto;object-fit: cover;" src="{{url('storage/'.$data->foto)}}" alt="" srcset=""></center>
+                            <center>
+                                <a data-fancybox="gallery" href="{{url('storage/'.$data->foto)}}" data-caption="{{$data->nama}}">
+                                    <img class="img-fluid" style="width: 100%;height: auto;object-fit: cover;" src="{{url('storage/'.$data->foto)}}" alt="" srcset="">
+                                </a>
+                            </center>
                         </div>
                     </div>
                 </div>
@@ -64,4 +70,5 @@
 
 @section('script')
 <script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 @endsection
