@@ -150,7 +150,7 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">NIP</label>
                             <div class="col-md-9">
-                                <input type="text" name="no_pegawai" class="form-control"></input>
+                                <input type="number" name="no_pegawai" class="form-control"></input>
                             </div>
                         </div>
                         <div class="form-group row">
