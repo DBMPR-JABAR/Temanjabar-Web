@@ -237,18 +237,26 @@ class ProgressPekerjaanController extends Controller
             $data2 = DB::table('pembangunan');
             $data2 = $data2->where('uptd_id', $this->userUptd);
             $data2 = $data2->get();
+            $number1 = 0;
+            $number2 = 0;
             foreach ($data2 as $val) {
                 if ($val->nama_paket != '') {
-                    array_push($paket, $val->nama_paket);
+                    $number1 += 1;
+                    $paketFilter = ['no' => $number1, 'nama' => $val->nama_paket];
+                    array_push($paket, $paketFilter);
                 }
                 if ($val->penyedia_jasa != '') {
-                    array_push($penyedia, $val->penyedia_jasa);
+                    $number2 += 2;
+                    $penyedia_jasa = ['no' => $number2, 'nama' => $val->penyedia_jasa];
+                    array_push($penyedia, $penyedia_jasa);
                 }
             }
 
+            $tempArray = array_unique(array_column($penyedia, 'nama'));
+            $penyedia_jasa = array_values(array_intersect_key($penyedia, $tempArray));
             $this->response['status'] = 'success';
             $this->response['data']['paket'] = $paket;
-            $this->response['data']['penyedia'] = $penyedia;
+            $this->response['data']['penyedia'] = $penyedia_jasa;
 
             return response()->json($this->response, 200);
         } catch (\Exception $th) {
