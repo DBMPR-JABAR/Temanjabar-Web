@@ -1497,6 +1497,9 @@ ul.social-icons.white li a:focus {
 .facebook:before{
     background-color: #4267B2 !important;
 }
+.youtube:before{
+    background-color: #ff0000 !important;
+}
 .twitter:before{
     background-color: #1DA1F2 !important;
 }
@@ -6744,7 +6747,7 @@ ul.latest_news li a:focus+span.defaultcolor {
         grid-template-columns: auto;
         grid-template-rows: auto auto auto;
     }
-    
+
     .container-grid .vid1 {
         grid-column-start: 1;
         grid-column-end: 2;

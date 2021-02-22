@@ -83,6 +83,7 @@
                     <li><a href="{!! $profil->link_facebook !!}" target="_blank" class="facebook"><i class="fab fa-facebook-f"></i> </a> </li>
                     <li><a href="{!! $profil->link_twitter !!}" target="_blank" class="twitter"><i class="fab fa-twitter"></i> </a> </li>
                     <li><a href="{!! $profil->link_instagram !!}" target="_blank" class="insta"><i class="fab fa-instagram"></i> </a> </li>
+                    <li><a href="{!! $profil->link_youtube !!}" target="_blank" class="youtube"><i class="fab fa-youtube"></i> </a> </li>
                 </ul>
                 <p class="whitecolor">&copy; <span id="year"></span> {{$profil->nama}}</p>
             </div>
@@ -132,6 +133,7 @@
         </li>
         <li class="d-table"><a href="{!! $profil->link_twitter !!}" target="_blank" class="twitter"><i class="fab fa-twitter"></i> </a> </li>
         <li class="d-table"><a href="{!! $profil->link_instagram !!}" target="_blank" class="insta"><i class="fab fa-instagram"></i> </a> </li>
+        <li class="d-table"><a href="{!! $profil->link_youtube !!}" target="_blank" class="youtube"><i class="fab fa-youtube"></i> </a> </li>
     </ul>
 </section>
 <!--Main Slider ends -->
@@ -348,7 +350,7 @@
                                     <label class="my-1 mr-2" for="pilihanUptd">UPTD</label>
                                     <select name="uptd_id" class="custom-select my-1 mr-sm-2" id="pilihanUptd" onchange="ubahOption()" required>
                                         <option selected>Pilih...</option>
-                                        @foreach ($uptd_lists as $no => $uptd_list) 
+                                        @foreach ($uptd_lists as $no => $uptd_list)
                                             <option value="{{ $uptd_list->id }}">{{ $uptd_list->nama }} ({{ $uptd_list->deskripsi }})</option>
                                         @endforeach
                                         {{-- <option value="1">UPTD-I (kab.cianjur, kota/kab.bogor, kota depok, kota/kab.bekasi)</option>
@@ -372,7 +374,7 @@
                                     </select>
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label class="my-1 mr-2" for="pilihanKeluhan">Keluhan</label>
@@ -492,6 +494,7 @@
                             <li><a href="{!! $profil->link_facebook !!}" target="_blank"><i class="fab fa-facebook-f"></i> </a> </li>
                             <li><a href="{!! $profil->link_twitter !!}" target="_blank"><i class="fab fa-twitter"></i> </a> </li>
                             <li><a href="{!! $profil->link_instagram !!}" target="_blank"><i class="fab fa-instagram"></i> </a> </li>
+                            <li><a href="{!! $profil->link_youtube !!}" target="_blank"><i class="fab fa-youtube"></i> </a> </li>
                             <li><a href="mailto:{!! $profil->email !!}" target="_blank"><i class="far fa-envelope"></i> </a> </li>
                         </ul>
                     </div>

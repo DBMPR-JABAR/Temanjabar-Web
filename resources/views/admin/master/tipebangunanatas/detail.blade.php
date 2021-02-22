@@ -1,4 +1,4 @@
-    <form action="{{ route('tipebangunanatas.update', $data->id) }}" method="post">
+<form action="{{ route('tipebangunanatas.update', $data->id) }}" method="post">
     @method('PUT')
     @csrf
 
@@ -23,10 +23,6 @@
     <div class="modal-footer">
         <button type="submit" class="btn btn-primary waves-effect waves-light ">Simpan</button>
         <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-        </form>
-
-        <form action="{{ route('tipebangunanatas.edit', $data->id) }}" method="GET">
-            <button type="submit" class="btn btn-danger waves-effect waves-light ">Hapus</a>
-        </form>
     </div>
+</form>
 

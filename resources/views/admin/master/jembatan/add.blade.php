@@ -2,6 +2,10 @@
 
 @section('title') Admin Dashboard @endsection
 
+@section('head')
+<link rel="stylesheet" href="https://js.arcgis.com/4.18/esri/themes/light/main.css">
+@endsection
+
 @section('page-header')
 <div class="row align-items-end">
     <div class="col-lg-8">
@@ -183,18 +187,20 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Koordinat X (Lat)</label>
+                            <label class="col-md-2 col-form-label">Latitude</label>
                             <div class="col-md-10 my-auto">
-                                <input name="lat" type="text" class="form-control formatLatLong" required>
+                                <input id="lat" name="lat" type="text" class="form-control formatLatLong" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Koordinat Y (Lon)</label>
+                            <label class="col-md-2 col-form-label">Longitude</label>
                             <div class="col-md-10 my-auto">
-                                <input name="lng" type="text" class="form-control formatLatLong" required>
+                                <input id="long" name="lng" type="text" class="form-control formatLatLong" required>
                             </div>
                         </div>
+
+                        <div id="mapLatLong" class="full-map mb-2" style="height: 300px; width: 100%"></div>
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Keterangan</label>
@@ -243,6 +249,8 @@
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
+<script src="https://js.arcgis.com/4.18/"></script>
+
 <script>
     $(document).ready(function() {
         $("#dttable").DataTable();
@@ -308,6 +316,69 @@
                 alert('Isi jumlah bentang terlebih dahulu')
             }
         });
+
+        $('#mapLatLong').ready(() => {
+            require([
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/Graphic"
+            ], function(Map, MapView, Graphic) {
+
+                const map = new Map({
+                    basemap: "hybrid"
+                });
+
+                const view = new MapView({
+                    container: "mapLatLong",
+                    map: map,
+                    center: [107.6191, -6.9175],
+                    zoom: 8,
+                });
+
+                let tempGraphic;
+                view.on("click", function(event){
+                    if($("#lat").val() != '' && $("#long").val() != ''){
+                        view.graphics.remove(tempGraphic);
+                    }
+                    var graphic = new Graphic({
+                        geometry: event.mapPoint,
+                        symbol: {
+                            type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
+                            url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+                            width: "14px",
+                            height: "24px"
+                        }
+                    });
+                    tempGraphic = graphic;
+                    $("#lat").val(event.mapPoint.latitude);
+                    $("#long").val(event.mapPoint.longitude);
+
+                    view.graphics.add(graphic);
+                });
+                $("#lat, #long").keyup(function () {
+                    if($("#lat").val() != '' && $("#long").val() != ''){
+                        view.graphics.remove(tempGraphic);
+                    }
+                    var graphic = new Graphic({
+                        geometry: {
+                            type: "point",
+                            longitude: $("#long").val(),
+                            latitude: $("#lat").val()
+                        },
+                        symbol: {
+                            type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
+                            url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+                            width: "14px",
+                            height: "24px"
+                        }
+                    });
+                    tempGraphic = graphic;
+
+                    view.graphics.add(graphic);
+                });
+            });
+        });
+
     });
 
      $("#addRow").click(function () {
