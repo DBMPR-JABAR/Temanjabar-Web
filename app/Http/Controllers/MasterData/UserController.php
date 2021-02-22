@@ -28,7 +28,7 @@ class UserController extends Controller
             $sup = $sup->where('uptd_id',$uptd_id);
         }
         $sup = $sup->get();
-        
+
         $role = DB::table('user_role');
         $role = $role->where('is_active', '1');
         if(Auth::user()->internalRole->uptd){
@@ -89,7 +89,7 @@ class UserController extends Controller
         $role = $role->where('is_active', '1');
         if(Auth::user()->internalRole->uptd){
             $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
-            $role = $role->where('uptd_id',$uptd_id);
+            $role = $role->where('id',$uptd_id);
         }
         $role = $role->get();
         // dd($role);
