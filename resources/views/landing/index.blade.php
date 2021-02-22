@@ -80,9 +80,9 @@
             </nav>
             <div class="side-footer w-100">
                 <ul class="social-icons-simple white top40">
-                    <li><a href="{!! $profil->link_facebook !!}" class="facebook"><i class="fab fa-facebook-f"></i> </a> </li>
-                    <li><a href="{!! $profil->link_twitter !!}" class="twitter"><i class="fab fa-twitter"></i> </a> </li>
-                    <li><a href="{!! $profil->link_instagram !!}" class="insta"><i class="fab fa-instagram"></i> </a> </li>
+                    <li><a href="{!! $profil->link_facebook !!}" target="_blank" class="facebook"><i class="fab fa-facebook-f"></i> </a> </li>
+                    <li><a href="{!! $profil->link_twitter !!}" target="_blank" class="twitter"><i class="fab fa-twitter"></i> </a> </li>
+                    <li><a href="{!! $profil->link_instagram !!}" target="_blank" class="insta"><i class="fab fa-instagram"></i> </a> </li>
                 </ul>
                 <p class="whitecolor">&copy; <span id="year"></span> {{$profil->nama}}</p>
             </div>
@@ -128,10 +128,10 @@
         </div>
     </div>
     <ul class="social-icons-simple revicon white">
-        <li class="d-table"><a href="{!! $profil->link_facebook !!}" class="facebook"><i class="fab fa-facebook-f"></i></a>
+        <li class="d-table"><a href="{!! $profil->link_facebook !!}" target="_blank" class="facebook"><i class="fab fa-facebook-f"></i></a>
         </li>
-        <li class="d-table"><a href="{!! $profil->link_twitter !!}" class="twitter"><i class="fab fa-twitter"></i> </a> </li>
-        <li class="d-table"><a href="{!! $profil->link_instagram !!}" class="insta"><i class="fab fa-instagram"></i> </a> </li>
+        <li class="d-table"><a href="{!! $profil->link_twitter !!}" target="_blank" class="twitter"><i class="fab fa-twitter"></i> </a> </li>
+        <li class="d-table"><a href="{!! $profil->link_instagram !!}" target="_blank" class="insta"><i class="fab fa-instagram"></i> </a> </li>
     </ul>
 </section>
 <!--Main Slider ends -->
@@ -170,6 +170,22 @@
             </div>
             <div class="col-lg-5 offset-lg-1 col-md-5 col-sm-5 wow fadeInRight" data-wow-delay="300ms">
                 <div class="image"><img alt="SEO" src="{!! url('storage/'.$profil->gambar) !!}"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="video" class="padding">
+    <div class="container">
+        <h3 class="darkcolor font-normal bottom30">Berita kami</h2>
+        <div class="container-grid">
+            <div class="vid1 bg-primary fadeInUp" data-wow-delay="300ms">
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/ZrkHsRb3xI0?controls=0" frameborder="0"></iframe>
+            </div>
+            <div class="vid2 bg-danger fadeInLeft" data-wow-delay="300ms">
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/IZenGLLH1K4?controls=0" frameborder="0"></iframe>
+            </div>
+            <div class="vid3 bg-warning fadeInRight" data-wow-delay="300ms">
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/THhF3p7DZ4U?controls=0" frameborder="0"></iframe>
             </div>
         </div>
     </div>
@@ -473,10 +489,10 @@
                         <p class="bottom10"><a href="mailto:{{ $profil->email }}">{{ $profil->email }}</a></p>
                         <p class="bottom10">Senin - Jumat: {{ $profil->jam_layanan }}</p>
                         <ul class="social-icons mt-4 mb-4 mb-sm-0 wow fadeInUp" data-wow-delay="300ms">
-                            <li><a href="{!! $profil->link_facebook !!}"><i class="fab fa-facebook-f"></i> </a> </li>
-                            <li><a href="{!! $profil->link_twitter !!}"><i class="fab fa-twitter"></i> </a> </li>
-                            <li><a href="{!! $profil->link_instagram !!}"><i class="fab fa-instagram"></i> </a> </li>
-                            <li><a href="mailto:{!! $profil->email !!}"><i class="far fa-envelope"></i> </a> </li>
+                            <li><a href="{!! $profil->link_facebook !!}" target="_blank"><i class="fab fa-facebook-f"></i> </a> </li>
+                            <li><a href="{!! $profil->link_twitter !!}" target="_blank"><i class="fab fa-twitter"></i> </a> </li>
+                            <li><a href="{!! $profil->link_instagram !!}" target="_blank"><i class="fab fa-instagram"></i> </a> </li>
+                            <li><a href="mailto:{!! $profil->email !!}" target="_blank"><i class="far fa-envelope"></i> </a> </li>
                         </ul>
                     </div>
                 </div>

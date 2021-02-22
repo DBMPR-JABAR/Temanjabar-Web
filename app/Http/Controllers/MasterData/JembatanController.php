@@ -287,7 +287,7 @@ class JembatanController extends Controller
         $color = "success";
         $msg = "Berhasil Memperbaharui Foto Jembatan";
 
-        return redirect(route('getMasterJembatan'))->with(compact('color', 'msg'));
+        return redirect(route('editPhotoJembatan',$request->id))->with(compact('color', 'msg'));
     }
 
     public function delete($id)
@@ -310,7 +310,7 @@ class JembatanController extends Controller
 
         $color = "success";
         $msg = "Berhasil Menghapus Foto Jembatan";
-        return redirect(route('getMasterJembatan'))->with(compact('color', 'msg'));
+        return redirect(route('editPhotoJembatan',$id))->with(compact('color', 'msg'));
     }
 
     public function getTipeBangunan()

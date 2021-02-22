@@ -1,7 +1,9 @@
 @extends('admin.t_index')
 
 @section('title') Admin Dashboard @endsection
-
+@section('head')
+<link rel="stylesheet" href="https://js.arcgis.com/4.18/esri/themes/light/main.css">
+@endsection
 @section('page-header')
 <div class="row align-items-end">
     <div class="col-lg-8">
@@ -97,15 +99,18 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Lat</label>
                         <div class="col-md-10">
-                            <input name="lat" type="text" class="form-control" value="{{$rawan->lat}}">
+                            <input name="lat" id="etlat" type="text" class="form-control" value="{{$rawan->lat}}">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Long</label>
                         <div class="col-md-10">
-                            <input name="long" type="text" class="form-control" value="{{$rawan->long}}">
+                            <input name="long" id="etlong" type="text" class="form-control" value="{{$rawan->long}}">
                         </div>
                     </div>
+
+                    <div id="etmapLatLong" class="full-map mb-2" style="height: 300px; width: 100%"></div>
+
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Foto</label>
                         <div class="col-md-5">
@@ -178,7 +183,95 @@
 
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="https://js.arcgis.com/4.18/"></script>
+
 <script>
+    $(document).ready(function () {
+        let etlong = "{{$rawan->long}}";
+        let etlat = "{{$rawan->lat}}";
+        $('#etmapLatLong').ready(() => {
+            require([
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/Graphic"
+            ], function(Map, MapView, Graphic) {
+
+                const map = new Map({
+                    basemap: "hybrid"
+                });
+
+                const view = new MapView({
+                    container: "etmapLatLong",
+                    map: map,
+                    center: [
+                              (etlong != 0) ? etlong : 107.6191,
+                              (etlat != 0) ? etlat : -6.9175
+                            ],
+                    zoom: 8,
+                });
+
+                let tempGraphic;
+                if(etlong != 0 && etlat != 0){
+                    var graphic = new Graphic({
+                        geometry: {
+                            type: "point",
+                            longitude: etlong,
+                            latitude: etlat
+                        },
+                        symbol: {
+                            type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
+                            url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+                            width: "14px",
+                            height: "24px"
+                        }
+                    });
+                    tempGraphic = graphic;
+                    view.graphics.add(graphic);
+                }
+
+                view.on("click", function(event){
+                    if($("#etlat").val() != '' && $("#etlong").val() != ''){
+                        view.graphics.remove(tempGraphic);
+                    }
+                    var graphic = new Graphic({
+                        geometry: event.mapPoint,
+                        symbol: {
+                            type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
+                            url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+                            width: "14px",
+                            height: "24px"
+                        }
+                    });
+                    tempGraphic = graphic;
+                    $("#etlat").val(event.mapPoint.latitude);
+                    $("#etlong").val(event.mapPoint.longitude);
+
+                    view.graphics.add(graphic);
+                });
+                $("#etlat, #etlong").keyup(function () {
+                    if($("#etlat").val() != '' && $("#etlong").val() != ''){
+                        view.graphics.remove(tempGraphic);
+                    }
+                    var graphic = new Graphic({
+                        geometry: {
+                            type: "point",
+                            longitude: $("#etlong").val(),
+                            latitude: $("#etlat").val()
+                        },
+                        symbol: {
+                            type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
+                            url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+                            width: "14px",
+                            height: "24px"
+                        }
+                    });
+                    tempGraphic = graphic;
+
+                    view.graphics.add(graphic);
+                });
+            });
+        });
+    });
     function ubahOption() {
 
         //untuk select Ruas

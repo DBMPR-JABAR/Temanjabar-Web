@@ -185,6 +185,14 @@
                         </a>
                     </li>
                     @endif
+                    {{-- TOLONG TAMBAH KE DB BUAT AKSES --}}
+                    {{-- @if (hasAccess(Auth::user()->internal_role_id, "SUP", "View")) --}}
+                    <li class="{{(Request::segment(3) == 'tipebangunanatas') ? 'active' : ''}}">
+                        <a href="{{ route('tipebangunanatas.index') }}">
+                            <span class="pcoded-mtext">Tipe Bangunan Atas</span>
+                        </a>
+                    </li>
+                    {{-- @endif --}}
                     @if (hasAccess(Auth::user()->internal_role_id, "Lapor", "Create"))
                     <li class="{{(Request::segment(3) == 'jenis_laporan') ? 'active' : ''}}">
                         <a href="{{ url('admin/master-data/jenis_laporan') }}">
@@ -326,6 +334,13 @@
                             </a>
                         </li>
                         @endif
+                        {{-- @if (hasAccess(Auth::user()->internal_role_id, "Video", "View")) --}}
+                        <li class="{{(Request::segment(3) == 'video-controls') ? 'active' : ''}}">
+                            <a href="{{ url('admin/landing-page/video-controls') }}">
+                                <span class="pcoded-mtext">Video</span>
+                            </a>
+                        </li>
+                        {{-- @endif --}}
                     @endif
 
                     {{-- <li class="{{(Request::segment(3) == 'laporan-masyarakat') ? 'active' : ''}}">

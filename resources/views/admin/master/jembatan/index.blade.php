@@ -63,8 +63,8 @@
                                 <th>No</th>
                                 <th>Nama Jembatan</th>
                                 <th>Lokasi</th>
-                                <th>Lat</th>
-                                <th>Lng</th>
+                                <th>Latitude</th>
+                                <th>Longitude</th>
                                 <th>Panjang (meter)</th>
                                 <th>Lebar (meter)</th>
                                 <th>Ruas Jalan</th>
