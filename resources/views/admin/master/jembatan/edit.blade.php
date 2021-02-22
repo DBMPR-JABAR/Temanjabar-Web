@@ -74,11 +74,11 @@
                             <div class="form-group row">
                                 <label class="col-md-2 col-form-label">UPTD</label>
                                 <div class="col-md-10">
-                                    <select class="form-control" id="uptd" name="uptd" onchange="ubahOption()" required>
-                                        <option value="{{ $jembatan->slug }}">{{ $jembatan->uptd }}</option>
+                                    <select class="form-control searchableField" id="uptd" name="uptd" onchange="ubahOption()" required>
+                                        <option value="{{ $jembatan->id }}">{{ $jembatan->uptd }}</option>
                                         <option disabled></option>
                                         @foreach ($uptd as $data)
-                                            <option value="{{ $data->slug }}" @if ($data->slug == $jembatan->uptd) selected
+                                            <option value="{{ $data->id }}" @if ($data->id == $jembatan->uptd) selected
                                         @endif>{{ $data->nama }}</option>
                         @endforeach
                         </select>
@@ -89,7 +89,7 @@
             <div class="form-group row">
                 <label class="col-md-2 col-form-label">Ruas Jalan</label>
                 <div class="col-md-10">
-                    <select id="ruas_jalan" name="ruas_jalan" class="form-control" required>
+                    <select id="ruas_jalan" name="ruas_jalan" class="form-control searchableField" required>
                         <option value="{{ $jembatan->ruas_jalan }}">{{ $jembatan->ruas_jalan }}</option>
                         <option disabled></option>
                         @foreach ($ruasJalan as $data)
@@ -102,7 +102,7 @@
             <div class="form-group row">
                 <label class="col-md-2 col-form-label">SUP</label>
                 <div class="col-md-10">
-                    <select class="form-control" id="sup" name="sup" required>
+                    <select class="form-control searchableField" id="sup" name="sup" required>
                         <option value="{{ $jembatan->sup }}">{{ $jembatan->sup }}</option>
                         <option disabled></option>
                         @foreach ($sup as $data)

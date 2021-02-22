@@ -73,7 +73,7 @@
                                 <select class="form-control searchableField" id="uptd" name="uptd" required onchange="ubahOption()">
                                     <option>Pilih UPTD</option>
                                     @foreach ($uptd as $data)
-                                    <option value="{{$data->slug}}">{{$data->nama}}</option>
+                                    <option value="{{$data->id}}">{{$data->nama}}</option>
                                     @endforeach
                                 </select>
                             </div>

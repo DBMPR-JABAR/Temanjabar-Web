@@ -61,7 +61,7 @@
                         <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
                     @endif
                     <div class="dt-responsive table-responsive">
-                        <table id="dttable" class="table table-striped table-bordered able-responsive">
+                        <table class="table table-striped table-bordered able-responsive">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -85,28 +85,41 @@
                                     <th style="min-width: 100px;">Aksi</th>
                                 </tr>
                             </thead>
-                            <!-- <tbody id="bodyJembatan">
-                                                                        @foreach ($ruasJalan as $data)
-                                                                        <tr>
-                                                                            <td>{{ $loop->index + 1 }}</td>
-                                                                            <td>{{ $data->id_ruas_jalan }}</td>
-                                                                            <td>{{ $data->nama_ruas_jalan }}</td>
-                                                                            <td>{{ $data->supName }}</td>
-                                                                            <td>{{ $data->lokasi }}</td>
-                                                                            <td>{{ $data->panjang }}</td>
-                                                                            <td>
-                                                                                <div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">
-                                                                                    @if (hasAccess(Auth::user()->internal_role_id, 'Ruas Jalan', 'Update'))
-                                                                                    <a href="{{ route('editMasterRuasJalan', $data->id) }}"><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>
-                                                                                    @endif
-                                                                                    @if (hasAccess(Auth::user()->internal_role_id, 'Ruas Jalan', 'Delete'))
-                                                                                    <a href="#delModal" data-id="{{ $data->id }}" data-toggle="modal"><button data-toggle="tooltip" title="Hapus" class="btn btn-danger btn-sm waves-effect waves-light"><i class="icofont icofont-trash"></i></button></a>
-                                                                                    @endif
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        @endforeach
-                                                                    </tbody> -->
+                            <tbody id="bodyJembatan">
+                                @foreach ($ruasJalan as $data)
+                                <tr>
+                                    <td>{{ $loop->index + 1 }}</td>
+                                    <td>{{ $data->id_ruas_jalan }}</td>
+                                    <td>{{ $data->nama_ruas_jalan }}</td>
+                                    <td>{{ $data->supName }}</td>
+                                    <td>{{ $data->lokasi }}</td>
+                                    <td>{{ $data->panjang }}</td>
+                                    <td>{{ $data->sta_awal }}</td>
+                                    <td>{{ $data->sta_akhir }}</td>
+                                    <td>{{ $data->lat_awal }}</td>
+                                    <td>{{ $data->long_awal }}</td>
+                                    <td>{{ $data->lat_akhir }}</td>
+                                    <td>{{ $data->long_akhir }}</td>
+                                    <td>{{ $data->kab_kota }}</td>
+                                    <td>{{ $data->kd_sppjj }}</td>
+                                    <td>{{ $data->nm_sppjj }}</td>
+                                    <td>{{ $data->lat_ctr }}</td>
+                                    <td>{{ $data->long_ctr }}</td>
+                                    <td>{{ $data->wil_uptd }}</td>
+                                    
+                                    <td>
+                                        <div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">
+                                            @if (hasAccess(Auth::user()->internal_role_id, 'Ruas Jalan', 'Update'))
+                                            <a href="{{ route('editMasterRuasJalan', $data->id) }}"><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>
+                                            @endif
+                                            @if (hasAccess(Auth::user()->internal_role_id, 'Ruas Jalan', 'Delete'))
+                                            <a href="#delModal" data-id="{{ $data->id }}" data-toggle="modal"><button data-toggle="tooltip" title="Hapus" class="btn btn-danger btn-mini waves-effect waves-light"><i class="icofont icofont-trash"></i></button></a>
+                                            @endif
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody> 
                         </table>
                     </div>
                 </div>

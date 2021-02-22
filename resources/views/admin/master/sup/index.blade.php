@@ -69,9 +69,6 @@
                                     <td>
                                             
                                             @if (hasAccess(Auth::user()->internal_role_id, "SUP", "Update"))
-                                            {{-- <a type='button' href='#editModal'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-edit'></i>Edit</a> --}}
-                                            {{-- <a type="button"href="#editModal"  data-toggle="modal" data-id="{{$data->id}}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Edit</a> --}}
-
                                             <a type='button' href='{{route('editSUP',$data->id)}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-edit'></i>Edit</a>
                                             @endif
                                             @if (hasAccess(Auth::user()->internal_role_id, "SUP", "Delete"))
@@ -139,7 +136,6 @@
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-
                 <form action="" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-header">
@@ -148,7 +144,6 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-
                     <div class="modal-body p-5">
                         @if(Auth::user() && Auth::user()->internalRole->uptd == null)
                             <div class="form-group row">
