@@ -63,8 +63,8 @@ class DetailUserController extends Controller
             // return redirect('admin/user/profile/'. auth()->user()->id)->with(['error' => 'Somethink when wrong!']);
         }else{
             $profile = DB::table('user_pegawai')->where('user_id',$id)->first();
-            $kota = DB::table('indonesia_cities')->where('id', $profile->city_id)->pluck('name')->first() ? :'';
-            $provinsi = DB::table('indonesia_provinces')->where('id', $profile->province_id)->pluck('name')->first() ? :'';
+            $kota = $profile->city_id ? DB::table('indonesia_cities')->where('id', $profile->city_id)->pluck('name')->first() :'';
+            $provinsi = $profile->province_id? DB::table('indonesia_provinces')->where('id', $profile->province_id)->pluck('name')->first()  :'';
             $profile->provinsi=$provinsi;
             $profile->kota=$kota;
             
