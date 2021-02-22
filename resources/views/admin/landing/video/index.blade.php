@@ -89,7 +89,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                @if ($index >= 3)
+                @if (isset($index) && $index >= 3)
                 <h5>Tidak Dapat Menambah Data Baru</h5>
                 @else
                 <form action="{{route('video-news.store')}}" method="post">

@@ -229,7 +229,7 @@
                         </a>
                     </li>
                     @endif
-                    
+
                     @if (hasAccess(Auth::user()->internal_role_id, "Kondisi Jalan", "View"))
                     <li class="{{(Request::segment(3) == 'kondisi-jalan') ? 'active' : ''}}">
                         <a href="{{ url('admin/input-data/kondisi-jalan') }}">
@@ -343,8 +343,8 @@
                         </li>
                         @endif
                         {{-- @if (hasAccess(Auth::user()->internal_role_id, "Video", "View")) --}}
-                        <li class="{{(Request::segment(3) == 'video-controls') ? 'active' : ''}}">
-                            <a href="{{ url('admin/landing-page/video-controls') }}">
+                        <li class="{{(Request::segment(3) == 'video-news') ? 'active' : ''}}">
+                            <a href="{{ url('admin/landing-page/video-news') }}">
                                 <span class="pcoded-mtext">Video</span>
                             </a>
                         </li>
