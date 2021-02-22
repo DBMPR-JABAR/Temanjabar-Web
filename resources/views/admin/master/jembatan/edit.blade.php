@@ -2,6 +2,10 @@
 
 @section('title') Edit Jembatan @endsection
 
+@section('head')
+<link rel="stylesheet" href="https://js.arcgis.com/4.18/esri/themes/light/main.css">
+@endsection
+
 @section('page-header')
     <div class="row align-items-end">
         <div class="col-lg-8">
@@ -217,19 +221,20 @@
             </div>
 
             <div class="form-group row">
-                <label class="col-md-2 col-form-label">Koordinat X (Lat)</label>
+                <label class="col-md-2 col-form-label">Latitude</label>
                 <div class="col-md-10">
-                    <input name="lat" type="text" class="form-control formatLatLong" required value="{{ $jembatan->lat }}">
+                    <input id="lat" name="lat" type="text" class="form-control formatLatLong" required value="{{ $jembatan->lat }}">
                 </div>
             </div>
 
             <div class="form-group row">
-                <label class="col-md-2 col-form-label">Koordinat Y (Lon)</label>
+                <label class="col-md-2 col-form-label">Longitude</label>
                 <div class="col-md-10">
-                    <input name="lng" type="text" class="form-control formatLatLong" required value="{{ $jembatan->lng }}">
+                    <input id="long" name="lng" type="text" class="form-control formatLatLong" required value="{{ $jembatan->lng }}">
                 </div>
             </div>
 
+            <div id="mapLatLong" class="full-map mb-2" style="height: 300px; width: 100%"></div>
 
             <div class="form-group row">
                 <label class="col-md-2 col-form-label">Keterangan</label>
@@ -266,8 +271,13 @@
     <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
+    <script src="https://js.arcgis.com/4.18/"></script>
+
     <script>
         $(document).ready(function() {
+            let etlat = $("#lat").val();
+            let etlong = $("#long").val();
+
             // Format mata uang.
             $('.formatRibuan').mask('000.000.000.000.000', {
                 reverse: true
@@ -276,6 +286,88 @@
             // Format untuk lat long.
             $('.formatLatLong').keypress(function(evt) {
                 return (/^\-?[0-9]*\.?[0-9]*$/).test($(this).val() + evt.key);
+            });
+
+            $('#mapLatLong').ready(() => {
+                require([
+                "esri/Map",
+                "esri/views/MapView",
+                "esri/Graphic"
+                ], function(Map, MapView, Graphic) {
+
+                    const map = new Map({
+                        basemap: "hybrid"
+                    });
+
+                    const view = new MapView({
+                        container: "mapLatLong",
+                        map: map,
+                        center: [
+                                    (etlong != 0) ? etlong : 107.6191,
+                                    (etlat != 0) ? etlat : -6.9175
+                                ],
+                        zoom: 10,
+                    });
+
+                    let tempGraphic;
+                    if(etlong != 0 && etlat != 0){
+                        var graphic = new Graphic({
+                            geometry: {
+                                type: "point",
+                                longitude: etlong,
+                                latitude: etlat
+                            },
+                            symbol: {
+                                type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
+                                url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+                                width: "14px",
+                                height: "24px"
+                            }
+                        });
+                        tempGraphic = graphic;
+                        view.graphics.add(graphic);
+                    }
+                    view.on("click", function(event){
+                        if($("#lat").val() != '' && $("#long").val() != ''){
+                            view.graphics.remove(tempGraphic);
+                        }
+                        var graphic = new Graphic({
+                            geometry: event.mapPoint,
+                            symbol: {
+                                type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
+                                url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+                                width: "14px",
+                                height: "24px"
+                            }
+                        });
+                        tempGraphic = graphic;
+                        $("#lat").val(event.mapPoint.latitude);
+                        $("#long").val(event.mapPoint.longitude);
+
+                        view.graphics.add(graphic);
+                    });
+                    $("#lat, #long").keyup(function () {
+                        if($("#lat").val() != '' && $("#long").val() != ''){
+                            view.graphics.remove(tempGraphic);
+                        }
+                        var graphic = new Graphic({
+                            geometry: {
+                                type: "point",
+                                longitude: $("#long").val(),
+                                latitude: $("#lat").val()
+                            },
+                            symbol: {
+                                type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
+                                url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+                                width: "14px",
+                                height: "24px"
+                            }
+                        });
+                        tempGraphic = graphic;
+
+                        view.graphics.add(graphic);
+                    });
+                });
             });
         });
 
