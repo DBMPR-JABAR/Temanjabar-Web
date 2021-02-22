@@ -30,7 +30,7 @@
         <div class="col-lg-8">
             <div class="page-header-title">
                 <div class="d-inline">
-                    <h4>Edit Profil {!! Str::title($profile_users->nama) !!} </h4>
+                    <h4>Edit Profil {!! Str::title(@@$profile_users->nama) !!} </h4>
                 </div>
             </div>
         </div>
@@ -69,8 +69,8 @@
                         <div class="form-group">
                             <label>Nama Lengkap</label>
                             <input name="nama" placeholder="Enter your First name" type="text"
-                                value="{{ old('nama', $profile->nama) }}"
-                                class="form-control  @error('nama') is-invalid @enderror">
+                                value="{{ old('nama', @$profile->nama) }}"
+                                class="form-control  @error('nama') is-invalid @enderror" required>
                             @error('nama')
                                 <div class="invalid-feedback" style="display: block; color:red">
                                     {{ $message }}
@@ -80,8 +80,8 @@
                         <div class="form-group">
                             <label>NIP</label>
                             <input name="no_pegawai" placeholder="Enter NIP" type="number"
-                                value="{{ old('no_pegawai', $profile->no_pegawai) }}"
-                                class="form-control  @error('no_pegawai') is-invalid @enderror">
+                                value="{{ old('no_pegawai', @$profile->no_pegawai) }}"
+                                class="form-control  @error('no_pegawai') is-invalid @enderror" required>
                             @error('no_pegawai')
                                 <div class="invalid-feedback" style="display: block; color:red">
                                     {{ $message }}
@@ -93,7 +93,7 @@
                                 <div class="form-group">
                                     <label>Tempat Lahir</label>
                                     <input name="tmp_lahir" placeholder="Masukan Tempat lahir" type="text"
-                                        value="{{ old('tmp_lahir', $profile->tmp_lahir) }}"
+                                        value="{{ old('tmp_lahir', @$profile->tmp_lahir) }}"
                                         class="form-control @error('tmp_lahir') is-invalid @enderror" required>
                                     @error('tmp_lahir')
                                         <div class="invalid-feedback" style="display: block; color:red">
@@ -106,8 +106,8 @@
                                 <div class="form-group">
                                     <label>Tanggal Lahir</label>
                                     <input name="tgl_lahir" placeholder="Enter your date" type="date"
-                                        value="{{ old('tgl_lahir', $profile->tgl_lahir) }}"
-                                        class="form-control @error('tgl_lahir') is-invalid @enderror">
+                                        value="{{ old('tgl_lahir', @$profile->tgl_lahir) }}"
+                                        class="form-control @error('tgl_lahir') is-invalid @enderror" required>
                                     @error('tgl_lahir')
                                         <div class="invalid-feedback" style="display: block; color:red">
                                             {{ $message }}
@@ -124,10 +124,10 @@
 
                                         <option>Select</option>
                                         {{-- <option selected>
-                                        {!!  $profile->jenis_kelamin !!}
+                                        {!!  @$profile->jenis_kelamin !!}
                                     </option> --}}
-                                        <option value="Laki-laki" @if ($profile->jenis_kelamin != null && strpos('Laki-laki', $profile->jenis_kelamin) !== false) selected @endif>Laki-Laki</option>
-                                        <option value="Perempuan" @if ($profile->jenis_kelamin != null && strpos('Perempuan', $profile->jenis_kelamin) !== false) selected @endif>Perempuan</option>
+                                        <option value="Laki-laki" @if (@$profile->jenis_kelamin != null && strpos('Laki-laki', @$profile->jenis_kelamin) !== false) selected @endif>Laki-Laki</option>
+                                        <option value="Perempuan" @if (@$profile->jenis_kelamin != null && strpos('Perempuan', @$profile->jenis_kelamin) !== false) selected @endif>Perempuan</option>
                                     </select>
                                 </div>
                             </div>
@@ -138,14 +138,14 @@
 
                                         <option>Select</option>
                                         {{-- <option selected>
-                                        {!!  $profile->jenis_kelamin !!}
+                                        {!!  @$profile->jenis_kelamin !!}
                                     </option> --}}
-                                        <option value="Islam" @if ($profile->agama != null && strpos('Islam', $profile->agama) !== false) selected @endif>Islam</option>
-                                        <option value="Kristen" @if ($profile->agama != null && strpos('Kristen', $profile->agama) !== false) selected @endif>Kristen</option>
-                                        <option value="Hindu" @if ($profile->agama != null && strpos('Hindu', $profile->agama) !== false) selected @endif>Hindu</option>
-                                        <option value="Budha" @if ($profile->agama != null && strpos('Budha', $profile->agama) !== false) selected @endif>Budha</option>
-                                        <option value="Katolik" @if ($profile->agama != null && strpos('Katolik', $profile->agama) !== false) selected @endif>Katolik</option>
-                                        <option value="Kong Hu Cu" @if ($profile->agama != null && strpos('Kong Hu Cu', $profile->agama) !== false) selected @endif>Kong Hu Cu</option>
+                                        <option value="Islam" @if (@$profile->agama != null && strpos('Islam', @$profile->agama) !== false) selected @endif>Islam</option>
+                                        <option value="Kristen" @if (@$profile->agama != null && strpos('Kristen', @$profile->agama) !== false) selected @endif>Kristen</option>
+                                        <option value="Hindu" @if (@$profile->agama != null && strpos('Hindu', @$profile->agama) !== false) selected @endif>Hindu</option>
+                                        <option value="Budha" @if (@$profile->agama != null && strpos('Budha', @$profile->agama) !== false) selected @endif>Budha</option>
+                                        <option value="Katolik" @if (@$profile->agama != null && strpos('Katolik', @$profile->agama) !== false) selected @endif>Katolik</option>
+                                        <option value="Kong Hu Cu" @if (@$profile->agama != null && strpos('Kong Hu Cu', @$profile->agama) !== false) selected @endif>Kong Hu Cu</option>
 
                                     </select>
                                 </div>
@@ -157,8 +157,8 @@
                                 <div class="form-group">
                                     <label>Telepon</label>
                                     <input type="text" name="no_tlp" id="no_tlp"
-                                        value="{{ old('no_tlp', $profile->no_tlp) }}" placeholder="Masukan Nomer Telepon"
-                                        class="form-control @error('no_tlp') is-invalid @enderror">
+                                        value="{{ old('no_tlp', @$profile->no_tlp) }}" placeholder="Masukan Nomer Telepon"
+                                        class="form-control @error('no_tlp') is-invalid @enderror" required>
                                     @error('no_tlp')
                                         <div class="invalid-feedback" style="display: block; color:red">
                                             {{ $message }}
@@ -170,7 +170,7 @@
                                 <div class="form-group">
                                     <label>Telepon Rumah</label>
                                     <input type="text" name="no_tlp_rumah" id="no_tlp_rumah"
-                                        value="{{ old('no_tlp_rumah', $profile->no_tlp_rumah) }}"
+                                        value="{{ old('no_tlp_rumah', @$profile->no_tlp_rumah) }}"
                                         placeholder="Masukan Telepon Rumah"
                                         class="form-control @error('no_tlp_rumah') is-invalid @enderror">
                                     @error('no_tlp_rumah')
@@ -221,7 +221,7 @@
                         <div class="form-group">
                             <label>Tanggal Mulai</label>
                             <input name="tgl_mulai_kerja" placeholder="Tanggal Mulai Kerja" type="date"
-                                value="{{ old('tgl_mulai_kerja', $profile->tgl_mulai_kerja) }}"
+                                value="{{ old('tgl_mulai_kerja', @$profile->tgl_mulai_kerja) }}"
                                 class="form-control  @error('tgl_mulai_kerja') is-invalid @enderror">
                             @error('tgl_mulai_kerja')
                                 <div class="invalid-feedback" style="display: block; color:red">
@@ -248,7 +248,7 @@
                         <div class="form-group">
                             <label>Nama Institusi</label>
                             <input name="sekolah" placeholder="Masukan Institusi" type="text"
-                                value="{{ old('sekolah', $profile->sekolah) }}"
+                                value="{{ old('sekolah', @$profile->sekolah) }}"
                                 class="form-control  @error('sekolah') is-invalid @enderror">
                             @error('sekolah')
                                 <div class="invalid-feedback" style="display: block; color:red">
@@ -261,24 +261,24 @@
                             <select class="form-control" name="jejang">
                                 <option value="">Select</option>
                                 {{-- <option selected>
-                                {!!  $profile->jejang !!}
+                                {!!  @$profile->jejang !!}
                             </option> --}}
-                                <option value="SMA" @if ($profile->jejang != null && strpos('SMA', $profile->jejang) !== false) selected @endif>SMA</option>
-                                <option value="SMK" @if ($profile->jejang != null && strpos('SMK', $profile->jejang) !== false) selected @endif>SMK</option>
-                                <option value="S1" @if ($profile->jejang != null && strpos('S1', $profile->jejang) !== false) selected @endif>S1</option>
-                                <option value="S2" @if ($profile->jejang != null && strpos('S2', $profile->jejang) !== false) selected @endif>S2</option>
-                                <option value="S3" @if ($profile->jejang != null && strpos('S3', $profile->jejang) !== false) selected @endif>S3</option>
-                                <option value="D1" @if ($profile->jejang != null && strpos('D1', $profile->jejang) !== false) selected @endif>D1</option>
-                                <option value="D2" @if ($profile->jejang != null && strpos('D2', $profile->jejang) !== false) selected @endif>D2</option>
-                                <option value="D3" @if ($profile->jejang != null && strpos('D3', $profile->jejang) !== false) selected @endif>D3</option>
-                                <option value="SMP" @if ($profile->jejang != null && strpos('SMP', $profile->jejang) !== false) selected @endif>SMP</option>
+                                <option value="SMA" @if (@$profile->jejang != null && strpos('SMA', @$profile->jejang) !== false) selected @endif>SMA</option>
+                                <option value="SMK" @if (@$profile->jejang != null && strpos('SMK', @$profile->jejang) !== false) selected @endif>SMK</option>
+                                <option value="S1" @if (@$profile->jejang != null && strpos('S1', @$profile->jejang) !== false) selected @endif>S1</option>
+                                <option value="S2" @if (@$profile->jejang != null && strpos('S2', @$profile->jejang) !== false) selected @endif>S2</option>
+                                <option value="S3" @if (@$profile->jejang != null && strpos('S3', @$profile->jejang) !== false) selected @endif>S3</option>
+                                <option value="D1" @if (@$profile->jejang != null && strpos('D1', @$profile->jejang) !== false) selected @endif>D1</option>
+                                <option value="D2" @if (@$profile->jejang != null && strpos('D2', @$profile->jejang) !== false) selected @endif>D2</option>
+                                <option value="D3" @if (@$profile->jejang != null && strpos('D3', @$profile->jejang) !== false) selected @endif>D3</option>
+                                <option value="SMP" @if (@$profile->jejang != null && strpos('SMP', @$profile->jejang) !== false) selected @endif>SMP</option>
 
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Jurusan Pendidikan</label>
                             <input name="jurusan_pendidikan" placeholder="Masukan Jurusan" type="text"
-                                value="{{ old('jurusan_pendidikan', $profile->jurusan_pendidikan) }}"
+                                value="{{ old('jurusan_pendidikan', @$profile->jurusan_pendidikan) }}"
                                 class="form-control  @error('jurusan_pendidikan') is-invalid @enderror">
                             @error('jurusan_pendidikan')
                                 <div class="invalid-feedback" style="display: block; color:red">
@@ -307,7 +307,7 @@
                                 onchange="ubahOption()">
                                 <option value="">== Select Provinsi ==</option>
                                 @foreach ($provinces as $id => $name)
-                                    <option value="{{ $id }}" @if ($profile->province_id != null && $profile->province_id == $id) selected @endif>{{ $name }}</option>
+                                    <option value="{{ $id }}" @if (@$profile->province_id != null && @$profile->province_id == $id) selected @endif>{{ $name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -316,9 +316,9 @@
 
                             <select name="kota" id="city" class="form-control searchableField">
                                 <option value="">-</option>
-                                @if ($profile->city_id != null)
+                                @if (@$profile->city_id != null)
                                     @foreach ($cities as $id => $name)
-                                        <option value="{{ $id }}" @if ($profile->city_id != null && $profile->city_id == $id) selected @endif>{{ $name }}</option>
+                                        <option value="{{ $id }}" @if (@$profile->city_id != null && @$profile->city_id == $id) selected @endif>{{ $name }}</option>
                                     @endforeach
                                 @else
                                     <option value="">-</option>
@@ -328,7 +328,7 @@
                         <div class="form-group">
                             <label>Kode Pos</label>
                             <input name="kode_pos" placeholder="Masukan Jurusan" type="text"
-                                value="{{ old('kode_pos', $profile->kode_pos) }}"
+                                value="{{ old('kode_pos', @$profile->kode_pos) }}"
                                 class="form-control  @error('kode_pos') is-invalid @enderror">
                             @error('kode_pos')
                                 <div class="invalid-feedback" style="display: block; color:red">
@@ -339,7 +339,7 @@
                         <div class="form-group">
                             <label>Alamat Lengkap</label>
                             <textarea name="alamat" placeholder="Masukan Alamat Lengkap"
-                                class="form-control  @error('alamat') is-invalid @enderror">{!!  $profile->alamat !!}</textarea>
+                                class="form-control  @error('alamat') is-invalid @enderror">{!!  @$profile->alamat !!}</textarea>
                             @error('alamat')
                                 <div class="invalid-feedback" style="display: block; color:red">
                                     {{ $message }}

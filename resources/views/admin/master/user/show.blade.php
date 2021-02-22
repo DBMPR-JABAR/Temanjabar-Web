@@ -79,34 +79,34 @@
                                         
                                         <tr>
                                             <td width="20%">Nama Lengkap</td>
-                                            <td >{!! Str::title($profile_users->nama) !!}</td>
+                                            <td >{!! Str::title(@$profile_users->nama) !!}</td>
                                         </tr>
                                         <tr>
                                             <td>NIP</td>
-                                            <td >{{ old('no_pegawai', $profile->no_pegawai) }}</td>
+                                            <td >{{ old('no_pegawai', @$profile->no_pegawai) }}</td>
                                         </tr>
                                        
                                         <tr>
                                             <td>Tempat / Tanggal Lahir</td>
-                                            <td >{{ old('no_pegawai', $profile->tgl_lahir) }}</td>
+                                            <td >{{ old('tgl_lahir', @$profile->tgl_lahir) }}</td>
                                         </tr>
                                         <tr>
                                             <td>Jenis Kelamin</td>
-                                            <td>{{ old('jenis_kelamin', $profile->jenis_kelamin) }}</td>
+                                            <td>{{ old('jenis_kelamin', @$profile->jenis_kelamin) }}</td>
                                         </tr>
                                         <tr>
                                             <td>Agama</td>
                                             <td >
-                                                {{ old('agama', $profile->agama) }}
+                                                {{ old('agama', @$profile->agama) }}
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Telepon</td>
-                                            <td >{{ old('phone', $profile->no_tlp) }}</td>
+                                            <td >{{ old('phone', @$profile->no_tlp) }}</td>
                                         </tr>
                                         <tr>
                                             <td>Telepon Rumah</td>
-                                            <td >{{ old('phone', $profile->no_tlp) }}</td>
+                                            <td >{{ old('phone', @$profile->no_tlp) }}</td>
                                         </tr>
                                         
                                     </table>
@@ -129,30 +129,30 @@
                                     <table class="table table-striped">
                                         <tr>
                                             <td width="20%">Alamat Lengkap</td>
-                                            <td >{!! old('alamat', $profile->alamat) !!}</td>
+                                            <td >{!! old('alamat', @$profile->alamat) !!}</td>
                                         </tr>
                                         <tr>
                                             <td>Provinsi</td>
-                                            <td>{{ old('provinsi', $profile->provinsi) }}</td>
+                                            <td>{{ old('provinsi', @$profile->provinsi) }}</td>
                                         </tr>
                                         <tr>
                                             <td>Kota / Kabupaten</td>
-                                            <td>{{ old('kota', $profile->kota) }}</td>
+                                            <td>{{ old('kota', @$profile->kota) }}</td>
                                         </tr>
                                         <tr>
                                             <td>Kode Pos</td>
-                                            <td>{{ old('kode_pos', $profile->kode_pos) }}</td>
+                                            <td>{{ old('kode_pos', @$profile->kode_pos) }}</td>
                                         </tr>  
                                     </table>
                                     <label style="font-weight: bold;">Riwayat Pendidikan</label>
                                     <table class="table table-striped">
                                         <tr>
                                             <td width="20%">Jejang</td>
-                                            <td >{{ old('jejang', $profile->jejang) }}</td>
+                                            <td >{{ old('jejang', @$profile->jejang) }}</td>
                                         </tr>
                                         <tr>
                                             <td>Jurusan</td>
-                                            <td>{{ old('jurusan_pendidikan', $profile->jurusan_pendidikan) }}</td>
+                                            <td>{{ old('jurusan_pendidikan', @$profile->jurusan_pendidikan) }}</td>
                                         </tr>
                                     </table>
                                     <label style="font-weight: bold;">Pekerjaan</label>
@@ -171,7 +171,7 @@
                                         </tr>
                                         <tr>
                                             <td>Tanggal Mulai</td>
-                                            <td>{{ old('tgl_mulai_kerja', $profile->tgl_mulai_kerja) }}</td>
+                                            <td>{{ old('tgl_mulai_kerja', @$profile->tgl_mulai_kerja) }}</td>
                                         </tr>
                                         
                                     </table>

@@ -63,10 +63,12 @@ class DetailUserController extends Controller
             // return redirect('admin/user/profile/'. auth()->user()->id)->with(['error' => 'Somethink when wrong!']);
         }else{
             $profile = DB::table('user_pegawai')->where('user_id',$id)->first();
-            $kota = $profile->city_id ? DB::table('indonesia_cities')->where('id', $profile->city_id)->pluck('name')->first() :'';
-            $provinsi = $profile->province_id? DB::table('indonesia_provinces')->where('id', $profile->province_id)->pluck('name')->first()  :'';
-            $profile->provinsi=$provinsi;
-            $profile->kota=$kota;
+            if($profile){
+                $kota = $profile->city_id ? DB::table('indonesia_cities')->where('id', $profile->city_id)->pluck('name')->first() :'';
+                $provinsi = $profile->province_id? DB::table('indonesia_provinces')->where('id', $profile->province_id)->pluck('name')->first()  :'';
+                $profile->provinsi=$provinsi;
+                $profile->kota=$kota;
+            }
             
             return view('admin.master.user.show',compact('profile'));
         }
@@ -86,12 +88,15 @@ class DetailUserController extends Controller
             return back()->with(compact('color', 'msg'));
             // return redirect('admin/user/profile/'. auth()->user()->id)->with(['error' => 'Somethink when wrong!']);
         }else{
-            $provinces =  DB::table('indonesia_provinces')->pluck('name', 'id');
-            $cities ="";
             $profile = DB::table('user_pegawai')->where('user_id',$id)->first();
-            // dd($profile);
-            if($profile->city_id != null){
-                $cities =  DB::table('indonesia_cities')->where('province_id', $profile->province_id)->pluck('name', 'id');
+            $cities ="";
+            $provinces ="";
+            $provinces =  DB::table('indonesia_provinces')->pluck('name', 'id');
+            if($profile){
+                // dd($profile);
+                if($profile->city_id != null){
+                    $cities =  DB::table('indonesia_cities')->where('province_id', $profile->province_id)->pluck('name', 'id');
+                }
             }
             // dd($cities);
             $user = User::find($id);
@@ -107,10 +112,11 @@ class DetailUserController extends Controller
             $role = DB::table('user_role');
             $role = $role->where('is_active', '1');
             if(Auth::user()->internalRole->uptd){
-                $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
-                $role = $role->where('uptd_id',$uptd_id);
+                // $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
+                $role = $role->where('uptd',Auth::user()->internalRole->uptd);
             }
             $role = $role->get();
+            // dd($role);
 
             return view('admin.master.user.edit_detail_user',compact('profile','user','sup','role','provinces','cities'));
         }
@@ -183,7 +189,7 @@ class DetailUserController extends Controller
                 $updatetouser = DB::table('users')->where('id', $id)->update($userupdat);
             }
             $updateprofile = DB::table('user_pegawai')
-            ->where('user_id', $id)->update($userprofile);
+            ->where('user_id', $id)->updateOrInsert($userprofile);
             if($updateprofile){
                 //redirect dengan pesan sukses
                 $color = "success";
