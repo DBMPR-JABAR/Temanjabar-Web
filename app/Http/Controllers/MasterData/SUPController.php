@@ -129,7 +129,7 @@ class SUPController extends Controller
         }else{
             //redirect dengan pesan error
             $color = "danger";
-            $msg = "Data Gagal Diperbaharui!";
+            $msg = "Data Gagal atau Tidak Ada yang Diperbaharui!";
             return redirect(route('goSUP'))->with(compact('color', 'msg'));
            
         }

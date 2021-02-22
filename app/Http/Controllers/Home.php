@@ -15,7 +15,7 @@ class Home extends Controller
 
     public function downloadFile()
     {
-        $path = storage_path('app/public/manualbook.pdf');
+        $path = storage_path('app/public/Manual Book Teman Jabar DBMPR.pdf');
         return response()->download($path);
         // return response()->download($myFile, $newName, $headers);
     }	
