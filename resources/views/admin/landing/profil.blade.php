@@ -167,6 +167,18 @@
                     </div>
                 </div>
 
+                <div class="form-group row">
+                    <label class="col-md-2 col-form-label">Link Youtube</label>
+                    <div class="col-md-4">
+                        <input name="link_youtube" type="text" class="form-control" value="{{ ($profil->link_youtube) ?? '' }}">
+                    </div>
+
+                </div><div class="form-group row">
+                    <label class="col-md-2 col-form-label">Link Playstore</label>
+                    <div class="col-md-4">
+                        <input name="link_playstore" type="text" class="form-control" value="{{ ($profil->link_playstore) ?? '' }}">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
