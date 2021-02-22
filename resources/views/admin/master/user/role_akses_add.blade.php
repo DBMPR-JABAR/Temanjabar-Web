@@ -77,7 +77,7 @@
                 <div class="form-group row">
                     <label class="col-md-3 col-form-label">Menu</label>
                     <div class="col-md-9">
-                        <select data-placeholder="User Role..." class="chosen-select" multiple  name="menu[]" tabindex="4" required>
+                        <select data-placeholder="User Role..." class="chosen-select " multiple  name="menu[]" tabindex="4" required>
                         @foreach($menu as $data)
                             <option value="{{$data->menu}}.Create" >{{$data->menu}}.Create</option>
                             <option value="{{$data->menu}}.View">{{$data->menu}}.View</option>

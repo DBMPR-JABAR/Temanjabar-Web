@@ -215,6 +215,13 @@
                 </a>
                 <ul class="pcoded-submenu">
                     <div class="pcoded-navigatio-lavel">Pemeliharaan</div>
+                    @if (hasAccess(Auth::user()->internal_role_id, "Mandor", "View"))
+                    <li class="{{(Request::segment(3) == 'mandor') ? 'active' : ''}}">
+                        <a href="{{ url('admin/input-data/mandor') }}">
+                            <span class="pcoded-mtext">Mandor</span>
+                        </a>
+                    </li>
+                    @endif
                     @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "View"))
                     <li class="{{(Request::segment(3) == 'pekerjaan') ? 'active' : ''}}">
                         <a href="{{ url('admin/input-data/pekerjaan') }}">
@@ -222,6 +229,7 @@
                         </a>
                     </li>
                     @endif
+                    
                     @if (hasAccess(Auth::user()->internal_role_id, "Kondisi Jalan", "View"))
                     <li class="{{(Request::segment(3) == 'kondisi-jalan') ? 'active' : ''}}">
                         <a href="{{ url('admin/input-data/kondisi-jalan') }}">

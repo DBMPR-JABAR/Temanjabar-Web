@@ -52,16 +52,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('profile/{id}', 'DetailUserController@show')->name('editProfile');
     Route::get('edit/profile/{id}', 'DetailUserController@edit')->name('editDetailProfile');
     Route::put('edit/profile/{id}', 'DetailUserController@update');
-
     Route::post('user/account/{id}', 'DetailUserController@updateaccount');
-
-
     Route::get('pesan', 'LandingController@getPesan');
     Route::get('log', 'LandingController@getLog');
     Route::get('home', 'Home@index')->name('admin-home');
     Route::get('/', 'Home@index');
     Route::get('file', 'Home@downloadFile');
-
     Route::view('map-dashboard', 'admin.map.map-dashboard');
     Route::view('map-dashboard-canggih', 'admin.map.map-dashboard-canggih');
     // {SiteURL}/admin/monitoring/*
@@ -84,7 +80,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::get('laporan-kerusakan', 'MonitoringController@getLaporan');
         Route::view('realisasi-keuangan', 'admin.monitoring.realisasi-keuangan');
         Route::view('audit-keuangan', 'audit-keuangan');
-
         Route::get('kemantapan-jalan', 'MonitoringController@getKemantapanJalan');
         // Route::view('kemantapan-jalan-detail', 'admin.monitoring.kemantapan-jalan-detail');
         Route::get('cctv', 'SurveiController@getCCTV');
@@ -141,7 +136,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('update', 'LandingController@updateUPTD')->name('updateLandingUPTD');
             Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
         });
-
 
         // {SiteURL}/admin/landing-page/laporan-masyarakat
         Route::group(['prefix' => 'laporan-masyarakat'], function () {
@@ -287,6 +281,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     });
 
     Route::group(['prefix' => 'input-data'], function () {
+        Route::resource('/mandor', 'InputData\MandorController');
         Route::group(['prefix' => 'pekerjaan'], function () {
             Route::get('/', 'InputData\PekerjaanController@getData')->name('getDataPekerjaan');
             Route::get('edit/{id}', 'InputData\PekerjaanController@editData')->name('editDataPekerjaan');

@@ -75,17 +75,12 @@
                             </tr>
                         </thead>
                         <tbody id="bodyJembatan">
-                            @php
-                                if(Auth::user() && Auth::user()->internalRole->uptd != null){
-                                    $temporari = $user_lists_uptd;
-                                }else{
-                                    $temporari = $users;
-                                }
-                            @endphp
-                             @foreach ($temporari as $data)
+                             @foreach ($users as $data)
                              @php
-                                $role = App\Model\Transactional\Role::find($data->internal_role_id);
+                                // $role = App\Model\Transactional\Role::find($data->internal_role_id);
+                               
                              @endphp
+                                  
                                 <tr>
                                     <td>{{$loop->index + 1}}</td>
                                     <td>{{$data->name}}</td>
@@ -93,7 +88,9 @@
                                     <td>{{$data->email_verified_at}}</td>
                                     <td>{{$data->kode_otp}}</td>
                                     <td>{{$data->role}}</td>
-                                    <td>{{$role->role ?? ''}}</td>
+                                    {{-- <td>{{$role->keterangan ?? ''}}</td> --}}
+                                    <td>{{$data->internalRole->role ?? ''}}</td>
+
                                     <td>{{$data->created_at}}</td>
                                     <td>{{$data->updated_at}}</td>
                                     <td>
@@ -102,6 +99,7 @@
                                             <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data->id}}'     class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Hapus</a><br/>
                                     </td>
                                 </tr>
+                             
                             @endforeach
                         </tbody>
                     </table>

@@ -7,6 +7,7 @@ use View;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\User;
 
 
 
@@ -39,6 +40,18 @@ class AppServiceProvider extends ServiceProvider
             $user_lists = DB::table('users')->get();
             $view->with('user_lists', $user_lists);
         });
+        View::composer('*', function ($view) {
+            $user_lists_uptd = User::get();
+            $temp=[];
+            foreach($user_lists_uptd as $no => $data){
+                $cek =$data->internalRole->uptd ?? '';
+                if($cek ==Auth::user()->internalRole->uptd)
+                    $temp[]=$data;
+            }
+            $user_lists_uptd = $temp;
+            $view->with('user_lists_uptd', $user_lists_uptd);
+        });
+        
         
         View::composer('*', function ($view) {
             $ruas_jalan_lists = DB::table('master_ruas_jalan')->get();

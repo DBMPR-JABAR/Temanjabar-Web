@@ -142,10 +142,7 @@ class UserController extends Controller
     {
         $users = DB::table('users')->get();
         $roles = DB::table('user_role')->get();
-        return view('admin.master.user.manajemen.index',[
-                'users' => $users,
-                'roles' => $roles
-            ]);
+        return view('admin.master.user.manajemen.index',compact('users','roles'));
     }
 
     public function getUserAPI()
@@ -269,7 +266,7 @@ class UserController extends Controller
         $user_role = DB::table('user_role as a')
                        ->whereNotIn('id',$temp)
                        ->get();
-        // dd($user_role);
+        // dd($menu);
         return view('admin.master.user.role_akses_add',compact('menu','user_role'));
     }
 
