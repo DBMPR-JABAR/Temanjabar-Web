@@ -51,12 +51,29 @@ class SUPController extends Controller
     {
         //
         $this->validate($request, [
-            'name'      => 'required',
-            'uptd_id'  => 'required'
+            'name'      => 'required'
         ]);
+        $uptd_id = $request->uptd_id;
         $sup['name'] = $request->name;
-        $sup['uptd_id'] = $request->uptd_id;
-        
+    
+        if(Auth::user() && Auth::user()->internalRole->uptd != null)
+            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+
+        $sup['uptd_id'] = $uptd_id;
+        $storesup=DB::table('utils_sup')->insert($sup);
+        if($storesup){
+            //redirect dengan pesan sukses
+            $color = "success";
+            $msg = "SUP Berhasil Ditambah!";
+            return redirect(route('goSUP'))->with(compact('color','msg'));
+        }else{
+            //redirect dengan pesan error
+            $color = "danger";
+            $msg = "Data Gagal Ditambah!";
+            return redirect(route('goSUP'))->with(compact('color', 'msg'));
+           
+        }
+
     }
 
     /**
@@ -78,7 +95,9 @@ class SUPController extends Controller
      */
     public function edit($id)
     {
-        //
+        $sup = DB::table('utils_sup')->where('id',$id)->first();    	
+        return view('admin.master.sup.edit', compact('sup'));
+
     }
 
     /**
@@ -90,7 +109,30 @@ class SUPController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name'      => 'required'
+        ]);
+        $uptd_id = $request->uptd_id;
+        $sup['name'] = $request->name;
+    
+        if(Auth::user() && Auth::user()->internalRole->uptd != null)
+            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+            
+        $sup['uptd_id'] = $uptd_id;
+        $updatesup=DB::table('utils_sup')->where('id', $id)->update($sup);
+
+        if($updatesup){
+            //redirect dengan pesan sukses
+            $color = "success";
+            $msg = "SUP Berhasil Diperbaharui!";
+            return redirect(route('goSUP'))->with(compact('color','msg'));
+        }else{
+            //redirect dengan pesan error
+            $color = "danger";
+            $msg = "Data Gagal Diperbaharui!";
+            return redirect(route('goSUP'))->with(compact('color', 'msg'));
+           
+        }
     }
 
     /**
@@ -101,6 +143,12 @@ class SUPController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user_role = DB::table('utils_sup')
+        ->where('id',$id)
+        ->delete();
+
+        $color = "success";
+        $msg = "Berhasil Menghapus Data SUP";
+        return back()->with(compact('color', 'msg'));
     }
 }

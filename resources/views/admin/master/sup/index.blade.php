@@ -69,13 +69,13 @@
                                     <td>
                                             
                                             @if (hasAccess(Auth::user()->internal_role_id, "SUP", "Update"))
-                                            <a type='button' href=''  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-edit'></i>Edit</a>
+                                            {{-- <a type='button' href='#editModal'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-edit'></i>Edit</a> --}}
+                                            {{-- <a type="button"href="#editModal"  data-toggle="modal" data-id="{{$data->id}}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Edit</a> --}}
 
-                                            {{-- <a type='button' href='{{route('editUser',$data->id)}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-edit'></i>Edit</a> --}}
+                                            <a type='button' href='{{route('editSUP',$data->id)}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-edit'></i>Edit</a>
                                             @endif
                                             @if (hasAccess(Auth::user()->internal_role_id, "SUP", "Delete"))
-                                            <a type='button' href='#delModal'  data-toggle='modal' data-id='' class='btn btn-warning btn-mini waves-effect waves-light'><i class='icofont icofont-trash'></i>Hapus</a><br/>
-                                            {{-- <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data->id}}' class='btn btn-warning btn-mini waves-effect waves-light'><i class='icofont icofont-trash'></i>Hapus</a><br/> --}}
+                                            <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data->id}}' class='btn btn-warning btn-mini waves-effect waves-light'><i class='icofont icofont-trash'></i>Hapus</a><br/>
                                             @endif
                                     </td>
                                 </tr>
@@ -102,14 +102,19 @@
                     </div>
 
                     <div class="modal-body">
-
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">UPTD</label>
-                            <div class="col-md-10">
-                                <input name="uptd_id" type="text" class="form-control" required>
+                        @if(Auth::user() && Auth::user()->internalRole->uptd == null)
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label">UPTD</label>
+                                <div class="col-md-10">
+                                    <select name="uptd_id" id="province" class="form-control">
+                                        <option value="">== Select UPTD ==</option>
+                                        @foreach ($uptd_lists as $no => $data)
+                                            <option value="{{ $data->id }}">{{ $data->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-
+                        @endif
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Nama SUP</label>
                             <div class="col-md-10">
@@ -126,6 +131,55 @@
                     </div>
 
                 </form>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+
+                <form action="" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit SUP</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body p-5">
+                        @if(Auth::user() && Auth::user()->internalRole->uptd == null)
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label">UPTD</label>
+                                <div class="col-md-10">
+                                    <select name="uptd_id" class="form-control">
+                                        <option value="">== Select UPTD ==</option>
+                                        @foreach ($uptd_lists as $no => $data)
+                                            <option value="{{ $data->id }}">{{ $data->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        @endif
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Nama SUP</label>
+                            <div class="col-md-10">
+                                <input name="name" id="sup_name" type="text" class="form-control" required>
+                            </div>
+                        </div>
+                     
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary waves-effect waves-light ">Simpan</button>
+                    </div>
+
+                </form>
+
 
             </div>
         </div>
@@ -171,11 +225,22 @@
             const link = $(event.relatedTarget);
             const id = link.data('id');
 
-            const url = `{{ url('admin/landing-page/uptd/delete') }}/` + id;
+            const url = `{{ url('admin/master-data/sup/delete') }}/` + id;
 
             const modal = $(this);
             modal.find('.modal-footer #delHref').attr('href',url);
         });
+        $('#editModal').on('show.bs.modal', function(event) {
+            const link = $(event.relatedTarget);
+            const id = link.data('id');
+            console.log(id);
+            const baseUrl = `{{ url('admin/master-data/sup/edit') }}/` + id;
+            $.get(baseUrl, { id: id },
+                function(response){
+                    // $('#id').val(response.icon[0].id);
+                    $('#sup_name').val(response.icon[0].sup_name);
+                });
+            });
     });
 </script>
 @endsection

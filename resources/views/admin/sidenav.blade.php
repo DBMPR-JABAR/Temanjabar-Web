@@ -186,7 +186,7 @@
                     </li>
                     @endif
                     @if (hasAccess(Auth::user()->internal_role_id, "Lapor", "Create"))
-                    <li class="{{(Request::segment(3) == 'sup') ? 'active' : ''}}">
+                    <li class="{{(Request::segment(3) == 'jenis_laporan') ? 'active' : ''}}">
                         <a href="{{ url('admin/master-data/jenis_laporan') }}">
                             <span class="pcoded-mtext">Jenis Laporan</span>
                         </a>

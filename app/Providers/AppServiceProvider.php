@@ -45,6 +45,10 @@ class AppServiceProvider extends ServiceProvider
             $view->with('ruas_jalan_lists', $ruas_jalan_lists);
         });
         View::composer('*', function ($view) {
+            $sup_list = DB::table('utils_sup')->get();
+            $view->with('sup_list', $sup_list);
+        });
+        View::composer('*', function ($view) {
             if(Auth::user()){
                 $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
                 $ruas_jalan_lists_uptd = DB::table('master_ruas_jalan')

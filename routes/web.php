@@ -252,7 +252,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('getDataSUP/{id}', 'MasterData\CCTVController@getDataSUP')->name('getDataCCTVSUP');
         });
         Route::group(['prefix' => 'sup'], function () {
-            Route::get('/', 'MasterData\SUPController@index')->name('getSUP');
+            Route::get('/', 'MasterData\SUPController@index')->name('goSUP');
             Route::get('create', 'MasterData\SUPController@create')->name('createSUP');
             Route::get('edit/{id}', 'MasterData\SUPController@edit')->name('editSUP');
             Route::post('store', 'MasterData\SUPController@store')->name('storeSUP');
