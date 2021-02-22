@@ -71,7 +71,7 @@
                                             <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$tba->id}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-edit'></i>Edit</a>
                                             {{-- @endif --}}
                                             {{-- @if (hasAccess(Auth::user()->internal_role_id, "Tipe Bangunan Atas", "Delete")) --}}
-                                            <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$tba->id}}' class='btn btn-warning btn-mini waves-effect waves-light'><i class='icofont icofont-trash'></i>Hapus</a><br/>
+                                            <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$tba->id}}' class='btn btn-warning btn-mini waves-effect waves-light'><i class='icofont icofont-trash'></i>Hapus</a><br/>
                                             {{-- @endif --}}
                                     </td>
                                 </tr>
@@ -127,7 +127,7 @@
     </div>
 
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
 
                     <div class="modal-header">
@@ -143,6 +143,31 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">Hapus Data Tipe Bangunan Atas</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <p>Apakah anda yakin ingin menghapus data ini?</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                    <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Hapus</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 </li>
 </div>
 @endsection
@@ -164,6 +189,13 @@
 
             const modal = $(this);
             modal.find('.content').load(url);
+        });
+        $('#delModal').on('show.bs.modal', function (event) {
+            const link = $(event.relatedTarget);
+            const id = link.data('id');
+            const url = "{{ url('admin/master-data/tipebangunanatas') }}/" + id + "/edit";
+            const modal = $(this);
+            modal.find("#delHref").attr('href',url);
         });
     });
 </script>
