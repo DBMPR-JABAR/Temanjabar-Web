@@ -61,8 +61,8 @@
                             <td>{{$data->judul}}</td>
                             <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/'.$data->gambar) !!}" alt="" srcset=""></td>
                             <td>
-                                <a href="{{ route('editLandingSlideshow',$data->id) }}" class="mb-2 btn btn-block btn-warning btn-mat">Edit</a><br>
-                                <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-block btn-danger btn-mat">Hapus</a>
+                                <a type='button' href='{{ route('editLandingSlideshow',$data->id) }}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a>
+                                <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data->id}}'     class='btn btn-warning btn-mini waves-effect waves-light'><i class='icofont icofont-trash'></i>Hapus</a><br/>
                             </td>
                         </tr>
                         @endforeach
