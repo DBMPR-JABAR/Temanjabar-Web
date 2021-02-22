@@ -45,7 +45,7 @@ class AppServiceProvider extends ServiceProvider
             $temp=[];
             foreach($user_lists_uptd as $no => $data){
                 $cek =$data->internalRole->uptd ?? '';
-                if($cek ==Auth::user()->internalRole->uptd)
+                if(Auth::user() && $cek == Auth::user()->internalRole->uptd)
                     $temp[]=$data;
             }
             $user_lists_uptd = $temp;
