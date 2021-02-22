@@ -36,9 +36,12 @@ class MandorController extends Controller
             $temp=[];
             // $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
             foreach($users as $no => $data){
-                if($data->internalRole->uptd ==Auth::user()->internalRole->uptd)
-                    $temp[]=$data;
-
+                if($data->internalRole->uptd ==Auth::user()->internalRole->uptd){
+                    if(Auth::user()->sup_id != null && $data->sup_id == Auth::user()->sup_id)
+                        $temp[]=$data;
+                }else if(Auth::user()->sup_id == null){
+                        $temp[]=$data;
+                }
             }
             $users = $temp;
         }
