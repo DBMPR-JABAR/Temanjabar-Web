@@ -37,12 +37,19 @@ class NewsVideoController extends Controller
      */
     public function store(Request $request)
     {
-        $data = new NewsVideo;
-        $data->fill($request->all());
-        $data->save();
+        $count = NewsVideo::count();
+        if($count < 3){
+            $data = new NewsVideo;
+            $data->fill($request->all());
+            $data->save();
 
-        $color = "success";
-        $msg = "Berhasil Menambah Data Video Berita";
+            $color = "success";
+            $msg = "Berhasil Menambah Data Video Berita";
+        }else{
+            $color = "danger";
+            $msg = "Tidak Dapat Menambah Video Berita Karena Penuh";
+        }
+
         return redirect(route('video-news.index'))->with(compact('color','msg'));
     }
 

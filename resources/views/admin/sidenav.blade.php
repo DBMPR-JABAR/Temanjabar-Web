@@ -200,6 +200,13 @@
                         </a>
                     </li>
                     @endif
+                    @if (hasAccess(Auth::user()->internal_role_id, "Lapor", "Create"))
+                    <li class="{{(Request::segment(3) == 'item_bahan_material') ? 'active' : ''}}">
+                        <a href="{{ url('admin/master-data/item_bahan_material') }}">
+                            <span class="pcoded-mtext">Bahan Material</span>
+                        </a>
+                    </li>
+                    @endif
                 </ul>
             </li>
         </ul>
