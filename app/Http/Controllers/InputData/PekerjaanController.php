@@ -145,6 +145,7 @@ class PekerjaanController extends Controller
     public function createData(Request $req)
     {
         $pekerjaan = $req->except(['_token']);
+        dd($pekerjaan);
         $pekerjaan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
         if($pekerjaan['uptd_id'])
             $pekerjaan['uptd_id'] = str_replace('uptd', '', $pekerjaan['uptd_id']);

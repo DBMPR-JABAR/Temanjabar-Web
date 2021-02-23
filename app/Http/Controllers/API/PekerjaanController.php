@@ -76,9 +76,13 @@ class PekerjaanController extends Controller
 
             $pekerjaan = [];
             $pekerjaan['nama_mandor'] = $this->user->name;
+            $pekerjaan['user_id'] = $this->user->id;
+            $pekerjaan['created_by'] = $this->user->id;
             $pekerjaan['tanggal'] = $request->tanggal;
+            $pekerjaan['sup_id'] = $request->idSup;
             $pekerjaan['sup'] = DB::table('utils_sup')->where('id', $request->idSup)->first()->name;
             $pekerjaan['paket'] = $request->namaPaket;
+            $pekerjaan['ruas_jalan_id'] = $request->idRuasJalan;
             $pekerjaan['ruas_jalan'] = DB::table('master_ruas_jalan')
                 ->where('id_ruas_jalan', $request->idRuasJalan)->first()->nama_ruas_jalan;
             $pekerjaan['jenis_pekerjaan'] = DB::table('item_pekerjaan')->where('no', $request->idJenisPekerjaan)->first()->nama_item;
