@@ -223,7 +223,15 @@
             $("#spp_filter").empty();
             $('#spp_filter').trigger("chosen:updated");
         }else{
-            data = await fillSUP(uptd);
+            console.log("uptd = ", uptd)
+            const uptdfilter = [];
+            uptd.map((upt)=> {
+                // console.log(upt.substring(0,5))
+                uptdfilter.push(upt.substring(0,5))
+            })
+
+            console.log("uptdfilter = ", uptdfilter)
+            data = await fillSUP(uptdfilter);
         }
         return data;
     }
