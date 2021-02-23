@@ -84,6 +84,8 @@ class PekerjaanController extends Controller
             $pekerjaan['jenis_pekerjaan'] = DB::table('item_pekerjaan')->where('no', $request->idJenisPekerjaan)->first()->nama_item;
             $pekerjaan['peralatan'] = $request->peralatan;
             $pekerjaan['panjang'] = $request->panjang;
+            $pekerjaan['jumlah_pekerja'] = $request->jumlah_pekerja;
+
             $pekerjaan['lat'] = $request->lat;
             $pekerjaan['lng'] = $request->long;
 
