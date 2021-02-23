@@ -145,6 +145,23 @@ class PekerjaanController extends Controller
     public function createData(Request $req)
     {
         $pekerjaan = $req->except(['_token']);
+        $pekerjaan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
+        if($pekerjaan['uptd_id'])
+            $pekerjaan['uptd_id'] = str_replace('uptd', '', $pekerjaan['uptd_id']);
+
+        $temp=explode(",",$pekerjaan['nama_mandor']);
+        $temp1=explode(",",$pekerjaan['sup']);
+        $temp2=explode(",",$pekerjaan['ruas_jalan']);
+
+        $pekerjaan['nama_mandor'] = $temp[0];
+        $pekerjaan['user_id'] = $temp[1];
+        $pekerjaan['sup'] = $temp1[0];
+        $pekerjaan['sup_id'] = $temp1[1];
+        $pekerjaan['ruas_jalan'] = $temp2[0];
+        $pekerjaan['ruas_jalan_id'] = $temp2[1];
+        // dd($pekerjaan['ruas_jalan']);
+        $pekerjaan['created_by'] = Auth::user()->id;
+        
         // $pekerjaan['slug'] = Str::slug($req->nama, '');
         if ($req->foto_awal != null) {
             $path = Str::snake(date("YmdHis") . ' ' . $req->foto_awal->getClientOriginalName());
@@ -168,7 +185,7 @@ class PekerjaanController extends Controller
         }
         $row = DB::table('kemandoran')->select('id_pek')->orderByDesc('id_pek')->limit(1)->first();
 
-        $pekerjaan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
+       
         $pekerjaan['tglreal'] = date('Y-m-d H:i:s');
         $pekerjaan['is_deleted'] = 0;
 

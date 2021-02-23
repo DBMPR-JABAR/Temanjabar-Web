@@ -186,7 +186,7 @@
                             <div class="col-md-10">
                                 <select class="form-control searchableModalField" name="nama_mandor" required>
                                     @foreach ($mandor as $data)
-                                    <option value="{{$data->name}}">{{$data->name}}</option>
+                                    <option value="{{$data->name}},{{$data->id}}">{{$data->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -233,10 +233,10 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">SUP</label>
                             <div class="col-md-10">
-                                <select class="form-control searchableModalField" id="sup" name="sup" required>
+                                <select class="form-control searchableModalField" id="sup" name="sup" required >
                                     @if (Auth::user()->internalRole->uptd)
                                     @foreach ($sup as $data)
-                                    <option value="{{$data->name}}">{{$data->name}}</option>
+                                    <option value="{{$data->name}},{{$data->id}}" @if(Auth::user()->sup_id != null && Auth::user()->sup_id == $data->id) selected @endif>{{$data->name}}</option>
                                     @endforeach
                                     @else
                                     <option>-</option>
@@ -250,7 +250,7 @@
                                 <select class="form-control searchableModalField" id="ruas_jalan" name="ruas_jalan" required>
                                     @if (Auth::user()->internalRole->uptd)
                                     @foreach ($ruas_jalan as $data)
-                                    <option value="{{$data->nama_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
+                                    <option value="{{$data->nama_ruas_jalan}},{{$data->id}}">{{$data->nama_ruas_jalan}}</option>
                                     @endforeach
                                     @else
                                     <option>-</option>
