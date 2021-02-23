@@ -89,9 +89,6 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                @if (isset($index) && $index >= 3)
-                <h5>Tidak Dapat Menambah Data Baru</h5>
-                @else
                 <form action="{{route('video-news.store')}}" method="post">
                     @csrf
                     <div class="form-group row">
@@ -111,7 +108,6 @@
                     <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
                     <button type="submit" class="btn btn-primary waves-effect waves-light ">Simpan</button>
                 </div>
-                @endif
                 </form>
             </div>
         </div>
