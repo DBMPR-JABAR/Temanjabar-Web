@@ -89,6 +89,7 @@ class PekerjaanController extends Controller
             $pekerjaan['peralatan'] = $request->peralatan;
             $pekerjaan['panjang'] = $request->panjang;
             $pekerjaan['jumlah_pekerja'] = $request->jumlah_pekerja;
+            $pekerjaan['lokasi'] = $request->lokasi;
 
             $pekerjaan['lat'] = $request->lat;
             $pekerjaan['lng'] = $request->long;
