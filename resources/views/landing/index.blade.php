@@ -179,16 +179,12 @@
 <section id="video" class="padding">
     <div class="container">
         <h3 class="darkcolor font-normal bottom30">Berita kami</h2>
-        <div class="container-grid">
-            <div class="vid1 bg-primary fadeInUp" data-wow-delay="300ms">
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/ZrkHsRb3xI0?controls=0" frameborder="0"></iframe>
+        <div class="container-grid fadeInUp" data-wow-delay="300ms">
+            @foreach ($video as $index => $data)
+            <div class="vid{{++$index}}">
+                <iframe width="100%" height="100%" src="{{$data->url}}" frameborder="0"></iframe>
             </div>
-            <div class="vid2 bg-danger fadeInLeft" data-wow-delay="300ms">
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/IZenGLLH1K4?controls=0" frameborder="0"></iframe>
-            </div>
-            <div class="vid3 bg-warning fadeInRight" data-wow-delay="300ms">
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/THhF3p7DZ4U?controls=0" frameborder="0"></iframe>
-            </div>
+            @endforeach
         </div>
     </div>
 </section>

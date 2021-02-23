@@ -37,7 +37,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h5>Fitur Landing Page</h5>
+                <h5>Berita Video pada Landing Page</h5>
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
                         <li><i class="feather icon-maximize full-card"></i></li>
@@ -50,18 +50,28 @@
                 <table id="dttable" class="table table-bordered table-responsive">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Judul Video</th>
                             <th>Link Video</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <td>Pembangunan Masjid</td>
-                        <td>https://www.youtube.com/embed/ZrkHsRb3xI0?controls=0</td>
-                        <td>
-                            <a href="#" class="mb-2 btn btn-block btn-warning btn-mat">Edit</a><br>
-                            <a href="#delModal" data-id="" data-toggle="modal" class="btn btn-block btn-danger btn-mat">Hapus</a>
-                        </td>
+                        @forelse ($data as $index => $video)
+                        <tr>
+                            <td>{{++$index}}</td>
+                            <td>{{$video->title}}</td>
+                            <td>{{$video->url}}</td>
+                            <td>
+                                <a type='button' href='#editModal' data-toggle="modal" data-id="{{$video->id}}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a>
+                                <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$video->id}}'     class='btn btn-warning btn-mini waves-effect waves-light'><i class='icofont icofont-trash'></i>Hapus</a><br/>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="4">Data Tidak Ada</td>
+                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
@@ -72,40 +82,55 @@
     <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-
-                <form action="{{route('createLandingFitur')}}" method="post" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h4 class="modal-title">Tambah Data Berita Video</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                @if (isset($index) && $index >= 3)
+                <h5>Tidak Dapat Menambah Data Baru</h5>
+                @else
+                <form action="{{route('video-news.store')}}" method="post">
                     @csrf
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Judul Video</label>
+                        <div class="col-md-10">
+                            <input name="title" type="text" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">URL Video</label>
+                        <div class="col-md-10">
+                            <input name="url" type="text" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                    <button type="submit" class="btn btn-primary waves-effect waves-light ">Simpan</button>
+                </div>
+                @endif
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+
                     <div class="modal-header">
-                        <h4 class="modal-title">Tambah Data Fitur</h4>
+                        <h4 class="modal-title">Ubah Data Berita Video</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
 
-                    <div class="modal-body">
-
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Judul</label>
-                            <div class="col-md-10">
-                                <input name="judul" type="text" class="form-control" required>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Link</label>
-                            <div class="col-md-10">
-                                <input name="link" type="text" class="form-control" required>
-                            </div>
-                        </div>
+                    <div class="content">
 
                     </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary waves-effect waves-light ">Simpan</button>
-                    </div>
-
-                </form>
-
             </div>
         </div>
     </div>
@@ -115,7 +140,7 @@
             <div class="modal-content">
 
                     <div class="modal-header">
-                        <h4 class="modal-title">Hapus Data Fitur</h4>
+                        <h4 class="modal-title">Hapus Data Video</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -126,8 +151,10 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                        <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Hapus</a>
+                        <form id="delHref" action="" method="get">
+                            <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-danger waves-effect waves-light ">Hapus</button>
+                        </form>
                     </div>
 
             </div>
@@ -146,14 +173,23 @@
 <script>
     $(document).ready(function () {
         $("#dttable").DataTable();
+        $('#editModal').on('show.bs.modal', function (event) {
+            const link = $(event.relatedTarget);
+            const id = link.data('id');
+
+            const url = "{{ url('admin/landing-page/video-news') }}/" + id;
+
+            const modal = $(this);
+            modal.find('.content').load(url);
+        });
         $('#delModal').on('show.bs.modal', function (event) {
             const link = $(event.relatedTarget);
             const id = link.data('id');
 
-            const url = `{{ url('admin/landing-page/fitur/delete') }}/` + id;
+            const url = `{{ url('admin/landing-page/video-news') }}/` + id + '/edit';
 
             const modal = $(this);
-            modal.find('.modal-footer #delHref').attr('href',url);
+            modal.find('.modal-footer #delHref').attr('action',url);
         });
     });
 </script>

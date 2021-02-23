@@ -122,11 +122,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         });
 
         // {SiteURL}/admin/landing-page/video-controls
-        Route::group(['prefix' => 'video-controls'], function () {
-            Route::get('/', function() {
-                return view('admin.landing.video.index');
-            });
-        });
+        Route::resource('video-news', 'Landing\NewsVideoController');
 
         // {SiteURL}/admin/landing-page/uptd
         Route::group(['prefix' => 'uptd'], function () {

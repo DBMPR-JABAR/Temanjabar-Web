@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css"
         href="{{ asset('assets/vendor/data-table/extensions/responsive/css/responsive.dataTables.css') }}">
 
-    <link rel="stylesheet" href="https://js.arcgis.com/4.18/esri/themes/light/main.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
 
     <style>
         table.table-bordered tbody td {
@@ -61,7 +61,7 @@
                         <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
                     @endif
                     <div class="dt-responsive table-responsive">
-                        <table class="table table-striped table-bordered able-responsive">
+                        <table id="dttable" class="table table-striped table-bordered able-responsive">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -85,41 +85,28 @@
                                     <th style="min-width: 100px;">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody id="bodyJembatan">
-                                @foreach ($ruasJalan as $data)
-                                <tr>
-                                    <td>{{ $loop->index + 1 }}</td>
-                                    <td>{{ $data->id_ruas_jalan }}</td>
-                                    <td>{{ $data->nama_ruas_jalan }}</td>
-                                    <td>{{ $data->supName }}</td>
-                                    <td>{{ $data->lokasi }}</td>
-                                    <td>{{ $data->panjang }}</td>
-                                    <td>{{ $data->sta_awal }}</td>
-                                    <td>{{ $data->sta_akhir }}</td>
-                                    <td>{{ $data->lat_awal }}</td>
-                                    <td>{{ $data->long_awal }}</td>
-                                    <td>{{ $data->lat_akhir }}</td>
-                                    <td>{{ $data->long_akhir }}</td>
-                                    <td>{{ $data->kab_kota }}</td>
-                                    <td>{{ $data->kd_sppjj }}</td>
-                                    <td>{{ $data->nm_sppjj }}</td>
-                                    <td>{{ $data->lat_ctr }}</td>
-                                    <td>{{ $data->long_ctr }}</td>
-                                    <td>{{ $data->wil_uptd }}</td>
-
-                                    <td>
-                                        <div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">
-                                            @if (hasAccess(Auth::user()->internal_role_id, 'Ruas Jalan', 'Update'))
-                                            <a href="{{ route('editMasterRuasJalan', $data->id) }}"><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>
-                                            @endif
-                                            @if (hasAccess(Auth::user()->internal_role_id, 'Ruas Jalan', 'Delete'))
-                                            <a href="#delModal" data-id="{{ $data->id }}" data-toggle="modal"><button data-toggle="tooltip" title="Hapus" class="btn btn-danger btn-mini waves-effect waves-light"><i class="icofont icofont-trash"></i></button></a>
-                                            @endif
-                                        </div>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
+                            <!-- <tbody id="bodyJembatan">
+                            @foreach ($ruasJalan as $data)
+                            <tr>
+                                <td>{{ $loop->index + 1 }}</td>
+                                <td>{{ $data->id_ruas_jalan }}</td>
+                                <td>{{ $data->nama_ruas_jalan }}</td>
+                                <td>{{ $data->supName }}</td>
+                                <td>{{ $data->lokasi }}</td>
+                                <td>{{ $data->panjang }}</td>
+                                <td>
+                                    <div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">
+                                        @if (hasAccess(Auth::user()->internal_role_id, 'Ruas Jalan', 'Update'))
+                                        <a href="{{ route('editMasterRuasJalan', $data->id) }}"><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>
+                                        @endif
+                                        @if (hasAccess(Auth::user()->internal_role_id, 'Ruas Jalan', 'Delete'))
+                                        <a href="#delModal" data-id="{{ $data->id }}" data-toggle="modal"><button data-toggle="tooltip" title="Hapus" class="btn btn-danger btn-sm waves-effect waves-light"><i class="icofont icofont-trash"></i></button></a>
+                                        @endif
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody> -->
                         </table>
                     </div>
                 </div>
@@ -256,46 +243,30 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Latitude Awal</label>
                                     <div class="col-md-9">
-                                        <input id="lat0" name="lat_awal" type="text" class="form-control formatLatLong" required>
+                                        <input name="lat_awal" type="text" class="form-control formatLatLong" required>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Longitude Awal</label>
                                     <div class="col-md-9">
-                                        <input id="long0" name="long_awal" type="text" class="form-control formatLatLong" required>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label class="col-md-3 col-form-label">Latitude Titik Tengah (Centroid)</label>
-                                    <div class="col-md-9">
-                                        <input id="lat1" name="lat_ctr" type="text" class="form-control formatLatLong">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 col-form-label">Longitude Titik Tengah (Centroid)</label>
-                                    <div class="col-md-9">
-                                        <input id="long1" name="long_ctr" type="text" class="form-control formatLatLong">
+                                        <input name="long_awal" type="text" class="form-control formatLatLong" required>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Latitude Akhir</label>
                                     <div class="col-md-9">
-                                        <input id="lat2" name="lat_akhir" type="text" class="form-control formatLatLong" required>
+                                        <input name="lat_akhir" type="text" class="form-control formatLatLong" required>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Longitude Akhir</label>
                                     <div class="col-md-9">
-                                        <input id="long2" name="long_akhir" type="text" class="form-control formatLatLong" required>
+                                        <input name="long_akhir" type="text" class="form-control formatLatLong" required>
                                     </div>
                                 </div>
-
-                                <p>Marker Biru: Titik Awal <br> Marker Hijau: Titik Tengah <br> Marker Merah: Titik Akhir <br> (Dipilih Bergantian) </p>
-                                <div id="mapLatLong" class="full-map mb-2" style="height: 300px; width: 100%"></div>
 
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Kabupaten Kota</label>
@@ -314,6 +285,19 @@
                                     <label class="col-md-3 col-form-label">Nama SPPJJ</label>
                                     <div class="col-md-9">
                                         <input name="nm_sppjj" type="text" class="form-control" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">Latitude Titik Tengah (Centroid)</label>
+                                    <div class="col-md-9">
+                                        <input name="lat_ctr" type="text" class="form-control formatLatLong">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">Longitude Titik Tengah (Centroid)</label>
+                                    <div class="col-md-9">
+                                        <input name="long_ctr" type="text" class="form-control formatLatLong">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -372,7 +356,6 @@
     <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
-    <script src="https://js.arcgis.com/4.18/"></script>
 
     <script>
         $(document).ready(function() {
@@ -385,89 +368,6 @@
                 console.log(url);
                 const modal = $(this);
                 modal.find('.modal-footer #delHref').attr('href', url);
-            });
-            $('#addModal').on('show.bs.modal', function(event) {
-                $('#mapLatLong').ready(() => {
-                    require([
-                    "esri/Map",
-                    "esri/views/MapView",
-                    "esri/Graphic"
-                    ], function(Map, MapView, Graphic) {
-
-                        const map = new Map({
-                            basemap: "hybrid"
-                        });
-
-                        const view = new MapView({
-                            container: "mapLatLong",
-                            map: map,
-                            center: [107.6191, -6.9175],
-                            zoom: 8,
-                        });
-
-                        let mouseclick = 0;
-
-                        view.on("click", function(event){
-                            const lat = event.mapPoint.latitude;
-                            const long = event.mapPoint.longitude;
-
-                            // Genap = Titik Awal
-                            if(mouseclick % 3 == 0){
-                                addTitik(0, lat, long, "blue");
-                                $("#lat0").val(lat);
-                                $("#long0").val(long);
-                            }else if(mouseclick % 3 == 1){
-                                addTitik(1, lat, long, "green");
-                                $("#lat1").val(lat);
-                                $("#long1").val(long);
-                            }else{
-                                addTitik(2, lat, long, "red");
-                                $("#lat2").val(lat);
-                                $("#long2").val(long);
-                            }
-                            mouseclick++;
-                        });
-
-                        $("#lat0, #long0").keyup(function () {
-                            const lat = $("#lat0").val();
-                            const long = $("#long0").val();
-                            addTitik(0, lat, long, "blue");
-                        });
-                        $("#lat1, #long1").keyup(function () {
-                            const lat = $("#lat1").val();
-                            const long = $("#long1").val();
-                            addTitik(1, lat, long, "green");
-                        });
-                        $("#lat2, #long2").keyup(function () {
-                            const lat = $("#lat2").val();
-                            const long = $("#long2").val();
-                            addTitik(2, lat, long, "red");
-                        });
-
-                        let tempGraphic = [];
-                        function addTitik(point, lat, long, color){
-                            if($("#lat"+point).val() != '' && $("#long"+point).val() != ''){
-                                view.graphics.remove(tempGraphic[point]);
-                            }
-                            var graphic = new Graphic({
-                                geometry: {
-                                    type: "point",
-                                    longitude: long,
-                                    latitude: lat
-                                },
-                                symbol: {
-                                    type: "picture-marker",
-                                    url: `http://esri.github.io/quickstart-map-js/images/${color}-pin.png`,
-                                    width: "14px",
-                                    height: "24px"
-                                }
-                            });
-                            tempGraphic[point] = graphic;
-
-                            view.graphics.add(graphic);
-                        }
-                    });
-                });
             });
 
             // Format mata uang.
