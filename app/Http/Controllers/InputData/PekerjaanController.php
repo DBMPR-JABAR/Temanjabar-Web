@@ -145,12 +145,17 @@ class PekerjaanController extends Controller
     public function createData(Request $req)
     {
         $pekerjaan = $req->except(['_token']);
-        dd($pekerjaan);
+        // dd($pekerjaan);
         $pekerjaan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
         if($pekerjaan['uptd_id'])
             $pekerjaan['uptd_id'] = str_replace('uptd', '', $pekerjaan['uptd_id']);
 
-        $temp=explode(",",$pekerjaan['nama_mandor']);
+        if(Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor')){
+            $temp[0]=Auth::user()->name;
+            $temp[1]=Auth::user()->id;
+        }else
+            $temp=explode(",",$pekerjaan['nama_mandor']);
+
         $temp1=explode(",",$pekerjaan['sup']);
         $temp2=explode(",",$pekerjaan['ruas_jalan']);
 

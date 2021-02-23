@@ -183,13 +183,19 @@
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Mandor</label>
-                            <div class="col-md-10">
-                                <select class="form-control searchableModalField" name="nama_mandor" required>
-                                    @foreach ($mandor as $data)
-                                    <option value="{{$data->name}},{{$data->id}}">{{$data->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            @if(Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor'))
+                                <div class="col-md-10">
+                                <input  type="text" class="form-control" value="{{ Auth::user()->name}}" readonly>
+                                </div>
+                            @else
+                                <div class="col-md-10">
+                                    <select class="form-control searchableModalField" name="nama_mandor" required>
+                                        @foreach ($mandor as $data)
+                                        <option value="{{$data->name}},{{$data->id}}">{{$data->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            @endif
                         </div>
 
                         <div class="form-group row">
