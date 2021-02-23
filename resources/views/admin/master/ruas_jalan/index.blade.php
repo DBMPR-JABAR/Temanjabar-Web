@@ -243,30 +243,46 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Latitude Awal</label>
                                     <div class="col-md-9">
-                                        <input name="lat_awal" type="text" class="form-control formatLatLong" required>
+                                        <input id="lat0" name="lat_awal" type="text" class="form-control formatLatLong" required>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Longitude Awal</label>
                                     <div class="col-md-9">
-                                        <input name="long_awal" type="text" class="form-control formatLatLong" required>
+                                        <input id="long0" name="long_awal" type="text" class="form-control formatLatLong" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">Latitude Titik Tengah (Centroid)</label>
+                                    <div class="col-md-9">
+                                        <input id="lat1" name="lat_ctr" type="text" class="form-control formatLatLong">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">Longitude Titik Tengah (Centroid)</label>
+                                    <div class="col-md-9">
+                                        <input id="long1" name="long_ctr" type="text" class="form-control formatLatLong">
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Latitude Akhir</label>
                                     <div class="col-md-9">
-                                        <input name="lat_akhir" type="text" class="form-control formatLatLong" required>
+                                        <input id="lat2" name="lat_akhir" type="text" class="form-control formatLatLong" required>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Longitude Akhir</label>
                                     <div class="col-md-9">
-                                        <input name="long_akhir" type="text" class="form-control formatLatLong" required>
+                                        <input id="long2" name="long_akhir" type="text" class="form-control formatLatLong" required>
                                     </div>
                                 </div>
+
+                                <p>Marker Biru: Titik Awal <br> Marker Hijau: Titik Tengah <br> Marker Merah: Titik Akhir <br> (Dipilih Bergantian) </p>
+                                <div id="mapLatLong" class="full-map mb-2" style="height: 300px; width: 100%"></div>
 
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Kabupaten Kota</label>
@@ -288,18 +304,6 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group row">
-                                    <label class="col-md-3 col-form-label">Latitude Titik Tengah (Centroid)</label>
-                                    <div class="col-md-9">
-                                        <input name="lat_ctr" type="text" class="form-control formatLatLong">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 col-form-label">Longitude Titik Tengah (Centroid)</label>
-                                    <div class="col-md-9">
-                                        <input name="long_ctr" type="text" class="form-control formatLatLong">
-                                    </div>
-                                </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Wilayah UPTD</label>
                                     <div class="col-md-9">
@@ -368,6 +372,101 @@
                 console.log(url);
                 const modal = $(this);
                 modal.find('.modal-footer #delHref').attr('href', url);
+            });
+
+            $("#addModal").on('show.bs.modal', function (event) {
+                $('#mapLatLong').ready(() => {
+                    require([
+                    "esri/Map",
+                    "esri/views/MapView",
+                    "esri/Graphic"
+                    ], function(Map, MapView, Graphic) {
+
+                        const map = new Map({
+                            basemap: "hybrid"
+                        });
+
+                        const view = new MapView({
+                            container: "mapLatLong",
+                            map: map,
+                            center: [107.6191, -6.9175],
+                            zoom: 9,
+                        });
+
+                        let tempGraphic = [];
+
+                        if($("#lat0").val() != '' && $("#long0").val() != ''){
+                            addTitik(0, $("#lat0").val(), $("#long0").val(), "blue");
+                        }
+                        if($("#lat1").val() != '' && $("#long1").val() != ''){
+                            addTitik(1, $("#lat1").val(), $("#long1").val(), "green");
+                        }
+                        if($("#lat2").val() != '' && $("#long2").val() != ''){
+                            addTitik(2, $("#lat2").val(), $("#long2").val(), "red");
+                        }
+
+                        let mouseclick = 0;
+
+                        view.on("click", function(event){
+                            const lat = event.mapPoint.latitude;
+                            const long = event.mapPoint.longitude;
+
+                            // Genap = Titik Awal
+                            if(mouseclick % 3 == 0){
+                                addTitik(0, lat, long, "blue");
+                                $("#lat0").val(lat);
+                                $("#long0").val(long);
+                            }else if(mouseclick % 3 == 1){
+                                addTitik(1, lat, long, "green");
+                                $("#lat1").val(lat);
+                                $("#long1").val(long);
+                            }else{
+                                addTitik(2, lat, long, "red");
+                                $("#lat2").val(lat);
+                                $("#long2").val(long);
+                            }
+                            mouseclick++;
+                        });
+
+                        $("#lat0, #long0").keyup(function () {
+                            const lat = $("#lat0").val();
+                            const long = $("#long0").val();
+                            addTitik(0, lat, long, "blue");
+                        });
+                        $("#lat1, #long1").keyup(function () {
+                            const lat = $("#lat1").val();
+                            const long = $("#long1").val();
+                            addTitik(1, lat, long, "green");
+                        });
+                        $("#lat2, #long2").keyup(function () {
+                            const lat = $("#lat2").val();
+                            const long = $("#long2").val();
+                            addTitik(2, lat, long, "red");
+                        });
+
+                        function addTitik(point, lat, long, color){
+                            if($("#lat"+point).val() != '' && $("#long"+point).val() != ''){
+                                view.graphics.remove(tempGraphic[point]);
+                            }
+                            var graphic = new Graphic({
+                                geometry: {
+                                    type: "point",
+                                    longitude: long,
+                                    latitude: lat
+                                },
+                                symbol: {
+                                    type: "picture-marker",
+                                    url: `http://esri.github.io/quickstart-map-js/images/${color}-pin.png`,
+                                    width: "14px",
+                                    height: "24px"
+                                }
+                            });
+                            tempGraphic[point] = graphic;
+
+                            view.graphics.add(graphic);
+                        }
+                    });
+                });
             });
 
             // Format mata uang.
