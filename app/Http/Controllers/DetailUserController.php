@@ -186,10 +186,17 @@ class DetailUserController extends Controller
                 $userupdat['sup_id']= $temp[0]; 
                 $userupdat['sup']= $temp[1]; 
                 // dd($temp[0]);
-                $updatetouser = DB::table('users')->where('id', $id)->update($userupdat);
+                // $updatetouser = DB::table('users')->where('id', $id)->update($userupdat);
             }
             $updateprofile = DB::table('user_pegawai')
-            ->where('user_id', $id)->updateOrInsert($userprofile);
+            ->where('user_id', $id); //beneriiiiiiiiin
+            if($updateprofile->exists()){
+                $updateprofile = $updateprofile->update($userprofile);
+            }else{
+                $userprofile['user_id']  = $id;
+                $updateprofile = $updateprofile->insert($userprofile);
+            }
+
             if($updateprofile){
                 //redirect dengan pesan sukses
                 $color = "success";

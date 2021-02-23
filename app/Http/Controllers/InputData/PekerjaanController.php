@@ -62,7 +62,7 @@ class PekerjaanController extends Controller
         $jenis = DB::table('item_pekerjaan');
         $jenis = $jenis->get();
 
-        $mandor = DB::table('users')->where('user_role.role', 'like', 'mandor%');
+        $mandor = DB::table('users')->where('user_role.role', 'like', '%mandor%');
         $mandor = $mandor->leftJoin('user_role', 'user_role.id', '=', 'users.internal_role_id')->select('users.*', 'user_role.id as id_role');
         $mandor = $mandor->get();
 
@@ -171,6 +171,7 @@ class PekerjaanController extends Controller
         $pekerjaan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
         $pekerjaan['tglreal'] = date('Y-m-d H:i:s');
         $pekerjaan['is_deleted'] = 0;
+
         $nomor = intval(substr($row->id_pek, strlen('CK-'))) + 1;
         $pekerjaan['id_pek'] = 'CK-' . str_pad($nomor, 6, "0", STR_PAD_LEFT);
 
@@ -272,11 +273,17 @@ class PekerjaanController extends Controller
     public function json(Request $request)
     {
         $pekerjaan = DB::table('kemandoran');
+
         $pekerjaan = $pekerjaan->leftJoin('master_ruas_jalan', 'master_ruas_jalan.id', '=', 'kemandoran.ruas_jalan')->select('kemandoran.*', 'master_ruas_jalan.nama_ruas_jalan');
 
-        if (Auth::user()->internalRole->uptd) {
+        if (Auth::user() && Auth::user()->internalRole->uptd) {
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
             $pekerjaan = $pekerjaan->where('kemandoran.uptd_id', $uptd_id);
+            
+            if(str_contains(Auth::user()->internalRole->role,'Mandor')){
+                $pekerjaan = $pekerjaan->where('kemandoran.user_id',Auth::user()->id);
+            }else if(Auth::user()->sup_id)
+                $pekerjaan = $pekerjaan->where('kemandoran.sup_id',Auth::user()->sup_id); 
         }
         $from = $request->year_from;
         $to = $request->year_to;
