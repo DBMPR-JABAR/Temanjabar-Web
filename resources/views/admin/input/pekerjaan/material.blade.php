@@ -58,29 +58,35 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Tanggal</label>
                         <div class="col-md-10">
-                            <input name="tanggal" type="date" class="form-control" required value="{{$pekerjaan->tanggal}}">
+                            <input name="tanggal" type="date" class="form-control" required value="{{$pekerjaan->tanggal}}" readonly>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Mandor</label>
+                        @if(Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor'))
                         <div class="col-md-10">
-                            <select class="form-control" name="nama_mandor" required>
+                            <input  type="text" name="nama_mandor" class="form-control" value="{{ Auth::user()->name}}" readonly>
+                        </div>
+                        @else
+                        <div class="col-md-10">
+                            <select class="form-control searchableModalField" name="nama_mandor" required>
                                 @foreach ($mandor as $data)
-                                <option value="{{$data->name}}" {{ ( $data->name == $pekerjaan->nama_mandor) ? 'selected' : ''}} >{{$data->name}}</option>
+                                <option value="{{$data->name}},{{$data->id}}">{{$data->name}}</option>
                                 @endforeach
                             </select>
                         </div>
+                        @endif
+                        
                     </div>
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Jenis Pekerjaan</label>
                         <div class="col-md-10">
-                           <select class="form-control" name="jenis_pekerjaan" required value="{{$pekerjaan->jenis_pekerjaan}}">
-                                @foreach ($jenis as $data)
-                                <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $pekerjaan->jenis_pekerjaan) ? 'selected' : ''}}>{{$data->nama_item}}</option>
-                                @endforeach
-                            </select>
+                            
+                            <input name="jenis_pekerjaan" type="text" class="form-control" required value="{{$pekerjaan->jenis_pekerjaan}}" readonly>
+                           
+                         
                         </div>
                     </div>
                     @if (Auth::user()->internalRole->uptd)

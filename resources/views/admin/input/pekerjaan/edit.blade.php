@@ -55,13 +55,19 @@
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Mandor</label>
+                        @if(Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor'))
+                            <div class="col-md-10">
+                            <input  type="text" class="form-control" value="{{ Auth::user()->name}}" readonly>
+                            </div>
+                        @else
                         <div class="col-md-10">
                             <select class="form-control searchableField" name="nama_mandor" required>
                                 @foreach ($mandor as $data)
-                                <option value="{{$data->name}}" {{ ( $data->name == $pekerjaan->nama_mandor) ? 'selected' : ''}}>{{$data->name}}</option>
+                                <option value="{{$data->name}},{{$data->id}}" {{ ( $data->id == $pekerjaan->user_id) ? 'selected' : ''}}>{{$data->name}}</option>
                                 @endforeach
                             </select>
                         </div>
+                        @endif
                     </div>
 
                     <div class="form-group row">
@@ -102,7 +108,7 @@
                                 <option value="{{$pekerjaan->sup}}">{{$pekerjaan->sup}}</option>
                                 <option></option>
                                 @foreach ($sup as $data)
-                                <option value="{{$data->name}}" {{ ( $data->name == $pekerjaan->sup) ? 'selected' : ''}}>{{$data->name}}</option>
+                                <option value="{{$data->name}},{{$data->id}}" {{ ( $data->name == $pekerjaan->sup) ? 'selected' : ''}}>{{$data->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -111,10 +117,9 @@
                         <label class="col-md-2 col-form-label">Ruas Jalan</label>
                         <div class="col-md-10">
                             <select class="form-control searchableField" id="ruas_jalan" name="ruas_jalan" required value="{{$pekerjaan->ruas_jalan}}">
-                                <option value="{{$pekerjaan->ruas_jalan}}">{{$pekerjaan->ruas_jalan}}</option>
-                                <option></option>
+                                
                                 @foreach ($ruas_jalan as $data)
-                                <option value="{{$data->nama_ruas_jalan}}" {{ ( $data->nama_ruas_jalan == $pekerjaan->ruas_jalan) ? 'selected' : ''}}>{{$data->nama_ruas_jalan}}</option>
+                                <option value="{{$data->nama_ruas_jalan}},{{$data->id_ruas_jalan}}" {{ ( $data->id_ruas_jalan == $pekerjaan->ruas_jalan_id) ? 'selected' : ''}}>{{$data->nama_ruas_jalan}}</option>
                                 @endforeach
                             </select>
                         </div>
