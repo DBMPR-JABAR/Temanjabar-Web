@@ -274,6 +274,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         });
         Route::get('/jenis_laporan/delete/{id}', 'MasterData\JenisLaporanController@destroy');
         Route::resource('/jenis_laporan', 'MasterData\JenisLaporanController');
+
+        Route::get('/item_bahan_material/delete/{id}', 'MasterData\ItemBahanMaterialController@destroy');
+        Route::resource('/item_bahan_material', 'MasterData\ItemBahanMaterialController');
     });
 
     Route::group(['prefix' => 'input-data'], function () {
