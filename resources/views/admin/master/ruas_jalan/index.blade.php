@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css"
         href="{{ asset('assets/vendor/data-table/extensions/responsive/css/responsive.dataTables.css') }}">
 
-    <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/4.18/esri/themes/light/main.css">
 
     <style>
         table.table-bordered tbody td {
@@ -360,6 +360,7 @@
     <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
+    <script src="https://js.arcgis.com/4.18/"></script>
 
     <script>
         $(document).ready(function() {
