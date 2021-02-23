@@ -38,7 +38,7 @@ class NewsVideoController extends Controller
     public function store(Request $request)
     {
         $count = NewsVideo::count();
-        if($count > 3){
+        if($count < 3){
             $data = new NewsVideo;
             $data->fill($request->all());
             $data->save();
