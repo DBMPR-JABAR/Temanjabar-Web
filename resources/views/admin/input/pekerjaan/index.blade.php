@@ -256,7 +256,7 @@
                                 <select class="form-control searchableModalField" id="ruas_jalan" name="ruas_jalan" required>
                                     @if (Auth::user()->internalRole->uptd)
                                     @foreach ($ruas_jalan as $data)
-                                    <option value="{{$data->nama_ruas_jalan}},{{$data->id}}">{{$data->nama_ruas_jalan}}</option>
+                                    <option value="{{$data->nama_ruas_jalan}},{{$data->id_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
                                     @endforeach
                                     @else
                                     <option>-</option>
