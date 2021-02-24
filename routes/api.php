@@ -83,6 +83,8 @@ Route::group(['middleware' => ['jwt.auth']], function () {
 
 });
 
+Route::post('pembangunan_talikuat', 'API\PembangunanTalikuatController@getPembangunanTalikuat');
+
 Route::resource('ruas-jalan', 'API\RuasJalanController');
 Route::resource('pembangunan', 'API\PembangunanController');
 Route::resource('proyek-kontrak', 'API\ProyekController');

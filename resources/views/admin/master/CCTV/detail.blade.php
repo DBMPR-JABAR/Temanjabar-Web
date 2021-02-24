@@ -47,13 +47,13 @@
 <div class="row">
 <div class="col-xl-8 col-md-12">
     <div class="card">
-                                                    
+
         <div class="card-block-big">
             <ul class="nav nav-tabs  tabs" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" data-toggle="tab" href="#Detail" role="tab">Detail</a>
                  </li>
-                                                                   
+
 
             </ul>
                                                                 <!-- Tab panes -->
@@ -64,21 +64,21 @@
                       <tr><td class="col-4">Lat</td><td class="col-8">{{$cctv[0]->lat}}</td></tr>
                       <tr><td class="col-4">Long</td><td class="col-8">{{$cctv[0]->long}}</td></tr>
                       <tr><td class="col-4">Url</td><td class="col-8">{{$cctv[0]->url}}</td></tr>
-                      <tr><td class="col-4">Description</td><td class="col-8">{{$cctv[0]->description}}</td></tr>
-                      <tr><td class="col-4">Category</td><td class="col-8">{{$cctv[0]->category}}</td></tr>
-                      <tr><td class="col-4">Status</td><td class="col-8">{{$cctv[0]->status}}</td></tr>
+                      <tr><td class="col-4">Keterangan</td><td class="col-8">{{$cctv[0]->description}}</td></tr>
+                      {{-- <tr><td class="col-4">Category</td><td class="col-8">{{$cctv[0]->category}}</td></tr>
+                      <tr><td class="col-4">Status</td><td class="col-8">{{$cctv[0]->status}}</td></tr> --}}
                      </table>
                  </div>
-                        
+
             </div>
-        </div>    
+        </div>
 
     </div>
 </div>
 </div>
- 
+
 
 @endsection
 @section('script')
- 
+
 @endsection

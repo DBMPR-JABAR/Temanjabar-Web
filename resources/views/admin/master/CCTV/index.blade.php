@@ -72,9 +72,9 @@
                                     <th>Lat</th>
                                     <th>Long</th>
                                     <th>Url</th>
-                                    <th>Description</th>
-                                    <th>Category</th>
-                                    <th>Status</th>
+                                    <th>Keterangan</th>
+                                    {{-- <th>Category</th>
+                                    <th>Status</th> --}}
                                     <th>SUP</th>
                                     <th>UPTD</th>
                                     {{-- <th>Enable Vehicle Counting</th> --}}
@@ -90,8 +90,8 @@
                                         <td>{{ $data->long }}</td>
                                         <td>{{ $data->url }}</td>
                                         <td>{{ $data->description }}</td>
-                                        <td>{{ $data->category }}</td>
-                                        <td>{{ $data->status }}</td>
+                                        {{-- <td>{{ $data->category }}</td>
+                                        <td>{{ $data->status }}</td> --}}
                                         <td>{{ $data->sup }}</td>
                                         <td>{{ $data->uptd_id }}</td>
                                         {{-- <td>{{$data->enable_vehicle_counting}}</td> --}}
@@ -165,14 +165,14 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-3 col-form-label">Lat</label>
+                                <label class="col-md-3 col-form-label">Latitude</label>
                                 <div class="col-md-9">
                                     <input type="text" name="lat" id="lat" class="form-control" required></input>
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-md-3 col-form-label">Long</label>
+                                <label class="col-md-3 col-form-label">Longitude</label>
                                 <div class="col-md-9">
                                     <input type="text" name="long" id="long" class="form-control" required></input>
                                 </div>
@@ -187,12 +187,12 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-3 col-form-label">Description</label>
+                                <label class="col-md-3 col-form-label">Keterangan</label>
                                 <div class="col-md-9">
                                     <textarea name="description" class="form-control"></textarea>
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            {{-- <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Category</label>
                                 <div class="col-md-9">
                                     <input type="text" name="category" class="form-control"></input>
@@ -203,7 +203,7 @@
                                 <div class="col-md-9">
                                     <input type="text" name="status" class="form-control"></input>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Uptd</label>
                                 <div class="col-md-9">
@@ -268,14 +268,14 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-3 col-form-label">Lat</label>
+                                <label class="col-md-3 col-form-label">Latitude</label>
                                 <div class="col-md-9">
                                     <input type="text" name="lat" id="etlat" class="form-control" required></input>
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-md-3 col-form-label">Long</label>
+                                <label class="col-md-3 col-form-label">Longitude</label>
                                 <div class="col-md-9">
                                     <input type="text" name="long" id="etlong" class="form-control" required></input>
                                 </div>
@@ -290,12 +290,12 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-3 col-form-label">Description</label>
+                                <label class="col-md-3 col-form-label">Keterangan</label>
                                 <div class="col-md-9">
                                     <textarea name="description" id="description" class="form-control"></textarea>
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            {{-- <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Category</label>
                                 <div class="col-md-9">
                                     <input type="text" name="category" id="category" class="form-control"></input>
@@ -306,7 +306,7 @@
                                 <div class="col-md-9">
                                     <input type="text" name="status" id="status" class="form-control"></input>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Uptd</label>
                                 <div class="col-md-9">

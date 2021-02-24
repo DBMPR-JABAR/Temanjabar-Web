@@ -207,6 +207,13 @@
                         </a>
                     </li>
                     @endif
+                    @if (hasAccess(Auth::user()->internal_role_id, "Lapor", "Create"))
+                    <li class="{{(Request::segment(3) == 'item_satuan') ? 'active' : ''}}">
+                        <a href="{{ url('admin/master-data/item_satuan') }}">
+                            <span class="pcoded-mtext">Item Satuan</span>
+                        </a>
+                    </li>
+                    @endif
                 </ul>
             </li>
         </ul>
