@@ -34,19 +34,28 @@ class MandorController extends Controller
         $users = $temp;
         if(Auth::user()->internalRole->uptd){
             $temp=[];
+            $tempsup=[];
+            
             // $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
             foreach($users as $no => $data){
                 if($data->internalRole->uptd ==Auth::user()->internalRole->uptd){
-                    if(Auth::user()->sup_id != null && $data->sup_id == Auth::user()->sup_id)
+                    if(Auth::user()->sup_id != null && $data->sup_id == Auth::user()->sup_id){
+                        $tempsup[]=$data;
+                    }else{
                         $temp[]=$data;
-                }else if(Auth::user()->sup_id == null){
-                        $temp[]=$data;
+                    }
+
                 }
+                // else if(Auth::user()->sup_id == null){
+                //         $temp[]=$data;
+                // }
             }
-            $users = $temp;
+            $usersuptd = $temp;
+            $userssup = $tempsup;
+
         }
         $roles = DB::table('user_role')->get();
-        return view('admin.input.mandor.index',compact('users','roles'));
+        return view('admin.input.mandor.index',compact('users','userssup','usersuptd','roles'));
 
     }
 
