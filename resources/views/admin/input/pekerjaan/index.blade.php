@@ -41,7 +41,7 @@
 
 @section('page-body')
 <div class="row">
-    <div class="col-lg-12">
+    {{-- <div class="col-lg-12">
         <div class="card">
             <div class="card-block accordion-block">
                 <div id="accordion" role="tablist" aria-multiselectable="true">
@@ -83,7 +83,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header">
@@ -100,7 +100,7 @@
                 <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
                 @endif
                 <div class="dt-responsive table-responsive">
-                    <table id="dttable" class="table table-striped table-bordered able-responsive">
+                    <table  class="table table-striped table-bordered table-responsive">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -117,10 +117,12 @@
                                 <th>Foto (100%)</th>
                                 <th>Video</th>
                                 <th>Tanggal</th>
+                                <th>Status</th>
+
                                 <th style="min-width: 190px;">Aksi</th>
                             </tr>
                         </thead>
-                        <!-- <tbody id="bodyJembatan">
+                        <tbody id="bodyJembatan">
                             @foreach ($pekerjaan as $data)
                             <tr>
                                 <td>{{$loop->index + 1}}</td>
@@ -138,6 +140,21 @@
                                 <td><video width='150' height='100' controls>
                                         <source src="{!! url('storage/pekerjaan/'.$data->video) !!}" type='video/*' Sorry, your browser doesn't support the video element.></video></td>
                                 <td>{{$data->tanggal}}</td>
+                                <td>@if($data->status)
+                                        @if(str_contains($data->status->status,'Approved') )
+                                        <button type="button" class="btn btn-mini btn-primary waves-effect " > {{$data->status->status}}</button>
+                                        @else 
+                                        <button type="button" class="btn btn-mini btn-danger waves-effect " > {{$data->status->status}}</button>
+                                        @endif
+                                       
+                                        <br>{{$data->status->jabatan}}<br>
+                                        <a href="{{ route('detailStatusPekerjaan',$data->id_pek) }}"><button type="button" class="btn btn-sm waves-effect waves-light " ><i class="icofont icofont-search"></i> Detail</button>
+
+                                    @else 
+                                    <button type="button" class="btn btn-mini btn-success waves-effect " >Waiting</button>
+                                    @endif
+
+                                </td>
 
                                 <td style="min-width: 170px;">
                                     <div class="btn-group" role="group" data-placement="top" title="" data-original-title=".btn-xlg">
@@ -148,14 +165,14 @@
                                         @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Delete"))
                                         <a href="#delModal" data-id="{{$data->id_pek}}" data-toggle="modal"><button class="btn btn-danger btn-sm waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
                                         @endif
-                                        @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
+                                        {{-- @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
                                         <a href="#submitModal" data-id="{{$data->id_pek}}" data-toggle="modal"><button class="btn btn-success btn-sm waves-effect waves-light" data-toggle="tooltip" title="Submit"><i class="icofont icofont-check-circled"></i></button></a>
-                                        @endif
+                                        @endif --}}
                                     </div>
                                 </td>
                             </tr>
                             @endforeach
-                        </tbody> -->
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -325,8 +342,6 @@
                             </div>
                         </div>
 
-
-
                     </div>
 
                     <div class="modal-footer">
@@ -453,6 +468,7 @@
                         d.year_to = getYearFilter().yearTo;
                     }
                 },
+                
                 columns: [{
                         'mRender': function(data, type, full, meta) {
                             console.log(full['intro']);
@@ -523,11 +539,11 @@
                     },
                 ]
             });
-            $("#tbltitle").html(`Data Pekerjaan dari Tahun ${getYearFilter().yearFrom} hingga Tahun ${getYearFilter().yearTo}`);
+            // $("#tbltitle").html(`Data Pekerjaan dari Tahun ${getYearFilter().yearFrom} hingga Tahun ${getYearFilter().yearTo}`);
 
 
             $('#yearFrom, #yearTo').change(function () {
-                $("#tbltitle").html(`Data Pekerjaan dari Tahun ${getYearFilter().yearFrom} hingga Tahun ${getYearFilter().yearTo}`);
+                // $("#tbltitle").html(`Data Pekerjaan dari Tahun ${getYearFilter().yearFrom} hingga Tahun ${getYearFilter().yearTo}`);
                 $('#dttable').DataTable().ajax.reload(null, false);
             })
 

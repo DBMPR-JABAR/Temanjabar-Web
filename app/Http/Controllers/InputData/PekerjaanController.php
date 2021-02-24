@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\InputData;
 
+use App\User;
 use App\Http\Controllers\Controller;
 // use App\Model\DWH\RawanBencana;
 use Illuminate\Http\Request;
@@ -39,15 +40,47 @@ class PekerjaanController extends Controller
     public function getData()
     {
         $pekerjaan = DB::table('kemandoran');
+
         $pekerjaan = $pekerjaan->leftJoin('master_ruas_jalan', 'master_ruas_jalan.id', '=', 'kemandoran.ruas_jalan')->select('kemandoran.*', 'master_ruas_jalan.nama_ruas_jalan');
-        // print_r(Auth::user()->internalRole->uptd);
-        $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
-        
-        if (Auth::user()->internalRole->uptd) {
+        // $pekerjaan = $pekerjaan->leftJoin('kemandoran_detail_status', 'kemandoran.id_pek', '=','kemandoran_detail_status.id_pek')->select('kemandoran.*', 'master_ruas_jalan.nama_ruas_jalan','kemandoran_detail_status.*');
+
+        if (Auth::user() && Auth::user()->internalRole->uptd) {
+            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
             $pekerjaan = $pekerjaan->where('kemandoran.uptd_id', $uptd_id);
+            
+            if(str_contains(Auth::user()->internalRole->role,'Mandor')){
+                $pekerjaan = $pekerjaan->where('kemandoran.user_id',Auth::user()->id);
+            }else if(Auth::user()->sup_id)
+                $pekerjaan = $pekerjaan->where('kemandoran.sup_id',Auth::user()->sup_id); 
         }
         
+        $pekerjaan = $pekerjaan->whereRaw("YEAR(tanggal) BETWEEN 2021 AND 2021");
         $pekerjaan = $pekerjaan->where('is_deleted', 0)->get();
+        foreach($pekerjaan as $no =>$data){
+            // echo "$data->id_pek<br>";
+            $detail_adjustment=DB::table('kemandoran_detail_status')->where('id_pek',$data->id_pek);
+            if($detail_adjustment->exists()){
+                $detail_adjustment=$detail_adjustment->leftJoin('users','users.id','=','kemandoran_detail_status.adjustment_user_id')->leftJoin('user_role','users.internal_role_id','=','user_role.id');
+                
+                if($detail_adjustment->count() > 1){
+                    $detail_adjustment=$detail_adjustment->get();
+                    foreach($detail_adjustment as $num => $data1){
+                        $temp = $data1;
+                    }
+                    $data->status=$temp;
+                    // dd($data);          
+                }else{
+                    $detail_adjustment=$detail_adjustment->first();
+                    $data->status=$detail_adjustment;
+                }
+                $temp=explode(" - ",$data->status->role);
+                $data->status->jabatan=$temp[0];
+            }else
+            $data->status = "";
+            // echo "$data->id_pek<br>";
+            
+        }
+        // dd($pekerjaan);
         $ruas_jalan = DB::table('master_ruas_jalan');
         if (Auth::user()->internalRole->uptd) {
             $ruas_jalan = $ruas_jalan->where('uptd_id', $uptd_id);
@@ -74,14 +107,31 @@ class PekerjaanController extends Controller
         //dd($uptd);
         return view('admin.input.pekerjaan.index', compact('pekerjaan', 'ruas_jalan', 'sup', 'uptd', 'mandor', 'jenis'));
     }
+    public function statusData($id){
+        return view('admin.input.pekerjaan.detail-status');
+
+    }
     public function editData($id)
     {
-        $pekerjaan = DB::table('kemandoran')->where('id_pek', $id)->first();
+
+        $color = "danger";
+        $msg = "Somethink when wrong!";
+        $pekerjaan = DB::table('kemandoran')->where('id_pek', $id);
+        if(!$pekerjaan->exists())
+            return back()->with(compact('color', 'msg'));
+
+        $pekerjaan = $pekerjaan->first();
+        if(Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor'))
+            if(Auth::user()->id != $pekerjaan->user_id){
+                return back()->with(compact('color', 'msg'));
+                // return redirect('admin/user/profile/'. auth()->user()->id)->with(['error' => 'Somethink when wrong!']);
+            }
+        
         $ruas_jalan = DB::table('master_ruas_jalan');
         // if (Auth::user()->internalRole->uptd) {
         //     $ruas_jalan = $ruas_jalan->where('uptd_id', Auth::user()->internalRole->uptd);
         // }
-        echo $pekerjaan->uptd_id;
+        // echo $pekerjaan->uptd_id;
         $ruas_jalan = $ruas_jalan->where('uptd_id', $pekerjaan->uptd_id);
         $ruas_jalan = $ruas_jalan->get();
 
@@ -90,7 +140,6 @@ class PekerjaanController extends Controller
 
         $jenis = DB::table('item_pekerjaan');
         $jenis = $jenis->get();
-
 
         $mandor = DB::table('users')->where('user_role.role', 'like', 'mandor%');
         $mandor = $mandor->leftJoin('user_role', 'user_role.id', '=', 'users.internal_role_id')->select('users.*', 'user_role.id as id_role');
@@ -188,7 +237,7 @@ class PekerjaanController extends Controller
         $pekerjaan['ruas_jalan'] = $temp2[0];
         $pekerjaan['ruas_jalan_id'] = $temp2[1];
         // dd($pekerjaan['ruas_jalan']);
-        $pekerjaan['created_by'] = Auth::user()->id;
+        $pekerjaan['updated_by'] = Auth::user()->id;
 
         $old = DB::table('kemandoran')->where('id_pek', $req->id_pek)->first();
         if ($req->foto_awal != null) {
