@@ -222,7 +222,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             // Route::post('update', 'LandingController@updateUPTD')->name('updateLandingUPTD');
             // Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
             Route::get('/manajemen', 'MasterData\UserController@getUser')->name('getMasterUser');
-            Route::get('/manajemen/detail/{id}', 'MasterData\UserController@detailUser')->name('detailMasterUser');
+            Route::get('/manajemen/detail/{id}', 'DetailUserController@showall')->name('detailMasterUser');
             Route::get('/manajemen/edit/{id}', 'MasterData\UserController@edit')->name('editUser');
             Route::post('/manajemen/create', 'MasterData\UserController@store')->name('createUser');
             Route::post('/manajemen/update', 'MasterData\UserController@update')->name('updateUser');

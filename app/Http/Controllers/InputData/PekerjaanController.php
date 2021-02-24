@@ -59,6 +59,7 @@ class PekerjaanController extends Controller
         foreach($pekerjaan as $no =>$data){
             // echo "$data->id_pek<br>";
             $detail_adjustment=DB::table('kemandoran_detail_status')->where('id_pek',$data->id_pek);
+            $data->keterangan_status_lap= $detail_adjustment->exists();
             if($detail_adjustment->exists()){
                 $detail_adjustment=$detail_adjustment
                 ->leftJoin('users','users.id','=','kemandoran_detail_status.adjustment_user_id')
@@ -80,6 +81,10 @@ class PekerjaanController extends Controller
             }else
             $data->status = "";
             // echo "$data->id_pek<br>";
+            $input_material=DB::table('bahan_material')->where('id_pek',$data->id_pek)->exists();
+        // dd($input_material);
+            $data->input_material = $input_material;
+
             
         }
         // dd($pekerjaan);

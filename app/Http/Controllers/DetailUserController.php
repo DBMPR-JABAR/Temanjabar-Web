@@ -73,6 +73,21 @@ class DetailUserController extends Controller
             return view('admin.master.user.show',compact('profile'));
         }
     }
+    public function showall($id)
+    {
+        //
+      
+            $profile = DB::table('user_pegawai')->where('user_id',$id)->first();
+            if($profile){
+                $kota = $profile->city_id ? DB::table('indonesia_cities')->where('id', $profile->city_id)->pluck('name')->first() :'';
+                $provinsi = $profile->province_id? DB::table('indonesia_provinces')->where('id', $profile->province_id)->pluck('name')->first()  :'';
+                $profile->provinsi=$provinsi;
+                $profile->kota=$kota;
+            }
+            
+            return view('admin.master.user.show',compact('profile'));
+        
+    }
 
     /**
      * Show the form for editing the specified resource.

@@ -60,6 +60,7 @@
                         <div class="dt-responsive table-responsive">
                             {{-- Content here --}}
                             {{-- <button type="submit" class="btn btn-responsive btn-warning">Edit Password</button> --}}
+                            @if(Request::segment(2) == 'profile')
                             <a type="button"href="#editModal"  data-toggle="modal" data-id="{{Auth::user()->id}}"  class="btn btn-responsive btn-warning">
                                 {{-- <i class="icofont icofont-check-circled"></i> --}}
                                 <i class="icofont icofont-key"></i>
@@ -70,7 +71,7 @@
                                 <i class="icofont icofont-edit"></i>
                                 Edit Profil
                             </a>
-                            
+                            @endif
                             <br>&nbsp;
                             <div class="panel-body">
                                 <div class="table-responsive">
@@ -177,7 +178,8 @@
                                     </table>
                                 </div>
                             </div>
-                              
+                            <a href="{{ url()->previous() }}"><button type="button" class="btn btn-danger waves-effect "
+                                data-dismiss="modal">Kembali</button></a>
                         </div>
                 </div>
             </div>
