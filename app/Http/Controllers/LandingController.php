@@ -47,10 +47,7 @@ class LandingController extends Controller
         $profil = DB::table('landing_profil')->where('id', 1)->first();
         return view('landing.progress-pekerjaan', compact('profil'));
     }
-    public function mapMasyarakat() {
-        $profil = DB::table('landing_profil')->where('id', 1)->first();
-        return view('landing.map.map-dashboard-masyarakat', compact('profil'));
-    }
+
 
     // POST
     public function createLaporan(Request $request)

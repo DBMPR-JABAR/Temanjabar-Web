@@ -30,7 +30,8 @@ Route::post('tambah-laporan', 'LandingController@createLaporan')->name('tambah-l
 
 Route::post('tambah-pesan', 'LandingController@createPesan');
 Route::get('admin/master/ruas_jalan', 'MasterController@getRuasJalan')->name('admin.master.ruas_jalan');
-Route::get('map/map-dashboard-masyarakat', 'LandingController@mapMasyarakat')->name('landing.map.map-dashboard-masyarakat');
+Route::get('map/map-dashboard-masyarakat', 'MapLandingController@mapMasyarakat')->name('landing.map.map-dashboard-masyarakat');
+Route::get('map/map-dashboard-uptd/{uptd_id}', 'MapLandingController@mapUptd')->name('landing.map.map-dashboard-uptd');
 
 Route::post('dependent-dropdown', 'DropdownAddressController@store')
     ->name('dependent-dropdown.store');
