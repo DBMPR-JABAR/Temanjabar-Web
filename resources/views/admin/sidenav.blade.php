@@ -229,13 +229,6 @@
                 </a>
                 <ul class="pcoded-submenu">
                     <div class="pcoded-navigatio-lavel">Pemeliharaan</div>
-                    @if (hasAccess(Auth::user()->internal_role_id, "Mandor", "View"))
-                    <li class="{{(Request::segment(3) == 'mandor') ? 'active' : ''}}">
-                        <a href="{{ url('admin/input-data/mandor') }}">
-                            <span class="pcoded-mtext">Mandor</span>
-                        </a>
-                    </li>
-                    @endif
                     @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "View"))
                     <li class="{{(Request::segment(3) == 'pekerjaan') ? 'active' : ''}}">
                         <a href="{{ url('admin/input-data/pekerjaan') }}">
@@ -258,13 +251,20 @@
                         </a>
                     </li>
                     @endif
-                    @if (hasAccess(Auth::user()->internal_role_id, "Rekap", "View"))
+                    @if (hasAccess(Auth::user()->internal_role_id, "Mandor", "View"))
+                    <li class="{{(Request::segment(3) == 'mandor') ? 'active' : ''}}">
+                        <a href="{{ url('admin/input-data/mandor') }}">
+                            <span class="pcoded-mtext">Mandor</span>
+                        </a>
+                    </li>
+                    @endif
+                    {{-- @if (hasAccess(Auth::user()->internal_role_id, "Rekap", "View"))
                     <li class="{{(Request::segment(3) == 'rekap') ? 'active' : ''}}">
                         <a href="{{ url('admin/input-data/rekap') }}">
                             <span class="pcoded-mtext">Rekap</span>
                         </a>
                     </li>
-                    @endif
+                    @endif --}}
                     <div class="pcoded-navigatio-lavel">Pembangunan</div>
                     @if (hasAccess(Auth::user()->internal_role_id, "Progress Kerja", "View"))
                     <li class="{{(Request::segment(3) == 'progresskerja') ? 'active' : ''}}">
