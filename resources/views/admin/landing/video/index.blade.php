@@ -46,8 +46,9 @@
                 </div>
             </div>
             <div class="card-block">
-                <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
-                <table id="dttable" class="table table-bordered table-responsive">
+                {{-- <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a> --}}
+                <div class="dt-responsive table-responsive">
+                <table id="dttable" class="table table-striped table-bordered able-responsivee">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -64,7 +65,7 @@
                             <td>{{$video->url}}</td>
                             <td>
                                 <a type='button' href='#editModal' data-toggle="modal" data-id="{{$video->id}}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a>
-                                <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$video->id}}'     class='btn btn-warning btn-mini waves-effect waves-light'><i class='icofont icofont-trash'></i>Hapus</a><br/>
+                                {{-- <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$video->id}}'     class='btn btn-warning btn-mini waves-effect waves-light'><i class='icofont icofont-trash'></i>Hapus</a><br/> --}}
                             </td>
                         </tr>
                         @empty
@@ -74,11 +75,12 @@
                         @endforelse
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<div class="modal-only">
+{{-- <div class="modal-only">
     <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -111,7 +113,7 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
@@ -131,7 +133,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
+    {{-- <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
 
@@ -155,7 +157,7 @@
 
             </div>
         </div>
-    </div>
+    </div> --}}
 </li>
 </div>
 @endsection
@@ -178,15 +180,15 @@
             const modal = $(this);
             modal.find('.content').load(url);
         });
-        $('#delModal').on('show.bs.modal', function (event) {
-            const link = $(event.relatedTarget);
-            const id = link.data('id');
+        // $('#delModal').on('show.bs.modal', function (event) {
+        //     const link = $(event.relatedTarget);
+        //     const id = link.data('id');
 
-            const url = `{{ url('admin/landing-page/video-news') }}/` + id + '/edit';
+        //     const url = `{{ url('admin/landing-page/video-news') }}/` + id + '/edit';
 
-            const modal = $(this);
-            modal.find('.modal-footer #delHref').attr('action',url);
-        });
+        //     const modal = $(this);
+        //     modal.find('.modal-footer #delHref').attr('action',url);
+        // });
     });
 </script>
 @endsection

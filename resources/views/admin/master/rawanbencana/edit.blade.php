@@ -97,13 +97,13 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Lat</label>
+                        <label class="col-md-2 col-form-label">Latitude</label>
                         <div class="col-md-10">
                             <input name="lat" id="etlat" type="text" class="form-control" value="{{$rawan->lat}}">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Long</label>
+                        <label class="col-md-2 col-form-label">Longitude</label>
                         <div class="col-md-10">
                             <input name="long" id="etlong" type="text" class="form-control" value="{{$rawan->long}}">
                         </div>

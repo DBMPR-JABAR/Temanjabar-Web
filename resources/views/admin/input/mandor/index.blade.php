@@ -75,11 +75,16 @@
                             </tr>
                         </thead>
                         <tbody id="bodyJembatan">
-                             @foreach ($users as $data)
-                             @php
-                                // $role = App\Model\Transactional\Role::find($data->internal_role_id);
-                               
-                             @endphp
+                            @php
+                                if(Auth::user()->internalRole->uptd && Auth::user()->sup_id != null){
+                                    $temporari = $userssup;
+                                }else if(Auth::user()->internalRole->uptd){
+                                    $temporari = $usersuptd;
+                                }else
+                                    $temporari = $users;
+                                    
+                            @endphp
+                             @foreach ($temporari as $data)
                                   
                                 <tr>
                                     <td>{{$loop->index + 1}}</td>

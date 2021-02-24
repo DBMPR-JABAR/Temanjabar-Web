@@ -65,8 +65,8 @@
                                 <th>Ruas Jalan</th>
                                 <th>Lokasi</th>
                                 <th>Daerah</th>
-                                <th>Lat</th>
-                                <th>Long</th>
+                                <th>Latitude</th>
+                                <th>Longitude</th>
                                 <th>Foto</th>
                                 <th>SUP</th>
                                 <th>Keterangan</th>
@@ -178,13 +178,13 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Lat</label>
+                            <label class="col-md-2 col-form-label">Latitude</label>
                             <div class="col-md-10">
                                 <input name="lat" id="lat" type="text" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Long</label>
+                            <label class="col-md-2 col-form-label">Longitude</label>
                             <div class="col-md-10">
                                 <input name="long" id="long" type="text" class="form-control" required>
                             </div>

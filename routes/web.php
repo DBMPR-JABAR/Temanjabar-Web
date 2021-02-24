@@ -223,7 +223,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             // Route::post('update', 'LandingController@updateUPTD')->name('updateLandingUPTD');
             // Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
             Route::get('/manajemen', 'MasterData\UserController@getUser')->name('getMasterUser');
-            Route::get('/manajemen/detail/{id}', 'MasterData\UserController@detailUser')->name('detailMasterUser');
+            Route::get('/manajemen/detail/{id}', 'DetailUserController@showall')->name('detailMasterUser');
             Route::get('/manajemen/edit/{id}', 'MasterData\UserController@edit')->name('editUser');
             Route::post('/manajemen/create', 'MasterData\UserController@store')->name('createUser');
             Route::post('/manajemen/update', 'MasterData\UserController@update')->name('updateUser');
@@ -278,6 +278,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
         Route::get('/item_bahan_material/delete/{id}', 'MasterData\ItemBahanMaterialController@destroy');
         Route::resource('/item_bahan_material', 'MasterData\ItemBahanMaterialController');
+
+        Route::get('/item_satuan/delete/{id}', 'MasterData\ItemSatuanController@destroy');
+        Route::resource('/item_satuan', 'MasterData\ItemSatuanController');
     });
 
     Route::group(['prefix' => 'input-data'], function () {
@@ -285,6 +288,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::group(['prefix' => 'pekerjaan'], function () {
             Route::get('/', 'InputData\PekerjaanController@getData')->name('getDataPekerjaan');
             Route::get('edit/{id}', 'InputData\PekerjaanController@editData')->name('editDataPekerjaan');
+            Route::get('status/{id}', 'InputData\PekerjaanController@statusData')->name('detailStatusPekerjaan');
+
             Route::get('material/{id}', 'InputData\PekerjaanController@materialData')->name('materialDataPekerjaan');
             Route::post('creatematerial/{id}', 'InputData\PekerjaanController@createDataMaterial')->name('createDataMaterialPekerjaan');
             Route::post('updatematerial/{id}', 'InputData\PekerjaanController@updateDataMaterial')->name('updateDataMaterialPekerjaan');

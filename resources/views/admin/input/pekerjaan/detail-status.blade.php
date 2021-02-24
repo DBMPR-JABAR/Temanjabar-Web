@@ -25,7 +25,7 @@
         <div class="col-lg-8">
             <div class="page-header-title">
                 <div class="d-inline">
-                    <h4>Akun & Profil </h4>
+                    <h4>Pekerjaan </h4>
                 </div>
             </div>
         </div>
@@ -35,7 +35,8 @@
                     <li class="breadcrumb-item">
                         <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
                     </li>
-                    <li class="breadcrumb-item"><a href="#!">Akun & Profil</a> </li>
+                    <li class="breadcrumb-item"><a href="#!">Pekerjaan</a> </li>
+                    <li class="breadcrumb-item"><a href="#!">Status</a> </li>
                 </ul>
             </div>
         </div>
@@ -48,7 +49,7 @@
             
             <div class="card">
                 <div class="card-header ">
-                <h4 class="card-title">Profile {{ Str::title(Auth::user()->name) }}</h4>
+                <h4 class="card-title">Status Laporan {{ Str::title($adjustment->nama_mandor) }} ~ {{ $adjustment->id_pek }}</h4>
                     <div class="card-header-right">
                             {{-- <button type="submit" class="btn btn-responsive btn-warning">Edit Password</button>
                             <button type="submit" class="btn btn-responsive btn-primary">Edit Profil</button> --}}
@@ -58,127 +59,39 @@
                     {{-- <a href="{{ route('createRoleAccess') }}" class="btn btn-mat btn-primary mb-3">Tambah</a> --}}
                     {{-- <form action="{{url('admin/user/account/'.Auth::user()->id)}}" method="post" enctype="multipart/form-data"> --}}
                         <div class="dt-responsive table-responsive">
-                            {{-- Content here --}}
-                            {{-- <button type="submit" class="btn btn-responsive btn-warning">Edit Password</button> --}}
-                            @if(Request::segment(2) == 'profile')
-                            <a type="button"href="#editModal"  data-toggle="modal" data-id="{{Auth::user()->id}}"  class="btn btn-responsive btn-warning">
-                                {{-- <i class="icofont icofont-check-circled"></i> --}}
-                                <i class="icofont icofont-key"></i>
-                                Edit Password
-                            </a>
-                            <a type="button" href="{{ url('admin/edit/profile', Auth::user()->id) }}" class="btn btn-responsive btn-primary">
-                                {{-- <i class="icofont icofont-check-circled"></i> --}}
-                                <i class="icofont icofont-edit"></i>
-                                Edit Profil
-                            </a>
-                            @endif
-                            <br>&nbsp;
+                    
                             <div class="panel-body">
                                 <div class="table-responsive">
-                                    <label style="font-weight: bold;">Informasi Pribadi</label>
+                                    <label style="font-weight: bold;">Detail Status </label>
                                     <table class="table table-striped">
-                                        
+                                        @foreach ($detail_adjustment as $item)
                                         <tr>
-                                            <td width="20%">Nama Lengkap</td>
-                                            <td >{!! Str::title(@$profile_users->nama) !!}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>NIP</td>
-                                            <td >{{ old('no_pegawai', @$profile->no_pegawai) }}</td>
-                                        </tr>
-                                       
-                                        <tr>
-                                            <td>Tempat / Tanggal Lahir</td>
-                                            <td >{{ old('tgl_lahir', @$profile->tgl_lahir) }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Jenis Kelamin</td>
-                                            <td>{{ old('jenis_kelamin', @$profile->jenis_kelamin) }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Agama</td>
-                                            <td >
-                                                {{ old('agama', @$profile->agama) }}
+                                            <td width="20%">{!! @$item->jabatan !!}</td>
+                                            <td width="15%">{!! @$item->name !!}</td>
+                                            <td width="10%">{!! @$item->created_at !!}</td>
+                                            <td width="25%">
+                                                @if(str_contains($item->status,'Approved') )
+                                                    <button type="button" class="btn btn-sm btn-primary waves-effect " >{!! @$item->status !!}</button>
+                                                @else 
+                                                    <button type="button" class="btn btn-sm btn-danger waves-effect " >{!! @$item->status !!}</button>
+                                                @endif
+                                                
+                                                <br>
+                                                @if($item->description)
+                                                <i style="color :red; font-size: 11px;">Catatan : {!! @$item->description !!}</i>
+                                                @endif
                                             </td>
+
+                                            
+                                            {{-- <td >{!! Str::title(@$profile_users->nama) !!}</td> --}}
                                         </tr>
-                                        <tr>
-                                            <td>Telepon</td>
-                                            <td >{{ old('phone', @$profile->no_tlp) }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Telepon Rumah</td>
-                                            <td >{{ old('phone', @$profile->no_tlp) }}</td>
-                                        </tr>
-                                        
+                                        @endforeach
+                                       
                                     </table>
-                                    <label style="font-weight: bold;">Informasi Akun</label>
-                                    <table class="table table-striped">    
-                                        {{-- <tr>
-                                            <td width="20%">Username</td>
-                                            <td >{!! Str::title(Auth::user()->name) !!}</td>
-                                        </tr> --}}
-                                        <tr>
-                                            <td width="20%">Email</td>
-                                            <td >{{ Auth::user()->email }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Created At</td>
-                                            <td>1 month ago</td>
-                                        </tr>   
-                                    </table>
-                                    <label style="font-weight: bold;">Alamat Domisili</label>
-                                    <table class="table table-striped">
-                                        <tr>
-                                            <td width="20%">Alamat Lengkap</td>
-                                            <td >{!! old('alamat', @$profile->alamat) !!}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Provinsi</td>
-                                            <td>{{ old('provinsi', @$profile->provinsi) }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Kota / Kabupaten</td>
-                                            <td>{{ old('kota', @$profile->kota) }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Kode Pos</td>
-                                            <td>{{ old('kode_pos', @$profile->kode_pos) }}</td>
-                                        </tr>  
-                                    </table>
-                                    <label style="font-weight: bold;">Riwayat Pendidikan</label>
-                                    <table class="table table-striped">
-                                        <tr>
-                                            <td width="20%">Jejang</td>
-                                            <td >{{ old('jejang', @$profile->jejang) }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Jurusan</td>
-                                            <td>{{ old('jurusan_pendidikan', @$profile->jurusan_pendidikan) }}</td>
-                                        </tr>
-                                    </table>
-                                    <label style="font-weight: bold;">Pekerjaan</label>
-                                    <table class="table table-striped">
-                                        <tr>
-                                            <td width="20%">Jabatan</td>
-                                            <td> {{ Auth::user()->internalRole->keterangan }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td width="20%">UPTD</td>
-                                            <td>{{ Str::upper(Auth::user()->internalRole->uptd) }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>SUP</td>
-                                            <td>{{ Auth::user()->sup }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Tanggal Mulai</td>
-                                            <td>{{ old('tgl_mulai_kerja', @$profile->tgl_mulai_kerja) }}</td>
-                                        </tr>
-                                        
-                                    </table>
+                                   
                                 </div>
                             </div>
-                            <a href="{{ url()->previous() }}"><button type="button" class="btn btn-danger waves-effect "
+                            <a href="{{ url()->previous() }}"><button type="button" class="btn btn-success waves-effect "
                                 data-dismiss="modal">Kembali</button></a>
                         </div>
                 </div>

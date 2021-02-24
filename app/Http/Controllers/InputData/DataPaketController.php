@@ -4,6 +4,7 @@ namespace App\Http\Controllers\InputData;
 
 use App\Http\Controllers\Controller;
 use App\Model\DWH\DataPaket;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
@@ -56,7 +57,7 @@ class DataPaketController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function($row){
                    $html = '<div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">';
-                   
+
                     if (hasAccess(Auth::user()->internal_role_id, "Progress Kerja", "Update")){
                         $html.='<a href="'. route('editIDDataPaket',$row->kode_paket).'"><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>';
                         }
@@ -65,6 +66,11 @@ class DataPaketController extends Controller
                     }
                     $html.='</div>';
                     return $html;
+
+                })
+                ->addColumn('updated_at_format', function($row){
+                    $formated = Carbon::parse($row->updated_at);
+                   return $formated;
 
                 })
                 ->make(true);

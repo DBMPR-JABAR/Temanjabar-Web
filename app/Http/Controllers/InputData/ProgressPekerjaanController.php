@@ -24,7 +24,7 @@ class ProgressPekerjaanController extends Controller
             'status' => 'false',
             'data' => []
         ];
-        $pekerjaan = new ProgressPekerjaan();
+        $pekerjaan = new ProgressPekerjaan(); 
         if (Auth::user()->internalRole->uptd) {
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
             $laporan = $pekerjaan->where('UPTD', $uptd_id);

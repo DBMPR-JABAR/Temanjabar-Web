@@ -192,7 +192,7 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Is Superadmin?</label>
                             <div class="col-md-9">
-                                <select  name="super_admin" tabindex="4" required>
+                                <select  name="super_admin" class="form-control" tabindex="4" required>
                                     <option value="1">Yes</option>
                                     <option value="0">No</option>
                                 </select>
@@ -211,7 +211,7 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Is Active?</label>
                             <div class="col-md-9">
-                            <select  name="is_active" tabindex="4" required>
+                            <select  name="is_active" tabindex="4" class="form-control" required>
                                     <option value="1">Yes</option>
                                     <option value="0">No</option>
                                 </select>
@@ -231,14 +231,17 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">UPTD</label>
                             <div class="col-md-9">
-                            <select  name="uptd" tabindex="4" required>
-                                    <option value="UPTD1">UPTD 1</option>
-                                    <option value="UPTD2">UPTD 2</option>
-                                    <option value="UPTD3">UPTD 3</option>
-                                    <option value="UPTD4">UPTD 4</option>
-                                    <option value="UPTD5">UPTD 5</option>
-                                    <option value="UPTD6">UPTD 6</option>
+                            @if(Auth::user() && !Auth::user()->internalRole->uptd )
+                            <select  name="uptd" class="form-control" tabindex="4" required>
+                                <option value="">All</option>
+                                @foreach ($uptd_lists as $no => $item)
+                                    <option value="{{ Str::limit($item->slug,4,$end=++$no) }}">{{ $item->nama }}</option>
+                                @endforeach
                             </select>
+                            @else 
+                                <input type="text" name="uptd" class="form-control" value="{{ Auth::user()->internalRole->uptd }}"></input>
+
+                            @endif
                             </div>
                         </div>
 

@@ -1,14 +1,14 @@
 @extends('admin.t_index')
 
-@section('title') Item Bahan Material @endsection
+@section('title') Item Satuan @endsection
 
 @section('page-header')
     <div class="row align-items-end">
         <div class="col-lg-8">
             <div class="page-header-title">
                 <div class="d-inline">
-                    <h4>Item Bahan Material</h4>
-                    <span>Master Data Item Bahan Material</span>
+                    <h4>Item Satuan</h4>
+                    <span>Master Data Item Satuan</span>
                 </div>
             </div>
         </div>
@@ -18,7 +18,7 @@
                     <li class="breadcrumb-item">
                         <a href="{{ url('admin') }}"> <i class="feather icon-home"></i> </a>
                     </li>
-                    <li class="breadcrumb-item"><a href="{{ route('item_bahan_material.index') }}">Item Bahan Material</a>
+                    <li class="breadcrumb-item"><a href="{{ route('item_satuan.index') }}">Item Satuan</a>
                     </li>
                     <li class="breadcrumb-item"><a href="#">Tambah</a> </li>
                 </ul>
@@ -33,9 +33,9 @@
             <div class="card">
                 <div class="card-header">
                     @if ($action == 'store')
-                        <h5>Tambah Data Item Bahan Material</h5>
+                        <h5>Tambah Data Item Satuan</h5>
                     @else
-                        <h5>Perbaharui Data Item Bahan Material</h5>
+                        <h5>Perbaharui Data Item Satuan</h5>
                     @endif
                     <div class="card-header-right">
                         <ul class="list-unstyled card-option">
@@ -48,34 +48,25 @@
 
 
                     @if ($action == 'store')
-                        <form action="{{ route('item_bahan_material.store') }}" method="post">
+                        <form action="{{ route('item_satuan.store') }}" method="post">
                         @else
-                            <form action="{{ route('item_bahan_material.update', $item_bahan_material->no) }}"
+                            <form action="{{ route('item_satuan.update', $item_satuan->no) }}"
                                 method="post">
                                 @method('PUT')
                     @endif
                     @csrf
 
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">Nama Item Bahan Material</label>
+                        <label class="col-md-3 col-form-label">Nama Item Satuan</label>
                         <div class="col-md-9">
                             <div class="col-md-9">
-                                <input name="nama_item" value="{{ @$item_bahan_material->nama_item }}" type="text"
+                                <input name="satuan" value="{{ @$item_satuan->satuan }}" type="text"
                                     class="form-control" required>
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="form-group row">
-                        <label class="col-md-3 col-form-label">Satuan Bahan Material</label>
-                        <div class="col-md-9">
-                            <div class="col-md-9">
-                                <input name="satuan" value="{{ @$item_bahan_material->satuan }}" type="text"
-                                    class="form-control" required>
-                            </div>
-                        </div>
-                    </div> --}}
                     <div class=" form-group row">
-                        <a href="{{ route('item_bahan_material.index') }}"><button type="button"
+                        <a href="{{ route('item_satuan.index') }}"><button type="button"
                                 class="btn btn-default waves-effect">Batal</button></a>
                         <button type="submit" class="btn btn-primary waves-effect waves-light ml-2">Simpan</button>
                     </div>

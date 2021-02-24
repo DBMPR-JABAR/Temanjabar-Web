@@ -54,7 +54,7 @@
             </div>
             <div class="card-block">
                 @if (hasAccess(Auth::user()->internal_role_id, "Data Paket", "Create"))
-                <a href="{{ route('addIDDataPaket') }}" class="btn btn-mat btn-primary mb-3">Tambah</a>
+                {{-- <a href="{{ route('addIDDataPaket') }}" class="btn btn-mat btn-primary mb-3">Tambah</a> --}}
                 @endif
                 <div class="dt-responsive table-responsive">
                     <table id="paket-table" class="table table-striped table-bordered">
@@ -75,6 +75,8 @@
                                 <th>Nilai Kontrak Perubahan</th>
                                 <th>Total Tambahan</th>
                                 <th>Total Sisa Lelang</th>
+                                <th>Tanggal Pembaruan</th>
+                                <th>Diperbaharui Oleh</th>
                                 <th style="min-width: 75px;">Aksi</th>
                             </tr>
                         </thead>
@@ -228,6 +230,14 @@
                 {
                     data: 'total_sisa_lelang',
                     name: 'total_sisa_lelang'
+                },
+                {
+                    data: 'updated_at_format',
+                    name: 'updated_at_format'
+                },
+                {
+                    data: 'updated_by',
+                    name: 'updated_by'
                 },
                 {
                     data: 'action',
