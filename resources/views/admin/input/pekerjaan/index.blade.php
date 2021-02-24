@@ -146,7 +146,6 @@
                                         @else 
                                         <button type="button" class="btn btn-mini btn-danger waves-effect " > {{$data->status->status}}</button>
                                         @endif
-                                       
                                         <br>{{$data->status->jabatan}}<br>
                                         <a href="{{ route('detailStatusPekerjaan',$data->id_pek) }}"><button type="button" class="btn btn-sm waves-effect waves-light " ><i class="icofont icofont-search"></i> Detail</button>
 

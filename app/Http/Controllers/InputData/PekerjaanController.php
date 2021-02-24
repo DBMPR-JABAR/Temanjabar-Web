@@ -60,7 +60,9 @@ class PekerjaanController extends Controller
             // echo "$data->id_pek<br>";
             $detail_adjustment=DB::table('kemandoran_detail_status')->where('id_pek',$data->id_pek);
             if($detail_adjustment->exists()){
-                $detail_adjustment=$detail_adjustment->leftJoin('users','users.id','=','kemandoran_detail_status.adjustment_user_id')->leftJoin('user_role','users.internal_role_id','=','user_role.id');
+                $detail_adjustment=$detail_adjustment
+                ->leftJoin('users','users.id','=','kemandoran_detail_status.adjustment_user_id')
+                ->leftJoin('user_role','users.internal_role_id','=','user_role.id');
                 
                 if($detail_adjustment->count() > 1){
                     $detail_adjustment=$detail_adjustment->get();
@@ -108,7 +110,21 @@ class PekerjaanController extends Controller
         return view('admin.input.pekerjaan.index', compact('pekerjaan', 'ruas_jalan', 'sup', 'uptd', 'mandor', 'jenis'));
     }
     public function statusData($id){
-        return view('admin.input.pekerjaan.detail-status');
+        $adjustment=DB::table('kemandoran_detail_status')
+        ->Join('kemandoran','kemandoran.id_pek','=','kemandoran_detail_status.id_pek')->where('kemandoran_detail_status.id_pek',$id)
+        ->first();
+
+        $detail_adjustment=DB::table('kemandoran_detail_status')
+        ->Join('kemandoran','kemandoran.id_pek','=','kemandoran_detail_status.id_pek')->where('kemandoran_detail_status.id_pek',$id)
+        ->leftJoin('users','users.id','=','kemandoran_detail_status.adjustment_user_id')
+        ->leftJoin('user_role','users.internal_role_id','=','user_role.id')
+        ->get();
+        foreach($detail_adjustment as $data){
+            $temp=explode(" - ",$data->role);
+            $data->jabatan=$temp[0];
+        }
+        // dd($detail_adjustment);
+        return view('admin.input.pekerjaan.detail-status',compact('detail_adjustment','adjustment'));
 
     }
     public function editData($id)

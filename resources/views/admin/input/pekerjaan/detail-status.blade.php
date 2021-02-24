@@ -49,7 +49,7 @@
             
             <div class="card">
                 <div class="card-header ">
-                <h4 class="card-title">Status Laporan </h4>
+                <h4 class="card-title">Status Laporan {{ Str::title($adjustment->nama_mandor) }} ~ {{ $adjustment->id_pek }}</h4>
                     <div class="card-header-right">
                             {{-- <button type="submit" class="btn btn-responsive btn-warning">Edit Password</button>
                             <button type="submit" class="btn btn-responsive btn-primary">Edit Profil</button> --}}
@@ -62,19 +62,37 @@
                     
                             <div class="panel-body">
                                 <div class="table-responsive">
-                                    <label style="font-weight: bold;">Detail Status</label>
+                                    <label style="font-weight: bold;">Detail Status </label>
                                     <table class="table table-striped">
-                                        
+                                        @foreach ($detail_adjustment as $item)
                                         <tr>
-                                            <td width="20%">Nama Lengkap</td>
-                                            <td >{!! Str::title(@$profile_users->nama) !!}</td>
+                                            <td width="20%">{!! @$item->jabatan !!}</td>
+                                            <td width="15%">{!! @$item->name !!}</td>
+                                            <td width="10%">{!! @$item->created_at !!}</td>
+                                            <td width="25%">
+                                                @if(str_contains($item->status,'Approved') )
+                                                    <button type="button" class="btn btn-sm btn-primary waves-effect " >{!! @$item->status !!}</button>
+                                                @else 
+                                                    <button type="button" class="btn btn-sm btn-danger waves-effect " >{!! @$item->status !!}</button>
+                                                @endif
+                                                
+                                                <br>
+                                                @if($item->description)
+                                                <i style="color :red; font-size: 11px;">Catatan : {!! @$item->description !!}</i>
+                                                @endif
+                                            </td>
+
+                                            
+                                            {{-- <td >{!! Str::title(@$profile_users->nama) !!}</td> --}}
                                         </tr>
+                                        @endforeach
                                        
                                     </table>
                                    
                                 </div>
                             </div>
-                              
+                            <a href="{{ url()->previous() }}"><button type="button" class="btn btn-success waves-effect "
+                                data-dismiss="modal">Kembali</button></a>
                         </div>
                 </div>
             </div>
