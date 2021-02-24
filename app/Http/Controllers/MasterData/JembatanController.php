@@ -79,7 +79,7 @@ class JembatanController extends Controller
         $jembatan['ruas_jalan'] = $request->ruas_jalan;
         $jembatan['sup'] = $request->sup;
         $jembatan['lokasi'] = $request->lokasi;
-        $jembatan['status'] = $request->status;
+        // $jembatan['status'] = $request->status;
         $jembatan['kondisi'] = $request->kondisi;
         //$jembatan['debit_air'] = $request->debit_air;
         //$jembatan['tinggi_jagaan'] = $request->tinggi_jagaan;
@@ -185,7 +185,7 @@ class JembatanController extends Controller
         $jembatan['ruas_jalan'] = $request->ruas_jalan;
         $jembatan['sup'] = $request->sup;
         $jembatan['lokasi'] = $request->lokasi;
-        $jembatan['status'] = $request->status;
+        // $jembatan['status'] = $request->status;
         $jembatan['kondisi'] = $request->kondisi;
         //$jembatan['debit_air'] = $request->debit_air;
         //$jembatan['tinggi_jagaan'] = $request->tinggi_jagaan;

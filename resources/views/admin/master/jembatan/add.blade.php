@@ -61,12 +61,12 @@
                                 <input name="nama_jembatan" type="text" class="form-control" required>
                             </div>
                         </div>
-                        <div class="form-group row">
+                        {{-- <div class="form-group row">
                             <label class="col-md-2 col-form-label">Status</label>
                             <div class="col-md-10">
                                 <input name="status" type="text" class="form-control" required>
                             </div>
-                        </div>
+                        </div> --}}
 
                         @if(Auth::user()->internalRole->uptd)
                         <input type="hidden" id="uptd" name="uptd" value="{{Auth::user()->internalRole->uptd}}">
