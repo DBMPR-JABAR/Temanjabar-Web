@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class ItemBahanMaterialController extends Controller
+class ItemSatuanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +15,9 @@ class ItemBahanMaterialController extends Controller
      */
     public function index()
     {
-        $item_bahan_material = DB::table('item_bahan')->get();
-        //dd($item_bahan_material[0]->id);
-        return view('admin.master.item_bahan.index', compact('item_bahan_material'));
+        $item_satuan = DB::table('item_satuan')->get();
+        //dd($item_satuan[0]->id);
+        return view('admin.master.item_satuan.index', compact('item_satuan'));
     }
 
     /**
@@ -28,7 +28,7 @@ class ItemBahanMaterialController extends Controller
     public function create()
     {
 
-        return view('admin.master.item_bahan.insert', ['action' => 'store']);
+        return view('admin.master.item_satuan.insert', ['action' => 'store']);
     }
 
     /**
@@ -39,12 +39,11 @@ class ItemBahanMaterialController extends Controller
      */
     public function store(Request $request)
     {
-        $item_bahan_material['nama_item'] = $request->nama_item;
-        // $item_bahan_material['satuan'] = $request->satuan;
-        DB::table('item_bahan')->insert($item_bahan_material);
+        $item_satuan['satuan'] = $request->satuan;
+        DB::table('item_satuan')->insert($item_satuan);
         $color = "success";
-        $msg = "Berhasil Menambah Data Item Bahan Material";
-        return redirect(route('item_bahan_material.index'))->with(compact('color', 'msg'));
+        $msg = "Berhasil Menambah Data Item Satuan";
+        return redirect(route('item_satuan.index'))->with(compact('color', 'msg'));
     }
 
     /**
@@ -66,8 +65,8 @@ class ItemBahanMaterialController extends Controller
      */
     public function edit($id)
     {
-        $item_bahan_material = DB::table('item_bahan')->where('no', $id)->first();
-        return view('admin.master.item_bahan.insert', ['action' => 'upadate', 'item_bahan_material' => $item_bahan_material]);
+        $item_satuan = DB::table('item_satuan')->where('no', $id)->first();
+        return view('admin.master.item_satuan.insert', ['action' => 'upadate', 'item_satuan' => $item_satuan]);
     }
 
     /**
@@ -79,13 +78,12 @@ class ItemBahanMaterialController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $item_bahan_material['nama_item'] = $request->nama_item;
-        // $item_bahan_material['satuan'] = $request->satuan;
-        DB::table('item_bahan')->where('no', $id)->update($item_bahan_material);
+        $item_satuan['satuan'] = $request->satuan;
+        DB::table('item_satuan')->where('no', $id)->update($item_satuan);
 
         $color = "success";
-        $msg = "Berhasil Memperbaharui Data Item Bahan Material";
-        return redirect(route('item_bahan_material.index'))->with(compact('color', 'msg'));
+        $msg = "Berhasil Memperbaharui Data Item Satuan";
+        return redirect(route('item_satuan.index'))->with(compact('color', 'msg'));
     }
 
     /**
@@ -96,10 +94,10 @@ class ItemBahanMaterialController extends Controller
      */
     public function destroy($id)
     {
-        $item_bahan_material = DB::table('item_bahan')->where('no', $id)->delete();
+        $item_satuan = DB::table('item_satuan')->where('no', $id)->delete();
 
         $color = "success";
-        $msg = "Berhasil Menghapus Data Item Bahan Material";
-        return redirect(route('item_bahan_material.index'))->with(compact('color', 'msg'));
+        $msg = "Berhasil Menghapus Data Item Satuan";
+        return redirect(route('item_satuan.index'))->with(compact('color', 'msg'));
     }
 }

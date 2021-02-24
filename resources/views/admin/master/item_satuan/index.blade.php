@@ -1,6 +1,6 @@
 @extends('admin.t_index')
 
-@section('title') Item Bahan Material @endsection
+@section('title') Item Satuan @endsection
 @section('head')
     <link rel="stylesheet" type="text/css"
         href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
@@ -25,8 +25,8 @@
         <div class="col-lg-8">
             <div class="page-header-title">
                 <div class="d-inline">
-                    <h4>Item Bahan Material</h4>
-                    <span>Data Item Bahan Material</span>
+                    <h4>Item Satuan</h4>
+                    <span>Data Item Satuan</span>
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@
                     <li class="breadcrumb-item">
                         <a href="{{ url('admin') }}"> <i class="feather icon-home"></i> </a>
                     </li>
-                    <li class="breadcrumb-item"><a href="#!">Item Bahan Material</a> </li>
+                    <li class="breadcrumb-item"><a href="#!">Item Satuan</a> </li>
                 </ul>
             </div>
         </div>
@@ -48,7 +48,7 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    <h5>Tabel Item Bahan Material</h5>
+                    <h5>Tabel Item Satuan</h5>
                     <div class="card-header-right">
                         <ul class="list-unstyled card-option">
                             <li><i class="feather icon-maximize full-card"></i></li>
@@ -58,29 +58,27 @@
                 </div>
                 <div class="card-block">
                     @if (hasAccess(Auth::user()->internal_role_id, 'Input Data', 'Create'))
-                        <a href="{{ route('item_bahan_material.create') }}" class="btn btn-mat btn-primary mb-3">Tambah</a>
+                        <a href="{{ route('item_satuan.create') }}" class="btn btn-mat btn-primary mb-3">Tambah</a>
                     @endif
                     <div class="dt-responsive table-responsive">
-                        <table id="item_bahan_material-table" class="table table-striped table-bordered able-responsive">
+                        <table id="item_satuan-table" class="table table-striped table-bordered able-responsive">
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Nama</th>
-                                    {{-- <th>Satuan</th> --}}
+                                    <th>Satuan</th>
                                     <th style="min-width: 75px;">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody id="bodyJembatan">
-                                @foreach ($item_bahan_material as $data)
+                                @foreach ($item_satuan as $data)
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $data->nama_item }}</td>
-                                        {{-- <td>{{ $data->satuan }}</td> --}}
+                                        <td>{{ $data->satuan }}</td>
                                         <td style="min-width: 75px;">
                                             <div class="btn-group " role="group" data-placement="top" title=""
                                                 data-original-title=".btn-xlg">
                                                 @if (hasAccess(Auth::user()->internal_role_id, 'Input Data', 'Update'))
-                                                    <a href="{{ route('item_bahan_material.edit', $data->no) }}"><button
+                                                    <a href="{{ route('item_satuan.edit', $data->no) }}"><button
                                                             class="btn btn-primary btn-sm waves-effect waves-light"
                                                             data-toggle="tooltip" title="Edit"><i
                                                                 class="icofont icofont-pencil"></i></button></a>
@@ -110,7 +108,7 @@
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h4 class="modal-title">Hapus Data Item Bahan Material</h4>
+                        <h4 class="modal-title">Hapus Data Item Satuan</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -143,14 +141,14 @@
 
     <script>
         $(document).ready(function() {
-            $('#item_bahan_material-table').DataTable();
+            $('#item_satuan-table').DataTable();
         });
 
         $('#delModal').on('show.bs.modal', function(event) {
             const link = $(event.relatedTarget);
             const id = link.data('id');
             console.log(id);
-            const url = `{{ url('admin/master-data/item_bahan_material/delete') }}/` + id;
+            const url = `{{ url('admin/master-data/item_satuan/delete') }}/` + id;
             console.log(url);
             const modal = $(this);
             modal.find('.modal-footer #delHref').attr('href', url);
