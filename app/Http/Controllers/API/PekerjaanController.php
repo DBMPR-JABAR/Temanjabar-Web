@@ -16,6 +16,10 @@ class PekerjaanController extends Controller
     public function __construct()
     {
         $this->user = auth('api')->user();
+        if (!$this->user) {
+            $this->response['message'] = 'Unauthorized';
+            return response()->json($this->response, 200);
+        }
         $this->userUptd = str_replace('uptd', '', $this->user->internalRole->uptd);
     }
     /**
@@ -160,7 +164,7 @@ class PekerjaanController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'tanggal' => 'date',
-                'idSup' => 'int',
+                'idSup' => 'int|required',
                 'namaPaket' => 'string|min:5',
                 'idRuasJalan' => 'string',
                 'idJenisPekerjaan' => 'int',
@@ -221,7 +225,7 @@ class PekerjaanController extends Controller
             $this->response['data']['message'] = 'Berhasil merubah pekerjaan';
             return response()->json($this->response, 200);
         } catch (\Exception $th) {
-            $this->response['data']['message'] = 'Internal Error' . $th;
+            $this->response['data']['message'] = 'Internal Error';
             return response()->json($this->response, 500);
         }
     }

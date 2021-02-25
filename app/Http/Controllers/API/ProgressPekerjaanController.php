@@ -14,6 +14,10 @@ class ProgressPekerjaanController extends Controller
     public function __construct()
     {
         $this->user = auth('api')->user();
+        if (!$this->user) {
+            $this->response['message'] = 'Unauthorized';
+            return response()->json($this->response, 200);
+        }
         $this->userUptd = str_replace('uptd', '', $this->user->internalRole->uptd);
     }
     /**
@@ -235,7 +239,7 @@ class ProgressPekerjaanController extends Controller
             $paket = array();
             $penyedia = array();
             $data2 = DB::table('pembangunan');
-            $data2 = $data2->where('uptd_id', $this->userUptd);
+            // $data2 = $data2->where('uptd_id', $this->userUptd);
             $data2 = $data2->get();
             $number1 = 0;
             $number2 = 0;
@@ -254,6 +258,8 @@ class ProgressPekerjaanController extends Controller
 
             $tempArray = array_unique(array_column($penyedia, 'nama'));
             $penyedia_jasa = array_values(array_intersect_key($penyedia, $tempArray));
+            $tempArray2 = array_unique(array_column($paket, 'nama'));
+            $paket = array_values(array_intersect_key($paket, $tempArray2));
             $this->response['status'] = 'success';
             $this->response['data']['paket'] = $paket;
             $this->response['data']['penyedia'] = $penyedia_jasa;
