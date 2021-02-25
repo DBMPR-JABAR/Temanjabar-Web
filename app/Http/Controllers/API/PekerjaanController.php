@@ -12,7 +12,6 @@ use Illuminate\Support\Str;
 class PekerjaanController extends Controller
 {
 
-
     public function __construct()
     {
         $this->user = auth('api')->user();
