@@ -42,13 +42,6 @@
                     <i class="feather icon-maximize full-card"></i>
                 </button>
             </div>
-            <div id="back">
-                <a href="{{ url('') }}">
-                    <button data-toggle="tooltip" data-placement="right" title="Kembali kehalaman Sebelumnya">
-                        <i class="feather icon-arrow-left"></i>
-                    </button>
-                </a>
-            </div>
         </div>
     </div>
     <div id="filter" class="bg-white">
