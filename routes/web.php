@@ -317,15 +317,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         });
 
         Route::group(['prefix' => 'kondisi-jalan'], function () {
-            Route::get('/', 'InputData\KondisiJalanController@index')->name('getIDKondisiJalan');
-            Route::get('edit/{id}', 'InputData\KondisiJalanController@edit')->name('editIDKondisiJalan');
-            Route::get('add', 'InputData\KondisiJalanController@add')->name('addIDKondisiJalan');
-            Route::post('create', 'InputData\KondisiJalanController@create')->name('createIDKondisiJalan');
-            Route::post('update', 'InputData\KondisiJalanController@update')->name('updateIDKondisiJalan');
-            Route::get('delete/{id}', 'InputData\KondisiJalanController@delete')->name('deleteIDKondisiJalan');
+            // Route::get('/', 'InputData\KondisiJalanController@index')->name('getIDKondisiJalan');
+            // Route::get('edit/{id}', 'InputData\KondisiJalanController@edit')->name('editIDKondisiJalan');
+            // Route::get('add', 'InputData\KondisiJalanController@add')->name('addIDKondisiJalan');
+            // Route::post('create', 'InputData\KondisiJalanController@create')->name('createIDKondisiJalan');
+            // Route::post('update', 'InputData\KondisiJalanController@update')->name('updateIDKondisiJalan');
+            // Route::get('delete/{id}', 'InputData\KondisiJalanController@delete')->name('deleteIDKondisiJalan');
             Route::get('getRuasJalan', 'InputData\KondisiJalanController@getRuasJalan')->name('getRuasJalanKJ');
             Route::get('json', 'InputData\KondisiJalanController@getRJ')->name('getRJ');
         });
+        Route::get('kondisi_jalan/delete/{id}', 'InputData\KondisiKemantapanJalanController@destroy');
+        Route::resource('kondisi_jalan', 'InputData\KondisiKemantapanJalanController');
 
         Route::group(['prefix' => 'data-paket'], function () {
             Route::get('/', 'InputData\DataPaketController@index')->name('getIDDataPaket');
@@ -374,7 +376,7 @@ Route::get('map/kendali-kontrak', 'ProyekController@getProyekKontrakAPI')->name(
 Route::get('map/proyek-kontrak-progress', 'ProyekController@getProgressProyekKontrakAPI')->name('api.proyekkontrakprogress');
 
 Route::get('map/laporan-masyarakat', 'MonitoringController@getLaporanAPI')->name('api.laporan');
-Route::view('map/kemantapan-jalan','admin.map.map-kemantapan-jalan')->name('map.kemantapanjalan');
+Route::view('map/kemantapan-jalan', 'admin.map.map-kemantapan-jalan')->name('map.kemantapanjalan');
 
 Route::post('getSupData', 'MonitoringController@getSupData')->name('getSupData.filter');
 
