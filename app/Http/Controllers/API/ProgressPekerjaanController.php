@@ -172,20 +172,34 @@ class ProgressPekerjaanController extends Controller
             $progress['prosentase'] = 0;
             $progress['kategori'] = null;
             $progress['status'] = null;
-            $progress['tanggal'] = $request->tanggal;
-            $progress['kegiatan'] = $request->kegiatan;
-            $progress['nama_paket'] = $request->namaPaket;
-            $progress['penyedia_jasa'] = $request->penyediaJasa;
-            $progress['rencana'] = $request->rencana;
-            $progress['realisasi'] = $request->realisasi;
-            $progress['waktu_kontrak'] = $request->waktuKontrak;
-            $progress['terpakai'] = $request->terpakai;
-            $progress['bayar'] = $request->keuangan;
-            $progress['lat'] = $request->lat;
-            $progress['lng'] = $request->long;
-            $progress['jenis_pekerjaan'] = $request->jenisPekerjaan;
-            $progress['ruas_jalan'] = $request->namaRuasJalan;
-            $progress['sup'] = $request->sup;
+            if ($request->tanggal)
+                $progress['tanggal'] = $request->tanggal;
+            if ($request->kegiatan)
+                $progress['kegiatan'] = $request->kegiatan;
+            if ($request->namaPaket)
+                $progress['nama_paket'] = $request->namaPaket;
+            if ($request->penyediaJasa)
+                $progress['penyedia_jasa'] = $request->penyediaJasa;
+            if ($request->rencana)
+                $progress['rencana'] = $request->rencana;
+            if ($request->realisasi)
+                $progress['realisasi'] = $request->realisasi;
+            if ($request->waktuKontrak)
+                $progress['waktu_kontrak'] = $request->waktuKontrak;
+            if ($request->terpakai)
+                $progress['terpakai'] = $request->terpakai;
+            if ($request->keuangan)
+                $progress['bayar'] = $request->keuangan;
+            if ($request->lat)
+                $progress['lat'] = $request->lat;
+            if ($request->long)
+                $progress['lng'] = $request->long;
+            if ($request->jenisPekerjaan)
+                $progress['jenis_pekerjaan'] = $request->jenisPekerjaan;
+            if ($request->namaRuasJalan)
+                $progress['ruas_jalan'] = $request->namaRuasJalan;
+            if ($request->sup)
+                $progress['sup'] = $request->sup;
             $progress['uptd_id'] = $this->userUptd;
             if ($request->fotoDokumentasi != null) {
                 $path = Str::snake(date("YmdHis") . ' ' . $request->fotoDokumentasi->getClientOriginalName());
