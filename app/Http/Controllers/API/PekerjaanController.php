@@ -185,16 +185,24 @@ class PekerjaanController extends Controller
             }
 
             $pekerjaan = [];
-            $pekerjaan['tanggal'] = $request->tanggal;
+            if ($request->tanggal)
+                $pekerjaan['tanggal'] = $request->tanggal;
             $pekerjaan['sup'] = DB::table('utils_sup')->where('id', $request->idSup)->first()->name;
-            $pekerjaan['paket'] = $request->namaPaket;
-            $pekerjaan['ruas_jalan'] = DB::table('master_ruas_jalan')
-                ->where('id_ruas_jalan', $request->idRuasJalan)->first()->nama_ruas_jalan;
-            $pekerjaan['jenis_pekerjaan'] = DB::table('item_pekerjaan')->where('no', $request->idJenisPekerjaan)->first()->nama_item;
-            $pekerjaan['peralatan'] = $request->peralatan;
-            $pekerjaan['panjang'] = $request->panjang;
-            $pekerjaan['lat'] = $request->lat;
-            $pekerjaan['lng'] = $request->long;
+            if ($request->namaPaket)
+                $pekerjaan['paket'] = $request->namaPaket;
+            if ($request->idRuasJalan)
+                $pekerjaan['ruas_jalan'] = DB::table('master_ruas_jalan')
+                    ->where('id_ruas_jalan', $request->idRuasJalan)->first()->nama_ruas_jalan;
+            if ($request->idJenisPekerjaan)
+                $pekerjaan['jenis_pekerjaan'] = DB::table('item_pekerjaan')->where('no', $request->idJenisPekerjaan)->first()->nama_item;
+            if ($request->peralatan)
+                $pekerjaan['peralatan'] = $request->peralatan;
+            if ($request->panjang)
+                $pekerjaan['panjang'] = $request->panjang;
+            if ($request->lat)
+                $pekerjaan['lat'] = $request->lat;
+            if ($request->long)
+                $pekerjaan['lng'] = $request->long;
 
             if ($request->fotoAwal != null) {
                 $path = Str::snake(date("YmdHis") . ' ' . $request->fotoAwal->getClientOriginalName());
