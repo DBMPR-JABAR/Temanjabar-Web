@@ -128,7 +128,7 @@
 
 
                     <div class=" form-group row">
-                        <label class="col-md-4 col-form-label">KM Asal, Lokasi dan Panjang</label>
+                        <label class="col-md-4 col-form-label">KM Asal, Lokasi dan Panjang (m)</label>
                         <div class="col-md-8">
                             <div class="row">
                                 <div class="col-md-4">
@@ -165,22 +165,22 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <input id="NO_KM_ASAL" name="NO_KM_ASAL" value="{{ @$kondisi_jalan->NO_KM_ASAL }}"
-                                        type="number" min="0" class="form-control" required placeholder="No KM Asal"
+                                        type="number" min="0" class="form-control" required placeholder="KM Asal"
                                         onchange="onChangeLokasi()">
                                 </div>
                                 <div class="col-md-3">
                                     <input id="NO_M_ASAL" name="NO_M_ASAL" value="{{ @$kondisi_jalan->NO_M_ASAL }}"
-                                        type="number" min="0" class="form-control" required placeholder="No M Asal"
+                                        type="number" min="0" class="form-control" required placeholder="M Asal"
                                         onchange="onChangeLokasi()" max="999">
                                 </div>
                                 <div class="col-md-3">
                                     <input id="NO_KM_AKHIR" name="NO_KM_AKHIR" value="{{ @$kondisi_jalan->NO_KM_AKHIR }}"
-                                        type="number" min="0" class="form-control" required placeholder="No KM Akhir"
+                                        type="number" min="0" class="form-control" required placeholder="KM Akhir"
                                         onchange="onChangeLokasi()">
                                 </div>
                                 <div class="col-md-3">
                                     <input id="NO_M_AKHIR" name="NO_M_AKHIR" value="{{ @$kondisi_jalan->NO_M_AKHIR }}"
-                                        type="number" min="0" class="form-control" required placeholder="No M Akhir"
+                                        type="number" min="0" class="form-control" required placeholder="M Akhir"
                                         onchange="onChangeLokasi()" max="999">
                                 </div>
                             </div>
@@ -357,7 +357,7 @@
             const mAkhir = noMAkhir.val() ? noMAkhir.val() : 0;
             const awal = (Number(kmAsal) * 1000) + Number(mAsal);
             const akhir = (Number(kmAkhir) * 1000) + Number(mAkhir);
-            panjang.val((akhir - awal) / 1000);
+            panjang.val(akhir - awal);
             lokasi.val(`${kmAsal}+${mAsal} s/d ${kmAkhir}+${mAkhir}`);
         }
 
