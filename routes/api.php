@@ -32,7 +32,7 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('user', 'API\AuthController@getUser');
 
     Route::post('change-password', 'API\AuthController@newPassword');
-    Route::post('change-detail','API\AuthController@changeDetail');
+    Route::post('change-detail', 'API\AuthController@changeDetail');
 
     // Login OTP
     Route::post('loginOTP', 'API\AuthController@loginOTP');
@@ -71,16 +71,21 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::get('proyek-kontrak/status/{status}', 'API\ProyekController@getByStatus');
 
     Route::group(['prefix' => 'pekerjaan'], function () {
-        Route::get('get-sup','API\PekerjaanController@getSUP');
-        Route::get('get-ruas-jalan','API\PekerjaanController@getRuasJalan');
-        Route::get('get-jenis-pekerjaan','API\PekerjaanController@getJenisPekerjaan');
+        Route::get('get-sup', 'API\PekerjaanController@getSUP');
+        Route::get('get-ruas-jalan', 'API\PekerjaanController@getRuasJalan');
+        Route::get('get-jenis-pekerjaan', 'API\PekerjaanController@getJenisPekerjaan');
+
+        Route::group(['prefix' => 'material_pekerjaan'], function () {
+            Route::get('bahan_material', 'API\MaterialPekerjaanController@bahanMaterial');
+            Route::get('satuan_material', 'API\MaterialPekerjaanController@satuanMaterial');
+        });
+        Route::resource('material_pekerjaan', 'API\MaterialPekerjaanController')->except('index');
     });
     Route::resource('pekerjaan', 'API\PekerjaanController');
     Route::prefix('progress-pekerjaan')->group(function () {
-        Route::get('get-paket-dan-penyedia','API\ProgressPekerjaanController@getPaketDanPenyedia');
+        Route::get('get-paket-dan-penyedia', 'API\ProgressPekerjaanController@getPaketDanPenyedia');
     });
     Route::resource('progress-pekerjaan', 'API\ProgressPekerjaanController');
-
 });
 
 Route::post('pembangunan_talikuat', 'API\PembangunanTalikuatController@getPembangunanTalikuat');
@@ -110,10 +115,11 @@ Route::post('save-token', 'API\PushNotifController@saveToken')->name('save-token
 Route::post('send-notification-user', 'API\PushNotifController@sendNotificationUser')->name('send.notification');
 Route::post('debug-notification', 'API\PushNotifController@debugNotification')->name('debug.notification');
 
-Route::fallback(function(){
+Route::fallback(function () {
     return response()->json([
         'status' => 'false',
         'data' => [
-            'message' => 'Page Not Found']
-        ], 404);
+            'message' => 'Page Not Found'
+        ]
+    ], 404);
 });

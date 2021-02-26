@@ -12,10 +12,13 @@ use Illuminate\Support\Str;
 class PekerjaanController extends Controller
 {
 
-
     public function __construct()
     {
         $this->user = auth('api')->user();
+        if (!$this->user) {
+            $this->response['message'] = 'Unauthorized';
+            return response()->json($this->response, 200);
+        }
         $this->userUptd = str_replace('uptd', '', $this->user->internalRole->uptd);
     }
     /**
@@ -30,7 +33,8 @@ class PekerjaanController extends Controller
                 ->rightJoin('utils_pekerjaan', 'utils_pekerjaan.id_pek', '=', 'kemandoran.id_pek')
                 ->where('is_deleted', 0)
                 ->where('id_mandor', $this->user->id)
-                ->get();
+                ->get()
+                ->reverse()->values();
 
             $this->response['status'] = 'success';
             $this->response['data']['pekerjaan'] = $pekerjaan;
@@ -160,7 +164,7 @@ class PekerjaanController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'tanggal' => 'date',
-                'idSup' => 'int',
+                'idSup' => 'int|required',
                 'namaPaket' => 'string|min:5',
                 'idRuasJalan' => 'string',
                 'idJenisPekerjaan' => 'int',
@@ -182,16 +186,24 @@ class PekerjaanController extends Controller
             }
 
             $pekerjaan = [];
-            $pekerjaan['tanggal'] = $request->tanggal;
+            if ($request->tanggal)
+                $pekerjaan['tanggal'] = $request->tanggal;
             $pekerjaan['sup'] = DB::table('utils_sup')->where('id', $request->idSup)->first()->name;
-            $pekerjaan['paket'] = $request->namaPaket;
-            $pekerjaan['ruas_jalan'] = DB::table('master_ruas_jalan')
-                ->where('id_ruas_jalan', $request->idRuasJalan)->first()->nama_ruas_jalan;
-            $pekerjaan['jenis_pekerjaan'] = DB::table('item_pekerjaan')->where('no', $request->idJenisPekerjaan)->first()->nama_item;
-            $pekerjaan['peralatan'] = $request->peralatan;
-            $pekerjaan['panjang'] = $request->panjang;
-            $pekerjaan['lat'] = $request->lat;
-            $pekerjaan['lng'] = $request->long;
+            if ($request->namaPaket)
+                $pekerjaan['paket'] = $request->namaPaket;
+            if ($request->idRuasJalan)
+                $pekerjaan['ruas_jalan'] = DB::table('master_ruas_jalan')
+                    ->where('id_ruas_jalan', $request->idRuasJalan)->first()->nama_ruas_jalan;
+            if ($request->idJenisPekerjaan)
+                $pekerjaan['jenis_pekerjaan'] = DB::table('item_pekerjaan')->where('no', $request->idJenisPekerjaan)->first()->nama_item;
+            if ($request->peralatan)
+                $pekerjaan['peralatan'] = $request->peralatan;
+            if ($request->panjang)
+                $pekerjaan['panjang'] = $request->panjang;
+            if ($request->lat)
+                $pekerjaan['lat'] = $request->lat;
+            if ($request->long)
+                $pekerjaan['lng'] = $request->long;
 
             if ($request->fotoAwal != null) {
                 $path = Str::snake(date("YmdHis") . ' ' . $request->fotoAwal->getClientOriginalName());
@@ -221,7 +233,7 @@ class PekerjaanController extends Controller
             $this->response['data']['message'] = 'Berhasil merubah pekerjaan';
             return response()->json($this->response, 200);
         } catch (\Exception $th) {
-            $this->response['data']['message'] = 'Internal Error' . $th;
+            $this->response['data']['message'] = 'Internal Error';
             return response()->json($this->response, 500);
         }
     }

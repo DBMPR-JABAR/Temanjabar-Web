@@ -14,6 +14,10 @@ class ProgressPekerjaanController extends Controller
     public function __construct()
     {
         $this->user = auth('api')->user();
+        if (!$this->user) {
+            $this->response['message'] = 'Unauthorized';
+            return response()->json($this->response, 200);
+        }
         $this->userUptd = str_replace('uptd', '', $this->user->internalRole->uptd);
     }
     /**
@@ -168,20 +172,34 @@ class ProgressPekerjaanController extends Controller
             $progress['prosentase'] = 0;
             $progress['kategori'] = null;
             $progress['status'] = null;
-            $progress['tanggal'] = $request->tanggal;
-            $progress['kegiatan'] = $request->kegiatan;
-            $progress['nama_paket'] = $request->namaPaket;
-            $progress['penyedia_jasa'] = $request->penyediaJasa;
-            $progress['rencana'] = $request->rencana;
-            $progress['realisasi'] = $request->realisasi;
-            $progress['waktu_kontrak'] = $request->waktuKontrak;
-            $progress['terpakai'] = $request->terpakai;
-            $progress['bayar'] = $request->keuangan;
-            $progress['lat'] = $request->lat;
-            $progress['lng'] = $request->long;
-            $progress['jenis_pekerjaan'] = $request->jenisPekerjaan;
-            $progress['ruas_jalan'] = $request->namaRuasJalan;
-            $progress['sup'] = $request->sup;
+            if ($request->tanggal)
+                $progress['tanggal'] = $request->tanggal;
+            if ($request->kegiatan)
+                $progress['kegiatan'] = $request->kegiatan;
+            if ($request->namaPaket)
+                $progress['nama_paket'] = $request->namaPaket;
+            if ($request->penyediaJasa)
+                $progress['penyedia_jasa'] = $request->penyediaJasa;
+            if ($request->rencana)
+                $progress['rencana'] = $request->rencana;
+            if ($request->realisasi)
+                $progress['realisasi'] = $request->realisasi;
+            if ($request->waktuKontrak)
+                $progress['waktu_kontrak'] = $request->waktuKontrak;
+            if ($request->terpakai)
+                $progress['terpakai'] = $request->terpakai;
+            if ($request->keuangan)
+                $progress['bayar'] = $request->keuangan;
+            if ($request->lat)
+                $progress['lat'] = $request->lat;
+            if ($request->long)
+                $progress['lng'] = $request->long;
+            if ($request->jenisPekerjaan)
+                $progress['jenis_pekerjaan'] = $request->jenisPekerjaan;
+            if ($request->namaRuasJalan)
+                $progress['ruas_jalan'] = $request->namaRuasJalan;
+            if ($request->sup)
+                $progress['sup'] = $request->sup;
             $progress['uptd_id'] = $this->userUptd;
             if ($request->fotoDokumentasi != null) {
                 $path = Str::snake(date("YmdHis") . ' ' . $request->fotoDokumentasi->getClientOriginalName());
@@ -235,7 +253,7 @@ class ProgressPekerjaanController extends Controller
             $paket = array();
             $penyedia = array();
             $data2 = DB::table('pembangunan');
-            $data2 = $data2->where('uptd_id', $this->userUptd);
+            // $data2 = $data2->where('uptd_id', $this->userUptd);
             $data2 = $data2->get();
             $number1 = 0;
             $number2 = 0;
@@ -254,6 +272,8 @@ class ProgressPekerjaanController extends Controller
 
             $tempArray = array_unique(array_column($penyedia, 'nama'));
             $penyedia_jasa = array_values(array_intersect_key($penyedia, $tempArray));
+            $tempArray2 = array_unique(array_column($paket, 'nama'));
+            $paket = array_values(array_intersect_key($paket, $tempArray2));
             $this->response['status'] = 'success';
             $this->response['data']['paket'] = $paket;
             $this->response['data']['penyedia'] = $penyedia_jasa;
