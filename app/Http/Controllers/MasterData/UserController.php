@@ -359,7 +359,7 @@ class UserController extends Controller
         ->orderBy('a.id')
         ->get();
         $alldata=array();
-
+// dd($user_role_list);
         $counter=0;
         foreach($user_role_list as $data){
             $permiss =array();
@@ -368,6 +368,10 @@ class UserController extends Controller
             $men = explode(", ",$data->menu_user);
             $aks = explode(", ",$data->role_access);
             $id_men = explode(", ",$data->id_menu);
+            // dd($id_men);
+            // dd($aks);
+            // dd($men);
+
 
             $counting = 0;
             foreach($id_men as $now){
@@ -376,13 +380,16 @@ class UserController extends Controller
                 array_push($permissuser,$id_menn->menu) ;
 
             }
-            
+            // dd($permissuser);
             foreach($permissuser as $no){
+                // echo $no;
                 $temp = $no.'.'.$aks[$counting];
                 array_push($permiss,$temp) ;
                 $counting++;
-
+                if($counting == 4)
+                    $counting=0;
             }
+            // dd($permissuser);
             $permission = implode(", ", $permiss);
             $alldata['role_id'] = $data->role_id;
             $alldata['role'] = $data->role;
