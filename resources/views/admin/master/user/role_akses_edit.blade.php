@@ -121,17 +121,17 @@
                             <div class="card-deck col-md-12">    
                                 @foreach($alldata['menu'] as $data)
                                     @if($counting == 0) 
-                                        <div class="card col-md-12">
+                                        <div class="card col-md-4">
                                             <div class="card-block">
                                                 <div class="row align-items-center">
                                                     <div class="col-12">
                                     @elseif($counting == $pointer2)
-                                        <div class="card col-md-12">
+                                        <div class="card col-md-4">
                                             <div class="card-block">
                                                 <div class="row align-items-center">
                                                     <div class="col-12">
                                     @elseif($counting == $pointer2+$pointer2)
-                                        <div class="card col-md-12">
+                                        <div class="card col-md-4">
                                             <div class="card-block">
                                                 <div class="row align-items-center">
                                                     <div class="col-12">
