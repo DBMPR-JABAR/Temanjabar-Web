@@ -45,7 +45,7 @@
                                 </a>
                             </li>
                         @endif
-                        @if (hasAccess(Auth::user()->internal_role_id, 'CCTC Control Room', 'View'))
+                        @if (hasAccess(Auth::user()->internal_role_id, 'CCTV Control Room', 'View'))
                             <li class="{{ Request::segment(3) == 'cctv' ? 'active' : '' }}">
                                 <a href="{{ url('admin/monitoring/cctv') }}">
                                     <span class="pcoded-mtext">CCTV Control Room</span>
