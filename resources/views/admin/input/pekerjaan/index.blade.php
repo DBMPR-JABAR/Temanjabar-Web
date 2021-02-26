@@ -169,13 +169,13 @@
 
                                 <td style="min-width: 170px;">
                                     <div class="btn-group" role="group" data-placement="top" title="" data-original-title=".btn-xlg">
-                                        @if(Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor'))
-                                            @if(!$data->keterangan_status_lap || str_contains($data->status->status,'Rejected'))
+                                        @if(Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor')||str_contains(Auth::user()->internalRole->role,'Admin'))
+                                            @if(!$data->keterangan_status_lap || str_contains($data->status->status,'Rejected')||str_contains(Auth::user()->internalRole->role,'Admin'))
                                                 @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
                                                 <a href="{{ route('editDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i></button></a>
                                                 <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Material"><i class="icofont icofont-list"></i></button></a>
                                                 @endif
-                                                @if(!$data->keterangan_status_lap)
+                                                @if(!$data->keterangan_status_lap ||str_contains(Auth::user()->internalRole->role,'Admin'))
                                                     @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Delete"))
                                                     <a href="#delModal" data-id="{{$data->id_pek}}" data-toggle="modal"><button class="btn btn-danger btn-sm waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
                                                     @endif
