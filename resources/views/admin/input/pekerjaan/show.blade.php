@@ -84,16 +84,7 @@
                         </div>
                     </div>
                     @endif
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">SUP</label>
-                        <div class="col-md-10">
-                            <select class="form-control searchableField" id="sup" name="sup" required >
-                             
-                                <option >{{$pekerjaan->sup}}</option>
-                              
-                            </select>
-                        </div>
-                    </div>
+                   
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Ruas Jalan</label>
                         <div class="col-md-10">

@@ -136,7 +136,7 @@
                                                 <div class="row align-items-center">
                                                     <div class="col-12">
                                     @endif
-                                        <label class="form-check-label" for="check1">   
+                                        <label class="form-check-label">   
                                             @foreach ($alldata['permissions'] as $item)
                                             {{-- {{ $item }} --}}
                                             @php
@@ -148,10 +148,10 @@
                                                 }
                                             @endphp
                                             @endforeach
-                                            <input type="checkbox" class="form-check-input" name="menu[]" value="{{$data}}" {{$i}} >{{$data}}&nbsp;
-                                            <br> 
-                        
+                                            <input type="checkbox" class="form-check-input" name="menu[]" value="{{$data}}" {{$i}} >&nbsp;{{$data}}&nbsp;
+                                            
                                         </label>
+                                        <br> 
                                     @if($counting == $pointer2-1)
                                                     </div>
                                                 </div>
