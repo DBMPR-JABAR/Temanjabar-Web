@@ -7,7 +7,7 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Jugment Pekerjaan </h4>
+                <h4>Jugment Pekerjaan {{Str::title($pekerjaan->nama_mandor)}}</h4>
             </div>
         </div>
     </div>
@@ -43,128 +43,136 @@
                     @csrf
                     <input type="hidden" name="id_pek" value="{{$pekerjaan->id_pek}}">
 
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="col-md-6 col-form-label">Jenis Pekerjaan</label>
+                            <hr>
+                            <label class="col-md-12 col-form-label">{{$pekerjaan->jenis_pekerjaan}}</label>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="col-md-6 col-form-label">Nama Paket</label>
+                            <hr>
+                            <label class="col-md-12 col-form-label">{{$pekerjaan->paket}}</label>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="col-md-6 col-form-label">Jumlah Pekerja</label>
+                            <hr>
+                            <label class="col-md-12 col-form-label">{{$pekerjaan->jumlah_pekerja}} Orang</label>
+                        </div>
+                    </div>
+                    
+                </form>
 
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Mandor</label>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h5>Lokasi {{$pekerjaan->lokasi}}</h5>
+                <br>
+                <h5>{{$pekerjaan->ruas_jalan}}</h5>
+                <div class="card-header-right">
+                    <i class="feather icon-maximize full-card"></i>
+                    <i class="feather icon-minus minimize-card"></i>
+                </div>
+            </div>
+            <div class="card-block">
+
+                <form action="{{ route('updateDataPekerjaan',$pekerjaan->id_pek) }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="row">
                         
-                        <label class="col-md-10 col-form-label"> {{Str::title($pekerjaan->nama_mandor)}}</label>
-
-                           
-                 
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Jenis Pekerjaan</label>
-                        <div class="col-md-10">
-                            <select class="form-control searchableField" name="jenis_pekerjaan" required >
-                               
-                                <option value="" >{{$pekerjaan->jenis_pekerjaan}}</option>
-                            
-                            </select>
+                        <div class="col-md-6">
+                            <label class="col-md-6 col-form-label">Koordinat X</label>
+                            <hr>
+                            <label class="col-md-12 col-form-label">{{$pekerjaan->lat}}</label>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="col-md-6 col-form-label">Koordinat Y</label>
+                            <hr>
+                            <label class="col-md-12 col-form-label">{{$pekerjaan->lng}}</label>
                         </div>
                     </div>
-
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Nama Paket</label>
-                        <div class="col-md-10">
-                            <input name="paket" type="text" class="form-control" value="{{$pekerjaan->paket}}">
-                        </div>
-                    </div>
-                    @if (Auth::user()->internalRole->uptd)
-                    <input type="hidden" id="uptd" name="uptd_id" value="{{Auth::user()->internalRole->uptd}}" value="{{$pekerjaan->uptd_id}}">
-                    @else
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Uptd</label>
-                        <div class="col-md-10">
-                            <select class="form-control searchableField" id="uptd" name="uptd_id" value="{{$pekerjaan->uptd_id}}" onchange="ubahOption()">
-                                @foreach ($uptd as $pekerjaan)
-                                <option value="{{$pekerjaan->id}}" {{ ( $pekerjaan->id == $pekerjaan->uptd_id) ? 'selected' : ''}}>{{$pekerjaan->nama}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    @endif
-                   
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Ruas Jalan</label>
-                        <div class="col-md-10">
-                            <select class="form-control searchableField" id="ruas_jalan" name="ruas_jalan" required value="{{$pekerjaan->ruas_jalan}}">
-                                
-                               
-                                <option >{{$pekerjaan->ruas_jalan}}</option>
-                                
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Lokasi</label>
-                        <div class="col-md-10">
-                            <input name="lokasi" type="text" class="form-control" required value="{{$pekerjaan->lokasi}}">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Koordinat X</label>
-                        <div class="col-md-10">
-                            <input name="lat" type="text" class="form-control formatLatLong" required value="{{$pekerjaan->lat}}">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Koordinat Y</label>
-                        <div class="col-md-10">
-                            <input name="lng" type="text" class="form-control formatLatLong" value="{{$pekerjaan->lng}}">
-                        </div>
-                    </div>
+                    
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Panjang (meter)</label>
-                        <div class="col-md-10">
-                            <input name="panjang" type="text" class="form-control formatRibuan" required value="{{$pekerjaan->panjang}}">
-                        </div>
+                        <label class="col-md-10 col-form-label">{{$pekerjaan->panjang}} meter</label>
+
                     </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Jumlah Pekerja</label>
-                        <div class="col-md-10">
-                            <input name="jumlah_pekerja" type="text" class="form-control formatRibuan" required value="{{$pekerjaan->jumlah_pekerja}}">
-                        </div>
-                    </div>
+                    
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Alat yang Digunakan</label>
                         <div class="col-md-10">
                             <input name="peralatan" type="text" class="form-control" required value="{{$pekerjaan->peralatan}}">
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-md-3 col-form-label">Foto Dokumentasi (0%)</label>
-                        <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="col-md-12 col-form-label text-center">Foto Dokumentasi (0%)</label>
                             <img style="max-height: 400px;" class="img-thumbnail rounded mx-auto d-block" src="{{ url('storage/pekerjaan/'.$pekerjaan->foto_awal) }}" alt="">
+                            
                         </div>
-                        
-                    </div><div class="form-group row">
-                        <label class="col-md-3 col-form-label">Foto Dokumentasi (50%)</label>
-                        <div class="col-md-9">
+                        <div class="col-md-6">
+                            <label class="col-md-12 col-form-label text-center">Foto Dokumentasi (50%)</label>
                             <img style="max-height: 400px;" class="img-thumbnail rounded mx-auto d-block" src="{{ url('storage/pekerjaan/'.$pekerjaan->foto_sedang) }}" alt="">
+                            
                         </div>
-                        
                     </div>
+                    
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">Foto Dokumentasi (100%)</label>
-                        <div class="col-md-9">
+                        <label class="col-md-12 col-form-label text-center">Foto Dokumentasi (100%)</label>
                             <img style="max-height: 400px;" class="img-thumbnail rounded mx-auto d-block" src="{{ url('storage/pekerjaan/'.$pekerjaan->foto_akhir) }}" alt="">
-                        </div>
+                        
                         
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">Video Dokumentasi</label>
-                        <div class="col-md-9">
+                        <label class="col-md-12 col-form-label text-center">Video Dokumentasi</label>
                             <video  style="max-height: 400px;" controls class="img-thumbnail rounded mx-auto d-block">
                                 <source src="{{ url('storage/pekerjaan/'.$pekerjaan->video) }}" type="video/mp4" />
-                            </video>
-                        </div>
-                        
+                            </video>                
                     </div>
-
-                   
                 </form>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h3>Material</h3>
+                <div class="card-header-right">
+                    <i class="feather icon-maximize full-card"></i>
+                    <i class="feather icon-minus minimize-card"></i>
+                </div>
+            </div>
+            <div class="card-block">
 
+                <form action="{{ route('updateDataPekerjaan',$pekerjaan->id_pek) }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Alat yang Digunakan</label>
+                        <div class="col-md-10">
+                            <input name="peralatan" type="text" class="form-control" required value="{{$pekerjaan->peralatan}}">
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <label style="font-weight: bold;">Informasi Pribadi</label>
+                        <table class="table table-striped">
+                            <tr>
+                                <th>#</th>
+                                <th>Bahan Material</th>
+                                <th>Jumlah</th>
+                                <th>Satuan</th>
+
+                            </tr>
+                            <tr>
+                                <td width="5%">1</td>
+                                <td width="35%">Nama Lengkap</td>
+
+                                <td width="15%">Nama Lengkap</td>
+                                <td width="15%"></td>
+                            </tr>
+                          
+                        </table>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
