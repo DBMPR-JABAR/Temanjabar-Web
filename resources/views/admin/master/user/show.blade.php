@@ -48,7 +48,7 @@
             
             <div class="card">
                 <div class="card-header ">
-                <h4 class="card-title">Profile {{ Str::title(Auth::user()->name) }}</h4>
+                <h4 class="card-title">Profile {!! Str::title(@$profile->nama) !!}</h4>
                     <div class="card-header-right">
                             {{-- <button type="submit" class="btn btn-responsive btn-warning">Edit Password</button>
                             <button type="submit" class="btn btn-responsive btn-primary">Edit Profil</button> --}}

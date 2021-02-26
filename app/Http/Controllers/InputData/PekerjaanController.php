@@ -68,10 +68,12 @@ class PekerjaanController extends Controller
             $input_material= $this->cekMaterial($data->id_pek);
             if($input_material){
                 $tempuser= DB::table('users')
-                ->leftJoin('user_role','users.internal_role_id','=','user_role.id')->where('users.id',$data->user_id)
-                ->first();
-                $data->status = $tempuser;
-                $data->status->status="";
+                ->leftJoin('user_role','users.internal_role_id','=','user_role.id')->where('users.id',$data->user_id);
+                if($tempuser->exists()){
+                    $tempuser=$tempuser->first();
+                    $data->status = $tempuser;
+                    $data->status->status="";
+                }
             }
             $data->input_material = $input_material;
             $data->keterangan_status_lap= $detail_adjustment->exists();
