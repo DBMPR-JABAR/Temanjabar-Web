@@ -79,10 +79,8 @@
                                 <label class="col-md-2 col-form-label">UPTD</label>
                                 <div class="col-md-10">
                                     <select class="form-control searchableField" id="uptd" name="uptd" onchange="ubahOption()" required>
-                                        <option value="{{ $jembatan->id }}">{{ $jembatan->uptd }}</option>
-                                        <option disabled></option>
                                         @foreach ($uptd as $data)
-                                            <option value="{{ $data->id }}" @if ($data->id == $jembatan->uptd) selected
+                                            <option value="{{ $data->id }}" @if ('uptd'.$data->id == $jembatan->uptd) selected
                                         @endif>{{ $data->nama }}</option>
                         @endforeach
                         </select>

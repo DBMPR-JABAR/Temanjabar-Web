@@ -330,7 +330,11 @@ class JembatanController extends Controller
 
     public function json()
     {
-        return DataTables::of(DB::table('master_jembatan'))
+        $jembatan = DB::table('master_jembatan');
+        if (Auth::user()->internalRole->uptd) {
+            $jembatan =  $jembatan->where('uptd', Auth::user()->internalRole->uptd);
+        }
+        return DataTables::of($jembatan)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
                 $btn = '<div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">';
@@ -355,6 +359,10 @@ class JembatanController extends Controller
                 return $btn;
             })
             ->rawColumns(['action'])
+            ->addColumn('uptd_format', function($row) {
+                $uptd_id = str_replace('uptd', '', $row->uptd);
+                return 'UPTD ' .$uptd_id;
+            })
             ->make(true);
     }
 }

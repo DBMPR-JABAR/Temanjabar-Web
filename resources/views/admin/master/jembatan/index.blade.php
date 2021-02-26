@@ -68,6 +68,7 @@
                                 <th>Panjang (meter)</th>
                                 <th>Lebar (meter)</th>
                                 <th>Ruas Jalan</th>
+                                <th>UPTD</th>
                                 <!-- <th>Foto</th> -->
                                 <th style="min-width: 100px;">Aksi</th>
                             </tr>
@@ -343,6 +344,10 @@
                 {
                     data: 'ruas_jalan',
                     name: 'ruas_jalan'
+                },
+                {
+                    data: 'uptd_format',
+                    name: 'uptd_format'
                 },
                 // {
                 //     'mRender': function(data, type, full) {
