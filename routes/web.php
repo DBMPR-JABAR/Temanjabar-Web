@@ -15,7 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 
 // {SiteURL}
-Route::get('/', 'LandingController@index');
+Route::get('/', 'LandingController@index')->name('/');
+Route::get('403', function () {
+    return view('403')->render();
+})->name('403');
 Route::get('login', 'LandingController@login')->name('login');
 Route::get('logout', 'AuthController@logout');
 Route::get('verify-email/{token}', 'AuthController@verifyEmail');

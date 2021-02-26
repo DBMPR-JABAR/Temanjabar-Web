@@ -5,11 +5,23 @@ namespace App\Http\Controllers\InputData;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class KondisiKemantapanJalanController extends Controller
 {
+
+    // public function __construct()
+    // {
+    //     $this->middleware(function ($request, $next) {
+    //         dd( $request->route()->getActionName());
+    //         if (hasAccess(auth()->user()->internal_role_id, 'Kondisi Jalan', 'Create') == false) {
+    //             return redirect(route('403'));
+    //         }
+    //         return $next($request);
+    //     });
+    // }
     /**
      * Display a listing of the resource.
      *
@@ -17,6 +29,9 @@ class KondisiKemantapanJalanController extends Controller
      */
     public function index()
     {
+        if (hasAccess(auth()->user()->internal_role_id, 'Kondisi Jalan', 'View') == false) {
+            return redirect(route('403'));
+        }
         $kondisi_jalan = DB::table('master_kondisi_jalan')->get();
         return view('admin.input_data.kondisi_kemantapan_jalan.index', compact('kondisi_jalan'));
     }
@@ -28,6 +43,9 @@ class KondisiKemantapanJalanController extends Controller
      */
     public function create()
     {
+        if (hasAccess(auth()->user()->internal_role_id, 'Kondisi Jalan', 'Create') == false) {
+            return redirect(route('403'));
+        }
         if (Auth::user()->internalRole->uptd)
             $uptd = DB::table('landing_uptd')->where('id', substr(Auth::user()->internalRole->uptd, 4, 5))->get();
         else
@@ -75,6 +93,9 @@ class KondisiKemantapanJalanController extends Controller
      */
     public function edit($id)
     {
+        if (hasAccess(auth()->user()->internal_role_id, 'Kondisi Jalan', 'Update') == false) {
+            return redirect(route('403'));
+        }
         if (Auth::user()->internalRole->uptd)
             $uptd = DB::table('landing_uptd')->where('id', substr(Auth::user()->internalRole->uptd, 4, 5))->get();
         else
@@ -113,6 +134,9 @@ class KondisiKemantapanJalanController extends Controller
      */
     public function destroy($id)
     {
+        if (hasAccess(auth()->user()->internal_role_id, 'Kondisi Jalan', 'Delete') == false) {
+            return redirect(route('403'));
+        }
         $kondisi_jalan =  DB::table('master_kondisi_jalan')->where('ID_KEMANTAPAN', $id)->delete();
         $color = "success";
         $msg = "Berhasil Menghapus Data Kondisi Jalan";
