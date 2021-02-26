@@ -146,43 +146,54 @@
                                         <source src="{!! url('storage/pekerjaan/'.$data->video) !!}" type='video/*' Sorry, your browser doesn't support the video element.></video></td>
                                 <td>{{$data->tanggal}}</td>
                                 <td>@if($data->status)
-                                        @if(str_contains($data->status->status,'Approved') )
-                                        <button type="button" class="btn btn-mini btn-primary waves-effect " > {{$data->status->status}}</button>
+                                        @if(str_contains($data->status->status,'Approved') || str_contains($data->status->status,'Rejected') )
+                                            @if(str_contains($data->status->status,'Approved') )
+                                                <button type="button" class="btn btn-mini btn-primary waves-effect " > {{$data->status->status}}</button>
+                                            @else 
+                                                <button type="button" class="btn btn-mini btn-danger waves-effect " > {{$data->status->status}}</button>
+                                            @endif
+                                            <br>{{$data->status->jabatan}}<br>
+                                            <a href="{{ route('detailStatusPekerjaan',$data->id_pek) }}"><button type="button" class="btn btn-sm waves-effect waves-light " ><i class="icofont icofont-search"></i> Detail</button>
                                         @else 
-                                        <button type="button" class="btn btn-mini btn-danger waves-effect " > {{$data->status->status}}</button>
+                                            @if($data->input_material)
+                                                <button type="button" class="btn btn-mini btn-success waves-effect " >Submited</button>
+                                            @endif
                                         @endif
-                                        <br>{{$data->status->jabatan}}<br>
-                                        <a href="{{ route('detailStatusPekerjaan',$data->id_pek) }}"><button type="button" class="btn btn-sm waves-effect waves-light " ><i class="icofont icofont-search"></i> Detail</button>
-
-                                    @else 
-                                        @if($data->input_material)
-                                            <button type="button" class="btn btn-mini btn-success waves-effect " >Submited</button>
-                                        @else
-                                            <button type="button" class="btn btn-mini btn-warning waves-effect " >Not Completed</button>
-                                            <br>
-                                            <i style="color :red; font-size: 10px;">Lengkapi material</i>
-                                        @endif
+                                    @else
+                                        <button type="button" class="btn btn-mini btn-warning waves-effect " >Not Completed</button>
+                                        <br>
+                                        <i style="color :red; font-size: 10px;">Lengkapi material</i>
                                     @endif
 
                                 </td>
 
                                 <td style="min-width: 170px;">
-                                    @if(!$data->keterangan_status_lap || str_contains($data->status->status,'Rejected'))
                                     <div class="btn-group" role="group" data-placement="top" title="" data-original-title=".btn-xlg">
-                                        @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
-                                        <a href="{{ route('editDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i></button></a>
-                                        <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Material"><i class="icofont icofont-list"></i></button></a>
-                                        @endif
-                                        @if(!$data->keterangan_status_lap)
-                                            @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Delete"))
-                                            <a href="#delModal" data-id="{{$data->id_pek}}" data-toggle="modal"><button class="btn btn-danger btn-sm waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
+                                        @if(Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor'))
+                                            @if(!$data->keterangan_status_lap || str_contains($data->status->status,'Rejected'))
+                                                @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
+                                                <a href="{{ route('editDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i></button></a>
+                                                <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Material"><i class="icofont icofont-list"></i></button></a>
+                                                @endif
+                                                @if(!$data->keterangan_status_lap)
+                                                    @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Delete"))
+                                                    <a href="#delModal" data-id="{{$data->id_pek}}" data-toggle="modal"><button class="btn btn-danger btn-sm waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
+                                                    @endif
+                                                @endif
+                                                {{-- @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
+                                                <a href="#submitModal" data-id="{{$data->id_pek}}" data-toggle="modal"><button class="btn btn-success btn-sm waves-effect waves-light" data-toggle="tooltip" title="Submit"><i class="icofont icofont-check-circled"></i></button></a>
+                                                @endif --}}
+                                            @endif
+                                        @else
+                                            @if($data->status)
+                                                @if(Auth::user()->internal_role_id!=null && Auth::user()->internal_role_id ==$data->status->parent )
+                                                    @if(str_contains(Auth::user()->internalRole->role,'Pengamat') || str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') && Auth::user()->sup_id==$data->status->sup_id)
+                                                        <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i>Jugment</button></a>
+                                                    @endif
+                                                @endif
                                             @endif
                                         @endif
-                                        {{-- @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
-                                        <a href="#submitModal" data-id="{{$data->id_pek}}" data-toggle="modal"><button class="btn btn-success btn-sm waves-effect waves-light" data-toggle="tooltip" title="Submit"><i class="icofont icofont-check-circled"></i></button></a>
-                                        @endif --}}
                                     </div>
-                                    @endif
                                 </td>
                             </tr>
                             @endforeach

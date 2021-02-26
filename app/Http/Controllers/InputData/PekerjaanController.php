@@ -35,7 +35,11 @@ class PekerjaanController extends Controller
         
         return view('admin.input.pekerjaan.index', compact('pekerjaan'));
     }
-
+    public static function cekMaterial($id) {
+        $cek = DB::table('bahan_material')->where('id_pek',$id)->exists();
+        return $cek;
+    }
+  
 
     public function getData()
     {
@@ -47,7 +51,6 @@ class PekerjaanController extends Controller
         if (Auth::user() && Auth::user()->internalRole->uptd) {
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
             $pekerjaan = $pekerjaan->where('kemandoran.uptd_id', $uptd_id);
-            
             if(str_contains(Auth::user()->internalRole->role,'Mandor')){
                 $pekerjaan = $pekerjaan->where('kemandoran.user_id',Auth::user()->id);
             }else if(Auth::user()->sup_id)
@@ -55,10 +58,22 @@ class PekerjaanController extends Controller
         }
         
         $pekerjaan = $pekerjaan->whereRaw("YEAR(tanggal) BETWEEN 2021 AND 2021");
-        $pekerjaan = $pekerjaan->where('is_deleted', 0)->get();
+        $pekerjaan = $pekerjaan->where('is_deleted', 0)->latest('tglreal')->get();
         foreach($pekerjaan as $no =>$data){
             // echo "$data->id_pek<br>";
+            
+            $data->status = "";
+
             $detail_adjustment=DB::table('kemandoran_detail_status')->where('id_pek',$data->id_pek);
+            $input_material= $this->cekMaterial($data->id_pek);
+            if($input_material){
+                $tempuser= DB::table('users')
+                ->leftJoin('user_role','users.internal_role_id','=','user_role.id')->where('users.id',$data->user_id)
+                ->first();
+                $data->status = $tempuser;
+                $data->status->status="";
+            }
+            $data->input_material = $input_material;
             $data->keterangan_status_lap= $detail_adjustment->exists();
             if($detail_adjustment->exists()){
                 $detail_adjustment=$detail_adjustment
@@ -78,14 +93,11 @@ class PekerjaanController extends Controller
                 }
                 $temp=explode(" - ",$data->status->role);
                 $data->status->jabatan=$temp[0];
-            }else
-            $data->status = "";
-            // echo "$data->id_pek<br>";
-            $input_material=DB::table('bahan_material')->where('id_pek',$data->id_pek)->exists();
-        // dd($input_material);
-            $data->input_material = $input_material;
-
+            }
             
+            // echo "$data->id_pek<br>";
+           
+
         }
         // dd($pekerjaan);
         $ruas_jalan = DB::table('master_ruas_jalan');
@@ -170,8 +182,6 @@ class PekerjaanController extends Controller
         $uptd = DB::table('landing_uptd')->get();
         return view('admin.input.pekerjaan.edit', compact('pekerjaan', 'ruas_jalan', 'sup', 'uptd', 'jenis', 'mandor'));
     }
-
-    
 
     public function createData(Request $req)
     {
@@ -359,6 +369,44 @@ class PekerjaanController extends Controller
         $color = "success";
         $msg = "Berhasil Mengubah Data Material";
         return redirect(route('getDataPekerjaan'))->with(compact('color', 'msg'));
+    }
+    public function show($id)
+    {
+
+        $color = "danger";
+        $msg = "Somethink when wrong!";
+        $pekerjaan = DB::table('kemandoran')->where('id_pek', $id);
+        if(!$pekerjaan->exists())
+            return back()->with(compact('color', 'msg'));
+
+        $pekerjaan = $pekerjaan->first();
+        if(Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor'))
+            if(Auth::user()->id != $pekerjaan->user_id){
+                return back()->with(compact('color', 'msg'));
+                // return redirect('admin/user/profile/'. auth()->user()->id)->with(['error' => 'Somethink when wrong!']);
+            }
+        
+        $ruas_jalan = DB::table('master_ruas_jalan');
+        // if (Auth::user()->internalRole->uptd) {
+        //     $ruas_jalan = $ruas_jalan->where('uptd_id', Auth::user()->internalRole->uptd);
+        // }
+        // echo $pekerjaan->uptd_id;
+        $ruas_jalan = $ruas_jalan->where('uptd_id', $pekerjaan->uptd_id);
+        $ruas_jalan = $ruas_jalan->get();
+
+        $sup = DB::table('utils_sup');
+        $sup = $sup->where('uptd_id', $pekerjaan->uptd_id);
+
+        $jenis = DB::table('item_pekerjaan');
+        $jenis = $jenis->get();
+
+        $mandor = DB::table('users')->where('user_role.role', 'like', 'mandor%');
+        $mandor = $mandor->leftJoin('user_role', 'user_role.id', '=', 'users.internal_role_id')->select('users.*', 'user_role.id as id_role');
+        $mandor = $mandor->get();
+
+        $sup = $sup->get();
+        $uptd = DB::table('landing_uptd')->get();
+        return view('admin.input.pekerjaan.edit', compact('pekerjaan', 'ruas_jalan', 'sup', 'uptd', 'jenis', 'mandor'));
     }
     public function deleteData($id)
     {

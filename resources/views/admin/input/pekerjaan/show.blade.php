@@ -80,7 +80,7 @@
                                         
                                         <tr>
                                             <td width="20%">Nama Lengkap</td>
-                                            <td >{!! Str::title(@$profile->nama) !!}</td>
+                                            <td >{!! Str::title(@$profile_users->nama) !!}</td>
                                         </tr>
                                         <tr>
                                             <td>NIP</td>
@@ -119,7 +119,7 @@
                                         </tr> --}}
                                         <tr>
                                             <td width="20%">Email</td>
-                                            <td >{{ @$profile->email }}</td>
+                                            <td >{{ Auth::user()->email }}</td>
                                         </tr>
                                         <tr>
                                             <td>Created At</td>
@@ -160,11 +160,11 @@
                                     <table class="table table-striped">
                                         <tr>
                                             <td width="20%">Jabatan</td>
-                                            <td> {{ @$profile->keterangan }}</td>
+                                            <td> {{ Auth::user()->internalRole->keterangan }}</td>
                                         </tr>
                                         <tr>
                                             <td width="20%">UPTD</td>
-                                            <td>{{ Str::upper(@$profile->uptd) }}</td>
+                                            <td>{{ Str::upper(Auth::user()->internalRole->uptd) }}</td>
                                         </tr>
                                         <tr>
                                             <td>SUP</td>
