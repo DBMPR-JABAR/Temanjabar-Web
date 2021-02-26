@@ -45,17 +45,20 @@
                                 </a>
                             </li>
                         @endif
-                        <li class="{{ Request::segment(3) == 'cctv' ? 'active' : '' }}">
-                            <a href="{{ url('admin/monitoring/cctv') }}">
-                                <span class="pcoded-mtext">CCTV Control Room</span>
-                            </a>
-                        </li>
-                        <li class="{{ Request::segment(3) == 'roadroid-survei-kondisi-jalan' ? 'active' : '' }}">
-                            <a href="{{ url('/admin/monitoring/roadroid-survei-kondisi-jalan') }}">
-                                <span class="pcoded-mtext">Survei Kondisi Jalan</span>
-                            </a>
-                        </li>
-
+                        @if (hasAccess(Auth::user()->internal_role_id, 'CCTC Control Room', 'View'))
+                            <li class="{{ Request::segment(3) == 'cctv' ? 'active' : '' }}">
+                                <a href="{{ url('admin/monitoring/cctv') }}">
+                                    <span class="pcoded-mtext">CCTV Control Room</span>
+                                </a>
+                            </li>
+                        @endif
+                        @if (hasAccess(Auth::user()->internal_role_id, 'Monitoring Survei Kondisi Jalan', 'View'))
+                            <li class="{{ Request::segment(3) == 'roadroid-survei-kondisi-jalan' ? 'active' : '' }}">
+                                <a href="{{ url('/admin/monitoring/roadroid-survei-kondisi-jalan') }}">
+                                    <span class="pcoded-mtext">Survei Kondisi Jalan</span>
+                                </a>
+                            </li>
+                        @endif
                         {{-- @if (hasAccess(Auth::user()->internal_role_id, 'Survey Kondisi Jalan', 'View'))
                     <li class="{{(Request::segment(3) == 'survey-kondisi-jalan') ? 'active' : ''}}">
                         <a href="{{ url('admin/monitoring/survey-kondisi-jalan') }}">
@@ -158,18 +161,20 @@
                                 </a>
                             </li>
                         @endif
-
-                        <li class="{{ Request::segment(3) == 'CCTV' ? 'active' : '' }}">
-                            <a href="{{ url('admin/master-data/CCTV') }}">
-                                <span class="pcoded-mtext">CCTV</span>
-                            </a>
-                        </li>
-
-                        <li class="{{ Request::segment(3) == 'icon' ? 'active' : '' }}">
-                            <a href="{{ url('admin/master-data/icon') }}">
-                                <span class="pcoded-mtext">Icon Rawan Bencana</span>
-                            </a>
-                        </li>
+                        @if (hasAccess(Auth::user()->internal_role_id, 'CCTV', 'View'))
+                            <li class="{{ Request::segment(3) == 'CCTV' ? 'active' : '' }}">
+                                <a href="{{ url('admin/master-data/CCTV') }}">
+                                    <span class="pcoded-mtext">CCTV</span>
+                                </a>
+                            </li>
+                        @endif
+                        @if (hasAccess(Auth::user()->internal_role_id, 'Icon Rawan Bencana', 'View'))
+                            <li class="{{ Request::segment(3) == 'icon' ? 'active' : '' }}">
+                                <a href="{{ url('admin/master-data/icon') }}">
+                                    <span class="pcoded-mtext">Icon Rawan Bencana</span>
+                                </a>
+                            </li>
+                        @endif
                         @if (hasAccess(Auth::user()->internal_role_id, 'UPTD', 'View'))
                             <li class="{{ Request::segment(3) == 'uptd' ? 'active' : '' }}">
                                 <a href="{{ url('admin/master-data/uptd') }}">
@@ -184,29 +189,28 @@
                                 </a>
                             </li>
                         @endif
-                        {{-- TOLONG TAMBAH KE DB BUAT AKSES --}}
-                        {{-- @if (hasAccess(Auth::user()->internal_role_id, 'SUP', 'View')) --}}
-                        <li class="{{ Request::segment(3) == 'tipebangunanatas' ? 'active' : '' }}">
-                            <a href="{{ route('tipebangunanatas.index') }}">
-                                <span class="pcoded-mtext">Tipe Bangunan Atas</span>
-                            </a>
-                        </li>
-                        {{-- @endif --}}
-                        @if (hasAccess(Auth::user()->internal_role_id, 'Lapor', 'Create'))
+                        @if (hasAccess(Auth::user()->internal_role_id, 'Tipe Bangunan Atas', 'View'))
+                            <li class="{{ Request::segment(3) == 'tipebangunanatas' ? 'active' : '' }}">
+                                <a href="{{ route('tipebangunanatas.index') }}">
+                                    <span class="pcoded-mtext">Tipe Bangunan Atas</span>
+                                </a>
+                            </li>
+                        @endif
+                        @if (hasAccess(Auth::user()->internal_role_id, 'Jenis Laporan', 'View'))
                             <li class="{{ Request::segment(3) == 'jenis_laporan' ? 'active' : '' }}">
                                 <a href="{{ url('admin/master-data/jenis_laporan') }}">
                                     <span class="pcoded-mtext">Jenis Laporan</span>
                                 </a>
                             </li>
                         @endif
-                        @if (hasAccess(Auth::user()->internal_role_id, 'Lapor', 'Create'))
+                        @if (hasAccess(Auth::user()->internal_role_id, 'Bahan Material', 'View'))
                             <li class="{{ Request::segment(3) == 'item_bahan_material' ? 'active' : '' }}">
                                 <a href="{{ url('admin/master-data/item_bahan_material') }}">
                                     <span class="pcoded-mtext">Bahan Material</span>
                                 </a>
                             </li>
                         @endif
-                        @if (hasAccess(Auth::user()->internal_role_id, 'Lapor', 'Create'))
+                        @if (hasAccess(Auth::user()->internal_role_id, 'Item Satuan', 'View'))
                             <li class="{{ Request::segment(3) == 'item_satuan' ? 'active' : '' }}">
                                 <a href="{{ url('admin/master-data/item_satuan') }}">
                                     <span class="pcoded-mtext">Item Satuan</span>
@@ -235,7 +239,6 @@
                                 </a>
                             </li>
                         @endif
-
                         @if (hasAccess(Auth::user()->internal_role_id, 'Kondisi Jalan', 'View'))
                             <li class="{{ Request::segment(3) == 'kondisi_jalan' ? 'active' : '' }}">
                                 <a href="{{ url('admin/input-data/kondisi_jalan') }}">
@@ -243,7 +246,7 @@
                                 </a>
                             </li>
                         @endif
-                        @if (hasAccess(Auth::user()->internal_role_id, 'Kondisi Jalan', 'View'))
+                        @if (hasAccess(Auth::user()->internal_role_id, 'Survei Kondisi Jalan', 'View'))
                             <li class="{{ Request::segment(3) == 'survei_kondisi_jalan' ? 'active' : '' }}">
                                 <a href="{{ url('admin/input-data/survei_kondisi_jalan') }}">
                                     <span class="pcoded-mtext">Survei Kondisi Jalan</span>
@@ -305,7 +308,7 @@
                                 </a>
                             </li>
                         @endif
-                        @if (hasAccess(Auth::user()->internal_role_id, 'Lapor', 'View'))
+                        @if (hasAccess(Auth::user()->internal_role_id, 'Daftar Laporan', 'View'))
                             <li
                                 class="{{ Request::segment(2) == 'lapor' && Request::segment(3) == null ? 'active' : '' }}">
                                 <a href="{{ url('admin/lapor') }}">
@@ -357,13 +360,13 @@
                                     </a>
                                 </li>
                             @endif
-                            {{-- @if (hasAccess(Auth::user()->internal_role_id, 'Video', 'View')) --}}
-                            <li class="{{ Request::segment(3) == 'video-news' ? 'active' : '' }}">
-                                <a href="{{ url('admin/landing-page/video-news') }}">
-                                    <span class="pcoded-mtext">Video</span>
-                                </a>
-                            </li>
-                            {{-- @endif --}}
+                            @if (hasAccess(Auth::user()->internal_role_id, 'Video News', 'View'))
+                                <li class="{{ Request::segment(3) == 'video-news' ? 'active' : '' }}">
+                                    <a href="{{ url('admin/landing-page/video-news') }}">
+                                        <span class="pcoded-mtext">Video</span>
+                                    </a>
+                                </li>
+                            @endif
                         @endif
 
                         {{-- <li class="{{(Request::segment(3) == 'laporan-masyarakat') ? 'active' : ''}}">
