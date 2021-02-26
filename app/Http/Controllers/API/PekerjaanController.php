@@ -33,7 +33,8 @@ class PekerjaanController extends Controller
                 ->rightJoin('utils_pekerjaan', 'utils_pekerjaan.id_pek', '=', 'kemandoran.id_pek')
                 ->where('is_deleted', 0)
                 ->where('id_mandor', $this->user->id)
-                ->get();
+                ->get()
+                ->reverse()->values();
 
             $this->response['status'] = 'success';
             $this->response['data']['pekerjaan'] = $pekerjaan;
