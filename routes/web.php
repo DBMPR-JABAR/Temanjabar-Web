@@ -301,6 +301,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('delete/{id}', 'InputData\PekerjaanController@deleteData')->name('deleteDataPekerjaan');
             Route::get('submit/{id}', 'InputData\PekerjaanController@submitData')->name('submitDataPekerjaan');
             Route::get('jugment/{id}', 'InputData\PekerjaanController@show')->name('jugmentDataPekerjaan');
+            Route::post('jugment/{id}', 'InputData\PekerjaanController@jugmentLaporan')->name('jugmentLaporanMandor');
 
             Route::get('json', 'InputData\PekerjaanController@json')->name('getJsonDataBencana');
         });

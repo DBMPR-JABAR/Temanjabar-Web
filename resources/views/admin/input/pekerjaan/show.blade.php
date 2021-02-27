@@ -39,8 +39,7 @@
             </div>
             <div class="card-block">
 
-                <form action="{{ route('updateDataPekerjaan',$pekerjaan->id_pek) }}" method="post" enctype="multipart/form-data">
-                    @csrf
+                
                     <input type="hidden" name="id_pek" value="{{$pekerjaan->id_pek}}">
 
                     <div class="row">
@@ -60,8 +59,7 @@
                             <label class="col-md-12 col-form-label">{{$pekerjaan->jumlah_pekerja}} Orang</label>
                         </div>
                     </div>
-                    
-                </form>
+            
 
             </div>
         </div>
@@ -77,8 +75,7 @@
             </div>
             <div class="card-block">
 
-                <form action="{{ route('updateDataPekerjaan',$pekerjaan->id_pek) }}" method="post" enctype="multipart/form-data">
-                    @csrf
+           
                     <div class="row">
                         
                         <div class="col-md-6">
@@ -99,12 +96,7 @@
 
                     </div>
                     
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Alat yang Digunakan</label>
-                        <div class="col-md-10">
-                            <input name="peralatan" type="text" class="form-control" required value="{{$pekerjaan->peralatan}}">
-                        </div>
-                    </div>
+                    
                     <div class="row">
                         <div class="col-md-6">
                             <label class="col-md-12 col-form-label text-center">Foto Dokumentasi (0%)</label>
@@ -130,7 +122,7 @@
                                 <source src="{{ url('storage/pekerjaan/'.$pekerjaan->video) }}" type="video/mp4" />
                             </video>                
                     </div>
-                </form>
+              
             </div>
         </div>
         <div class="card">
@@ -142,37 +134,71 @@
                 </div>
             </div>
             <div class="card-block">
+                <div class="form-group row">
+                    <label class="col-md-2 col-form-label">Alat yang Digunakan</label>
+                    <div class="col-md-10">
+                        <input name="peralatan" type="text" class="form-control" required value="{{$pekerjaan->peralatan}}" readonly>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <label style="font-weight: bold;">Detail Material</label>
+                    <table class="table table-striped">
+                        <tr>
+                            <th>#</th>
+                            <th>Bahan Material</th>
+                            <th>Jumlah</th>
+                            <th>Satuan</th>
 
-                <form action="{{ route('updateDataPekerjaan',$pekerjaan->id_pek) }}" method="post" enctype="multipart/form-data">
+                        </tr>
+                        @php
+                            $counter = 0;
+                        @endphp
+                        @foreach ($pekerjaan->nama_bahan as $item)
+                        <tr>
+                            <td width="5%">{{ ++$counter }}</td>
+                            <td width="35%">{{ $item }}</td>
+
+                            <td width="15%">{{ $pekerjaan->jum_bahan[$counter-1] }}</td>
+                            <td width="15%">{{ $pekerjaan->satuan[$counter-1] }}</td>
+                                
+                        </tr>
+                            @endforeach
+                      
+                    </table>
+                </div> 
+            </div>
+        </div>
+
+        <div class="card">
+          
+            <div class="card-block">
+
+                <form action="{{ route('jugmentLaporanMandor',$pekerjaan->id_pek) }}" method="post" enctype="multipart/form-data">
                     @csrf
-                    
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Alat yang Digunakan</label>
-                        <div class="col-md-10">
-                            <input name="peralatan" type="text" class="form-control" required value="{{$pekerjaan->peralatan}}">
-                        </div>
+                    <div class="form-group">
+                        <label>Jugment</label>
+                        <select class="form-control" name="status" required>
+                            <option value="">Select</option>
+                            
+                            <option value="Approved" @if (@$detail->status != null && strpos('Approved', @$detail->status) !== false) selected @endif>Approved</option>
+                            <option value="Rejected" @if (@$detail->status != null && strpos('Rejected', @$detail->status) !== false) selected @endif>Rejected</option>
+                        </select>
                     </div>
-                    <div class="table-responsive">
-                        <label style="font-weight: bold;">Informasi Pribadi</label>
-                        <table class="table table-striped">
-                            <tr>
-                                <th>#</th>
-                                <th>Bahan Material</th>
-                                <th>Jumlah</th>
-                                <th>Satuan</th>
-
-                            </tr>
-                            <tr>
-                                <td width="5%">1</td>
-                                <td width="35%">Nama Lengkap</td>
-
-                                <td width="15%">Nama Lengkap</td>
-                                <td width="15%"></td>
-                            </tr>
-                          
-                        </table>
+                    <div class="form-group">
+                        <label>Keterangan</label>
+                        <input type="text" name="keterangan" id="keterangan"
+                            value="{{ old('keterangan', @$detail->description) }}" placeholder="Masukan Keterangan"
+                            class="form-control @error('keterangan') is-invalid @enderror" >
+                        @error('keterangan')
+                            <div class="invalid-feedback" style="display: block; color:red">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
+                    <a href="{{ url()->previous() }}"><button type="button" class="btn btn-danger waves-effect " data-dismiss="modal">Kembali</button></a>
+                <button type="submit" class="btn btn-responsive btn-primary">Submit</button>
                 </form>
+
             </div>
         </div>
     </div>

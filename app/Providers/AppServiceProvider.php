@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\User;
-
+use Carbon\Carbon;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -31,6 +31,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        config(['app.locale' => 'id']);
+        Carbon::setLocale('id');
+        date_default_timezone_set('Asia/Jakarta');
         View::composer('*', function ($view) {
             $uptd_lists = DB::table('landing_uptd')
             ->get();

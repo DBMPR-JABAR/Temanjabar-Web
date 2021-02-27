@@ -135,7 +135,6 @@
                                 <div class="form-group">
                                     <label>Agama</label>
                                     <select class="form-control" name="agama" required>
-
                                         <option>Select</option>
                                         {{-- <option selected>
                                         {!!  @$profile->jenis_kelamin !!}
@@ -146,7 +145,6 @@
                                         <option value="Budha" @if (@$profile->agama != null && strpos('Budha', @$profile->agama) !== false) selected @endif>Budha</option>
                                         <option value="Katolik" @if (@$profile->agama != null && strpos('Katolik', @$profile->agama) !== false) selected @endif>Katolik</option>
                                         <option value="Kong Hu Cu" @if (@$profile->agama != null && strpos('Kong Hu Cu', @$profile->agama) !== false) selected @endif>Kong Hu Cu</option>
-
                                     </select>
                                 </div>
                             </div>

@@ -187,9 +187,15 @@
                                         @else
                                             @if($data->status)
                                                 @if(Auth::user()->internal_role_id!=null && Auth::user()->internal_role_id ==$data->status->parent )
-                                                    @if(str_contains(Auth::user()->internalRole->role,'Pengamat') || str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') && Auth::user()->sup_id==$data->status->sup_id)
+                                                    @if(str_contains(Auth::user()->internalRole->role,'Pengamat') || (str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') && $data->status->status == "Approved") && Auth::user()->sup_id==$data->status->sup_id)
                                                         <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i>Jugment</button></a>
+                                                    @elseif(!str_contains(Auth::user()->internalRole->role,'Pengamat') || !str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') && $data->status->status == "Approved")
+                                                        <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i>Jugment</button></a>
+                                                    
                                                     @endif
+                                                @endif
+                                                @if($data->status->adjustment_user_id ==Auth::user()->id)
+                                                    <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i>Edit Jugment</button></a>
                                                 @endif
                                             @endif
                                         @endif
