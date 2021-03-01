@@ -68,6 +68,7 @@
                                 <th>Latitude</th>
                                 <th>Longitude</th>
                                 <th>Foto</th>
+                                <th>UPTD</th>
                                 <th>SUP</th>
                                 <th>Keterangan</th>
                                 {{-- <th>Status</th> --}}
@@ -338,6 +339,10 @@
                 {
                     data: 'imgbencana',
                     name: 'imgbencana'
+                },
+                {
+                    data: 'uptd',
+                    name: 'uptd'
                 },
                 {
                     data: 'sup',

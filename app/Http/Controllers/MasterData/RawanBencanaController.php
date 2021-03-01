@@ -137,7 +137,12 @@ class RawanBencanaController extends Controller
 
     public function json()
     {
-        return DataTables::of(DB::table('master_rawan_bencana'))
+        $rawanbencana = DB::table('master_rawan_bencana');
+        if (Auth::user()->internalRole->uptd) {
+            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+            $rawanbencana = $rawanbencana->where('uptd_id', $uptd_id);
+        }
+        return DataTables::of($rawanbencana)
             ->addIndexColumn()
             ->addColumn('imgbencana', function ($row) {
                 $path_foto = explode('/',$row->foto);
@@ -157,6 +162,9 @@ class RawanBencanaController extends Controller
                 $btn = $btn . '</div>';
 
                 return $btn;
+            })
+            ->addColumn('uptd', function($row){
+                return 'UPTD '.$row->uptd_id;
             })
             ->rawColumns(['action','imgbencana'])
             ->make(true);

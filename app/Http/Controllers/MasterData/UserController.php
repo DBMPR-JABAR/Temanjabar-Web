@@ -256,7 +256,7 @@ class UserController extends Controller
         // echo $data."<br>";
             if($data)
                 array_push($temp,$data);
-        
+
         }
         $menu = DB::table('master_grant_role_aplikasi as a')
         ->distinct()
@@ -397,7 +397,7 @@ class UserController extends Controller
             $alldata['permissions'] = $permission;
             $counter++;
         }
-        
+
         // dd($id_men);
         $menu = DB::table('master_grant_role_aplikasi as a')
         ->distinct()
@@ -532,9 +532,11 @@ class UserController extends Controller
 
 
        }
-       $color = "success";
-        $msg = "Edit Data Grant Access Role Aplikasi";
-        return redirect()->route('getRoleAkses')->with(compact('color', 'msg'));
+
+       return redirect(route('editRoleAccess', $id))->with('status', 'Berhasil Edit Data Grant Access Role Aplikasi!');
+    //    $color = "success";
+    //     $msg = "Edit Data Grant Access Role Aplikasi";
+    //     return redirect()->route('getRoleAkses')->with(compact('color', 'msg'));
 
     }
 

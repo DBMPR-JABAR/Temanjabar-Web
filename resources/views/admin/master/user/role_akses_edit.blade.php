@@ -73,7 +73,11 @@
                         @csrf
                         {{-- @method('PUT') --}}
                         <div class="modal-body p-5">
-
+                            @if (session('status'))
+                                <div class="alert alert-success">
+                                    {{ session('status') }}
+                                </div>
+                            @endif
                             <div class="form-group row">
                                 <label class="col-md-2 col-form-label">User Role</label>
                                 <div class="col-md-10">
@@ -126,25 +130,25 @@
                                 @endphp
                                 <div class="row">
                                     @foreach ($alldata['menu'] as $data)
-                                                <div class="col-sm-12 col-md-6 col-lg-4">
-                                                    <label class="form-check-label">
-                                                        @foreach ($alldata['permissions'] as $item)
-                                                            {{-- {{ $item }} --}}
-                                                            @php
-                                                                if (strpos($item, $data) !== false) {
-                                                                    $i = 'checked';
-                                                                    break;
-                                                                } else {
-                                                                    $i = '';
-                                                                }
-                                                            @endphp
-                                                        @endforeach
-                                                        <input type="checkbox" class="form-check-input" name="menu[]"
-                                                            value="{{ $data }}"
-                                                            {{ $i }}>&nbsp;{{ $data }}
+                                        <div class="col-sm-12 col-md-6 col-lg-4">
+                                            <label class="form-check-label">
+                                                @foreach ($alldata['permissions'] as $item)
+                                                    {{-- {{ $item }} --}}
+                                                    @php
+                                                        if (strpos($item, $data) !== false) {
+                                                            $i = 'checked';
+                                                            break;
+                                                        } else {
+                                                            $i = '';
+                                                        }
+                                                    @endphp
+                                                @endforeach
+                                                <input type="checkbox" class="form-check-input" name="menu[]"
+                                                    value="{{ $data }}"
+                                                    {{ $i }}>&nbsp;{{ $data }}
 
-                                                    </label>
-                                                </div>
+                                            </label>
+                                        </div>
                                     @endforeach
 
                                 </div>
@@ -163,7 +167,7 @@
                         </div>
                         {{-- <div class="clearfix"></div> --}}
                         <div class="modal-footer p-5">
-                            <a href="{{ url()->previous() }}"><button type="button" class="btn btn-danger waves-effect "
+                            <a href="{{ route('getRoleAkses') }}"><button type="button" class="btn btn-danger waves-effect "
                                     data-dismiss="modal">Kembali</button></a>
                             <button type="submit" class="btn btn-primary waves-effect waves-light ">Simpan</button>
                         </div>
