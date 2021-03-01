@@ -488,16 +488,16 @@ class PekerjaanController extends Controller
             $data['description'] = $request->input('keterangan') ? :null;
             $data['adjustment_user_id'] = Auth::user()->id;
             $kemandoran = DB::table('kemandoran_detail_status');
-            if($kemandoran->where('id_pek',$id)->exists()){
-                $data['updated_at'] = Carbon::now();
-                $kemandoran = $kemandoran->where('id_pek',$id)->update($data);
-            }else{
+            // if($kemandoran->where('id_pek',$id)->where('adjustment_user_id',Auth::user()->id)->exists()){
+            //     $data['updated_at'] = Carbon::now();
+            //     $kemandoran = $kemandoran->where('id_pek',$id)->update($data);
+            // }else{
                 $data['updated_at'] = Carbon::now();
                 $data['created_at'] = Carbon::now();
 
                 $data['id_pek'] = $id;
                 $kemandoran = $kemandoran->insert($data);
-            }
+            
             if($kemandoran){
                 //redirect dengan pesan sukses
                 $color = "success";

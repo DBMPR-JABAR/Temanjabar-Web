@@ -148,9 +148,9 @@
                                 <td>@if($data->status)
                                         @if(str_contains($data->status->status,'Approved') || str_contains($data->status->status,'Rejected') )
                                             @if(str_contains($data->status->status,'Approved') )
-                                                <button type="button" class="btn btn-mini btn-primary waves-effect " > {{$data->status->status}}</button>
+                                                <button type="button" class="btn btn-mini btn-primary " > {{$data->status->status}}</button>
                                             @else 
-                                                <button type="button" class="btn btn-mini btn-danger waves-effect " > {{$data->status->status}}</button>
+                                                <button type="button" class="btn btn-mini btn-danger " > {{$data->status->status}}</button>
                                             @endif
                                             <br>{{$data->status->jabatan}}<br>
                                             <a href="{{ route('detailStatusPekerjaan',$data->id_pek) }}"><button type="button" class="btn btn-sm waves-effect waves-light " ><i class="icofont icofont-search"></i> Detail</button>
