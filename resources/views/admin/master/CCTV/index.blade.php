@@ -207,7 +207,8 @@
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Uptd</label>
                                 <div class="col-md-9">
-                                    <select class="form-control" id="uptd" name="uptd_id" onchange="ubahOption()" required>
+                                    <select class="form-control" id="uptd" name="uptd_id" onchange="ubahOption(this.value)"
+                                        required>
                                         <option>Pilih UPTD</option>
                                         @foreach ($uptd as $data)
                                             <option value="{{ $data->id }}">{{ $data->nama }}</option>
@@ -310,7 +311,8 @@
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Uptd</label>
                                 <div class="col-md-9">
-                                    <select class="form-control" id="edit_uptd" name="uptd_id" onchange="editOption('-')" required>
+                                    <select class="form-control" id="edit_uptd" name="uptd_id" onchange="editOption('-')"
+                                        required>
                                         <option>Pilih UPTD</option>
                                         @foreach ($uptd as $data)
                                             <option value="{{ $data->id }}" id="uptd_{{ $data->id }}">
@@ -365,9 +367,17 @@
     <script>
         $('#tabelcctv').DataTable();
 
-        function ubahOption() {
+        $(document).ready(() => {
+            const uptd = document.getElementById("uptd");
+            if (uptd.length == 2) {
+                uptd.value = uptd[1].value
+                ubahOption(uptd[1].value)
+            }
+        })
+
+        function ubahOption(id) {
             //untuk select Ruas
-            id = document.getElementById("uptd").value;
+            // id = document.getElementById("uptd").value;
 
             const baseUrl = `{{ url('admin/master-data/CCTV/getDataSUP/') }}/` + id;
             $.get(baseUrl, {
@@ -467,9 +477,9 @@
 
                         $('#etmapLatLong').ready(() => {
                             require([
-                            "esri/Map",
-                            "esri/views/MapView",
-                            "esri/Graphic"
+                                "esri/Map",
+                                "esri/views/MapView",
+                                "esri/Graphic"
                             ], function(Map, MapView, Graphic) {
 
                                 const map = new Map({
@@ -480,14 +490,14 @@
                                     container: "etmapLatLong",
                                     map: map,
                                     center: [
-                                              (etlong != 0) ? etlong : 107.6191,
-                                              (etlat != 0) ? etlat : -6.9175
-                                            ],
+                                        (etlong != 0) ? etlong : 107.6191,
+                                        (etlat != 0) ? etlat : -6.9175
+                                    ],
                                     zoom: 11,
                                 });
 
                                 let tempGraphic;
-                                if(etlong != 0 && etlat != 0){
+                                if (etlong != 0 && etlat != 0) {
                                     var graphic = new Graphic({
                                         geometry: {
                                             type: "point",
@@ -505,8 +515,9 @@
                                     view.graphics.add(graphic);
                                 }
 
-                                view.on("click", function(event){
-                                    if($("#etlat").val() != '' && $("#etlong").val() != ''){
+                                view.on("click", function(event) {
+                                    if ($("#etlat").val() != '' && $("#etlong")
+                                        .val() != '') {
                                         view.graphics.remove(tempGraphic);
                                     }
                                     var graphic = new Graphic({
@@ -524,14 +535,16 @@
 
                                     view.graphics.add(graphic);
                                 });
-                                $("#etlat, #etlong").keyup(function () {
-                                    if($("#etlat").val() != '' && $("#etlong").val() != ''){
+                                $("#etlat, #etlong").keyup(function() {
+                                    if ($("#etlat").val() != '' && $("#etlong")
+                                        .val() != '') {
                                         view.graphics.remove(tempGraphic);
                                     }
                                     var graphic = new Graphic({
                                         geometry: {
                                             type: "point",
-                                            longitude: $("#etlong").val(),
+                                            longitude: $("#etlong")
+                                                .val(),
                                             latitude: $("#etlat").val()
                                         },
                                         symbol: {
@@ -555,9 +568,9 @@
 
             $('#mapLatLong').ready(() => {
                 require([
-                "esri/Map",
-                "esri/views/MapView",
-                "esri/Graphic"
+                    "esri/Map",
+                    "esri/views/MapView",
+                    "esri/Graphic"
                 ], function(Map, MapView, Graphic) {
 
                     const map = new Map({
@@ -572,8 +585,8 @@
                     });
 
                     let tempGraphic;
-                    view.on("click", function(event){
-                        if($("#lat").val() != '' && $("#long").val() != ''){
+                    view.on("click", function(event) {
+                        if ($("#lat").val() != '' && $("#long").val() != '') {
                             view.graphics.remove(tempGraphic);
                         }
                         var graphic = new Graphic({
@@ -591,8 +604,8 @@
 
                         view.graphics.add(graphic);
                     });
-                    $("#lat, #long").keyup(function () {
-                        if($("#lat").val() != '' && $("#long").val() != ''){
+                    $("#lat, #long").keyup(function() {
+                        if ($("#lat").val() != '' && $("#long").val() != '') {
                             view.graphics.remove(tempGraphic);
                         }
                         var graphic = new Graphic({
