@@ -443,9 +443,9 @@ class PekerjaanController extends Controller
 
         $pekerjaan = $pekerjaan->first();
         // dd($pekerjaan);
-        if($pekerjaan->keterangan_status_lap && $pekerjaan->status->adjustment_user_id != Auth::user()->id){
-            return back()->with(compact('color', 'msg'));
-        }
+        // if($pekerjaan->keterangan_status_lap && $pekerjaan->status->adjustment_user_id != Auth::user()->id){
+        //     return back()->with(compact('color', 'msg'));
+        // }
         if(Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Pengamat'))
             if(Auth::user()->sup_id != $pekerjaan->sup_id){
                 return back()->with(compact('color', 'msg'));
