@@ -66,6 +66,7 @@ class DetailUserController extends Controller
             ->leftJoin('users', 'users.id', '=', 'user_pegawai.user_id')
             ->leftJoin('user_role', 'user_role.id', '=', 'users.internal_role_id')->where('user_pegawai.user_id',$id)->first();
 
+            // dd($profile);
             if($profile){
                 $kota = $profile->city_id ? DB::table('indonesia_cities')->where('id', $profile->city_id)->pluck('name')->first() :'';
                 $provinsi = $profile->province_id? DB::table('indonesia_provinces')->where('id', $profile->province_id)->pluck('name')->first()  :'';
