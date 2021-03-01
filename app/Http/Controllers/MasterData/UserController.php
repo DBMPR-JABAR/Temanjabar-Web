@@ -534,7 +534,7 @@ class UserController extends Controller
        }
        $color = "success";
         $msg = "Edit Data Grant Access Role Aplikasi";
-        return redirect()->route('getRoleAkses')->with(compact('color', 'msg'));
+        return back()->with(compact('color', 'msg'));
 
     }
 
