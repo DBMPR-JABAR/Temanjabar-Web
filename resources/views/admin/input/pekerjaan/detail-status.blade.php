@@ -78,7 +78,7 @@
                                                 
                                                 <br>
                                                 @if($item->description)
-                                                <i style="color :red; font-size: 11px;">Catatan : {!! @$item->description !!}</i>
+                                                <i style="color :red; font-size: 12px;">Catatan : {!! @$item->description !!}</i>
                                                 @endif
                                             </td>
 
