@@ -146,11 +146,13 @@
                                         <source src="{!! url('storage/pekerjaan/'.$data->video) !!}" type='video/*' Sorry, your browser doesn't support the video element.></video></td>
                                 <td>{{$data->tanggal}}</td>
                                 <td>@if($data->status)
-                                        @if(str_contains($data->status->status,'Approved') || str_contains($data->status->status,'Rejected') )
+                                        @if(str_contains($data->status->status,'Approved') || str_contains($data->status->status,'Rejected')|| str_contains($data->status->status,'Edited') )
                                             @if(str_contains($data->status->status,'Approved') )
-                                                <button type="button" class="btn btn-mini btn-primary " > {{$data->status->status}}</button>
-                                            @else 
-                                                <button type="button" class="btn btn-mini btn-danger " > {{$data->status->status}}</button>
+                                                <button type="button" class="btn btn-mini btn-primary " disabled> {{$data->status->status}}</button>
+                                            @elseif(str_contains($data->status->status,'Rejected') )
+                                                <button type="button" class="btn btn-mini btn-danger " disabled> {{$data->status->status}}</button>
+                                            @else
+                                                <button type="button" class="btn btn-mini btn-warning " disabled> {{$data->status->status}}</button>
                                             @endif
                                             <br>{{$data->status->jabatan}}<br>
                                             <a href="{{ route('detailStatusPekerjaan',$data->id_pek) }}"><button type="button" class="btn btn-sm waves-effect waves-light " ><i class="icofont icofont-search"></i> Detail</button>
@@ -160,7 +162,9 @@
                                             @endif
                                         @endif
                                     @else
-                                        <button type="button" class="btn btn-mini btn-warning waves-effect " >Not Completed</button>
+                                        <a href="@if(str_contains(Auth::user()->internalRole->role,'Mandor')) {{ route('materialDataPekerjaan',$data->id_pek) }} @else # @endif">
+                                            <button type="button" class="btn btn-mini btn-warning waves-effect " @if(!!str_contains(Auth::user()->internalRole->role,'Mandor')) disabled @endif>Not Completed</button>
+                                        </a>
                                         <br>
                                         <i style="color :red; font-size: 10px;">Lengkapi material</i>
                                     @endif
@@ -168,9 +172,10 @@
                                 </td>
 
                                 <td style="min-width: 170px;">
+                              
                                     <div class="btn-group" role="group" data-placement="top" title="" data-original-title=".btn-xlg">
-                                        @if(Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor')||str_contains(Auth::user()->internalRole->role,'Admin'))
-                                            @if(!$data->keterangan_status_lap || str_contains($data->status->status,'Rejected')||str_contains(Auth::user()->internalRole->role,'Admin'))
+                                        @if(Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor')||str_contains(Auth::user()->internalRole->role,'Admin')||(str_contains(Auth::user()->internalRole->role,'Pengamat')&& str_contains($data->status->status,'Rejected')|| str_contains($data->status->status,'Edited')) && !str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan'))
+                                            @if(!$data->keterangan_status_lap || str_contains($data->status->status,'Rejected')|| (str_contains($data->status->status,'Edited')&&Auth::user()->id == $data->status->adjustment_user_id)||str_contains(Auth::user()->internalRole->role,'Admin'))
                                                 @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
                                                 <a href="{{ route('editDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i></button></a>
                                                 <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Material"><i class="icofont icofont-list"></i></button></a>
@@ -187,13 +192,13 @@
                                         @else
                                             @if($data->status)
                                                 @if(Auth::user()->internal_role_id!=null && Auth::user()->internal_role_id ==$data->status->parent )
-                                                    @if(str_contains(Auth::user()->internalRole->role,'Pengamat') || (str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') && $data->status->status == "Approved") && Auth::user()->sup_id==$data->status->sup_id)
+                                                    @if(str_contains(Auth::user()->internalRole->role,'Pengamat') || (str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') && $data->status->status == "Approved" || $data->status->status =="Edited") && Auth::user()->sup_id==$data->status->sup_id)
                                                         <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i>Jugment</button></a>
                                                     @elseif(!!str_contains(Auth::user()->internalRole->role,'Pengamat') || !!str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') && $data->status->status == "Approved")
                                                         <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i>Jugment</button></a>
                                                     @endif
                                                 @endif
-                                                @if(@$data->status->adjustment_user_id ==Auth::user()->id)
+                                                @if(@$data->status->adjustment_user_id==Auth::user()->id)
                                                     <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i>Edit Jugment</button></a>
                                                 @endif
                                             @endif

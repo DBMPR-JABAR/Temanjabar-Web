@@ -71,9 +71,11 @@
                                             <td width="10%">{!! @$item->created_at !!}</td>
                                             <td width="25%">
                                                 @if(str_contains($item->status,'Approved') )
-                                                    <button type="button" class="btn btn-sm btn-primary waves-effect " >{!! @$item->status !!}</button>
-                                                @else 
-                                                    <button type="button" class="btn btn-sm btn-danger waves-effect " >{!! @$item->status !!}</button>
+                                                    <button type="button" class="btn btn-sm btn-primary waves-effect " disabled>{!! @$item->status !!}</button>
+                                                @elseif(str_contains($item->status,'Rejected') )
+                                                    <button type="button" class="btn btn-sm btn-danger waves-effect " disabled>{!! @$item->status !!}</button>
+                                                @else
+                                                    <button type="button" class="btn btn-sm btn-warning waves-effect " disabled>{!! @$item->status !!}</button>
                                                 @endif
                                                 
                                                 <br>
