@@ -109,6 +109,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Kode Laporan</th>
                                 <th>Nama Mandor</th>
                                 <th>SUP</th>
                                 <th>Ruas Jalan</th>
@@ -131,6 +132,7 @@
                             @foreach ($pekerjaan as $data)
                             <tr>
                                 <td>{{$loop->index + 1}}</td>
+                                <td>{{$data->id_pek}}</td>
                                 <td>{{$data->nama_mandor}}</td>
                                 <td>{{$data->sup}}</td>
                                 <td>{{$data->ruas_jalan}}</td>
