@@ -53,6 +53,23 @@ class PekerjaanController extends Controller
         });
         // dd($mail);
     }
+    public function setSendEmail($name, $id, $mandor, $jenis_pekerjaan, $uptd, $sup_mail, $status_mail, $keterangan, $to_email, $to_name,$subject){
+       
+        $temporari = [
+            'name' =>Str::title($name),
+            'id_pek' => $id,
+            'nama_mandor' => Str::title($mandor),
+            'jenis_pekerjaan' => Str::title($jenis_pekerjaan),
+            'uptd' => Str::upper($uptd),
+            'sup' => $sup_mail,
+            'status' => $status_mail,
+            'keterangan' => $keterangan
+            ];
+        
+            // dd($subject);
+            // dd($item);
+            $mail = $this->sendEmail($temporari, $to_email, $to_name, $subject);
+    }
     public function getData()
     {
         $pekerjaan = DB::table('kemandoran');
@@ -147,38 +164,40 @@ class PekerjaanController extends Controller
                 $next_user = DB::table('users')->where('internal_role_id',$item->status->parent)->where('sup_id',$item->status->sup_id)->get();
                 // dd($next_user);
                 $item->status->next_user = $next_user;
-                $temporari = [
-                'name' =>Str::title($item->status->name),
-                'id_pek' => $item->id_pek,
-                'nama_mandor' => Str::title($item->nama_mandor),
-                'jenis_pekerjaan' => Str::title($item->paket),
-                'uptd' => Str::upper($item->status->uptd),
-                'sup' => $item->sup,
-                'status' => "Submitted",
-                'keterangan' => "Silahkan menunggu sampai semua menyetujui / Approved"
-                ];
+               
+                $name =Str::title($item->status->name);
+                $id_pek = $item->id_pek;
+                $nama_mandor = Str::title($item->nama_mandor);
+                $jenis_pekerjaan = Str::title($item->paket);
+                $uptd = Str::upper($item->status->uptd);
+                $sup_mail = $item->sup;
+                $status_mail = "Submitted";
+                $keterangan = "Silahkan menunggu sampai semua menyetujui / Approved";
+                
                 $to_email = $item->status->email;
                 $to_name = $item->nama_mandor;
                 $subject = "Status Laporan $item->id_pek-Submitted";
                 // dd($subject);
                 // dd($item);
-                $mail = $this->sendEmail($temporari, $to_email, $to_name, $subject);
+                $mail = $this->setSendEmail($name, $id_pek, $nama_mandor, $jenis_pekerjaan, $uptd, $sup_mail, $status_mail, $keterangan, $to_email, $to_name, $subject);
                 foreach($item->status->next_user as $no =>$item1){
                     // dd($item->email);
                     $subject = "Status Laporan $item->id_pek-Submitted";
                     $to_email =$item1->email;
                     $to_name = $item1->name;
-                    $temporari1 = [
-                        'name' =>Str::title($item1->name),
-                        'id_pek' => $item->id_pek,
-                        'nama_mandor' => Str::title($item->nama_mandor),
-                        'jenis_pekerjaan' => Str::title($item->paket),
-                        'uptd' => Str::upper($item->status->uptd),
-                        'sup' => $item->sup,
-                        'status' => "Submitted",
-                        'keterangan' => "Silahkan ditindak lanjuti"
-                        ];
-                    $mail = $this->sendEmail($temporari1, $to_email, $to_name, $subject);
+                    
+                        $name =Str::title($item1->name);
+                        $id_pek = $item->id_pek;
+                        $nama_mandor = Str::title($item->nama_mandor);
+                        $jenis_pekerjaan = Str::title($item->paket);
+                        $uptd = Str::upper($item->status->uptd);
+                        $sup_mail = $item->sup;
+                        $status_mail = "Submitted";
+                        $keterangan = "Silahkan ditindak lanjuti";
+                    
+                    $mail = $this->setSendEmail($name, $id_pek, $nama_mandor, $jenis_pekerjaan, $uptd, $sup_mail, $status_mail, $keterangan, $to_email, $to_name, $subject);
+
+                    // $mail = $this->sendEmail($temporari1, $to_email, $to_name, $subject);
 
                 }
                 if($kemandoran->where('id_pek',$item->id_pek)->where('mail', $item->mail)->exists()){
