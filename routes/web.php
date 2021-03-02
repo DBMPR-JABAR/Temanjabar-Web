@@ -333,6 +333,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('json', 'InputData\KondisiJalanController@getRJ')->name('getRJ');
         });
         Route::get('kondisi_jalan/delete/{id}', 'InputData\KondisiKemantapanJalanController@destroy');
+        Route::get('kondisi_jalan/get_ruas_jalan/{id}', 'InputData\KondisiKemantapanJalanController@getDataRuasJalan')->name('getRuasJalan');
         Route::resource('kondisi_jalan', 'InputData\KondisiKemantapanJalanController');
 
         Route::group(['prefix' => 'data-paket'], function () {
