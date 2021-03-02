@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class KondisiKemantapanJalanController extends Controller
 {
@@ -32,7 +33,13 @@ class KondisiKemantapanJalanController extends Controller
         if (hasAccess(auth()->user()->internal_role_id, 'Kondisi Jalan', 'View') == false) {
             return redirect(route('403'));
         }
-        $kondisi_jalan = DB::table('master_kondisi_jalan')->get();
+
+        $kondisi_jalan = DB::table('master_kondisi_jalan');
+
+        if (Auth::user()->internalRole->uptd) {
+            $kondisi_jalan = $kondisi_jalan->where('uptd', Auth::user()->internalRole->uptd);
+        }
+        $kondisi_jalan = $kondisi_jalan->get();
         return view('admin.input_data.kondisi_kemantapan_jalan.index', compact('kondisi_jalan'));
     }
 
@@ -141,5 +148,13 @@ class KondisiKemantapanJalanController extends Controller
         $color = "success";
         $msg = "Berhasil Menghapus Data Kondisi Jalan";
         return redirect(route('kondisi_jalan.index'))->with(compact('color', 'msg', 'kondisi_jalan'));
+    }
+
+    public function getDataRuasJalan($id)
+    {
+        $ruas_jalan = DB::table('master_ruas_jalan')
+            ->where('uptd_id', $id)
+            ->get();
+        return response()->json(['ruas_jalan' => $ruas_jalan], 200);
     }
 }

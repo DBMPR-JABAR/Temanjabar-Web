@@ -186,7 +186,11 @@
 
     <script>
         $(document).ready(function() {
-            $('#kondisi_jalan-table').DataTable();
+            $('#kondisi_jalan-table').DataTable({
+                "language": {
+                    "emptyTable": "Tidak ada data tersedia."
+                }
+            });
         });
 
         $('#delModal').on('show.bs.modal', function(event) {

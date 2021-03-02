@@ -94,31 +94,40 @@
                         </div>
                     </div>
 
+                    <div class=" form-group row">
+                        <label class="col-md-4 col-form-label">UPTD dan SUP</label>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <select class="form-control" id="edit_uptd" name="UPTD" onchange="editOption()"
+                                        required>
+                                        <option>Pilih UPTD</option>
+                                        @foreach ($uptd as $data)
+                                            <option value="{{ 'uptd' . $data->id }}" id="uptd_{{ $data->id }}"
+                                                @isset($kondisi_jalan)
+                                                    {{ $kondisi_jalan->UPTD == 'uptd' . $data->id ? 'selected' : '' }}
+                                                @endisset>
+                                                {{ $data->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <select class="form-control edit_sup_select" name="SUP" id="edit_sup_select" required>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-group row">
                         <label class="col-md-4 col-form-label">Nama Ruas Jalan dan Kota Kabupaten</label>
                         <div class="col-md-8">
                             <div class="row">
                                 <div class="col-md-7">
-                                    <select id="RUAS_JALAN" name="RUAS_JALAN" class="form-control searchableField" required>
-                                        @foreach ($ruas_jalan as $data)
-                                            <option value="{{ $data->nama_ruas_jalan }}" @isset($kondisi_jalan)
-                                                    {{ $data->nama_ruas_jalan == $kondisi_jalan->RUAS_JALAN ? 'selected' : '' }}
-                                                @endisset>
-                                                {{ $data->nama_ruas_jalan }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                                    <select class="form-control edit_ruas_select" name="RUAS_JALAN" id="edit_ruas_select"
+                                        required></select>
                                 </div>
                                 <div class="col-md-5">
-                                    {{-- <select id="KOTA_KAB" name="KOTA_KAB" class="form-control searchableField" required>
-                                        @foreach ($kota_kab as $data)
-                                            <option value="{{ $data->name }}" @isset($kondisi_jalan)
-                                                    {{ $data->name == $kondisi_jalan->KOTA_KAB ? 'selected' : '' }}
-                                                @endisset>
-                                                {{ $data->name }}
-                                            </option>
-                                        @endforeach
-                                    </select> --}}
                                     <input name="KOTA_KAB" value="{{ @$kondisi_jalan->KOTA_KAB }}" type="text"
                                         class="form-control" required placeholder="Kota/Kab">
                                 </div>
@@ -294,31 +303,6 @@
                         </div>
                     </div>
                     <div class=" form-group row">
-                        <label class="col-md-4 col-form-label">UPTD dan SUP</label>
-                        <div class="col-md-8">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <select class="form-control" id="edit_uptd" name="UPTD" onchange="editOption('-')"
-                                        required>
-                                        <option>Pilih UPTD</option>
-                                        @foreach ($uptd as $data)
-                                            <option value="{{ 'uptd' . $data->id }}" id="uptd_{{ $data->id }}"
-                                                @isset($kondisi_jalan)
-                                                    {{ $kondisi_jalan->UPTD == 'uptd' . $data->id ? 'selected' : '' }}
-                                                @endisset>
-                                                {{ $data->nama }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <select class="form-control edit_sup_select" name="SUP" id="edit_sup_select" required>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class=" form-group row">
                         <a href="{{ route('kondisi_jalan.index') }}"><button type="button"
                                 class="btn btn-default waves-effect">Batal</button></a>
                         <button type="submit" class="btn btn-primary waves-effect waves-light ml-2">Simpan</button>
@@ -361,28 +345,54 @@
             lokasi.val(`${kmAsal}+${mAsal} s/d ${kmAkhir}+${mAkhir}`);
         }
 
-        function editOption(sup) {
+        function editOption() {
+            const kondisi_jalan = @json(@$kondisi_jalan);
+            let sup = "";
+            let ruas_jalan = "";
+            if (kondisi_jalan) {
+                sup = kondisi_jalan.SUP;
+                ruas_jalan = kondisi_jalan.RUAS_JALAN;
+            }
             id = document.getElementById("edit_uptd").value;
             const baseUrl = `{{ url('admin/master-data/CCTV/getDataSUP/') }}/` + id.substring(4, 5);
             $.get(baseUrl, {
                     id: id
                 },
                 function(response) {
-                    $('.sup').remove();
-                    for (var i = 0; i < response.sup.length; i++) {
+                    $('.edit_sup_select').empty();
+                    for (let i = 0; i < response.sup.length; i++) {
                         $('.edit_sup_select').append(
                             `<option value="${response.sup[i].name}" class="sup" id="edit_sup_${i}" ${response.sup[i].name === sup ? "selected" :
-                                                                                            "" }>${response.sup[i].name}</option>`
+                                                                                                                                                    "" }>${response.sup[i].name}</option>`
+                        );
+                    }
+                });
+
+            const baseUrl2 = `{{ url('admin/input-data/kondisi_jalan/get_ruas_jalan/') }}/` + id.substring(4, 5);
+
+            $.get(baseUrl2, {
+                    id: id.substring(4, 5)
+                },
+                function(response) {
+                    $(".edit_ruas_select").select2("destroy").empty().select2({
+                        theme: "bootstrap"
+                    }).css("border-radius", 0);
+                    for (let i = 0; i < response.ruas_jalan.length; i++) {
+                        $('.edit_ruas_select').append(
+                            `<option value="${response.ruas_jalan[i].nama_ruas_jalan}" class="RJ" id="edit_ruas_${i}" ${response.ruas_jalan[i].nama_ruas_jalan === ruas_jalan ? "selected" :
+                                                                                                                                                    "" }>${response.ruas_jalan[i].nama_ruas_jalan}</option>`
                         );
                     }
                 });
         }
 
         $(document).ready(() => {
-            const kondisi_jalan = @json(@$kondisi_jalan);
-            if (kondisi_jalan)
-                editOption(kondisi_jalan.SUP);
-
+            const uptd = document.getElementById("edit_uptd");
+            if (uptd.length == 2) uptd.value = uptd[1].value;
+            $('.edit_ruas_select').select2({
+                theme: "bootstrap"
+            }).css("border-radius", 0);
+            editOption();
             $('#mapLatLong').ready(() => {
                 require([
                     "esri/Map",
