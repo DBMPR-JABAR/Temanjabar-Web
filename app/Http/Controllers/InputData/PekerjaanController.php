@@ -88,6 +88,8 @@ class PekerjaanController extends Controller
         // dd($pekerjaan);
         $pekerjaan = $pekerjaan->whereRaw("YEAR(tanggal) BETWEEN 2021 AND 2021");
         $pekerjaan = $pekerjaan->where('is_deleted', 0)->latest('tglreal')->get();
+        dd($pekerjaan);
+
         foreach($pekerjaan as $no =>$data){
             // echo "$data->id_pek<br>";
             
@@ -132,7 +134,7 @@ class PekerjaanController extends Controller
         }
         // dd(Carbon::now());
         // print_r(Auth::user()->internal_role_id);
-        dd($pekerjaan);
+        // dd($pekerjaan);
         $ruas_jalan = DB::table('master_ruas_jalan');
         if (Auth::user()->internalRole->uptd) {
             $ruas_jalan = $ruas_jalan->where('uptd_id', $uptd_id);
