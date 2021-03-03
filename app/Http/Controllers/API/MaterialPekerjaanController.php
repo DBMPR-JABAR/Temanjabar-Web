@@ -106,7 +106,7 @@ class MaterialPekerjaanController extends Controller
             $request['nama_mandor'] = $this->user->name;
             DB::table('bahan_material')->insert($request->all());
 
-            $kemandoran = DB::table('kemandoran')->where('id_pek', $request->id_pek)->first();
+            $kemandoran = DB::table('kemandoran')->where('id_pek', $request->id_pek);
             $kemandoranUpdate['mail'] = 1;
             $kemandoran->update($kemandoranUpdate);
             $this->response['status'] = 'success';
@@ -206,7 +206,7 @@ class MaterialPekerjaanController extends Controller
             $request['nama_mandor'] = $this->user->name;
             DB::table('bahan_material')->where('id_pek', $id)->update($request->except('_method'));
 
-            $kemandoran = DB::table('kemandoran')->where('id_pek', $id)->first();
+            $kemandoran = DB::table('kemandoran')->where('id_pek', $id);
             $kemandoranUpdate['mail'] = 1;
             $kemandoran->update($kemandoranUpdate);
 
