@@ -2471,7 +2471,7 @@
                                 type: "image",
                                 altText: "Foto Tidak Dapat Ditampilkan",
                                 value: {
-                                    sourceURL: "{FOTO_AKHIR}"
+                                    sourceURL: `${baseUrl}/storage/pekerjaan/{FOTO_AKHIR}`
                                 }
                             }]
                         },
@@ -2484,7 +2484,7 @@
                                 return `
                                     <div class="esri-feature-media__item">
                                         <video controls class="esri-feature-media__item">
-                                            <source src="${baseUrl}/assets/videos/talikuat/kemandoran/${video}" type="video/mp4">
+                                            <source src="${baseUrl}/storage/pekerjaan/${video}" type="video/mp4">
                                             Video tidak ada atau tidak dapat ditampilkan!
                                         </video>
                                     </div>`;
