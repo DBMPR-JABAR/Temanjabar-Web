@@ -30,9 +30,9 @@ class PekerjaanController extends Controller
     {
         try {
             $pekerjaan = DB::table('kemandoran')
-                ->rightJoin('utils_pekerjaan', 'utils_pekerjaan.id_pek', '=', 'kemandoran.id_pek')
+                // ->rightJoin('utils_pekerjaan', 'utils_pekerjaan.id_pek', '=', 'kemandoran.id_pek')
                 ->where('is_deleted', 0)
-                ->where('id_mandor', $this->user->id)
+                ->where('user_id', $this->user->id)
                 ->get()
                 ->reverse()->values();
 
@@ -129,10 +129,10 @@ class PekerjaanController extends Controller
             $pekerjaan['id_pek'] = 'CK-' . str_pad($nomor, 6, "0", STR_PAD_LEFT);
 
             DB::table('kemandoran')->insert($pekerjaan);
-            DB::table('utils_pekerjaan')->insert([
-                'id_mandor' => $this->user->id,
-                'id_pek' => $pekerjaan['id_pek']
-            ]);
+            // DB::table('utils_pekerjaan')->insert([
+            //     'id_mandor' => $this->user->id,
+            //     'id_pek' => $pekerjaan['id_pek']
+            // ]);
             $this->response['status'] = 'success';
             $this->response['data']['message'] = 'Berhasil menambahkan pekerjaan';
             return response()->json($this->response, 200);
@@ -197,7 +197,7 @@ class PekerjaanController extends Controller
                     ->where('id_ruas_jalan', $request->idRuasJalan)->first()->nama_ruas_jalan;
             // if ($request->idJenisPekerjaan)
             //     $pekerjaan['jenis_pekerjaan'] = DB::table('item_pekerjaan')->where('no', $request->idJenisPekerjaan)->first()->nama_item;
-            
+
             $pekerjaan['jenis_pekerjaan'] = "Pemeliharaan";
             if ($request->peralatan)
                 $pekerjaan['peralatan'] = $request->peralatan;
