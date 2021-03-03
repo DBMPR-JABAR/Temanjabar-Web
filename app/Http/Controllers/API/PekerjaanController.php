@@ -60,7 +60,7 @@ class PekerjaanController extends Controller
                 'idSup' => 'required',
                 'namaPaket' => 'required|string|min:5',
                 'idRuasJalan' => 'required',
-                'idJenisPekerjaan' => 'required',
+                // 'idJenisPekerjaan' => 'required',
                 'lokasi' => 'required|string|min:3',
                 'lat' => 'required|string',
                 'long' => 'required|string',
@@ -89,7 +89,8 @@ class PekerjaanController extends Controller
             $pekerjaan['ruas_jalan_id'] = $request->idRuasJalan;
             $pekerjaan['ruas_jalan'] = DB::table('master_ruas_jalan')
                 ->where('id_ruas_jalan', $request->idRuasJalan)->first()->nama_ruas_jalan;
-            $pekerjaan['jenis_pekerjaan'] = DB::table('item_pekerjaan')->where('no', $request->idJenisPekerjaan)->first()->nama_item;
+            // $pekerjaan['jenis_pekerjaan'] = DB::table('item_pekerjaan')->where('no', $request->idJenisPekerjaan)->first()->nama_item;
+            $pekerjaan['jenis_pekerjaan'] = "Pemeliharaan";
             $pekerjaan['peralatan'] = $request->peralatan;
             $pekerjaan['panjang'] = $request->panjang;
             $pekerjaan['jumlah_pekerja'] = $request->jumlah_pekerja;
@@ -167,7 +168,7 @@ class PekerjaanController extends Controller
                 'idSup' => 'int|required',
                 'namaPaket' => 'string|min:5',
                 'idRuasJalan' => 'string',
-                'idJenisPekerjaan' => 'int',
+                // 'idJenisPekerjaan' => 'int',
                 'lokasi' => 'string|min:3',
                 'lat' => 'string',
                 'long' => 'string',
@@ -194,8 +195,10 @@ class PekerjaanController extends Controller
             if ($request->idRuasJalan)
                 $pekerjaan['ruas_jalan'] = DB::table('master_ruas_jalan')
                     ->where('id_ruas_jalan', $request->idRuasJalan)->first()->nama_ruas_jalan;
-            if ($request->idJenisPekerjaan)
-                $pekerjaan['jenis_pekerjaan'] = DB::table('item_pekerjaan')->where('no', $request->idJenisPekerjaan)->first()->nama_item;
+            // if ($request->idJenisPekerjaan)
+            //     $pekerjaan['jenis_pekerjaan'] = DB::table('item_pekerjaan')->where('no', $request->idJenisPekerjaan)->first()->nama_item;
+            
+            $pekerjaan['jenis_pekerjaan'] = "Pemeliharaan";
             if ($request->peralatan)
                 $pekerjaan['peralatan'] = $request->peralatan;
             if ($request->panjang)
