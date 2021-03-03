@@ -52,6 +52,12 @@ class AuthController extends Controller
         $this->response['status'] = 'success';
         $this->response['data']['token'] = $this->getToken($token);
         $this->response['data']['user'] = auth('api')->user();
+
+        if (auth('api')->user()->internalRole) {
+            $role = auth('api')->user()->internalRole->role;
+            if (strpos($role, 'Mandor') !== false) $this->response['data']['user']['role'] = "mandor";
+        }
+
         $this->response['data']['user']['noTelp'] = $userMasyarakat ? $userMasyarakat->no_telp : 0;
         $this->response['data']['user']['alamat'] = $userMasyarakat ? $userMasyarakat->alamat : "-";
         $this->response['data']['user']['encrypted_id'] = encrypt(auth('api')->user()->id);
