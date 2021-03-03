@@ -316,7 +316,7 @@
                                 <select class="form-control searchableModalField" id="sup" name="sup" required >
                                     @if (Auth::user()->internalRole->uptd)
                                     @foreach ($sup as $data)
-                                    <option value="{{$data->name}},{{$data->id}}111" @if(Auth::user()->sup_id != null && Auth::user()->sup_id == $data->id) selected @endif>{{$data->name}},{{$data->id}}</option>
+                                    <option value="{{$data->name}},{{$data->id}}" @if(Auth::user()->sup_id != null && Auth::user()->sup_id == $data->id) selected @endif>{{$data->name}}</option>
                                     @endforeach
                                     @else
                                     <option>-</option>
