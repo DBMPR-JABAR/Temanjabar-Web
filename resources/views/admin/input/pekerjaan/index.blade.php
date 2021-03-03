@@ -176,8 +176,9 @@
                                 <td style="min-width: 170px;">
                               
                                     <div class="btn-group" role="group" data-placement="top" title="" data-original-title=".btn-xlg">
-                                        @if(Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor')||str_contains(Auth::user()->internalRole->role,'Admin')||(str_contains(Auth::user()->internalRole->role,'Pengamat')&& $data->status != null && (str_contains($data->status->status,'Rejected')|| str_contains($data->status->status,'Edited')) && Auth::user()->id == $data->status->adjustment_user_id) && !str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan'))
+                                        @if(Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor')||str_contains(Auth::user()->internalRole->role,'Admin')||(str_contains(Auth::user()->internalRole->role,'Pengamat')&& $data->status != null && (str_contains($data->status->status,'Rejected')|| str_contains($data->status->status,'Edited'))) && !str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan'))
                                             @if(!$data->keterangan_status_lap || str_contains($data->status->status,'Rejected')|| (str_contains($data->status->status,'Edited')&&Auth::user()->id == $data->status->adjustment_user_id)||str_contains(Auth::user()->internalRole->role,'Admin'))
+                                        
                                                 @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
                                                 <a href="{{ route('editDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i></button></a>
                                                 <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Material"><i class="icofont icofont-list"></i></button></a>
@@ -190,7 +191,17 @@
                                                 {{-- @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
                                                 <a href="#submitModal" data-id="{{$data->id_pek}}" data-toggle="modal"><button class="btn btn-success btn-sm waves-effect waves-light" data-toggle="tooltip" title="Submit"><i class="icofont icofont-check-circled"></i></button></a>
                                                 @endif --}}
+                                            @elseif(str_contains(Auth::user()->internalRole->role,'Pengamat')&& $data->status != null && (str_contains($data->status->status,'Edited') && Auth::user()->id != $data->status->adjustment_user_id ))
+                                                @if(Auth::user()->internal_role_id!=null && Auth::user()->internal_role_id ==$data->status->parent )
+                                                    @if(str_contains(Auth::user()->internalRole->role,'Pengamat') && Auth::user()->sup_id==$data->status->sup_id)
+                                                        <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i>Jugment</button></a>
+                                                    @endif
+                                                @endif
+                                                @if(@$data->status->adjustment_user_id==Auth::user()->id)
+                                                    <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i>Edit Jugment</button></a>
+                                                @endif
                                             @endif
+                                            
                                         @else
                                             @if($data->status)
                                                 @if(Auth::user()->internal_role_id!=null && Auth::user()->internal_role_id ==$data->status->parent )
