@@ -173,20 +173,21 @@ class PekerjaanController extends Controller
                 $sup_mail = $item->sup;
                 $status_mail = "Submitted";
                 $keterangan = "Silahkan menunggu sampai semua menyetujui / Approved";
+                $subject = "Status Laporan $item->id_pek-Submitted";
                 if(str_contains($item->status->status,'Edited')){
-
+                    // dd($item);
+                    $status_mail = $item->status->status;
+                    $subject = "Status Laporan $item->id_pek-".$item->status->status;
                 }
                 
                 $to_email = $item->status->email;
                 $to_name = $item->nama_mandor;
-                $subject = "Status Laporan $item->id_pek-Submitted";
                 // dd($subject);
                 // dd($item);
                 $mail = $this->setSendEmail($name, $id_pek, $nama_mandor, $jenis_pekerjaan, $uptd, $sup_mail, $status_mail, $keterangan, $to_email, $to_name, $subject);
                 if($item->status->next_user != ""){
                     foreach($item->status->next_user as $no =>$item1){
                         // dd($item->email);
-                        $subject = "Status Laporan $item->id_pek-Submitted";
                         $to_email =$item1->email;
                         $to_name = $item1->name;
                         
@@ -196,7 +197,7 @@ class PekerjaanController extends Controller
                             $jenis_pekerjaan = Str::title($item->paket);
                             $uptd = Str::upper($item->status->uptd);
                             $sup_mail = $item->sup;
-                            $status_mail = "Submitted";
+                          
                             $keterangan = "Silahkan ditindak lanjuti";
                         
                         $mail = $this->setSendEmail($name, $id_pek, $nama_mandor, $jenis_pekerjaan, $uptd, $sup_mail, $status_mail, $keterangan, $to_email, $to_name, $subject);
@@ -612,7 +613,7 @@ class PekerjaanController extends Controller
         }
         $detail="";
         $detail = DB::table('kemandoran_detail_status')->where('id_pek', $id);
-        if($detail->where('adjustment_user_id',Auth::user()->id)->exists()){
+        if($detail->where('adjustment_user_id',Auth::user()->id)->exists() && $pekerjaan->status->adjustment_user_id == Auth::user()->id){
             $detail = $detail->first();
             $id_pek = $pekerjaan->id_pek;
             $nama_mandor = Str::title($pekerjaan->nama_mandor);
@@ -621,8 +622,10 @@ class PekerjaanController extends Controller
             $sup_mail = $pekerjaan->sup;
             $status_mail = "di ".$pekerjaan->status->status."<br> oleh ".$pekerjaan->status->name." - ".$pekerjaan->status->role;
             $subject = "Status Laporan ".$pekerjaan->id_pek." - ".$pekerjaan->status->status;
+            $pekerjaan->status->next_user = "";
+            // dd($pekerjaan);
 
-            if(str_contains($pekerjaan->status->status, "Approved")){
+            if(str_contains($pekerjaan->status->status, "Approved")||str_contains($pekerjaan->status->status, "Edited")){
                 $next_user = DB::table('users')->where('internal_role_id',$pekerjaan->status->parent)->where('sup_id',$pekerjaan->status->sup_id)->get();
                 // dd($next_user);
                 $pekerjaan->status->next_user = $next_user;
@@ -649,7 +652,6 @@ class PekerjaanController extends Controller
                 }
             }
             $name =Str::title($pekerjaan->nama_mandor);
-
             $to_email =$pekerjaan->email;
             $to_name = $pekerjaan->nama_mandor;
             $mail = $this->setSendEmail($name, $id_pek, $nama_mandor, $jenis_pekerjaan, $uptd, $sup_mail, $status_mail, $keterangan_mandor, $to_email, $to_name, $subject);
