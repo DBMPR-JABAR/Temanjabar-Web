@@ -44,17 +44,17 @@
 
                     <div class="row">
                         <div class="col-md-4">
-                            <label class="col-md-6 col-form-label">Jenis Pekerjaan</label>
+                            <label class="col-md-6 col-form-label"><b>Jenis Pekerjaan</b></label>
                             <hr>
                             <label class="col-md-12 col-form-label">{{$pekerjaan->jenis_pekerjaan}}</label>
                         </div>
                         <div class="col-md-4">
-                            <label class="col-md-6 col-form-label">Nama Paket</label>
+                            <label class="col-md-6 col-form-label"><b>Nama Paket</b></label>
                             <hr>
                             <label class="col-md-12 col-form-label">{{$pekerjaan->paket}}</label>
                         </div>
                         <div class="col-md-4">
-                            <label class="col-md-6 col-form-label">Jumlah Pekerja</label>
+                            <label class="col-md-6 col-form-label"><b>Jumlah Pekerja</b></label>
                             <hr>
                             <label class="col-md-12 col-form-label">{{$pekerjaan->jumlah_pekerja}} Orang</label>
                         </div>
@@ -79,12 +79,12 @@
                     <div class="row">
                         
                         <div class="col-md-6">
-                            <label class="col-md-6 col-form-label">Koordinat X</label>
+                            <label class="col-md-6 col-form-label"><b>Koordinat X</b></label>
                             <hr>
                             <label class="col-md-12 col-form-label">{{$pekerjaan->lat}}</label>
                         </div>
                         <div class="col-md-6">
-                            <label class="col-md-6 col-form-label">Koordinat Y</label>
+                            <label class="col-md-6 col-form-label"><b>Koordinat Y</b></label>
                             <hr>
                             <label class="col-md-12 col-form-label">{{$pekerjaan->lng}}</label>
                         </div>
