@@ -18,7 +18,8 @@
                     <li class="breadcrumb-item">
                         <a href="{{ url('admin') }}"> <i class="feather icon-home"></i> </a>
                     </li>
-                    <li class="breadcrumb-item"><a href="{{ route('getIDKondisiJalan') }}">Survei Kondisi Jalan</a> </li>
+                    <li class="breadcrumb-item"><a href="{{ route('survei_kondisi_jalan.index') }}">Survei Kondisi
+                            Jalan</a> </li>
                     <li class="breadcrumb-item"><a href="#">Tambah</a> </li>
                 </ul>
             </div>
@@ -60,19 +61,20 @@
                         <div class="col-md-9">
                             <div class="row">
                                 <div class="col-md-6">
-                            <select id="id_ruas_jalan" name="id_ruas_jalan" class="form-control searchableField" required>
-                                @foreach ($ruas_jalan_lists as $data)
-                                    <option value="{{ $data->id_ruas_jalan }}" @isset($surveiKondisiJalan)
-                                            {{ $data->id_ruas_jalan == $surveiKondisiJalan->id_ruas_jalan ? 'selected' : '' }}
-                                        @endisset>
-                                        {{ $data->nama_ruas_jalan }}
-                                    </option>
-                                @endforeach
-                            </select>
+                                    <select id="id_ruas_jalan" name="id_ruas_jalan" class="form-control searchableField"
+                                        required>
+                                        @foreach ($ruas_jalan_lists as $data)
+                                            <option value="{{ $data->id_ruas_jalan }}" @isset($surveiKondisiJalan)
+                                                    {{ $data->id_ruas_jalan == $surveiKondisiJalan->id_ruas_jalan ? 'selected' : '' }}
+                                                @endisset>
+                                                {{ $data->nama_ruas_jalan }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="col-md-6">
                                     <input name="road_id" value="{{ @$surveiKondisiJalan->road_id }}" type="text"
-                                    class="form-control formatLatLong" required>
+                                        class="form-control formatLatLong" required>
                                 </div>
                             </div>
                         </div>
