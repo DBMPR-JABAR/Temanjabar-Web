@@ -268,13 +268,13 @@
                     </li>
                     @endif --}}
                         <div class="pcoded-navigatio-lavel">Pembangunan</div>
-                        @if (hasAccess(Auth::user()->internal_role_id, 'Progress Kerja', 'View'))
+                        {{-- @if (hasAccess(Auth::user()->internal_role_id, 'Progress Kerja', 'View'))
                             <li class="{{ Request::segment(3) == 'progresskerja' ? 'active' : '' }}">
                                 <a href="{{ url('admin/input-data/progresskerja') }}">
                                     <span class="pcoded-mtext">Progress Kerja</span>
                                 </a>
                             </li>
-                        @endif
+                        @endif --}}
                         @if (hasAccess(Auth::user()->internal_role_id, 'Data Paket', 'View'))
                             <li class="{{ Request::segment(3) == 'data-paket' ? 'active' : '' }}">
                                 <a href="{{ url('admin/input-data/data-paket') }}">
@@ -316,13 +316,13 @@
                                 </a>
                             </li>
                         @endif
-                        @if (hasAccess(Auth::user()->internal_role_id, 'Quick Response', 'View'))
+                        {{-- @if (hasAccess(Auth::user()->internal_role_id, 'Quick Response', 'View'))
                             <li class="{{ Request::segment(3) == 'lapor' ? 'active' : '' }}">
                                 <a href="#">
                                     <span class="pcoded-mtext">Quick Response</span>
                                 </a>
                             </li>
-                        @endif
+                        @endif --}}
                     </ul>
                 </li>
             @endif
