@@ -184,7 +184,7 @@ class UserController extends Controller
         ->select('a.role','a.id as role_id',DB::raw('GROUP_CONCAT( b.menu SEPARATOR ", ") as menu_user'),DB::raw('GROUP_CONCAT( b.id SEPARATOR ", ") as id_menu'),DB::raw('GROUP_CONCAT( c.role_access SEPARATOR ", ") as role_access'))
         ->where('b.menu','NOT LIKE','%disposisi%')
         ->groupBy('a.role')
-        ->orderBy('b.menu')
+        ->orderBy('a.id')
         ->get();
 
         $alldata=array();
@@ -356,7 +356,7 @@ class UserController extends Controller
         ->where('a.id',$id)
         ->where('b.menu','NOT LIKE','%disposisi%')
         ->groupBy('a.role')
-        ->orderBy('a.id')
+        ->orderBy('b.menu')
         ->get();
         $alldata=array();
 // dd($user_role_list);
