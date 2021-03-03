@@ -51,8 +51,7 @@
                 <div class="card-header ">
                 <h4 class="card-title">Status Laporan {{ Str::title($adjustment->nama_mandor) }} ~ {{ $adjustment->id_pek }}</h4>
                     <div class="card-header-right">
-                            {{-- <button type="submit" class="btn btn-responsive btn-warning">Edit Password</button>
-                            <button type="submit" class="btn btn-responsive btn-primary">Edit Profil</button> --}}
+                        {{-- {{ $adjustment->tglreal}} --}}
                     </div>
                 </div>
                 <div class="card-block">
@@ -64,6 +63,13 @@
                                 <div class="table-responsive">
                                     <label style="font-weight: bold;">Detail Status </label>
                                     <table class="table table-striped">
+                                        <tr>
+                                            <td>Mandor</td>
+                                            <td>{{ Str::title($adjustment->nama_mandor) }}</td>
+                                            <td>{{ $adjustment->tglreal}}</td>
+                                            <td><button type="button" class="btn btn-sm btn-success waves-effect " disabled>Submitted</button></td>
+                                            
+                                        </tr>
                                         @foreach ($detail_adjustment as $item)
                                         <tr>
                                             <td width="20%">{!! @$item->jabatan !!}</td>
