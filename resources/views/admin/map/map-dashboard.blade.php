@@ -2471,6 +2471,28 @@
                                 type: "image",
                                 altText: "Foto Tidak Dapat Ditampilkan",
                                 value: {
+                                    sourceURL: `${baseUrl}/storage/pekerjaan/{FOTO_AWAL}`
+                                }
+                            }]
+                        },
+                        {
+                            type: "media",
+                            mediaInfos: [{
+                                title: "<b>Foto Pekerjaan</b>",
+                                type: "image",
+                                altText: "Foto Tidak Dapat Ditampilkan",
+                                value: {
+                                    sourceURL: `${baseUrl}/storage/pekerjaan/{FOTO_SEDANG}`
+                                }
+                            }]
+                        },
+                        {
+                            type: "media",
+                            mediaInfos: [{
+                                title: "<b>Foto Pekerjaan</b>",
+                                type: "image",
+                                altText: "Foto Tidak Dapat Ditampilkan",
+                                value: {
                                     sourceURL: `${baseUrl}/storage/pekerjaan/{FOTO_AKHIR}`
                                 }
                             }]
@@ -2559,6 +2581,16 @@
                         {
                             name: "RUAS_JALAN",
                             alias: "Ruas Jalan",
+                            type: "string"
+                        },
+                        {
+                            name: "FOTO_AWAL",
+                            alias: "Foto Awal",
+                            type: "string"
+                        },
+                        {
+                            name: "FOTO_SEDANG",
+                            alias: "Foto Sedang",
                             type: "string"
                         },
                         {
