@@ -342,7 +342,7 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Lokasi</label>
                             <div class="col-md-10">
-                                <input name="lokasi" type="text" class="form-control" required>
+                                <input name="lokasi" type="text" class="form-control" required placeholder="KM Bdg 100+0 s.d 120+900">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -401,6 +401,7 @@
                             <label class="col-md-4 col-form-label">Video Dokumentasi</label>
                             <div class="col-md-6">
                                 <input name="video" type="file" class="form-control" accept="video/mp4">
+                                <label for="video">Maksimum ukuran file 1024 Mb</label>
                             </div>
                         </div>
 
