@@ -7,6 +7,7 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/data-table/extensions/responsive/css/responsive.dataTables.css') }}">
 
 <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
+<link rel="stylesheet" href="https://js.arcgis.com/4.18/esri/themes/light/main.css">
 
 <style>
     table.table-bordered tbody td {
@@ -158,7 +159,7 @@
                                             @endif
                                             <br>{{$data->status->jabatan}}<br>
                                             <a href="{{ route('detailStatusPekerjaan',$data->id_pek) }}"><button type="button" class="btn btn-sm waves-effect waves-light " ><i class="icofont icofont-search"></i> Detail</button>
-                                        @else 
+                                        @else
                                             @if($data->input_material)
                                                 <button type="button" class="btn btn-mini btn-success waves-effect " >Submited</button>
                                             @endif
@@ -174,11 +175,11 @@
                                 </td>
 
                                 <td style="min-width: 170px;">
-                              
+
                                     <div class="btn-group" role="group" data-placement="top" title="" data-original-title=".btn-xlg">
                                         @if(Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor')||str_contains(Auth::user()->internalRole->role,'Admin')||(str_contains(Auth::user()->internalRole->role,'Pengamat')&& $data->status != null && (str_contains($data->status->status,'Rejected')|| str_contains($data->status->status,'Edited'))) && !str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan'))
                                             @if(!$data->keterangan_status_lap || str_contains($data->status->status,'Rejected')|| (str_contains($data->status->status,'Edited')&&Auth::user()->id == $data->status->adjustment_user_id)||str_contains(Auth::user()->internalRole->role,'Admin'))
-                                        
+
                                                 @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
                                                 <a href="{{ route('editDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i></button></a>
                                                 <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Material"><i class="icofont icofont-list"></i></button></a>
@@ -201,7 +202,7 @@
                                                     <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i>Edit Jugment</button></a>
                                                 @endif
                                             @endif
-                                            
+
                                         @else
                                             @if($data->status)
                                                 @if(Auth::user()->internal_role_id!=null && Auth::user()->internal_role_id ==$data->status->parent )
@@ -268,7 +269,7 @@
                             <div class="col-md-10">
                                 <select class="form-control searchableModalField" name="jenis_pekerjaan" required>
                                     <option value="Pemeliharaan">Pemeliharaan</option>
-                                    
+
                                     {{-- @foreach ($jenis as $data)
                                         @if(!str_contains(Auth::user()->internalRole->role,'Mandor'))
                                             <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
@@ -347,15 +348,19 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Koordinat X</label>
                             <div class="col-md-10">
-                                <input name="lat" type="text" class="form-control formatLatLong" required>
+                                <input id="lat" name="lat" type="text" class="form-control formatLatLong" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Koordinat Y</label>
                             <div class="col-md-10">
-                                <input name="lng" type="text" class="form-control formatLatLong" required>
+                                <input id="long" name="lng" type="text" class="form-control formatLatLong" required>
                             </div>
                         </div>
+
+
+                        <div id="mapLatLong" class="full-map mb-2" style="height: 300px; width: 100%"></div>
+
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Panjang (meter)</label>
                             <div class="col-md-10">
@@ -474,6 +479,7 @@
     <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
+    <script src="https://js.arcgis.com/4.18/"></script>
 
    <script>
         $(document).ready(function() {
@@ -525,7 +531,7 @@
             //             d.year_to = getYearFilter().yearTo;
             //         }
             //     },
-                
+
             //     columns: [{
             //             'mRender': function(data, type, full, meta) {
             //                 console.log(full['intro']);
@@ -604,7 +610,73 @@
                 $('#dttable').DataTable().ajax.reload(null, false);
             })
 
+
+            $('#mapLatLong').ready(() => {
+            require([
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/Graphic"
+            ], function(Map, MapView, Graphic) {
+
+                const map = new Map({
+                    basemap: "hybrid"
+                });
+
+                const view = new MapView({
+                    container: "mapLatLong",
+                    map: map,
+                    center: [107.6191, -6.9175],
+                    zoom: 8,
+                });
+
+                let tempGraphic;
+                view.on("click", function(event){
+                    if($("#lat").val() != '' && $("#long").val() != ''){
+                        view.graphics.remove(tempGraphic);
+                    }
+                    var graphic = new Graphic({
+                        geometry: event.mapPoint,
+                        symbol: {
+                            type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
+                            url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+                            width: "14px",
+                            height: "24px"
+                        }
+                    });
+                    tempGraphic = graphic;
+                    $("#lat").val(event.mapPoint.latitude);
+                    $("#long").val(event.mapPoint.longitude);
+
+                    view.graphics.add(graphic);
+                });
+                $("#lat, #long").keyup(function () {
+                    if($("#lat").val() != '' && $("#long").val() != ''){
+                        view.graphics.remove(tempGraphic);
+                    }
+                    var graphic = new Graphic({
+                        geometry: {
+                            type: "point",
+                            longitude: $("#long").val(),
+                            latitude: $("#lat").val()
+                        },
+                        symbol: {
+                            type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
+                            url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+                            width: "14px",
+                            height: "24px"
+                        }
+                    });
+                    tempGraphic = graphic;
+
+                    view.graphics.add(graphic);
+                });
+            });
         });
+        });
+
+    // });
+
+        // });
 
         function ubahOption() {
 
@@ -614,7 +686,7 @@
             id_select = '#sup'
             text = 'Pilih SUP'
             option = 'name'
-            id_supp = 'id' 
+            id_supp = 'id'
 
             setDataSelect(id, url, id_select, text, id_supp, option)
 
