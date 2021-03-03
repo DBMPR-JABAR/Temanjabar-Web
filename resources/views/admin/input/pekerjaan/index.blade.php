@@ -268,7 +268,14 @@
                             <div class="col-md-10">
                                 <select class="form-control searchableModalField" name="jenis_pekerjaan" required>
                                     @foreach ($jenis as $data)
-                                    <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
+                                        @if(!str_contains(Auth::user()->internalRole->role,'Mandor'))
+                                            <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
+                                        @else
+                                            <option value="Pemeliharaan">Pemeliharaan</option>
+                                            @php
+                                                break;
+                                            @endphp
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>

@@ -644,8 +644,6 @@ class PekerjaanController extends Controller
             $to_name = $pekerjaan->nama_mandor;
             $mail = $this->setSendEmail($name, $id_pek, $nama_mandor, $jenis_pekerjaan, $uptd, $sup_mail, $status_mail, $keterangan_mandor, $to_email, $to_name, $subject);
 
-
-        
         }
 
         // dd($pekerjaan);
