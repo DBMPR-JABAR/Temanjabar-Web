@@ -173,6 +173,9 @@ class PekerjaanController extends Controller
                 $sup_mail = $item->sup;
                 $status_mail = "Submitted";
                 $keterangan = "Silahkan menunggu sampai semua menyetujui / Approved";
+                if(str_contains($item->status->status,'Edited')){
+
+                }
                 
                 $to_email = $item->status->email;
                 $to_name = $item->nama_mandor;
@@ -493,7 +496,14 @@ class PekerjaanController extends Controller
                 $data['updated_at'] = Carbon::now();
                 $data['created_at'] = Carbon::now();
                 $insert = $detail_adjustment->insert($data);
+                if($kemandoran->where('id_pek', $req->id_pek)->exists()){
+                    $mail['mail'] = 1;
+                    // dd($mail);
+                    $kemandoran->update($mail);
+                    
+                }
             }
+            
 
         }
         // dd($kemandoran->where('id_pek', $req->id_pek)->where('mail', null)->exists());

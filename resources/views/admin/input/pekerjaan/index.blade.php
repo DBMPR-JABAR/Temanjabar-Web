@@ -267,7 +267,9 @@
                             <label class="col-md-2 col-form-label">Jenis Pekerjaan</label>
                             <div class="col-md-10">
                                 <select class="form-control searchableModalField" name="jenis_pekerjaan" required>
-                                    @foreach ($jenis as $data)
+                                    <option value="Pemeliharaan">Pemeliharaan</option>
+                                    
+                                    {{-- @foreach ($jenis as $data)
                                         @if(!str_contains(Auth::user()->internalRole->role,'Mandor'))
                                             <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
                                         @else
@@ -276,7 +278,7 @@
                                                 break;
                                             @endphp
                                         @endif
-                                    @endforeach
+                                    @endforeach --}}
                                 </select>
                             </div>
                         </div>
