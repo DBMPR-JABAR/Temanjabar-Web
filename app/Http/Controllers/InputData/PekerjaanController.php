@@ -218,7 +218,7 @@ class PekerjaanController extends Controller
         }
         // $kode_otp = rand(100000, 999999);
        
-    //    dd($pekerjaan);
+       dd($pekerjaan);
 
         return view('admin.input.pekerjaan.index', compact('pekerjaan', 'ruas_jalan', 'sup', 'uptd', 'mandor', 'jenis'));
     }
