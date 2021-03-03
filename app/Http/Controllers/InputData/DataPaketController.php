@@ -30,14 +30,15 @@ class DataPaketController extends Controller
         $uptd = DB::table('landing_uptd');
         $sup = DB::table('utils_sup');
         $pekerjaan = DB::table('utils_jenis_pekerjaan');
-        $dataPaket = $dataPaket->leftJoin('utils_sup', 'utils_sup.id', '=', 'pembangunan.sup')->select('pembangunan.*', 'utils_sup.name as supName');
+        // $dataPaket = $dataPaket->leftJoin('utils_sup', 'utils_sup.name', '=', 'pembangunan.sup')->select('pembangunan.*', 'utils_sup.name as supName');
+        $sup = DB::table('utils_sup');
 
         if (Auth::user()->internalRole->uptd) {
             if (Auth::user()->internalRole->uptd) {
                 $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
                 $dataPaket = $dataPaket->where('uptd_id', $uptd_id);
                 $sup = $sup->where('uptd_id', $uptd_id);
-                $uptd = $uptd->where('slug', Auth::user()->internalRole->uptd);
+                $uptd = $uptd->where('id', $uptd_id);
             }
         }
         $dataPaket = $dataPaket->get();
@@ -50,7 +51,8 @@ class DataPaketController extends Controller
     public function json(){
         $dataPaket = DB::table('pembangunan');
         if (Auth::user()->internalRole->uptd) {
-            $dataPaket = $dataPaket->where('uptd_id',Auth::user()->internalRole->uptd);
+            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+            $dataPaket = $dataPaket->where('uptd_id',$uptd_id);
         }
         $dataPaket = $dataPaket->get();
         return Datatables::of($dataPaket)
