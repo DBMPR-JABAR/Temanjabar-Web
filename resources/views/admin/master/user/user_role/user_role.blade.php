@@ -67,7 +67,7 @@
                                 <th>Is Superadmin</th>
                                 <th>Keterangan</th>
                                 <th>Is Active</th>
-                                <th>Is Deleted</th>
+                                {{-- <th>Is Deleted</th> --}}
                                 {{-- <th>UPTD</th> --}}
                                 {{-- <th>Created at</th>
                                 <th>Updated at</th> --}}
@@ -103,14 +103,14 @@
                                         }
                                     @endphp
                                     </td>
-                                    <td>@php
+                                    {{-- <td>@php
                                         if($data->is_deleted == 0){
                                             echo "No";
                                         }
                                         else{
                                             echo "Yes";
                                         }
-                                    @endphp</td>
+                                    @endphp</td> --}}
                                     {{-- <td>{{$data->uptd}}</td> --}}
 
                                     <td>{{$data->created_by}}</td>
@@ -238,7 +238,7 @@
                                     <option value="{{ Str::limit($item->slug,4,$end=++$no) }}">{{ $item->nama }}</option>
                                 @endforeach
                             </select>
-                            @else 
+                            @else
                                 <input type="text" name="uptd" class="form-control" value="{{ Auth::user()->internalRole->uptd }}"></input>
 
                             @endif
