@@ -85,7 +85,7 @@ class MapDashboardController extends Controller
                     $this->response['data']['jembatan'] = $data;
                 }
                 if(in_array('pembangunan', $request->kegiatan)){
-                    $data = Pembangunan::whereIn('SUP',$request->sup)->where('KATEGORI','LIKE','pb%');
+                    $data = Pembangunan::whereIn('SUP',$request->sup)->where('KATEGORI','LIKE','%pembangunan%');
 
                     $data = $data->whereBetween('TGL_KONTRAK', [$request->date_from, $request->date_to]);
 
@@ -93,7 +93,7 @@ class MapDashboardController extends Controller
                     $this->response['data']['pembangunan'] = $data;
                 }
                 if(in_array('peningkatan', $request->kegiatan)){
-                    $data = Pembangunan::whereIn('SUP',$request->sup)->where('KATEGORI','LIKE','pn%');
+                    $data = Pembangunan::whereIn('SUP',$request->sup)->where('KATEGORI','LIKE','%peningkatan%');
 
                     $data = $data->whereBetween('TGL_KONTRAK', [$request->date_from, $request->date_to]);
 
@@ -101,7 +101,7 @@ class MapDashboardController extends Controller
                     $this->response['data']['peningkatan'] = $data;
                 }
                 if(in_array('rehabilitasi', $request->kegiatan)){
-                    $data = Pembangunan::whereIn('SUP',$request->sup)->where('KATEGORI','LIKE','rb%');
+                    $data = Pembangunan::whereIn('SUP',$request->sup)->where('KATEGORI','LIKE','%rehabilitasi%');
 
                     $data = $data->whereBetween('TGL_KONTRAK', [$request->date_from, $request->date_to]);
 
@@ -130,9 +130,9 @@ class MapDashboardController extends Controller
                 }
                 if(in_array('rawanbencana', $request->kegiatan)){
                     $data = DB::connection('dwh')->table('TBL_TMNJABAR_TRX_MASTER_RAWAN_BENCANA')
-                            ->whereIn('SUP',$request->sup)->get();
+                            ->whereIn('SUP',$request->sup)->whereNotNull(['LAT','LONG'])->get();
                     $icon = DB::connection('dwh')->table('TBL_TMNJABAR_TRX_MASTER_RAWAN_BENCANA')->select('ICON_NAME','ICON_IMAGE')
-                            ->whereIn('SUP',$request->sup)->whereNotNull('ICON_IMAGE')
+                            ->whereIn('SUP',$request->sup)->whereNotNull(['LAT','LONG'])->whereNotNull('ICON_IMAGE')
                             ->groupBy('ICON_IMAGE')->get();
                     $this->response['data']['rawanbencana'] = $data;
                     $this->response['data']['iconrawanbencana'] = $icon;
