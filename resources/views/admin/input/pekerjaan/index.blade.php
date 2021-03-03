@@ -316,7 +316,7 @@
                                 <select class="form-control searchableModalField" id="sup" name="sup" required >
                                     @if (Auth::user()->internalRole->uptd)
                                     @foreach ($sup as $data)
-                                    <option value="{{$data->name}},{{$data->id}}" @if(Auth::user()->sup_id != null && Auth::user()->sup_id == $data->id) selected @endif>{{$data->name}}</option>
+                                    <option value="{{$data->name}},{{$data->id}}111" @if(Auth::user()->sup_id != null && Auth::user()->sup_id == $data->id) selected @endif>{{$data->name}},{{$data->id}}</option>
                                     @endforeach
                                     @else
                                     <option>-</option>
@@ -614,16 +614,18 @@
             id_select = '#sup'
             text = 'Pilih SUP'
             option = 'name'
+            id_supp = 'id' 
 
-            setDataSelect(id, url, id_select, text, option, option)
+            setDataSelect(id, url, id_select, text, id_supp, option)
 
             //untuk select Ruas
             url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalan') }}"
             id_select = '#ruas_jalan'
             text = 'Pilih Ruas Jalan'
             option = 'nama_ruas_jalan'
+            id_ruass = 'id_ruas_jalan'
 
-            setDataSelect(id, url, id_select, text, option, option)
+            setDataSelect(id, url, id_select, text, id_ruass, option)
         }
     </script>
     @endsection

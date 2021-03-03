@@ -23,6 +23,8 @@ class MandorController extends Controller
         //
         $temp=[];
         $users = User::get();
+        $userssup = "";
+        $usersuptd = "";
         // dd($users->internalRole->keterangan);
         foreach($users as $no => $data){
             $cek =$data->internalRole->role ?? '';

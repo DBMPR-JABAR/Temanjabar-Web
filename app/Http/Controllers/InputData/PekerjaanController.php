@@ -292,16 +292,23 @@ class PekerjaanController extends Controller
             $temp[1]=Auth::user()->id;
         }else
             $temp=explode(",",$pekerjaan['nama_mandor']);
-
-        $temp1=explode(",",$pekerjaan['sup']);
-        $temp2=explode(",",$pekerjaan['ruas_jalan']);
+        // dd($pekerjaan['sup']);
+        if(!Auth::user()->internalRole->uptd){
+            $pekerjaan['sup_id'] = $pekerjaan['sup'];
+            $pekerjaan['ruas_jalan_id'] = $pekerjaan['ruas_jalan'];
+        }else{
+            $temp1=explode(",",$pekerjaan['sup']);
+            $temp2=explode(",",$pekerjaan['ruas_jalan']);
+            $pekerjaan['sup'] = $temp1[0];
+            $pekerjaan['sup_id'] = $temp1[1];
+            $pekerjaan['ruas_jalan'] = $temp2[0];
+            $pekerjaan['ruas_jalan_id'] = $temp2[1];
+        }
 
         $pekerjaan['nama_mandor'] = $temp[0];
         $pekerjaan['user_id'] = $temp[1];
-        $pekerjaan['sup'] = $temp1[0];
-        $pekerjaan['sup_id'] = $temp1[1];
-        $pekerjaan['ruas_jalan'] = $temp2[0];
-        $pekerjaan['ruas_jalan_id'] = $temp2[1];
+        
+        
         // dd($pekerjaan['ruas_jalan']);
         $pekerjaan['created_by'] = Auth::user()->id;
         
