@@ -165,7 +165,7 @@
                                         @endif
                                     @else
                                         <a href="@if(str_contains(Auth::user()->internalRole->role,'Mandor')) {{ route('materialDataPekerjaan',$data->id_pek) }} @else # @endif">
-                                            <button type="button" class="btn btn-mini btn-warning waves-effect " @if(!!str_contains(Auth::user()->internalRole->role,'Mandor')) disabled @endif>Not Completed</button>
+                                            <button type="button" class="btn btn-mini btn-warning waves-effect " @if(!str_contains(Auth::user()->internalRole->role,'Mandor')) disabled @endif>Not Completed</button>
                                         </a>
                                         <br>
                                         <i style="color :red; font-size: 10px;">Lengkapi material</i>
@@ -176,7 +176,7 @@
                                 <td style="min-width: 170px;">
                               
                                     <div class="btn-group" role="group" data-placement="top" title="" data-original-title=".btn-xlg">
-                                        @if(Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor')||str_contains(Auth::user()->internalRole->role,'Admin')||(str_contains(Auth::user()->internalRole->role,'Pengamat')&& $data->status != null && (str_contains($data->status->status,'Rejected')|| str_contains($data->status->status,'Edited'))) && !str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan'))
+                                        @if(Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor')||str_contains(Auth::user()->internalRole->role,'Admin')||(str_contains(Auth::user()->internalRole->role,'Pengamat')&& $data->status != null && (str_contains($data->status->status,'Rejected')|| str_contains($data->status->status,'Edited')) && Auth::user()->id == $data->status->adjustment_user_id) && !str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan'))
                                             @if(!$data->keterangan_status_lap || str_contains($data->status->status,'Rejected')|| (str_contains($data->status->status,'Edited')&&Auth::user()->id == $data->status->adjustment_user_id)||str_contains(Auth::user()->internalRole->role,'Admin'))
                                                 @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
                                                 <a href="{{ route('editDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i></button></a>
@@ -265,7 +265,7 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Tanggal</label>
                             <div class="col-md-10">
-                                <input name="tanggal" type="date" class="form-control" required>
+                                <input name="tanggal" type="date" value="{{ date('Y-m-d') }}" class="form-control" required>
                             </div>
                         </div>
 

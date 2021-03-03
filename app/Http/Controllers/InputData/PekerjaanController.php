@@ -179,31 +179,33 @@ class PekerjaanController extends Controller
                 $subject = "Status Laporan $item->id_pek-Submitted";
                 // dd($subject);
                 // dd($item);
-                $mail = $this->setSendEmail($name, $id_pek, $nama_mandor, $jenis_pekerjaan, $uptd, $sup_mail, $status_mail, $keterangan, $to_email, $to_name, $subject);
-                foreach($item->status->next_user as $no =>$item1){
-                    // dd($item->email);
-                    $subject = "Status Laporan $item->id_pek-Submitted";
-                    $to_email =$item1->email;
-                    $to_name = $item1->name;
-                    
-                        $name =Str::title($item1->name);
-                        $id_pek = $item->id_pek;
-                        $nama_mandor = Str::title($item->nama_mandor);
-                        $jenis_pekerjaan = Str::title($item->paket);
-                        $uptd = Str::upper($item->status->uptd);
-                        $sup_mail = $item->sup;
-                        $status_mail = "Submitted";
-                        $keterangan = "Silahkan ditindak lanjuti";
-                    
-                    $mail = $this->setSendEmail($name, $id_pek, $nama_mandor, $jenis_pekerjaan, $uptd, $sup_mail, $status_mail, $keterangan, $to_email, $to_name, $subject);
-
-                    // $mail = $this->sendEmail($temporari1, $to_email, $to_name, $subject);
-
+                // $mail = $this->setSendEmail($name, $id_pek, $nama_mandor, $jenis_pekerjaan, $uptd, $sup_mail, $status_mail, $keterangan, $to_email, $to_name, $subject);
+                if($item->status->next_user != ""){
+                    foreach($item->status->next_user as $no =>$item1){
+                        // dd($item->email);
+                        $subject = "Status Laporan $item->id_pek-Submitted";
+                        $to_email =$item1->email;
+                        $to_name = $item1->name;
+                        
+                            $name =Str::title($item1->name);
+                            $id_pek = $item->id_pek;
+                            $nama_mandor = Str::title($item->nama_mandor);
+                            $jenis_pekerjaan = Str::title($item->paket);
+                            $uptd = Str::upper($item->status->uptd);
+                            $sup_mail = $item->sup;
+                            $status_mail = "Submitted";
+                            $keterangan = "Silahkan ditindak lanjuti";
+                        
+                        // $mail = $this->setSendEmail($name, $id_pek, $nama_mandor, $jenis_pekerjaan, $uptd, $sup_mail, $status_mail, $keterangan, $to_email, $to_name, $subject);
+    
+                        // $mail = $this->sendEmail($temporari1, $to_email, $to_name, $subject);
+    
+                    }
                 }
-                if($kemandoran->where('id_pek',$item->id_pek)->where('mail', $item->mail)->exists()){
-                    $mail['mail'] = 2;
-                    $kemandoran->update($mail);
-                }
+                // if($kemandoran->where('id_pek',$item->id_pek)->where('mail', $item->mail)->exists()){
+                //     $mail['mail'] = 2;
+                //     $kemandoran->update($mail);
+                // }
 
                 
 
@@ -408,7 +410,7 @@ class PekerjaanController extends Controller
         }
 
         $color = "success";
-        $msg = "Berhasil Mengubah Data Rawan Bencana";
+        $msg = "Berhasil Mengubah Data";
         return redirect(route('getDataPekerjaan'))->with(compact('color', 'msg'));
     }
     public function materialData($id)
@@ -457,6 +459,12 @@ class PekerjaanController extends Controller
         $pekerjaan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
 
         DB::table('bahan_material')->insert($pekerjaan);
+        $kemandoran =  DB::table('kemandoran');
+
+        if($kemandoran->where('id_pek', $req->id_pek)->where('mail', null)->exists()){
+            $mail['mail'] = 1;
+            $kemandoran->update($mail);
+        }
 
         $color = "success";
         $msg = "Berhasil Menambah Data Bahan Material";
@@ -466,6 +474,7 @@ class PekerjaanController extends Controller
 
     public function updateDataMaterial(Request $req)
     {
+        // dd($req->id_pek);
         $pekerjaan = $req->except('_token', 'id_pek');
         $pekerjaan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
         $kemandoran =  DB::table('kemandoran');
@@ -490,7 +499,9 @@ class PekerjaanController extends Controller
         // dd($kemandoran->where('id_pek', $req->id_pek)->where('mail', null)->exists());
         if($kemandoran->where('id_pek', $req->id_pek)->where('mail', null)->exists()){
             $mail['mail'] = 1;
+            // dd($mail);
             $kemandoran->update($mail);
+            
         }
            
 
@@ -568,6 +579,8 @@ class PekerjaanController extends Controller
         // if($pekerjaan->keterangan_status_lap && $pekerjaan->status->adjustment_user_id != Auth::user()->id){
         //     return back()->with(compact('color', 'msg'));
         // }
+        $pekerjaan->email = DB::table('users')->where('id', $pekerjaan->user_id)->pluck('email')->first();
+
         if(Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Pengamat'))
             if(Auth::user()->sup_id != $pekerjaan->sup_id){
                 return back()->with(compact('color', 'msg'));
@@ -588,7 +601,38 @@ class PekerjaanController extends Controller
             }
         }
         $detail="";
-        $detail = DB::table('kemandoran_detail_status')->where('id_pek', $id)->where('adjustment_user_id',Auth::user()->id)->first();
+        $detail = DB::table('kemandoran_detail_status')->where('id_pek', $id)->where('adjustment_user_id',Auth::user()->id);
+        if($detail->exists()){
+            $detail = $detail->first();
+            $id_pek = $pekerjaan->id_pek;
+            $nama_mandor = Str::title($pekerjaan->nama_mandor);
+            $jenis_pekerjaan = Str::title($pekerjaan->paket);
+            $uptd = Str::upper($pekerjaan->status->uptd);
+            $sup_mail = $pekerjaan->sup;
+            $status_mail = "di ".$pekerjaan->status->status."<br> oleh ".$pekerjaan->status->name." - ".$pekerjaan->status->role;
+            if(str_contains($pekerjaan->status->status, "Approved")){
+                $next_user = DB::table('users')->where('internal_role_id',$pekerjaan->status->parent)->where('sup_id',$pekerjaan->status->sup_id)->get();
+                // dd($next_user);
+                $pekerjaan->status->next_user = $next_user;
+                
+                        
+                if($pekerjaan->status->next_user != ""){
+                    foreach($pekerjaan->status->next_user as $no =>$temp){
+                        $subject = "Status Laporan ".$pekerjaan->id_pek." - ".$pekerjaan->status->status;
+                        $to_email =$temp->email;
+                        $to_name = $temp->name;
+                        $keterangan = "Silahkan ditindak lanjuti";
+                        
+                            $name =Str::title($temp->name);
+                            
+                        // $mail = $this->setSendEmail($name, $id_pek, $nama_mandor, $jenis_pekerjaan, $uptd, $sup_mail, $status_mail, $keterangan, $to_email, $to_name, $subject);
+    
+                    }
+                }
+            }
+            
+        
+        }
 
         // dd($pekerjaan);
         return view('admin.input.pekerjaan.show', compact('pekerjaan','material','detail'));
