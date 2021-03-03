@@ -85,7 +85,7 @@ class PekerjaanController extends Controller
             }else if(Auth::user()->sup_id)
                 $pekerjaan = $pekerjaan->where('kemandoran.sup_id',Auth::user()->sup_id); 
         }
-        
+        dd($pekerjaan);
         $pekerjaan = $pekerjaan->whereRaw("YEAR(tanggal) BETWEEN 2021 AND 2021");
         $pekerjaan = $pekerjaan->where('is_deleted', 0)->latest('tglreal')->get();
         foreach($pekerjaan as $no =>$data){
