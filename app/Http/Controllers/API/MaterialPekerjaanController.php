@@ -104,9 +104,11 @@ class MaterialPekerjaanController extends Controller
 
             $request['tanggal'] = Carbon::now();
             $request['nama_mandor'] = $this->user->name;
-            $request['mail'] = 1;
             DB::table('bahan_material')->insert($request->all());
 
+            $kemandoran = DB::table('kemandoran')->where('id_pek', $request->id_pek)->first();
+            $kemandoran->mail = 1;
+            $kemandoran->save();
             $this->response['status'] = 'success';
             $this->response['data']['message'] = 'Berhasil Menambah Material Pekerjaan';
 
@@ -202,8 +204,11 @@ class MaterialPekerjaanController extends Controller
             }
 
             $request['nama_mandor'] = $this->user->name;
-            $request['mail'] = 1;
             DB::table('bahan_material')->where('id_pek', $id)->update($request->except('_method'));
+
+            $kemandoran = DB::table('kemandoran')->where('id_pek', $id)->first();
+            $kemandoran->mail = 1;
+            $kemandoran->save();
 
             $this->response['status'] = 'success';
             $this->response['data']['message'] = 'Berhasil Memperbaharui Material Pekerjaan';
