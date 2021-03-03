@@ -246,7 +246,7 @@
                                 </a>
                             </li>
                         @endif
-                        @if (hasAccess(Auth::user()->internal_role_id, 'Survei Kondisi Jalan', 'View'))
+                        @if (hasAccess(Auth::user()->internal_role_id, 'Survey Kondisi Jalan', 'View'))
                             <li class="{{ Request::segment(3) == 'survei_kondisi_jalan' ? 'active' : '' }}">
                                 <a href="{{ url('admin/input-data/survei_kondisi_jalan') }}">
                                     <span class="pcoded-mtext">Survei Kondisi Jalan</span>
