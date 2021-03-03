@@ -132,7 +132,7 @@ class PekerjaanController extends Controller
         }
         // dd(Carbon::now());
         // print_r(Auth::user()->internal_role_id);
-        // dd($pekerjaan);
+        dd($pekerjaan);
         $ruas_jalan = DB::table('master_ruas_jalan');
         if (Auth::user()->internalRole->uptd) {
             $ruas_jalan = $ruas_jalan->where('uptd_id', $uptd_id);
@@ -218,7 +218,7 @@ class PekerjaanController extends Controller
         }
         // $kode_otp = rand(100000, 999999);
        
-       dd($pekerjaan);
+    //    dd($pekerjaan);
 
         return view('admin.input.pekerjaan.index', compact('pekerjaan', 'ruas_jalan', 'sup', 'uptd', 'mandor', 'jenis'));
     }
