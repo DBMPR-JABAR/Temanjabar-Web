@@ -73,7 +73,7 @@
                                     <th>Ruas Jalan</th>
                                     <th>KM Asal</th>
                                     <th>Lokasi</th>
-                                    <th>Panjang (km)</th>
+                                    <th>Panjang (m)</th>
                                     <th>Latitude Awal</th>
                                     <th>Longitude Awal</th>
                                     <th>Latitude Akhir</th>

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class PekerjaanController extends Controller
@@ -309,5 +310,30 @@ class PekerjaanController extends Controller
             $this->response['data']['message'] = 'Internal Error';
             return response()->json($this->response, 500);
         }
+    }
+
+    public function sendEmail($data, $to_email, $to_name, $subject)
+    {
+
+        return Mail::send('mail.notifikasiStatusLapMandor', $data, function ($message) use ($to_name, $to_email, $subject) {
+            $message->to($to_email, $to_name)->subject($subject);
+
+            $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
+        });
+    }
+
+    public function setSendEmail($name, $id, $mandor, $jenis_pekerjaan, $uptd, $sup_mail, $status_mail, $keterangan, $to_email, $to_name, $subject)
+    {
+        $temporari = [
+            'name' => Str::title($name),
+            'id_pek' => $id,
+            'nama_mandor' => Str::title($mandor),
+            'jenis_pekerjaan' => Str::title($jenis_pekerjaan),
+            'uptd' => Str::upper($uptd),
+            'sup' => $sup_mail,
+            'status' => $status_mail,
+            'keterangan' => $keterangan
+        ];
+        $this->sendEmail($temporari, $to_email, $to_name, $subject);
     }
 }
