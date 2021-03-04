@@ -239,7 +239,7 @@
                                 @endforeach
                             </select>
                             @else
-                                <input type="text" name="uptd" class="form-control" value="{{ Auth::user()->internalRole->uptd }}"></input>
+                                <input type="text" name="uptd" class="form-control" value="{{ Auth::user()->internalRole->uptd }}" readonly></input>
 
                             @endif
                             </div>
