@@ -70,11 +70,12 @@
                                             <td><button type="button" class="btn btn-sm btn-success waves-effect " disabled>Submitted</button></td>
                                             
                                         </tr>
-                                        @foreach ($detail_adjustment as $item)
+                                        @foreach ($detail_adjustment as $no => $item)
                                         <tr>
+                                            
                                             <td width="20%">{!! @$item->jabatan !!}</td>
                                             <td width="15%">{!! @$item->name !!}</td>
-                                            <td width="10%">{!! @$item->created_at !!}</td>
+                                            <td width="10%">{{ $det[$no++] }}</td>
                                             <td width="25%">
                                                 @if(str_contains($item->status,'Approved') )
                                                     <button type="button" class="btn btn-sm btn-primary waves-effect " disabled>{!! @$item->status !!}</button>

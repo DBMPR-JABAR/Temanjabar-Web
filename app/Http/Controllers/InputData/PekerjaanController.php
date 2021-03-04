@@ -228,18 +228,18 @@ class PekerjaanController extends Controller
         $adjustment=DB::table('kemandoran_detail_status')
         ->Join('kemandoran','kemandoran.id_pek','=','kemandoran_detail_status.id_pek')->where('kemandoran_detail_status.id_pek',$id)
         ->first();
-
+        $det = $detail_adjustment=DB::table('kemandoran_detail_status')->where('id_pek',$id)->pluck('updated_at');
         $detail_adjustment=DB::table('kemandoran_detail_status')
-        ->Join('kemandoran','kemandoran.id_pek','=','kemandoran_detail_status.id_pek')->where('kemandoran_detail_status.id_pek',$id)
+        ->Join('kemandoran','kemandoran.id_pek','=','kemandoran_detail_status.id_pek')
         ->leftJoin('users','users.id','=','kemandoran_detail_status.adjustment_user_id')
-        ->leftJoin('user_role','users.internal_role_id','=','user_role.id')
+        ->leftJoin('user_role','users.internal_role_id','=','user_role.id')->where('kemandoran_detail_status.id_pek',$id)
         ->get();
+        // dd($det);
         foreach($detail_adjustment as $data){
             $temp=explode(" - ",$data->role);
             $data->jabatan=$temp[0];
         }
-        // dd($detail_adjustment);
-        return view('admin.input.pekerjaan.detail-status',compact('detail_adjustment','adjustment'));
+        return view('admin.input.pekerjaan.detail-status',compact('detail_adjustment','adjustment','det'));
 
     }
     public function editData($id)
@@ -497,9 +497,9 @@ class PekerjaanController extends Controller
         $detail_adjustment =  DB::table('kemandoran_detail_status');
         if($detail_adjustment->where('id_pek', $req->id_pek)->where('status', 'Rejected')->where('pointer', 1)->latest('updated_at')->exists()){
             $data['pointer'] = 0;
-            $update = $detail_adjustment->where('id_pek', $req->id_pek)->update($data);
+            $update = DB::table('kemandoran_detail_status')->where('id_pek', $req->id_pek)->update($data);
             if(!$detail_adjustment->where('id_pek', $req->id_pek)->where('adjustment_user_id', Auth::user()->id)->latest('updated_at')->exists()){
-                $data['pointer'] = 1;
+                $data['pointer'] = 0;
                 $data['adjustment_user_id'] = Auth::user()->id;
                 $data['status'] = "Edited";
                 $data['id_pek'] = $req->id_pek;
@@ -623,7 +623,7 @@ class PekerjaanController extends Controller
         $detail="";
         $detail = DB::table('kemandoran_detail_status')->where('id_pek', $id);
         if($detail->where('adjustment_user_id',Auth::user()->id)->exists() && $pekerjaan->status->adjustment_user_id == Auth::user()->id){
-            $detail = $detail->first();
+            $detail = $detail->latest('updated_at')->first();
             $id_pek = $pekerjaan->id_pek;
             $nama_mandor = Str::title($pekerjaan->nama_mandor);
             $jenis_pekerjaan = Str::title($pekerjaan->paket);
@@ -697,6 +697,7 @@ class PekerjaanController extends Controller
             }
             // $this->validate($request,['keterangan' => 'required']);
         }
+        
             $data['status'] = $request->input('status');
             $data['description'] = $request->input('keterangan') ? :null;
             $data['adjustment_user_id'] = Auth::user()->id;
@@ -704,13 +705,15 @@ class PekerjaanController extends Controller
             if($kemandoran->where('id_pek',$id)->where('adjustment_user_id',Auth::user()->id)->where('pointer',1)->exists()){
                 $data['updated_at'] = Carbon::now();
                 $kemandoran = $kemandoran->where('id_pek',$id)->latest('updated_at')->update($data);
+                
             }else{
-                $data['updated_at'] = Carbon::now();
+                
                 $data['created_at'] = Carbon::now();
+                $data['updated_at'] = Carbon::now();
                 $data['id_pek'] = $id;
                 $data['pointer'] = 1;
-
-                $kemandoran = $kemandoran->insert($data);
+                // dd($data);
+                $kemandoran = DB::table('kemandoran_detail_status')->insert($data);
             }
             if($kemandoran){
                 //redirect dengan pesan sukses
