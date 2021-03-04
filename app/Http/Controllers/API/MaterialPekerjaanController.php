@@ -41,9 +41,9 @@ class MaterialPekerjaanController extends Controller
             $validator = Validator::make($request->all(), [
                 'id_pek' => 'required',
                 'jenis_pekerjaan' => 'required|string',
-                // 'nama_bahan1' => 'string',
-                // 'jum_bahan1' => 'string',
-                // 'satuan1' => 'string',
+                'nama_bahan1' => 'required|string',
+                'jum_bahan1' => 'required|string',
+                'satuan1' => 'required|string',
                 // 'nama_bahan2' => 'string',
                 // 'jum_bahan2' => 'string',
                 // 'satuan2' => 'string',
@@ -106,6 +106,9 @@ class MaterialPekerjaanController extends Controller
             $request['nama_mandor'] = $this->user->name;
             DB::table('bahan_material')->insert($request->all());
 
+            $kemandoran = DB::table('kemandoran')->where('id_pek', $request->id_pek);
+            $kemandoranUpdate['mail'] = 1;
+            $kemandoran->update($kemandoranUpdate);
             $this->response['status'] = 'success';
             $this->response['data']['message'] = 'Berhasil Menambah Material Pekerjaan';
 
@@ -202,6 +205,10 @@ class MaterialPekerjaanController extends Controller
 
             $request['nama_mandor'] = $this->user->name;
             DB::table('bahan_material')->where('id_pek', $id)->update($request->except('_method'));
+
+            $kemandoran = DB::table('kemandoran')->where('id_pek', $id);
+            $kemandoranUpdate['mail'] = 1;
+            $kemandoran->update($kemandoranUpdate);
 
             $this->response['status'] = 'success';
             $this->response['data']['message'] = 'Berhasil Memperbaharui Material Pekerjaan';
