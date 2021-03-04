@@ -141,7 +141,12 @@ class UserController extends Controller
     public function getUser()
     {
         $users = DB::table('users')->get();
-        $roles = DB::table('user_role')->get();
+        $roles = DB::table('user_role');
+        if(Auth::user()->internalRole->uptd){
+            $roles = $roles->where('uptd', Auth::user()->internalRole->uptd);
+        }
+        $roles = $roles->get();
+        // dd($roles);
         return view('admin.master.user.manajemen.index',compact('users','roles'));
     }
 
