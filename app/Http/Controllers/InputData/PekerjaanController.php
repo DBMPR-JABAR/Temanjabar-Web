@@ -406,22 +406,29 @@ class PekerjaanController extends Controller
         }
 
         DB::table('kemandoran')->where('id_pek', $req->id_pek)->update($pekerjaan);
+        $kemandoran =  DB::table('kemandoran');
 
         $detail_adjustment =  DB::table('kemandoran_detail_status');
         if($detail_adjustment->where('id_pek', $req->id_pek)->where('status', 'Rejected')->where('pointer', 1)->latest('updated_at')->exists()){
             $data['pointer'] = 0;
-            $detail_adjustment->where('id_pek', $req->id_pek)->update($data);
+            $update = DB::table('kemandoran_detail_status')->where('id_pek', $req->id_pek)->update($data);
             if(!$detail_adjustment->where('id_pek', $req->id_pek)->where('adjustment_user_id', Auth::user()->id)->latest('updated_at')->exists()){
-                $data['pointer'] = 1;
+                $data['pointer'] = 0;
                 $data['adjustment_user_id'] = Auth::user()->id;
                 $data['status'] = "Edited";
                 $data['id_pek'] = $req->id_pek;
                 $data['updated_at'] = Carbon::now();
                 $data['created_at'] = Carbon::now();
                 $insert = $detail_adjustment->insert($data);
+                if($kemandoran->where('id_pek', $req->id_pek)->exists()){
+                    $mail['mail'] = 1;
+                    // dd($mail);
+                    $kemandoran->update($mail);
+                    
+                }
             }
         }
-
+        
         $color = "success";
         $msg = "Berhasil Mengubah Data";
         return redirect(route('getDataPekerjaan'))->with(compact('color', 'msg'));
@@ -513,8 +520,6 @@ class PekerjaanController extends Controller
                     
                 }
             }
-            
-
         }
         // dd($kemandoran->where('id_pek', $req->id_pek)->where('mail', null)->exists());
         if($kemandoran->where('id_pek', $req->id_pek)->where('mail', null)->exists()){
