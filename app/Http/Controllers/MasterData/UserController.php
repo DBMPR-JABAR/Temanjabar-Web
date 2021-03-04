@@ -279,6 +279,7 @@ class UserController extends Controller
         $user_role = DB::table('user_role as a')
                        ->whereNotIn('id',$temp)
                        ->get();
+        
         // dd($menu);
         return view('admin.master.user.role_akses_add',compact('menu','user_role'));
     }

@@ -632,22 +632,36 @@ class PekerjaanController extends Controller
             $status_mail = "di ".$pekerjaan->status->status."<br> oleh ".$pekerjaan->status->name." - ".$pekerjaan->status->role;
             $subject = "Status Laporan ".$pekerjaan->id_pek." - ".$pekerjaan->status->status;
             $pekerjaan->status->next_user = "";
-            // dd($pekerjaan);
-
+            
             if(str_contains($pekerjaan->status->status, "Approved")||str_contains($pekerjaan->status->status, "Edited")){
-                $next_user = DB::table('users')->where('internal_role_id',$pekerjaan->status->parent)->where('sup_id',$pekerjaan->status->sup_id)->get();
+                if(str_contains($pekerjaan->status->jabatan,"Mandor")||str_contains($pekerjaan->status->jabatan,"Pengamat") ){
+                    $next_user = DB::table('users')->where('internal_role_id',$pekerjaan->status->parent)->where('sup_id',$pekerjaan->status->sup_id)->get();
+                }else{
+                    $next_user = DB::table('users')->where('internal_role_id',$pekerjaan->status->parent)->get();
+
+                }
+                    
+
+
                 // dd($next_user);
                 $pekerjaan->status->next_user = $next_user;
+                // dd($pekerjaan);
                 $keterangan_mandor = "Silahkan menunggu sampai semua di terima / Approved";
                 
+            // dd($pekerjaan->status->next_user);
                 
             }else if(str_contains($pekerjaan->status->status, "Rejected")){
-                $before_user = DB::table('kemandoran_detail_status')->where('id_pek', $id)->where('adjustment_user_id','!=',$pekerjaan->user_id)->where('adjustment_user_id','!=',$pekerjaan->status->adjustment_user_id)->get();
+                $before_user = DB::table('kemandoran_detail_status')->where('kemandoran_detail_status.id_pek', $id)->where('kemandoran_detail_status.adjustment_user_id','!=',$pekerjaan->user_id)->where('kemandoran_detail_status.adjustment_user_id','!=',$pekerjaan->status->adjustment_user_id)->groupBy('adjustment_user_id')
+                                ->leftJoin('users', 'users.id', '=', 'kemandoran_detail_status.adjustment_user_id')->get();
+                
+                // dd($before_user);
+
                 $pekerjaan->status->next_user = $before_user;
                 $keterangan_mandor = "Silahkan ditindak lanjuti";
 
 
             }
+            // dd($pekerjaan->status->next_user);
             if($pekerjaan->status->next_user != ""){
                 foreach($pekerjaan->status->next_user as $no =>$temp){
                     $to_email =$temp->email;
