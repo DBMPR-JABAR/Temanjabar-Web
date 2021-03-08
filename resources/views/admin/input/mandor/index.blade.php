@@ -1,4 +1,4 @@
-@extends('admin.t_index')
+@extends('admin.layout.index')
 
 @section('title')Manajemen User @endsection
 @section('head')
@@ -32,7 +32,7 @@
     </div>
     <div class="col-lg-4">
         <div class="page-header-breadcrumb">
-            <ul class="breadcrumb-title">
+            <ul class=" breadcrumb breadcrumb-title">
                 <li class="breadcrumb-item">
                     <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
                 </li>
@@ -82,10 +82,10 @@
                                     $temporari = $usersuptd;
                                 }else
                                     $temporari = $users;
-                                    
+
                             @endphp
                              @foreach ($temporari as $data)
-                                  
+
                                 <tr>
                                     <td>{{$loop->index + 1}}</td>
                                     <td>{{$data->name}}</td>
@@ -104,7 +104,7 @@
                                             <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data->id}}'     class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Hapus</a><br/>
                                     </td>
                                 </tr>
-                             
+
                             @endforeach
                         </tbody>
                     </table>

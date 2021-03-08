@@ -1,4 +1,4 @@
-@extends('admin.t_index')
+@extends('admin.layout.index')
 
 @section('title') Rincian Grant access Role Aplikasi @endsection
 @section('head')
@@ -32,7 +32,7 @@
     </div>
     <div class="col-lg-6">
         <div class="page-header-breadcrumb">
-            <ul class="breadcrumb-title">
+            <ul class=" breadcrumb breadcrumb-title">
                 <li class="breadcrumb-item">
                     <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
                 </li>
@@ -51,40 +51,40 @@
     <div class="card">
         <div class="card-header">
             <h4 class="card-title">{{Str::title($alldata['role'])}}</h4>
-           
+
         </div>
         <div class="card-block">
-                <div class="modal-body p-2">                 
+                <div class="modal-body p-2">
                     <div class="form-group row">
-                        <label class="col-md-2">Role Akses</label>        
+                        <label class="col-md-2">Role Akses</label>
                         <div class="col-md-10">
                            @foreach ($alldata['menu'] as $item)
                            <button class="button btn-sm btn-success mb-1 mr-1">
-                               {{$item}}    
-                           </button>   
+                               {{$item}}
+                           </button>
                            @endforeach
                         </div>
-                    </div>       
+                    </div>
                     <div class="form-group row">
                         <label class="col-md-2">UPTD Access</label>
                         <div class="col-md-10">
                             @foreach ($alldata['uptd_akses'] as $item)
                            <button class="button btn-sm btn-success mb-1 mr-1">
-                               UPTD {{$item}}    
-                           </button>   
+                               UPTD {{$item}}
+                           </button>
                            @endforeach
                         </div>
                     </div>
                 </div>
                 <a href="{{ url()->previous() }}"><button type="button" class="btn btn-danger waves-effect " data-dismiss="modal">Kembali</button></a>
-               
+
         </div>
     </div>
 </div>
 </div>
- 
+
 
 @endsection
 @section('script')
- 
+
 @endsection

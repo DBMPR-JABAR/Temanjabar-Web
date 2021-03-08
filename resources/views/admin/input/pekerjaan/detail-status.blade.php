@@ -1,4 +1,4 @@
-@extends('admin.t_index')
+@extends('admin.layout.index')
 
 @section('title')Role Akses @endsection
 @section('head')
@@ -31,7 +31,7 @@
         </div>
         <div class="col-lg-4">
             <div class="page-header-breadcrumb">
-                <ul class="breadcrumb-title">
+                <ul class=" breadcrumb breadcrumb-title">
                     <li class="breadcrumb-item">
                         <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
                     </li>
@@ -46,7 +46,7 @@
 @section('page-body')
     <div class="row">
         <div class="col-sm-12">
-            
+
             <div class="card">
                 <div class="card-header ">
                 <h4 class="card-title">Status Laporan {{ Str::title($adjustment->nama_mandor) }} ~ {{ $adjustment->id_pek }}</h4>
@@ -58,7 +58,7 @@
                     {{-- <a href="{{ route('createRoleAccess') }}" class="btn btn-mat btn-primary mb-3">Tambah</a> --}}
                     {{-- <form action="{{url('admin/user/account/'.Auth::user()->id)}}" method="post" enctype="multipart/form-data"> --}}
                         <div class="dt-responsive table-responsive">
-                    
+
                             <div class="panel-body">
                                 <div class="table-responsive">
                                     <label style="font-weight: bold;">Detail Status </label>
@@ -68,11 +68,11 @@
                                             <td>{{ Str::title($adjustment->nama_mandor) }}</td>
                                             <td>{{ $adjustment->tglreal}}</td>
                                             <td><button type="button" class="btn btn-sm btn-success waves-effect " disabled>Submitted</button></td>
-                                            
+
                                         </tr>
                                         @foreach ($detail_adjustment as $no => $item)
                                         <tr>
-                                            
+
                                             <td width="20%">{!! @$item->jabatan !!}</td>
                                             <td width="15%">{!! @$item->name !!}</td>
                                             <td width="10%">{{ $det[$no++] }}</td>
@@ -84,20 +84,20 @@
                                                 @else
                                                     <button type="button" class="btn btn-sm btn-warning waves-effect " disabled>{!! @$item->status !!}</button>
                                                 @endif
-                                                
+
                                                 <br>
                                                 @if($item->description)
                                                 <i style="color :red; font-size: 12px;">Catatan : {!! @$item->description !!}</i>
                                                 @endif
                                             </td>
 
-                                            
+
                                             {{-- <td >{!! Str::title(@$profile_users->nama) !!}</td> --}}
                                         </tr>
                                         @endforeach
-                                       
+
                                     </table>
-                                   
+
                                 </div>
                             </div>
                             <a href="{{ url()->previous() }}"><button type="button" class="btn btn-success waves-effect "
@@ -114,7 +114,7 @@
                 <div class="modal-content">
                     <form action="{{url('admin/user/account/'.Auth::user()->id)}}" method="post" enctype="multipart/form-data">
                     {{-- <form action="{{url('admin/edit/profile/'.Auth::user()->id)}}" method="POST" enctype="multipart/form-data"> --}}
-                        
+
                         @csrf
                         <div class="modal-header">
                             <h4 class="modal-title">Edit Password</h4>
@@ -122,16 +122,16 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-    
+
                         <div class="modal-body p-5">
-    
+
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">email</label>
                                 <div class="col-md-9">
                                     <input type="text" name="email" id="email" value="{{ Auth::user()->email }}" class="form-control"></input>
                                 </div>
                             </div>
-    
+
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Password Lama</label>
                                 <div class="col-md-9">
@@ -162,14 +162,14 @@
                             <i style="color :red; font-size: 10px;">Biarkan jika tidak ada perubahan</i>
 
                         </div>
-    
+
                         <div class="modal-footer">
                             <button type="button" class="btn btn-primary waves-effect " data-dismiss="modal">Tutup</button>
                             <button type="submit" class="btn btn-danger waves-effect waves-light ">Simpan</button>
                         </div>
                     </form>
-    
-    
+
+
                 </div>
             </div>
         </div>
@@ -189,17 +189,17 @@
     $(document).ready(function() {
         $(".chosen-select").chosen( { width: '100%' } );
         $(".chosen-jenis-instruksi").chosen( { width: '100%' } );
-       
+
         $('#editModal').on('show.bs.modal', function(event) {
             const link = $(event.relatedTarget);
             const id = link.data('id');
-            
+
             console.log(id);
             const baseUrl = `{{ url('admin/master-data/user/role-akses/getData') }}/` + id;
             $.get(baseUrl, { id: id },
                 function(response){
 
-                        
+
             });
         });
 

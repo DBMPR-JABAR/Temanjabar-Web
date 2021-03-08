@@ -1,4 +1,4 @@
-@extends('admin.t_index')
+@extends('admin.layout.index')
 
 @section('title')Role Akses @endsection
 @section('head')
@@ -42,7 +42,7 @@
         </div>
         <div class="col-lg-4">
             <div class="page-header-breadcrumb">
-                <ul class="breadcrumb-title">
+                <ul class=" breadcrumb breadcrumb-title">
                     <li class="breadcrumb-item">
                         <a href="{{ url('admin') }}"> <i class="feather icon-home"></i> </a>
                     </li>

@@ -1,4 +1,4 @@
-@extends('admin.t_index')
+@extends('admin.layout.index')
 
 @section('title') Edit Pekerjaan @endsection
 
@@ -13,7 +13,7 @@
     </div>
     <div class="col-lg-4">
         <div class="page-header-breadcrumb">
-            <ul class="breadcrumb-title">
+            <ul class=" breadcrumb breadcrumb-title">
                 <li class="breadcrumb-item">
                     <a href="{{ url('admin') }}"> <i class="feather icon-home"></i> </a>
                 </li>
@@ -39,7 +39,7 @@
             </div>
             <div class="card-block">
 
-                
+
                     <input type="hidden" name="id_pek" value="{{$pekerjaan->id_pek}}">
 
                     <div class="row">
@@ -59,7 +59,7 @@
                             <label class="col-md-12 col-form-label">{{$pekerjaan->jumlah_pekerja}} Orang</label>
                         </div>
                     </div>
-            
+
 
             </div>
         </div>
@@ -75,9 +75,9 @@
             </div>
             <div class="card-block">
 
-           
+
                     <div class="row">
-                        
+
                         <div class="col-md-6">
                             <label class="col-md-6 col-form-label"><b>Koordinat X</b></label>
                             <hr>
@@ -89,40 +89,40 @@
                             <label class="col-md-12 col-form-label">{{$pekerjaan->lng}}</label>
                         </div>
                     </div>
-                    
+
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Panjang (meter)</label>
                         <label class="col-md-10 col-form-label">{{$pekerjaan->panjang}} meter</label>
 
                     </div>
-                    
-                    
+
+
                     <div class="row">
                         <div class="col-md-6">
                             <label class="col-md-12 col-form-label text-center">Foto Dokumentasi (0%)</label>
                             <img style="max-height: 400px;" class="img-thumbnail rounded mx-auto d-block" src="{{ url('storage/pekerjaan/'.$pekerjaan->foto_awal) }}" alt="">
-                            
+
                         </div>
                         <div class="col-md-6">
                             <label class="col-md-12 col-form-label text-center">Foto Dokumentasi (50%)</label>
                             <img style="max-height: 400px;" class="img-thumbnail rounded mx-auto d-block" src="{{ url('storage/pekerjaan/'.$pekerjaan->foto_sedang) }}" alt="">
-                            
+
                         </div>
                     </div>
-                    
+
                     <div class="form-group row">
                         <label class="col-md-12 col-form-label text-center">Foto Dokumentasi (100%)</label>
                             <img style="max-height: 400px;" class="img-thumbnail rounded mx-auto d-block" src="{{ url('storage/pekerjaan/'.$pekerjaan->foto_akhir) }}" alt="">
-                        
-                        
+
+
                     </div>
                     <div class="form-group row">
                         <label class="col-md-12 col-form-label text-center">Video Dokumentasi</label>
                             <video  style="max-height: 400px;" controls class="img-thumbnail rounded mx-auto d-block">
                                 <source src="{{ url('storage/pekerjaan/'.$pekerjaan->video) }}" type="video/mp4" />
-                            </video>                
+                            </video>
                     </div>
-              
+
             </div>
         </div>
         <div class="card">
@@ -160,17 +160,17 @@
 
                             <td width="15%">{{ $pekerjaan->jum_bahan[$counter-1] }}</td>
                             <td width="15%">{{ $pekerjaan->satuan[$counter-1] }}</td>
-                                
+
                         </tr>
                             @endforeach
-                      
+
                     </table>
-                </div> 
+                </div>
             </div>
         </div>
 
         <div class="card">
-          
+
             <div class="card-block">
 
                 <form action="{{ route('jugmentLaporanMandor',$pekerjaan->id_pek) }}" method="post" enctype="multipart/form-data">
@@ -179,7 +179,7 @@
                         <label>Jugment</label>
                         <select class="form-control" name="status" required>
                             <option value="">Select</option>
-                            
+
                             <option value="Approved" @if (@$detail->status != null && strpos('Approved', @$detail->status) !== false) selected @endif>Approved</option>
                             <option value="Rejected" @if (@$detail->status != null && strpos('Rejected', @$detail->status) !== false) selected @endif>Rejected</option>
                         </select>

@@ -1,4 +1,4 @@
-@extends('admin.t_index')
+@extends('admin.layout.index')
 
 @section('title') Admin Dashboard @endsection
 
@@ -20,7 +20,7 @@
     </div>
     <div class="col-lg-4">
         <div class="page-header-breadcrumb">
-            <ul class="breadcrumb-title">
+            <ul class=" breadcrumb breadcrumb-title">
                 <li class="breadcrumb-item">
                     <a href="{{ url('admin') }}"> <i class="feather icon-home"></i> </a>
                 </li>
@@ -54,20 +54,20 @@
                                 <th width="5%">No</th>
                                 <th>Nama</th>
                                 <th width="5%">UPTD</th>
-                                
+
                                 <th width="5%">Aksi</th>
                             </tr>
                         </thead>
                         <tbody id="bodyJembatan">
                              @foreach ($sup as $no => $data)
-                            
+
                                 <tr>
                                     <td>{{++$no}}</td>
                                     <td>{{$data->name}}</td>
                                     <td>UPTD {{$data->uptd_id}}</td>
-                                   
+
                                     <td>
-                                            
+
                                             @if (hasAccess(Auth::user()->internal_role_id, "SUP", "Update"))
                                             <a type='button' href='{{route('editSUP',$data->id)}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-edit'></i>Edit</a>
                                             @endif
@@ -164,7 +164,7 @@
                                 <input name="name" id="sup_name" type="text" class="form-control" required>
                             </div>
                         </div>
-                     
+
 
                     </div>
 

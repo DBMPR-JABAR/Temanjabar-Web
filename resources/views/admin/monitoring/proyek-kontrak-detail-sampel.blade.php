@@ -1,4 +1,4 @@
-@extends('admin.t_index')
+@extends('admin.layout.index')
 
 @section('title') Admin Dashboard @endsection
 
@@ -14,7 +14,7 @@
     </div>
     <div class="col-lg-4">
         <div class="page-header-breadcrumb">
-            <ul class="breadcrumb-title">
+            <ul class=" breadcrumb breadcrumb-title">
                 <li class="breadcrumb-item">
                     <a href="index.html"> <i class="feather icon-home"></i> </a>
                 </li>
@@ -225,7 +225,7 @@
                                   </tbody>
                               </table>
                             </div>
-                          </div>                        
+                          </div>
                         </div>
                     </div>
                     <div class="tab-pane" id="profile3" role="tabpanel">
@@ -341,7 +341,7 @@
                                   </tbody>
                               </table>
                             </div>
-                          </div>                        
+                          </div>
                         </div>
                      </div>
                     <div class="tab-pane" id="messages3" role="tabpanel">

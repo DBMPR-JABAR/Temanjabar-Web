@@ -1,5 +1,5 @@
 
-@extends('admin.t_index')
+@extends('admin.layout.index')
 
 @section('title') Disposisi Instruksi  @endsection
 @section('head')
@@ -27,13 +27,13 @@
         <div class="page-header-title">
             <div class="d-inline">
                 <h4>Disposisi Instruksi </h4>
-                
+
             </div>
         </div>
     </div>
     <div class="col-lg-4">
         <div class="page-header-breadcrumb">
-            <ul class="breadcrumb-title">
+            <ul class=" breadcrumb breadcrumb-title">
                 <li class="breadcrumb-item">
                     <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
                 </li>
@@ -48,7 +48,7 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="card">
-            <div class="card-header"> 
+            <div class="card-header">
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
                         <li><i class="feather icon-maximize full-card"></i></li>
@@ -75,10 +75,10 @@
                                 <td>{{$loop->index + 1}}</td>
                                 <td>{{$data->jenis_instruksi}}</td>
                                 <td>{{$data->keterangan}}</td>
-                                <td> 
+                                <td>
                                 <a type="button" href="{{ route('getdetailDisposisiInstruksi',$data->id) }}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Rincian</a>
-                                <a type="button"href="#editModal"  data-toggle="modal" data-id="{{$data->id}}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Edit</a> 
-                                <a type="button"href="#delModal"  data-toggle="modal" data-id="{{$data->id}}"     class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Hapus</a>       
+                                <a type="button"href="#editModal"  data-toggle="modal" data-id="{{$data->id}}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Edit</a>
+                                <a type="button"href="#delModal"  data-toggle="modal" data-id="{{$data->id}}"     class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Hapus</a>
                                                              </td>
                             </tr>
                             @endforeach
@@ -115,7 +115,7 @@
         </div>
     </div>
 
-    
+
 
 
 </div>
@@ -147,8 +147,8 @@
                             <div class="col-md-9">
                                 <textarea name="ket" type="text" class="form-control" required></textarea>                            </div>
                         </div>
- 
- 
+
+
 
                     </div>
 
@@ -191,8 +191,8 @@
                                 <textarea name="ket" id="editKeterangan" type="text" class="form-control" required></textarea>
                             </div>
                         </div>
- 
- 
+
+
 
                     </div>
 

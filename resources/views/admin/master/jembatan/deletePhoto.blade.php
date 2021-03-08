@@ -1,4 +1,4 @@
-@extends('admin.t_index')
+@extends('admin.layout.index')
 
 @section('title') Data Foto Jembatan @endsection
 
@@ -13,7 +13,7 @@
     </div>
     <div class="col-lg-4">
         <div class="page-header-breadcrumb">
-            <ul class="breadcrumb-title">
+            <ul class=" breadcrumb breadcrumb-title">
                 <li class="breadcrumb-item">
                     <a href="{{ url('admin') }}"> <i class="feather icon-home"></i> </a>
                 </li>
@@ -44,17 +44,17 @@
                             <label class="col-md-2 col-form-label">Foto Jembatan</label>
                         </div>
                         @foreach($foto as $i => $data)
-             
+
                             <div class ="row" style="border: 1px solid;border-radius: 25px">
                                <div class="col-md-4">
                                     <input type="hidden" name="id_j[]" class="form-control m-input" value="{{$data->id}}" required>
                                    <h5>{{$data->nama}}</h5>
                                 </div>
                                 <div class="col-md-6">
-                                    <img src="/storage/{{$data->foto}}" width="100%" height="200px">          
+                                    <img src="/storage/{{$data->foto}}" width="100%" height="200px">
 
                                 </div>
-                                <div class="col-md-2">      
+                                <div class="col-md-2">
                                    <!--  <button type="submit" class="btn btn-mat btn-danger" style="vertical-align: middle;">Hapus</button> -->
                                    <a href="#delPhotoModal" data-id="{{$data->id}}" data-toggle="modal"><button data-toggle="tooltip" title="Hapus" class="btn btn-danger btn-sm waves-effect waves-light">Hapus</button></a>
 
@@ -143,7 +143,7 @@
         html += '<button id="removeRow" type="button" class="btn btn-danger">Hapus</button>';
         html += '</div>';
         html += '</div>';
- 
+
 
         $('#newRow').append(html);
     });

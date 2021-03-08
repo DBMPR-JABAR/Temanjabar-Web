@@ -1,4 +1,4 @@
-@extends('admin.t_index')
+@extends('admin.layout.index')
 
 @section('title') Insert No SPP @endsection
 
@@ -13,7 +13,7 @@
     </div>
     <div class="col-lg-4">
         <div class="page-header-breadcrumb">
-            <ul class="breadcrumb-title">
+            <ul class=" breadcrumb breadcrumb-title">
                 <li class="breadcrumb-item">
                     <a href="{{ url('admin') }}"> <i class="feather icon-home"></i> </a>
                 </li>
@@ -49,7 +49,7 @@
                         <div class="col-md-10">
                             <input name="" type="text" class="form-control" value="{{$kemandoran->id_pek}}" required disabled>
                         </div>
-                    </div>  
+                    </div>
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Tanggal</label>

@@ -1,4 +1,4 @@
-@extends('admin.t_index')
+@extends('admin.layout.index')
 
 @section('title')Role Akses @endsection
 @section('head')
@@ -33,7 +33,7 @@
     </div>
     <div class="col-lg-4">
         <div class="page-header-breadcrumb">
-            <ul class="breadcrumb-title">
+            <ul class=" breadcrumb breadcrumb-title">
                 <li class="breadcrumb-item">
                     <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
                 </li>
@@ -64,7 +64,7 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">User Role</label>
                         <div class="col-md-9">
-        
+
                             <select class="form-control"  name="user_role" tabindex="4" required>
                                 @forelse ($user_role as $data)
                                 <option value="{{$data->id}}">{{$data->role}}</option>
@@ -86,7 +86,7 @@
                         @endforeach
                         </select>
                     </div>
-                    {{-- <div class="col-md-9 ">       
+                    {{-- <div class="col-md-9 ">
                         <div class="form-check-inline">
                             <label class="form-check-label">
                                 <input type="checkbox" class="form-check-input" value="">Option 1
@@ -98,10 +98,10 @@
                             @endforeach
                             </label>
                         </div>
-                        
+
                     </div> --}}
                 </div>
-        
+
                 {{-- <div class="form-group row">
                     <label class="col-md-3 col-form-label">Role Access</label>
                     <div class="col-md-9">
@@ -113,7 +113,7 @@
                         </select>
                     </div>
                 </div> --}}
-        
+
                 <div class="form-group row">
                     <label class="col-md-3 col-form-label">UPTD Access</label>
                     <div class="col-md-9">
@@ -125,7 +125,7 @@
                             <option value="5">UPTD 5</option>
                             <option value="6">UPTD 6</option>
                         </select> --}}
-                        @foreach ($uptd_lists as $no => $uptd_list) 
+                        @foreach ($uptd_lists as $no => $uptd_list)
                             <input type="checkbox" class="custom-checkbox" name="uptd_access[]" value="{{ $uptd_list->id }}" id="uptd_{{ $uptd_list->id }}" >{{ $uptd_list->nama }}&nbsp;
                         @endforeach
                         <br>
@@ -153,7 +153,7 @@
     $(document).ready(function() {
         $(".chosen-select").chosen( { width: '100%' } );
         $(".chosen-jenis-instruksi").chosen( { width: '100%' } );
-        
+
 
     });
 </script>

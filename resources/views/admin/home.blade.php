@@ -1,4 +1,4 @@
-@extends('admin.t_index')
+@extends('admin.layout.index')
 
 @section('title') Admin Dashboard @endsection
 
@@ -14,7 +14,7 @@
     </div>
     <div class="col-lg-4">
         <div class="page-header-breadcrumb">
-            <ul class="breadcrumb-title">
+            <ul class=" breadcrumb breadcrumb-title">
                 <li class="breadcrumb-item">
                     <a href="{{ url('admin') }}"> <i class="feather icon-home"></i> </a>
                 </li>
@@ -31,7 +31,7 @@
      $number = 4;
   }else{
     $number = 6;
-  }  
+  }
 @endphp
 <div class="row">
     <div class="col-xl-{{ $number }} col-md-6">
@@ -80,8 +80,8 @@
                             @else
                             {{ count($jembatan_lists_uptd) }}
                             @endif
-                        
-                        </h4> 
+
+                        </h4>
                         {{-- <h6 class="text-muted m-b-0">On Progress</h6> --}}
                     </div>
                     <div class="col-4 text-right">
@@ -114,7 +114,7 @@
                             @else
                                 {{ count($cctv_lists_uptd) }}
                             @endif
-                        </h4> 
+                        </h4>
                         {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
                     </div>
                     <div class="col-4 text-right">
@@ -135,7 +135,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="col-xl-6 col-md-12">
         <div class="card">
             <a href="{{ url('admin/master-data/rawanbencana') }}">
@@ -148,7 +148,7 @@
                             @else
                                 {{ count($rawan_bencana_lists_uptd) }}
                             @endif
-                        </h4> 
+                        </h4>
                         {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
                     </div>
                     <div class="col-4 text-right">
@@ -177,7 +177,7 @@
                     <div class="row align-items-center">
                         <div class="col-8">
                             <h4 class="text-c-blue f-w-600">@if(Auth::user() && Auth::user()->internalRole->uptd != null){{ count($user_lists_uptd) }}@else {{ count($user_lists) }} @endif
-                            
+
                             </h4>
                             {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
                         </div>
@@ -200,7 +200,7 @@
             </div>
         </div>
     @endif
-    
+
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header">
@@ -214,7 +214,7 @@
                 </div>
             </div>
             <div class="card-block">
-                
+
                 <div class="card-deck col-md-12">
                     <div class="card w-100">
                         <a href="{{ url('admin/lapor') }}">
@@ -227,7 +227,7 @@
                                         @else
                                             {{ count($submitted_uptd) }}
                                         @endif
-                                    </h4> 
+                                    </h4>
                                     {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
                                 </div>
                                 <div class="col-4 text-right">
@@ -247,7 +247,7 @@
                             </div>
                         </div>
                     </div>
-                
+
                     <div class="card w-100">
                         <a href="{{ url('admin/lapor') }}">
                         <div class="card-block">
@@ -291,7 +291,7 @@
                                         @else
                                             {{ count($progress_uptd) }}
                                         @endif
-                                    </h4> 
+                                    </h4>
                                     {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
                                 </div>
                                 <div class="col-4 text-right">
@@ -311,7 +311,7 @@
                             </div>
                         </div>
                     </div>
-                
+
                     <div class="card w-100">
                         <a href="{{ url('admin/lapor') }}">
                         <div class="card-block">
@@ -322,7 +322,7 @@
                                             {{ count($done) }}
                                         @else
                                             {{ count($done_uptd) }}
-                                        @endif  
+                                        @endif
                                     </h4>
                                     {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
                                 </div>
@@ -356,7 +356,7 @@
                                         @else
                                             {{ count($total_aduan_uptd) }}
                                         @endif
-                                    </h4> 
+                                    </h4>
                                     {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
                                 </div>
                                 <div class="col-4 text-right">
@@ -378,16 +378,16 @@
                         </div>
                     </div>
                 </div>
-   
+
 
             </div>
         </div>
     </div>
-    
+
 
     <div class="col-sm-12">
         <div class="card">
-            
+
             <div class="card-header">
                 {{-- <h5>Selamat Datang {{ Auth::user()->name }}</h5> --}}
                 {{-- <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span> --}}

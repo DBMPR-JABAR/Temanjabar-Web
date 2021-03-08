@@ -1,4 +1,4 @@
-@extends('admin.t_index')
+@extends('admin.layout.index')
 
 @section('title') Rincian User Role @endsection
 @section('head')
@@ -32,7 +32,7 @@
     </div>
     <div class="col-lg-4">
         <div class="page-header-breadcrumb">
-            <ul class="breadcrumb-title">
+            <ul class=" breadcrumb breadcrumb-title">
                 <li class="breadcrumb-item">
                     <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
                 </li>
@@ -47,13 +47,13 @@
 <div class="row">
 <div class="col-xl-8 col-md-12">
     <div class="card">
-                                                    
+
         <div class="card-block-big">
             <ul class="nav nav-tabs  tabs" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" data-toggle="tab" href="#Detail" role="tab">Detail</a>
                  </li>
-                                                                   
+
 
             </ul>
                                                                 <!-- Tab panes -->
@@ -80,16 +80,16 @@
                     @endforeach
                      </table>
                  </div>
-                        
+
             </div>
-        </div>    
+        </div>
 
     </div>
 </div>
 </div>
- 
+
 
 @endsection
 @section('script')
- 
+
 @endsection

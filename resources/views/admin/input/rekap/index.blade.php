@@ -1,4 +1,4 @@
-@extends('admin.t_index')
+@extends('admin.layout.index')
 
 @section('title') Rekap @endsection
 @section('head')
@@ -28,7 +28,7 @@
     </div>
     <div class="col-lg-4">
         <div class="page-header-breadcrumb">
-            <ul class="breadcrumb-title">
+            <ul class=" breadcrumb breadcrumb-title">
                 <li class="breadcrumb-item">
                     <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
                 </li>
@@ -140,7 +140,7 @@
             ajax: 'rekap/json',
             columns: [
                 {'mRender': function (data, type, full,meta) {
-                    return +meta.row +1;  
+                    return +meta.row +1;
                     }
                 },
                 { data: 'bulan', name: 'bulan' },
@@ -150,19 +150,19 @@
                 { data: 'volume', name: 'volume' },
                 { data: 'satuan', name: 'satuan' },
                 {'mRender': function (data, type, full) {
-                    return '<img class="img-fluid" style="max-width: 100px" src="'+`{{!! url('storage/') }}` +'/pekerjaan/'+full['foto_awal']+'" alt="" srcset="">';  
+                    return '<img class="img-fluid" style="max-width: 100px" src="'+`{{!! url('storage/') }}` +'/pekerjaan/'+full['foto_awal']+'" alt="" srcset="">';
                     }
                 },
                 {'mRender': function (data, type, full) {
-                    return '<img class="img-fluid" style="max-width: 100px" src="'+`{{!! url('storage/') }}` +'/pekerjaan/'+full['foto_sedang']+'" alt="" srcset="">';  
+                    return '<img class="img-fluid" style="max-width: 100px" src="'+`{{!! url('storage/') }}` +'/pekerjaan/'+full['foto_sedang']+'" alt="" srcset="">';
                     }
                 },
                 {'mRender': function (data, type, full) {
-                    return '<img class="img-fluid" style="max-width: 100px" src="'+`{{!! url('storage/') }}` +'/pekerjaan/'+full['foto_akhir']+'" alt="" srcset="">';  
+                    return '<img class="img-fluid" style="max-width: 100px" src="'+`{{!! url('storage/') }}` +'/pekerjaan/'+full['foto_akhir']+'" alt="" srcset="">';
                     }
                 },
                 {'mRender': function (data, type, full) {
-                    return '<video width="150" height="100" controls><source src="'+`{!! url('storage/'}}`+'/pekerjaan/'+full['video'] +'" type="video/*" Sorry, your browser doesnt support the video element.></video>';  
+                    return '<video width="150" height="100" controls><source src="'+`{!! url('storage/'}}`+'/pekerjaan/'+full['video'] +'" type="video/*" Sorry, your browser doesnt support the video element.></video>';
                     }
                 },
                 { data: 'action', name: 'action' },

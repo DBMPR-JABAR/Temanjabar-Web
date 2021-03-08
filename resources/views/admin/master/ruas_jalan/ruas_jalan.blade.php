@@ -1,4 +1,4 @@
-@extends('admin.t_index')
+@extends('admin.layout.index')
 
 @section('title') Admin Dashboard @endsection
 
@@ -8,13 +8,13 @@
         <div class="page-header-title">
             <div class="d-inline">
                 <h4>Master Ruas Jalan</h4>
-                 
+
             </div>
         </div>
     </div>
     <div class="col-lg-4">
         <div class="page-header-breadcrumb">
-            <ul class="breadcrumb-title">
+            <ul class=" breadcrumb breadcrumb-title">
                 <li class="breadcrumb-item">
                     <a href="{{ url('admin') }}"> <i class="feather icon-home"></i> </a>
                 </li>
@@ -83,7 +83,7 @@
                             <td>{{$data->updated_date}}</td>
                             <td>{{$data->updated_by}}</td>
                             <td>
-                                <a href="" 
+                                <a href=""
                                     class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
                                 <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
                             </td>

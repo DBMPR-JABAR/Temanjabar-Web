@@ -1,4 +1,4 @@
-@extends('admin.t_index')
+@extends('admin.layout.index')
 
 @section('title') Kirim Disposisi  @endsection
 @section('head')
@@ -26,13 +26,13 @@
         <div class="page-header-title">
             <div class="d-inline">
                 <h4>Kirim Disposisi </h4>
-                
+
             </div>
         </div>
     </div>
     <div class="col-lg-4">
         <div class="page-header-breadcrumb">
-            <ul class="breadcrumb-title">
+            <ul class=" breadcrumb breadcrumb-title">
                 <li class="breadcrumb-item">
                     <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
                 </li>
@@ -47,7 +47,7 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="card">
-            <div class="card-header"> 
+            <div class="card-header">
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
                         <li><i class="feather icon-maximize full-card"></i></li>
@@ -68,8 +68,8 @@
                                  <th>Tgl Surat</th>
                                 <th>Disposisi</th>
                                 <th>Tgl Deadline</th>
-                                
-                                <th>Created Date</th> 
+
+                                <th>Created Date</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -77,32 +77,32 @@
                             @foreach ($disposisi as $data)
                             <tr>
                                 <td>{{$loop->index + 1}}</td>
-                                <td><?php 
+                                <td><?php
 
-if($data->status == "1")  {  
+if($data->status == "1")  {
     echo '<button class="  btn btn-inverse btn-mini btn-round">Submitted</button> ';
-} else if($data->status == "2") { 
+} else if($data->status == "2") {
     echo '<button class="btn btn-primary btn-mini btn-round">Accepted</button> ';
-}  else if($data->status == "3") { 
+}  else if($data->status == "3") {
     echo '<button class="btn btn-success  btn-mini btn-round">On Progress</button> ';
-   
-} else if($data->status == "4") { 
- 
+
+} else if($data->status == "4") {
+
     echo '<button class="btn btn-info  btn-mini btn-round">Finish</button> ';
-  
-} 
-                                
+
+}
+
                                  ?></td>
-                                
+
                                 <td>{{$data->dari}}</td>
                                 <td>{{$data->perihal}}</td>
                                 <td>{{$data->no_surat}}</td>
                                 <td>
                                 <?php $date_tgl_surat = date_create($data->tgl_surat);?>
 
-                                {{ date_format($date_tgl_surat, 'd-m-Y')}}</td> 
-                                <td> 
-                                 @php   $inouts = App\Model\Transactional\DisposisiPenanggungJawab::where('disposisi_code',$data->disposisi_code)->get() @endphp 
+                                {{ date_format($date_tgl_surat, 'd-m-Y')}}</td>
+                                <td>
+                                 @php   $inouts = App\Model\Transactional\DisposisiPenanggungJawab::where('disposisi_code',$data->disposisi_code)->get() @endphp
                                 @foreach($inouts as $inout)
                                 <span > {{!empty($inout->keterangan_role->keterangan) ?  $inout->keterangan_role->keterangan: "-"  }}</span><br/>
                                 @endforeach
@@ -110,17 +110,17 @@ if($data->status == "1")  {
                                 <td>
                                 <?php
                                  $date_tanggal_penyelesaian = date_create($data->tanggal_penyelesaian);?>
-                                 
+
                                 {{ date_format($date_tanggal_penyelesaian, 'd-m-Y') }}
                                 </td>
                                 <td>
                                 <?php $date_create_date = date_create($data->created_date);?>
                                 {{ date_format($date_create_date, 'd-m-Y H:i:s')}}
                                     </td>
-                                <td> 
+                                <td>
                                 <a type="button" href="{{ route('getdetailDisposisi',$data->id) }}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Rincian</a>
-                                <a type="button" href="{{ route('editDisposisi',$data->id) }}" class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-pencil"></i>Edit</a> 
-                                <a type="button"href="#delModal"  data-toggle="modal" data-id="{{$data->id}}"     class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Hapus</a>       
+                                <a type="button" href="{{ route('editDisposisi',$data->id) }}" class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-pencil"></i>Edit</a>
+                                <a type="button"href="#delModal"  data-toggle="modal" data-id="{{$data->id}}"     class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Hapus</a>
                                                              </td>
                             </tr>
                             @endforeach
@@ -281,8 +281,8 @@ if($data->status == "1")  {
                                 <input name="file" type="file"  class="form-control" required>
                             </div>
                         </div>
- 
- 
+
+
 
                     </div>
 
@@ -350,7 +350,7 @@ if($data->status == "1")  {
         $('#acceptModal').on('show.bs.modal', function(event) {
             const link = $(event.relatedTarget);
             const id = link.data('id');
-           
+
             console.log(id);
             const url = `{{ url('admin/disposisi/accepted') }}/` + id;
             console.log(url);

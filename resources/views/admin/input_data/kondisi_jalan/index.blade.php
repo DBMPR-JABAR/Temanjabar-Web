@@ -1,4 +1,4 @@
-@extends('admin.t_index')
+@extends('admin.layout.index')
 
 @section('title') Ruas Jalan @endsection
 @section('head')
@@ -28,7 +28,7 @@
     </div>
     <div class="col-lg-4">
         <div class="page-header-breadcrumb">
-            <ul class="breadcrumb-title">
+            <ul class=" breadcrumb breadcrumb-title">
                 <li class="breadcrumb-item">
                     <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
                 </li>
@@ -158,7 +158,7 @@
             ajax: 'kondisi-jalan/json',
             columns: [
                 {'mRender': function (data, type, full,meta) {
-                    return +meta.row +1;  
+                    return +meta.row +1;
                     }
                 },
                 { data: 'ruas_jalan', name: 'ruas_jalan' },
@@ -170,7 +170,7 @@
                 { data: 'lebar_rata_rata', name: 'lebar_rata_rata' },
                 // { data: 'dokumentasi', name: 'dokumentasi' },
                 {'mRender': function (data, type, full) {
-                    return '<img class="img-fluid" style="max-width: 100px" src="'+`{{ url('storage/') }}` +'/'+full['foto_dokumentasi']+'" alt="" srcset="">';  
+                    return '<img class="img-fluid" style="max-width: 100px" src="'+`{{ url('storage/') }}` +'/'+full['foto_dokumentasi']+'" alt="" srcset="">';
                     }
                 },
                 { data: 'action', name: 'action' },

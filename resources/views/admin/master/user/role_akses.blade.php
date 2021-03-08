@@ -1,4 +1,4 @@
-@extends('admin.t_index')
+@extends('admin.layout.index')
 
 @section('title')Role Akses @endsection
 @section('head')
@@ -32,7 +32,7 @@
     </div>
     <div class="col-lg-4">
         <div class="page-header-breadcrumb">
-            <ul class="breadcrumb-title">
+            <ul class=" breadcrumb breadcrumb-title">
                 <li class="breadcrumb-item">
                     <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
                 </li>
@@ -207,8 +207,8 @@
             const link = $(event.relatedTarget);
             const id = link.data('id');
             var myUptdAccess = $(this).data('uptd_access');
-           
-            
+
+
             console.log(id);
             const baseUrl = `{{ url('admin/master-data/user/role-akses/getData') }}/` + id;
             $.get(baseUrl, { id: id },

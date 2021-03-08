@@ -1,4 +1,4 @@
-@extends('admin.t_index')
+@extends('admin.layout.index')
 
 @section('title') Bahan Material @endsection
 
@@ -13,7 +13,7 @@
     </div>
     <div class="col-lg-4">
         <div class="page-header-breadcrumb">
-            <ul class="breadcrumb-title">
+            <ul class=" breadcrumb breadcrumb-title">
                 <li class="breadcrumb-item">
                     <a href="{{ url('admin') }}"> <i class="feather icon-home"></i> </a>
                 </li>
@@ -77,16 +77,16 @@
                             </select>
                         </div>
                         @endif
-                        
+
                     </div>
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Jenis Pekerjaan</label>
                         <div class="col-md-10">
-                            
+
                             <input name="jenis_pekerjaan" type="text" class="form-control" required value="{{$pekerjaan->jenis_pekerjaan}}" readonly>
-                           
-                         
+
+
                         </div>
                     </div>
                     @if (Auth::user()->internalRole->uptd)
@@ -121,7 +121,7 @@
                         </div>
                         <label class="col-md-1 col-form-label">Jumlah</label>
                         <div class="col-md-2">
-                           
+
                             <input name="jum_bahan1" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan1 : ''}}">
                         </div>
                         <label class="col-md-1 col-form-label">Satuan</label>
@@ -157,7 +157,7 @@
                         </div>
                         <label class="col-md-1 col-form-label">Jumlah</label>
                         <div class="col-md-2">
-                           
+
                             <input name="jum_bahan2" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan2 : ''}}">
                         </div>
                         <label class="col-md-1 col-form-label">Satuan</label>
@@ -192,7 +192,7 @@
                         </div>
                         <label class="col-md-1 col-form-label">Jumlah</label>
                         <div class="col-md-2">
-                           
+
                             <input name="jum_bahan3" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan3 : ''}}">
                         </div>
                         <label class="col-md-1 col-form-label">Satuan</label>
@@ -227,7 +227,7 @@
                         </div>
                         <label class="col-md-1 col-form-label">Jumlah</label>
                         <div class="col-md-2">
-                           
+
                             <input name="jum_bahan4" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan4 : ''}}">
                         </div>
                         <label class="col-md-1 col-form-label">Satuan</label>
@@ -262,7 +262,7 @@
                         </div>
                         <label class="col-md-1 col-form-label">Jumlah</label>
                         <div class="col-md-2">
-                           
+
                             <input name="jum_bahan5" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan5 : ''}}">
                         </div>
                         <label class="col-md-1 col-form-label">Satuan</label>
@@ -297,7 +297,7 @@
                         </div>
                         <label class="col-md-1 col-form-label">Jumlah</label>
                         <div class="col-md-2">
-                           
+
                             <input name="jum_bahan6" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan6 : ''}}">
                         </div>
                         <label class="col-md-1 col-form-label">Satuan</label>
@@ -332,7 +332,7 @@
                         </div>
                         <label class="col-md-1 col-form-label">Jumlah</label>
                         <div class="col-md-2">
-                           
+
                             <input name="jum_bahan7" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan7 : ''}}">
                         </div>
                         <label class="col-md-1 col-form-label">Satuan</label>
@@ -367,7 +367,7 @@
                         </div>
                         <label class="col-md-1 col-form-label">Jumlah</label>
                         <div class="col-md-2">
-                           
+
                             <input name="jum_bahan8" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan8 : ''}}">
                         </div>
                         <label class="col-md-1 col-form-label">Satuan</label>
@@ -402,7 +402,7 @@
                         </div>
                         <label class="col-md-1 col-form-label">Jumlah</label>
                         <div class="col-md-2">
-                           
+
                             <input name="jum_bahan9" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan9 : ''}}">
                         </div>
                         <label class="col-md-1 col-form-label">Satuan</label>
@@ -437,7 +437,7 @@
                         </div>
                         <label class="col-md-1 col-form-label">Jumlah</label>
                         <div class="col-md-2">
-                           
+
                             <input name="jum_bahan10" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan10 : ''}}">
                         </div>
                         <label class="col-md-1 col-form-label">Satuan</label>
@@ -472,7 +472,7 @@
                         </div>
                         <label class="col-md-1 col-form-label">Jumlah</label>
                         <div class="col-md-2">
-                           
+
                             <input name="jum_bahan11" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan11 : ''}}">
                         </div>
                         <label class="col-md-1 col-form-label">Satuan</label>
@@ -507,7 +507,7 @@
                         </div>
                         <label class="col-md-1 col-form-label">Jumlah</label>
                         <div class="col-md-2">
-                           
+
                             <input name="jum_bahan12" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan12 : ''}}">
                         </div>
                         <label class="col-md-1 col-form-label">Satuan</label>
@@ -542,7 +542,7 @@
                         </div>
                         <label class="col-md-1 col-form-label">Jumlah</label>
                         <div class="col-md-2">
-                           
+
                             <input name="jum_bahan13" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan13 : ''}}">
                         </div>
                         <label class="col-md-1 col-form-label">Satuan</label>
@@ -577,7 +577,7 @@
                         </div>
                         <label class="col-md-1 col-form-label">Jumlah</label>
                         <div class="col-md-2">
-                           
+
                             <input name="jum_bahan14" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan14 : ''}}">
                         </div>
                         <label class="col-md-1 col-form-label">Satuan</label>
@@ -612,7 +612,7 @@
                         </div>
                         <label class="col-md-1 col-form-label">Jumlah</label>
                         <div class="col-md-2">
-                           
+
                             <input name="jum_bahan15" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan15 : ''}}">
                         </div>
                         <label class="col-md-1 col-form-label">Satuan</label>

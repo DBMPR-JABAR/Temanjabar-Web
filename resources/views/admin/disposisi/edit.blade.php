@@ -1,4 +1,4 @@
-@extends('admin.t_index')
+@extends('admin.layout.index')
 
 @section('title') Admin Dashboard @endsection
 
@@ -7,13 +7,13 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Edit Informasi Disposisi</h4> 
+                <h4>Edit Informasi Disposisi</h4>
             </div>
         </div>
     </div>
     <div class="col-lg-4">
         <div class="page-header-breadcrumb">
-            <ul class="breadcrumb-title">
+            <ul class=" breadcrumb breadcrumb-title">
                 <li class="breadcrumb-item">
                     <a href="{{ url('admin') }}"> <i class="feather icon-home"></i> </a>
                 </li>
@@ -30,7 +30,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-               
+
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
                         <li><i class="feather icon-maximize full-card"></i></li>
@@ -61,7 +61,7 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Perihal</label>
                             <div class="col-md-9">
-                             
+
                                 <textarea name="perihal" type="text" class="form-control"  required>{{ $disposisi->perihal }}</textarea>                            </div>
                         </div>
                         <div class="form-group row">
@@ -77,7 +77,7 @@
                             </div>
                         </div>
 
-                          
+
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Tanggal Penyelesaian</label>
                             <div class="col-md-9">
@@ -92,8 +92,8 @@
                                 <small class="form-text text-muted">Kosongkan jika tidak akan merubah foto jembatan</small>
                             </div>
                         </div>
- 
- 
+
+
 
                     </div>
 
