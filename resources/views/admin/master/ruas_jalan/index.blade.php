@@ -161,14 +161,14 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Kode Ruas Jalan</label>
                                     <div class="col-md-9">
-                                        <input name="id_ruas_jalan" type="text" class="form-control" maxlength="6" required>
+                                        <input name="id_ruas_jalan" type="text" class="form-control" maxlength="6" placehlder="" required>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Nama Ruas Jalan</label>
                                     <div class="col-md-9">
-                                        <input name="nama_ruas_jalan" type="text" class="form-control" required>
+                                        <input name="nama_ruas_jalan" type="text" class="form-control" placeholder="Contoh : 345000" required>
                                     </div>
                                 </div>
 
@@ -212,7 +212,7 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Lokasi</label>
                                     <div class="col-md-9">
-                                        <input name="lokasi" type="text" class="form-control" required>
+                                        <input name="lokasi" type="text" class="form-control"  placeholder="Contoh : KM.BDG 10+100" required>
                                     </div>
                                 </div>
 
@@ -227,7 +227,7 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">STA Awal</label>
                                     <div class="col-md-9">
-                                        <input name="sta_awal" placeholder="contoh : KM.BDG 9+000" type="text"
+                                        <input name="sta_awal" placeholder="Contoh : KM.BDG 9+000" type="text"
                                             class="form-control" required>
                                     </div>
                                 </div>
@@ -235,7 +235,7 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">STA Akhir</label>
                                     <div class="col-md-9">
-                                        <input name="sta_akhir" placeholder="contoh : KM.BDG 9+700" type="text"
+                                        <input name="sta_akhir" placeholder="Contoh : KM.BDG 9+700" type="text"
                                             class="form-control" required>
                                     </div>
                                 </div>
@@ -243,41 +243,41 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Latitude Awal</label>
                                     <div class="col-md-9">
-                                        <input id="lat0" name="lat_awal" type="text" class="form-control formatLatLong" required>
+                                        <input id="lat0" name="lat_awal" type="text" class="form-control formatLatLong"  placeholder="Contoh : -7.23698000000000000" required>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Longitude Awal</label>
                                     <div class="col-md-9">
-                                        <input id="long0" name="long_awal" type="text" class="form-control formatLatLong" required>
+                                        <input id="long0" name="long_awal" type="text" class="form-control formatLatLong" placeholder="Contoh : 107.90745600000000000" required>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Latitude Titik Tengah (Centroid)</label>
                                     <div class="col-md-9">
-                                        <input id="lat1" name="lat_ctr" type="text" class="form-control formatLatLong">
+                                        <input id="lat1" name="lat_ctr" type="text" class="form-control formatLatLong" placeholder="Contoh : -7.28653600000000000">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Longitude Titik Tengah (Centroid)</label>
                                     <div class="col-md-9">
-                                        <input id="long1" name="long_ctr" type="text" class="form-control formatLatLong">
+                                        <input id="long1" name="long_ctr" type="text" class="form-control formatLatLong" placeholder="Contoh : 107.92037600000000000">
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Latitude Akhir</label>
                                     <div class="col-md-9">
-                                        <input id="lat2" name="lat_akhir" type="text" class="form-control formatLatLong" required>
+                                        <input id="lat2" name="lat_akhir" type="text" class="form-control formatLatLong" placeholder="Contoh : -7.33096300000000000" required>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Longitude Akhir</label>
                                     <div class="col-md-9">
-                                        <input id="long2" name="long_akhir" type="text" class="form-control formatLatLong" required>
+                                        <input id="long2" name="long_akhir" type="text" class="form-control formatLatLong" placeholder="Contoh : 107.94587100000000000" required>
                                     </div>
                                 </div>
 

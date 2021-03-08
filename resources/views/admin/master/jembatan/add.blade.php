@@ -51,14 +51,14 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Id Jembatan</label>
                             <div class="col-md-10">
-                                <input name="id_jembatan" type="text" class="form-control" maxlength="10" required>
+                                <input name="id_jembatan" type="text" class="form-control" maxlength="10" placeholder="Contoh : 22.017.005" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Nama Jembatan</label>
                             <div class="col-md-10 my-auto">
-                                <input name="nama_jembatan" type="text" class="form-control" required>
+                                <input name="nama_jembatan" type="text" class="form-control" placeholder="Contoh : Cihaurwangi" required>
                             </div>
                         </div>
                         {{-- <div class="form-group row">
@@ -117,21 +117,21 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Lokasi</label>
                             <div class="col-md-10">
-                                <input name="lokasi" type="text" class="form-control" required>
+                                <input name="lokasi" type="text" class="form-control" placeholder="Contoh : Km. Bdg. 40 + 540" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Panjang (meter)</label>
                             <div class="col-md-10 my-auto">
-                                <input name="panjang" type="text" class="form-control formatRibuan" required>
+                                <input name="panjang" type="text" class="form-control formatRibuan" placeholder="Contoh : 3" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Lebar (meter)</label>
                             <div class="col-md-10">
-                                <input name="lebar" type="text" class="form-control formatRibuan" required>
+                                <input name="lebar" type="text" class="form-control formatRibuan" placeholder="Contoh : 6" required>
                             </div>
                         </div>
                         <!--
@@ -151,13 +151,13 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Tinggi Muka Air Banjir</label>
                             <div class="col-md-10">
-                                <input name="tinggi_muka_air_banjir" type="text" class="form-control formatRibuan" required>
+                                <input name="tinggi_muka_air_banjir" type="text" class="form-control formatRibuan" placeholder="Contoh : 7" required>
                             </div>
                         </div>
                          <div class="form-group row">
                             <label class="col-md-2 col-form-label">Kondisi</label>
                             <div class="col-md-10">
-                                <input name="kondisi" type="text" class="form-control" required>
+                                <input name="kondisi" type="text" class="form-control" placeholder="Contoh Baik, tambah keterangan jika perlu" required>
                             </div>
                         </div>
 
@@ -165,7 +165,7 @@
                          <div class="form-group row">
                             <label class="col-md-2 col-form-label">Tipe</label>
                             <div class="col-md-10">
-                                <input name="tipe" type="text" class="form-control" required>
+                                <input name="tipe" type="text" class="form-control" placeholder="GTI, RBB, RBA" required>
                             </div>
                         </div>
 
@@ -173,7 +173,7 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Jumlah Bentang</label>
                             <div class="col-md-10 my-auto">
-                                <input id="jumlah_bentang" name="jumlah_bentang" type="number" class="form-control" step="any" required>
+                                <input id="jumlah_bentang" name="jumlah_bentang" type="number" class="form-control" step="any" placeholder="Contoh 1" required>
                             </div>
                         </div>
 
@@ -189,14 +189,14 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Latitude</label>
                             <div class="col-md-10 my-auto">
-                                <input id="lat" name="lat" type="text" class="form-control formatLatLong" required>
+                                <input id="lat" name="lat" type="text" class="form-control formatLatLong"placeholder="-6.84221" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Longitude</label>
                             <div class="col-md-10 my-auto">
-                                <input id="long" name="lng" type="text" class="form-control formatLatLong" required>
+                                <input id="long" name="lng" type="text" class="form-control formatLatLong" placeholder="107.324" required>
                             </div>
                         </div>
 
@@ -205,7 +205,7 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Keterangan</label>
                             <div class="col-md-10">
-                                <input name="ket" type="text" class="form-control" required>
+                                <input name="ket" type="text" class="form-control" placeholder="Keterangan" required>
                             </div>
                         </div>
                         <hr>

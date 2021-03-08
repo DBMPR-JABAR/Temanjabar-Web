@@ -130,7 +130,7 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">No Ruas</label>
                             <div class="col-md-10">
-                                <input name="no_ruas" type="text" class="form-control" required>
+                                <input name="no_ruas" type="text" class="form-control" required >
                             </div>
                         </div>
 
@@ -168,26 +168,26 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Lokasi</label>
                             <div class="col-md-10">
-                                <input name="lokasi" type="text" class="form-control" required>
+                                <input name="lokasi" type="text" class="form-control" placeholder="Contoh : Jkt  73+550  -  73+800"required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Daerah</label>
                             <div class="col-md-10">
-                                <input name="daerah" type="text" class="form-control" required>
+                                <input name="daerah" type="text" class="form-control" placeholder="Contoh : Bogor" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Latitude</label>
                             <div class="col-md-10">
-                                <input name="lat" id="lat" type="text" class="form-control" required>
+                                <input name="lat" id="lat" type="text" class="form-control" placeholder="Contoh : 7.02579" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Longitude</label>
                             <div class="col-md-10">
-                                <input name="long" id="long" type="text" class="form-control" required>
+                                <input name="long" id="long" type="text" class="form-control" placeholder="Contoh : 107.691" required>
                             </div>
                         </div>
 
