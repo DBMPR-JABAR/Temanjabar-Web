@@ -251,9 +251,11 @@
                                 <!-- <a href="{!! url('storage/'.$wil->gambar) !!}" class="opens" data-fancybox="gallery"
                                     title="Zoom In"> <i class="fa fa-search-plus"></i>
                                 </a> -->
+                                @if($wil->slug != 'uptdlabkon')
                                 <a href="{{ url('uptd/'.$wil->slug) }}" class="opens" title="View Details">
                                     <i class="fas fa-link"></i>
                                 </a>
+                                @endif
                                 <h4 class="w-100">{{$wil->deskripsi}}</h4>
                             </div>
                         </div>
