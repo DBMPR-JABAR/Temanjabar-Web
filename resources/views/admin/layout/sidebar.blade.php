@@ -118,12 +118,12 @@
                                                 <span class="pcoded-mtext">Role Akses</span>
                                             </a>
                                         </li>
-                                        @if(Auth::user() && Auth::user()->id == 1)
-                                        <li class="{{ Request::segment(4) == 'permission' ? 'active' : '' }}">
-                                            <a href="{{ route('getAkses') }}" class="waves-effect waves-dark">
-                                                <span class="pcoded-mtext">Permission</span>
-                                            </a>
-                                        </li>
+                                        @if (Auth::user() && Auth::user()->id == 1)
+                                            <li class="{{ Request::segment(4) == 'permission' ? 'active' : '' }}">
+                                                <a href="{{ route('getAkses') }}" class="waves-effect waves-dark">
+                                                    <span class="pcoded-mtext">Permission</span>
+                                                </a>
+                                            </li>
                                         @endif
                                     </ul>
                                 </li>
@@ -278,6 +278,14 @@
                                             <a href="{{ url('admin/input-data/data-paket') }}"
                                                 class="waves-effect waves-dark">
                                                 <span class="pcoded-mtext">Data Paket</span>
+                                            </a>
+                                        </li>
+                                    @endif
+                                    @if (hasAccess(Auth::user()->internal_role_id, 'Progress Kerja', 'View'))
+                                        <li class="{{ Request::segment(3) == 'progresskerja' ? 'active' : '' }}">
+                                            <a href="{{ url('admin/input-data/progresskerja') }}"
+                                                class="waves-effect waves-dark">
+                                                <span class="pcoded-mtext">Progress Kerja</span>
                                             </a>
                                         </li>
                                     @endif
