@@ -118,6 +118,13 @@
                                                 <span class="pcoded-mtext">Role Akses</span>
                                             </a>
                                         </li>
+                                        @if(Auth::user() && Auth::user()->id == 1)
+                                        <li class="{{ Request::segment(4) == 'permission' ? 'active' : '' }}">
+                                            <a href="{{ route('getAkses') }}" class="waves-effect waves-dark">
+                                                <span class="pcoded-mtext">Permission</span>
+                                            </a>
+                                        </li>
+                                        @endif
                                     </ul>
                                 </li>
                             @endif

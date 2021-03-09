@@ -392,7 +392,6 @@ class UserController extends Controller
                 $id_menn = DB::table('master_grant_role_aplikasi')->where('id', $now)
                 ->select('menu')->first();
                 array_push($permissuser,$id_menn->menu) ;
-
             }
             // dd($permissuser);
             foreach($permissuser as $no){
@@ -425,7 +424,6 @@ class UserController extends Controller
             array_push($tempi,$as->nama.'.View');
             array_push($tempi,$as->nama.'.Update');
             array_push($tempi,$as->nama.'.Delete');
-            
         }
         // dd($menu);
         // dd($tempi);
@@ -845,4 +843,94 @@ class UserController extends Controller
         $msg = "Berhasil Menghapus Data User Role";
         return back()->with(compact('color', 'msg'));
     }
+
+    public function getPermission(){
+        $roleExist = DB::table('master_grant_role_aplikasi')->distinct()->pluck('internal_role_id');
+
+        $user_role = DB::table('user_role as a')
+                       ->whereNotIn('id',$roleExist)
+                       ->get();
+
+
+        $user_role_list = DB::table('user_role as a')
+        ->distinct()
+        ->join('master_grant_role_aplikasi as b','a.id','=','b.internal_role_id')
+        ->join('utils_role_access as c','b.id','=','c.master_grant_role_aplikasi_id')
+        ->select('a.uptd','a.role','a.id as role_id',DB::raw('GROUP_CONCAT( b.menu SEPARATOR ", ") as menu_user'),DB::raw('GROUP_CONCAT( b.id SEPARATOR ", ") as id_menu'),DB::raw('GROUP_CONCAT( c.role_access SEPARATOR ", ") as role_access'))
+        ->where('b.menu','NOT LIKE','%disposisi%')
+        ->groupBy('a.role')
+        ->orderBy('a.id')
+        ->get();
+        // dd($user_role_list);
+        $alldata=array();
+        $counter=0;
+        // dd($user_role_list);
+        foreach($user_role_list as $data){
+            $permiss =array();
+            $men = explode(",",$data->menu_user);
+            $aks = explode(",",$data->role_access);
+            $counting = 0;
+
+            foreach($men as $no){
+                $temp = $no.'.'.$aks[$counting];
+                array_push($permiss,$temp) ;
+                $counting++;
+            }
+            $permission = implode(",", $permiss);
+            $alldata[$counter]['uptd'] = $data->uptd;
+            $alldata[$counter]['role_id'] = $data->role_id;
+            $alldata[$counter]['id_menu'] = $data->id_menu;
+            $alldata[$counter]['role'] = $data->role;
+            $alldata[$counter]['permissions'] = $permission;
+            $counter++;
+        }
+
+        $internal = DB::table('master_grant_role_aplikasi as a')
+        ->select('a.id','internal_role_id')
+        ->where('menu','NOT LIKE','%Disposisi%')
+        ->groupBy('internal_role_id')
+        ->get();
+        // dd($alldata);
+        $temporaridata = $alldata;
+        $tempdata= [];
+        foreach ($alldata as $dataa) {
+
+            foreach(explode(", ", $dataa['id_menu']) as $data){
+                $uptd_access = DB::table('utils_role_access_uptd as a')
+                ->distinct()
+                ->select(DB::raw('GROUP_CONCAT(a.uptd_name SEPARATOR ", ") as uptd_akses'))
+                ->where('a.master_grant_role_aplikasi_id',$data)
+                ->orderBy('a.master_grant_role_aplikasi_id')
+                ->get();
+                $uptd_akses[] = $uptd_access[0]->uptd_akses;
+                break;
+            }
+            if( Auth::user()->internalRole->uptd != null &&$dataa['uptd'] == Auth::user()->internalRole->uptd){
+                $tempdata[] = $dataa;
+            }
+            
+        }
+        if($tempdata != null){
+            $temporaridata = $tempdata;
+        }
+        $alldata = $temporaridata;
+        $menu = DB::table('master_grant_role_aplikasi as a')
+        ->distinct()
+        ->where('menu','NOT LIKE', '%Disposisi%')
+        ->groupBy('a.menu')
+        ->get();
+        // print_r($uptd_akses);
+        // dd($uptd_akses);
+        // dd($alldata);
+        return view('admin.master.user.permission.index',
+            [
+                'user_role' => $user_role,
+                'menu_access' => $alldata,
+                'uptd_access' => $uptd_akses,
+                'user_role_list' => $user_role_list,
+                'menu' => $menu
+            ]);
+    }
+
+
 }

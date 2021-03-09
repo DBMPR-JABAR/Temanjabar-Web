@@ -203,6 +203,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         });
 
         Route::group(['prefix' => 'user'], function () {
+            Route::get('permission', 'MasterData\UserController@getPermission')->name('getAkses');
+
 
             Route::get('role-akses', 'MasterData\UserController@getDaftarRoleAkses')->name('getRoleAkses');
             Route::get('role-akses/create', 'MasterData\UserController@createRoleAccess')->name('createRoleAccess');
