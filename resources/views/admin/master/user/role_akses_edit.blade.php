@@ -143,9 +143,7 @@
                                                         }
                                                     @endphp
                                                 @endforeach
-                                                <input type="checkbox" class="form-check-input" name="menu[]"
-                                                    value="{{ $data }}"
-                                                    {{ $i }}>&nbsp;{{ $data }}
+                                                <input type="checkbox" class="form-check-input" name="menu[]" value="{{ $data }}"{{ $i }}>&nbsp;{{ $data }}
 
                                             </label>
                                         </div>

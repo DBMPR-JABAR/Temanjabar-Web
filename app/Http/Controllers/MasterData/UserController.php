@@ -413,18 +413,19 @@ class UserController extends Controller
         }
 
         // dd($id_men);
-        $menu = DB::table('master_grant_role_aplikasi as a')
-        ->distinct()
-        ->where('menu','NOT LIKE', '%Disposisi%')
-        ->groupBy('a.menu')
-        ->get();
+        // $menu = DB::table('master_grant_role_aplikasi as a')
+        // ->distinct()
+        // ->where('menu','NOT LIKE', '%Disposisi%')
+        // ->groupBy('a.menu')
+        // ->get();
+        $menu = DB::table('permissions')->get();
         $tempi = array();
         foreach($menu as $item => $as){
-            array_push($tempi,$as->menu.'.Create');
-            array_push($tempi,$as->menu.'.View');
-            array_push($tempi,$as->menu.'.Update');
-            array_push($tempi,$as->menu.'.Delete');
-
+            array_push($tempi,$as->nama.'.Create');
+            array_push($tempi,$as->nama.'.View');
+            array_push($tempi,$as->nama.'.Update');
+            array_push($tempi,$as->nama.'.Delete');
+            
         }
         // dd($menu);
         // dd($tempi);
