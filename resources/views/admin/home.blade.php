@@ -208,8 +208,8 @@
                 {{-- <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span> --}}
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
-                        <li><i class="feather icon-maximize full-card"></i></li>
-                        <li><i class="feather icon-minus minimize-card"></i></li>
+                        {{-- {{-- <li><i class="feather icon-maximize full-card"></i></li> --}}
+                        <li><i class="feather icon-minus minimize-card"></i></li> --}}
                     </ul>
                 </div>
             </div>
@@ -393,8 +393,8 @@
                 {{-- <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span> --}}
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
-                        <li><i class="feather icon-maximize full-card"></i></li>
-                        <li><i class="feather icon-minus minimize-card"></i></li>
+                        {{-- {{-- <li><i class="feather icon-maximize full-card"></i></li> --}}
+                        <li><i class="feather icon-minus minimize-card"></i></li> --}}
                     </ul>
                 </div>
             </div>

@@ -33,7 +33,7 @@
                 <h5>Edit Data Progress Pekerjaan</h5>
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
-                        <li><i class="feather icon-maximize full-card"></i></li>
+                        {{-- <li><i class="feather icon-maximize full-card"></i></li> --}}
                         <li><i class="feather icon-minus minimize-card"></i></li>
                     </ul>
                 </div>

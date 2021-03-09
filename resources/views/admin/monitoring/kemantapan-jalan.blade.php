@@ -50,7 +50,7 @@
                 <h6>Dengan Total Luas: {{$luas}} m2</h6>
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
-                        <li><i class="feather icon-maximize full-card"></i></li>
+                        {{-- <li><i class="feather icon-maximize full-card"></i></li> --}}
                         <li><i class="feather icon-minus minimize-card"></i></li>
                     </ul>
                 </div>
@@ -66,7 +66,7 @@
                 <h5>Pemetaan Kemantapan Jalan</h5>
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
-                        <li><i class="feather icon-maximize full-card"></i></li>
+                        {{-- <li><i class="feather icon-maximize full-card"></i></li> --}}
                         <li><i class="feather icon-minus minimize-card"></i></li>
                     </ul>
                 </div>
@@ -81,7 +81,7 @@
                 <h5>Tabel Kemantapan Jalan</h5>
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
-                        <li><i class="feather icon-maximize full-card"></i></li>
+                           <li><i class="feather icon-maximize full-card"></i></li>
                         <li><i class="feather icon-minus minimize-card"></i></li>
                     </ul>
                 </div>

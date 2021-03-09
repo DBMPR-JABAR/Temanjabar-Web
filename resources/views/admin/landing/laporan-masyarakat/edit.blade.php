@@ -41,7 +41,7 @@ $lokasi = DB::table('utils_lokasi')->get();
                     <h5>Laporan Masyarakat</h5>
                     <div class="card-header-right">
                         <ul class="list-unstyled card-option">
-                            <li><i class="feather icon-maximize full-card"></i></li>
+                            {{-- <li><i class="feather icon-maximize full-card"></i></li> --}}
                             <li><i class="feather icon-minus minimize-card"></i></li>
                         </ul>
                     </div>
