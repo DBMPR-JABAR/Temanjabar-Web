@@ -14,7 +14,7 @@
         </div>
         <div class="navbar-container container-fluid">
             <ul class="nav-left">
-                <li class="header-search">
+                {{-- <li class="header-search">
                     <div class="main-search morphsearch-search">
                         <div class="input-group">
                             <span class="input-group-prepend search-close">
@@ -26,7 +26,7 @@
                             </span>
                         </div>
                     </div>
-                </li>
+                </li> --}}
                 <li>
                     <a href="#!" onclick="javascript:toggleFullScreen()" class="waves-effect waves-light"
                         data-toggle="tooltip" data-placement="bottom" title="Tampilkan Secara layar penuh">
