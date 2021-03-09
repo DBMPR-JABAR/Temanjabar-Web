@@ -161,14 +161,14 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Kode Ruas Jalan</label>
                                     <div class="col-md-9">
-                                        <input name="id_ruas_jalan" type="text" class="form-control" maxlength="6" placehlder="" required>
+                                        <input name="id_ruas_jalan" type="text" class="form-control" maxlength="6" placeholder="Contoh :19115K"  required>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Nama Ruas Jalan</label>
                                     <div class="col-md-9">
-                                        <input name="nama_ruas_jalan" type="text" class="form-control" placeholder="Contoh : 345000" required>
+                                        <input name="nama_ruas_jalan" type="text" class="form-control" placeholder="Contoh : Jl. Otista (Garut)" required>
                                     </div>
                                 </div>
 
@@ -180,7 +180,7 @@
                                         <label class="col-md-3 col-form-label">UPTD</label>
                                         <div class="col-md-9">
                                             <select class="form-control searchableModalField" id="uptd_id" name="uptd_id"
-                                                style="min-width: 100%;" onchange="ubahDataSUP()">
+                                                style="width: 100%;;" onchange="ubahDataSUP()">
                                                 <option>Pilih UPTD</option>
                                                 @foreach ($uptd as $uptdData)
                                                     <option value="{{ $uptdData->id }}">{{ $uptdData->nama }}</option>
@@ -194,7 +194,7 @@
                                     <label class="col-md-3 col-form-label">SUP</label>
                                     <div class="col-md-9">
                                         <select class="form-control searchableModalField" id="sup" name="sup"
-                                            style="min-width: 100%;">
+                                            style="width:100%;">
                                             @if (Auth::user()->internalRole->uptd)
                                                 @foreach ($sup as $supData)
                                                     <option
@@ -219,7 +219,7 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Panjang (meter)</label>
                                     <div class="col-md-9">
-                                        <input name="panjang" type="number" step="1" pattern="^[\d]+$" class="form-control"
+                                        <input name="panjang" type="text" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="Contoh : 1000" class="form-control"
                                             required>
                                     </div>
                                 </div>
@@ -287,27 +287,27 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Kabupaten Kota</label>
                                     <div class="col-md-9">
-                                        <input name="kab_kota" type="text" class="form-control" required>
+                                        <input name="kab_kota" type="text" class="form-control" placeholder="Contoh : Kabubaten Bandung" required>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Kode SPPJJ</label>
                                     <div class="col-md-9">
-                                        <input name="kd_sppjj" type="text" class="form-control" required>
+                                        <input name="kd_sppjj" type="text" class="form-control" placeholder="Contoh : 3_2" required>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Nama SPPJJ</label>
                                     <div class="col-md-9">
-                                        <input name="nm_sppjj" type="text" class="form-control" required>
+                                        <input name="nm_sppjj" type="text" class="form-control" placeholder="Contoh : Kabupaten Bandung" required>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Wilayah UPTD</label>
                                     <div class="col-md-9">
-                                        <input name="wil_uptd" type="text" class="form-control" required>
+                                        <input name="wil_uptd" type="text" class="form-control" placeholder="Contoh : UPTD III Bandung" required>
                                     </div>
                                 </div>
 
