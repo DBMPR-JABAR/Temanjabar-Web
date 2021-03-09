@@ -1,8 +1,8 @@
 <nav class="pcoded-navbar">
     <div class="nav-list">
         <div class="pcoded-inner-navbar main-menu">
-            @if (hasAccess(Auth::user()->internal_role_id, 'Executive Dashboard', 'View'))
-                <div class="pcoded-navigation-label">Dashboard Analysis</div>
+            @if (hasAccess(Auth::user()->internal_role_id, 'Monitoring', 'View'))
+                {{-- <div class="pcoded-navigation-label">Dashboard Analysis</div> --}}
                 <ul class="pcoded-item pcoded-left-item">
                     <li
                         class="pcoded-hasmenu {{ Request::segment(2) == 'monitoring' ? 'pcoded-trigger active' : '' }}">
@@ -75,14 +75,14 @@
             @endif
             </ul>
 
-            @if (hasAccess(Auth::user()->internal_role_id, 'Manage', 'View'))
-                <div class="pcoded-navigation-label">Manage</div>
+            @if (hasAccess(Auth::user()->internal_role_id, 'Data Master', 'View'))
+                {{-- <div class="pcoded-navigation-label">Data Master</div> --}}
                 <ul class="pcoded-item pcoded-left-item">
                     <li
                         class="pcoded-hasmenu {{ Request::segment(2) == 'master-data' ? 'pcoded-trigger active' : '' }}">
                         <a href="javascript:void(0)" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="feather icon-grid"></i></span>
-                            <span class="pcoded-mtext">Manage</span>
+                            <span class="pcoded-mtext">Data Master</span>
                             {{-- <span class="pcoded-badge label label-warning">NEW</span> --}}
                         </a>
                         <ul class="pcoded-submenu">
@@ -198,110 +198,109 @@
                     </li>
                 </ul>
             @endif
-            @if (hasAccess(Auth::user()->internal_role_id, 'Manage', 'View'))
-                <div class="pcoded-navigation-label">Input</div>
+            @if (hasAccess(Auth::user()->internal_role_id, 'Input Data', 'View'))
+                {{-- <div class="pcoded-navigation-label">Input</div> --}}
                 <ul class="pcoded-item pcoded-left-item">
-                    @if (hasAccess(Auth::user()->internal_role_id, 'Input Data', 'View'))
-                        <li
-                            class="pcoded-hasmenu {{ Request::segment(2) == 'input-data' ? 'pcoded-trigger active' : '' }}">
-                            <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                <span class="pcoded-micon"><i class="feather icon-file-text"></i></span>
-                                <span class="pcoded-mtext">Input Data</span>
-                                {{-- <span class="pcoded-badge label label-warning">NEW</span> --}}
-                            </a>
-                            <ul class="pcoded-submenu">
-                                <li
-                                    class=" pcoded-hasmenu  {{ Request::segment(3) == 'pekerjaan' || Request::segment(3) == 'kondisi_jalan' || Request::segment(3) == 'survei_kondisi_jalan' || Request::segment(3) == 'mandor' ? 'pcoded-trigger active' : '' }}">
-                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext">Pemeliharaan</span>
-                                    </a>
-                                    <ul class="pcoded-submenu">
-                                        @if (hasAccess(Auth::user()->internal_role_id, 'Pekerjaan', 'View'))
-                                            <li class="{{ Request::segment(3) == 'pekerjaan' ? 'active' : '' }}">
-                                                <a href="{{ url('admin/input-data/pekerjaan') }}"
-                                                    class="waves-effect waves-dark">
-                                                    <span class="pcoded-mtext">Pekerjaan</span>
-                                                </a>
-                                            </li>
-                                        @endif
-                                        @if (hasAccess(Auth::user()->internal_role_id, 'Kondisi Jalan', 'View'))
-                                            <li class="{{ Request::segment(3) == 'kondisi_jalan' ? 'active' : '' }}">
-                                                <a href="{{ url('admin/input-data/kondisi_jalan') }}"
-                                                    class="waves-effect waves-dark">
-                                                    <span class="pcoded-mtext">Kondisi Jalan</span>
-                                                </a>
-                                            </li>
-                                        @endif
-                                        @if (hasAccess(Auth::user()->internal_role_id, 'Survey Kondisi Jalan', 'View'))
-                                            <li
-                                                class="{{ Request::segment(3) == 'survei_kondisi_jalan' ? 'active' : '' }}">
-                                                <a href="{{ url('admin/input-data/survei_kondisi_jalan') }}"
-                                                    class="waves-effect waves-dark">
-                                                    <span class="pcoded-mtext">Survei Kondisi Jalan</span>
-                                                </a>
-                                            </li>
-                                        @endif
-                                        @if (hasAccess(Auth::user()->internal_role_id, 'Mandor', 'View'))
-                                            <li class="{{ Request::segment(3) == 'mandor' ? 'active' : '' }}">
-                                                <a href="{{ url('admin/input-data/mandor') }}"
-                                                    class="waves-effect waves-dark">
-                                                    <span class="pcoded-mtext">Mandor</span>
-                                                </a>
-                                            </li>
-                                        @endif
-                                    </ul>
-                                </li>
-                                <li
-                                    class=" pcoded-hasmenu  {{ Request::segment(3) == 'user' ? 'pcoded-trigger active' : '' }}">
-                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext">Pembangunan</span>
-                                    </a>
-                                    <ul class="pcoded-submenu">
-                                        @if (hasAccess(Auth::user()->internal_role_id, 'Data Paket', 'View'))
-                                            <li class="{{ Request::segment(3) == 'data-paket' ? 'active' : '' }}">
-                                                <a href="{{ url('admin/input-data/data-paket') }}"
-                                                    class="waves-effect waves-dark">
-                                                    <span class="pcoded-mtext">Data Paket</span>
-                                                </a>
-                                            </li>
-                                        @endif
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                    @endif
-                    @if (hasAccess(Auth::user()->internal_role_id, 'Lapor', 'View'))
-                        <li
-                            class="pcoded-hasmenu {{ Request::segment(2) == 'lapor' ? 'pcoded-trigger active' : '' }}">
-                            <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                <span class="pcoded-micon"><i class="feather icon-alert-circle"></i></span>
-                                <span class="pcoded-mtext">Lapor</span>
-                                {{-- <span class="pcoded-badge label label-warning">NEW</span> --}}
-                            </a>
-                            <ul class="pcoded-submenu">
-                                @if (hasAccess(Auth::user()->internal_role_id, 'Lapor', 'Create'))
-                                    <li class="{{ Request::segment(3) == 'add' ? 'active' : '' }}">
-                                        <a href="{{ url('admin/lapor/add') }}" class="waves-effect waves-dark">
-                                            <span class="pcoded-mtext">Input Laporan</span>
-                                        </a>
-                                    </li>
-                                @endif
-                                @if (hasAccess(Auth::user()->internal_role_id, 'Daftar Laporan', 'View'))
-                                    <li
-                                        class="{{ Request::segment(2) == 'lapor' && Request::segment(3) == null ? 'active' : '' }}">
-                                        <a href="{{ url('admin/lapor') }}" class="waves-effect waves-dark">
-                                            <span class="pcoded-mtext">Daftar Laporan</span>
-                                        </a>
-                                    </li>
-                                @endif
-                            </ul>
-                        </li>
-                    @endif
+                    <li
+                        class="pcoded-hasmenu {{ Request::segment(2) == 'input-data' ? 'pcoded-trigger active' : '' }}">
+                        <a href="javascript:void(0)" class="waves-effect waves-dark">
+                            <span class="pcoded-micon"><i class="feather icon-file-text"></i></span>
+                            <span class="pcoded-mtext">Input Data</span>
+                            {{-- <span class="pcoded-badge label label-warning">NEW</span> --}}
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li
+                                class=" pcoded-hasmenu  {{ Request::segment(3) == 'pekerjaan' || Request::segment(3) == 'kondisi_jalan' || Request::segment(3) == 'survei_kondisi_jalan' || Request::segment(3) == 'mandor' ? 'pcoded-trigger active' : '' }}">
+                                <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                    <span class="pcoded-mtext">Pemeliharaan</span>
+                                </a>
+                                <ul class="pcoded-submenu">
+                                    @if (hasAccess(Auth::user()->internal_role_id, 'Pekerjaan', 'View'))
+                                        <li class="{{ Request::segment(3) == 'pekerjaan' ? 'active' : '' }}">
+                                            <a href="{{ url('admin/input-data/pekerjaan') }}"
+                                                class="waves-effect waves-dark">
+                                                <span class="pcoded-mtext">Pekerjaan</span>
+                                            </a>
+                                        </li>
+                                    @endif
+                                    @if (hasAccess(Auth::user()->internal_role_id, 'Kondisi Jalan', 'View'))
+                                        <li class="{{ Request::segment(3) == 'kondisi_jalan' ? 'active' : '' }}">
+                                            <a href="{{ url('admin/input-data/kondisi_jalan') }}"
+                                                class="waves-effect waves-dark">
+                                                <span class="pcoded-mtext">Kondisi Jalan</span>
+                                            </a>
+                                        </li>
+                                    @endif
+                                    @if (hasAccess(Auth::user()->internal_role_id, 'Survey Kondisi Jalan', 'View'))
+                                        <li
+                                            class="{{ Request::segment(3) == 'survei_kondisi_jalan' ? 'active' : '' }}">
+                                            <a href="{{ url('admin/input-data/survei_kondisi_jalan') }}"
+                                                class="waves-effect waves-dark">
+                                                <span class="pcoded-mtext">Survei Kondisi Jalan</span>
+                                            </a>
+                                        </li>
+                                    @endif
+                                    @if (hasAccess(Auth::user()->internal_role_id, 'Mandor', 'View'))
+                                        <li class="{{ Request::segment(3) == 'mandor' ? 'active' : '' }}">
+                                            <a href="{{ url('admin/input-data/mandor') }}"
+                                                class="waves-effect waves-dark">
+                                                <span class="pcoded-mtext">Mandor</span>
+                                            </a>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </li>
+                            <li
+                                class=" pcoded-hasmenu  {{ Request::segment(3) == 'user' ? 'pcoded-trigger active' : '' }}">
+                                <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                    <span class="pcoded-mtext">Pembangunan</span>
+                                </a>
+                                <ul class="pcoded-submenu">
+                                    @if (hasAccess(Auth::user()->internal_role_id, 'Data Paket', 'View'))
+                                        <li class="{{ Request::segment(3) == 'data-paket' ? 'active' : '' }}">
+                                            <a href="{{ url('admin/input-data/data-paket') }}"
+                                                class="waves-effect waves-dark">
+                                                <span class="pcoded-mtext">Data Paket</span>
+                                            </a>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             @endif
-            <div class="pcoded-navigation-label">Landing Page</div>
-            <ul class="pcoded-item pcoded-left-item">
-                @if (hasAccess(Auth::user()->internal_role_id, 'Landing Page', 'View'))
+            @if (hasAccess(Auth::user()->internal_role_id, 'Lapor', 'View'))
+                <ul class="pcoded-item pcoded-left-item">
+                    <li class="pcoded-hasmenu {{ Request::segment(2) == 'lapor' ? 'pcoded-trigger active' : '' }}">
+                        <a href="javascript:void(0)" class="waves-effect waves-dark">
+                            <span class="pcoded-micon"><i class="feather icon-alert-circle"></i></span>
+                            <span class="pcoded-mtext">Lapor</span>
+                            {{-- <span class="pcoded-badge label label-warning">NEW</span> --}}
+                        </a>
+                        <ul class="pcoded-submenu">
+                            @if (hasAccess(Auth::user()->internal_role_id, 'Lapor', 'Create'))
+                                <li class="{{ Request::segment(3) == 'add' ? 'active' : '' }}">
+                                    <a href="{{ url('admin/lapor/add') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Input Laporan</span>
+                                    </a>
+                                </li>
+                            @endif
+                            @if (hasAccess(Auth::user()->internal_role_id, 'Daftar Laporan', 'View'))
+                                <li
+                                    class="{{ Request::segment(2) == 'lapor' && Request::segment(3) == null ? 'active' : '' }}">
+                                    <a href="{{ url('admin/lapor') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Daftar Laporan</span>
+                                    </a>
+                                </li>
+                            @endif
+                        </ul>
+                    </li>
+                </ul>
+            @endif
+            {{-- <div class="pcoded-navigation-label">Landing Page</div> --}}
+            @if (hasAccess(Auth::user()->internal_role_id, 'Landing Page', 'View'))
+                <ul class="pcoded-item pcoded-left-item">
                     <li
                         class="pcoded-hasmenu {{ Request::segment(2) == 'landing-page' ? 'pcoded-trigger active' : '' }}">
                         <a href="javascript:void(0)" class="waves-effect waves-dark">
@@ -347,27 +346,27 @@
                             @endif
                         </ul>
                     </li>
-                @endif
-                @if (hasAccess(Auth::user()->internal_role_id, 'Pesan', 'View'))
-                    <li class="{{ Request::segment(2) == 'pesan' ? 'active' : '' }}">
-                        <a href="{{ url('admin/pesan') }}" class="waves-effect waves-dark">
-                            <span class="pcoded-micon">
-                                <i class="feather icon-message-circle"></i>
-                            </span>
-                            <span class="pcoded-mtext">Pesan Kontak Kami</span>
-                        </a>
-                    </li>
-                @endif
-                @if (hasAccess(Auth::user()->internal_role_id, 'Log', 'View'))
-                    <li class="{{ Request::segment(2) == 'log' ? 'active' : '' }}">
-                        <a href="{{ url('admin/log') }}" class="waves-effect waves-dark">
-                            <span class="pcoded-micon">
-                                <i class="feather icon-alert-octagon"></i>
-                            </span>
-                            <span class="pcoded-mtext">Log</span>
-                        </a>
-                    </li>
-                @endif
+            @endif
+            @if (hasAccess(Auth::user()->internal_role_id, 'Pesan', 'View'))
+                <li class="{{ Request::segment(2) == 'pesan' ? 'active' : '' }}">
+                    <a href="{{ url('admin/pesan') }}" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-message-circle"></i>
+                        </span>
+                        <span class="pcoded-mtext">Pesan Kontak Kami</span>
+                    </a>
+                </li>
+            @endif
+            @if (hasAccess(Auth::user()->internal_role_id, 'Log', 'View'))
+                <li class="{{ Request::segment(2) == 'log' ? 'active' : '' }}">
+                    <a href="{{ url('admin/log') }}" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-alert-octagon"></i>
+                        </span>
+                        <span class="pcoded-mtext">Log</span>
+                    </a>
+                </li>
+            @endif
         </div>
     </div>
 </nav>
