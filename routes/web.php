@@ -204,6 +204,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
         Route::group(['prefix' => 'user'], function () {
             Route::get('permission', 'MasterData\UserController@getPermission')->name('getAkses');
+            Route::post('add-menu/store', 'MasterData\UserController@storeMenu')->name('createMenu');
+            Route::get('edit-menu/{id}', 'MasterData\UserController@editMenu')->name('editMenu');
+            Route::post('update-menu/update', 'MasterData\UserController@updateMenu')->name('updateMenu');
+            Route::get('destroy-menu/{id}', 'MasterData\UserController@destroyMenu')->name('deleteMenu');
 
 
             Route::get('role-akses', 'MasterData\UserController@getDaftarRoleAkses')->name('getRoleAkses');
