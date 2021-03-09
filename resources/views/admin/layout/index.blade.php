@@ -37,9 +37,11 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/files/assets/icon/feather/css/feather.css') }}">
 
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/files/assets/css/font-awesome-n.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/icon/themify-icons/themify-icons.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/icon/icofont/css/icofont.css') }}">
 
-    <link rel="stylesheet" href="{{ asset('assets/files/bower_components/chartist/css/chartist.css') }}"
-        type="text/css" media="all">
+    {{-- <link rel="stylesheet" href="{{ asset('assets/files/bower_components/chartist/css/chartist.css') }}"
+        type="text/css" media="all"> --}}
 
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/files/assets/css/style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/files/assets/css/widget.css') }}">
