@@ -1,6 +1,16 @@
 <nav class="pcoded-navbar">
     <div class="nav-list">
         <div class="pcoded-inner-navbar main-menu">
+            <ul class="pcoded-item pcoded-left-item">
+                <li class="{{ Request::segment(2) == 'home' ? 'active' : '' }}">
+                    <a href="{{ url('admin/home') }}" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-home"></i>
+                        </span>
+                        <span class="pcoded-mtext">Halaman Utama</span>
+                    </a>
+                </li>
+            </ul>
             @if (hasAccess(Auth::user()->internal_role_id, 'Monitoring', 'View'))
                 {{-- <div class="pcoded-navigation-label">Dashboard Analysis</div> --}}
                 <ul class="pcoded-item pcoded-left-item">
@@ -198,14 +208,14 @@
                     </li>
                 </ul>
             @endif
-            @if (hasAccess(Auth::user()->internal_role_id, 'Input Data', 'View'))
+            @if (hasAccess(Auth::user()->internal_role_id, 'Input Pekerjaan', 'View'))
                 {{-- <div class="pcoded-navigation-label">Input</div> --}}
                 <ul class="pcoded-item pcoded-left-item">
                     <li
                         class="pcoded-hasmenu {{ Request::segment(2) == 'input-data' ? 'pcoded-trigger active' : '' }}">
                         <a href="javascript:void(0)" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="feather icon-file-text"></i></span>
-                            <span class="pcoded-mtext">Input Data</span>
+                            <span class="pcoded-mtext">Input Pekerjaan</span>
                             {{-- <span class="pcoded-badge label label-warning">NEW</span> --}}
                         </a>
                         <ul class="pcoded-submenu">
@@ -305,7 +315,7 @@
                         class="pcoded-hasmenu {{ Request::segment(2) == 'landing-page' ? 'pcoded-trigger active' : '' }}">
                         <a href="javascript:void(0)" class="waves-effect waves-dark">
                             <span class="pcoded-micon">
-                                <i class="feather icon-home"></i>
+                                <i class="feather icon-layout"></i>
                             </span>
                             <span class="pcoded-mtext">Landing Page</span>
                         </a>
