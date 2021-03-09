@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 
 class UserController extends Controller
@@ -845,13 +846,58 @@ class UserController extends Controller
     }
 
     public function getPermission(){
-        $permission = DB::table('permissions')->get();
+        $permission = DB::table('permissions')
+        ->leftjoin('menu', 'menu.id','=','permissions.menu_id')->select('permissions.*','menu.nama as nama_menu')
+        ->orderBy('permissions.menu_id')->get();
+        // dd($permission);
         $menu = DB::table('menu')->get();
 
         return view('admin.master.user.permission.index',compact('permission','menu'));
 
     }
 
+    public function storePermission(Request $request){
+        $data['nama'] = $request->nama;
+        $data['menu_id'] = $request->menu ? : "";
+        $data['created_by'] = Auth::user()->id;
+        $data['updated_by'] =  $data['created_by'];
+        $data['created_at'] = Carbon::now();
+        $data['updated_at'] = $data['created_at'];
+        // dd($request->nama);
+        $menu = DB::table('permissions')->insert($data);
+        if($menu){
+            $color = "success";
+            $msg = "Berhasil Menambahkan Data Menu";
+        }else{
+            $color = "danger";
+            $msg = "Gagal Menambahkan Data Menu";
+        }
+        return back()->with(compact('color', 'msg'));
+    }
+    public function editPermission($id)
+    {
+        $permission = DB::table('permissions')
+            ->where('id', $id)
+            ->get();
+        return response()->json(["permission" => $permission], 200);
+    }
+    public function updatePermission(Request $request){
+        
+        $data['menu_id'] = $request->menu ? : "";
+        $data['updated_by'] =  Auth::user()->id;
+        $data['updated_at'] = Carbon::now();
+
+        $menu = DB::table('permissions')->where('id', $request->id)->update($data);
+        if($menu){
+            // dd($request->id);
+            $color = "success";
+            $msg = "Berhasil Mengedit Data Menu";
+        }else{
+            $color = "danger";
+            $msg = "Gagal Mengedit Data Menu";
+        }
+        return back()->with(compact('color', 'msg'));
+    }
     public function storeMenu(Request $request){
         $data['nama'] = $request->nama;
         // dd($request->nama);
@@ -892,6 +938,15 @@ class UserController extends Controller
 
         $color = "success";
         $msg = "Berhasil Menghapus Data Menu";
+        return back()->with(compact('color', 'msg'));
+    }
+    public function destroyPermission($id){
+        $menu = DB::table('permissions')
+        ->where('id',$id)
+        ->delete();
+
+        $color = "success";
+        $msg = "Berhasil Menghapus Data Permission";
         return back()->with(compact('color', 'msg'));
     }
 
