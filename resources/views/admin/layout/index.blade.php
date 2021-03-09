@@ -76,9 +76,7 @@
 
                     <div class="pcoded-content">
 
-                        <div class="page-header card">
-                            @yield('page-header')
-                            {{-- <div class="row align-items-end">
+                        {{-- <div class="row align-items-end">
                                 <div class="col-lg-8">
                                     <div class="page-header-title">
                                         <i class="feather icon-home bg-c-blue"></i>
@@ -99,7 +97,6 @@
                                     </div>
                                 </div>
                             </div> --}}
-                        </div>
 
                         <div class="pcoded-inner-content">
                             <div class="main-body">
@@ -107,7 +104,7 @@
                                     @if (Session::has('msg'))
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <div class="alert background-{{ Session::get('color') }} alert-dismissible fade show"
+                                                <div class="alert alert-{{ Session::get('color') }} alert-dismissible fade show"
                                                     role="alert">
                                                     {{ Session::get('msg') }}
                                                     <button type="button" class="close" data-dismiss="alert"
@@ -118,6 +115,9 @@
                                             </div>
                                         </div>
                                     @endif
+                                    <div class="page-header card">
+                                        @yield('page-header')
+                                    </div>
                                     <div class="page-body">
                                         @yield('page-body')
                                     </div>
