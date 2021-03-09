@@ -251,7 +251,7 @@
                                 </ul>
                             </li>
                             <li
-                                class=" pcoded-hasmenu  {{ Request::segment(3) == 'user' ? 'pcoded-trigger active' : '' }}">
+                                class=" pcoded-hasmenu  {{ Request::segment(3) == 'data-paket' ? 'pcoded-trigger active' : '' }}">
                                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                                     <span class="pcoded-mtext">Pembangunan</span>
                                 </a>
