@@ -111,7 +111,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-12 col-form-label">Menu</label>
+                                <label class="col-md-12 col-form-label">Menu </label>
                                 {{-- <div class="col-md-10">
                                 <select data-placeholder="User Role..." class="chosen-select" multiple  name="menu[]" tabindex="4" required>
                                 @foreach ($menu as $data)
@@ -123,17 +123,20 @@
                                 </select>
                             </div> --}}
                                 @php
-                                    $pointer = count($alldata['menu']) / 2;
-                                    $pointer2 = round(count($alldata['menu']) / 3);
-
-                                    $pointer = round($pointer);
+                                    $pointer = 0;
+                                    $pointer1 = $pointer;
+                                    $pointer2 = count($alldata['menu']);
+                                    // echo $pointer2;
+                                  
                                 @endphp
+                                
                                 <div class="row">
-                                    @foreach ($alldata['menu'] as $data)
+                                    {{-- @foreach ($alldata['menu'] as $data)
+                                        
                                         <div class="col-sm-12 col-md-6 col-lg-4">
                                             <label class="form-check-label">
                                                 @foreach ($alldata['permissions'] as $item)
-                                                    {{-- {{ $item }} --}}
+                                                   
                                                     @php
                                                         if (strpos($item, $data) !== false) {
                                                             $i = 'checked';
@@ -147,6 +150,33 @@
 
                                             </label>
                                         </div>
+                                       
+                                    @endforeach --}}
+                                    @foreach ($cekopoint as $nos => $items)
+                                    <label class="col-md-12 col-form-label text-center font-weight-bold">{{ $items->nama_menu }} </label>
+                                        @foreach ($alldata['menu_test'] as $data)
+
+                                            @if($data['nama_menu'] == $items->nama_menu )
+                                                <div class="col-sm-12 col-md-6 col-lg-4">
+                                                    <label class="form-check-label">
+                                                        @foreach ($alldata['permissions'] as $item)
+                                                            
+                                                            @php
+                                                                if (strpos($item, $data['nama']) !== false) {
+                                                                    $i = 'checked';
+                                                                    break;
+                                                                } else {
+                                                                    $i = '';
+                                                                }
+                                                            @endphp
+                                                        @endforeach
+                                                        <input type="checkbox" class="form-check-input" name="menu[]" value="{{ $data['nama'] }}"{{ $i }}>&nbsp;{{ $data['nama'] }}
+
+                                                    </label>
+                                                </div>
+                                               
+                                            @endif    
+                                        @endforeach
                                     @endforeach
 
                                 </div>

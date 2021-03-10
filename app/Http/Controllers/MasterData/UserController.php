@@ -418,22 +418,44 @@ class UserController extends Controller
         // ->where('menu','NOT LIKE', '%Disposisi%')
         // ->groupBy('a.menu')
         // ->get();
-        $menu = DB::table('permissions')->get();
+        $menu = DB::table('permissions')
+        ->leftjoin('menu', 'menu.id','=','permissions.menu_id')->select('permissions.*','menu.nama as nama_menu')
+        ->orderBy('permissions.menu_id')->get();
+        $cekopoint = DB::table('permissions')
+        ->leftjoin('menu', 'menu.id','=','permissions.menu_id')->select('permissions.*','menu.nama as nama_menu')
+        ->orderBy('permissions.menu_id')->groupBy('permissions.menu_id')->get();
+        // dd($menu);
+
         $tempi = array();
+        $tempi1 = array();
+        $tempi2= [];
+
         foreach($menu as $item => $as){
             array_push($tempi,$as->nama.'.Create');
             array_push($tempi,$as->nama.'.View');
             array_push($tempi,$as->nama.'.Update');
             array_push($tempi,$as->nama.'.Delete');
+            $tempi2[]=['nama'=> $as->nama.'.Create','nama_menu'=> $as->nama_menu];
+            $tempi2[]=['nama'=> $as->nama.'.View','nama_menu'=> $as->nama_menu];
+            $tempi2[]=['nama'=> $as->nama.'.Update','nama_menu'=> $as->nama_menu];
+            $tempi2[]=['nama'=> $as->nama.'.Delete','nama_menu'=> $as->nama_menu];
+            
+            array_push($tempi1,$as->nama);
+            array_push($tempi1,$as->nama);
+            array_push($tempi1,$as->nama);
+            array_push($tempi1,$as->nama);
         }
-        // dd($menu);
-        // dd($tempi);
+        // dd($cekopoint);
+        // dd($tempi2);
         $user_role = DB::table('user_role as a')
                        ->where('id',$id)
                        ->get();
         $temporari = explode(", ",$alldata['permissions']);
         $alldata['permissions']=$temporari ;
         $alldata['menu']=$tempi ;
+        $alldata['menu_only']=$tempi1 ;
+        $alldata['menu_test']=$tempi2 ;
+
 
         foreach (explode(",",$alldata['id_menu']) as $data) {
             $uptd_access = DB::table('utils_role_access_uptd as a')
@@ -451,7 +473,7 @@ class UserController extends Controller
         }
         $alldata['uptd_akses']= $int;
             //    dd($alldata);
-        return view('admin.master.user.role_akses_edit',compact('menu','user_role','alldata'));
+        return view('admin.master.user.role_akses_edit',compact('menu','user_role','alldata','cekopoint'));
     }
 
     public function updateRoleAccess(Request $request, $id){
