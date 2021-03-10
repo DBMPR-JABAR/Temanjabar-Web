@@ -157,19 +157,19 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">NIP</label>
                             <div class="col-md-9">
-                                <input type="number" name="no_pegawai" class="form-control"></input>
+                                <input type="text" name="no_pegawai" class="form-control" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="Contoh : 19680405XXXXXXXXXX"></input>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Nama</label>
                             <div class="col-md-9">
-                                <input type="text" name="name" class="form-control"></input>
+                                <input type="text" name="name" class="form-control" placeholder="Nama"></input>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Email</label>
                             <div class="col-md-9">
-                                <input type="email" name="email" class="form-control"></input>
+                                <input type="email" name="email" class="form-control" placeholder="Example@mail.com"></input>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -181,7 +181,7 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">No Telp</label>
                             <div class="col-md-9">
-                                <input type="text" name="no_tlp" class="form-control"></input>
+                                <input type="text" name="no_tlp" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="6282218XXXXXX" class="form-control"></input>
                             </div>
                         </div>
                         <div class="form-group row">

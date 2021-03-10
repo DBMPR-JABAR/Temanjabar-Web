@@ -178,13 +178,14 @@
                     <div class="form-group row">
                             <label class="col-md-3 col-form-label">Role</label>
                             <div class="col-md-9">
-                                <input type="text" name="user_role" class="form-control"></input>
+                                <input type="text" name="user_role" class="form-control" placeholder="Contoh : Kepala Dinas"></input>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Parent</label>
                             <div class="col-md-9">
+                                <!-- Dropdown -->
                                 <input type="text" name="parent" class="form-control"></input>
                             </div>
                         </div>
@@ -204,7 +205,7 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Keterangan</label>
                             <div class="col-md-9">
-                                <textarea name="keterangan" class="form-control"></textarea>
+                                <textarea name="keterangan" class="form-control" placeholder="Keterangan"></textarea>
                             </div>
                         </div>
 

@@ -24,18 +24,18 @@ function setDataSelect(id, url, id_select, text, valueOption, textOption) {
     });
 }
 document.addEventListener("DOMContentLoaded", function () {
-    const ele = document.getElementById("dttable");
-    ele.style.cursor = "grab";
+    const table = document.getElementsByClassName("dt-responsive")[0];
+    table.style.cursor = "grab";
 
     let pos = { top: 0, left: 0, x: 0, y: 0 };
 
     const mouseDownHandler = function (e) {
-        ele.style.cursor = "grabbing";
-        ele.style.userSelect = "none";
+        table.style.cursor = "grabbing";
+        table.style.userSelect = "none";
 
         pos = {
-            left: ele.scrollLeft,
-            top: ele.scrollTop,
+            left: table.scrollLeft,
+            top: table.scrollTop,
             // Get the current mouse position
             x: e.clientX,
             y: e.clientY,
@@ -48,22 +48,19 @@ document.addEventListener("DOMContentLoaded", function () {
     const mouseMoveHandler = function (e) {
         // How far the mouse has been moved
         const dx = e.clientX - pos.x;
-        const dy = e.clientY - pos.y;
-        const xa = document.getElementsByClassName("dt-responsive")[0];
-
-        // Scroll the element
-        xa.scrollTop = pos.top - dy;
-        xa.scrollLeft = pos.left - dx;
+        // const xa = document.getElementsByClassName("dt-responsive")[0];
+        // xa.scrollLeft = pos.left - dx;
+        table.scrollLeft = pos.left - dx;
     };
 
     const mouseUpHandler = function () {
-        ele.style.cursor = "grab";
-        ele.style.removeProperty("user-select");
+        table.style.cursor = "grab";
+        table.style.removeProperty("user-select");
 
         document.removeEventListener("mousemove", mouseMoveHandler);
         document.removeEventListener("mouseup", mouseUpHandler);
     };
 
     // Attach the handler
-    ele.addEventListener("mousedown", mouseDownHandler);
+    table.addEventListener("mousedown", mouseDownHandler);
 });
