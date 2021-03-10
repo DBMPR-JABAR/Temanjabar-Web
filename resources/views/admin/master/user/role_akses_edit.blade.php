@@ -157,27 +157,10 @@
                                         @foreach ($alldata['menu_test'] as $data)
 
                                             @if($data['nama_menu'] == $items->nama_menu )
-                                            
-                                                {{-- @php
-                                                    
-                                                    // $pointer1 +=3;   
-                                                    if($pointer1 >= $pointer2){
-                                                        $pointer1 = $pointer2;
-                                                        $pointer1--;
-                                                    }
-                                                @endphp --}}
-                                                {{-- @foreach ($cekopoint as $nos => $items)
-                                                
-                                                    @if(str_contains($alldata['menu_only'][$pointer1],$items->nama) )
-                                                    
-                                                        <label class="col-md-12 col-form-label">{{ $items->nama_menu }} </label>
-                                                        
-                                                    @endif
-                                                @endforeach --}}
                                                 <div class="col-sm-12 col-md-6 col-lg-4">
                                                     <label class="form-check-label">
                                                         @foreach ($alldata['permissions'] as $item)
-                                                            {{-- {{ $item }} --}}
+                                                            
                                                             @php
                                                                 if (strpos($item, $data['nama']) !== false) {
                                                                     $i = 'checked';
@@ -191,11 +174,7 @@
 
                                                     </label>
                                                 </div>
-                                                {{-- @php
-                                                // echo $pointer1;
-                                                $pointer++;
-                                                $pointer1 += 3;
-                                                @endphp --}}
+                                               
                                             @endif    
                                         @endforeach
                                     @endforeach
