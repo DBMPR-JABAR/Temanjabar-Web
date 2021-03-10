@@ -2,45 +2,50 @@
 
 @section('title')Permission @endsection
 @section('head')
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/buttons.dataTables.min.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/data-table/extensions/responsive/css/responsive.dataTables.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/chosen.css') }}">
-<link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
+    <link rel="stylesheet" type="text/css"
+        href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" type="text/css"
+        href="{{ asset('assets/vendor/datatables.net/css/buttons.dataTables.min.css') }}">
+    <link rel="stylesheet" type="text/css"
+        href="{{ asset('assets/vendor/data-table/extensions/responsive/css/responsive.dataTables.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/chosen.css') }}">
+    <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
 
-<style>
-.chosen-container.chosen-container-single {
-    width: 300px !important; /* or any value that fits your needs */
-}
+    <style>
+        .chosen-container.chosen-container-single {
+            width: 300px !important;
+            /* or any value that fits your needs */
+        }
 
-    table.table-bordered tbody td {
-        word-break: break-word;
-        vertical-align: top;
-    }
-</style>
+        table.table-bordered tbody td {
+            word-break: break-word;
+            vertical-align: top;
+        }
+
+    </style>
 @endsection
 
 @section('page-header')
-<div class="row align-items-end">
-    <div class="col-lg-8">
-        <div class="page-header-title">
-            <div class="d-inline">
-                <h4>Permission </h4>
+    <div class="row align-items-end">
+        <div class="col-lg-8">
+            <div class="page-header-title">
+                <div class="d-inline">
+                    <h4>Permission </h4>
 
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="page-header-breadcrumb">
+                <ul class=" breadcrumb breadcrumb-title">
+                    <li class="breadcrumb-item">
+                        <a href="{{ url('admin') }}"> <i class="feather icon-home"></i> </a>
+                    </li>
+                    <li class="breadcrumb-item"><a href="#!">Permission</a> </li>
+                </ul>
             </div>
         </div>
     </div>
-    <div class="col-lg-4">
-        <div class="page-header-breadcrumb">
-            <ul class=" breadcrumb breadcrumb-title">
-                <li class="breadcrumb-item">
-                    <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
-                </li>
-                <li class="breadcrumb-item"><a href="#!">Permission</a> </li>
-            </ul>
-        </div>
-    </div>
-</div>
 @endsection
 
 @section('page-body')
@@ -73,25 +78,32 @@
                                 </tr>
                             </thead>
                             <tbody id="bodyJembatan">
-                                
+
                                 @foreach ($permission as $no => $data)
                                     <tr>
-                                        <td>{{++$no}}</td>
-                                        <td>{{$data->nama}}</td>
+                                        <td>{{ ++$no }}</td>
+                                        <td>{{ $data->nama }}</td>
                                         {{-- <td>{{$data['permissions']}}</td> --}}
-                                        <td>{{$data->nama_menu}}</td>
+                                        <td>{{ $data->nama_menu }}</td>
                                         <td>
-                                            
-                                                <a type='button' href='#editModal' data-toggle='modal' data-id='{{ $data->id }}' class='btn btn-warning btn-mini waves-effect waves-light'><i class='icofont icofont-edit'></i></a>
-                                                @if(Auth::user() && Auth::user()->id == $data->created_by)        
-                                                <br>    
-                                                <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data->id}}' class='btn btn-danger btn-mini waves-effect waves-light mt-1'><i class="icofont icofont-trash"></i></a><br/>
-                                                @endif
-                                                {{-- <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$data->id}}' data-uptd_access='{{$uptd_access[$i]}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a> --}}
-                                             
+
+                                            <a type='button' href='#editModal' data-toggle='modal'
+                                                data-id='{{ $data->id }}' data-nama='{{ $data->nama }}'
+                                                data-nama_menu='{{ $data->nama_menu }}'
+                                                class='btn btn-warning btn-mini waves-effect waves-light'><i
+                                                    class='icofont icofont-edit'></i></a>
+                                            @if (Auth::user() && Auth::user()->id == $data->created_by)
+                                                <br>
+                                                <a type='button' href='#delModal' data-toggle='modal'
+                                                    data-id='{{ $data->id }}'
+                                                    class='btn btn-danger btn-mini waves-effect waves-light mt-1'><i
+                                                        class="icofont icofont-trash"></i></a><br />
+                                            @endif
+                                            {{-- <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$data->id}}' data-uptd_access='{{$uptd_access[$i]}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a> --}}
+
                                         </td>
                                     </tr>
-                                   
+
                                 @endforeach
                             </tbody>
                         </table>
@@ -112,7 +124,7 @@
                 </div>
                 <div class="card-block">
                     <a data-toggle="modal" href="#addModal1" class="btn btn-mat btn-primary mb-3">Tambah</a>
-                    
+
                     <div class="dt-responsive table-responsive">
                         <table id="dttable1" class="table table-striped table-bordered able-responsive">
                             <thead>
@@ -125,21 +137,27 @@
                                 </tr>
                             </thead>
                             <tbody id="bodyJembatan">
-                                
+
                                 @foreach ($menu as $no => $data)
 
                                     <tr>
-                                        <td>{{++$no}}</td>
-                                        <td>{{$data->nama}}</td>
-                                       
+                                        <td>{{ ++$no }}</td>
+                                        <td>{{ $data->nama }}</td>
+
                                         <td>
-                                            <a type='button' href='#editModal1' data-toggle='modal' data-id='{{ $data->id }}' class='btn btn-warning btn-mini waves-effect waves-light'><i class='icofont icofont-edit'></i></a>
-                                                {{-- <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$data->id}}' data-uptd_access='{{$uptd_access[$i]}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a> --}}
-                                            <a type='button' href='#delModal1'  data-toggle='modal' data-id='{{$data->id}}' class='btn btn-danger btn-mini waves-effect waves-light'><i class="icofont icofont-trash"></i></a><br/>
-                                                
+                                            <a type='button' href='#editModal1' data-toggle='modal'
+                                                data-id='{{ $data->id }}' data-nama='{{ $data->nama }}'
+                                                class='btn btn-warning btn-mini waves-effect waves-light'><i
+                                                    class='icofont icofont-edit'></i></a>
+                                            {{-- <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$data->id}}' data-uptd_access='{{$uptd_access[$i]}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a> --}}
+                                            <a type='button' href='#delModal1' data-toggle='modal'
+                                                data-id='{{ $data->id }}'
+                                                class='btn btn-danger btn-mini waves-effect waves-light'><i
+                                                    class="icofont icofont-trash"></i></a><br />
+
                                         </td>
                                     </tr>
-                                   
+
                                 @endforeach
                             </tbody>
                         </table>
@@ -147,7 +165,7 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
     <div class="modal-only">
         <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
@@ -168,7 +186,8 @@
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Nama</label>
                                 <div class="col-md-9">
-                                    <input type="text" name="nama" id="nama" placeholder="Masukan Permission" class="form-control" required></input>
+                                    <input type="text" name="nama" id="nama" placeholder="Masukan Permission"
+                                        class="form-control" required></input>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -177,7 +196,8 @@
                                     <select class="form-control" id="menu" name="menu" required>
                                         <option>Pilih Menu</option>
                                         @foreach ($menu as $data)
-                                            <option value="{{ $data->id }}" id="{{ $data->id }}">{{ $data->nama }}</option>
+                                            <option value="{{ $data->id }}" id="{{ $data->id }}">
+                                                {{ $data->nama }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -198,7 +218,6 @@
         <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
-
                     <form action="{{ route('updatePermis') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="modal-header">
@@ -207,29 +226,28 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-
                         <div class="modal-body p-5">
-                            <input type="text" name="id" id="id" class="form-control" hidden></input>
-
+                            <input type="text" name="id" id="id_permission_edit" class="form-control" hidden></input>
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Nama</label>
                                 <div class="col-md-9">
-                                    <input type="text" id="nama" placeholder="Masukan Permission" class="form-control" readonly></input>
+                                    <input type="text" id="nama_permission" placeholder="Masukan Permission" class="form-control"
+                                        readonly></input>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Menu</label>
                                 <div class="col-md-9">
-                                    <select class="form-control" id="menu" name="menu" required>
+                                    <select class="form-control" id="menu_permission_edit" name="menu" required>
                                         <option>Pilih Menu</option>
                                         @foreach ($menu as $data)
-                                            <option value="{{ $data->id }}" id="{{ $data->id }}">{{ $data->nama }}</option>
+                                            <option value="{{ $data->id }}" id="{{ $data->id }}">
+                                                {{ $data->nama }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                         </div>
-
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
                             <button type="submit" class="btn btn-primary waves-effect waves-light ">Simpan</button>
@@ -259,7 +277,8 @@
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Nama Menu</label>
                                 <div class="col-md-9">
-                                    <input type="text" name="nama" placeholder="Masukan Nama Menu" class="form-control" required></input>
+                                    <input type="text" name="nama" placeholder="Masukan Nama Menu" class="form-control"
+                                        required></input>
                                 </div>
                             </div>
                         </div>
@@ -289,12 +308,13 @@
                         </div>
 
                         <div class="modal-body p-5">
-                            <input type="text" name="id" id="id" class="form-control" hidden></input>
+                            <input type="text" name="id" id="id_menu" class="form-control" hidden></input>
 
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Nama Menu</label>
                                 <div class="col-md-9">
-                                    <input type="text" name="nama" id="nama" placeholder="Masukan Nama Menu" class="form-control" required></input>
+                                    <input type="text" name="nama" id="nama_menu" placeholder="Masukan Nama Menu"
+                                        class="form-control" required></input>
                                 </div>
                             </div>
                         </div>
@@ -329,7 +349,7 @@
                         <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
                         <a id="delHref1" href="" class="btn btn-danger waves-effect waves-light ">Hapus</a>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -352,85 +372,96 @@
                         <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
                         <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Hapus</a>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
     </div>
 @endsection
 @section('script')
-<script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}"></script>
-<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}"></script>
 
-<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
-<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/chosen.jquery.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/chosen.jquery.js') }}"
+        type="text/javascript"></script>
 
-<script>
-    $(document).ready(function() {
-        $(".chosen-select").chosen( { width: '100%' } );
-        $(".chosen-jenis-instruksi").chosen( { width: '100%' } );
-        $("#dttable").DataTable();
-        $("#dttable1").DataTable();
+    <script>
+        $(document).ready(function() {
+            $(".chosen-select").chosen({
+                width: '100%'
+            });
+            $(".chosen-jenis-instruksi").chosen({
+                width: '100%'
+            });
+            $("#dttable").DataTable();
+            $("#dttable1").DataTable();
 
-        $('#delModal').on('show.bs.modal', function(event) {
-            const link = $(event.relatedTarget);
-            const id = link.data('id');
-            console.log(id);
-            const url = `{{ url('admin/master-data/user/destroy-permission') }}/` + id;
-            console.log(url);
-            const modal = $(this);
-            modal.find('.modal-footer #delHref').attr('href', url);
+            $('#delModal').on('show.bs.modal', function(event) {
+                const link = $(event.relatedTarget);
+                const id = link.data('id');
+                console.log(id);
+                const url = `{{ url('admin/master-data/user/destroy-permission') }}/` + id;
+                console.log(url);
+                const modal = $(this);
+                modal.find('.modal-footer #delHref').attr('href', url);
+            });
+            $('#editModal').on('show.bs.modal', function(event) {
+
+                const link = $(event.relatedTarget);
+                const id = link.data('id');
+                // link.data('nama_menu')
+                $('#id_permission_edit').val(link.data('id'));
+                $('#nama_permission').val(link.data('nama'));
+                const menu = @json($menu);
+                const selectedMenu = menu.filter((item) => {
+                    return item.nama == link.data('nama_menu')
+                })
+                if(selectedMenu.length > 0) {
+                    // console.log(selectedMenu[0].id)
+                    $('#menu_permission_edit').val(selectedMenu[0].id);
+                }
+                // const baseUrl = `{{ url('admin/master-data/user/edit-permission') }}/` + id;
+                // $.get(baseUrl, {
+                //         id: id
+                //     },
+                //     function(response) {
+                //         $('#id').val(response.permission[0].id);
+                //         $('#nama').val(response.permission[0].nama);
+
+
+                //     });
+
+            });
+            $('#editModal1').on('show.bs.modal', function(event) {
+
+                const link = $(event.relatedTarget);
+                // const id = link.data('id');
+                // console.log(id);
+                // const baseUrl = `{{ url('admin/master-data/user/edit-menu') }}/` + id;\
+                $('#id_menu').val(link.data('id'));
+                $('#nama_menu').val(link.data('nama'));
+                // $.get(baseUrl, {
+                //         id: id
+                //     },
+                //     function(response) {
+                //         $('#nama').val(response.menu[0].nama);
+                //     });
+
+            });
+            $('#delModal1').on('show.bs.modal', function(event) {
+                const link = $(event.relatedTarget);
+                const id = link.data('id');
+                console.log(id);
+                const url = `{{ url('admin/master-data/user/destroy-menu') }}/` + id;
+                console.log(url);
+                const modal = $(this);
+                modal.find('.modal-footer #delHref1').attr('href', url);
+            });
+
         });
-        $('#editModal').on('show.bs.modal', function(event) {
-            
-            const link = $(event.relatedTarget);
-            const id = link.data('id');
-            console.log(id);
-            const baseUrl = `{{ url('admin/master-data/user/edit-permission') }}/` + id;
-          
-            $.get(baseUrl, {
-                    id: id
-                },
-                function(response) {
-                    
-                    $('#id').val(response.permission[0].id);
-                    $('#nama').val(response.permission[0].nama);
-                    
 
-                });
-
-        });
-        $('#editModal1').on('show.bs.modal', function(event) {
-            
-            const link = $(event.relatedTarget);
-            const id = link.data('id');
-            console.log(id);
-            const baseUrl = `{{ url('admin/master-data/user/edit-menu') }}/` + id;
-          
-            $.get(baseUrl, {
-                    id: id
-                },
-                function(response) {
-                    
-                    $('#id').val(response.menu[0].id);
-                    $('#nama').val(response.menu[0].nama);
-                    
-
-                });
-
-        });
-        $('#delModal1').on('show.bs.modal', function(event) {
-            const link = $(event.relatedTarget);
-            const id = link.data('id');
-            console.log(id);
-            const url = `{{ url('admin/master-data/user/destroy-menu') }}/` + id;
-            console.log(url);
-            const modal = $(this);
-            modal.find('.modal-footer #delHref1').attr('href', url);
-        });
-
-    });
-</script>
+    </script>
 @endsection
