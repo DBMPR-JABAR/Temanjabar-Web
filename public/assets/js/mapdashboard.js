@@ -1462,10 +1462,6 @@ function getMap(baseUrl, gsvrUrl) {
                             label: "Jenis Penanganan"
                         },
                         {
-                            fieldName: "RUAS_JALAN",
-                            label: "Ruas Jalan"
-                        },
-                        {
                             fieldName: "LAT_AWAL",
                             label: "Latitude 0"
                         },
@@ -1609,10 +1605,6 @@ function getMap(baseUrl, gsvrUrl) {
                         {
                             fieldName: "JENIS_PENANGANAN",
                             label: "Jenis Penanganan"
-                        },
-                        {
-                            fieldName: "RUAS_JALAN",
-                            label: "Ruas Jalan"
                         },
                         {
                             fieldName: "LAT_AWAL",
@@ -1759,10 +1751,6 @@ function getMap(baseUrl, gsvrUrl) {
                         {
                             fieldName: "JENIS_PENANGANAN",
                             label: "Jenis Penanganan"
-                        },
-                        {
-                            fieldName: "RUAS_JALAN",
-                            label: "Ruas Jalan"
                         },
                         {
                             fieldName: "LAT_AWAL",
