@@ -228,6 +228,42 @@
     <!-- searchable field -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
+        // Geolocations
+        const getLocation = ({
+            idLat,
+            idLong
+        }) => {
+            let location, target;
+
+            const success = (pos) => {
+                const crd = pos.coords;
+
+                if (target.latitude === crd.latitude && target.longitude === crd.longitude) {
+                    navigator.geolocation.clearWatch(location);
+                }
+                $(`#${idLat}`).val(crd.latitude).keyup();
+                $(`#${idLong}`).val(crd.longitude).keyup();
+            }
+
+            const error = (err) => {
+                alert(err)
+                // alert('Terjadi kesalahan saat mendapatkan lokasi');
+            }
+
+            target = {
+                latitude: $(`#${idLat}`).val(),
+                longitude: $(`#${idLong}`).val()
+            };
+
+            const options = {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0
+            };
+
+            location = navigator.geolocation.watchPosition(success, error, options);
+        }
+
         $(document).ready(() => {
             $(".searchableModalField").select2({
                 dropdownParent: $('.searchableModalContainer'),
@@ -241,6 +277,19 @@
 
     </script>
     @yield('script')
+
+    <style>
+        .mapsWithGetLocationButton {
+            position: relative;
+        }
+
+        .locationButton {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
+
+    </style>
 </body>
 
 <!-- Mirrored from colorlib.com/polygon/admindek/default/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 08 Mar 2021 16:59:28 GMT -->
