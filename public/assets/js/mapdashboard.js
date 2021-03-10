@@ -1450,8 +1450,12 @@ function getMap(baseUrl, gsvrUrl) {
                             label: "Waktu Kontrak (Hari Kerja)"
                         },
                         {
+                            fieldName: "distance",
+                            label: "Perkiraan Panjang Saat Ini (m)"
+                        },
+                        {
                             fieldName: "TARGET_PANJANG",
-                            label: "target_panjang"
+                            label: "Target Panjang"
                         },
                         {
                             fieldName: "JENIS_PENANGANAN",
@@ -1482,7 +1486,7 @@ function getMap(baseUrl, gsvrUrl) {
                             label: "Lokasi"
                         },
                         {
-                            fieldName: "KM_BD1",
+                            fieldName: "KM_BDG1",
                             label: "Segmen"
                         },
                         {
@@ -1595,8 +1599,12 @@ function getMap(baseUrl, gsvrUrl) {
                             label: "Waktu Kontrak (Hari Kerja)"
                         },
                         {
+                            fieldName: "distance",
+                            label: "Perkiraan Panjang Saat Ini (m)"
+                        },
+                        {
                             fieldName: "TARGET_PANJANG",
-                            label: "target_panjang"
+                            label: "Target Panjang"
                         },
                         {
                             fieldName: "JENIS_PENANGANAN",
@@ -1627,7 +1635,7 @@ function getMap(baseUrl, gsvrUrl) {
                             label: "Lokasi"
                         },
                         {
-                            fieldName: "KM_BD1",
+                            fieldName: "KM_BDG1",
                             label: "Segmen"
                         },
                         {
@@ -1741,8 +1749,12 @@ function getMap(baseUrl, gsvrUrl) {
                             label: "Waktu Kontrak (Hari Kerja)"
                         },
                         {
+                            fieldName: "distance",
+                            label: "Perkiraan Panjang Saat Ini (m)"
+                        },
+                        {
                             fieldName: "TARGET_PANJANG",
-                            label: "target_panjang"
+                            label: "Target Panjang"
                         },
                         {
                             fieldName: "JENIS_PENANGANAN",
@@ -1773,7 +1785,7 @@ function getMap(baseUrl, gsvrUrl) {
                             label: "Lokasi"
                         },
                         {
-                            fieldName: "KM_BD1",
+                            fieldName: "KM_BDG1",
                             label: "Segmen"
                         },
                         {
