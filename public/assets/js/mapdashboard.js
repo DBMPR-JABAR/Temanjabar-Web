@@ -1514,11 +1514,17 @@ function getMap(baseUrl, gsvrUrl) {
                 map.remove(pembangunanLayer);
             }
 
+            // Filter
             let uptdSel = $('#uptd').val();
-            let whereUptd = 'uptd=' + uptdSel.shift().charAt(4);
+            let filter = 'uptd=' + uptdSel.shift().charAt(4);
             $.each(uptdSel, function(idx, elem) {
-                whereUptd = whereUptd + ' OR uptd=' + elem.charAt(4);
+                filter = filter + ' OR uptd=' + elem.charAt(4);
             });
+
+            if($('.sampaiTanggal').val() != '' && $('.mulaiTanggal').val() != ''){
+                filter += ` AND (tgl_kontrak BETWEEN '${$('.mulaiTanggal').val()}' AND '${$('.sampaiTanggal').val()}') `;
+            }
+
             let pr_bangun = map.findLayerById('pr_bangun');
             if (!pr_bangun) {
                 pr_bangun = new GroupLayer({
@@ -1542,7 +1548,7 @@ function getMap(baseUrl, gsvrUrl) {
                         symbol: symbol
                     }
                 });
-                layer.definitionExpression = whereUptd;
+                layer.definitionExpression = filter;
                 return layer;
             }
             function pembangunanRute(){
@@ -1562,7 +1568,7 @@ function getMap(baseUrl, gsvrUrl) {
                         }
                     }
                 });
-                layer.definitionExpression = whereUptd;
+                layer.definitionExpression = filter;
                 return layer;
             }
         }
@@ -1662,10 +1668,14 @@ function getMap(baseUrl, gsvrUrl) {
 
             // buat layer baru
             let uptdSel = $('#uptd').val();
-            let whereUptd = 'uptd=' + uptdSel.shift().charAt(4);
+            let filter = 'uptd=' + uptdSel.shift().charAt(4);
             $.each(uptdSel, function(idx, elem) {
-                whereUptd = whereUptd + ' OR uptd=' + elem.charAt(4);
+                filter = filter + ' OR uptd=' + elem.charAt(4);
             });
+            if($('.sampaiTanggal').val() != '' && $('.mulaiTanggal').val() != ''){
+                filter += ` AND (tgl_kontrak BETWEEN '${$('.mulaiTanggal').val()}' AND '${$('.sampaiTanggal').val()}') `;
+            }
+
             let pr_tingkat = map.findLayerById('pr_tingkat');
             if (!pr_tingkat) {
                 pr_tingkat = new GroupLayer({
@@ -1688,7 +1698,7 @@ function getMap(baseUrl, gsvrUrl) {
                         symbol: symbol
                     }
                 });
-                layer.definitionExpression = whereUptd;
+                layer.definitionExpression = filter;
                 return layer;
             }
             function peningkatanRute(){
@@ -1708,7 +1718,7 @@ function getMap(baseUrl, gsvrUrl) {
                         }
                     }
                 });
-                layer.definitionExpression = whereUptd;
+                layer.definitionExpression = filter;
                 return layer;
             }
         }
@@ -1808,10 +1818,14 @@ function getMap(baseUrl, gsvrUrl) {
 
             // buat layer baru dengan filter
             let uptdSel = $('#uptd').val();
-            let whereUptd = 'uptd=' + uptdSel.shift().charAt(4);
+            let filter = 'uptd=' + uptdSel.shift().charAt(4);
             $.each(uptdSel, function(idx, elem) {
-                whereUptd = whereUptd + ' OR uptd=' + elem.charAt(4);
+                filter = filter + ' OR uptd=' + elem.charAt(4);
             });
+            if($('.sampaiTanggal').val() != '' && $('.mulaiTanggal').val() != ''){
+                filter += ` AND (tgl_kontrak BETWEEN '${$('.mulaiTanggal').val()}' AND '${$('.sampaiTanggal').val()}') `;
+            }
+
             let pr_rehab = map.findLayerById('pr_rehab');
             if (!pr_rehab) {
                 pr_rehab = new GroupLayer({
@@ -1834,7 +1848,7 @@ function getMap(baseUrl, gsvrUrl) {
                         symbol: symbol
                     }
                 });
-                layer.definitionExpression = whereUptd;
+                layer.definitionExpression = filter;
                 return layer;
             }
             function rehabilitasiRute(){
@@ -1854,7 +1868,7 @@ function getMap(baseUrl, gsvrUrl) {
                         }
                     }
                 });
-                layer.definitionExpression = whereUptd;
+                layer.definitionExpression = filter;
                 return layer;
             }
         }
