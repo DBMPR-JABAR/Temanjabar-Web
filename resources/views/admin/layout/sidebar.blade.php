@@ -376,6 +376,16 @@
                 <li class="{{ Request::segment(2) == 'pesan' ? 'active' : '' }}">
                     <a href="{{ url('admin/pesan') }}" class="waves-effect waves-dark">
                         <span class="pcoded-micon">
+                            <i class="feather icon-bell"></i>
+                        </span>
+                        <span class="pcoded-mtext">Pengumuman</span>
+                    </a>
+                </li>
+            @endif
+            @if (hasAccess(Auth::user()->internal_role_id, 'Pesan', 'View'))
+                <li class="{{ Request::segment(2) == 'pesan' ? 'active' : '' }}">
+                    <a href="{{ url('admin/pesan') }}" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
                             <i class="feather icon-message-circle"></i>
                         </span>
                         <span class="pcoded-mtext">Pesan Kontak Kami</span>
