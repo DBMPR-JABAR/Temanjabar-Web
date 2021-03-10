@@ -160,14 +160,14 @@
 </div>
 
 <div class="modal-only">
-    <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
+    <div class="modal fade searchableModalContainer" id="addModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
 
                 <form action="{{route('createUserRole')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-header">
-                        <h4 class="modal-title">Tambah User Role</h4>
+                        <h4 class="modal-title ">Tambah User Role</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -185,8 +185,15 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Parent</label>
                             <div class="col-md-9">
-                                <!-- Dropdown -->
-                                <input type="text" name="parent" class="form-control"></input>
+                                <select  class="searchableModalField form-control" style="width: 100%;"  name="parent" tabindex="4">
+                                    @foreach($user_role_list as $data)
+                                    @if(Auth::user()->internalRole->uptd == $data->uptd)
+                                        <option value="{{$data->id}}">{{$data->role}}</option>
+                                        @elseif(Auth::user()->internalRole->uptd == null)
+                                        <option value="{{$data->id}}">{{$data->role}}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 

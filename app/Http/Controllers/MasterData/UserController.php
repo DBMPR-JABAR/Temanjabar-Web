@@ -803,9 +803,8 @@ class UserController extends Controller
             $user_role_list = $user_role_list->where('uptd', Auth::user()->internalRole->uptd);
         }
         $user_role_list=$user_role_list->get();
-        return view('admin.master.user.user_role.user_role',[
-                'user_role_list' => $user_role_list
-            ]);
+        // dd($user_role_list);
+        return view('admin.master.user.user_role.user_role',compact('user_role_list'));
     }
 
     public function createUserRole(Request $request){

@@ -187,7 +187,7 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Internal Role</label>
                             <div class="col-md-9">
-                                <select  class="searchableModalField form-control"  name="internal_role_id" tabindex="4">
+                                <select  class="searchableModalField form-control" style="width: 100%;"  name="internal_role_id" tabindex="4">
                                     @foreach($roles as $data)
                                         <option value="{{$data->id}}">{{$data->role}}</option>
                                     @endforeach
