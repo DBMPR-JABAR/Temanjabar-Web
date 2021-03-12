@@ -142,17 +142,17 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <select id="KM_ASAL" name="KM_ASAL" class="form-control" required>
+                                        <option value="Bdg" @isset($kondisi_jalan)
+                                        {{ 'Bdg' == $kondisi_jalan->KM_ASAL ? 'selected' : '' }} @endisset>
+                                        BDG
+                                    </option>
                                         <option value="Cn" @isset($kondisi_jalan)
                                             {{ 'Cn' == $kondisi_jalan->KM_ASAL ? 'selected' : '' }} @endisset>
-                                            Cn
-                                        </option>
-                                        <option value="Bdg" @isset($kondisi_jalan)
-                                            {{ 'Bdg' == $kondisi_jalan->KM_ASAL ? 'selected' : '' }} @endisset>
-                                            Bdg
+                                            CN
                                         </option>
                                         <option value="Jkt" @isset($kondisi_jalan)
                                             {{ 'Jkt' == $kondisi_jalan->KM_ASAL ? 'selected' : '' }} @endisset>
-                                            Jkt
+                                            JKT
                                         </option>
                                     </select>
                                 </div>
@@ -297,7 +297,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <input name="KETERANGAN" value="{{ @$kondisi_jalan->KETERANGAN }}" type="text"
-                                        class="form-control" required>
+                                        class="form-control" placeholder="Keterangan" required>
                                 </div>
                             </div>
                         </div>

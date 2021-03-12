@@ -481,6 +481,7 @@
     <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
     <script src="https://js.arcgis.com/4.18/"></script>
+    <script src="{{ asset('assets/js/custom.js) }}"></script>
 
    <script>
         $(document).ready(function() {
