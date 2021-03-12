@@ -41,6 +41,9 @@
     <link rel="stylesheet" href="{{ asset('assets/css/second_style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/custom.css') }} ">
 
+    <!-- Tombol get lokasi diatas maps -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/map_geolocation_btn.css') }} ">
+
     <!-- searchable field, kalau kau pake tinggal tambahin class searchableField
         !!jika ada dalam modal, modalnya kasih class searchableModalContainer fieldnya kasih class searchableModalField -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -186,7 +189,7 @@
     <script type="text/javascript"
         src="{{ asset('assets/files/bower_components/jquery-slimscroll/js/jquery.slimscroll.js') }}"></script>
 
-    <script src="{{ asset('assets/files/assets/pages/chart/float/jquery.flot.js') }}"></script>
+    {{-- <script src="{{ asset('assets/files/assets/pages/chart/float/jquery.flot.js') }}"></script>
     <script src="{{ asset('assets/files/assets/pages/chart/float/jquery.flot.categories.js') }}"></script>
     <script src="{{ asset('assets/files/assets/pages/chart/float/curvedLines.js') }}"></script>
     <script src="{{ asset('assets/files/assets/pages/chart/float/jquery.flot.tooltip.min.js') }}"></script>
@@ -195,15 +198,21 @@
 
     <script src="{{ asset('assets/files/assets/pages/widget/amchart/amcharts.js') }}"></script>
     <script src="{{ asset('assets/files/assets/pages/widget/amchart/serial.js') }}"></script>
-    <script src="{{ asset('assets/files/assets/pages/widget/amchart/light.js') }}"></script>
+    <script src="{{ asset('assets/files/assets/pages/widget/amchart/light.js') }}"></script> --}}
 
     <script src="{{ asset('assets/files/assets/js/pcoded.min.js') }}"></script>
     <script src="{{ asset('assets/files/assets/js/vertical/vertical-layout.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/files/assets/pages/dashboard/custom-dashboard.min.js') }}">
-    </script>
+    {{-- <script type="text/javascript" src="{{ asset('assets/files/assets/pages/dashboard/custom-dashboard.min.js') }}">
+    </script> --}}
     <script type="text/javascript" src="{{ asset('assets/files/assets/js/script.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/custom.js') }}"></script>
 
+    <!-- Tombol get lokasi diatas maps
+    Maps dan button di bungkus div dengan class "mapsWithGetLocationButton",
+    Buttonnya = <button id="btn_geoLocation" onclick="getLocation({idLat:'??', idLong:'??'})" type="button"
+                                    class="btn bg-white text-secondary locationButton"><i class="ti-location-pin"></i></button>
+    -->
+    <script type="text/javascript" src="{{ asset('assets/js/map_geolocation_btn.js') }}"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -218,42 +227,6 @@
     <!-- searchable field -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-        // Geolocations
-        const getLocation = ({
-            idLat,
-            idLong
-        }) => {
-            let location, target;
-
-            const success = (pos) => {
-                const crd = pos.coords;
-
-                if (target.latitude === crd.latitude && target.longitude === crd.longitude) {
-                    navigator.geolocation.clearWatch(location);
-                }
-                $(`#${idLat}`).val(crd.latitude).keyup();
-                $(`#${idLong}`).val(crd.longitude).keyup();
-            }
-
-            const error = (err) => {
-                alert(err)
-                // alert('Terjadi kesalahan saat mendapatkan lokasi');
-            }
-
-            target = {
-                latitude: $(`#${idLat}`).val(),
-                longitude: $(`#${idLong}`).val()
-            };
-
-            const options = {
-                enableHighAccuracy: true,
-                timeout: 5000,
-                maximumAge: 0
-            };
-
-            location = navigator.geolocation.watchPosition(success, error, options);
-        }
-
         $(document).ready(() => {
             $(".searchableModalField").select2({
                 dropdownParent: $('.searchableModalContainer'),
@@ -267,18 +240,6 @@
 
     </script>
     @yield('script')
-
-    <style>
-        .mapsWithGetLocationButton {
-            position: relative;
-        }
-
-        .locationButton {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-        }
-
-    </style>
 </body>
+
 </html>

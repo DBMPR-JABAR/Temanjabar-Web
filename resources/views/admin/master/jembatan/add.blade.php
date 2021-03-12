@@ -216,8 +216,8 @@
                             </div>
                             <div class="row mapsWithGetLocationButton">
                                 <div id="mapLatLong" class="full-map mb-2" style="height: 300px; width:100%"></div>
-                                <button onclick="getLocation({idLat:'lat', idLong:'long'})" type="button"
-                                    class="btn btn-secondary locationButton">Lokasi Saat Ini</button>
+                                <button id="btn_geoLocation" onclick="getLocation({idLat:'lat', idLong:'long'})" type="button"
+                                    class="btn bg-white text-secondary locationButton"><i class="ti-location-pin"></i></button>
                             </div>
                             <div class="form-group row">
                                 <label class="col-md-2 col-form-label">Keterangan</label>
