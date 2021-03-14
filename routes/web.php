@@ -92,6 +92,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         // parameternya dari id ruas jalan
         Route::get('roadroid-survei-kondisi-jalan/{id}', 'SurveiController@getRoadroidSKJ');
         Route::view('roadroid-survei-kondisi-jalan', 'admin.map.map-roaddroid');
+
+        Route::get('progress_mingguan', 'Monitoring\ProgressMingguanController@getProggressMingguan');
     });
 
     // {SiteURL}/admin/rekomendasi/*
@@ -215,7 +217,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('update-menu/update', 'MasterData\UserController@updateMenu')->name('updateMenu');
             Route::get('destroy-menu/{id}', 'MasterData\UserController@destroyMenu')->name('deleteMenu');
 
-            
+
 
             Route::get('role-akses', 'MasterData\UserController@getDaftarRoleAkses')->name('getRoleAkses');
             Route::get('role-akses/create', 'MasterData\UserController@createRoleAccess')->name('createRoleAccess');
