@@ -72,11 +72,21 @@ class AnnouncementController extends Controller
         // Notifikasi HP
         $title = "Pengumuman ";
         $body = $request->title;
-        $userPelapor = DB::table("users")->where('role',$request->sent_to)
+        $userNotifHp = DB::table("users")->where('role',$request->sent_to)
         ->rightJoin('user_push_notification','users.id','=','user_push_notification.user_id')->pluck('users.id');
-        // dd($userPelapor);
-        
-        sendNotificationPengumuman($userPelapor,$title,$body);
+        // dd($userNotifHp);
+        sendNotificationPengumuman($userNotifHp,$title,$body);
+
+        // Notifikasi Email
+        // $userNotifemail = DB::table("users")->where('role',$request->sent_to)->where('email', '!=', null)->get();
+        // // dd($userNotifemail);
+        // $subject = "Pengumuman";
+        // foreach($userNotifemail as $dataaaa){
+        //     $name = $dataaaa->name;
+        //     $to_email = $dataaaa->email;
+        //     setSendEmailHelpers($name, $request->title, $request->content, $to_email, $name ,$subject);
+        // }
+        // dd($name);
         if ($request->cover != null) {
             $path = Str::snake(date("YmdHis") . ' ' . $request->cover->getClientOriginalName());
             $request->cover->storeAs('public/pengumuman/', $path);

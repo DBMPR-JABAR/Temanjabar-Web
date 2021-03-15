@@ -78,3 +78,28 @@ function sendNotification($users, $title, $body)
         //dd($response);
       
     }
+
+
+    function sendEmailHelpers($data, $to_email, $to_name, $subject){
+      
+        return Mail::send('mail.notificationprim', $data, function ($message) use ($to_name, $to_email,$subject) {
+            $message->to($to_email, $to_name)->subject($subject);
+
+            $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
+        });
+        // dd($mail);
+    }
+    function setSendEmailHelpers($name, $title, $content, $to_email, $to_name,$subject){
+       
+        $temporari = [
+            'name' =>Str::title($name),
+            
+            'title' => Str::title($title),
+           
+            'content' => $content
+            ];
+        
+            // dd($subject);
+            // dd($item);
+            sendEmailHelpers($temporari, $to_email, $to_name, $subject);
+    }
