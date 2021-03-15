@@ -67,21 +67,22 @@ class AnnouncementController extends Controller
 
         ];
        
+        
+        
+        // Notifikasi HP
+        $title = "Pengumuman ".$request->title;
+        $body = "";
+        $userPelapor = DB::table("users")->where('role',$request->sent_to)
+        ->rightJoin('user_push_notification','users.id','=','user_push_notification.user_id')->pluck('users.id');
+        // dd($userPelapor);
+        
+        sendNotification($userPelapor,$title,$body);
         if ($request->cover != null) {
             $path = Str::snake(date("YmdHis") . ' ' . $request->cover->getClientOriginalName());
             $request->cover->storeAs('public/pengumuman/', $path);
             $pengumuman['image'] = $path;
         }
-        $title = "Pengumuman ".$request->title;
-        $body = $request->content;
-        $userPelapor = DB::table("users")->where('id',Auth::user()->id)->first()->id;
-       
-        $users = [$userPelapor];
-        
-
-        sendNotification($users,$title,$body);
         $announcement = Announcement::create($pengumuman)->save();
-        // dd($pengumuman);
 
 
         if($announcement){
