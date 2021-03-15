@@ -25,7 +25,7 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Role Akses </h4>
+                <h4>Pengumuman </h4>
 
             </div>
         </div>
@@ -36,7 +36,7 @@
                 <li class="breadcrumb-item">
                     <a href="{{url('admin')}}"> <i class="feather icon-home"></i> </a>
                 </li>
-                <li class="breadcrumb-item"><a href="#!">Role Akses</a> </li>
+                <li class="breadcrumb-item"><a href="#!">Pengumuman</a> </li>
             </ul>
         </div>
     </div>
@@ -57,7 +57,7 @@
                     </div>
                 </div>
                 <div class="card-block">
-                    <a href="{{ route('createRoleAccess') }}" class="btn btn-mat btn-primary mb-3">Tambah</a>
+                    <a href="#" class="btn btn-mat btn-primary mb-3">Tambah</a>
                     <div class="dt-responsive table-responsive">
                         <table id="dttable" class="table table-striped table-bordered able-responsive">
                             <thead>
@@ -87,10 +87,10 @@
 
 
                                         <td>
-                                                <a type='button' href="{{ route('detailRoleAkses', $data['id']) }}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Rincian</a>
-                                                <a type='button' href='{{ route('editRoleAccess', $data['id']) }}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a>
+                                                {{-- <a type='button' href="{{ route('detailRoleAkses', $data['id']) }}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Rincian</a> --}}
+                                                <a type='button' href='{{ route('editRoleAccess', $data['id']) }}'  class='btn btn-warning btn-mini waves-effect waves-light'><i class='icofont icofont-edit'></i>Edit</a>
                                                 {{-- <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$data['id']}}' data-uptd_access='{{$uptd_access[$i]}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a> --}}
-                                                <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data['id']}}'     class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Hapus</a><br/>
+                                                <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data['id']}}'     class='btn btn-danger btn-mini waves-effect waves-light'><i class='icofont icofont-trash'></i>Hapus</a><br/>
                                         </td>
                                     </tr>
                                    
@@ -109,7 +109,7 @@
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h4 class="modal-title">Hapus Data Role Akses</h4>
+                        <h4 class="modal-title">Hapus Data Pengumuman</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

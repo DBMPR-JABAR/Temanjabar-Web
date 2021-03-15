@@ -111,7 +111,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-12 col-form-label">Menu </label>
+                                <label class="col-md-12 col-form-label font-weight-bold">Menu </label>
                                 {{-- <div class="col-md-10">
                                 <select data-placeholder="User Role..." class="chosen-select" multiple  name="menu[]" tabindex="4" required>
                                 @foreach ($menu as $data)
