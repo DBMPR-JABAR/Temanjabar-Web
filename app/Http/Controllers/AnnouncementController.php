@@ -72,9 +72,6 @@ class AnnouncementController extends Controller
             $request->cover->storeAs('public/pengumuman/', $path);
             $pengumuman['image'] = $path;
         }
-        $announcement = Announcement::create($pengumuman)->save();
-        // dd($pengumuman);
-
         $title = "Pengumuman ".$request->title;
         $body = $request->content;
         $userPelapor = DB::table("users")->where('id',Auth::user()->id)->first()->id;
@@ -83,6 +80,9 @@ class AnnouncementController extends Controller
         
 
         sendNotification($users,$title,$body);
+        $announcement = Announcement::create($pengumuman)->save();
+        // dd($pengumuman);
+
 
         if($announcement){
             //redirect dengan pesan sukses
