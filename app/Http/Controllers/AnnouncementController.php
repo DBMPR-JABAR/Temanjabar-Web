@@ -77,7 +77,7 @@ class AnnouncementController extends Controller
 
         $title = "Pengumuman ".$request->title;
         $body = $request->content;
-        $userPelapor = DB::table("users")->where('id',Auth::user()->id)->first()->get();
+        $userPelapor = DB::table("users")->where('id',Auth::user()->id)->first();
        
         $users = [$userPelapor];
         
