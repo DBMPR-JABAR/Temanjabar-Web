@@ -74,6 +74,16 @@ class AnnouncementController extends Controller
         }
         $announcement = Announcement::create($pengumuman)->save();
         // dd($pengumuman);
+
+        $title = "Pengumuman ".$request->title;
+        $body = $request->content;
+        $userPelapor = DB::table("users")->where('id',Auth::user()->id)->first()->get();
+       
+        $users = [$userPelapor];
+        
+
+        sendNotification($users,$title,$body);
+
         if($announcement){
             //redirect dengan pesan sukses
             $color = "success";
