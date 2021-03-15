@@ -55,6 +55,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('/', function () {
         return redirect(route('monitoring-kontrak'));
     });
+    Route::resource('/announcement', 'AnnouncementController');
+
     Route::get('profile/{id}', 'DetailUserController@show')->name('editProfile');
     Route::get('edit/profile/{id}', 'DetailUserController@edit')->name('editDetailProfile');
     Route::put('edit/profile/{id}', 'DetailUserController@update');
@@ -300,6 +302,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
         Route::get('/item_satuan/delete/{id}', 'MasterData\ItemSatuanController@destroy');
         Route::resource('/item_satuan', 'MasterData\ItemSatuanController');
+
+
     });
 
     Route::group(['prefix' => 'input-data'], function () {

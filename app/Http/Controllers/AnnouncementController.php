@@ -15,6 +15,9 @@ class AnnouncementController extends Controller
     public function index()
     {
         //
+        $pengumuman = Announcement::latest('created_at')->get();
+        // dd($pengumuman);
+        return view('admin.pengumuman.index', compact('pengumuman'));
     }
 
     /**
