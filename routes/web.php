@@ -55,6 +55,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('/', function () {
         return redirect(route('monitoring-kontrak'));
     });
+    Route::get('announcement/destroy/{id}', 'AnnouncementController@destroy');
     Route::resource('/announcement', 'AnnouncementController');
 
     Route::get('profile/{id}', 'DetailUserController@show')->name('editProfile');

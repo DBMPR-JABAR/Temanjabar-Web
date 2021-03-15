@@ -57,7 +57,7 @@
                     </div>
                 </div>
                 <div class="card-block">
-                    <a href="#" class="btn btn-mat btn-primary mb-3">Tambah</a>
+                    <a href="{{ route('announcement.create') }}" class="btn btn-mat btn-primary mb-3">Tambah</a>
                     <div class="dt-responsive table-responsive">
                         <table id="dttable" class="table table-striped table-bordered able-responsive">
                             <thead>
@@ -81,14 +81,14 @@
                                         <td>{{++$no}}</td>
                                         <td>{{$data['title']}}</td>
                                         {{-- <td>{{$data['permissions']}}</td> --}}
-                                        <td>{{$data['sento_to']}}</td>
-                                        <td>{{$data['created_by']}}</td>
+                                        <td>{{$data['sent_to']}}</td>
+                                        <td>{{$data['nama_user']}}</td>
                                         <td>{{$data['created_at']}}</td>
 
 
                                         <td>
                                                 {{-- <a type='button' href="{{ route('detailRoleAkses', $data['id']) }}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Rincian</a> --}}
-                                                <a type='button' href='{{ route('editRoleAccess', $data['id']) }}'  class='btn btn-warning btn-mini waves-effect waves-light'><i class='icofont icofont-edit'></i>Edit</a>
+                                                <a type='button' href='{{ route('announcement.edit', $data['id']) }}'  class='btn btn-warning btn-mini waves-effect waves-light'><i class='icofont icofont-edit'></i>Edit</a>
                                                 {{-- <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$data['id']}}' data-uptd_access='{{$uptd_access[$i]}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a> --}}
                                                 <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data['id']}}'     class='btn btn-danger btn-mini waves-effect waves-light'><i class='icofont icofont-trash'></i>Hapus</a><br/>
                                         </td>
@@ -150,7 +150,7 @@
             const link = $(event.relatedTarget);
             const id = link.data('id');
             console.log(id);
-            const url = `{{ url('admin/master-data/user/role-akses/delete') }}/` + id;
+            const url = `{{ url('admin/announcement/destroy') }}/` + id;
             console.log(url);
             const modal = $(this);
             modal.find('.modal-footer #delHref').attr('href', url);
