@@ -308,7 +308,8 @@
 
             weeklyProgress.push({
                 tanggal_awal: firstProgress.tgl,
-                tanggal_akhir: addDays(firstProgress.tgl, (firstProgress.waktu_pelaksanaan + freeDays)),
+                // tanggal_akhir: addDays(firstProgress.tgl, (firstProgress.waktu_pelaksanaan + freeDays)),
+                tanggal_akhir: addDays(firstProgress.tgl, firstProgress.waktu_pelaksanaan),
                 nama_kegiatan: progress,
                 waktu_pelaksanaan: firstProgress.waktu_pelaksanaan,
                 total_volume: volume,
@@ -356,12 +357,43 @@
                             const dayDetail = weeklyProgressFilter[0].data_mingguan[index];
                             let html = "";
                             dayDetail.data.forEach((item) => {
+                                const months = [
+                                    'Januari',
+                                    'Februari',
+                                    'Maret',
+                                    'April',
+                                    'Mei',
+                                    'Juni',
+                                    'Juli',
+                                    'Agustus',
+                                    'September',
+                                    'Oktober',
+                                    'November',
+                                    'Desember'
+                                ]
+                                const days = [
+                                    'Minggu',
+                                    'Senin',
+                                    'Selasa',
+                                    'Rabu',
+                                    'Kamis',
+                                    'Jumat',
+                                    'Sabtu'
+                                ]
+                                const d = new Date(item.tgl);
+                                const year = d.getFullYear();
+                                const date = d.getDate();
+                                const monthIndex = d.getMonth()
+                                const monthName = months[monthIndex]
+                                const dayIndex = d.getDay()
+                                const dayName = days[dayIndex]
+                                const formatted = `${dayName}, ${date} ${monthName} ${year}`
                                 html += `<tr>
-                                                                                            <td>${item.tgl}</td>
-                                                                                            <td>${item.uraian}</td>
-                                                                                            <td>${item.volume}</td>
-                                                                                            <td>${item.satuan}</td>
-                                                                                            </tr>`
+                                                                                                                    <td>${formatted}</td>
+                                                                                                                    <td>${item.uraian}</td>
+                                                                                                                    <td>${item.volume}</td>
+                                                                                                                    <td>${item.satuan}</td>
+                                                                                                                    </tr>`
                             });
                             $('#tableDetailBody').html(html);
                             $('#detailModal').modal('show');
