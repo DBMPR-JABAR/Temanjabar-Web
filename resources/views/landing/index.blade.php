@@ -182,12 +182,12 @@
         <div class="row">
             @foreach ($pengumuman_masyarakat as $item)
                 <div class="col-md-6">
-                    <a href="{{ route('announcement.index') }}">
+                    <a href="{{ route('announcement.show', $item->slug) }}">
                     <div class="card w-100 mb-2 ">
                         <div class="card-block">
                             <div class="media">
                                 <div class="media-left media-top">  
-                                    <img class="media-object" src="{{ asset('assets/files/assets/images/avatar-4.jpg') }}" alt="image">
+                                    <img class="media-object" src="{{ url('storage/pengumuman/'.$pengumuman->image) }}" alt="image">
                                 </div>
                                 <div class="media-body">
                                     <p class="media-heading">&nbsp; {{ $item->title }}                             
