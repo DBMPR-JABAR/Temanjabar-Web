@@ -10,9 +10,10 @@ function getMap(baseUrl, gsvrUrl) {
         "esri/layers/FeatureLayer",
         "esri/widgets/LayerList",
         "esri/widgets/Legend",
-        "esri/widgets/Expand"
+        "esri/widgets/Expand",
+        "esri/widgets/Search"
     ], function(Map, MapView, esriRequest, Point, Graphic, GroupLayer,
-        FeatureLayer, LayerList, Legend, Expand) {
+        FeatureLayer, LayerList, Legend, Expand, Search) {
 
         let basemap = "hybrid";
 
@@ -28,6 +29,9 @@ function getMap(baseUrl, gsvrUrl) {
                 spatialReference: 4326
             }
         });
+        view.ui.remove(['zoom']);
+
+
         const layerList = new Expand({
             content: new LayerList({
                 view: view,
@@ -72,6 +76,13 @@ function getMap(baseUrl, gsvrUrl) {
             if (event.action.id === "prep-sv") {
                 prepSV();
             }
+        });
+        // Search yeahahhh
+        let searchWidget = new Search({
+            id: "sch",
+            view: view,
+            allPlaceholder: "Cari Daerah...",
+            sources: []
         });
 
         // Button Initialization
@@ -121,6 +132,7 @@ function getMap(baseUrl, gsvrUrl) {
             }
         }
         $("#btnProses").click(function(event) {
+            searchWidget.sources = [];
             caseRender();
         });
 
@@ -145,6 +157,8 @@ function getMap(baseUrl, gsvrUrl) {
             render('pembangunan', 'pr_bangun', addPembangunan());
             render('peningkatan', 'pr_tingkat', addPeningkatan());
             render('rehabilitasi', 'pr_rehab', addRehabilitasi());
+            render('tempatwisata', 'tx_wisata', addTempatWisata());
+            render('satuanpendidikan', 'tx_sekolah', addSekolah());
 
             if (kegiatan.length > 0) { // kalau masih ada pilihan lain di kegiatan
                 // Request data from API
@@ -217,6 +231,9 @@ function getMap(baseUrl, gsvrUrl) {
                 if (!view.ui.find("lgd")) {
                     // Add widget to the bottom left corner of the view
                     view.ui.add(legend, "bottom-left");
+                }
+                if (!view.ui.find("sch")) {
+                    view.ui.add(searchWidget, "top-left");
                 }
             });
         }
@@ -315,6 +332,7 @@ function getMap(baseUrl, gsvrUrl) {
                             }
                         }
                     });
+
                 }
                 rjp.definitionExpression = whereUptd;
                 return rjp;
@@ -2576,6 +2594,157 @@ function getMap(baseUrl, gsvrUrl) {
                 }
             });
             map.add(newCCTVLayer);
+        }
+
+        function addTempatWisata() {
+            const symbol = {
+                type: "picture-marker", // autocasts as new PictureMarkerSymbol()
+                url: baseUrl + "/assets/images/marker/jalan.png",
+                width: "28px",
+                height: "28px"
+            };
+            const popupTemplate = {
+                title: "{nama}",
+                content: [
+                    {
+                        type: "media",
+                        mediaInfos: [{
+                            title: "<b>Foto</b>",
+                            type: "image",
+                            value: {
+                                sourceURL: "{foto}"
+                            }
+                        }]
+                    },
+                    {
+                        type: "custom",
+                        outFields: ["*"],
+                        creator: function(feature) {
+                            var deskripsi = feature.graphic.attributes.deskripsi;
+                            return `${deskripsi}`;
+                        }
+                   }
+                ]
+            };
+            // cari dan hapus layer bila ada pd map
+            let tempatWisataLayer = map.findLayerById('tx_wisata');
+            if (tempatWisataLayer) {
+                map.remove(tempatWisataLayer);
+            }
+
+            let tx_wisata = map.findLayerById('tx_wisata');
+            if (!tx_wisata) {
+                tx_wisata = new FeatureLayer({
+                    url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/11",
+                    title: 'Tempat Wisata',
+                    id: 'tx_wisata',
+                    outFields: ["*"],
+                    popupTemplate: popupTemplate,
+                    renderer: {
+                        type: "simple",
+                        symbol: symbol
+                    }
+                });
+                map.add(tx_wisata, 2);
+            }
+
+        }
+
+        function addSekolah(){
+            // cari dan hapus layer bila ada pd map
+            const popupTemplate = {
+                title: "{poi_name}",
+                content: [{
+                    type: "fields",
+                    fieldInfos: [
+                        {
+                            fieldName: "st_name",
+                            label: "Alamat"
+                        },
+                    ]
+                }]
+            };
+            let sekolahLayer = map.findLayerById('tx_sekolah');
+            if (sekolahLayer) {
+                map.remove(sekolahLayer);
+            }
+
+
+            let tx_sekolah = map.findLayerById('tx_sekolah');
+            if (!tx_sekolah) {
+                tx_sekolah = new GroupLayer({
+                    title: 'Persebaran Satuan Pendidikan',
+                    id: 'tx_sekolah'
+                });
+                tx_sekolah.add(sekolahPG(), 0);
+                tx_sekolah.add(sekolahTK(), 1);
+                tx_sekolah.add(sekolahSD(), 2);
+                tx_sekolah.add(sekolahSMP(), 3);
+                tx_sekolah.add(sekolahSMA(), 4);
+                tx_sekolah.add(sekolahPT(), 5);
+                map.add(tx_sekolah, 2);
+            }
+
+            function sekolahPT(){
+                const layer = new FeatureLayer({
+                    url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/SATUPETA_DISDIK/Sebaran_Sekolah/MapServer/0",
+                    title: 'Perguruan Tinggi',
+                    id: 'tx_sekolah_pt',
+                    outFields: ["*"],
+                    popupTemplate: popupTemplate
+                });
+                return layer;
+            }
+            function sekolahSMA(){
+                const layer = new FeatureLayer({
+                    url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/SATUPETA_DISDIK/Sebaran_Sekolah/MapServer/1",
+                    title: 'Sekolah Menengah Atas',
+                    id: 'tx_sekolah_sma',
+                    outFields: ["*"],
+                    popupTemplate: popupTemplate
+                });
+                return layer;
+            }
+            function sekolahSMP(){
+                const layer = new FeatureLayer({
+                    url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/SATUPETA_DISDIK/Sebaran_Sekolah/MapServer/2",
+                    title: 'Sekolah Menengah Pertama',
+                    id: 'tx_sekolah_smp',
+                    outFields: ["*"],
+                    popupTemplate: popupTemplate
+                });
+                return layer;
+            }
+            function sekolahSD(){
+                const layer = new FeatureLayer({
+                    url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/SATUPETA_DISDIK/Sebaran_Sekolah/MapServer/3",
+                    title: 'Sekolah Dasar',
+                    id: 'tx_sekolah_sd',
+                    outFields: ["*"],
+                    popupTemplate: popupTemplate
+                });
+                return layer;
+            }
+            function sekolahTK(){
+                const layer = new FeatureLayer({
+                    url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/SATUPETA_DISDIK/Sebaran_Sekolah/MapServer/4",
+                    title: 'Taman Kanak-kanak',
+                    id: 'tx_sekolah_tk',
+                    outFields: ["*"],
+                    popupTemplate: popupTemplate
+                });
+                return layer;
+            }
+            function sekolahPG(){
+                const layer = new FeatureLayer({
+                    url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/SATUPETA_DISDIK/Sebaran_Sekolah/MapServer/5",
+                    title: 'Playgroup',
+                    id: 'tx_sekolah_pg',
+                    outFields: ["*"],
+                    popupTemplate: popupTemplate
+                });
+                return layer;
+            }
         }
 
     });
