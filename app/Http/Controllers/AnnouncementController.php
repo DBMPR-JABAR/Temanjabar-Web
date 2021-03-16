@@ -53,7 +53,7 @@ class AnnouncementController extends Controller
         //
         $this->validate($request,[
             'cover'         => 'required|image|mimes:jpeg,jpg,png|max:2000',
-            'title'         => 'required',
+            'title'         => 'required|unique:announcements',
             'content'       => '',
             'sent_to'       => 'required'
         ]);
@@ -144,7 +144,7 @@ class AnnouncementController extends Controller
          //
          $this->validate($request,[
             'cover'         => 'image|mimes:jpeg,jpg,png|max:2000',
-            'title'         => 'required',
+            'title'         => 'required|unique:announcements,title,'.$announcement->id,
             'content'       => '',
             'sent_to'       => 'required'
         ]);
