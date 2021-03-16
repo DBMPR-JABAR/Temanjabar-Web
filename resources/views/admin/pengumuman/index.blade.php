@@ -87,6 +87,8 @@
 
 
                                         <td>
+                                                <a type='button' href='{{ route('announcement.show', $data['slug']) }}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-eye'></i>Tampilkan</a>
+
                                                 {{-- <a type='button' href="{{ route('detailRoleAkses', $data['id']) }}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Rincian</a> --}}
                                                 <a type='button' href='{{ route('announcement.edit', $data['id']) }}'  class='btn btn-warning btn-mini waves-effect waves-light'><i class='icofont icofont-edit'></i>Edit</a>
                                                 {{-- <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$data['id']}}' data-uptd_access='{{$uptd_access[$i]}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a> --}}

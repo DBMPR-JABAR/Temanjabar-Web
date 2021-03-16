@@ -113,9 +113,15 @@ class AnnouncementController extends Controller
      * @param  \App\Announcement  $announcement
      * @return \Illuminate\Http\Response
      */
-    public function show(Announcement $announcement)
+    public function show($slug)
     {
         //
+        $pengumuman = Announcement::where('announcements.slug',$slug)
+        ->leftJoin('users','announcements.created_by','=','users.id')->select('announcements.*', 'users.name as nama_user')
+        ->first();
+        // dd($pengumuman);
+        return view('admin.pengumuman.show', compact('pengumuman'));
+
     }
 
     /**
