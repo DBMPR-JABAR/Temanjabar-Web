@@ -202,7 +202,7 @@
                     </a>
                 </div>
             @endforeach
-            
+            {{ $pengumuman_masyarakat->links() }}
             
         </div>
         <div class="container-grid fadeInUp" data-wow-delay="300ms">
