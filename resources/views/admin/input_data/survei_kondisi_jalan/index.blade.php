@@ -170,8 +170,8 @@
                                                     class="icofont icofont-pencil"
                                                 ></i></button
                                         ></a>
-                                        @endif @if
-                                        (hasAccess(Auth::user()->internal_role_id,
+                                        @endif 
+                                        @if(hasAccess(Auth::user()->internal_role_id,
                                         'Kondisi Jalan', 'Delete'))
                                         <a
                                             href="#delModal"
