@@ -41,6 +41,7 @@ Route::get('map/map-dashboard-uptd/{uptd_id}', 'MapLandingController@mapUptd')->
 Route::post('dependent-dropdown', 'DropdownAddressController@store')
     ->name('dependent-dropdown.store');
 Route::get('getCity', 'DropdownAddressController@getCity');
+Route::get('/announcement/show/{id}', 'AnnouncementController@show')->name('announcementShow');
 
 // {SiteURL}/uptd/*
 Route::group(['prefix' => 'uptd'], function () {

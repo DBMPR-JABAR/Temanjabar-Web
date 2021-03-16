@@ -74,14 +74,17 @@
     <div id="pcoded" class="pcoded">
         <div class="pcoded-overlay-box"></div>
         <div class="pcoded-container navbar-wrapper">
-
+            @if(Auth::user())
             @include('admin.layout.navbar')
-
+            @endif
             <div class="pcoded-main-container">
                 <div class="pcoded-wrapper">
-                    @include('admin.layout.sidebar')
+                    @if(Auth::user())
 
+                    @include('admin.layout.sidebar')
+                    
                     <div class="pcoded-content">
+                        @endif
 
                         {{-- <div class="row align-items-end">
                                 <div class="col-lg-8">

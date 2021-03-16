@@ -182,7 +182,7 @@
         <div class="row">
             @foreach ($pengumuman_masyarakat as $item)
                 <div class="col-md-6">
-                    <a href="{{ route('announcement.show', $item->slug) }}">
+                    <a href="{{ route('announcementShow', $item->slug) }}">
                     <div class="card w-100 mb-2 ">
                         <div class="card-block">
                             <div class="media">
@@ -202,7 +202,7 @@
                     </a>
                 </div>
             @endforeach
-            {{ $pengumuman_masyarakat->links() }}
+            {{-- {{ $pengumuman_masyarakat->links() }} --}}
             
         </div>
         <div class="container-grid fadeInUp" data-wow-delay="300ms">

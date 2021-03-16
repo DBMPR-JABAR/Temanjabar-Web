@@ -132,13 +132,16 @@ class AnnouncementController extends Controller
         ->leftJoin('announcements','announcements.id','=','utils_notifikasi.pointer_id')->where('utils_notifikasi.pointer_id',$pengumuman->id)->select('announcements.*','utils_notifikasi.title as nama_notif','utils_notifikasi.id as utils_notifikasi_id')
         ->first();
         // dd($utils_notif);
-        $utils_not = [
-            "title"=>"pengumuman", 
-            "user_id"=>Auth::user()->id,
-            "pointer_id" => $utils_notif->id,
-            "utils_notifikasi_id" => $utils_notif->utils_notifikasi_id
-        ];
-        $read_notif = DB::table("read_notifikasi")->updateOrInsert($utils_not);
+        if($utils_notif == 'internal'){
+            $utils_not = [
+                "title"=>"pengumuman", 
+                "user_id"=>Auth::user()->id,
+                "pointer_id" => $utils_notif->id,
+                "utils_notifikasi_id" => $utils_notif->utils_notifikasi_id
+            ];
+            $read_notif = DB::table("read_notifikasi")->updateOrInsert($utils_not);
+
+        }
         // dd($pengumuman);
         return view('admin.pengumuman.show', compact('pengumuman'));
 
