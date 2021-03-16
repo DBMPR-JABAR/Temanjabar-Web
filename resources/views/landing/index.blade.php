@@ -187,7 +187,7 @@
                         <div class="card-block">
                             <div class="media">
                                 <div class="media-left media-top">  
-                                    <img class="media-object" src="{{ url('storage/pengumuman/'.$pengumuman->image) }}" alt="image">
+                                    <img class="media-object" src="{{ url('storage/pengumuman/'.$item->image) }}" alt="image">
                                 </div>
                                 <div class="media-body">
                                     <p class="media-heading">&nbsp; {{ $item->title }}                             
