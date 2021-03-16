@@ -50,7 +50,7 @@
             <div class="card">
                 <div class="card-header">
                     <img src="{{ url('storage/pengumuman/'.$pengumuman->image) }}" class="img-responsive img-fluid w-100" alt="Image">
-                    
+                    <br>
                     <h4 class="card-title">{{ $pengumuman->title }}</h4>
                     <span style="color :grey; font-size: 10px;"><i class='icofont icofont-user'></i> {{ $pengumuman->nama_user }}|| <i class='icofont icofont-time'></i> {{ Carbon\Carbon::parse($pengumuman->created_at)->diffForHumans()}}</span>
                     
@@ -62,9 +62,12 @@
                     </div>
                 </div>
                 <div class="card-block">
+                    {{-- <hr> --}}
                     {!! $pengumuman->content !!}
                 </div>
             </div>
+            <a href="{{ url()->previous() }}"><button type="button" class="btn btn-danger waves-effect "
+                data-dismiss="modal">Kembali</button></a>
         </div>
     </div>
    
