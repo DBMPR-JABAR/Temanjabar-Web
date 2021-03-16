@@ -66,9 +66,8 @@ class AnnouncementController extends Controller
             "updated_by"=>Auth::user()->id
 
         ];
+        // dd($pengumuman['slug']);
        
-        
-        
         // Notifikasi HP
         $title = "Pengumuman ";
         $body = $request->title;
@@ -97,6 +96,16 @@ class AnnouncementController extends Controller
 
         if($announcement){
             //redirect dengan pesan sukses
+            $announc = Announcement::where('slug',$pengumuman['slug'])->first();
+            $utils_not = [
+                "title"=>"pengumuman", 
+                "role"=>$request->sent_to,
+                "user_id"=>Auth::user()->id,
+                "pointer_id" => $announc->id,
+                "created_at" => $announc->created_at
+
+            ];
+            $utils_notif = DB::table("utils_notifikasi")->insert($utils_not);
             $color = "success";
             $msg = "Data Berhasil Disimpan!";
         }else{
@@ -119,6 +128,17 @@ class AnnouncementController extends Controller
         $pengumuman = Announcement::where('announcements.slug',$slug)
         ->leftJoin('users','announcements.created_by','=','users.id')->select('announcements.*', 'users.name as nama_user')
         ->first();
+        $utils_notif = DB::table('utils_notifikasi')->where('utils_notifikasi.title','pengumuman')
+        ->leftJoin('announcements','announcements.id','=','utils_notifikasi.pointer_id')->where('utils_notifikasi.pointer_id',$pengumuman->id)->select('announcements.*','utils_notifikasi.title as nama_notif','utils_notifikasi.id as utils_notifikasi_id')
+        ->first();
+        // dd($utils_notif);
+        $utils_not = [
+            "title"=>"pengumuman", 
+            "user_id"=>Auth::user()->id,
+            "pointer_id" => $utils_notif->id,
+            "utils_notifikasi_id" => $utils_notif->utils_notifikasi_id
+        ];
+        $read_notif = DB::table("read_notifikasi")->updateOrInsert($utils_not);
         // dd($pengumuman);
         return view('admin.pengumuman.show', compact('pengumuman'));
 
@@ -201,6 +221,12 @@ class AnnouncementController extends Controller
         // dd($announcement->id);
         Storage::disk('local')->delete('public/pengumuman/'.$announcement->image);
         $announcement = $announcement->delete();
+
+        $utils_notif = DB::table("utils_notifikasi")
+        ->where('title','pengumuman')
+        ->where('pointer_id',$id)->delete();
+
+
         if($announcement){
             //redirect dengan pesan sukses
             $color = "success";

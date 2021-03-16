@@ -158,9 +158,7 @@
                                         title=""
                                         data-original-title=".btn-xlg"
                                     >
-                                        @if
-                                        (hasAccess(Auth::user()->internal_role_id,
-                                        'Kondisi Jalan', 'Update'))
+                                        @if(hasAccess(Auth::user()->internal_role_id,'Kondisi Jalan', 'Update'))
                                         <a
                                             href="{{ route('survei_kondisi_jalan.edit', $data->id) }}"
                                             ><button

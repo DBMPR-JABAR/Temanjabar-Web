@@ -389,7 +389,7 @@
         <div class="card">
 
             <div class="card-header">
-                {{-- <h5>Selamat Datang {{ Auth::user()->name }}</h5> --}}
+                <h4>Pengumuman</h4>
                 {{-- <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span> --}}
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
@@ -404,6 +404,25 @@
                         Panduan Penggunaan Teman Jabar : <a href="{{ url('admin/file') }}" style="color: blue; font-weight: bold" target="_blank">File here</a>
                     </h6>
                 </p>
+                @foreach ($pengumuman_internal as $item)
+                    <div class="card w-100 mb-2">
+                        <a href="{{ route('announcement.show', $item->slug) }}">
+                        <div class="card-block">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h6 class="card-title">{{ $item->title }}</h6>
+                                    {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
+                                    <span style="color :grey; font-size: 10px;"><i class='icofont icofont-user'></i> {{ $item->nama_user }}|| <i class='icofont icofont-time'></i> {{ Carbon\Carbon::parse($item->created_at)->diffForHumans()}}</span>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <i class="feather icon-arrow-down f-20"></i>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+                @endforeach
+                {{ $pengumuman_internal->links() }}
             </div>
         </div>
     </div>

@@ -179,6 +179,22 @@
 <section id="video" class="padding">
     <div class="container">
         <h3 class="darkcolor font-normal bottom30">Berita kami</h2>
+            <div class="card w-100 mb-2">
+                <a href="{{ route('announcement.index') }}">
+                <div class="card-block">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h6 class="card-title">juduuuuul</h6>
+                            {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
+                            <span style="color :grey; font-size: 10px;"><i class='icofont icofont-user'></i> Useerr|| <i class='icofont icofont-time'></i> Waktuu</span>
+                        </div>
+                        <div class="col-4 text-right">
+                            <i class="feather icon-arrow-down f-20"></i>
+                        </div>
+                    </div>
+                </div>
+                </a>
+            </div>
         <div class="container-grid fadeInUp" data-wow-delay="300ms">
             @foreach ($video as $index => $data)
             <div class="vid{{++$index}}">

@@ -62,7 +62,7 @@
                 </div>
                 <div class="card-block">
                     {{-- <hr> --}}
-                    <img src="{{ url('storage/pengumuman/'.$pengumuman->image) }}" class="img-responsive img-fluid w-100" alt="Image">
+                    <img src="{{ url('storage/pengumuman/'.$pengumuman->image) }}" class="img-responsive img-fluid w-50" alt="Image">
                     <br>
                     {!! $pengumuman->content !!}
                 </div>

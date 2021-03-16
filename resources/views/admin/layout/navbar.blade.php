@@ -35,60 +35,68 @@
                 </li>
             </ul>
             <ul class="nav-right">
-                {{-- <li class="header-notification">
+                <li class="header-notification">
                     <div class="dropdown-primary dropdown">
                         <div class="dropdown-toggle" data-toggle="dropdown">
                             <i class="feather icon-bell"></i>
-                            <span class="badge bg-c-red">5</span>
+                            @if($jumlah_notif_internal)<span class="badge bg-c-red">{{ $jumlah_notif_internal }}</span>@endif
                         </div>
-                        <ul class="show-notification notification-view dropdown-menu"
+                        <ul id="scrollable" class="show-notification notification-view dropdown-menu"
                             data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
                             <li>
                                 <h6>Notifications</h6>
+                                @if($jumlah_notif_internal)
                                 <label class="label label-danger">New</label>
+                                @endif
                             </li>
-                            <li>
-                                <div class="media">
-                                    <img class="img-radius"
-                                        src="{{ asset('assets/files/assets/images/avatar-4.jpg') }}"
-                                        alt="Generic placeholder image">
-                                    <div class="media-body">
-                                        <h5 class="notification-user">John Doe</h5>
-                                        <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer
-                                            elit.</p>
-                                        <span class="notification-time">30 minutes ago</span>
+                            @foreach ($utils_notif as $item)
+                            <li >
+                                <a @if($item->nama_notif == 'pengumuman') href="{{ route('announcement.show', $item->slug) }}" @endif target="_blank" >
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <div class="media">
+                                                {{-- @if($item->nama_notif == "pengumuman")
+                                                <img class="img-radius"
+                                                    src="{{ url('storage/pengumuman/'.$item->image) }}"
+                                                    alt="Generic placeholder image">
+                                                @endif --}}
+                                                <div class="media-body ">
+                                                    <h5 class="notification-user font-weight-bold">{{ Str::title($item->nama_notif) }}</h5>
+                                                    <p class="notification-msg">{{ $item->title }}</p>
+                                                    <span class="notification-time">{{ Carbon\Carbon::parse($item->created_at)->diffForHumans()}}</span>
+                                                </div>
+                                            </div>
+                                           
+                                        </div>
+                                        @if(count($read_notif_internal) != 0)
+                                        @php
+                                            
+                                            foreach ($read_notif_internal as $item_read_notif){
+                                                if($item->nama_notif == $item_read_notif->title && $item->id == $item_read_notif->pointer_id && $item->utils_notifikasi_id == $item_read_notif->utils_notifikasi_id){
+                                                    $statts= "";
+                                                    break;
+                                                }else
+                                                    $statts="read_notif";
+                                            }
+                                           
+                                        @endphp
+                                        <div class="col-2 {{ $statts }}">
+                                        </div>
+                                        @else
+                                            <div class="col-2 read_notif">
+                                            </div>
+                                        @endif
                                     </div>
-                                </div>
+                                   
+                                </a>
                             </li>
-                            <li>
-                                <div class="media">
-                                    <img class="img-radius"
-                                        src="{{ asset('assets/files/assets/images/avatar-3.jpg') }}"
-                                        alt="Generic placeholder image">
-                                    <div class="media-body">
-                                        <h5 class="notification-user">Joseph William</h5>
-                                        <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer
-                                            elit.</p>
-                                        <span class="notification-time">30 minutes ago</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="media">
-                                    <img class="img-radius"
-                                        src="{{ asset('assets/files/assets/images/avatar-4.jpg') }}"
-                                        alt="Generic placeholder image">
-                                    <div class="media-body">
-                                        <h5 class="notification-user">Sara Soudein</h5>
-                                        <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer
-                                            elit.</p>
-                                        <span class="notification-time">30 minutes ago</span>
-                                    </div>
-                                </div>
-                            </li>
+                                
+                            @endforeach
+                            
                         </ul>
+                        
                     </div>
-                </li> --}}
+                </li>
                 {{-- <li class="header-notification">
                     <div class="dropdown-primary dropdown">
                         <div class="displayChatbox dropdown-toggle" data-toggle="dropdown">

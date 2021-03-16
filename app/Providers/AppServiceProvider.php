@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 use Carbon\Carbon;
+use App\Announcement;
+
 
 
 class AppServiceProvider extends ServiceProvider
@@ -137,6 +139,34 @@ class AppServiceProvider extends ServiceProvider
                 $profile_users = DB::table('user_pegawai')->where('user_id',Auth::user()->id)->first();
                 $view->with('profile_users', $profile_users);
             }
+        });
+        View::composer('*', function ($view) {
+            if(Auth::user()){
+               
+                $pengumuman_internal = Announcement::where('sent_to','internal')
+                ->leftJoin('users','announcements.created_by','=','users.id')->select('announcements.*', 'users.name as nama_user')
+                ->latest('announcements.created_at')->paginate(3);
+                $pengumuman_masyarakat = Announcement::where('sent_to','masyarakat')->latest('created_at')->paginate(3);
+
+                $view->with(['pengumuman_internal'=> $pengumuman_internal, 'pengumuman_masyarakat'=>$pengumuman_masyarakat]);
+            }
+        });
+        View::composer('*', function ($view) {
+            $utils_notif = DB::table('utils_notifikasi')->where('utils_notifikasi.title','pengumuman')->where('utils_notifikasi.role','internal')
+            ->leftJoin('announcements','announcements.id','=','utils_notifikasi.pointer_id')->select('announcements.*','utils_notifikasi.title as nama_notif','utils_notifikasi.id as utils_notifikasi_id')
+            ->latest('created_at')->get();
+            // dd($utils_notif);
+            $jumlah_notif_internal = count($utils_notif);
+            if(Auth::user()){
+                
+                $read_notif_internal = DB::table('utils_notifikasi')->where('utils_notifikasi.title','pengumuman')->where('utils_notifikasi.role','internal')
+                ->rightJoin('read_notifikasi','read_notifikasi.utils_notifikasi_id','=','utils_notifikasi.id')->where('read_notifikasi.user_id',Auth::user()->id)
+                ->get();
+                // dd($read_notif_internal);
+                $jumlah_notif_internal = $jumlah_notif_internal - count($read_notif_internal);
+                
+            }
+            $view->with(['utils_notif'=> $utils_notif, 'jumlah_notif_internal'=>$jumlah_notif_internal, 'read_notif_internal'=>$read_notif_internal]);
         });
         
 
