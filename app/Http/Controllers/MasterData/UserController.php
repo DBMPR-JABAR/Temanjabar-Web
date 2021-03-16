@@ -365,9 +365,9 @@ class UserController extends Controller
 
         $user_role_list = DB::table('user_role as a')
         ->distinct()
-        ->select('a.role','a.id as role_id',DB::raw('GROUP_CONCAT(b.menu SEPARATOR ", ") as menu_user'),DB::raw('GROUP_CONCAT(b.id SEPARATOR ", ") as id_menu'),DB::raw('GROUP_CONCAT(c.role_access SEPARATOR ", ") as role_access'))
+        ->select('a.role','a.id as role_id',DB::raw('GROUP_CONCAT(b.menu SEPARATOR ", ") as menu_user'),DB::raw('GROUP_CONCAT(b.id SEPARATOR ", ") as id_menu'))
         ->join('master_grant_role_aplikasi as b','a.id','=','b.internal_role_id')
-        ->join('utils_role_access as c','b.id','=','c.master_grant_role_aplikasi_id')
+        // ->join('utils_role_access as c','b.id','=','c.master_grant_role_aplikasi_id')
         ->where('a.id',$id)
         ->where('b.menu','NOT LIKE','%disposisi%')
         ->groupBy('a.role')
@@ -379,9 +379,10 @@ class UserController extends Controller
         foreach($user_role_list as $data){
             $permiss =array();
             $permissuser =array();
+            $roleaccessuser =[];
 
             $men = explode(", ",$data->menu_user);
-            $aks = explode(", ",$data->role_access);
+            // $aks = explode(", ",$data->role_access);
             $id_men = explode(", ",$data->id_menu);
             // dd($id_men);
             // dd($aks);
@@ -391,19 +392,28 @@ class UserController extends Controller
             $counting = 0;
             foreach($id_men as $now){
                 $id_menn = DB::table('master_grant_role_aplikasi')->where('id', $now)
-                ->select('menu')->first();
-                array_push($permissuser,$id_menn->menu) ;
+                ->select('menu','id')->first();
+                array_push($permissuser,$id_menn) ;
+
+                $role_access = DB::table('utils_role_access')->where('master_grant_role_aplikasi_id', $now)
+                ->pluck('role_access');
+                foreach($role_access as $items){
+                $roleaccessuser[$now][] = [$items];
+                    
+                }
+                // array_push($roleaccessuser,$role_access) ;
+
+                // dd($role_access);
             }
             // dd($permissuser);
-            foreach($permissuser as $no){
+            foreach($permissuser as $da => $no){
                 // echo $no;
-                $temp = $no.'.'.$aks[$counting];
-                array_push($permiss,$temp) ;
-                $counting++;
-                if($counting == 4)
-                    $counting=0;
+                for($i = 0; $i<count( $roleaccessuser[$no->id]);$i++){
+                    $temp = $no->menu.'.'.implode($roleaccessuser[$no->id][$i]);
+                    array_push($permiss,$temp) ;
+                }
             }
-            // dd($permissuser);
+            // dd($permiss);
             $permission = implode(", ", $permiss);
             $alldata['role_id'] = $data->role_id;
             $alldata['role'] = $data->role;
@@ -411,7 +421,7 @@ class UserController extends Controller
             $alldata['permissions'] = $permission;
             $counter++;
         }
-
+        // dd($alldata);
         // dd($id_men);
         // $menu = DB::table('master_grant_role_aplikasi as a')
         // ->distinct()
@@ -483,13 +493,14 @@ class UserController extends Controller
             'menu' => 'required',
 
         ]);
+        // dd($request->menu);
         // dd($request);
         // dd($data);
             //Delete data
         $menu = DB::table('master_grant_role_aplikasi')
         ->where('internal_role_id',$id)
         ->get();
-
+            // dd($menu);
         for($i=0;$i<count($menu);$i++){
             $role_access = DB::table('utils_role_access')
             ->where('master_grant_role_aplikasi_id',$menu[$i]->id);
