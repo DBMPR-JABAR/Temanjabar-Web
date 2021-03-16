@@ -96,7 +96,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::get('roadroid-survei-kondisi-jalan/{id}', 'SurveiController@getRoadroidSKJ');
         Route::view('roadroid-survei-kondisi-jalan', 'admin.map.map-roaddroid');
 
-        Route::get('progress_mingguan', 'Monitoring\ProgressMingguanController@getProggressMingguan');
+        Route::get('progress_mingguan', 'Monitoring\ProgressMingguanController@getProggressMingguan')->name('getProgressMingguan');
     });
 
     // {SiteURL}/admin/rekomendasi/*
