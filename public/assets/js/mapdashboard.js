@@ -128,57 +128,23 @@ function getMap(baseUrl, gsvrUrl) {
         function caseRender() {
             let sup = $("#spp_filter").val();
             let kegiatan = $("#kegiatan").val();
-            // kegiatan.push("progressmingguan");
-            if ($.inArray('datarawanbencana', kegiatan) >= 0) {
-                rawanBencana();
-                kegiatan.splice(kegiatan.indexOf('datarawanbencana'), 1);
-            } else {
-                map.remove(map.findLayerById('rbl'));
-            }
 
-            if ($.inArray('ruasjalan', kegiatan) >= 0) {
-                addRuteJalan();
-                kegiatan.splice(kegiatan.indexOf('ruasjalan'), 1);
-            } else {
-                map.remove(map.findLayerById('rj'));
+            function render(nm,layer,callback){
+                if ($.inArray(nm, kegiatan) >= 0) {
+                    callback;
+                    kegiatan.splice(kegiatan.indexOf(nm), 1);
+                } else {
+                    map.remove(map.findLayerById(layer));
+                }
             }
-            if ($.inArray('kemantapanjalan', kegiatan) >= 0) {
-                addKemantapanJalan();
-                kegiatan.splice(kegiatan.indexOf('kemantapanjalan'), 1);
-            } else {
-                map.remove(map.findLayerById('rj_mantap'));
-            }
-
-            if ($.inArray('kondisijalan', kegiatan) >= 0) {
-                addKondisiJalan();
-                kegiatan.splice(kegiatan.indexOf('kondisijalan'), 1);
-            } else {
-                map.remove(map.findLayerById('rjp_skj'));
-            }
-            if ($.inArray('kondisijalan_titik', kegiatan) >= 0) {
-                addTitikKondisiJalan();
-                kegiatan.splice(kegiatan.indexOf('kondisijalan_titik'), 1);
-            } else {
-                map.remove(map.findLayerById('rjp_skj_titik'));
-            }
-            if ($.inArray('pembangunan', kegiatan) >= 0) {
-                addPembangunan();
-                kegiatan.splice(kegiatan.indexOf('pembangunan'), 1);
-            } else {
-                map.remove(map.findLayerById('pr_bangun'));
-            }
-            if ($.inArray('peningkatan', kegiatan) >= 0) {
-                addPeningkatan();
-                kegiatan.splice(kegiatan.indexOf('peningkatan'), 1);
-            } else {
-                map.remove(map.findLayerById('pr_tingkat'));
-            }
-            if ($.inArray('rehabilitasi', kegiatan) >= 0) {
-                addRehabilitasi();
-                kegiatan.splice(kegiatan.indexOf('rehabilitasi'), 1);
-            } else {
-                map.remove(map.findLayerById('pr_rehab'));
-            }
+            render('datarawanbencana', 'rbl', rawanBencana());
+            render('ruasjalan', 'rj', addRuteJalan());
+            render('kemantapanjalan', 'rj_mantap', addKemantapanJalan());
+            render('kondisijalan', 'rjp_skj', addKondisiJalan());
+            render('kondisijalan_titik', 'rjp_skj_titik', addTitikKondisiJalan());
+            render('pembangunan', 'pr_bangun', addPembangunan());
+            render('peningkatan', 'pr_tingkat', addPeningkatan());
+            render('rehabilitasi', 'pr_rehab', addRehabilitasi());
 
             if (kegiatan.length > 0) { // kalau masih ada pilihan lain di kegiatan
                 // Request data from API
@@ -208,32 +174,11 @@ function getMap(baseUrl, gsvrUrl) {
                     // console.log(date_to);
                     // console.log(json);
                     if (json.status === "success") {
-                        if (kegiatan.indexOf('jembatan') >= 0) {
-                            addJembatan(data.jembatan);
-                        } else {
-                            map.remove(map.findLayerById('jembatan'));
-                        }
-                        if (kegiatan.indexOf('pemeliharaan') >= 0) {
-                            addPemeliharaan(data.pemeliharaan);
-                        } else {
-                            map.remove(map.findLayerById('pr_pem'));
-                        }
-                        if (kegiatan.indexOf('vehiclecounting') >= 0) {
-                            addVehicleCounting(data.vehiclecounting);
-                        } else {
-                            map.remove(map.findLayerById('vc'));
-                        }
-                        if (kegiatan.indexOf('rawanbencana') >= 0) {
-                            addTitikRawanBencana(data.rawanbencana, data.iconrawanbencana);
-                        } else {
-                            map.remove(map.findLayerById('tx_rawanbencana'));
-                        }
-                        if (kegiatan.indexOf('cctv') >= 0) {
-                            addCCTV(data.cctv);
-                        } else {
-                            map.remove(map.findLayerById('tx_cctv'));
-                        }
-
+                        render('jembatan', 'jembatan', addJembatan(data.jembatan));
+                        render('pemeliharaan', 'pr_pem', addPemeliharaan(data.pemeliharaan));
+                        render('vehiclecounting', 'vc', addVehicleCounting(data.vehiclecounting));
+                        render('rawanbencana', 'tx_rawanbencana', addTitikRawanBencana(data.rawanbencana, data.iconrawanbencana));
+                        render('cctv', 'tx_cctv', addCCTV, addCCTV(data.cctv));
                     } else { // json.status != success
                         // do something
                     }
