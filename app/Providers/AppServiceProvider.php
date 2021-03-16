@@ -141,15 +141,19 @@ class AppServiceProvider extends ServiceProvider
             }
         });
         View::composer('*', function ($view) {
+            $pengumuman_internal = "";
             if(Auth::user()){
                
                 $pengumuman_internal = Announcement::where('sent_to','internal')
                 ->leftJoin('users','announcements.created_by','=','users.id')->select('announcements.*', 'users.name as nama_user')
                 ->latest('announcements.created_at')->paginate(3);
-                $pengumuman_masyarakat = Announcement::where('sent_to','masyarakat')->latest('created_at')->paginate(3);
-
-                $view->with(['pengumuman_internal'=> $pengumuman_internal, 'pengumuman_masyarakat'=>$pengumuman_masyarakat]);
+                
             }
+            $pengumuman_masyarakat = Announcement::where('sent_to','masyarakat')
+            ->leftJoin('users','announcements.created_by','=','users.id')->select('announcements.*', 'users.name as nama_user')
+            
+            ->latest('announcements.created_at')->paginate(4);
+            $view->with(['pengumuman_internal'=> $pengumuman_internal, 'pengumuman_masyarakat'=>$pengumuman_masyarakat]);
         });
         View::composer('*', function ($view) {
             $utils_notif = DB::table('utils_notifikasi')->where('utils_notifikasi.title','pengumuman')->where('utils_notifikasi.role','internal')
@@ -157,6 +161,7 @@ class AppServiceProvider extends ServiceProvider
             ->latest('created_at')->get();
             // dd($utils_notif);
             $jumlah_notif_internal = count($utils_notif);
+            $read_notif_internal = "";
             if(Auth::user()){
                 
                 $read_notif_internal = DB::table('utils_notifikasi')->where('utils_notifikasi.title','pengumuman')->where('utils_notifikasi.role','internal')

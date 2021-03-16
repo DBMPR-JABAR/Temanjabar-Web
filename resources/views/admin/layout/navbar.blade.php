@@ -57,7 +57,7 @@
                                             <div class="media">
                                                 {{-- @if($item->nama_notif == "pengumuman")
                                                 <img class="img-radius"
-                                                    src="{{ url('storage/pengumuman/'.$item->image) }}"
+                                                    src="{{ asset('assets/files/assets/images/avatar-4.jpg') }}"
                                                     alt="Generic placeholder image">
                                                 @endif --}}
                                                 <div class="media-body ">

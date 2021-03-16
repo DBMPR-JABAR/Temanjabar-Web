@@ -12,6 +12,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="{{ asset('assets/images/favicon/favicon.ico') }}" rel="icon">
+    
     <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/fontawesome/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/_landing/extras/css/animate.min.css') }}">
@@ -22,6 +23,9 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/_landing/revolution/css/navigation.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/_landing/revolution/css/settings.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/landing_style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/files/assets/css/font-awesome-n.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/icon/themify-icons/themify-icons.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/icon/icofont/css/icofont.css') }}">
     <!-- favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/images/favicon/apple-touch-icon.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/images/favicon/favicon-32x32.png') }}">

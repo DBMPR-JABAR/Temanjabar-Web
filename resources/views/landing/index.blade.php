@@ -178,23 +178,33 @@
 </section>
 <section id="video" class="padding">
     <div class="container">
-        <h3 class="darkcolor font-normal bottom30">Berita kami</h2>
-            {{-- <div class="card w-100 mb-2">
-                <a href="{{ route('announcement.index') }}">
-                <div class="card-block">
-                    <div class="row align-items-center">
-                        <div class="col-8">
-                            <h6 class="card-title">juduuuuul</h6>
-                            
-                            <span style="color :grey; font-size: 10px;"><i class='icofont icofont-user'></i> Useerr|| <i class='icofont icofont-time'></i> Waktuu</span>
-                        </div>
-                        <div class="col-4 text-right">
-                            <i class="feather icon-arrow-down f-20"></i>
+        <h3 class="darkcolor font-normal bottom30">Berita kami</h3>
+        <div class="row">
+            @foreach ($pengumuman_masyarakat as $item)
+                <div class="col-md-6">
+                    <a href="{{ route('announcement.index') }}">
+                    <div class="card w-100 mb-2 ">
+                        <div class="card-block">
+                            <div class="media">
+                                <div class="media-left media-top">  
+                                    <img class="media-object" src="{{ asset('assets/files/assets/images/avatar-4.jpg') }}" alt="image">
+                                </div>
+                                <div class="media-body">
+                                    <p class="media-heading">&nbsp; {{ $item->title }}                             
+                                    <div class="pull-right">&nbsp; <span style="color :grey; font-size: 10px;"><i class='icofont icofont-user'></i> {{ $item->nama_user }}|| <i class='icofont icofont-time'></i> {{ Carbon\Carbon::parse($item->created_at)->diffForHumans()}}</span></div>
+                                    
+
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    </a>
                 </div>
-                </a>
-            </div> --}}
+            @endforeach
+            
+            
+        </div>
         <div class="container-grid fadeInUp" data-wow-delay="300ms">
             @foreach ($video as $index => $data)
             <div class="vid{{++$index}}">
