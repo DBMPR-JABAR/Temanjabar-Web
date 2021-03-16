@@ -152,7 +152,7 @@ class AppServiceProvider extends ServiceProvider
             $pengumuman_masyarakat = Announcement::where('sent_to','masyarakat')
             ->leftJoin('users','announcements.created_by','=','users.id')->select('announcements.*', 'users.name as nama_user')
             
-            ->latest('announcements.created_at')->paginate(4);
+            ->latest('announcements.created_at')->paginate(6);
             $view->with(['pengumuman_internal'=> $pengumuman_internal, 'pengumuman_masyarakat'=>$pengumuman_masyarakat]);
         });
         View::composer('*', function ($view) {
