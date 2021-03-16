@@ -132,7 +132,7 @@ class AnnouncementController extends Controller
         ->leftJoin('announcements','announcements.id','=','utils_notifikasi.pointer_id')->where('utils_notifikasi.pointer_id',$pengumuman->id)->select('announcements.*','utils_notifikasi.title as nama_notif','utils_notifikasi.id as utils_notifikasi_id')
         ->first();
         // dd($utils_notif);
-        if($utils_notif == 'internal'){
+        if($utils_notif->role == 'internal'){
             $utils_not = [
                 "title"=>"pengumuman", 
                 "user_id"=>Auth::user()->id,
