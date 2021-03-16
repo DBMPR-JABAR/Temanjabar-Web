@@ -182,8 +182,8 @@
                                 style="overflow: scroll">
                                 <thead>
                                     <tr>
-                                        <th>Uraian</th>
                                         <th>Tanggal</th>
+                                        <th>Uraian</th>
                                         <th>Volume</th>
                                         <th>Satuan</th>
                                     </tr>
