@@ -57,7 +57,9 @@
                     </div>
                 </div>
                 <div class="card-block">
+                    @if (hasAccess(Auth::user()->internal_role_id, 'Pengumuman', 'Create'))
                     <a href="{{ route('announcement.create') }}" class="btn btn-mat btn-primary mb-3">Tambah</a>
+                    @endif
                     <div class="dt-responsive table-responsive">
                         <table id="dttable" class="table table-striped table-bordered able-responsive">
                             <thead>
@@ -87,12 +89,13 @@
 
 
                                         <td>
-                                                <a type='button' href='{{ route('announcement.show', $data['slug']) }}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-eye'></i>Tampilkan</a>
-
-                                                {{-- <a type='button' href="{{ route('detailRoleAkses', $data['id']) }}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Rincian</a> --}}
-                                                <a type='button' href='{{ route('announcement.edit', $data['id']) }}'  class='btn btn-warning btn-mini waves-effect waves-light'><i class='icofont icofont-edit'></i>Edit</a>
-                                                {{-- <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$data['id']}}' data-uptd_access='{{$uptd_access[$i]}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a> --}}
-                                                <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data['id']}}'     class='btn btn-danger btn-mini waves-effect waves-light'><i class='icofont icofont-trash'></i>Hapus</a><br/>
+                                            <a type='button' href='{{ route('announcement.show', $data['slug']) }}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-eye'></i>Tampilkan</a>
+                                            @if (hasAccess(Auth::user()->internal_role_id, 'Pengumuman', 'Update'))
+                                            <a type='button' href='{{ route('announcement.edit', $data['id']) }}'  class='btn btn-warning btn-mini waves-effect waves-light'><i class='icofont icofont-edit'></i>Edit</a>
+                                            @endif
+                                            @if (hasAccess(Auth::user()->internal_role_id, 'Pengumuman', 'Delete'))
+                                            <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data['id']}}'     class='btn btn-danger btn-mini waves-effect waves-light'><i class='icofont icofont-trash'></i>Hapus</a><br/>
+                                            @endif   
                                         </td>
                                     </tr>
                                    
