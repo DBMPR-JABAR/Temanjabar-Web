@@ -49,8 +49,7 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    <img src="{{ url('storage/pengumuman/'.$pengumuman->image) }}" class="img-responsive img-fluid w-100" alt="Image">
-                    <br>
+                    
                     <h4 class="card-title">{{ $pengumuman->title }}</h4>
                     <span style="color :grey; font-size: 10px;"><i class='icofont icofont-user'></i> {{ $pengumuman->nama_user }}|| <i class='icofont icofont-time'></i> {{ Carbon\Carbon::parse($pengumuman->created_at)->diffForHumans()}}</span>
                     
@@ -63,6 +62,8 @@
                 </div>
                 <div class="card-block">
                     {{-- <hr> --}}
+                    <img src="{{ url('storage/pengumuman/'.$pengumuman->image) }}" class="img-responsive img-fluid w-100" alt="Image">
+                    <br>
                     {!! $pengumuman->content !!}
                 </div>
             </div>
