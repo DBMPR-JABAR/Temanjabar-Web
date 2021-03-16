@@ -356,7 +356,7 @@
         )
     }}"></script>
 <script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
-<script src="{{ asset('assets/js/custom.js) }}"></script>
+<script src="{{ asset('assets/js/custom.js') }}"></script>
 
 <script>
     $(document).ready(function () {
