@@ -237,10 +237,14 @@ class UserController extends Controller
                 break;
             }
             if( Auth::user()->internalRole->uptd != null &&$dataa['uptd'] == Auth::user()->internalRole->uptd){
+                $uptd_id = str_replace('uptd', '', $dataa['uptd']);
+                $dataa['uptd_aks'] = $uptd_id;
+                
                 $tempdata[] = $dataa;
             }
             
         }
+        // dd($tempdata);
         if($tempdata != null){
             $temporaridata = $tempdata;
         }
@@ -398,16 +402,14 @@ class UserController extends Controller
                 $role_access = DB::table('utils_role_access')->where('master_grant_role_aplikasi_id', $now)
                 ->pluck('role_access');
                 foreach($role_access as $items){
-                $roleaccessuser[$now][] = [$items];
-                    
+                    $roleaccessuser[$now][] = [$items];  
                 }
-                // array_push($roleaccessuser,$role_access) ;
-
                 // dd($role_access);
             }
             // dd($permissuser);
+            // dd($roleaccessuser);
+
             foreach($permissuser as $da => $no){
-                // echo $no;
                 for($i = 0; $i<count( $roleaccessuser[$no->id]);$i++){
                     $temp = $no->menu.'.'.implode($roleaccessuser[$no->id][$i]);
                     array_push($permiss,$temp) ;
@@ -449,11 +451,7 @@ class UserController extends Controller
             $tempi2[]=['nama'=> $as->nama.'.View','nama_menu'=> $as->nama_menu];
             $tempi2[]=['nama'=> $as->nama.'.Update','nama_menu'=> $as->nama_menu];
             $tempi2[]=['nama'=> $as->nama.'.Delete','nama_menu'=> $as->nama_menu];
-            
-            array_push($tempi1,$as->nama);
-            array_push($tempi1,$as->nama);
-            array_push($tempi1,$as->nama);
-            array_push($tempi1,$as->nama);
+           
         }
         // dd($cekopoint);
         // dd($tempi2);
@@ -463,7 +461,6 @@ class UserController extends Controller
         $temporari = explode(", ",$alldata['permissions']);
         $alldata['permissions']=$temporari ;
         $alldata['menu']=$tempi ;
-        $alldata['menu_only']=$tempi1 ;
         $alldata['menu_test']=$tempi2 ;
 
 

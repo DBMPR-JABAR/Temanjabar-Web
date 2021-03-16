@@ -80,7 +80,13 @@
                                         <td>{{$loop->index + 1}}</td>
                                         <td>{{$data['role']}}</td>
                                         {{-- <td>{{$data['permissions']}}</td> --}}
-                                        <td>{{$uptd_access[$i]}}</td>
+                                         
+
+                                        <td>@if (Auth::user() && Auth::user()->internalRole->uptd) 
+                                            {{$data['uptd_aks']}}
+                                            @else {{$uptd_access[$i]}}
+                                            @endif
+                                        </td>
                                         <td>
                                                 <a type='button' href="{{ route('detailRoleAkses', $data['role_id']) }}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Rincian</a>
                                                 <a type='button' href='{{ route('editRoleAccess', $data['role_id']) }}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a>

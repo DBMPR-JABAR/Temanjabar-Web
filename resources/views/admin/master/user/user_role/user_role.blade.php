@@ -196,17 +196,17 @@
                                 </select>
                             </div>
                         </div>
-
+                        @if(Auth::user()->internalRole->uptd == null)
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Is Superadmin?</label>
+                            <label class="col-md-3 col-form-label">Is Superadmin? </label>
                             <div class="col-md-9">
                                 <select  name="super_admin" class="form-control" tabindex="4" required>
-                                    <option value="1">Yes</option>
                                     <option value="0">No</option>
+                                    <option value="1">Yes</option>
                                 </select>
                             </div>
                         </div>
-
+                        @endif
 
 
                         <div class="form-group row">
@@ -298,6 +298,21 @@
                                 <input type="text" name="parent" id="parent" class="form-control"></input>
                             </div>
                         </div>
+                        {{-- <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Parent</label>
+                            <div class="col-md-9">
+                                <select id="parent_edit"  class="searchableModalField form-control" style="width: 100%;"  name="parent" tabindex="4">
+                                    @foreach($user_role_list as $data)
+                                    @if(Auth::user()->internalRole->uptd == $data->uptd)
+                                        <option value="{{$data->id}}" id="{{ $data->id }}">{{$data->role}}</option>
+                                        @elseif(Auth::user()->internalRole->uptd == null)
+                                        <option value="{{$data->id}}" id="{{ $data->id }}">{{$data->role}}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div> --}}
+                        @if(Auth::user()->internalRole->uptd == null)
 
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Is Superadmin?</label>
@@ -308,7 +323,7 @@
                                 </select>
                             </div>
                         </div>
-
+                        @endif
 
 
                         <div class="form-group row">
@@ -328,7 +343,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        {{-- <div class="form-group row">
                             <label class="col-md-3 col-form-label">Is Deleted?</label>
                             <div class="col-md-9">
                             <select  name="is_deleted" id="is_deleted" tabindex="4" required>
@@ -336,7 +351,8 @@
                                     <option value="0" id="is_deleted_2">No</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
+                        @if(Auth::user()->internalRole->uptd == null)
 
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">UPTD</label>
@@ -353,7 +369,7 @@
                             </div>
                         </div>
 
-
+                        @endif
 
                     </div>
 
@@ -405,7 +421,15 @@
                     console.log(response);
                     $('#user_role').val(response.user_role[0].role);
                     $('#parent').val(response.user_role[0].parent);
-
+                    
+                    const user_role_list = @json($user_role_list);
+                    const selectedMenu = user_role_list.filter((data) => {
+                        return data.id == link.data('parent')
+                    });
+                    if(selectedMenu.length > 0) {
+                        console.log(selectedMenu[0].id)
+                        $('#parent_edit').val(selectedMenu[0].id);
+                    };
                     $('#keterangan').html(response.user_role[0].keterangan);
                     const keterangan = response.user_role[0].keterangan;
 

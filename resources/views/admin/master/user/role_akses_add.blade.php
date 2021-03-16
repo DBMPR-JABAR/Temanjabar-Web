@@ -125,7 +125,8 @@
                             <option value="5">UPTD 5</option>
                             <option value="6">UPTD 6</option>
                         </select> --}}
-                        @foreach ($uptd_lists as $no => $uptd_list)
+
+                        @foreach ($input_uptd_lists as $no => $uptd_list)
                             <input type="checkbox" class="custom-checkbox" name="uptd_access[]" value="{{ $uptd_list->id }}" id="uptd_{{ $uptd_list->id }}" >{{ $uptd_list->nama }}&nbsp;
                         @endforeach
                         <br>

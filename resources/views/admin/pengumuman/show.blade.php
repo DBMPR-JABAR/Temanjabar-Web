@@ -1,6 +1,6 @@
 @extends('admin.layout.index')
 
-@section('title')Role Akses @endsection
+@section('title')Pengumuman @endsection
 @section('head')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/buttons.dataTables.min.css') }}">

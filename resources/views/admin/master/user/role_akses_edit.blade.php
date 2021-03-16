@@ -94,7 +94,7 @@
                                 <label class="col-md-2 col-form-label">UPTD Access</label>
                                 <div class="col-md-10">
 
-                                    @foreach ($uptd_lists as $no => $uptd_list)
+                                    @foreach ($input_uptd_lists as $no => $uptd_list)
                                         @foreach ($alldata['uptd_akses'] as $item)
                                             @php
                                                 $act = ' ';
