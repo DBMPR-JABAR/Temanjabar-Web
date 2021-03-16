@@ -159,8 +159,7 @@
                                         title=""
                                         data-original-title=".btn-xlg"
                                     >
-                                        @if
-                                        (hasAccess(Auth::user()->internal_role_id,
+                                        @if(hasAccess(Auth::user()->internal_role_id,
                                         'Kondisi Jalan', 'Update'))
                                         <a
                                             href="{{ route('kondisi_jalan.edit', $data->ID_KEMANTAPAN) }}"
@@ -173,8 +172,8 @@
                                                     class="icofont icofont-pencil"
                                                 ></i></button
                                         ></a>
-                                        @endif @if
-                                        (hasAccess(Auth::user()->internal_role_id,
+                                        @endif
+                                        @if(hasAccess(Auth::user()->internal_role_id,
                                         'Kondisi Jalan', 'Delete'))
                                         <a
                                             href="#delModal"
@@ -262,7 +261,7 @@
         )
     }}"></script>
 <script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
-<script src="{{ asset('assets/js/custom.js) }}"></script>
+<script src="{{ asset('assets/js/custom.js') }}"></script>
 
 <script>
     $(document).ready(function () {

@@ -187,7 +187,7 @@
             })
             schedulePlan.push({
                 nama_kegiatan: progress,
-                volume_total: volume
+                total_volume: volume
             })
         })
         console.log('schedulePlan', schedulePlan);
@@ -219,20 +219,47 @@
             $('#schedulePlan').jsonViewer({schedulePlan});
         })
 
+        const activityName = "1 Km Pelebaran Jalan Menuju BIJB Tahap 2";
+        let dataWeeklyProgress = [];
+        let dataWeeklyCategories = [];
+        let dataWeeklyTotalProgressTemp = [];
+        let dataWeeklyTotalProgress = [];
+        const weeklyProgressFilter = weeklyProgress.filter((progress)=> {
+            return progress.nama_kegiatan == activityName;
+        })
+        const schedulePlanFilter = schedulePlan.filter((schedule)=> {
+            return schedule.nama_kegiatan == activityName;
+        })
+
+        weeklyProgressFilter[0].data_mingguan.forEach((progress, index)=> {
+            console.log(progress);
+            dataWeeklyProgress.push(progress.volume_migguan);
+            dataWeeklyCategories.push(`Minggu ke-${progress.minggu_ke}`);
+            let weeklyProgressPercent = (progress.volume_migguan / schedulePlanFilter[0].total_volume) * 100;
+
+            index == 0 ?
+            dataWeeklyTotalProgress.push(weeklyProgressPercent) :
+            dataWeeklyTotalProgress.push( dataWeeklyTotalProgress[index-1] + weeklyProgressPercent);
+        })
+
+        // console.log('dataWeeklyProgress', dataWeeklyProgress);
+        // console.log('dataWeeklyCategories',dataWeeklyCategories);
+        // console.log('schedulePlanFilter',schedulePlanFilter);
+        // console.log('dataWeeklyTotalProgressTemp',dataWeeklyTotalProgressTemp);
+        // console.log('dataWeeklyTotalProgress',dataWeeklyTotalProgress);
+
         Highcharts.chart('container', {
             chart: {
                 zoomType: 'xy'
             },
             title: {
-                text: 'Testing Progress Mingguan'
+                text: weeklyProgressFilter[0].nama_kegiatan
             },
-            subtitle: {
-                text: 'Testing Nama Paket'
-            },
+            // subtitle: {
+            //     text: 'Testing Nama Paket'
+            // },
             xAxis: [{
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-                ],
+                categories: dataWeeklyCategories,
                 crosshair: true
             }],
             yAxis: [{ // Primary yAxis
@@ -277,18 +304,18 @@
                     'rgba(255,255,255,0.25)'
             },
             series: [{
-                name: 'Rainfall',
+                name: 'Progress Mingguan',
                 type: 'column',
                 yAxis: 1,
-                data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4],
+                data: dataWeeklyProgress,
                 tooltip: {
                     valueSuffix: ' mm'
                 }
 
             }, {
-                name: 'Temperature',
+                name: 'Progress',
                 type: 'spline',
-                data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
+                data: dataWeeklyTotalProgress,
                 tooltip: {
                     valueSuffix: '°C'
                 }
