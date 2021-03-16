@@ -19,6 +19,7 @@
     }
 </style>
 @endsection
+@if(Auth::user())
 
 @section('page-header')
 <div class="row align-items-end">
@@ -42,7 +43,7 @@
     </div>
 </div>
 @endsection
-
+@endif
 @section('page-body')
 
     <div class="row">

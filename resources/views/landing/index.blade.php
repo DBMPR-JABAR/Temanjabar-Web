@@ -182,7 +182,7 @@
         <div class="row">
             @foreach ($pengumuman_masyarakat as $item)
                 <div class="col-md-6">
-                    <a href="{{ route('announcementShow', $item->slug) }}">
+                    <a href="{{ route('announcementShow', $item->slug) }}" target="_blank">
                     <div class="card w-100 mb-2 ">
                         <div class="card-block">
                             <div class="media">

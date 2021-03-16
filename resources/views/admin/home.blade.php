@@ -406,7 +406,7 @@
                 </p>
                 @foreach ($pengumuman_internal as $item)
                     <div class="card w-100 mb-2">
-                        <a href="{{ route('announcement.show', $item->slug) }}">
+                        <a href="{{ route('announcement.show', $item->slug) }}" target="_blank">
                         <div class="card-block">
                             <div class="row align-items-center">
                                 <div class="col-8">
