@@ -98,6 +98,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::view('roadroid-survei-kondisi-jalan', 'admin.map.map-roaddroid');
 
         Route::get('progress_mingguan', 'Monitoring\ProgressMingguanController@getProggressMingguan')->name('getProgressMingguan');
+        // dummy rekomendasi penyedia jasa dan konsultan
+        Route::get('rekomendasi_penyedia_jasa_konsultan', function () {
+            return view('admin.monitoring.penilaiain.rekomendasi_kontraktor_konsultan.index');
+        });
     });
 
     // {SiteURL}/admin/rekomendasi/*
@@ -306,8 +310,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
         Route::get('/item_satuan/delete/{id}', 'MasterData\ItemSatuanController@destroy');
         Route::resource('/item_satuan', 'MasterData\ItemSatuanController');
-
-
     });
 
     Route::group(['prefix' => 'input-data'], function () {
