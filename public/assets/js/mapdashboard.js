@@ -174,11 +174,32 @@ function getMap(baseUrl, gsvrUrl) {
                     // console.log(date_to);
                     // console.log(json);
                     if (json.status === "success") {
-                        render('jembatan', 'jembatan', addJembatan(data.jembatan));
-                        render('pemeliharaan', 'pr_pem', addPemeliharaan(data.pemeliharaan));
-                        render('vehiclecounting', 'vc', addVehicleCounting(data.vehiclecounting));
-                        render('rawanbencana', 'tx_rawanbencana', addTitikRawanBencana(data.rawanbencana, data.iconrawanbencana));
-                        render('cctv', 'tx_cctv', addCCTV, addCCTV(data.cctv));
+                        if (kegiatan.indexOf('jembatan') >= 0) {
+                            addJembatan(data.jembatan);
+                        } else {
+                            map.remove(map.findLayerById('jembatan'));
+                        }
+                        if (kegiatan.indexOf('pemeliharaan') >= 0) {
+                            addPemeliharaan(data.pemeliharaan);
+                        } else {
+                            map.remove(map.findLayerById('pr_pem'));
+                        }
+                        if (kegiatan.indexOf('vehiclecounting') >= 0) {
+                            addVehicleCounting(data.vehiclecounting);
+                        } else {
+                            map.remove(map.findLayerById('vc'));
+                        }
+                        if (kegiatan.indexOf('rawanbencana') >= 0) {
+                            addTitikRawanBencana(data.rawanbencana, data.iconrawanbencana);
+                        } else {
+                            map.remove(map.findLayerById('tx_rawanbencana'));
+                        }
+                        if (kegiatan.indexOf('cctv') >= 0) {
+                            addCCTV(data.cctv);
+                        } else {
+                            map.remove(map.findLayerById('tx_cctv'));
+                        }
+
                     } else { // json.status != success
                         // do something
                     }
