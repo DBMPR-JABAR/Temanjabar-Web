@@ -221,8 +221,43 @@ class PekerjaanController extends Controller
         // $kode_otp = rand(100000, 999999);
        
     //    dd($pekerjaan);
+        $approve = 0;
+        $reject = 0;
+        $rekaps = DB::table('kemandoran')
+        ->leftJoin('kemandoran_detail_status','kemandoran_detail_status.id_pek','=','kemandoran.id_pek')
+        ->select('kemandoran.*','kemandoran_detail_status.status',DB::raw('max(kemandoran_detail_status.id ) as status_s'), DB::raw('max(kemandoran_detail_status.id ) as status_s'))
+        ->groupBy('kemandoran.id_pek');
+        // ->where('kemandoran_detail_status.status','Approved')
 
-        return view('admin.input.pekerjaan.index', compact('pekerjaan', 'ruas_jalan', 'sup', 'uptd', 'mandor', 'jenis'));
+        if (Auth::user() && Auth::user()->internalRole->uptd) {
+            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+            $rekaps = $rekaps->where('kemandoran.uptd_id', $uptd_id);
+            if(str_contains(Auth::user()->internalRole->role,'Mandor')){
+                $rekaps = $rekaps->where('kemandoran.user_id',Auth::user()->id);
+            }else if(Auth::user()->sup_id)
+                $rekaps = $rekaps->where('kemandoran.sup_id',Auth::user()->sup_id); 
+        }
+
+        $rekaps=$rekaps->get();
+        foreach($rekaps as $it){
+            $rekaplap = DB::table('kemandoran_detail_status')->where('id', $it->status_s)->pluck('status')->first();
+            $it->status = $rekaplap;
+            if($it->status == "Approved"){
+                $approve+=1;
+            }else if($it->status == "Rejected" ||$it->status == "Edited"){
+                $reject+=1;
+            }   
+        }
+            // dd($rekaps);
+        $sum_report =[
+            "approve" => $approve,
+            "reject" => $reject,
+            "submit" => 0,
+            "not_complete" => 0
+
+        ];
+
+        return view('admin.input.pekerjaan.index', compact('pekerjaan', 'ruas_jalan', 'sup', 'uptd', 'mandor', 'jenis', 'sum_report'));
     }
     public function statusData($id){
         $adjustment=DB::table('kemandoran_detail_status')

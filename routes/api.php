@@ -47,6 +47,10 @@ Route::group(['prefix' => 'auth'], function () {
 
 
 Route::group(['middleware' => ['jwt.auth']], function () {
+    Route::get('/pengumuman/internal', 'API\AnnouncementController@getDataInternal');
+    Route::get('/pengumuman/masyarakat', 'API\AnnouncementController@getDataInternal');
+    Route::get('/pengumuman/{slug?}', 'API\AnnouncementController@show');
+    
     Route::resource('laporan-masyarakat', 'API\LaporanMasyarakatController');
     Route::get('laporan-masyarakat/getNotifikasiByUserId/{userId}', 'API\LaporanMasyarakatController@getNotifikasiByUserId');
 
