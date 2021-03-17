@@ -84,30 +84,6 @@ class MapDashboardController extends Controller
 
                     $this->response['data']['jembatan'] = $data;
                 }
-                if(in_array('pembangunan', $request->kegiatan)){
-                    $data = Pembangunan::whereIn('SUP',$request->sup)->where('KATEGORI','LIKE','%pembangunan%');
-
-                    $data = $data->whereBetween('TGL_KONTRAK', [$request->date_from, $request->date_to]);
-
-                    $data = $data->get();
-                    $this->response['data']['pembangunan'] = $data;
-                }
-                if(in_array('peningkatan', $request->kegiatan)){
-                    $data = Pembangunan::whereIn('SUP',$request->sup)->where('KATEGORI','LIKE','%peningkatan%');
-
-                    $data = $data->whereBetween('TGL_KONTRAK', [$request->date_from, $request->date_to]);
-
-                    $data = $data->get();
-                    $this->response['data']['peningkatan'] = $data;
-                }
-                if(in_array('rehabilitasi', $request->kegiatan)){
-                    $data = Pembangunan::whereIn('SUP',$request->sup)->where('KATEGORI','LIKE','%rehabilitasi%');
-
-                    $data = $data->whereBetween('TGL_KONTRAK', [$request->date_from, $request->date_to]);
-
-                    $data = $data->get();
-                    $this->response['data']['rehabilitasi'] = $data;
-                }
                 if(in_array('pemeliharaan', $request->kegiatan)){
                     $data = Kemandoran::whereIn('SUP',$request->sup);
 
@@ -116,14 +92,6 @@ class MapDashboardController extends Controller
                     $data = $data->get();
                     $this->response['data']['pemeliharaan'] = $data;
                 }
-                // if(in_array('ruasjalan', $request->kegiatan)){
-                //     $data = RuasJalan::whereIn('SUP',$request->sup)->get();
-                //     $this->response['data']['ruasjalan'] = $data;
-                // }
-                // if(in_array('progressmingguan', $request->kegiatan)){
-                //     $data = ProgressMingguan::whereIn('SUP',$request->sup)->get();
-                //     $this->response['data']['progressmingguan'] = $data;
-                // }
                 if(in_array('vehiclecounting', $request->kegiatan)){
                     $data = VehicleCounting::whereIn('SUP',$request->sup)->get();
                     $this->response['data']['vehiclecounting'] = $data;
@@ -141,6 +109,11 @@ class MapDashboardController extends Controller
                     $data = DB::connection('dwh')->table('TBL_TMNJABAR_TRX_CCTV')
                             ->whereIn('SUP',$request->sup)->get();
                     $this->response['data']['cctv'] = $data;
+                }
+                if(in_array('laporanmasyarakat', $request->kegiatan)){
+                    $data = DB::table('monitoring_laporan_masyarakat')
+                            ->whereIn('uptd_id',$request->uptd)->get();
+                    $this->response['data']['laporanmasyarakat'] = $data;
                 }
             }
 

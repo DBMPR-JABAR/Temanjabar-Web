@@ -371,6 +371,7 @@
                     <option value="datarawanbencana">Area Rawan Bencana</option>
                     <option value="tempatwisata">Tempat Wisata</option>
                     <option value="satuanpendidikan">Satuan Pendidikan</option>
+                    <option value="laporanmasyarakat">Laporan Masyarakat</option>
                     `;
         $('#kegiatan').html(kegiatan).trigger('liszt:updated');
         $('#kegiatan').trigger("chosen:updated");

@@ -140,6 +140,7 @@ function getMap(baseUrl, gsvrUrl) {
         function caseRender() {
             let sup = $("#spp_filter").val();
             let kegiatan = $("#kegiatan").val();
+            let uptd = $("#uptd").val();
 
             function render(nm,layer,callback){
                 if ($.inArray(nm, kegiatan) >= 0) {
@@ -175,6 +176,9 @@ function getMap(baseUrl, gsvrUrl) {
                 }
                 for (i in sup) {
                     requestBody.append("sup[]", sup[i]);
+                }
+                for (i in uptd) {
+                    requestBody.append("uptd[]", uptd[i].charAt(4));
                 }
 
                 let requestApi = esriRequest(requestUrl, {
@@ -212,6 +216,11 @@ function getMap(baseUrl, gsvrUrl) {
                             addCCTV(data.cctv);
                         } else {
                             map.remove(map.findLayerById('tx_cctv'));
+                        }
+                        if (kegiatan.indexOf('laporanmasyarakat') >= 0) {
+                            addLaporanMasyarakat(data.laporanmasyarakat);
+                        } else {
+                            map.remove(map.findLayerById('tx_laporan'));
                         }
 
                     } else { // json.status != success
@@ -2594,6 +2603,186 @@ function getMap(baseUrl, gsvrUrl) {
                 }
             });
             map.add(newCCTVLayer);
+        }
+
+        function addLaporanMasyarakat(laporan){
+            const symbol = {
+                type: "picture-marker", // autocasts as new PictureMarkerSymbol()
+                url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+                width: "14px",
+                height: "24px"
+            };
+            const popupTemplate = {
+                title: "{alamat}",
+                content: [{
+                        type: "fields",
+                        fieldInfos: [
+                            {
+                                fieldName: "nomorPengaduan",
+                                label: "Nomor Pengaduan",
+                            },
+                            {
+                                fieldName: "nama",
+                                label: "Nama",
+                            },
+                            {
+                                fieldName: "email",
+                                label: "Email",
+                            },
+                            {
+                                fieldName: "alamat",
+                                label: "Alamat",
+                            },
+                            {
+                                fieldName: "jenis",
+                                label: "Jenis",
+                            },
+                            {
+                                fieldName: "lokasi",
+                                label: "Lokasi",
+                            },
+                            {
+                                fieldName: "lat",
+                                label: "Latitude",
+                            },
+                            {
+                                fieldName: "long",
+                                label: "Longitude",
+                            },
+                            {
+                                fieldName: "deskripsi",
+                                label: "Deskripsi",
+                            },
+                            {
+                                fieldName: "status",
+                                label: "Status",
+                            },
+                            {
+                                fieldName: "created_at",
+                                label: "Tanggal Lapor",
+                            },
+                            {
+                                fieldName: "uptd_id",
+                                label: "UPTD",
+                            }
+                        ]
+                    },
+                    {
+                        type: "media",
+                        mediaInfos: [{
+                            title: "<b>Foto Kondisi</b>",
+                            type: "image",
+                            altText: "Foto Tidak Dapat Ditampilkan",
+                            value: {
+                                sourceURL: `${baseUrl}/storage/{gambar}`
+                            }
+                        }]
+                    }
+                ]
+            };
+
+            // cari dan hapus layer bila ada pd map
+            let laporanLayer = map.findLayerById('tx_laporan');
+            if (laporanLayer) {
+                map.remove(laporanLayer);
+            }
+
+            // buat layer baru
+            let newLaporan = [];
+            laporan.forEach(item => {
+                let point = new Point(item.long, item.lat);
+                newLaporan.push(new Graphic({
+                    geometry: point,
+                    attributes: item
+                }));
+            });
+            let tx_laporan = new FeatureLayer({
+                title: 'Laporan Masyarakat',
+                id: 'tx_laporan',
+                fields: [{
+                        name: "id",
+                        alias: "id",
+                        type: "integer"
+                    },
+                    {
+                        name: "nomorPengaduan",
+                        alias: "nomorPengaduan",
+                        type: "string"
+                    },
+                    {
+                        name: "nama",
+                        alias: "nama",
+                        type: "string"
+                    },
+                    {
+                        name: "email",
+                        alias: "Email",
+                        type: "string"
+                    },
+                    {
+                        name: "alamat",
+                        alias: "Alamat",
+                        type: "string"
+                    },
+                    {
+                        name: "jenis",
+                        alias: "jenis",
+                        type: "string"
+                    },
+                    {
+                        name: "gambar",
+                        alias: "gambar",
+                        type: "string"
+                    },
+                    {
+                        name: "lokasi",
+                        alias: "lokasi",
+                        type: "string"
+                    },
+                    {
+                        name: "lat",
+                        alias: "Latitude",
+                        type: "double"
+                    },
+                    {
+                        name: "long",
+                        alias: "Longitude",
+                        type: "double"
+                    },
+                    {
+                        name: "deskripsi",
+                        alias: "deskripsi",
+                        type: "string"
+                    },
+                    {
+                        name: "status",
+                        alias: "status",
+                        type: "string"
+                    },
+                    {
+                        name: "created_at",
+                        alias: "dilaporkan",
+                        type: "string"
+                    },
+                    {
+                        name: "uptd_id",
+                        alias: "UPTD",
+                        type: "string"
+                    }
+                ],
+                objectIdField: "id",
+                geometryType: "point",
+                spatialReference: {
+                    wkid: 4326
+                },
+                source: newLaporan,
+                popupTemplate: popupTemplate,
+                renderer: {
+                    type: "simple",
+                    symbol: symbol
+                }
+            });
+            map.add(tx_laporan);
         }
 
         function addTempatWisata() {
