@@ -457,7 +457,7 @@
                         'rgba(255,255,255,0.25)'
                 },
                 series: [{
-                    name: 'Total Volume Mingguan',
+                    name: 'Total Volume Bulanan',
                     type: 'column',
                     yAxis: 1,
                     data: dataWeeklyProgress,
