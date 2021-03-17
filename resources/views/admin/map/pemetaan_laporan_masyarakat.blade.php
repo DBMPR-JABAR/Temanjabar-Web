@@ -6,7 +6,8 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
 
     <link rel="icon" href="{{ asset('assets/images/favicon/favicon.ico') }}" type="image/x-icon">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/icon/feather/css/feather.css') }}">
 
     <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/style.css') }}">
@@ -19,13 +20,20 @@
     <link rel="stylesheet" href="{{ asset('assets/css/filterMapsInternal.css') }}">
 
     <title>Map Dashboard</title>
+    <style>
+        .esri-search {
+            display: none
+        }
+
+    </style>
 </head>
 
 <body>
     <div id="viewDiv"></div>
     <div id="grupKontrol" style="display:inline-flex;">
         <div id="logo">
-            <img width="200" class="img-fluid" src="{{ asset('assets/images/brand/text_putih.png')}}" alt="Logo DBMPR">
+            <img width="200" class="img-fluid" src="{{ asset('assets/images/brand/text_putih.png') }}"
+                alt="Logo DBMPR">
         </div>
         <div>
             <div id="showFilter">
@@ -43,19 +51,13 @@
                     <i class="feather icon-maximize full-card"></i>
                 </button>
             </div>
-            <div id="back">
-                <a href="{{ url('/admin') }}">
-                    <button data-toggle="tooltip" data-placement="right" title="Kembali kehalaman Sebelumnya">
-                        <i class="feather icon-arrow-left"></i>
-                    </button>
-                </a>
-            </div>
         </div>
     </div>
     <div id="filter" class="bg-white">
         <div id="preloader" style="display:none">
             <div class="progress">
-                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
             </div>
         </div>
         <form class="py-3">
@@ -67,13 +69,15 @@
             <hr> --}}
             <div class="form-group">
                 <label for="uptd"><i class="feather icon-target text-primary"></i> UPTD</label>
-                <select id="uptd" class="form-control chosen-select chosen-select-uptd" id="uptd" multiple data-placeholder="Pilih UPTD">
+                <select id="uptd" class="form-control chosen-select chosen-select-uptd" id="uptd" multiple
+                    data-placeholder="Pilih UPTD">
                     <option value=""></option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="spp_filter"><i class="feather icon-corner-down-right text-danger"></i> SPP / SUP</label>
-                <select id="spp_filter" data-placeholder="Pilih UPTD dengan SPP" class="chosen-select" multiple tabindex="6">
+                <select id="spp_filter" data-placeholder="Pilih UPTD dengan SPP" class="chosen-select" multiple
+                    tabindex="6">
                     <option value=""></option>
                 </select>
             </div>
@@ -156,48 +160,57 @@
             <ul class="row">
                 <li>
                     <button class="baseMapBtn" data-map="streets">
-                        <img _ngcontent-btg-c5="" alt="Rupa Bumi Indonesia" title="Rupa Bumi Indonesia" src="https://portal.ina-sdi.or.id/arcgis/rest/services/RBI/Basemap/MapServer/info/thumbnail">
+                        <img _ngcontent-btg-c5="" alt="Rupa Bumi Indonesia" title="Rupa Bumi Indonesia"
+                            src="https://portal.ina-sdi.or.id/arcgis/rest/services/RBI/Basemap/MapServer/info/thumbnail">
                     </button>
                 </li>
                 <li>
                     <button class="baseMapBtn" data-map="gray">
-                        <img _ngcontent-pmm-c5="" alt="Cartodb Light All" title="Cartodb Light All" src="https://satupeta-dev.digitalservice.id/assets/img/basemap-thumbnail/cartodb_light.png">
+                        <img _ngcontent-pmm-c5="" alt="Cartodb Light All" title="Cartodb Light All"
+                            src="https://satupeta-dev.digitalservice.id/assets/img/basemap-thumbnail/cartodb_light.png">
                     </button>
                 </li>
                 <li>
                     <button class="baseMapBtn" data-map="streets-night-vector">
-                        <img _ngcontent-vgg-c5="" alt="Cartodb Dark All" title="Streets Night Vector" src="https://satupeta-dev.digitalservice.id/assets/img/basemap-thumbnail/cartodb_dark.png">
+                        <img _ngcontent-vgg-c5="" alt="Cartodb Dark All" title="Streets Night Vector"
+                            src="https://satupeta-dev.digitalservice.id/assets/img/basemap-thumbnail/cartodb_dark.png">
                     </button>
                 </li>
                 <li>
                     <button class="baseMapBtn" data-map="national-geographic">
-                        <img _ngcontent-vgg-c5="" alt="National Geographic" title="National Geographic" src="https://js.arcgis.com/4.14/esri/images/basemap/national-geographic.jpg">
+                        <img _ngcontent-vgg-c5="" alt="National Geographic" title="National Geographic"
+                            src="https://js.arcgis.com/4.14/esri/images/basemap/national-geographic.jpg">
                     </button>
                 </li>
                 <li>
                     <button class="baseMapBtn" data-map="topo">
-                        <img _ngcontent-lqn-c5="" alt="Topographic" title="Topographic" src="https://satupeta-dev.digitalservice.id/assets/img/basemap-thumbnail/topo.png"></button>
+                        <img _ngcontent-lqn-c5="" alt="Topographic" title="Topographic"
+                            src="https://satupeta-dev.digitalservice.id/assets/img/basemap-thumbnail/topo.png"></button>
                 </li>
                 </button>
                 </li>
                 <li>
                     <button class="baseMapBtn" data-map="dark-gray">
-                        <img _ngcontent-lqn-c5="" alt="Dark Gray" title="Dark Gray" src="https://js.arcgis.com/4.14/esri/images/basemap/dark-gray.jpg">
+                        <img _ngcontent-lqn-c5="" alt="Dark Gray" title="Dark Gray"
+                            src="https://js.arcgis.com/4.14/esri/images/basemap/dark-gray.jpg">
                     </button>
                 </li>
                 <li>
                     <button class="baseMapBtn" data-map="osm">
-                        <img _ngcontent-lqn-c5="" alt="Open Street Map" title="Open Street Map" src="https://js.arcgis.com/4.14/esri/images/basemap/osm.jpg">
+                        <img _ngcontent-lqn-c5="" alt="Open Street Map" title="Open Street Map"
+                            src="https://js.arcgis.com/4.14/esri/images/basemap/osm.jpg">
                     </button>
                 </li>
                 <li>
                     <button class="baseMapBtn" data-map="hybrid">
-                        <img _ngcontent-lqn-c5="" alt="hybrid" title="hybrid" src="https://js.arcgis.com/4.14/esri/images/basemap/hybrid.jpg">
+                        <img _ngcontent-lqn-c5="" alt="hybrid" title="hybrid"
+                            src="https://js.arcgis.com/4.14/esri/images/basemap/hybrid.jpg">
                     </button>
                 </li>
                 <li>
                     <button class="baseMapBtn" data-map="terrain">
-                        <img _ngcontent-lqn-c5="" alt="terrain" title="terrain" src="https://js.arcgis.com/4.14/esri/images/basemap/terrain.jpg">
+                        <img _ngcontent-lqn-c5="" alt="terrain" title="terrain"
+                            src="https://js.arcgis.com/4.14/esri/images/basemap/terrain.jpg">
                     </button>
                 </li>
             </ul>
@@ -269,17 +282,24 @@
 
     // <!-- enable clustering -->
     const clusteringElmn = document.querySelector('.clustering');
+
 </script>
 
 <!-- chosen -->
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+</script>
 <script src="https://js.arcgis.com/4.18/"></script>
 
-<script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/chosen.jquery.js') }}" type="text/javascript"></script>
-<script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/prism.js') }}" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/chosen.jquery.js') }}"
+    type="text/javascript"></script>
+<script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/prism.js') }}"
+    type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="{{ asset('assets/js/mapdashboard.js') }}"></script>
 
 <script>
@@ -307,7 +327,8 @@
                             select += '';
                             for (let j = 0; j < spp.length; j++) {
                                 if (len[i] == spp[j].UPTD) {
-                                    select += '<option ' + 'value="' + spp[j].SUP + '" selected>' + spp[j].SUP + '</option>';
+                                    select += '<option ' + 'value="' + spp[j].SUP + '" selected>' +
+                                        spp[j].SUP + '</option>';
                                 }
                             }
                             select += '</optgroup>';
@@ -416,11 +437,12 @@
         }
 
         // Map Initialization
-        const baseUrl = "{{url('/')}}";
+        const baseUrl = "{{ url('/') }}";
         const gsvrUrl = "{{ env('GEOSERVER') }}";
 
         getMap(baseUrl, gsvrUrl);
     });
+
 </script>
 
 </html>
