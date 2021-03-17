@@ -403,6 +403,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::get('edit/{id}', 'LandingController@editLaporanMasyarakat')->name('editLapor');
         Route::post('update', 'LandingController@updateLaporanMasyarakat')->name('updateLapor');
         Route::get('delete/{id}', 'LandingController@deleteLaporanMasyarakat')->name('deleteLapor');
+        Route::get('pemetaan', 'LaporController@pemetaanLaporanMasyarakat')->name('pemetaanLaporanMasyarakat');
     });
 });
 Route::get('map/target-realisasi', 'ProyekController@getTargetRealisasiAPI')->name('api.targetrealisasi');
@@ -411,6 +412,7 @@ Route::get('map/proyek-kontrak-progress', 'ProyekController@getProgressProyekKon
 
 Route::get('map/laporan-masyarakat', 'MonitoringController@getLaporanAPI')->name('api.laporan');
 Route::view('map/kemantapan-jalan', 'admin.map.map-kemantapan-jalan')->name('map.kemantapanjalan');
+Route::view('map/pemetaan_laporan_masyarakat', 'admin.map.pemetaan_laporan_masyarakat')->name('map.pemetaanLaporanMasyarakat');
 
 Route::post('getSupData', 'MonitoringController@getSupData')->name('getSupData.filter');
 

@@ -319,6 +319,14 @@
                                     </a>
                                 </li>
                             @endif
+                            @if (hasAccess(Auth::user()->internal_role_id, 'Pemetaan Laporan', 'View'))
+                            <li
+                                class="{{ Request::segment(2) == 'lapor' && Request::segment(3) == 'pemetaan' ? 'active' : '' }}">
+                                <a href="{{ url('admin/lapor/pemetaan') }}" class="waves-effect waves-dark">
+                                    <span class="pcoded-mtext">Pemetaan Laporan</span>
+                                </a>
+                            </li>
+                        @endif
                         </ul>
                     </li>
                 </ul>
@@ -372,7 +380,7 @@
                         </ul>
                     </li>
             @endif
-            
+
             @if (hasAccess(Auth::user()->internal_role_id, 'Pesan', 'View'))
                 <li class="{{ Request::segment(2) == 'pesan' ? 'active' : '' }}">
                     <a href="{{ url('admin/pesan') }}" class="waves-effect waves-dark">
