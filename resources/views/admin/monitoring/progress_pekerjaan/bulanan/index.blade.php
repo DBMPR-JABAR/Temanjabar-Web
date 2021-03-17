@@ -1,6 +1,6 @@
 @extends('admin.layout.index')
 
-@section('title') Progress Mingguan @endsection
+@section('title') Progress Bulanan @endsection
 
 @section('head')
     <!-- Highchart -->
@@ -51,6 +51,9 @@
             background: #f1f7ff;
         }
 
+        .highcharts-credits {
+            display: none
+        }
     </style>
     <!-- JSON Viewer -->
     <link href="https://cdn.jsdelivr.net/npm/jquery.json-viewer@1.4.0/json-viewer/jquery.json-viewer.css" type="text/css"
@@ -62,7 +65,7 @@
         <div class="col-lg-8">
             <div class="page-header-title">
                 <div class="d-inline">
-                    <h4>Progress Mingguan</h4>
+                    <h4>Progress Bulanan</h4>
                     {{-- <span></span> --}}
                 </div>
             </div>
@@ -73,7 +76,7 @@
                     <li class="breadcrumb-item">
                         <a href="{{ url('admin') }}"> <i class="feather icon-home"></i> </a>
                     </li>
-                    <li class="breadcrumb-item"><a href="#!">Progress Mingguan</a> </li>
+                    <li class="breadcrumb-item"><a href="#!">Progress Bulanan</a> </li>
                 </ul>
             </div>
         </div>
@@ -99,7 +102,7 @@
                                 aria-labelledby="headingOne">
                                 <div class="accordion-content accordion-desc">
                                     <div class="card-block">
-                                        <form id="formTahun" action="{{ route('getProgressMingguan') }}" method="get"
+                                        <form id="formTahun" action="{{ route('getProgressBulanan') }}" method="get"
                                             enctype="multipart/form-data">
                                             @csrf
                                             <div class="row">
@@ -243,7 +246,9 @@
                     ['waktu_pelaksanaan']: remove, ...dataFilter
                 } = currentValue;
                 let d = new Date(currentValue[key]);
-                d = Math.floor(d.getTime() / (1000 * 60 * 60 * 24 * 7));
+                // console.log(d.getMonth());
+                // d = Math.floor(d.getTime() / (1000 * 60 * 60 * 24 * 30));
+                d = d.getMonth();
                 (result[d] = result[d] || []).push(
                     dataFilter
                 );
@@ -261,11 +266,11 @@
                     nilai += Number(item.nilai);
                 })
                 resultsSorting.push({
-                    minggu_number: weeklyNumber,
-                    minggu_ke: (index === 0) ? 1 : (resultsSorting[index - 1].minggu_ke + (Number(
+                    bulan_number: weeklyNumber,
+                    bulan_ke: (index === 0) ? 1 : (resultsSorting[index - 1].bulan_ke + (Number(
                         weeklyNumber) - weeklyNumbersTemp)),
-                    volume_migguan: volume,
-                    nilai_mingguan: nilai,
+                    volume_bulanan: volume,
+                    nilai_bulanan: nilai,
                     data
                 })
                 weeklyNumbersTemp = Number(weeklyNumber);
@@ -301,8 +306,8 @@
             let nilai = 0;
             let freeDays = 0;
             data.forEach((item) => {
-                volume += item.volume_migguan;
-                nilai += item.nilai_mingguan;
+                volume += item.volume_bulanan;
+                nilai += item.nilai_bulanan;
                 freeDays += 2;
             })
 
@@ -314,7 +319,7 @@
                 waktu_pelaksanaan: firstProgress.waktu_pelaksanaan,
                 total_volume: volume,
                 total_nilai: nilai,
-                data_mingguan: data
+                data_bulanan: data
             });
         })
 
@@ -337,10 +342,10 @@
             document.getElementById('deviasi').innerText = weeklyProgressFilter[0].total_volume - schedulePlanFilter[0]
                 .total_volume;
 
-            weeklyProgressFilter[0].data_mingguan.forEach((progress, index) => {
-                dataWeeklyProgress.push(progress.volume_migguan);
-                dataWeeklyCategories.push(`Minggu ke-${progress.minggu_ke}`);
-                let weeklyProgressPercent = (progress.volume_migguan / schedulePlanFilter[0].total_volume) *
+            weeklyProgressFilter[0].data_bulanan.forEach((progress, index) => {
+                dataWeeklyProgress.push(progress.volume_bulanan);
+                dataWeeklyCategories.push(`Bulan ke-${progress.bulan_ke}`);
+                let weeklyProgressPercent = (progress.volume_bulanan / schedulePlanFilter[0].total_volume) *
                     100;
 
                 index == 0 ?
@@ -354,7 +359,7 @@
                     events: {
                         click: function(event) {
                             const index = event.xAxis[0].axis.chart.hoverPoint.index;
-                            const dayDetail = weeklyProgressFilter[0].data_mingguan[index];
+                            const dayDetail = weeklyProgressFilter[0].data_bulanan[index];
                             let html = "";
                             dayDetail.data.forEach((item) => {
                                 const months = [

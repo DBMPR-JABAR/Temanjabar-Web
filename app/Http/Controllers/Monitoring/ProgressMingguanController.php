@@ -19,6 +19,20 @@ class ProgressMingguanController extends Controller
         $jadwal = DB::connection('talikuat')->table('jadual')->get();
         // dd($jadwal);
         $tahun = $request->tahun;
-        return view('admin.monitoring.progress_mingguan.index', compact('jadwal', 'progress_harian', 'tahun'));
+        return view('admin.monitoring.progress_pekerjaan.mingguan.index', compact('jadwal', 'progress_harian', 'tahun'));
+    }
+
+    public function getProggressBulanan(Request $request)
+    {
+        // dd($request);
+        $jadwal = DB::connection('talikuat')->table('jadual');
+        $progress_harian = $jadwal->rightJoin('detail_jadual', 'detail_jadual.id_jadual', '=', 'jadual.id')
+            ->select('waktu_pelaksanaan', 'kegiatan', 'nama_penyedia', 'tgl', 'nilai', 'detail_jadual.volume as volume', 'detail_jadual.uraian', 'detail_jadual.satuan');
+        if ($request->has('tahun') == false) $request->tahun = 2020;
+        $progress_harian = $progress_harian->where('detail_jadual.tgl', 'like', '%' . $request->tahun . '%')->get();
+        $jadwal = DB::connection('talikuat')->table('jadual')->get();
+        // dd($jadwal);
+        $tahun = $request->tahun;
+        return view('admin.monitoring.progress_pekerjaan.bulanan.index', compact('jadwal', 'progress_harian', 'tahun'));
     }
 }

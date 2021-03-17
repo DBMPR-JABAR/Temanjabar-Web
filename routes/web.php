@@ -98,6 +98,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::view('roadroid-survei-kondisi-jalan', 'admin.map.map-roaddroid');
 
         Route::get('progress_mingguan', 'Monitoring\ProgressMingguanController@getProggressMingguan')->name('getProgressMingguan');
+        Route::get('progress_bulanan', 'Monitoring\ProgressMingguanController@getProggressBulanan')->name('getProgressBulanan');
         // dummy rekomendasi penyedia jasa dan konsultan
         Route::get('rekomendasi_penyedia_jasa_konsultan', function () {
             return view('admin.monitoring.penilaiain.rekomendasi_kontraktor_konsultan.index');
