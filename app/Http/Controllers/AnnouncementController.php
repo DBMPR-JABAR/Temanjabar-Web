@@ -25,7 +25,7 @@ class AnnouncementController extends Controller
         $pengumuman = Announcement::latest('created_at')
         ->leftJoin('users','announcements.created_by','=','users.id')->select('announcements.*', 'users.name as nama_user')
         ->get();
-        dd($pengumuman);
+        // dd($pengumuman);
         return view('admin.pengumuman.index', compact('pengumuman'));
     }
 
