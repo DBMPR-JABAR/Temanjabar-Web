@@ -423,6 +423,9 @@
             const baseUrl = "{{url('/')}}";
             const gsvrUrl = "{{ env('GEOSERVER') }}";
             let basemap = "hybrid";
+            const authKey = "9bea4cef-904d-4e00-adb2-6e1cf67b24ae";
+
+
 
             const map = new Map({
                 basemap: basemap
@@ -682,6 +685,9 @@
                 if (!rj_mantap) {
                     rj_mantap = new FeatureLayer({
                         url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/1/",
+                        customParameters: {
+                            ak: authKey
+                        },
                         title: 'Kemantapan Jalan',
                         id: 'rj_mantap',
                         outFields: ["*"],

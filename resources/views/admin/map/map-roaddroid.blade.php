@@ -266,7 +266,7 @@
 <script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/prism.js') }}" type="text/javascript" charset="utf-8"></script>
 
 <script>
-        function fillSUP(uptd) {
+    function fillSUP(uptd) {
         return new Promise(function(resolve, reject) {
             $.ajax({
                 type: "POST",
@@ -417,6 +417,8 @@
             // Map Initialization
             const baseUrl = "{{url('/')}}";
             const gsvrUrl = "{{ env('GEOSERVER') }}";
+            const authKey = "9bea4cef-904d-4e00-adb2-6e1cf67b24ae";
+
             let basemap = "hybrid";
 
             const map = new Map({
@@ -629,6 +631,9 @@
                 if (!rjp_skj) {
                     rjp_skj = new FeatureLayer({
                         url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/6/",
+                        customParameters: {
+                            ak: authKey
+                        },
                         title: 'Hasil Survei Kondisi Jalan',
                         id: 'rjp_skj',
                         outFields: ["*"],
@@ -749,6 +754,9 @@
                 if (!rjp_skj_titik) {
                     rjp_skj_titik = new FeatureLayer({
                         url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/7",
+                        customParameters: {
+                            ak: authKey
+                        },
                         title: 'Hasil Survei Kondisi Jalan (Titik)',
                         id: 'rjp_skj_titik',
                         outFields: ["*"],
