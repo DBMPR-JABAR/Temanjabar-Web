@@ -322,6 +322,9 @@ function getMap(baseUrl, gsvrUrl) {
                 if (!rjp) {
                     rjp = new FeatureLayer({
                         url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/0/",
+                        customParameters: {
+                            ak: "9bea4cef-904d-4e00-adb2-6e1cf67b24ae"
+                        },
                         title: 'Ruas Jalan Provinsi',
                         id: 'rjp',
                         outFields: ["*"],
@@ -350,6 +353,9 @@ function getMap(baseUrl, gsvrUrl) {
             function jalanNasional() {
                 const layer = new FeatureLayer({
                     url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/2/",
+                    customParameters: {
+                        ak: "9bea4cef-904d-4e00-adb2-6e1cf67b24ae"
+                    },
                     title: 'Ruas Jalan Nasional'
                 });
                 const popupTemplate = {
@@ -401,6 +407,9 @@ function getMap(baseUrl, gsvrUrl) {
             function jalanTolOperasi() {
                 const layer = new FeatureLayer({
                     url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/3/",
+                    customParameters: {
+                        ak: "9bea4cef-904d-4e00-adb2-6e1cf67b24ae"
+                    },
                     title: 'Ruas Jalan Tol (Operasional)'
                 });
                 const popupTemplate = {
@@ -451,6 +460,9 @@ function getMap(baseUrl, gsvrUrl) {
             function jalanTolKonstruksi() {
                 const layer = new FeatureLayer({
                     url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/4/",
+                    customParameters: {
+                        ak: "9bea4cef-904d-4e00-adb2-6e1cf67b24ae"
+                    },
                     title: 'Ruas Jalan Tol (Konstruksi)'
                 });
                 const popupTemplate = {
@@ -501,6 +513,9 @@ function getMap(baseUrl, gsvrUrl) {
             function gerbangTol() {
                 const layer = new FeatureLayer({
                     url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/5/",
+                    customParameters: {
+                        ak: "9bea4cef-904d-4e00-adb2-6e1cf67b24ae"
+                    },
                     title: 'Gerbang Tol'
                 });
                 const popupTemplate = {
@@ -985,6 +1000,9 @@ function getMap(baseUrl, gsvrUrl) {
             if (!rj_mantap) {
                 rj_mantap = new FeatureLayer({
                     url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/1/",
+                    customParameters: {
+                        ak: "9bea4cef-904d-4e00-adb2-6e1cf67b24ae"
+                    },
                     title: 'Kemantapan Jalan',
                     id: 'rj_mantap',
                     outFields: ["*"],
@@ -1082,6 +1100,9 @@ function getMap(baseUrl, gsvrUrl) {
             if (!rjp_skj) {
                 rjp_skj = new FeatureLayer({
                     url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/6/",
+                    customParameters: {
+                        ak: "9bea4cef-904d-4e00-adb2-6e1cf67b24ae"
+                    },
                     title: 'Hasil Survei Kondisi Jalan',
                     id: 'rjp_skj',
                     outFields: ["*"],
@@ -1183,6 +1204,9 @@ function getMap(baseUrl, gsvrUrl) {
             if (!rjp_skj_titik) {
                 rjp_skj_titik = new FeatureLayer({
                     url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/7",
+                    customParameters: {
+                        ak: "9bea4cef-904d-4e00-adb2-6e1cf67b24ae"
+                    },
                     title: 'Hasil Survei Kondisi Jalan (Titik)',
                     id: 'rjp_skj_titik',
                     outFields: ["*"],
@@ -1532,6 +1556,9 @@ function getMap(baseUrl, gsvrUrl) {
             function pembangunanTitik(){
                 const layer = new FeatureLayer({
                     url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/8",
+                    customParameters: {
+                        ak: "9bea4cef-904d-4e00-adb2-6e1cf67b24ae"
+                    },
                     title: 'Titik Pembangunan',
                     id: 'pr_bangun_titik',
                     outFields: ["*"],
@@ -1547,6 +1574,9 @@ function getMap(baseUrl, gsvrUrl) {
             function pembangunanRute(){
                 const layer = new FeatureLayer({
                     url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/11",
+                    customParameters: {
+                        ak: "9bea4cef-904d-4e00-adb2-6e1cf67b24ae"
+                    },
                     title: 'Ruas Pembangunan',
                     id: 'pr_bangun_ruas',
                     outFields: ["*"],
@@ -1682,6 +1712,9 @@ function getMap(baseUrl, gsvrUrl) {
             function peningkatanTitik(){
                 const layer = new FeatureLayer({
                     url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/9",
+                    customParameters: {
+                        ak: "9bea4cef-904d-4e00-adb2-6e1cf67b24ae"
+                    },
                     title: 'Titik Peningkatan',
                     id: 'pr_tingkat_titik',
                     outFields: ["*"],
@@ -1697,6 +1730,9 @@ function getMap(baseUrl, gsvrUrl) {
             function peningkatanRute(){
                 const layer = new FeatureLayer({
                     url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/12",
+                    customParameters: {
+                        ak: "9bea4cef-904d-4e00-adb2-6e1cf67b24ae"
+                    },
                     title: 'Ruas Peningkatan',
                     id: 'pr_tingkat_ruas',
                     outFields: ["*"],
@@ -1832,6 +1868,9 @@ function getMap(baseUrl, gsvrUrl) {
             function rehabilitasiTitik(){
                 const layer = new FeatureLayer({
                     url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/10",
+                    customParameters: {
+                        ak: "9bea4cef-904d-4e00-adb2-6e1cf67b24ae"
+                    },
                     title: 'Titik Rehabilitasi',
                     id: 'pr_rehab_titik',
                     outFields: ["*"],
@@ -1847,6 +1886,9 @@ function getMap(baseUrl, gsvrUrl) {
             function rehabilitasiRute(){
                 const layer = new FeatureLayer({
                     url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/13",
+                    customParameters: {
+                        ak: "9bea4cef-904d-4e00-adb2-6e1cf67b24ae"
+                    },
                     title: 'Ruas Rehabilitasi',
                     id: 'pr_rehab_ruas',
                     outFields: ["*"],
@@ -2824,7 +2866,10 @@ function getMap(baseUrl, gsvrUrl) {
             let tx_wisata = map.findLayerById('tx_wisata');
             if (!tx_wisata) {
                 tx_wisata = new FeatureLayer({
-                    url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/11",
+                    url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/14",
+                    customParameters: {
+                        ak: "9bea4cef-904d-4e00-adb2-6e1cf67b24ae"
+                    },
                     title: 'Tempat Wisata',
                     id: 'tx_wisata',
                     outFields: ["*"],
