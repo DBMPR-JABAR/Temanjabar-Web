@@ -258,7 +258,7 @@ class PekerjaanController extends Controller
             
             $rekaplap = DB::table('kemandoran_detail_status')->where('id', $it->status_s)->pluck('status')->first();
             $it->status = $rekaplap;
-            if(($it->status == "Approved"||$it->status == "Rejected" ||$it->status == "Edited") && $it->status_material){
+            if(($it->status == "Approved"||$it->status == "Rejected" ||$it->status == "Edited") || $it->status_material){
                 if($it->status == "Approved"){
                     $approve+=1;
                     // echo $it->status.' | '.$it->id_pek.'<br>';
@@ -271,7 +271,7 @@ class PekerjaanController extends Controller
             }else
                 $not_complete+=1;
             
-            echo $it->id_pek.' | '.$it->status.'<br>';
+            // echo $it->id_pek.' | '.$it->status.'<br>';
             
         }
             // dd($rekaps);

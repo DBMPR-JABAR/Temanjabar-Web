@@ -209,7 +209,7 @@
                         <div class="form-group">
                             <label>SUP</label>
                             <select name="sup_id" class="form-control searchableField  @error('sup_id') is-invalid @enderror">
-                                <option value="">Pilih SUP</option>
+                                <option value=" , ">Pilih SUP</option>
                                 @foreach ($sup as $data)
                                     <option value="{{ $data->id }},{{ $data->name }}" @if (Auth::user()->sup_id != null && Auth::user()->sup_id == $data->id) selected @endif>{{ $data->name }}</option>
                                 @endforeach

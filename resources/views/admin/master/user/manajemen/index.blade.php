@@ -155,7 +155,7 @@
                     <div class="modal-body p-5">
 
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">NIP</label>
+                            <label class="col-md-3 col-form-label">NIP/NIK</label>
                             <div class="col-md-9">
                                 <input type="text" name="no_pegawai" class="form-control" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="Contoh : 19680405XXXXXXXXXX"></input>
                             </div>

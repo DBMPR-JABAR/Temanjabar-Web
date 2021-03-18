@@ -171,7 +171,7 @@ class DetailUserController extends Controller
                 'jenis_kelamin'    => 'required',
                 'no_tlp'    => 'numeric|digits_between:8,13',
                 'no_tlp_rumah'    => '',
-                'sup_id' => 'required',
+                'sup_id' => '',
                 'tgl_mulai_kerja' => '',
                 'sekolah' => '',
                 'jejang' => '',
@@ -204,6 +204,7 @@ class DetailUserController extends Controller
             $userprofile['city_id']  = $request->input('kota');
             $userprofile['kode_pos']  = $request->input('kode_pos');
             $userprofile['alamat']  = $request->input('alamat');
+            $updatetouser = null;
             if($request->input('sup_id') != null){
                 $userupdat['sup_id']= $temp[0];
                 $userupdat['sup']= $temp[1];
@@ -220,7 +221,10 @@ class DetailUserController extends Controller
             // dd($temp);
 
             if($updateprofile || $updatetouser){
+                $updatenama['name'] = $request->input('nama');
+                $updatetouser = DB::table('users')->where('id', $id)->update($updatenama);
                 //redirect dengan pesan sukses
+
                 $color = "success";
                 $msg = "Data Berhasil Diupdate!";
                 return redirect(route('editProfile', $id))->with(compact('color','msg'));
