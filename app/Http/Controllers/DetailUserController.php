@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Hash;
 
 class DetailUserController extends Controller
 {
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -73,14 +73,14 @@ class DetailUserController extends Controller
                 $profile->provinsi=$provinsi;
                 $profile->kota=$kota;
             }
-            
+
             return view('admin.master.user.show',compact('profile'));
         }
     }
     public function showall($id)
     {
         //
-      
+
             $profile = DB::table('user_pegawai')
             ->leftJoin('users', 'users.id', '=', 'user_pegawai.user_id')
             ->leftJoin('user_role', 'user_role.id', '=', 'users.internal_role_id')->where('user_pegawai.user_id',$id)->first();
@@ -91,9 +91,9 @@ class DetailUserController extends Controller
                 $profile->provinsi=$provinsi;
                 $profile->kota=$kota;
             }
-            
+
             return view('admin.master.user.show',compact('profile'));
-        
+
     }
 
     /**
@@ -129,7 +129,7 @@ class DetailUserController extends Controller
                 $sup = $sup->where('uptd_id',$uptd_id);
             }
             $sup = $sup->get();
-            
+
 
             $role = DB::table('user_role');
             $role = $role->where('is_active', '1');
@@ -153,7 +153,7 @@ class DetailUserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+
         //
         if($id != Auth::user()->id){
             $color = "danger";
@@ -161,7 +161,7 @@ class DetailUserController extends Controller
             return back()->with(compact('color', 'msg'));
             // return redirect('admin/user/profile/'. auth()->user()->id)->with(['error' => 'Somethink when wrong!']);
         }else{
-            
+
             // dd($request);
             $this->validate($request,[
                 'nama' => 'required',
@@ -170,7 +170,7 @@ class DetailUserController extends Controller
                 'tmp_lahir'    => 'required',
                 'jenis_kelamin'    => 'required',
                 'no_tlp'    => 'numeric|digits_between:8,13',
-                'no_tlp_rumah'    => '',  
+                'no_tlp_rumah'    => '',
                 'sup_id' => 'required',
                 'tgl_mulai_kerja' => '',
                 'sekolah' => '',
@@ -183,31 +183,31 @@ class DetailUserController extends Controller
                 'agama' => 'required',
                 ]);
             $temp = explode(",",$request->input('sup_id'));
-            
+
             $userprofile['nama'] = $request->input('nama');
-                // $userprofile['frontDegree']     = $request->input('frontDegree'); 
-                // $userprofile['backDegree']     = $request->input('backDegree'); 
+                // $userprofile['frontDegree']     = $request->input('frontDegree');
+                // $userprofile['backDegree']     = $request->input('backDegree');
             $userprofile['no_pegawai']     = $request->input('no_pegawai');
-            $userprofile['tgl_lahir']   = $request->input('tgl_lahir');  
-            $userprofile['tmp_lahir']   = $request->input('tmp_lahir');  
-            $userprofile['agama']  = $request->input('agama');  
+            $userprofile['tgl_lahir']   = $request->input('tgl_lahir');
+            $userprofile['tmp_lahir']   = $request->input('tmp_lahir');
+            $userprofile['agama']  = $request->input('agama');
 
             $userprofile['jenis_kelamin'] = $request->input('jenis_kelamin');
             // dd($userprofile['jenis_kelamin']);
-            $userprofile['no_tlp']  = $request->input('no_tlp');  
-            $userprofile['no_tlp_rumah']  = $request->input('no_tlp_rumah');  
-            $userprofile['tgl_mulai_kerja']  = $request->input('tgl_mulai_kerja');  
-            $userprofile['sekolah']  = $request->input('sekolah');  
-            $userprofile['jejang']  = $request->input('jejang');  
-            $userprofile['jurusan_pendidikan']  = $request->input('jurusan_pendidikan');  
-            $userprofile['province_id']  = $request->input('provinsi');  
-            $userprofile['city_id']  = $request->input('kota');  
-            $userprofile['kode_pos']  = $request->input('kode_pos');  
-            $userprofile['alamat']  = $request->input('alamat');   
+            $userprofile['no_tlp']  = $request->input('no_tlp');
+            $userprofile['no_tlp_rumah']  = $request->input('no_tlp_rumah');
+            $userprofile['tgl_mulai_kerja']  = $request->input('tgl_mulai_kerja');
+            $userprofile['sekolah']  = $request->input('sekolah');
+            $userprofile['jejang']  = $request->input('jejang');
+            $userprofile['jurusan_pendidikan']  = $request->input('jurusan_pendidikan');
+            $userprofile['province_id']  = $request->input('provinsi');
+            $userprofile['city_id']  = $request->input('kota');
+            $userprofile['kode_pos']  = $request->input('kode_pos');
+            $userprofile['alamat']  = $request->input('alamat');
             if($request->input('sup_id') != null){
-                $userupdat['sup_id']= $temp[0]; 
-                $userupdat['sup']= $temp[1]; 
-                $updatetouser = User::where('id',$id)->update($userupdat);
+                $userupdat['sup_id']= $temp[0];
+                $userupdat['sup']= $temp[1];
+                $updatetouser = DB::table('users')->where('id', $id)->update($userupdat);
             }
             $updateprofile = DB::table('user_pegawai')
             ->where('user_id', $id); //beneriiiiiiiiin
@@ -229,7 +229,7 @@ class DetailUserController extends Controller
                 $color = "danger";
                 $msg = "Data Gagal Diupdate!";
                 return redirect(route('editProfile', $id))->with(compact('color', 'msg'));
-               
+
             }
         }
     }
@@ -258,7 +258,7 @@ class DetailUserController extends Controller
                 $msg = $validator->messages()->first();
                 return redirect(route('editProfile', $id))->with(compact('color', 'msg'));
             }
-            
+
             // $this->validate($request,[
             //     'email' => 'required|email',
             //     'password'   => 'confirmed'
