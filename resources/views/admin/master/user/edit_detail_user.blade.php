@@ -208,12 +208,18 @@
                         </div>
                         <div class="form-group">
                             <label>SUP</label>
-                            <select class="form-control searchableField" name="sup_id">
+                            <select name="sup_id" class="form-control searchableField  @error('sup_id') is-invalid @enderror">
                                 <option value="">Pilih SUP</option>
                                 @foreach ($sup as $data)
                                     <option value="{{ $data->id }},{{ $data->name }}" @if (Auth::user()->sup_id != null && Auth::user()->sup_id == $data->id) selected @endif>{{ $data->name }}</option>
                                 @endforeach
                             </select>
+                           
+                            @error('sup_id')
+                                <div class="invalid-feedback" style="display: block; color:red">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                             {{-- <i style="color :red; font-size: 10px;">Untuk perubahan hubungi admin</i> --}}
                         </div>
                         <div class="form-group">

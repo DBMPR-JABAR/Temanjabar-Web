@@ -171,7 +171,7 @@ class DetailUserController extends Controller
                 'jenis_kelamin'    => 'required',
                 'no_tlp'    => 'numeric|digits_between:8,13',
                 'no_tlp_rumah'    => '',  
-                'sup_id' => '',
+                'sup_id' => 'required',
                 'tgl_mulai_kerja' => '',
                 'sekolah' => '',
                 'jejang' => '',

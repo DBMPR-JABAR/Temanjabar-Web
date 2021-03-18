@@ -72,8 +72,17 @@ class PekerjaanController extends Controller
     }
     public function getData()
     {
+        if( Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor')||str_contains(Auth::user()->internalRole->role,'Pengamat') || str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') ){
+            if(!Auth::user()->sup_id){
+                // dd(Auth::user()->sup_id);
+                $color = "danger";
+                $msg = "Lengkapi Data Terlebih dahulu";
+                return redirect(url('admin/profile', Auth::user()->id))->with(compact('color', 'msg'));
+              
+            }
+        }
         $pekerjaan = DB::table('kemandoran');
-
+        
         $pekerjaan = $pekerjaan->leftJoin('master_ruas_jalan', 'master_ruas_jalan.id', '=', 'kemandoran.ruas_jalan')->select('kemandoran.*', 'master_ruas_jalan.nama_ruas_jalan');
         // $pekerjaan = $pekerjaan->leftJoin('kemandoran_detail_status', 'kemandoran.id_pek', '=','kemandoran_detail_status.id_pek')->select('kemandoran.*', 'master_ruas_jalan.nama_ruas_jalan','kemandoran_detail_status.*');
 
