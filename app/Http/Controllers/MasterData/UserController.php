@@ -57,6 +57,7 @@ class UserController extends Controller
         $user['email'] = $request->email;
         $user['password'] = Hash::make($request->password);
         $user['role'] = "internal";
+        $user['email_verified_at'] = date('Y-m-d H:i:s');
         $user['internal_role_id'] = $request->internal_role_id;
         $user['sup'] = $request->sup;
 
@@ -239,10 +240,10 @@ class UserController extends Controller
             if( Auth::user()->internalRole->uptd != null &&$dataa['uptd'] == Auth::user()->internalRole->uptd){
                 $uptd_id = str_replace('uptd', '', $dataa['uptd']);
                 $dataa['uptd_aks'] = $uptd_id;
-                
+
                 $tempdata[] = $dataa;
             }
-            
+
         }
         // dd($tempdata);
         if($tempdata != null){
@@ -284,7 +285,7 @@ class UserController extends Controller
         $user_role = DB::table('user_role as a')
                        ->whereNotIn('id',$temp)
                        ->get();
-        
+
         // dd($menu);
         return view('admin.master.user.role_akses_add',compact('menu','user_role'));
     }
@@ -402,7 +403,7 @@ class UserController extends Controller
                 $role_access = DB::table('utils_role_access')->where('master_grant_role_aplikasi_id', $now)
                 ->pluck('role_access');
                 foreach($role_access as $items){
-                    $roleaccessuser[$now][] = [$items];  
+                    $roleaccessuser[$now][] = [$items];
                 }
                 // dd($role_access);
             }
@@ -451,7 +452,7 @@ class UserController extends Controller
             $tempi2[]=['nama'=> $as->nama.'.View','nama_menu'=> $as->nama_menu];
             $tempi2[]=['nama'=> $as->nama.'.Update','nama_menu'=> $as->nama_menu];
             $tempi2[]=['nama'=> $as->nama.'.Delete','nama_menu'=> $as->nama_menu];
-           
+
         }
         // dd($cekopoint);
         // dd($tempi2);
@@ -911,7 +912,7 @@ class UserController extends Controller
         return response()->json(["permission" => $permission], 200);
     }
     public function updatePermission(Request $request){
-        
+
         $data['menu_id'] = $request->menu ? : "";
         $data['updated_by'] =  Auth::user()->id;
         $data['updated_at'] = Carbon::now();
