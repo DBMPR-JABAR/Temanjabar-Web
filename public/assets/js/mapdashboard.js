@@ -526,7 +526,7 @@ function getMap(baseUrl, gsvrUrl) {
                         mediaInfos: [{
                             title: "<b>Foto</b>",
                             type: "image",
-                            altText: "Foto Tidak Dapat Ditampilkan",
+                            altText: "Foto Tidak Ada",
                             value: {
                                 sourceURL: "{foto}"
                             }
@@ -801,7 +801,7 @@ function getMap(baseUrl, gsvrUrl) {
                         mediaInfos: [{
                             title: "<b>Foto Aktual</b>",
                             type: "image",
-                            altText: "Foto Tidak Dapat Ditampilkan",
+                            altText: "Foto Tidak Ada",
                             value: {
                                 sourceURL: "{FOTO}"
                             }
@@ -1965,9 +1965,9 @@ function getMap(baseUrl, gsvrUrl) {
                     {
                         type: "media",
                         mediaInfos: [{
-                            title: "<b>Foto Pekerjaan</b>",
+                            title: "<b>Foto Awal Pekerjaan</b>",
                             type: "image",
-                            altText: "Foto Tidak Dapat Ditampilkan",
+                            altText: "Foto Awal Tidak Ada",
                             value: {
                                 sourceURL: `${baseUrl}/storage/pekerjaan/{FOTO_AWAL}`
                             }
@@ -1976,9 +1976,9 @@ function getMap(baseUrl, gsvrUrl) {
                     {
                         type: "media",
                         mediaInfos: [{
-                            title: "<b>Foto Pekerjaan</b>",
+                            title: "<b>Foto Sedang Pekerjaan</b>",
                             type: "image",
-                            altText: "Foto Tidak Dapat Ditampilkan",
+                            altText: "Foto Sedang Tidak Ada",
                             value: {
                                 sourceURL: `${baseUrl}/storage/pekerjaan/{FOTO_SEDANG}`
                             }
@@ -1987,9 +1987,9 @@ function getMap(baseUrl, gsvrUrl) {
                     {
                         type: "media",
                         mediaInfos: [{
-                            title: "<b>Foto Pekerjaan</b>",
+                            title: "<b>Foto Akhir Pekerjaan</b>",
                             type: "image",
-                            altText: "Foto Tidak Dapat Ditampilkan",
+                            altText: "Foto Akhir Tidak Ada",
                             value: {
                                 sourceURL: `${baseUrl}/storage/pekerjaan/{FOTO_AKHIR}`
                             }
@@ -2005,7 +2005,7 @@ function getMap(baseUrl, gsvrUrl) {
                                 <div class="esri-feature-media__item">
                                     <video controls class="esri-feature-media__item">
                                         <source src="${baseUrl}/storage/pekerjaan/${video}" type="video/mp4">
-                                        Video tidak ada atau tidak dapat ditampilkan!
+                                        Video tidak ada atau tidak dapat ditampilkan
                                     </video>
                                 </div>`;
                         }
@@ -2715,7 +2715,7 @@ function getMap(baseUrl, gsvrUrl) {
                         mediaInfos: [{
                             title: "<b>Foto Kondisi</b>",
                             type: "image",
-                            altText: "Foto Tidak Dapat Ditampilkan",
+                            altText: "Foto Tidak Ada",
                             value: {
                                 sourceURL: `${baseUrl}/storage/{gambar}`
                             }
@@ -2843,6 +2843,7 @@ function getMap(baseUrl, gsvrUrl) {
                         mediaInfos: [{
                             title: "<b>Foto</b>",
                             type: "image",
+                            altText: "Foto Tidak Ada",
                             value: {
                                 sourceURL: "{foto}"
                             }
