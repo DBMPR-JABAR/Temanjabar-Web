@@ -207,7 +207,7 @@ class DetailUserController extends Controller
             if($request->input('sup_id') != null){
                 $userupdat['sup_id']= $temp[0]; 
                 $userupdat['sup']= $temp[1]; 
-                $updatetouser = User::find($id)->update($userupdat);
+                $updatetouser = User::where('id',$id)->update($userupdat);
             }
             $updateprofile = DB::table('user_pegawai')
             ->where('user_id', $id); //beneriiiiiiiiin
