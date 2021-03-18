@@ -397,12 +397,16 @@ class PekerjaanController extends Controller
             $pekerjaan['video'] = $path;
         }
         $row = DB::table('kemandoran')->select('id_pek')->orderByDesc('id_pek')->limit(1)->first();
+        if($row){
+
+            $nomor = intval(substr($row->id_pek, strlen('CK-'))) + 1;
+        }else
+            $nomor = 000001;
 
        
         $pekerjaan['tglreal'] = date('Y-m-d H:i:s');
         $pekerjaan['is_deleted'] = 0;
 
-        $nomor = intval(substr($row->id_pek, strlen('CK-'))) + 1;
         $pekerjaan['id_pek'] = 'CK-' . str_pad($nomor, 6, "0", STR_PAD_LEFT);
 
         DB::table('kemandoran')->insert($pekerjaan);
