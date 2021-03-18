@@ -418,7 +418,7 @@
                                 </div>
                             @else
                                 <div class="col-md-10">
-                                    <select class="form-control searchableModalField" name="nama_mandor" required>
+                                    <select class=" searchableModalField" name="nama_mandor" required>
                                         @foreach ($mandor as $data)
                                         <option value="{{$data->name}},{{$data->id}}">{{$data->name}}</option>
                                         @endforeach
@@ -430,7 +430,7 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Jenis Pekerjaan</label>
                             <div class="col-md-10">
-                                <select class="form-control searchableModalField" name="jenis_pekerjaan" required>
+                                <select class="searchableModalField" name="jenis_pekerjaan" required>
                                     <option value="Pemeliharaan">Pemeliharaan</option>
 
                                     {{-- @foreach ($jenis as $data)
@@ -465,7 +465,7 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Uptd</label>
                             <div class="col-md-10">
-                                <select class="form-control searchableModalField" id="uptd" name="uptd_id" onchange="ubahOption()">
+                                <select class=" searchableModalField" id="uptd" name="uptd_id" onchange="ubahOption()">
                                     <option>Pilih UPTD</option>
                                     @foreach ($uptd as $data)
                                     <option value="{{$data->id}}">{{$data->nama}}</option>
@@ -477,7 +477,7 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">SUP</label>
                             <div class="col-md-10">
-                                <select class="form-control searchableModalField" id="sup" name="sup" required >
+                                <select class=" searchableModalField" id="sup" name="sup" required >
                                     @if (Auth::user()->internalRole->uptd)
                                     @foreach ($sup as $data)
                                     <option value="{{$data->name}},{{$data->id}}" @if(Auth::user()->sup_id != null && Auth::user()->sup_id == $data->id) selected @endif>{{$data->name}}</option>
@@ -491,7 +491,7 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Ruas Jalan</label>
                             <div class="col-md-10">
-                                <select class="form-control searchableModalField" id="ruas_jalan" name="ruas_jalan" required>
+                                <select class=" searchableModalField" id="ruas_jalan" name="ruas_jalan" required>
                                     @if (Auth::user()->internalRole->uptd)
                                     @foreach ($ruas_jalan as $data)
                                     <option value="{{$data->nama_ruas_jalan}},{{$data->id_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
