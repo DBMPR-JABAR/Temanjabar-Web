@@ -47,14 +47,6 @@
                                     </a>
                                 </li>
                             @endif
-                            @if (hasAccess(Auth::user()->internal_role_id, 'Laporan Kerusakan', 'View'))
-                                <li class="{{ Request::segment(3) == 'laporan-kerusakan' ? 'active' : '' }}">
-                                    <a href="{{ url('admin/monitoring/laporan-kerusakan') }}"
-                                        class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext">Laporan Kerusakan</span>
-                                    </a>
-                                </li>
-                            @endif
                             @if (hasAccess(Auth::user()->internal_role_id, 'Anggaran & Realisasi Keuangan', 'View'))
                                 <li class="{{ Request::segment(3) == 'realisasi-keuangan' ? 'active' : '' }}">
                                     <a href="{{ url('admin/monitoring/realisasi-keuangan') }}"
@@ -319,14 +311,14 @@
                                     </a>
                                 </li>
                             @endif
-                            @if (hasAccess(Auth::user()->internal_role_id, 'Pemetaan Laporan', 'View'))
-                            <li
-                                class="{{ Request::segment(2) == 'lapor' && Request::segment(3) == 'pemetaan' ? 'active' : '' }}">
-                                <a href="{{ url('admin/lapor/pemetaan') }}" class="waves-effect waves-dark">
-                                    <span class="pcoded-mtext">Pemetaan Laporan</span>
-                                </a>
-                            </li>
-                        @endif
+                            @if (hasAccess(Auth::user()->internal_role_id, 'Laporan Kerusakan', 'View'))
+                                <li class="{{ Request::segment(3) == 'laporan-kerusakan' ? 'active' : '' }}">
+                                    <a href="{{ url('admin/monitoring/laporan-kerusakan') }}"
+                                        class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Laporan Kerusakan</span>
+                                    </a>
+                                </li>
+                            @endif
                         </ul>
                     </li>
                 </ul>
