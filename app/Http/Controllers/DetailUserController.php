@@ -217,7 +217,7 @@ class DetailUserController extends Controller
                 $userprofile['user_id']  = $id;
                 $updateprofile = $updateprofile->insert($userprofile);
             }
-            dd($temp);
+            // dd($temp);
 
             if($updateprofile || $updatetouser){
                 //redirect dengan pesan sukses
