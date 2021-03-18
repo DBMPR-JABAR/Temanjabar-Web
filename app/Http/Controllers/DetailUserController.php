@@ -211,13 +211,13 @@ class DetailUserController extends Controller
             }
             $updateprofile = DB::table('user_pegawai')
             ->where('user_id', $id); //beneriiiiiiiiin
-            dd($temp);
             if($updateprofile->exists()){
                 $updateprofile = $updateprofile->update($userprofile);
             }else{
                 $userprofile['user_id']  = $id;
                 $updateprofile = $updateprofile->insert($userprofile);
             }
+            dd($temp);
 
             if($updateprofile || $updatetouser){
                 //redirect dengan pesan sukses
