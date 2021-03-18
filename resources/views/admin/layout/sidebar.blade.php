@@ -259,8 +259,9 @@
                                     @endif
                                 </ul>
                             </li>
-                            <li
-                                class=" pcoded-hasmenu  {{ Request::segment(3) == 'data-paket' ? 'pcoded-trigger active' : '' }}">
+                            @if (hasAccess(Auth::user()->internal_role_id, 'Data Paket', 'View') || hasAccess(Auth::user()->internal_role_id, 'Progress Kerja', 'View'))
+
+                            <li class=" pcoded-hasmenu  {{ Request::segment(3) == 'data-paket' ? 'pcoded-trigger active' : '' }}">
                                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                                     <span class="pcoded-mtext">Pembangunan</span>
                                 </a>
@@ -283,6 +284,7 @@
                                     @endif
                                 </ul>
                             </li>
+                            @endif
                         </ul>
                     </li>
                 </ul>
