@@ -754,7 +754,7 @@ class PekerjaanController extends Controller
         }
 
         // dd($pekerjaan);
-        dd($pekerjaan);
+        // dd($pekerjaan);
         return view('admin.input.pekerjaan.show', compact('pekerjaan','material','detail'));
     }
     public function jugmentLaporan(Request $request, $id){
