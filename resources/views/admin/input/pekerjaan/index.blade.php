@@ -362,7 +362,7 @@
                                                     @endif
                                                 @endif
                                                 @if(@$data->status->adjustment_user_id==Auth::user()->id)
-                                                    <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i>Edit Jugment</button></a>
+                                                    <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i>Edit Judgement</button></a>
                                                 @endif
                                             @endif
 
@@ -784,7 +784,7 @@
             ], function(Map, MapView, Graphic) {
 
                 const map = new Map({
-                    basemap: "hybrid"
+                    basemap: "streets"
                 });
 
                 const view = new MapView({

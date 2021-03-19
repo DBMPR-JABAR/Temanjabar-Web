@@ -72,6 +72,7 @@ class PekerjaanController extends Controller
     }
     public function getData()
     {
+        
         if( Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor')||str_contains(Auth::user()->internalRole->role,'Pengamat') || str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') ){
             if(!Auth::user()->sup_id){
                 // dd(Auth::user()->sup_id);
@@ -633,7 +634,10 @@ class PekerjaanController extends Controller
                 if($tempuser->exists()){
                     $tempuser=$tempuser->first();
                     $data->status = $tempuser;
+
                     $data->status->status="";
+                    // $data->status->status="";
+
                 }
             }
             $data->input_material = $input_material;
@@ -711,8 +715,6 @@ class PekerjaanController extends Controller
 
                 }
                     
-
-
                 // dd($next_user);
                 $pekerjaan->status->next_user = $next_user;
                 // dd($pekerjaan);
@@ -752,6 +754,7 @@ class PekerjaanController extends Controller
         }
 
         // dd($pekerjaan);
+        dd($pekerjaan);
         return view('admin.input.pekerjaan.show', compact('pekerjaan','material','detail'));
     }
     public function jugmentLaporan(Request $request, $id){
