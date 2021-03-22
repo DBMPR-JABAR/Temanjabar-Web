@@ -380,7 +380,7 @@
                                                 @endif
                                             @endif
                                         @endif
-                                        &nbsp;<a href="{{ route('detailPemeliharaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-search"></i>Detail</button></a>
+                                        &nbsp;<a href="{{ route('detailPemeliharaan',$data->id_pek) }}"><button class="btn btn-success btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-search"></i></button></a>
 
                                     </div>
                                 </td>
@@ -786,7 +786,7 @@
             ], function(Map, MapView, Graphic) {
 
                 const map = new Map({
-                    basemap: "streets"
+                    basemap: "osm"
                 });
 
                 const view = new MapView({

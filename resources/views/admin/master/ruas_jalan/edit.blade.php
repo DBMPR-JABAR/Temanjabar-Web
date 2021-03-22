@@ -290,7 +290,7 @@
             ], function(Map, MapView, Graphic) {
 
                 const map = new Map({
-                    basemap: "hybrid"
+                    basemap: "streets"
                 });
 
                 const view = new MapView({

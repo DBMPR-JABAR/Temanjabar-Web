@@ -294,7 +294,7 @@
                 ], function(Map, MapView, Graphic) {
 
                     const map = new Map({
-                        basemap: "hybrid"
+                        basemap: "osm"
                     });
 
                     const view = new MapView({
