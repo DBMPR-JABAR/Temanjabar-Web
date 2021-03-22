@@ -1956,9 +1956,6 @@ function getMap(baseUrl, gsvrUrl) {
                             {
                                 fieldName: "UPTD",
                                 label: "UPTD"
-                            },
-                            {
-                                fieldName: "expression/detailurl"
                             }
                         ]
                     },
@@ -1968,8 +1965,8 @@ function getMap(baseUrl, gsvrUrl) {
                         outFields: ["*"],
                         creator: function(feature) {
                             var id = feature.graphic.attributes.ID_PEK;
-                            return `<br/><a href="${baseUrl}/pemeliharaan/pekerjaan/${id}" target="_blank">
-                                    Lihat Detail Pekerjaan --></a><br/>`;
+                            return `<a class="btn btn-primary text-white mb-4" href="${baseUrl}/pemeliharaan/pekerjaan/${id}" target="_blank">
+                                    Lihat Detail Pekerjaan</a>`;
                         }
                     }
                 ],
