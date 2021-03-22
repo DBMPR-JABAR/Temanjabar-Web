@@ -380,6 +380,8 @@
                                                 @endif
                                             @endif
                                         @endif
+                                        &nbsp;<a href="{{ route('detailPemeliharaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-search"></i>Detail</button></a>
+
                                     </div>
                                 </td>
                             </tr>

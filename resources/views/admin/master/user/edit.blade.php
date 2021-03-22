@@ -85,13 +85,12 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-md-2 col-form-label">SPP</label>
+                        <label class="col-md-2 col-form-label">SUP</label>
                         <div class="col-md-10">
-                            <select class="form-control searchableField" required name="sup">
-                                <option value="{{$user->sup}}">{{$user->sup}}</option>
-                                <option></option>
+                            <select class="form-control searchableField" name="sup_id">
+                                <option value=" , ">Pilih SUP</option>
                                 @foreach ($sup as $data)
-                                <option value="{{$data->name}}">{{$data->name}}</option>
+                                <option value="{{ $data->id }},{{ $data->name }}" @if($user->sup_id == $data->id) selected @endif>{{$data->name}}</option>
                                 @endforeach
                             </select>
                         </div>

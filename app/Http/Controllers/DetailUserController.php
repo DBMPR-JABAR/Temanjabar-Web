@@ -218,6 +218,7 @@ class DetailUserController extends Controller
                 $userprofile['user_id']  = $id;
                 $updateprofile = $updateprofile->insert($userprofile);
             }
+            // echo $request->input('sup_id');
             // dd($temp);
 
             if($updateprofile || $updatetouser){
