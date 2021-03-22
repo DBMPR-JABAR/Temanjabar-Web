@@ -8,6 +8,13 @@ use Illuminate\Support\Facades\DB;
 
 class ItemBahanMaterialController extends Controller
 {
+    public function __construct()
+    {
+        $roles = setAccessBuilder('Bahan Material', ['create', 'store'], ['index'], ['edit', 'update'], ['destroy']);
+        foreach ($roles as $role => $permission) {
+            $this->middleware($role)->only($permission);
+        }
+    }
     /**
      * Display a listing of the resource.
      *

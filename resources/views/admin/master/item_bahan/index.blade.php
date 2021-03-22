@@ -57,7 +57,7 @@
                     </div>
                 </div>
                 <div class="card-block">
-                    @if (hasAccess(Auth::user()->internal_role_id, 'Input Data', 'Create'))
+                    @if (hasAccess(Auth::user()->internal_role_id, 'Bahan Material', 'Create'))
                         <a href="{{ route('item_bahan_material.create') }}" class="btn btn-mat btn-primary mb-3">Tambah</a>
                     @endif
                     <div class="dt-responsive table-responsive">
@@ -79,13 +79,13 @@
                                         <td style="min-width: 75px;">
                                             <div class="btn-group " role="group" data-placement="top" title=""
                                                 data-original-title=".btn-xlg">
-                                                @if (hasAccess(Auth::user()->internal_role_id, 'Input Data', 'Update'))
+                                                @if (hasAccess(Auth::user()->internal_role_id, 'Bahan Material', 'Update'))
                                                     <a href="{{ route('item_bahan_material.edit', $data->no) }}"><button
                                                             class="btn btn-primary btn-sm waves-effect waves-light"
                                                             data-toggle="tooltip" title="Edit"><i
                                                                 class="icofont icofont-pencil"></i></button></a>
                                                 @endif
-                                                @if (hasAccess(Auth::user()->internal_role_id, 'Input Data', 'Delete'))
+                                                @if (hasAccess(Auth::user()->internal_role_id, 'Bahan Material', 'Delete'))
                                                     <a href="#delModal" data-id="{{ $data->no }}"
                                                         data-toggle="modal"><button
                                                             class="btn btn-danger btn-sm waves-effect waves-light"

@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class TipeBangunanAtasController extends Controller
 {
+    public function __construct()
+    {
+        $roles = setAccessBuilder('Tipe Bangunan Atas', ['store'], ['index','show'], ['update'], ['edit']);
+        foreach ($roles as $role => $permission) {
+            $this->middleware($role)->only($permission);
+        }
+    }
     /**
      * Display a listing of the resource.
      *
@@ -26,7 +33,6 @@ class TipeBangunanAtasController extends Controller
      */
     public function create()
     {
-
     }
 
     /**
@@ -90,7 +96,6 @@ class TipeBangunanAtasController extends Controller
         $color = "success";
         $msg = "Berhasil Mengubah Data Tipe Bangunan Atas";
         return redirect(route('tipebangunanatas.index'))->with(compact('color', 'msg'));
-
     }
 
     /**
@@ -101,6 +106,5 @@ class TipeBangunanAtasController extends Controller
      */
     public function destroy($id)
     {
-
     }
 }
