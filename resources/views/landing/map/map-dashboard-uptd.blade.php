@@ -346,7 +346,6 @@
                     <option value="pembangunan">Pembangunan</option>
                     <option value="peningkatan">Peningkatan</option>
                     <option value="rehabilitasi">Rehabilitasi</option>
-                    <option value="pemeliharaan">Pemeliharaan</option>
                     <option value="jembatan">Jembatan</option>
                     <option value="cctv">CCTV</option>
                     <option value="rawanbencana">Titik Rawan Bencana</option>
