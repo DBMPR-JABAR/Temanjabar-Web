@@ -209,7 +209,7 @@
             'assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js'
         )
     }}"></script>
-<script src="{{ asset('assets/js/custom.js) }}"></script>
+<script src="{{ asset('assets/js/custom.js') }}"></script>
 <script>
     $(document).ready(function () {
         // $("#dttable").DataTable();

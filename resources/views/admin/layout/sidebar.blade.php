@@ -95,21 +95,27 @@
                                         <span class="pcoded-mtext">User</span>
                                     </a>
                                     <ul class="pcoded-submenu">
+                                        @if (hasAccess(Auth::user()->internal_role_id, 'Manajemen User', 'View'))
                                         <li class="{{ Request::segment(4) == 'manajemen' ? 'active' : '' }}">
                                             <a href="{{ route('getMasterUser') }}" class="waves-effect waves-dark">
                                                 <span class="pcoded-mtext">Manajemen User</span>
                                             </a>
                                         </li>
+                                        @endif
+                                        @if (hasAccess(Auth::user()->internal_role_id, 'User Role', 'View'))
                                         <li class="{{ Request::segment(4) == 'user-role' ? 'active' : '' }}">
                                             <a href="{{ route('getDataUserRole') }}" class="waves-effect waves-dark">
                                                 <span class="pcoded-mtext">User Role</span>
                                             </a>
                                         </li>
+                                        @endif
+                                        @if (hasAccess(Auth::user()->internal_role_id, 'Role Akses', 'View'))
                                         <li class="{{ Request::segment(4) == 'role-akses' ? 'active' : '' }}">
                                             <a href="{{ route('getRoleAkses') }}" class="waves-effect waves-dark">
                                                 <span class="pcoded-mtext">Role Akses</span>
                                             </a>
                                         </li>
+                                        @endif
                                         @if (Auth::user() && Auth::user()->id == 1)
                                             <li class="{{ Request::segment(4) == 'permission' ? 'active' : '' }}">
                                                 <a href="{{ route('getAkses') }}" class="waves-effect waves-dark">

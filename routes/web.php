@@ -42,7 +42,7 @@ Route::post('dependent-dropdown', 'DropdownAddressController@store')
     ->name('dependent-dropdown.store');
 Route::get('getCity', 'DropdownAddressController@getCity');
 Route::get('/announcement/show/{id}', 'AnnouncementController@show')->name('announcementShow');
-Route::get('pemeliharaan/pekerjaan/{id}', 'InputData\PekerjaanController@show')->name('detailPemeliharaan');
+Route::get('pemeliharaan/pekerjaan/{id}', 'InputData\PekerjaanController@detailPemeliharaan')->name('detailPemeliharaan');
 
 // {SiteURL}/uptd/*
 Route::group(['prefix' => 'uptd'], function () {
@@ -69,7 +69,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('home', 'Home@index')->name('admin-home');
     Route::get('/', 'Home@index');
     Route::get('file', 'Home@downloadFile');
-    Route::view('map-dashboard', 'admin.map.map-dashboard');
+    Route::view('map-dashboard', 'admin.map.map-dashboard')->middleware('role:Executive Dashboard,View');
     Route::view('map-dashboard-canggih', 'admin.map.map-dashboard-canggih');
     // {SiteURL}/admin/monitoring/*
     Route::group(['prefix' => 'monitoring'], function () {
@@ -89,14 +89,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::get('main-dashboard', 'MonitoringController@getMainDashboard');
 
         Route::get('laporan-kerusakan', 'MonitoringController@getLaporan');
-        Route::view('realisasi-keuangan', 'admin.monitoring.realisasi-keuangan');
+        Route::view('realisasi-keuangan', 'admin.monitoring.realisasi-keuangan')->middleware('role:Anggaran & Realisasi Keuangan,View');
         Route::view('audit-keuangan', 'audit-keuangan');
         Route::get('kemantapan-jalan', 'MonitoringController@getKemantapanJalan');
         // Route::view('kemantapan-jalan-detail', 'admin.monitoring.kemantapan-jalan-detail');
         Route::get('cctv', 'SurveiController@getCCTV');
         // parameternya dari id ruas jalan
         Route::get('roadroid-survei-kondisi-jalan/{id}', 'SurveiController@getRoadroidSKJ');
-        Route::view('roadroid-survei-kondisi-jalan', 'admin.map.map-roaddroid');
+        Route::view('roadroid-survei-kondisi-jalan', 'admin.map.map-roaddroid')->middleware('role:Monitoring Survei Kondisi Jalan,View');;
 
         Route::get('progress_mingguan', 'Monitoring\ProgressMingguanController@getProggressMingguan')->name('getProgressMingguan');
         Route::get('progress_bulanan', 'Monitoring\ProgressMingguanController@getProggressBulanan')->name('getProgressBulanan');
@@ -215,7 +215,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         });
 
         Route::group(['prefix' => 'user'], function () {
-            Route::get('permission', 'MasterData\UserController@getPermission')->name('getAkses');
+            Route::get('permission', 'MasterData\UserController@getPermission')->name('getAkses')->middleware('role:User,View');
             Route::post('add-permission/store', 'MasterData\UserController@storePermission')->name('createPermis');
             Route::get('destroy-permission/{id}', 'MasterData\UserController@destroyPermission')->name('deletePermission');
             Route::get('edit-permission/{id}', 'MasterData\UserController@editPermission')->name('editPermission');

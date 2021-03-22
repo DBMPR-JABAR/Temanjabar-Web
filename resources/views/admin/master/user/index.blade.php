@@ -53,7 +53,7 @@
                 </div>
             </div>
             <div class="card-block">
-                @if (hasAccess(Auth::user()->internal_role_id, "User", "Create"))
+                @if (hasAccess(Auth::user()->internal_role_id, "Manajemen User", "Create"))
                 <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
                 @endif
                 <div class="dt-responsive table-responsive">
@@ -84,10 +84,10 @@
                                 <td>{{$data->blokir}}
                                 </td>
                                 <td>
-                                    @if (hasAccess(Auth::user()->internal_role_id, "User", "Update"))
+                                    @if (hasAccess(Auth::user()->internal_role_id, "Manajemen User", "Update"))
                                     <a href="{{ route('editUser',$data->id) }}" class="mb-2 btn btn-sm btn-warning btn-mat">Edit</a><br>
                                     @endif
-                                    @if (hasAccess(Auth::user()->internal_role_id, "User", "Delete"))
+                                    @if (hasAccess(Auth::user()->internal_role_id, "Manajemen User", "Delete"))
                                     <a href="#delModal" data-id="{{$data->id}}" data-toggle="modal" class="btn btn-sm btn-danger btn-mat">Hapus</a>
                                     @endif
                                 </td>
@@ -101,7 +101,7 @@
     </div>
 </div>
 <div class="modal-only">
-    @if (hasAccess(Auth::user()->internal_role_id, "User", "Create"))
+    @if (hasAccess(Auth::user()->internal_role_id, "Manajemen User", "Create"))
     <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -190,7 +190,7 @@
     </div>
     @endif
 
-    @if (hasAccess(Auth::user()->internal_role_id, "User", "Delete"))
+    @if (hasAccess(Auth::user()->internal_role_id, "Manajemen User", "Delete"))
     <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

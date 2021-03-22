@@ -56,7 +56,9 @@
                 </div>
             </div>
             <div class="card-block">
+                @if (hasAccess(Auth::user()->internal_role_id, "User Role", "Create"))
                 <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
+                @endif
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered able-responsive">
                         <thead>
@@ -117,8 +119,12 @@
                                     <td>{{$data->updated_by}}</td>
                                     <td>
                                         <a type="button" href="{{ route('detailUserRole',$data->id) }}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Rincian</a>
+                                        @if (hasAccess(Auth::user()->internal_role_id, "User Role", "Update"))
                                         <a type="button"href="#editModal"  data-toggle="modal" data-id="{{$data->id}}"  class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Edit</a>
+                                        @endif
+                                        @if (hasAccess(Auth::user()->internal_role_id, "User Role", "Delete"))
                                         <a type="button"href="#delModal"  data-toggle="modal" data-id="{{$data->id}}"     class="btn btn-primary btn-mini waves-effect waves-light"><i class="icofont icofont-check-circled"></i>Hapus</a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -421,7 +427,7 @@
                     console.log(response);
                     $('#user_role').val(response.user_role[0].role);
                     $('#parent').val(response.user_role[0].parent);
-                    
+
                     const user_role_list = @json($user_role_list);
                     const selectedMenu = user_role_list.filter((data) => {
                         return data.id == link.data('parent')

@@ -29,27 +29,11 @@ function hasAccess($role_id, $menu, $access)
 
 function setAccessBuilder($role, $array_create, $array_view, $array_update, $array_delete)
 {
-    $create = [];
-    $update = [];
-    $view = [];
-    $delete = [];
-    foreach ($array_create as $value) {
-        array_push($create, $value);
-    }
-    foreach ($array_update as $value) {
-        array_push($update, $value);
-    }
-    foreach ($array_view as $value) {
-        array_push($view, $value);
-    }
-    foreach ($array_delete as $value) {
-        array_push($delete, $value);
-    }
     $roles = [
-        'role:' . $role . ',Create' => $create,
-        'role:' . $role . ',Update' => $update,
-        'role:' . $role . ',View' => $view,
-        'role:' . $role . ',Delete' => $delete,
+        'role:' . $role . ',Create' => $array_create,
+        'role:' . $role . ',Update' => $array_update,
+        'role:' . $role . ',View' => $array_view,
+        'role:' . $role . ',Delete' => $array_delete,
     ];
     return $roles;
 }

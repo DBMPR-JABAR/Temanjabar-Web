@@ -14,6 +14,13 @@ use PhpParser\Node\Stmt\Echo_;
 
 class MonitoringController extends Controller
 {
+    public function __construct()
+    {
+        $roles = setAccessBuilder('Kemantapan Jalan', [], ['getKemantapanJalan','getKemantapanJalanAPI'], [], []);
+        foreach ($roles as $role => $permission) {
+            $this->middleware($role)->only($permission);
+        }
+    }
 
     public function getLaporan()
     {
@@ -54,10 +61,10 @@ class MonitoringController extends Controller
 
     public function getKemantapanJalanAPI(Request $request)
     {
-        if($request->sup == ''){
+        if ($request->sup == '') {
             return (new GeneralResource(KemantapanJalan::all()));
-        }else{
-            return (new GeneralResource(KemantapanJalan::whereIn('SUP',$request->sup)->get()));
+        } else {
+            return (new GeneralResource(KemantapanJalan::whereIn('SUP', $request->sup)->get()));
         }
     }
 

@@ -757,6 +757,37 @@ class PekerjaanController extends Controller
         // dd($pekerjaan);
         return view('admin.input.pekerjaan.show', compact('pekerjaan','material','detail'));
     }
+    public function detailPemeliharaan($id)
+    {
+
+        $color = "danger";
+        $msg = "Something when wrong!";
+        $pekerjaan = DB::table('kemandoran')->where('kemandoran.id_pek', $id);
+        if(!$pekerjaan->exists())
+            return back()->with(compact('color', 'msg'));
+
+        $pekerjaan = $pekerjaan->first();
+        $pekerjaan->nama_bahan = [];
+        $material = DB::table('bahan_material')->where('id_pek', $id)->first();
+        if($material){
+            for($i=1; $i<=15 ;$i++){
+                $jum_bahan = "jum_bahan$i";
+                $nama_bahan = "nama_bahan$i";
+                $satuan = "satuan$i";
+                if($material->$jum_bahan != null){
+                    $pekerjaan->nama_bahan[] = $material->$nama_bahan;
+                    $pekerjaan->jum_bahan[] = $material->$jum_bahan;
+                    $pekerjaan->satuan[] = $material->$satuan;
+    
+                }
+            }
+        }
+        // dd($material);
+        
+        // dd($pekerjaan);
+        // dd($pekerjaan);
+        return view('admin.input.pekerjaan.detail_pekerjaan', compact('pekerjaan','material'));
+    }
     public function jugmentLaporan(Request $request, $id){
         // dd($id);
         if(str_contains($request->input('status'),'Rejected')){

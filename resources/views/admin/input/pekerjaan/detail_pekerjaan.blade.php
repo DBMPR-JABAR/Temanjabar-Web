@@ -7,7 +7,7 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Judgement Pekerjaan {{Str::title($pekerjaan->nama_mandor)}}</h4>
+                <h4>Mandor {{Str::title($pekerjaan->nama_mandor)}}</h4>
             </div>
         </div>
     </div>
@@ -17,8 +17,8 @@
                 <li class="breadcrumb-item">
                     <a href="{{ url('admin') }}"> <i class="feather icon-home"></i> </a>
                 </li>
-                <li class="breadcrumb-item"><a href="{{ route('getDataPekerjaan') }}">Data Pekerjaan</a> </li>
-                <li class="breadcrumb-item"><a href="#">Edit</a> </li>
+                <li class="breadcrumb-item"><a href="{{ route('getDataPekerjaan') }}">Pemeliharaan</a> </li>
+                <li class="breadcrumb-item"><a href="#">Data</a> </li>
             </ul>
         </div>
     </div>
@@ -32,7 +32,7 @@
             <div class="card-header">
                 <h5>{{ Str::upper($pekerjaan->sup) }}</h5>
 
-                <h2>{{ Str::upper($pekerjaan->status->uptd) }}</h2>
+                <h2>UPTD {{ Str::upper($pekerjaan->uptd_id) }}</h2>
                 <div class="card-header-right">
                     {{ $pekerjaan->tanggal }}
                 </div>
@@ -140,6 +140,7 @@
                         <input name="peralatan" type="text" class="form-control" required value="{{$pekerjaan->peralatan}}" readonly>
                     </div>
                 </div>
+                @if($pekerjaan->nama_bahan)
                 <div class="table-responsive">
                     <label style="font-weight: bold;">Detail Material</label>
                     <table class="table table-striped">
@@ -166,41 +167,11 @@
 
                     </table>
                 </div>
+                @endif
             </div>
         </div>
+        <a href="{{ url()->previous() }}"><button type="button" class="btn btn-danger waves-effect " data-dismiss="modal">Kembali</button></a>
 
-        <div class="card">
-
-            <div class="card-block">
-
-                <form action="{{ route('jugmentLaporanMandor',$pekerjaan->id_pek) }}" method="post" enctype="multipart/form-data">
-                    @csrf
-                    <div class="form-group">
-                        <label>Judgement</label>
-                        <select class="form-control" name="status" required>
-                            <option value="">Select</option>
-
-                            <option value="Approved" @if (@$detail->status != null && strpos('Approved', @$detail->status) !== false) selected @endif>Approved</option>
-                            <option value="Rejected" @if (@$detail->status != null && strpos('Rejected', @$detail->status) !== false) selected @endif>Rejected</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Keterangan</label>
-                        <input type="text" name="keterangan" id="keterangan"
-                            value="{{ old('keterangan', @$detail->description) }}" placeholder="Masukan Keterangan"
-                            class="form-control @error('keterangan') is-invalid @enderror" >
-                        @error('keterangan')
-                            <div class="invalid-feedback" style="display: block; color:red">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
-                    <a href="{{ url()->previous() }}"><button type="button" class="btn btn-danger waves-effect " data-dismiss="modal">Kembali</button></a>
-                <button type="submit" class="btn btn-responsive btn-primary">Submit</button>
-                </form>
-
-            </div>
-        </div>
     </div>
 </div>
 

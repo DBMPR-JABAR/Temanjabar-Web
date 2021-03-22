@@ -57,7 +57,9 @@
                     </div>
                 </div>
                 <div class="card-block">
+                    @if (hasAccess(Auth::user()->internal_role_id, "Role Akses", "Create"))
                     <a href="{{ route('createRoleAccess') }}" class="btn btn-mat btn-primary mb-3">Tambah</a>
+                    @endif
                     <div class="dt-responsive table-responsive">
                         <table id="dttable" class="table table-striped table-bordered able-responsive">
                             <thead>
@@ -80,18 +82,22 @@
                                         <td>{{$loop->index + 1}}</td>
                                         <td>{{$data['role']}}</td>
                                         {{-- <td>{{$data['permissions']}}</td> --}}
-                                         
 
-                                        <td>@if (Auth::user() && Auth::user()->internalRole->uptd) 
+
+                                        <td>@if (Auth::user() && Auth::user()->internalRole->uptd)
                                             {{$data['uptd_aks']}}
                                             @else {{$uptd_access[$i]}}
                                             @endif
                                         </td>
                                         <td>
                                                 <a type='button' href="{{ route('detailRoleAkses', $data['role_id']) }}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Rincian</a>
+                                                @if (hasAccess(Auth::user()->internal_role_id, "Role Akses", "Update"))
                                                 <a type='button' href='{{ route('editRoleAccess', $data['role_id']) }}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a>
+                                                @endif
                                                 {{-- <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$data['role_id']}}' data-uptd_access='{{$uptd_access[$i]}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a> --}}
+                                                @if (hasAccess(Auth::user()->internal_role_id, "Role Akses", "Create"))
                                                 <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data['role_id']}}'     class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Hapus</a><br/>
+                                                @endif
                                         </td>
                                     </tr>
                                     @php

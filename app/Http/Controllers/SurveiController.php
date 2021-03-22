@@ -8,6 +8,16 @@ use Illuminate\Support\Facades\DB;
 
 class SurveiController extends Controller
 {
+    public function __construct()
+    {
+        $cctv_controll_room = setAccessBuilder('CCTV Control Room', [], ['getCCTV'], [], []);
+        $survey_kondisi_jalan = setAccessBuilder('Monitoring Survei Kondisi Jalan',[],['getRoadDroidSKJ'],[],[]);
+        $roles = array_merge($cctv_controll_room,$survey_kondisi_jalan);
+        foreach ($roles as $role => $permission) {
+            $this->middleware($role)->only($permission);
+        }
+    }
+
     public function getCCTV()
     {
         $cctv = DB::table("cctv")
