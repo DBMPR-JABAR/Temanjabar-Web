@@ -19,11 +19,11 @@ class UserController extends Controller
     {
         $roles = [];
         $user = setAccessBuilder('User', ['storePermission', 'storeMenu'], ['getPermission'], ['editPermission', 'updatePermission', 'editMenu', 'updateMenu'], ['destroyMenu', 'destroyPermission']);
-        $role_akses = setAccessBuilder('Role Akses', ['createRoleAccess', 'storeRoleAccess', 'createRoleAcces'], ['getDaftarRoleAkses', 'detailRoleAkses', 'getDataRoleAkses'], ['editRoleAccess', 'updateRoleAccess', 'updateDataRoleAkses'], ['deleteRoleAkses']);
+        // $role_akses = setAccessBuilder('Role Akses', ['createRoleAccess', 'storeRoleAccess', 'createRoleAcces'], ['getDaftarRoleAkses', 'detailRoleAkses', 'getDataRoleAkses'], ['editRoleAccess', 'updateRoleAccess', 'updateDataRoleAkses'], ['deleteRoleAkses']);
         $manajemen_user = setAccessBuilder('Manajemen User', ['store'], ['index', 'getUser', 'getUserAPI', 'detailUser'], ['edit', 'update'], ['delete']);
         $user_role = setAccessBuilder('User Role', ['createUserRole'], ['getDataUserRole', 'detailUserRole', 'getUserRoleData'], ['updateUserRole'], ['deleteUserRole']);
         $roles = array_merge($roles, $user);
-        $roles = array_merge($roles, $role_akses);
+        // $roles = array_merge($roles, $role_akses);
         $roles = array_merge($roles, $manajemen_user);
         $roles = array_merge($roles, $user_role);
         foreach ($roles as $role => $permission) {
