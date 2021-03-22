@@ -110,17 +110,20 @@ class UserController extends Controller
             $role = $role->where('id', $uptd_id);
         }
         $role = $role->get();
-        // dd($role);
-        return view('admin.master.user.edit', compact('user', 'sup', 'role'));
+        // dd($user);
+        return view('admin.master.user.edit', compact('user','sup','role'));
     }
 
 
     public function update(Request $request)
     {
+        $temp = explode(",",$request->input('sup_id'));
+        $user['sup_id']= $temp[0];
+        $user['sup']= $temp[1];
         $userId = $request->id;
         $user['name'] = $request->name;
         $user['internal_role_id'] = $request->internal_role_id;
-        $user['sup'] = $request->sup;
+
         $user['blokir'] = $request->blokir;
 
         if ($request->password != "") {

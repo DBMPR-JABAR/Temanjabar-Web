@@ -1918,7 +1918,8 @@ function getMap(baseUrl, gsvrUrl) {
             };
             const popupTemplate = {
                 title: "{RUAS_JALAN}",
-                content: [{
+                content: [
+                    {
                         type: "fields",
                         fieldInfos: [{
                                 fieldName: "TANGGAL",
@@ -1935,10 +1936,6 @@ function getMap(baseUrl, gsvrUrl) {
                             {
                                 fieldName: "PANJANG",
                                 label: "Panjang "
-                            },
-                            {
-                                fieldName: "PERALATAN",
-                                label: "Peralatan"
                             },
                             {
                                 fieldName: "LAT",
@@ -1959,58 +1956,23 @@ function getMap(baseUrl, gsvrUrl) {
                             {
                                 fieldName: "UPTD",
                                 label: "UPTD"
+                            },
+                            {
+                                fieldName: "expression/detailurl"
                             }
                         ]
                     },
                     {
-                        type: "media",
-                        mediaInfos: [{
-                            title: "<b>Foto Awal Pekerjaan</b>",
-                            type: "image",
-                            altText: "Foto Awal Tidak Ada",
-                            value: {
-                                sourceURL: `${baseUrl}/storage/pekerjaan/{FOTO_AWAL}`
-                            }
-                        }]
-                    },
-                    {
-                        type: "media",
-                        mediaInfos: [{
-                            title: "<b>Foto Sedang Pekerjaan</b>",
-                            type: "image",
-                            altText: "Foto Sedang Tidak Ada",
-                            value: {
-                                sourceURL: `${baseUrl}/storage/pekerjaan/{FOTO_SEDANG}`
-                            }
-                        }]
-                    },
-                    {
-                        type: "media",
-                        mediaInfos: [{
-                            title: "<b>Foto Akhir Pekerjaan</b>",
-                            type: "image",
-                            altText: "Foto Akhir Tidak Ada",
-                            value: {
-                                sourceURL: `${baseUrl}/storage/pekerjaan/{FOTO_AKHIR}`
-                            }
-                        }]
-                    },
-                    {
-                        title: "<b>Video Pekerjaan</b>",
                         type: "custom",
+                        title: "<b>Survei Kondisi Jalan</b>",
                         outFields: ["*"],
                         creator: function(feature) {
-                            var video = feature.graphic.attributes.VIDEO;
-                            return `
-                                <div class="esri-feature-media__item">
-                                    <video controls class="esri-feature-media__item">
-                                        <source src="${baseUrl}/storage/pekerjaan/${video}" type="video/mp4">
-                                        Video tidak ada atau tidak dapat ditampilkan
-                                    </video>
-                                </div>`;
+                            var id = feature.graphic.attributes.ID_PEK;
+                            return `<br/><a href="${baseUrl}/pemeliharaan/pekerjaan/${id}" target="_blank">
+                                    Lihat Detail Pekerjaan --></a><br/>`;
                         }
                     }
-                ]
+                ],
             };
 
             // cari dan hapus layer bila ada pd map
@@ -2032,9 +1994,9 @@ function getMap(baseUrl, gsvrUrl) {
                 title: 'Pemeliharaan',
                 id: 'pr_pem',
                 fields: [{
-                        name: "ID",
-                        alias: "ID",
-                        type: "integer"
+                        name: "ID_PEK",
+                        alias: "ID_PEK",
+                        type: "string"
                     },
                     {
                         name: "TANGGAL",
