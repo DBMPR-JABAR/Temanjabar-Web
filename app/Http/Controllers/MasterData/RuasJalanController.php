@@ -14,6 +14,13 @@ use Yajra\Datatables\DataTables;
 
 class RuasJalanController extends Controller
 {
+    public function __construct()
+    {
+        $roles = setAccessBuilder('Ruas Jalan', ['create'],['index','json'],['edit','update'],['delete']);
+        foreach ($roles as $role => $permission) {
+            $this->middleware($role)->only($permission);
+        }
+    }
     /**
      * Display a listing of the resource.
      *
