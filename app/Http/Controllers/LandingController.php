@@ -13,6 +13,15 @@ use App\Model\Transactional\LaporanMasyarakat;
 
 class LandingController extends Controller
 {
+    public function __construct()
+    {
+        $roles = [];
+        $uptd_role = setAccessBuilder('UPTD', ['createUPTD'], ['getUPTD'], ['editUPTD', 'updateUPTD'], ['deleteUPTD']);
+        $roles = array_merge($roles, $uptd_role);
+        foreach ($roles as $role => $permission) {
+            $this->middleware($role)->only($permission);
+        }
+    }
 
     // Lokasi: Landing Page
 

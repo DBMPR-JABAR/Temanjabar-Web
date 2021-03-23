@@ -13,6 +13,13 @@ use Yajra\Datatables\DataTables;
 
 class RawanBencanaController extends Controller
 {
+    public function __construct()
+    {
+        $roles = setAccessBuilder('Rawan Bencana', ['createData'], ['index','getData','getDataSUP','getURL','json'], ['editData','updateData'], ['deleteData']);
+        foreach ($roles as $role => $permission) {
+            $this->middleware($role)->only($permission);
+        }
+    }
     /**
      * Display a listing of the resource.
      *

@@ -13,6 +13,13 @@ use Yajra\Datatables\DataTables;
 
 class JembatanController extends Controller
 {
+    public function __construct()
+    {
+        $roles = setAccessBuilder('Jembatan', ['add', 'store'], ['index','viewPhoto','json'], ['edit', 'update','editPhoto','updatePhoto'], ['deletePhoto','delPhoto']);
+        foreach ($roles as $role => $permission) {
+            $this->middleware($role)->only($permission);
+        }
+    }
     /**
      * Display a listing of the resource.
      *

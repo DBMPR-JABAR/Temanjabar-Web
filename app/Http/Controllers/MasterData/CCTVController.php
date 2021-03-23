@@ -12,6 +12,13 @@ use Illuminate\Support\Facades\Hash;
 
 class CCTVController extends Controller
 {
+    public function __construct()
+    {
+        $roles = setAccessBuilder('CCTV', ['create'], ['index','detail','getDataSUP'], ['edit', 'update'], ['delete']);
+        foreach ($roles as $role => $permission) {
+            $this->middleware($role)->only($permission);
+        }
+    }
     public function index()
     {
         $cctv = DB::table('cctv');
