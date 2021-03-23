@@ -107,10 +107,10 @@ class UserController extends Controller
         $role = $role->where('is_active', '1');
         if (Auth::user()->internalRole->uptd) {
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
-            $role = $role->where('id', $uptd_id);
+            $role = $role->where('uptd', Auth::user()->internalRole->uptd);
         }
         $role = $role->get();
-        // dd($user);
+        // dd($role);
         return view('admin.master.user.edit', compact('user','sup','role'));
     }
 
