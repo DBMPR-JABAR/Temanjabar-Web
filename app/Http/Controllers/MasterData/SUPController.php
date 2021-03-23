@@ -12,6 +12,13 @@ use Illuminate\Support\Facades\DB;
 
 class SUPController extends Controller
 {
+    public function __construct()
+    {
+        $roles = setAccessBuilder('SUP', ['store', ''], ['index'], ['edit', 'update'], ['destroy']);
+        foreach ($roles as $role => $permission) {
+            $this->middleware($role)->only($permission);
+        }
+    }
     /**
      * Display a listing of the resource.
      *
@@ -55,7 +62,7 @@ class SUPController extends Controller
         ]);
         $uptd_id = $request->uptd_id;
         $sup['name'] = $request->name;
-    
+
         if(Auth::user() && Auth::user()->internalRole->uptd != null)
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
 
@@ -71,7 +78,7 @@ class SUPController extends Controller
             $color = "danger";
             $msg = "Data Gagal Ditambah!";
             return redirect(route('goSUP'))->with(compact('color', 'msg'));
-           
+
         }
 
     }
@@ -95,7 +102,7 @@ class SUPController extends Controller
      */
     public function edit($id)
     {
-        $sup = DB::table('utils_sup')->where('id',$id)->first();    	
+        $sup = DB::table('utils_sup')->where('id',$id)->first();
         return view('admin.master.sup.edit', compact('sup'));
 
     }
@@ -114,10 +121,10 @@ class SUPController extends Controller
         ]);
         $uptd_id = $request->uptd_id;
         $sup['name'] = $request->name;
-    
+
         if(Auth::user() && Auth::user()->internalRole->uptd != null)
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
-            
+
         $sup['uptd_id'] = $uptd_id;
         $updatesup=DB::table('utils_sup')->where('id', $id)->update($sup);
 
@@ -131,7 +138,7 @@ class SUPController extends Controller
             $color = "danger";
             $msg = "Data Gagal atau Tidak Ada yang Diperbaharui!";
             return redirect(route('goSUP'))->with(compact('color', 'msg'));
-           
+
         }
     }
 

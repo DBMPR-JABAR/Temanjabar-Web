@@ -12,6 +12,13 @@ use Yajra\Datatables\DataTable;
 
 class IconController extends Controller
 {
+    public function __construct()
+    {
+        $roles = setAccessBuilder('Icon Rawan Bencana', ['create'], ['detail','index'], ['edit', 'update'], ['delete']);
+        foreach ($roles as $role => $permission) {
+            $this->middleware($role)->only($permission);
+        }
+    }
     public function index(){
     	$icon = DB::table('icon_titik_rawan_bencana')->get();
     	return view('admin.master.icon.index',compact('icon'));
