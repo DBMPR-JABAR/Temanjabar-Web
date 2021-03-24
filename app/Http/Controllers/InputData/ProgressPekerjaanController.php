@@ -13,6 +13,13 @@ use DataTables;
 
 class ProgressPekerjaanController extends Controller
 {
+    public function __construct()
+    {
+        $roles = setAccessBuilder('Progress Kerja', ['createDataProgress'], ['index','json','getDataProgress'], ['editDataProgress','updateDataProgress'], ['deleteDataProgress']);
+        foreach ($roles as $role => $permission) {
+            $this->middleware($role)->only($permission);
+        }
+    }
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +31,7 @@ class ProgressPekerjaanController extends Controller
             'status' => 'false',
             'data' => []
         ];
-        $pekerjaan = new ProgressPekerjaan(); 
+        $pekerjaan = new ProgressPekerjaan();
         if (Auth::user()->internalRole->uptd) {
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
             $laporan = $pekerjaan->where('UPTD', $uptd_id);

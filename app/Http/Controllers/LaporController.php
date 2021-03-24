@@ -12,6 +12,13 @@ use Yajra\Datatables\DataTables;
 
 class LaporController extends Controller
 {
+    public function __construct()
+    {
+        $roles = setAccessBuilder('Daftar Laporan',['create','store'],['index','json'],['edit','update'],['delete']);
+        foreach ($roles as $role => $permission) {
+            $this->middleware($role)->only($permission);
+        }
+    }
     /**
      * Display a listing of the resource.
      *

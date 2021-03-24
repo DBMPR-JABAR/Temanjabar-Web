@@ -88,7 +88,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
         Route::get('main-dashboard', 'MonitoringController@getMainDashboard');
 
-        Route::get('laporan-kerusakan', 'MonitoringController@getLaporan');
         Route::view('realisasi-keuangan', 'admin.monitoring.realisasi-keuangan')->middleware('role:Anggaran & Realisasi Keuangan,View');
         Route::view('audit-keuangan', 'audit-keuangan');
         Route::get('kemantapan-jalan', 'MonitoringController@getKemantapanJalan');
@@ -405,6 +404,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::post('update', 'LandingController@updateLaporanMasyarakat')->name('updateLapor');
         Route::get('delete/{id}', 'LandingController@deleteLaporanMasyarakat')->name('deleteLapor');
         Route::get('pemetaan', 'LaporController@pemetaanLaporanMasyarakat')->name('pemetaanLaporanMasyarakat');
+        Route::get('laporan-kerusakan', 'MonitoringController@getLaporan');
     });
 });
 Route::get('map/target-realisasi', 'ProyekController@getTargetRealisasiAPI')->name('api.targetrealisasi');
