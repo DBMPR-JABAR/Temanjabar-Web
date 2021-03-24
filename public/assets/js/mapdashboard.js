@@ -747,7 +747,7 @@ function getMap(baseUrl, gsvrUrl) {
                     value: data.ICON_NAME,
                     symbol: {
                         type: "picture-marker", // autocasts as new PictureMarkerSymbol()
-                        url: data.ICON_IMAGE,
+                        url: `${baseUrl}/storage/${data.ICON_IMAGE}`,
                         width: "28px",
                         height: "28px"
                     }
