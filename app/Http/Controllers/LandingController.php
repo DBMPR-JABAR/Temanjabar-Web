@@ -17,7 +17,11 @@ class LandingController extends Controller
     {
         $roles = [];
         $uptd_role = setAccessBuilder('UPTD', ['createUPTD'], ['getUPTD'], ['editUPTD', 'updateUPTD'], ['deleteUPTD']);
+        $laporan = setAccessBuilder('Input Laporan',['addLaporanMasyarakat'],[],[],[]);
+        $daftar_laporan = setAccessBuilder('Daftar Laporan',['createLaporanMasyarakat'],['addLaporanMasyarakat'],['editLaporanMasyarakat','updateLaporanMasyaraka'],['deleteLaporanMasyarakat']);
         $roles = array_merge($roles, $uptd_role);
+        $roles = array_merge($roles, $laporan);
+        $roles = array_merge($roles, $daftar_laporan);
         foreach ($roles as $role => $permission) {
             $this->middleware($role)->only($permission);
         }

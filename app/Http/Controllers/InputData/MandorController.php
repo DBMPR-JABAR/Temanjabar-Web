@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\Hash;
 
 class MandorController extends Controller
 {
+    public function __construct()
+    {
+        $roles = setAccessBuilder('Mandor', [], ['index'], [], []);
+        foreach ($roles as $role => $permission) {
+            $this->middleware($role)->only($permission);
+        }
+    }
     /**
      * Display a listing of the resource.
      *
@@ -31,13 +38,13 @@ class MandorController extends Controller
             if($cek != null && str_contains($cek,'Mandor')){
                 $temp[]=$data;
             }
-            
+
         }
         $users = $temp;
         if(Auth::user()->internalRole->uptd){
             $temp=[];
             $tempsup=[];
-            
+
             // $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
             foreach($users as $no => $data){
                 if($data->internalRole->uptd ==Auth::user()->internalRole->uptd){

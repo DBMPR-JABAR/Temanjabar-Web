@@ -304,7 +304,7 @@
                             {{-- <span class="pcoded-badge label label-warning">NEW</span> --}}
                         </a>
                         <ul class="pcoded-submenu">
-                            @if (hasAccess(Auth::user()->internal_role_id, 'Lapor', 'Create'))
+                            @if (hasAccess(Auth::user()->internal_role_id, 'Input Laporan', 'Create'))
                                 <li class="{{ Request::segment(3) == 'add' ? 'active' : '' }}">
                                     <a href="{{ url('admin/lapor/add') }}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Input Laporan</span>
@@ -321,7 +321,7 @@
                             @endif
                             @if (hasAccess(Auth::user()->internal_role_id, 'Laporan Kerusakan', 'View'))
                                 <li class="{{ Request::segment(3) == 'laporan-kerusakan' ? 'active' : '' }}">
-                                    <a href="{{ url('admin/monitoring/laporan-kerusakan') }}"
+                                    <a href="{{ url('admin/lapor/laporan-kerusakan') }}"
                                         class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Laporan Kerusakan</span>
                                     </a>

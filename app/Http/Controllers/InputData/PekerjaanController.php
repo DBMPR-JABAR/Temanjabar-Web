@@ -18,6 +18,13 @@ use Illuminate\Support\Facades\Mail;
 
 class PekerjaanController extends Controller
 {
+    public function __construct()
+    {
+        $roles = setAccessBuilder('Pekerjaan', ['createData', 'createDataMaterial','submitData'], ['index','getData','statusData','materialData','show','detailPemeliharaan','json'], ['editData', 'updateData','updateDataMaterial'], ['deleteData']);
+        foreach ($roles as $role => $permission) {
+            $this->middleware($role)->only($permission);
+        }
+    }
     /**
      * Display a listing of the resource.
      *
@@ -29,23 +36,23 @@ class PekerjaanController extends Controller
             'status' => 'false',
             'data' => []
         ];
-        
+
         $pekerjaan = new Pekerjaan();
         if (Auth::user()->internalRole->uptd) {
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
             $laporan = $pekerjaan->where('UPTD', $uptd_id);
         }
         $pekerjaan = $pekerjaan->get();
-        
+
         return view('admin.input.pekerjaan.index', compact('pekerjaan'));
     }
     public static function cekMaterial($id) {
         $cek = DB::table('bahan_material')->where('id_pek',$id)->exists();
         return $cek;
     }
-  
+
     public function sendEmail($data, $to_email, $to_name, $subject){
-      
+
         return Mail::send('mail.notifikasiStatusLapMandor', $data, function ($message) use ($to_name, $to_email,$subject) {
             $message->to($to_email, $to_name)->subject($subject);
 
@@ -54,7 +61,7 @@ class PekerjaanController extends Controller
         // dd($mail);
     }
     public function setSendEmail($name, $id, $mandor, $jenis_pekerjaan, $uptd, $sup_mail, $status_mail, $keterangan, $to_email, $to_name,$subject){
-       
+
         $temporari = [
             'name' =>Str::title($name),
             'id_pek' => $id,
@@ -65,14 +72,14 @@ class PekerjaanController extends Controller
             'status' => $status_mail,
             'keterangan' => $keterangan
             ];
-        
+
             // dd($subject);
             // dd($item);
             $mail = $this->sendEmail($temporari, $to_email, $to_name, $subject);
     }
     public function getData()
     {
-        
+
         if( Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor')||str_contains(Auth::user()->internalRole->role,'Pengamat') || str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') ){
             if(!Auth::user()->sup_id || !Auth::user()->internalRole->uptd ){
                 // dd(Auth::user()->sup_id);
@@ -82,11 +89,11 @@ class PekerjaanController extends Controller
                     $msg = "Hubungi admin untuk melengkapi data jabatan";
 
                 return redirect(url('admin/profile', Auth::user()->id))->with(compact('color', 'msg'));
-              
+
             }
         }
         $pekerjaan = DB::table('kemandoran');
-        
+
         $pekerjaan = $pekerjaan->leftJoin('master_ruas_jalan', 'master_ruas_jalan.id', '=', 'kemandoran.ruas_jalan')->select('kemandoran.*', 'master_ruas_jalan.nama_ruas_jalan');
         // $pekerjaan = $pekerjaan->leftJoin('kemandoran_detail_status', 'kemandoran.id_pek', '=','kemandoran_detail_status.id_pek')->select('kemandoran.*', 'master_ruas_jalan.nama_ruas_jalan','kemandoran_detail_status.*');
 
@@ -96,7 +103,7 @@ class PekerjaanController extends Controller
             if(str_contains(Auth::user()->internalRole->role,'Mandor')){
                 $pekerjaan = $pekerjaan->where('kemandoran.user_id',Auth::user()->id);
             }else if(Auth::user()->sup_id)
-                $pekerjaan = $pekerjaan->where('kemandoran.sup_id',Auth::user()->sup_id); 
+                $pekerjaan = $pekerjaan->where('kemandoran.sup_id',Auth::user()->sup_id);
         }
         // dd($pekerjaan);
         $pekerjaan = $pekerjaan->whereRaw("YEAR(tanggal) BETWEEN 2021 AND 2021");
@@ -105,7 +112,7 @@ class PekerjaanController extends Controller
 
         foreach($pekerjaan as $no =>$data){
             // echo "$data->id_pek<br>";
-            
+
             $data->status = "";
 
             $detail_adjustment=DB::table('kemandoran_detail_status')->where('id_pek',$data->id_pek);
@@ -125,14 +132,14 @@ class PekerjaanController extends Controller
                 $detail_adjustment=$detail_adjustment
                 ->leftJoin('users','users.id','=','kemandoran_detail_status.adjustment_user_id')
                 ->leftJoin('user_role','users.internal_role_id','=','user_role.id');
-                
+
                 if($detail_adjustment->count() > 1){
                     $detail_adjustment=$detail_adjustment->get();
                     foreach($detail_adjustment as $num => $data1){
                         $temp = $data1;
                     }
                     $data->status=$temp;
-                    // dd($data);          
+                    // dd($data);
                 }else{
                     $detail_adjustment=$detail_adjustment->first();
                     $data->status=$detail_adjustment;
@@ -140,9 +147,9 @@ class PekerjaanController extends Controller
                 $temp=explode(" - ",$data->status->role);
                 $data->status->jabatan=$temp[0];
             }
-            
+
             // echo "$data->id_pek<br>";
-           
+
 
         }
         // dd(Carbon::now());
@@ -182,7 +189,7 @@ class PekerjaanController extends Controller
                 $next_user = DB::table('users')->where('internal_role_id',$item->status->parent)->where('sup_id',$item->status->sup_id)->get();
                 // dd($next_user);
                 $item->status->next_user = $next_user;
-               
+
                 $name =Str::title($item->status->name);
                 $id_pek = $item->id_pek;
                 $nama_mandor = Str::title($item->nama_mandor);
@@ -197,7 +204,7 @@ class PekerjaanController extends Controller
                     $status_mail = $item->status->status;
                     $subject = "Status Laporan $item->id_pek-".$item->status->status;
                 }
-                
+
                 $to_email = $item->status->email;
                 $to_name = $item->nama_mandor;
                 // dd($subject);
@@ -208,20 +215,20 @@ class PekerjaanController extends Controller
                         // dd($item->email);
                         $to_email =$item1->email;
                         $to_name = $item1->name;
-                        
+
                             $name =Str::title($item1->name);
                             $id_pek = $item->id_pek;
                             $nama_mandor = Str::title($item->nama_mandor);
                             $jenis_pekerjaan = Str::title($item->paket);
                             $uptd = Str::upper($item->status->uptd);
                             $sup_mail = $item->sup;
-                          
+
                             $keterangan = "Silahkan ditindak lanjuti";
-                        
+
                         $mail = $this->setSendEmail($name, $id_pek, $nama_mandor, $jenis_pekerjaan, $uptd, $sup_mail, $status_mail, $keterangan, $to_email, $to_name, $subject);
-    
+
                         // $mail = $this->sendEmail($temporari1, $to_email, $to_name, $subject);
-    
+
                     }
                 }
                 if($kemandoran->where('id_pek',$item->id_pek)->where('mail', $item->mail)->exists()){
@@ -229,15 +236,19 @@ class PekerjaanController extends Controller
                     $kemandoran->update($mail);
                 }
 
-                
+
 
             }
 
         }
         // $kode_otp = rand(100000, 999999);
+<<<<<<< HEAD
     //    echo Auth::user()->internalRole->id;
     //    echo Auth::user()->sup;
     // echo Auth::user()->internalRole->role;
+=======
+
+>>>>>>> 9c4a591ec206eb156c4fb1c21467fe1ed03b4f66
     //    dd($pekerjaan);
         $approve = 0;
         $reject = 0;
@@ -256,15 +267,15 @@ class PekerjaanController extends Controller
             if(str_contains(Auth::user()->internalRole->role,'Mandor')){
                 $rekaps = $rekaps->where('kemandoran.user_id',Auth::user()->id);
             }else if(Auth::user()->sup_id)
-                $rekaps = $rekaps->where('kemandoran.sup_id',Auth::user()->sup_id); 
+                $rekaps = $rekaps->where('kemandoran.sup_id',Auth::user()->sup_id);
         }
 
         $rekaps=$rekaps->get();
         foreach($rekaps as $it){
                     // echo $it->status.' | '.$it->id_pek.'<br>';
-  
+
             $it->status_material = DB::table('bahan_material')->where('id_pek', $it->id_pek)->exists();
-            
+
             $rekaplap = DB::table('kemandoran_detail_status')->where('id', $it->status_s)->pluck('status')->first();
             $it->status = $rekaplap;
             if(($it->status == "Approved"||$it->status == "Rejected" ||$it->status == "Edited") || $it->status_material){
@@ -276,12 +287,12 @@ class PekerjaanController extends Controller
                     // echo $it->status.' | '.$it->id_pek.'<br>';
                 }else
                     $submit+=1;
-                
+
             }else
                 $not_complete+=1;
-            
+
             // echo $it->id_pek.' | '.$it->status.'<br>';
-            
+
         }
             // dd($rekaps);
         $sum_report =[
@@ -327,7 +338,7 @@ class PekerjaanController extends Controller
                 return back()->with(compact('color', 'msg'));
                 // return redirect('admin/user/profile/'. auth()->user()->id)->with(['error' => 'Somethink when wrong!']);
             }
-        
+
         $ruas_jalan = DB::table('master_ruas_jalan');
         // if (Auth::user()->internalRole->uptd) {
         //     $ruas_jalan = $ruas_jalan->where('uptd_id', Auth::user()->internalRole->uptd);
@@ -385,11 +396,11 @@ class PekerjaanController extends Controller
         }
         $pekerjaan['nama_mandor'] = $temp[0];
         $pekerjaan['user_id'] = $temp[1];
-        
-        
+
+
         // dd($pekerjaan['ruas_jalan']);
         $pekerjaan['created_by'] = Auth::user()->id;
-        
+
         // $pekerjaan['slug'] = Str::slug($req->nama, '');
         if ($req->foto_awal != null) {
             $path = Str::snake(date("YmdHis") . ' ' . $req->foto_awal->getClientOriginalName());
@@ -418,7 +429,7 @@ class PekerjaanController extends Controller
         }else
             $nomor = 000001;
 
-       
+
         $pekerjaan['tglreal'] = date('Y-m-d H:i:s');
         $pekerjaan['is_deleted'] = 0;
 
@@ -504,11 +515,11 @@ class PekerjaanController extends Controller
                     $mail['mail'] = 1;
                     // dd($mail);
                     $kemandoran->update($mail);
-                    
+
                 }
             }
         }
-        
+
         $color = "success";
         $msg = "Berhasil Mengubah Data";
         return redirect(route('getDataPekerjaan'))->with(compact('color', 'msg'));
@@ -560,8 +571,12 @@ class PekerjaanController extends Controller
     {
         $pekerjaan = $req->except(['_token']);
         $pekerjaan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
+<<<<<<< HEAD
         $pekerjaan['updated_by'] = Auth::user()->id;
         
+=======
+
+>>>>>>> 9c4a591ec206eb156c4fb1c21467fe1ed03b4f66
         DB::table('bahan_material')->insert($pekerjaan);
         $kemandoran =  DB::table('kemandoran');
 
@@ -582,7 +597,7 @@ class PekerjaanController extends Controller
         $msg = "Berhasil Menambah Data Bahan Material";
         return redirect(route('getDataPekerjaan'))->with(compact('color', 'msg'));
     }
-    
+
 
     public function updateDataMaterial(Request $req)
     {
@@ -611,7 +626,7 @@ class PekerjaanController extends Controller
                     $mail['mail'] = 1;
                     // dd($mail);
                     $kemandoran->update($mail);
-                    
+
                 }
             }
         }
@@ -620,9 +635,9 @@ class PekerjaanController extends Controller
             $mail['mail'] = 1;
             // dd($mail);
             $kemandoran->update($mail);
-            
+
         }
-           
+
 
         $color = "success";
         $msg = "Berhasil Mengubah Data Material";
@@ -645,9 +660,9 @@ class PekerjaanController extends Controller
             if(str_contains(Auth::user()->internalRole->role,'Mandor')){
                 $pekerjaan = $pekerjaan->where('kemandoran.user_id',Auth::user()->id);
             }else if(Auth::user()->sup_id)
-                $pekerjaan = $pekerjaan->where('kemandoran.sup_id',Auth::user()->sup_id); 
+                $pekerjaan = $pekerjaan->where('kemandoran.sup_id',Auth::user()->sup_id);
         }
-        
+
         $pekerjaan = $pekerjaan->whereRaw("YEAR(tanggal) BETWEEN 2021 AND 2021");
         $pekerjaan = $pekerjaan->where('is_deleted', 0)->latest('tglreal')->get();
         foreach($pekerjaan as $no =>$data){
@@ -671,18 +686,18 @@ class PekerjaanController extends Controller
             $data->input_material = $input_material;
             $data->keterangan_status_lap= $detail_adjustment->exists();
             if($detail_adjustment->exists()){
-                
+
                 $detail_adjustment=$detail_adjustment
                 ->leftJoin('users','users.id','=','kemandoran_detail_status.adjustment_user_id')
                 ->leftJoin('user_role','users.internal_role_id','=','user_role.id');
-                
+
                 if($detail_adjustment->count() > 1){
                     $detail_adjustment=$detail_adjustment->get();
                     foreach($detail_adjustment as $num => $data1){
                         $temp = $data1;
                     }
                     $data->status=$temp;
-                    // dd($data);          
+                    // dd($data);
                 }else{
                     $detail_adjustment=$detail_adjustment->first();
                     $data->status=$detail_adjustment;
@@ -690,11 +705,11 @@ class PekerjaanController extends Controller
                 $temp=explode(" - ",$data->status->role);
                 $data->status->jabatan=$temp[0];
             }
-            
+
             // echo "$data->id_pek<br>";
-        
+
         }
-            
+
 
         $pekerjaan = $pekerjaan->first();
         // dd($pekerjaan);
@@ -709,7 +724,7 @@ class PekerjaanController extends Controller
                 // return redirect('admin/user/profile/'. auth()->user()->id)->with(['error' => 'Somethink when wrong!']);
         }
         $material = DB::table('bahan_material')->where('id_pek', $id)->first();
-       
+
         // dd($material);
         for($i=1; $i<=15 ;$i++){
             $jum_bahan = "jum_bahan$i";
@@ -734,7 +749,7 @@ class PekerjaanController extends Controller
             $status_mail = "di ".$pekerjaan->status->status."<br> oleh ".$pekerjaan->status->name." - ".$pekerjaan->status->role;
             $subject = "Status Laporan ".$pekerjaan->id_pek." - ".$pekerjaan->status->status;
             $pekerjaan->status->next_user = "";
-            
+
             if(str_contains($pekerjaan->status->status, "Approved")||str_contains($pekerjaan->status->status, "Edited")){
                 if(str_contains($pekerjaan->status->jabatan,"Mandor")||str_contains($pekerjaan->status->jabatan,"Pengamat") ){
                     $next_user = DB::table('users')->where('internal_role_id',$pekerjaan->status->parent)->where('sup_id',$pekerjaan->status->sup_id)->get();
@@ -742,18 +757,18 @@ class PekerjaanController extends Controller
                     $next_user = DB::table('users')->where('internal_role_id',$pekerjaan->status->parent)->get();
 
                 }
-                    
+
                 // dd($next_user);
                 $pekerjaan->status->next_user = $next_user;
                 // dd($pekerjaan);
                 $keterangan_mandor = "Silahkan menunggu sampai semua di terima / Approved";
-                
+
             // dd($pekerjaan->status->next_user);
-                
+
             }else if(str_contains($pekerjaan->status->status, "Rejected")){
                 $before_user = DB::table('kemandoran_detail_status')->where('kemandoran_detail_status.id_pek', $id)->where('kemandoran_detail_status.adjustment_user_id','!=',$pekerjaan->user_id)->where('kemandoran_detail_status.adjustment_user_id','!=',$pekerjaan->status->adjustment_user_id)->groupBy('adjustment_user_id')
                                 ->leftJoin('users', 'users.id', '=', 'kemandoran_detail_status.adjustment_user_id')->get();
-                
+
                 // dd($before_user);
 
                 $pekerjaan->status->next_user = $before_user;
@@ -767,9 +782,9 @@ class PekerjaanController extends Controller
                     $to_email =$temp->email;
                     $to_name = $temp->name;
                     $keterangan = "Silahkan ditindak lanjuti";
-                    
+
                         $name =Str::title($temp->name);
-                        
+
                     $mail = $this->setSendEmail($name, $id_pek, $nama_mandor, $jenis_pekerjaan, $uptd, $sup_mail, $status_mail, $keterangan, $to_email, $to_name, $subject);
 
                 }
@@ -806,12 +821,12 @@ class PekerjaanController extends Controller
                     $pekerjaan->nama_bahan[] = $material->$nama_bahan;
                     $pekerjaan->jum_bahan[] = $material->$jum_bahan;
                     $pekerjaan->satuan[] = $material->$satuan;
-    
+
                 }
             }
         }
         // dd($material);
-        
+
         // dd($pekerjaan);
         // dd($pekerjaan);
         return view('admin.input.pekerjaan.detail_pekerjaan', compact('pekerjaan','material'));
@@ -829,7 +844,7 @@ class PekerjaanController extends Controller
             }
             // $this->validate($request,['keterangan' => 'required']);
         }
-        
+
             $data['status'] = $request->input('status');
             $data['description'] = $request->input('keterangan') ? :null;
             $data['adjustment_user_id'] = Auth::user()->id;
@@ -837,9 +852,9 @@ class PekerjaanController extends Controller
             if($kemandoran->where('id_pek',$id)->where('adjustment_user_id',Auth::user()->id)->where('pointer',1)->exists()){
                 $data['updated_at'] = Carbon::now();
                 $kemandoran = $kemandoran->where('id_pek',$id)->latest('updated_at')->update($data);
-                
+
             }else{
-                
+
                 $data['created_at'] = Carbon::now();
                 $data['updated_at'] = Carbon::now();
                 $data['id_pek'] = $id;
@@ -859,7 +874,7 @@ class PekerjaanController extends Controller
                 return redirect(route('jugmentDataPekerjaan', $id))->with(compact('color', 'msg'));
             }
 
-        
+
         // dd($request);
     }
     public function deleteData($id)
@@ -895,11 +910,11 @@ class PekerjaanController extends Controller
         if (Auth::user() && Auth::user()->internalRole->uptd) {
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
             $pekerjaan = $pekerjaan->where('kemandoran.uptd_id', $uptd_id);
-            
+
             if(str_contains(Auth::user()->internalRole->role,'Mandor')){
                 $pekerjaan = $pekerjaan->where('kemandoran.user_id',Auth::user()->id);
             }else if(Auth::user()->sup_id)
-                $pekerjaan = $pekerjaan->where('kemandoran.sup_id',Auth::user()->sup_id); 
+                $pekerjaan = $pekerjaan->where('kemandoran.sup_id',Auth::user()->sup_id);
         }
         $from = $request->year_from;
         $to = $request->year_to;

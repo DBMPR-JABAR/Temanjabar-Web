@@ -17,6 +17,8 @@ class MonitoringController extends Controller
     public function __construct()
     {
         $roles = setAccessBuilder('Kemantapan Jalan', [], ['getKemantapanJalan','getKemantapanJalanAPI'], [], []);
+        $laporan_kerusakan = setAccessBuilder('Laporan Kerusakan', [],['getLaporan'],[],[]);
+        $roles = array_merge($roles, $laporan_kerusakan);
         foreach ($roles as $role => $permission) {
             $this->middleware($role)->only($permission);
         }
