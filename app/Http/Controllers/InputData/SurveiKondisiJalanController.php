@@ -12,6 +12,13 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class SurveiKondisiJalanController extends Controller
 {
+    public function __construct()
+    {
+        $roles = setAccessBuilder('Survey Kondisi Jalan', ['create', 'store'], ['index'], ['edit', 'update'], ['destroy']);
+        foreach ($roles as $role => $permission) {
+            $this->middleware($role)->only($permission);
+        }
+    }
     /**
      * Display a listing of the resource.
      *

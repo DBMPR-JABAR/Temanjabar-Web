@@ -78,7 +78,7 @@
                 </div>
             </div>
             <div class="card-block">
-                @if (hasAccess(Auth::user()->internal_role_id, 'Kondisi Jalan',
+                @if (hasAccess(Auth::user()->internal_role_id, 'Survey Kondisi Jalan',
                 'Create'))
                 <a
                     href="{{ route('survei_kondisi_jalan.create') }}"
@@ -158,7 +158,7 @@
                                         title=""
                                         data-original-title=".btn-xlg"
                                     >
-                                        @if(hasAccess(Auth::user()->internal_role_id,'Kondisi Jalan', 'Update'))
+                                        @if(hasAccess(Auth::user()->internal_role_id,'Survey Kondisi Jalan', 'Update'))
                                         <a
                                             href="{{ route('survei_kondisi_jalan.edit', $data->id) }}"
                                             ><button
@@ -170,9 +170,9 @@
                                                     class="icofont icofont-pencil"
                                                 ></i></button
                                         ></a>
-                                        @endif 
+                                        @endif
                                         @if(hasAccess(Auth::user()->internal_role_id,
-                                        'Kondisi Jalan', 'Delete'))
+                                        'Survey Kondisi Jalan', 'Delete'))
                                         <a
                                             href="#delModal"
                                             data-id="{{ $data->id }}"
