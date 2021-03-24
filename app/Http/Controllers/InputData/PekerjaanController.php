@@ -242,13 +242,9 @@ class PekerjaanController extends Controller
 
         }
         // $kode_otp = rand(100000, 999999);
-<<<<<<< HEAD
     //    echo Auth::user()->internalRole->id;
     //    echo Auth::user()->sup;
     // echo Auth::user()->internalRole->role;
-=======
-
->>>>>>> 9c4a591ec206eb156c4fb1c21467fe1ed03b4f66
     //    dd($pekerjaan);
         $approve = 0;
         $reject = 0;
@@ -571,12 +567,8 @@ class PekerjaanController extends Controller
     {
         $pekerjaan = $req->except(['_token']);
         $pekerjaan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
-<<<<<<< HEAD
         $pekerjaan['updated_by'] = Auth::user()->id;
         
-=======
-
->>>>>>> 9c4a591ec206eb156c4fb1c21467fe1ed03b4f66
         DB::table('bahan_material')->insert($pekerjaan);
         $kemandoran =  DB::table('kemandoran');
 
