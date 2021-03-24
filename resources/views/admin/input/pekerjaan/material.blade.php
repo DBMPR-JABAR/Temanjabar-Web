@@ -70,9 +70,9 @@
                         </div>
                         @else
                         <div class="col-md-10">
-                            <select class="form-control searchableModalField" name="nama_mandor" required>
+                            <select class="form-control searchableModalField" name="nama_mandor" required readonly>
                                 @foreach ($mandor as $data)
-                                <option value="{{$data->name}},{{$data->id}}">{{$data->name}}</option>
+                                <option value="{{$data->name}}">{{$data->name}}</option>
                                 @endforeach
                             </select>
                         </div>

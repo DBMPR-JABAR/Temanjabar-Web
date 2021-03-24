@@ -74,10 +74,13 @@ class PekerjaanController extends Controller
     {
         
         if( Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor')||str_contains(Auth::user()->internalRole->role,'Pengamat') || str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') ){
-            if(!Auth::user()->sup_id){
+            if(!Auth::user()->sup_id || !Auth::user()->internalRole->uptd ){
                 // dd(Auth::user()->sup_id);
                 $color = "danger";
                 $msg = "Lengkapi Data Terlebih dahulu";
+                if(Auth::user()->internalRole->uptd == null)
+                    $msg = "Hubungi admin untuk melengkapi data jabatan";
+
                 return redirect(url('admin/profile', Auth::user()->id))->with(compact('color', 'msg'));
               
             }
@@ -161,6 +164,9 @@ class PekerjaanController extends Controller
 
         $mandor = DB::table('users')->where('user_role.role', 'like', '%mandor%');
         $mandor = $mandor->leftJoin('user_role', 'user_role.id', '=', 'users.internal_role_id')->select('users.*', 'user_role.id as id_role');
+        if( Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor')||str_contains(Auth::user()->internalRole->role,'Pengamat') || str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') ){
+            $mandor = $mandor->where('sup_id',Auth::user()->sup_id);
+        }
         $mandor = $mandor->get();
 
         $userUptd= DB::table('user_role')->where('id',Auth::user()->internal_role_id)->first();
@@ -229,7 +235,9 @@ class PekerjaanController extends Controller
 
         }
         // $kode_otp = rand(100000, 999999);
-       
+    //    echo Auth::user()->internalRole->id;
+    //    echo Auth::user()->sup;
+    // echo Auth::user()->internalRole->role;
     //    dd($pekerjaan);
         $approve = 0;
         $reject = 0;
@@ -336,6 +344,9 @@ class PekerjaanController extends Controller
 
         $mandor = DB::table('users')->where('user_role.role', 'like', 'mandor%');
         $mandor = $mandor->leftJoin('user_role', 'user_role.id', '=', 'users.internal_role_id')->select('users.*', 'user_role.id as id_role');
+        if( Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor')||str_contains(Auth::user()->internalRole->role,'Pengamat') || str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') ){
+            $mandor = $mandor->where('sup_id',Auth::user()->sup_id);
+        }
         $mandor = $mandor->get();
 
         $sup = $sup->get();
@@ -536,16 +547,20 @@ class PekerjaanController extends Controller
 
         $mandor = DB::table('users')->where('user_role.role', 'like', 'mandor%');
         $mandor = $mandor->leftJoin('user_role', 'user_role.id', '=', 'users.internal_role_id')->select('users.*', 'user_role.id as id_role');
+        $mandor = $mandor->where('users.id',$pekerjaan->user_id);
+
         $mandor = $mandor->get();
 
         $sup = $sup->get();
         $uptd = DB::table('landing_uptd')->get();
+        // dd($pekerjaan);
         return view('admin.input.pekerjaan.material', compact('pekerjaan', 'ruas_jalan', 'sup', 'uptd', 'jenis', 'mandor', 'bahan', 'material', 'satuan'));
     }
     public function createDataMaterial(Request $req)
     {
         $pekerjaan = $req->except(['_token']);
         $pekerjaan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
+        $pekerjaan['updated_by'] = Auth::user()->id;
         
         DB::table('bahan_material')->insert($pekerjaan);
         $kemandoran =  DB::table('kemandoran');
@@ -553,6 +568,14 @@ class PekerjaanController extends Controller
         if($kemandoran->where('id_pek', $req->id_pek)->where('mail', null)->exists()){
             $mail['mail'] = 1;
             $kemandoran->update($mail);
+            $detail_adjustment =  DB::table('kemandoran_detail_status');
+            $data['pointer'] = 0;
+                $data['adjustment_user_id'] = Auth::user()->id;
+                $data['status'] = "Submitted";
+                $data['id_pek'] = $req->id_pek;
+                $data['updated_at'] = Carbon::now();
+                $data['created_at'] = Carbon::now();
+                $insert = $detail_adjustment->insert($data);
         }
 
         $color = "success";
@@ -566,6 +589,8 @@ class PekerjaanController extends Controller
         // dd($req->id_pek);
         $pekerjaan = $req->except('_token', 'id_pek');
         $pekerjaan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
+        $pekerjaan['updated_by'] = Auth::user()->id;
+
         $kemandoran =  DB::table('kemandoran');
 
         DB::table('bahan_material')->where('id_pek', $req->id_pek)->update($pekerjaan);

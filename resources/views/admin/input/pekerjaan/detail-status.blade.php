@@ -67,7 +67,7 @@
                     <div class="panel-body">
                         <label style="font-weight: bold;">Detail Status </label>
                         <ul class="timeline">
-                            <li class="Submitted" data-toggle="tooltip"
+                            {{-- <li class="Submitted" data-toggle="tooltip"
                                 data-original-title="Submitted">
                                 <div class="row ml-3">
                                     <div class="col-8">
@@ -77,7 +77,7 @@
                                         <p class="float-right">{{ date_create($adjustment->tglreal)->format('d M Y H:i') }}
                                     </div>
                                 </div>
-                            </li>
+                            </li> --}}
                             @foreach ($detail_adjustment as $no => $item)
                                 <li class="{{ $item->status }}" data-toggle="tooltip"
                                     data-original-title="{{ $item->status }}">
