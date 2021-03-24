@@ -328,7 +328,7 @@
                                             @endif
                                         @endif
                                     @else
-                                        <a href="@if(str_contains(Auth::user()->internalRole->role,'Mandor')) {{ route('materialDataPekerjaan',$data->id_pek) }} @else # @endif">
+                                        <a href="@if(str_contains(Auth::user()->internalRole->role,'Mandor') || str_contains(Auth::user()->internalRole->role,'Pengamat')) {{ route('materialDataPekerjaan',$data->id_pek) }} @else # @endif">
                                             <button type="button" class="btn btn-mini btn-warning waves-effect ">Not Completed</button>
                                         </a>
                                         <br>
