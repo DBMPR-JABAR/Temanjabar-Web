@@ -80,7 +80,7 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">No. Telp/HP</label>
                         <div class="col-md-10">
-                            <input name="no_tlp" type="text" class="form-control" value="{{@$user->no_tlp}}" required>
+                            <input name="no_tlp" type="text" class="form-control" value="{{@$user->no_tlp}}" >
                         </div>
                     </div>
 
