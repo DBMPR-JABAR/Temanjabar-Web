@@ -66,13 +66,13 @@
                         <label class="col-md-2 col-form-label">Mandor</label>
                         @if(Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor'))
                         <div class="col-md-10">
-                            <input  type="text" name="nama_mandor" class="form-control" value="{{ Auth::user()->name}}" readonly>
+                            <input  type="text" name="nama_mandor" class="form-control" value="{{ Auth::user()->name}},{{ Auth::user()->id}}" readonly>
                         </div>
                         @else
                         <div class="col-md-10">
                             <select class="form-control searchableModalField" name="nama_mandor" required readonly>
                                 @foreach ($mandor as $data)
-                                <option value="{{$data->name}}">{{$data->name}}</option>
+                                <option value="{{$data->name}},{{$data->id}}">{{$data->name}}</option>
                                 @endforeach
                             </select>
                         </div>

@@ -83,10 +83,15 @@
                                     data-original-title="{{ $item->status }}">
                                     <div class="row ml-3">
                                         <div class="col-8">
+                                            @if(str_contains($item->status,'Submitted'))
+                                            <p style="display: inline-block">{!! @$item->nama_user_create !!} - {!! @$item->jabatan_user_create !!}</p>
+                                            @else
                                             <p style="display: inline-block">{!! @$item->name !!} - {!! @$item->jabatan !!}</p>
+
+                                            @endif
                                             @if ($item->description)
                                             <p><i style="color :red; font-size: 12px;">Catatan : {!! @$item->description !!}</i><p>
-                                        @endif
+                                            @endif
                                         </div>
                                         <div class="col-4">
                                             <p class="float-right">{{ date_create($det[$no++])->format('d M Y H:i') }}</p>

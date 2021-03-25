@@ -332,9 +332,9 @@
                                             @endif
                                         @endif
                                     @else
-                                        <a href="@if(str_contains(Auth::user()->internalRole->role,'Mandor')  || str_contains(Auth::user()->internalRole->role,'Pengamat')) {{ route('materialDataPekerjaan',$data->id_pek) }} @else # @endif">
+                                        <a href="@if(str_contains(Auth::user()->internalRole->role,'Mandor')  || str_contains(Auth::user()->internalRole->role,'Pengamat')|| str_contains(Auth::user()->internalRole->role,'Admin')) {{ route('materialDataPekerjaan',$data->id_pek) }} @else # @endif">
                                             
-                                            <button type="button" class="btn btn-mini btn-warning waves-effect " @if(str_contains(Auth::user()->internalRole->role,'Mandor') || str_contains(Auth::user()->internalRole->role,'Pengamat')) @else disabled @endif>Not Completed</button>
+                                            <button type="button" class="btn btn-mini btn-warning waves-effect " @if(str_contains(Auth::user()->internalRole->role,'Mandor') || str_contains(Auth::user()->internalRole->role,'Pengamat') || str_contains(Auth::user()->internalRole->role,'Admin')) @else disabled @endif>Not Completed</button>
                                         </a>
                                         <br>
                                         <i style="color :red; font-size: 10px;">Lengkapi material</i>
@@ -384,8 +384,9 @@
                                                 @endif
                                                 @if(@$data->status->adjustment_user_id==Auth::user()->id && !str_contains($data->status->status,'Submitted'))
                                                     <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i>Edit Judgement</button></a>
-                                                @elseif(str_contains(Auth::user()->internalRole->role,'Pengamat') && str_contains($data->status->status,'Submitted'))
+                                                @elseif(str_contains(Auth::user()->internalRole->role,'Pengamat') && str_contains($data->status->status,'Submitted')&& str_contains($data->status->jabatan,'Pengamat'))
                                                     @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
+                                                    
                                                     <a href="{{ route('editDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i></button></a>
                                                     <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Material"><i class="icofont icofont-list"></i></button></a>
                                                     @endif
@@ -430,7 +431,7 @@
 
 
                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Mandor</label>
+                            <label class="col-md-2 col-form-label">Mandor </label>
                             @if(Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor'))
                                 <div class="col-md-10">
                                 <input  type="text" class="form-control" value="{{ Auth::user()->name}}" readonly>
@@ -439,7 +440,13 @@
                                 <div class="col-md-10">
                                     <select class=" searchableModalField" name="nama_mandor" required>
                                         @foreach ($mandor as $data)
-                                        <option value="{{$data->name}},{{$data->id}}">{{$data->name}}</option>
+                                            @if(str_contains(Auth::user()->internalRole->role,'Admin') && Auth::user()->internalRole->uptd)
+                                                @if( Auth::user()->internalRole->uptd == $data->internalRole->uptd)
+                                                <option value="{{$data->name}},{{$data->id}}">{{$data->name}}</option>
+                                                @endif
+                                            @else
+                                                <option value="{{$data->name}},{{$data->id}}">{{$data->name}}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </div>

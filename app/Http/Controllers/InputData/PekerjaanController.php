@@ -169,9 +169,10 @@ class PekerjaanController extends Controller
         $jenis = DB::table('item_pekerjaan');
         $jenis = $jenis->get();
 
-        $mandor = DB::table('users')->where('user_role.role', 'like', '%mandor%');
+        $mandor = User::where('user_role.role', 'like', '%mandor%');
         $mandor = $mandor->leftJoin('user_role', 'user_role.id', '=', 'users.internal_role_id')->select('users.*', 'user_role.id as id_role');
         if( Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor')||str_contains(Auth::user()->internalRole->role,'Pengamat') || str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') ){
+            
             $mandor = $mandor->where('sup_id',Auth::user()->sup_id);
         }
         $mandor = $mandor->get();
@@ -310,12 +311,25 @@ class PekerjaanController extends Controller
         ->Join('kemandoran','kemandoran.id_pek','=','kemandoran_detail_status.id_pek')
         ->leftJoin('users','users.id','=','kemandoran_detail_status.adjustment_user_id')
         ->leftJoin('user_role','users.internal_role_id','=','user_role.id')->where('kemandoran_detail_status.id_pek',$id)
+        ->select('kemandoran_detail_status.*','kemandoran.*','users.*','user_role.*','kemandoran_detail_status.created_by as id_user_create_status')
         ->get();
         // dd($det);
         foreach($detail_adjustment as $data){
+            $data->nama_user_create = "";
+            $data->jabatan_user_create = "";
             $temp=explode(" - ",$data->role);
             $data->jabatan=$temp[0];
+            // if($data)
+            if($data->id_user_create_status){
+                $temporari = User::where('users.id', $data->id_user_create_status)
+                ->leftJoin('user_role','users.internal_role_id','=','user_role.id')->select('users.name as nama_create','user_role.role as jabatan_create')->first();
+                $data->nama_user_create = $temporari->nama_create;
+                $data->jabatan_user_create = $temporari->jabatan_create;
+            }
+
         }
+        // dd($detail_adjustment);
+
         return view('admin.input.pekerjaan.detail-status',compact('detail_adjustment','adjustment','det'));
 
     }
@@ -568,7 +582,9 @@ class PekerjaanController extends Controller
         $pekerjaan = $req->except(['_token']);
         $pekerjaan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
         $pekerjaan['updated_by'] = Auth::user()->id;
-        
+        $temp=explode(",",$pekerjaan['nama_mandor']);
+        $pekerjaan['nama_mandor']=$temp[0];
+        // dd($pekerjaan);
         DB::table('bahan_material')->insert($pekerjaan);
         $kemandoran =  DB::table('kemandoran');
 
@@ -582,6 +598,13 @@ class PekerjaanController extends Controller
                 $data['id_pek'] = $req->id_pek;
                 $data['updated_at'] = Carbon::now();
                 $data['created_at'] = Carbon::now();
+                $data['created_by'] = Auth::user()->id;
+                if(str_contains(Auth::user()->internalRole->role,'Admin')){
+
+                    $data['adjustment_user_id'] = $temp[1];
+
+                }
+
                 $insert = $detail_adjustment->insert($data);
         }
 
