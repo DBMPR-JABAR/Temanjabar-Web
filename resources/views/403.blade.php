@@ -1,9 +1,10 @@
     <div class="container">
         <h1>4<div class="lock">
                 <div class="top"></div>
-                <div class="bottom"></div>
+                <div id="static_lock_bottom" class="bottom"></div>
             </div>3</h1>
-        <p>Akses Ditolak</p>
+        <p>Anda tidak memiliki izin akses</p>
+        <p>Silahkan hubungi Administrator</p>
     </div>
     <style>
         @import url("https://fonts.googleapis.com/css?family=Comfortaa");
@@ -136,14 +137,23 @@
     <script type="text/javascript">
         const interval = 500;
 
+        const generateColor = () => {
+            const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+            return `#${randomColor}`;
+        }
+
         function generateLocks() {
             const lock = document.createElement('div'),
                 position = generatePosition();
-            lock.innerHTML = '<div class="top"></div><div class="bottom"></div>';
+            lock.innerHTML = `<div class="top"></div><div class="bottom" id="${position[0]}_bottom"></div>`;
             lock.style.top = position[0];
             lock.style.left = position[1];
             lock.classList = 'lock' // generated';
             document.body.appendChild(lock);
+            const lockBottom = document.getElementById(`${position[0]}_bottom`)
+            lockBottom.style.background = generateColor();
+            const staticLockBottom = document.getElementById("static_lock_bottom")
+            staticLockBottom.style.background = generateColor();
             setTimeout(() => {
                 lock.style.opacity = '1';
                 lock.classList.add('generated');
@@ -158,6 +168,9 @@
             const y = Math.round(Math.random() * 100) + '%';
             return [x, y];
         }
+        setInterval(() => {
+            document.body.style.background = generateColor()
+        }, interval * 3);
         setInterval(generateLocks, interval);
         generateLocks();
 
