@@ -220,7 +220,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('edit-permission/{id}', 'MasterData\UserController@editPermission')->name('editPermission');
             Route::post('update-permission/update', 'MasterData\UserController@updatePermission')->name('updatePermis');
 
-
             Route::post('add-menu/store', 'MasterData\UserController@storeMenu')->name('createMenu');
             Route::get('edit-menu/{id}', 'MasterData\UserController@editMenu')->name('editMenu');
             Route::post('update-menu/update', 'MasterData\UserController@updateMenu')->name('updateMenu');

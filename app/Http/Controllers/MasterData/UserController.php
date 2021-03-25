@@ -94,7 +94,8 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        $user = User::find($id);
+        $user = User::where('users.id',$id)
+        ->leftjoin('user_pegawai', 'user_pegawai.user_id', '=', 'users.id')->select('users.*', 'user_pegawai.no_pegawai','user_pegawai.no_tlp')->first();
 
         $sup = DB::table('utils_sup');
         if (Auth::user()->internalRole->uptd) {
@@ -110,7 +111,7 @@ class UserController extends Controller
             $role = $role->where('uptd', Auth::user()->internalRole->uptd);
         }
         $role = $role->get();
-        // dd($role);
+        // dd($user);
         return view('admin.master.user.edit', compact('user','sup','role'));
     }
 
@@ -135,12 +136,18 @@ class UserController extends Controller
         $userPegawai['no_pegawai'] = $request->no_pegawai;
         $userPegawai['nama'] = $request->name;
         $userPegawai['no_tlp'] = $request->no_tlp;
-        $userPegawai['user_id'] = $userId;
         $userPegawai['updated_at'] = date('Y-m-d H:i:s');
         $userPegawai['created_by'] = Auth::user()->id;
+        
+        // dd($userPegawai);
+        $user_peg = DB::table('user_pegawai')->where('user_id',$userId);
+        if($user_peg->exists()){
+            $user_peg = $user_peg->update($userPegawai);
+        }else{
+            $userPegawai['user_id'] = $userId;
+            $user_peg = $user_peg->insert($userPegawai);
 
-        DB::table('user_pegawai')->where('user_id', $userId)->update($userPegawai);
-
+        }
         $color = "success";
         $msg = "Berhasil Memperbaharui Data User";
         return back()->with(compact('color', 'msg'));
