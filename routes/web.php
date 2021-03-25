@@ -65,7 +65,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::put('edit/profile/{id}', 'DetailUserController@update');
     Route::post('user/account/{id}', 'DetailUserController@updateaccount');
     Route::get('pesan', 'LandingController@getPesan');
-    Route::get('log', 'LandingController@getLog');
+    Route::get('log', 'LandingController@getLog')->middleware('role:Log,View');
     Route::get('home', 'Home@index')->name('admin-home');
     Route::get('/', 'Home@index');
     Route::get('file', 'Home@downloadFile');

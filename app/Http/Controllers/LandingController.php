@@ -17,11 +17,19 @@ class LandingController extends Controller
     {
         $roles = [];
         $uptd_role = setAccessBuilder('UPTD', ['createUPTD'], ['getUPTD'], ['editUPTD', 'updateUPTD'], ['deleteUPTD']);
-        $laporan = setAccessBuilder('Input Laporan',['addLaporanMasyarakat'],[],[],[]);
-        $daftar_laporan = setAccessBuilder('Daftar Laporan',['createLaporanMasyarakat'],['addLaporanMasyarakat'],['editLaporanMasyarakat','updateLaporanMasyaraka'],['deleteLaporanMasyarakat']);
+        $laporan = setAccessBuilder('Input Laporan', ['addLaporanMasyarakat'], [], [], []);
+        $daftar_laporan = setAccessBuilder('Daftar Laporan', ['createLaporanMasyarakat'], ['addLaporanMasyarakat'], ['editLaporanMasyarakat', 'updateLaporanMasyaraka'], ['deleteLaporanMasyarakat']);
+        $slideshow = setAccessBuilder('Slideshow', ['createSlideshow'], ['getSlideshow'], ['editSlideshow','updateSlideshow'], ['deleteSlideshow']);
+        $profil = setAccessBuilder('Profil WEB',[],['getProfil'],['updateProfil'],[]);
+        $fitur = setAccessBuilder('Fitur',['createFitur'],['getFitur'],['editFitur','updateFitur'],['deleteFitur']);
+        $pesan = setAccessBuilder('Pesan',[],['getPesan'],[],[]);
         $roles = array_merge($roles, $uptd_role);
         $roles = array_merge($roles, $laporan);
         $roles = array_merge($roles, $daftar_laporan);
+        $roles = array_merge($roles, $slideshow);
+        $roles = array_merge($roles, $profil);
+        $roles = array_merge($roles, $fitur);
+        $roles = array_merge($roles, $pesan);
         foreach ($roles as $role => $permission) {
             $this->middleware($role)->only($permission);
         }
@@ -42,7 +50,7 @@ class LandingController extends Controller
         $video = DB::table('landing_news_video')->get();
 
         // Compact mengubah variabel profil untuk dijadikan variabel yang dikirim
-        return view('landing.index', compact('profil', 'fitur', 'uptd', 'slideshow', 'lokasi', 'jenis_laporan','ruas_jalan','video'));
+        return view('landing.index', compact('profil', 'fitur', 'uptd', 'slideshow', 'lokasi', 'jenis_laporan', 'ruas_jalan', 'video'));
     }
     public function login()
     {
@@ -65,14 +73,14 @@ class LandingController extends Controller
     // POST
     public function createLaporan(Request $request)
     {
-        $rand = rand(100000,999999);
+        $rand = rand(100000, 999999);
 
-        $kode = "P-".$rand;
+        $kode = "P-" . $rand;
         $laporanMasyarakat = new LaporanMasyarakat;
         $laporanMasyarakat->fill($request->except(['gambar']));
-        if($request->gambar != null){
-            $path = 'laporan_masyarakat/'.date("YmdHis").'_'.$request->gambar->getClientOriginalName();
-            $request->gambar->storeAs('public/',$path);
+        if ($request->gambar != null) {
+            $path = 'laporan_masyarakat/' . date("YmdHis") . '_' . $request->gambar->getClientOriginalName();
+            $request->gambar->storeAs('public/', $path);
             $laporanMasyarakat['gambar'] = $path;
         }
         $laporanMasyarakat->nomorPengaduan = $kode;
@@ -109,7 +117,7 @@ class LandingController extends Controller
             "uptd5" => ["ctr_lat" => -7.381833, "ctr_long" => 108.351077, "ctr_ext" => [-7.820979, -6.78191, 107.904429, 108.801382]],
             "uptd6" => ["ctr_lat" => -6.629987, "ctr_long" => 108.288672, "ctr_ext" => [-7.074581, -6.221112, 107.850746, 108.846881]]
         ];
-        $slug=substr($slug,0,5);
+        $slug = substr($slug, 0, 5);
         // dd($slug);
         $uptd_mapdata = $uptd_mapdata_all[$slug];
         return view('landing.uptd.index', compact('profil', 'uptd', 'uptd_mapdata'));
@@ -363,14 +371,14 @@ class LandingController extends Controller
 
     public function createLaporanMasyarakat(Request $request)
     {
-        $rand = rand(100000,999999);
+        $rand = rand(100000, 999999);
 
-        $kode = "P-".$rand;
+        $kode = "P-" . $rand;
         $laporanMasyarakat = new LaporanMasyarakat;
         $laporanMasyarakat->fill($request->except(['gambar']));
-        if($request->gambar != null){
-            $path = 'laporan_masyarakat/'.date("YmdHis").'_'.$request->gambar->getClientOriginalName();
-            $request->gambar->storeAs('public/',$path);
+        if ($request->gambar != null) {
+            $path = 'laporan_masyarakat/' . date("YmdHis") . '_' . $request->gambar->getClientOriginalName();
+            $request->gambar->storeAs('public/', $path);
             $laporanMasyarakat['gambar'] = $path;
         }
         $laporanMasyarakat->nomorPengaduan = $kode;
@@ -412,9 +420,9 @@ class LandingController extends Controller
         $data['telp'] = $req->telp;
         $data['email'] = $req->email;
         $data['jenis'] = $req->jenis;
-        if($req->gambar != null){
-            $path = 'laporan_masyarakat/'.date("YmdHis").'_'.$req->gambar->getClientOriginalName();
-            $req->gambar->storeAs('public/',$path);
+        if ($req->gambar != null) {
+            $path = 'laporan_masyarakat/' . date("YmdHis") . '_' . $req->gambar->getClientOriginalName();
+            $req->gambar->storeAs('public/', $path);
             $data['gambar'] = $path;
         }
         $data['lokasi'] = $req->lokasi;
@@ -428,14 +436,14 @@ class LandingController extends Controller
 
         DB::table('monitoring_laporan_masyarakat')->where('id', $req->id)->update($data);
         $title = "Perubahan status laporan.";
-        $body = "Status laporan kamu saat ini berubah menjadi : ".$req->status;
-        $userPelapor = DB::table("users")->where('email',$req->email)->first()->id;
+        $body = "Status laporan kamu saat ini berubah menjadi : " . $req->status;
+        $userPelapor = DB::table("users")->where('email', $req->email)->first()->id;
         //dd($userPelapor);
         $users = [$userPelapor];
         //$usersToken = DB::table('user_push_notification')->whereIn('user_id', $users)->pluck('device_token')->get();
         //dd($usersToken);
 
-        sendNotification($users,$title,$body);
+        sendNotification($users, $title, $body);
         $color = "success";
         $msg = "Berhasil Menambah Data Laporan Masyarakat";
         return redirect(url('admin/lapor'))->with(compact('color', 'msg'));

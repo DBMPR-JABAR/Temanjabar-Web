@@ -31,7 +31,7 @@
                                     </a>
                                 </li>
                             @endif
-                            @if (hasAccess(Auth::user()->internal_role_id, 'Proyek Kontrak', 'View'))
+                            @if (hasAccess(Auth::user()->internal_role_id, 'Kendali Kontrak', 'View'))
                                 <li class="{{ Request::segment(3) == 'kendali-kontrak' ? 'active' : '' }}">
                                     <a href="{{ url('admin/monitoring/kendali-kontrak') }}"
                                         class="waves-effect waves-dark">
@@ -344,7 +344,7 @@
                         </a>
                         <ul class="pcoded-submenu">
                             @if (!Auth::user()->internalRole->uptd)
-                                @if (hasAccess(Auth::user()->internal_role_id, 'Profil', 'View'))
+                                @if (hasAccess(Auth::user()->internal_role_id, 'Profil WEB', 'View'))
                                     <li class="{{ Request::segment(3) == 'profil' ? 'active' : '' }}">
                                         <a href="{{ url('admin/landing-page/profil') }}"
                                             class="waves-effect waves-dark">

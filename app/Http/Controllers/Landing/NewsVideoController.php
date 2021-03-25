@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class NewsVideoController extends Controller
 {
+    public function __construct()
+    {
+        $roles = setAccessBuilder('Video News', ['store'], ['detail','index'], [ 'update','show'], ['edit']);
+        foreach ($roles as $role => $permission) {
+            $this->middleware($role)->only($permission);
+        }
+    }
     /**
      * Display a listing of the resource.
      *

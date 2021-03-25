@@ -9,6 +9,13 @@ use App\Model\DWH\ProgressMingguan;
 use Illuminate\Support\Facades\Auth;
 class ProyekController extends Controller
 {
+    public function __construct()
+    {
+        $roles = setAccessBuilder('Kendali Kontrak', [], ['getKendaliKontrak','getProyekStatus','getProyekDetail','getKendaliKontrakProgress','getProyekKontrakAPI','getTargetRealisasiAPI'],[],[]);
+        foreach ($roles as $role => $permission) {
+            $this->middleware($role)->only($permission);
+        }
+    }
     public function getKendaliKontrak()
     {
         $finishquery = DB::connection('dwh')->table('vw_uptd_trx_rekap_proyek_kontrak');

@@ -15,6 +15,13 @@ use Illuminate\Support\Facades\Hash;
 
 class DetailUserController extends Controller
 {
+    public function __construct()
+    {
+        $roles = setAccessBuilder('Profil', [], ['show'], ['edit','update'], []);
+        foreach ($roles as $role => $permission) {
+            $this->middleware($role)->only($permission);
+        }
+    }
 
     /**
      * Display a listing of the resource.
