@@ -129,11 +129,9 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">SUP</label>
                             <div class="col-md-10">
-                                <select id="sup" name="SUP" class="form-control">
-                                    <option value="{{ $rawan->sup }}" class="sup">{{ $rawan->sup }}</option>>
-                                    <option class="sup"></option>
+                                <select class="form-control" id="sup" name="sup" required >
                                     @foreach ($sup as $data)
-                                        <option value="{{ $data->name }}" class="sup">{{ $data->name }}</option>
+                                    <option value="{{$data->name}}" @if($rawan->sup == $data->name) selected @endif>{{$data->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -161,7 +159,7 @@
                             <div class="col-md-10">
                                 <select name="icon_id" class="form-control" onchange="getURL()" id="icon">
                                     @foreach ($icon as $data)
-                                        <option value="{{ $data->id }}">{{ $data->icon_name }}</option>
+                                        <option value="{{ $data->id }}" @if($rawan->icon_id == $data->id) selected @endif>{{ $data->icon_name }}</option>
                                     @endforeach
                                 </select>
                                 @if ($icon_curr == null)

@@ -79,7 +79,11 @@ class RawanBencanaController extends Controller
     }
     public function editData($id)
     {
-        $rawan = DB::table('master_rawan_bencana')->where('id', $id)->first();
+        $rawan = DB::table('master_rawan_bencana')->where('master_rawan_bencana.id', $id)
+        // ->leftJoin('icon_titik_rawan_bencana', 'icon_titik_rawan_bencana.id', '=', 'master_rawan_bencana.icon_id')
+        // ->select('master_rawan_bencana.*', 'icon_titik_rawan_bencana.id as icon_id')
+        ->first();
+        // dd($rawan);
         $uptd = DB::table('landing_uptd')->get();
 
         $ruas = DB::table('master_ruas_jalan');
