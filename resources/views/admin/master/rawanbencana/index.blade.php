@@ -217,7 +217,11 @@
                                 <div class="form-group row">
                                     <label class="col-md-2 col-form-label">SUP</label>
                                     <div class="col-md-10">
-                                        <select class="form-control" name="sup" id="sup">
+                                        
+                                        <select class="form-control" id="sup" name="sup" required >
+                                            @foreach ($sup as $data)
+                                            <option value="{{$data->name}},{{$data->id}}" @if(Auth::user()->sup_id != null && Auth::user()->sup_id == $data->id) selected @endif>{{$data->name}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>

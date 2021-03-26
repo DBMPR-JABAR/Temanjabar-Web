@@ -55,8 +55,13 @@ class RawanBencanaController extends Controller
         $rawan = $rawan->get();
         $ruas = $ruas->get();
         $uptd = DB::table('landing_uptd')->get();
+        $sup = DB::table('utils_sup');
+        if (Auth::user()->internalRole->uptd) {
+            $sup = $sup->where('uptd_id', $uptd_id);
+        }
+        $sup = $sup->get();
         $icon = DB::table('icon_titik_rawan_bencana')->get();
-        return view('admin.master.rawanbencana.index', compact('rawan', 'ruas', 'uptd','icon'));
+        return view('admin.master.rawanbencana.index', compact('rawan', 'ruas', 'uptd','icon','sup'));
     }
     public function getDataSUP($id){
         $sup = DB::table('utils_sup as a')
