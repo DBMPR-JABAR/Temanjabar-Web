@@ -107,6 +107,9 @@ class RawanBencanaController extends Controller
         $rawan = $req->except('_token');
         // $rawan['slug'] = Str::slug($req->nama, '');
         $rawan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
+        $temp=explode(",",$req->ruas_jalan);
+        $rawan['no_ruas'] = $temp[1];
+        $rawan['ruas_jalan'] = $temp[0];
         if ($req->foto != null) {
             $path = 'rawanbencana/' . Str::snake(date("YmdHis") . ' ' . $req->foto->getClientOriginalName());
             $req->foto->storeAs('public/', $path);
@@ -124,6 +127,11 @@ class RawanBencanaController extends Controller
     {
         $rawan = $req->except('_token', 'id');
         $rawan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
+        $temp=explode(",",$req->ruas_jalan);
+        $rawan['no_ruas'] = $temp[1];
+        $rawan['ruas_jalan'] = $temp[0];
+
+        // dd($rawan);
         if ($req->foto != null) {
             $path = 'rawanbencana/' . Str::snake(date("YmdHis") . ' ' . $req->foto->getClientOriginalName());
             $req->foto->storeAs('public/', $path);

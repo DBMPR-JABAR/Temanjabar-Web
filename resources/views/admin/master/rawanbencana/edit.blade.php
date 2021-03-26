@@ -78,7 +78,7 @@
                                     <option value="{{ $rawan->ruas_jalan }}">{{ $rawan->ruas_jalan }}</option>>
                                     <option></option>
                                     @foreach ($ruas as $data)
-                                        <option value="{{ $data->nama_ruas_jalan }}">{{ $data->nama_ruas_jalan }}</option>
+                                        <option value="{{ $data->nama_ruas_jalan }},{{ $data->id_ruas_jalan }}" @if($rawan->no_ruas == $data->id_ruas_jalan) selected @endif>{{ $data->nama_ruas_jalan }}</option>
                                     @endforeach
                                 </select>
                             </div>

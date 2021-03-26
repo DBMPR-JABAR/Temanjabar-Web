@@ -131,13 +131,13 @@
                             <div class="modal-body">
                                 <!-- <input name="uptd_id" type="hidden" class="form-control" required value="{{ Auth::user()->internalRole->uptd }}"> -->
 
-                                <div class="form-group row">
+                                {{-- <div class="form-group row">
                                     <label class="col-md-2 col-form-label">No Ruas</label>
                                     <div class="col-md-10">
                                         <input name="no_ruas" type="text" class="form-control" placeholder="Contoh : 233"
                                             required>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 @if (Auth::user()->internalRole->uptd)
                                     <input type="hidden" id="uptd" name="uptd_id"
@@ -159,10 +159,11 @@
                                 <div class="form-group row">
                                     <label class="col-md-2 col-form-label">Ruas Jalan</label>
                                     <div class="col-md-10">
+                                        
                                         <select id="ruas_jalan" name="ruas_jalan" class="form-control" required>
                                             @if (Auth::user()->internalRole->uptd)
                                                 @foreach ($ruas as $data)
-                                                    <option value="{{ $data->nama_ruas_jalan }}">
+                                                    <option value="{{ $data->nama_ruas_jalan }},{{ $data->id_ruas_jalan }}">
                                                         {{ $data->nama_ruas_jalan }}</option>
                                                 @endforeach
                                             @else
