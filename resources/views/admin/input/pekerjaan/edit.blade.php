@@ -222,7 +222,7 @@
                             <label class="col-md-3 col-form-label">Foto Dokumentasi (Pegawai)</label>
                             <div class="col-md-4">
                                 <img style="max-height: 400px;" class="img-thumbnail rounded mx-auto d-block"
-                                    src="{{ url('storage/pekerjaan/' . $pekerjaan->foto_pegawai) }}" alt="">
+                                    src="{{ url('storage/pekerjaan/' . @$pekerjaan->foto_pegawai) }}" alt="">
                             </div>
                             <div class="col-md-5">
                                 <input name="foto_pegawai" type="file" class="form-control">
