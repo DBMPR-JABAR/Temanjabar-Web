@@ -497,7 +497,7 @@
                             <div class="col-md-10">
                                 <select class=" searchableModalField" id="uptd" name="uptd_id" onchange="ubahOption()">
                                     <option>Pilih UPTD</option>
-                                    @foreach ($uptd as $data)
+                                    @foreach ($input_uptd_lists as $data)
                                     <option value="{{$data->id}}">{{$data->nama}}</option>
                                     @endforeach
                                 </select>
