@@ -507,7 +507,7 @@ class PekerjaanController extends Controller
         if ($req->foto_pegawai != null) {
             $old->foto_pegawai ?? Storage::delete('public/pekerjaan/' . $old->foto_pegawai);
 
-            $path = Str::snake(date("YmdHis") . ' ' . $req->foto_akhir->getClientOriginalName());
+            $path = Str::snake(date("YmdHis") . ' ' . $req->foto_pegawai->getClientOriginalName());
             $req->foto_pegawai->storeAs('public/pekerjaan/', $path);
             $pekerjaan['foto_pegawai'] = $path;
         }
