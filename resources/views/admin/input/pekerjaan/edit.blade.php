@@ -189,13 +189,6 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Alat yang Digunakan</label>
-                            <div class="col-md-10">
-                                <input name="peralatan" type="text" class="form-control" required
-                                    value="{{ $pekerjaan->peralatan }}">
-                            </div>
-                        </div>
-                        <div class="form-group row">
                             <label class="col-md-3 col-form-label">Foto Dokumentasi (Sebelum)</label>
                             <div class="col-md-4">
                                 <img style="max-height: 400px;" class="img-thumbnail rounded mx-auto d-block"

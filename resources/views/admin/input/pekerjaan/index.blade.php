@@ -567,12 +567,6 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Alat yang Digunakan</label>
-                            <div class="col-md-10">
-                                <input name="peralatan" type="text" class="form-control" required>
-                            </div>
-                        </div>
-                        <div class="form-group row">
                             <label class="col-md-4 col-form-label">Foto Dokumentasi (Sebelum)</label>
                             <div class="col-md-6">
                                 <input name="foto_awal" type="file" class="form-control" accept="image/*" required>

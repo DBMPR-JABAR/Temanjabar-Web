@@ -85,8 +85,6 @@
                         <div class="col-md-10">
 
                             <input name="jenis_pekerjaan" type="text" class="form-control" required value="{{$pekerjaan->jenis_pekerjaan}}" readonly>
-
-
                         </div>
                     </div>
                     @if (Auth::user()->internalRole->uptd)
@@ -103,7 +101,12 @@
                         </div>
                     </div>
                     @endif
-
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Alat yang digunakan</label>
+                        <div class="col-md-10">
+                            <input name="peralatan" type="text" class="form-control" required value="{{@$pekerjaan->peralatan}}">
+                        </div>
+                    </div>
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Bahan Material 1</label>
                         <div class="col-md-3">

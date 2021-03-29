@@ -592,7 +592,7 @@ class PekerjaanController extends Controller
     }
     public function createDataMaterial(Request $req)
     {
-        $pekerjaan = $req->except(['_token']);
+        $pekerjaan = $req->except(['_token','peralatan']);
         $pekerjaan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
         $pekerjaan['updated_by'] = Auth::user()->id;
         $temp=explode(",",$pekerjaan['nama_mandor']);
@@ -603,6 +603,7 @@ class PekerjaanController extends Controller
 
         if($kemandoran->where('id_pek', $req->id_pek)->where('mail', null)->exists()){
             $mail['mail'] = 1;
+            $mail['peralatan'] = $req->peralatan;
             $kemandoran->update($mail);
             $detail_adjustment =  DB::table('kemandoran_detail_status');
             $data['pointer'] = 0;
