@@ -50,7 +50,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::get('/pengumuman/masyarakat', 'API\AnnouncementController@getDataMasyarakat');
     Route::get('/pengumuman/{slug?}', 'API\AnnouncementController@show');
     Route::get('/pengumuman/internal', 'API\AnnouncementController@getDataInternal');
-    
+
     Route::resource('laporan-masyarakat', 'API\LaporanMasyarakatController');
     Route::get('laporan-masyarakat/getNotifikasiByUserId/{userId}', 'API\LaporanMasyarakatController@getNotifikasiByUserId');
 
@@ -75,6 +75,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::get('proyek-kontrak/status/{status}', 'API\ProyekController@getByStatus');
 
     Route::group(['prefix' => 'pekerjaan'], function () {
+        Route::get('get-nama-kegiatan-pekerjaan','API\PekerjaanController@getNamaKegiatanPekerjaan');
         Route::get('get-sup', 'API\PekerjaanController@getSUP');
         Route::get('get-ruas-jalan', 'API\PekerjaanController@getRuasJalan');
         Route::get('get-jenis-pekerjaan', 'API\PekerjaanController@getJenisPekerjaan');

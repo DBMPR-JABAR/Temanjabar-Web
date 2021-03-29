@@ -6,11 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class JenisLaporanController extends Controller
+class NamaKegiatanPekerjaanController extends Controller
 {
     public function __construct()
     {
-        $roles = setAccessBuilder('Jenis Laporan', ['create', 'store'], ['index'], ['edit', 'update'], ['destroy']);
+        $roles = setAccessBuilder('Nama Kegiatan Pekerjaan', ['store', ''], ['index'], ['edit', 'update'], ['destroy']);
         foreach ($roles as $role => $permission) {
             $this->middleware($role)->only($permission);
         }
@@ -22,9 +22,8 @@ class JenisLaporanController extends Controller
      */
     public function index()
     {
-        $jenis_laporan = DB::table('utils_jenis_laporan')->get();
-        //dd($jenis_laporan[0]->id);
-        return view('admin.master.jenis_laporan.index', compact('jenis_laporan'));
+        $nama_kegiatan_pekerjaan = DB::table('utils_nama_kegiatan_pekerjaan')->get();
+        return view('admin.master.nama_kegiatan_pekerjaan.index', compact('nama_kegiatan_pekerjaan'));
     }
 
     /**
@@ -34,7 +33,7 @@ class JenisLaporanController extends Controller
      */
     public function create()
     {
-        return view('admin.master.jenis_laporan.insert', ['action' => 'store']);
+        return view('admin.master.nama_kegiatan_pekerjaan.insert', ['action' => 'store']);
     }
 
     /**
@@ -45,11 +44,11 @@ class JenisLaporanController extends Controller
      */
     public function store(Request $request)
     {
-        $jenis_laporan['name'] = $request->jenis_laporan;
-        DB::table('utils_jenis_laporan')->insert($jenis_laporan);
+        $nama_kegiatan_pekerjaan['name'] = $request->nama_kegiatan_pekerjaan;
+        DB::table('utils_nama_kegiatan_pekerjaan')->insert($nama_kegiatan_pekerjaan);
         $color = "success";
-        $msg = "Berhasil Menambah Data Jenis Laporan";
-        return redirect(route('jenis_laporan.index'))->with(compact('color', 'msg'));
+        $msg = "Berhasil Menambah Data Nama Kegiatan";
+        return redirect(route('nama_kegiatan_pekerjaan.index'))->with(compact('color', 'msg'));
     }
 
     /**
@@ -71,8 +70,8 @@ class JenisLaporanController extends Controller
      */
     public function edit($id)
     {
-        $jenis_laporan = DB::table('utils_jenis_laporan')->where('id', $id)->first();
-        return view('admin.master.jenis_laporan.insert', ['action' => 'upadte', 'jenis_laporan' => $jenis_laporan]);
+        $nama_kegiatan_pekerjaan = DB::table('utils_nama_kegiatan_pekerjaan')->where('id', $id)->first();
+        return view('admin.master.nama_kegiatan_pekerjaan.insert', ['action' => 'update', 'nama_kegiatan_pekerjaan' => $nama_kegiatan_pekerjaan]);
     }
 
     /**
@@ -84,12 +83,12 @@ class JenisLaporanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $jenis_laporan['name'] = $request->jenis_laporan;
-        DB::table('utils_jenis_laporan')->where('id', $id)->update($jenis_laporan);
+        $nama_kegiatan_pekerjaan['name'] = $request->nama_kegiatan_pekerjaan;
+        DB::table('utils_nama_kegiatan_pekerjaan')->where('id', $id)->update($nama_kegiatan_pekerjaan);
 
         $color = "success";
-        $msg = "Berhasil Memperbaharui Data Jenis Laporan";
-        return redirect(route('jenis_laporan.index'))->with(compact('color', 'msg'));
+        $msg = "Berhasil Memperbaharui Data Nama Kegiatan";
+        return redirect(route('nama_kegiatan_pekerjaan.index'))->with(compact('color', 'msg'));
     }
 
     /**
@@ -100,10 +99,10 @@ class JenisLaporanController extends Controller
      */
     public function destroy($id)
     {
-        $jenis_laporan = DB::table('utils_jenis_laporan')->where('id', $id)->delete();
+        $nama_kegiatan_pekerjaan = DB::table('utils_nama_kegiatan_pekerjaan')->where('id', $id)->delete();
 
         $color = "success";
-        $msg = "Berhasil Menghapus Data Jenis Laporan";
-        return redirect(route('jenis_laporan.index'))->with(compact('color', 'msg'));
+        $msg = "Berhasil Menghapus Data Nama Kegiatan";
+        return redirect(route('nama_kegiatan_pekerjaan.index'))->with(compact('color', 'msg'));
     }
 }

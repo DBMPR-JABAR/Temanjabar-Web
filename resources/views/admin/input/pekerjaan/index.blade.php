@@ -132,7 +132,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="card w-100">
                         <a href="{{ url('admin/lapor') }}">
                         <div class="card-block">
@@ -196,7 +196,7 @@
                                 <div class="col-8">
                                     <h4 class="text-danger f-w-600">
                                         {{ $sum_report['reject'] }}
-                                        
+
                                     </h4>
                                     {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
                                 </div>
@@ -216,7 +216,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
                 <div class="card-deck col-md-12 mt-3">
                     <div class="card w-100">
@@ -319,7 +319,7 @@
                                                 <button type="button" class="btn btn-mini btn-danger " disabled> {{$data->status->status}}</button>
                                             @elseif(str_contains($data->status->status,'Submitted') )
                                                 <button type="button" class="btn btn-mini btn-success waves-effect" disabled> {{$data->status->status}}</button>
-                                               
+
 
                                             @else
                                                 <button type="button" class="btn btn-mini btn-warning " disabled> {{$data->status->status}}</button>
@@ -333,7 +333,7 @@
                                         @endif
                                     @else
                                         <a href="@if(str_contains(Auth::user()->internalRole->role,'Mandor')  || str_contains(Auth::user()->internalRole->role,'Pengamat')|| str_contains(Auth::user()->internalRole->role,'Admin')) {{ route('materialDataPekerjaan',$data->id_pek) }} @else # @endif">
-                                            
+
                                             <button type="button" class="btn btn-mini btn-warning waves-effect " @if(str_contains(Auth::user()->internalRole->role,'Mandor') || str_contains(Auth::user()->internalRole->role,'Pengamat') || str_contains(Auth::user()->internalRole->role,'Admin')) @else disabled @endif>Not Completed</button>
                                         </a>
                                         <br>
@@ -346,7 +346,7 @@
 
                                     <div class="btn-group" role="group" data-placement="top" title="" data-original-title=".btn-xlg">
                                         @if(Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor')||str_contains(Auth::user()->internalRole->role,'Admin')||(str_contains(Auth::user()->internalRole->role,'Pengamat')&& $data->status != null && (str_contains($data->status->status,'Rejected')|| str_contains($data->status->status,'Edited'))) && !str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan'))
-                                        
+
                                             @if(!$data->keterangan_status_lap || str_contains($data->status->status,'Rejected')|| (str_contains($data->status->status,'Edited')&&Auth::user()->id == $data->status->adjustment_user_id)||str_contains(Auth::user()->internalRole->role,'Admin'))
 
                                                 @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
@@ -375,7 +375,7 @@
                                         @else
                                             @if($data->status)
                                                 @if(Auth::user()->internal_role_id!=null && Auth::user()->internal_role_id ==$data->status->parent )
-                                                
+
                                                     @if(str_contains(Auth::user()->internalRole->role,'Pengamat') || (str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') && $data->status->status == "Approved" || $data->status->status =="Edited"|| $data->status->status =="Submitted") && Auth::user()->sup_id==$data->status->sup_id)
                                                         <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i>Judgement</button></a>
                                                     @elseif(!str_contains(Auth::user()->internalRole->role,'Pengamat') && !str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') && $data->status->status == "Approved")
@@ -386,15 +386,15 @@
                                                     <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i>Edit Judgement</button></a>
                                                 @elseif(str_contains(Auth::user()->internalRole->role,'Pengamat') && str_contains($data->status->status,'Submitted')&& str_contains($data->status->jabatan,'Pengamat'))
                                                     @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
-                                                    
+
                                                     <a href="{{ route('editDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i></button></a>
                                                     <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Material"><i class="icofont icofont-list"></i></button></a>
                                                     @endif
-                                                   
+
                                                         @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Delete"))
                                                         <a href="#delModal" data-id="{{$data->id_pek}}" data-toggle="modal"><button class="btn btn-danger btn-sm waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
                                                         @endif
-                                    
+
                                                 @endif
                                             @endif
                                         @endif
@@ -480,9 +480,13 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Nama Kegiatan</label>
+                            <label class="col-md-2 col-form-label">Jenis Kegiatan</label>
                             <div class="col-md-10">
-                                <input name="paket" type="text" class="form-control">
+                                <select class=" searchableModalField" id="paket" name="paket">
+                                    @foreach ($nama_kegiatan_pekerjaan as $data)
+                                    <option value="{{$data->name}}">{{$data->name}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         @if (Auth::user()->internalRole->uptd)
@@ -569,21 +573,27 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-4 col-form-label">Foto Dokumentasi (0%)</label>
+                            <label class="col-md-4 col-form-label">Foto Dokumentasi (Sebelum)</label>
                             <div class="col-md-6">
                                 <input name="foto_awal" type="file" class="form-control" accept="image/*" required>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-4 col-form-label">Foto Dokumentasi (50%)</label>
+                            <label class="col-md-4 col-form-label">Foto Dokumentasi (Sedang)</label>
                             <div class="col-md-6">
                                 <input name="foto_sedang" type="file" class="form-control" accept="image/*">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-4 col-form-label">Foto Dokumentasi (100%)</label>
+                            <label class="col-md-4 col-form-label">Foto Dokumentasi (Setelah)</label>
                             <div class="col-md-6">
                                 <input name="foto_akhir" type="file" class="form-control" accept="image/*">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label">Foto Dokumentasi (Pegawai)</label>
+                            <div class="col-md-6">
+                                <input name="foto_pegawai" type="file" class="form-control" accept="image/*">
                             </div>
                         </div>
                         <div class="form-group row">

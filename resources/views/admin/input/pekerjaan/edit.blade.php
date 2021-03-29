@@ -91,11 +91,16 @@
                                 </select>
                             </div>
                         </div>
-
                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Nama Paket</label>
+                            <label class="col-md-2 col-form-label">Jenis Kegiatan</label>
                             <div class="col-md-10">
-                                <input name="paket" type="text" class="form-control" value="{{ $pekerjaan->paket }}">
+                                <select class="form-control searchableField" id="paket" name="paket">
+                                    @foreach ($nama_kegiatan_pekerjaan as $data)
+                                    <option value="{{$data->name}}" @if ($pekerjaan->paket)
+                                        {{$pekerjaan->paket == $data->name ? 'selected' : ''}}
+                                    @endif>{{$data->name}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         @if (Auth::user()->internalRole->uptd)
@@ -191,7 +196,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Foto Dokumentasi (0%)</label>
+                            <label class="col-md-3 col-form-label">Foto Dokumentasi (Sebelum)</label>
                             <div class="col-md-4">
                                 <img style="max-height: 400px;" class="img-thumbnail rounded mx-auto d-block"
                                     src="{{ url('storage/pekerjaan/' . $pekerjaan->foto_awal) }}" alt="">
@@ -201,7 +206,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Foto Dokumentasi (50%)</label>
+                            <label class="col-md-3 col-form-label">Foto Dokumentasi (Sedang)</label>
                             <div class="col-md-4">
                                 <img style="max-height: 400px;" class="img-thumbnail rounded mx-auto d-block"
                                     src="{{ url('storage/pekerjaan/' . $pekerjaan->foto_sedang) }}" alt="">
@@ -211,13 +216,23 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Foto Dokumentasi (100%)</label>
+                            <label class="col-md-3 col-form-label">Foto Dokumentasi (Sesudah)</label>
                             <div class="col-md-4">
                                 <img style="max-height: 400px;" class="img-thumbnail rounded mx-auto d-block"
                                     src="{{ url('storage/pekerjaan/' . $pekerjaan->foto_akhir) }}" alt="">
                             </div>
                             <div class="col-md-5">
                                 <input name="foto_akhir" type="file" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Foto Dokumentasi (Pegawai)</label>
+                            <div class="col-md-4">
+                                <img style="max-height: 400px;" class="img-thumbnail rounded mx-auto d-block"
+                                    src="{{ url('storage/pekerjaan/' . $pekerjaan->foto_akhir) }}" alt="">
+                            </div>
+                            <div class="col-md-5">
+                                <input name="foto_pegawai" type="file" class="form-control">
                             </div>
                         </div>
                         <div class="form-group row">

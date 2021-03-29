@@ -59,7 +59,7 @@ class PekerjaanController extends Controller
             $validator = Validator::make($request->all(), [
                 'tanggal' => 'required|date',
                 'idSup' => 'required',
-                'namaPaket' => 'required|string|min:5',
+                'namaPaket' => 'required|string',
                 'idRuasJalan' => 'required',
                 // 'idJenisPekerjaan' => 'required',
                 'lokasi' => 'required|string|min:3',
@@ -71,6 +71,7 @@ class PekerjaanController extends Controller
                 'fotoAwal' => 'file',
                 'fotoSedang' => 'file',
                 'fotoAkhir' => 'file',
+                'fotoPegawai' => 'file',
                 'video' => 'mimes:mp4'
             ]);
 
@@ -114,6 +115,11 @@ class PekerjaanController extends Controller
                 $path = Str::snake(date("YmdHis") . ' ' . $request->fotoAkhir->getClientOriginalName());
                 $request->fotoAkhir->storeAs('public/pekerjaan/', $path);
                 $pekerjaan['foto_akhir'] = $path;
+            }
+            if ($request->fotoPegawai != null) {
+                $path = Str::snake(date("YmdHis") . ' ' . $request->fotoPegawai->getClientOriginalName());
+                $request->fotoPegawai->storeAs('public/pekerjaan/', $path);
+                $pekerjaan['foto_pegawai'] = $path;
             }
             if ($request->video != null) {
                 $path = Str::snake(date("YmdHis") . ' ' . $request->video->getClientOriginalName());
@@ -224,6 +230,11 @@ class PekerjaanController extends Controller
                 $request->fotoAkhir->storeAs('public/pekerjaan/', $path);
                 $pekerjaan['foto_akhir'] = $path;
             }
+            if ($request->fotoPegawai != null) {
+                $path = Str::snake(date("YmdHis") . ' ' . $request->fotoPegawai->getClientOriginalName());
+                $request->fotoPegawai->storeAs('public/pekerjaan/', $path);
+                $pekerjaan['foto_pegawai'] = $path;
+            }
             if ($request->video != null) {
                 $path = Str::snake(date("YmdHis") . ' ' . $request->video->getClientOriginalName());
                 $request->video->storeAs('public/pekerjaan/', $path);
@@ -231,7 +242,7 @@ class PekerjaanController extends Controller
             }
 
             $pekerjaan['uptd_id'] = $this->userUptd == '' ? 0 : $this->userUptd;
-
+            $pekerjaan['updated_by'] = $this->user->id;
             DB::table('kemandoran')->where('id_pek', $id)->update($pekerjaan);
             $this->response['status'] = 'success';
             $this->response['data']['message'] = 'Berhasil merubah pekerjaan';
@@ -335,5 +346,20 @@ class PekerjaanController extends Controller
             'keterangan' => $keterangan
         ];
         $this->sendEmail($temporari, $to_email, $to_name, $subject);
+    }
+
+    public function getNamaKegiatanPekerjaan()
+    {
+        try {
+            $nama_kegiatan_pekerjaan = DB::table('utils_nama_kegiatan_pekerjaan')->get();
+
+            $this->response['status'] = 'success';
+            $this->response['data']['nama_kegiatan_pekerjaan'] = $nama_kegiatan_pekerjaan;
+
+            return response()->json($this->response, 200);
+        } catch (\Exception $e) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
     }
 }

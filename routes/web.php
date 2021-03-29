@@ -95,7 +95,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::get('cctv', 'SurveiController@getCCTV');
         // parameternya dari id ruas jalan
         Route::get('roadroid-survei-kondisi-jalan/{id}', 'SurveiController@getRoadroidSKJ');
-        Route::view('roadroid-survei-kondisi-jalan', 'admin.map.map-roaddroid')->middleware('role:Monitoring Survei Kondisi Jalan,View');;
+        Route::view('roadroid-survei-kondisi-jalan', 'admin.map.map-roaddroid')->middleware('role:Monitoring Survei Kondisi Jalan,View');
 
         Route::get('progress_mingguan', 'Monitoring\ProgressMingguanController@getProggressMingguan')->name('getProgressMingguan');
         Route::get('progress_bulanan', 'Monitoring\ProgressMingguanController@getProggressBulanan')->name('getProgressBulanan');
@@ -310,6 +310,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
         Route::get('/item_satuan/delete/{id}', 'MasterData\ItemSatuanController@destroy');
         Route::resource('/item_satuan', 'MasterData\ItemSatuanController');
+        Route::get('/nama_kegiatan_pekerjaan/delete/{id}', 'MasterData\NamaKegiatanPekerjaanController@destroy');
+        Route::resource('/nama_kegiatan_pekerjaan', 'MasterData\NamaKegiatanPekerjaanController');
     });
 
     Route::group(['prefix' => 'input-data'], function () {

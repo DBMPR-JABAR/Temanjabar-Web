@@ -164,6 +164,13 @@
                                     </a>
                                 </li>
                             @endif
+                            @if (hasAccess(Auth::user()->internal_role_id, 'Nama Kegiatan Pekerjaan', 'View'))
+                            <li class="{{ Request::segment(3) == 'nama_kegiatan_pekerjaan' ? 'active' : '' }}">
+                                <a href="{{ url('admin/master-data/nama_kegiatan_pekerjaan') }}" class="waves-effect waves-dark">
+                                    <span class="pcoded-mtext">Nama Kegiatan Pekerjaan</span>
+                                </a>
+                            </li>
+                        @endif
                             @if (hasAccess(Auth::user()->internal_role_id, 'UPTD', 'View'))
                                 <li class="{{ Request::segment(3) == 'uptd' ? 'active' : '' }}">
                                     <a href="{{ url('admin/master-data/uptd') }}" class="waves-effect waves-dark">

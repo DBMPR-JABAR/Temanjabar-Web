@@ -79,7 +79,6 @@ class PekerjaanController extends Controller
     }
     public function getData()
     {
-
         if( Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor')||str_contains(Auth::user()->internalRole->role,'Pengamat') || str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') ){
             if(!Auth::user()->sup_id || !Auth::user()->internalRole->uptd ){
                 // dd(Auth::user()->sup_id);
@@ -92,6 +91,7 @@ class PekerjaanController extends Controller
 
             }
         }
+        $nama_kegiatan_pekerjaan = DB::table('utils_nama_kegiatan_pekerjaan')->get();
         $pekerjaan = DB::table('kemandoran');
 
         $pekerjaan = $pekerjaan->leftJoin('master_ruas_jalan', 'master_ruas_jalan.id', '=', 'kemandoran.ruas_jalan')->select('kemandoran.*', 'master_ruas_jalan.nama_ruas_jalan');
@@ -172,7 +172,7 @@ class PekerjaanController extends Controller
         $mandor = User::where('user_role.role', 'like', '%mandor%');
         $mandor = $mandor->leftJoin('user_role', 'user_role.id', '=', 'users.internal_role_id')->select('users.*', 'user_role.id as id_role');
         if( Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor')||str_contains(Auth::user()->internalRole->role,'Pengamat') || str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') ){
-            
+
             $mandor = $mandor->where('sup_id',Auth::user()->sup_id);
         }
         $mandor = $mandor->get();
@@ -300,7 +300,7 @@ class PekerjaanController extends Controller
 
         ];
 
-        return view('admin.input.pekerjaan.index', compact('pekerjaan', 'ruas_jalan', 'sup', 'uptd', 'mandor', 'jenis', 'sum_report'));
+        return view('admin.input.pekerjaan.index', compact('pekerjaan', 'ruas_jalan', 'sup', 'uptd', 'mandor', 'jenis', 'sum_report', 'nama_kegiatan_pekerjaan'));
     }
     public function statusData($id){
         $adjustment=DB::table('kemandoran_detail_status')
@@ -339,6 +339,7 @@ class PekerjaanController extends Controller
         $color = "danger";
         $msg = "Somethink when wrong!";
         $pekerjaan = DB::table('kemandoran')->where('id_pek', $id);
+        $nama_kegiatan_pekerjaan = DB::table('utils_nama_kegiatan_pekerjaan')->get();
         if(!$pekerjaan->exists())
             return back()->with(compact('color', 'msg'));
 
@@ -372,7 +373,7 @@ class PekerjaanController extends Controller
 
         $sup = $sup->get();
         $uptd = DB::table('landing_uptd')->get();
-        return view('admin.input.pekerjaan.edit', compact('pekerjaan', 'ruas_jalan', 'sup', 'uptd', 'jenis', 'mandor'));
+        return view('admin.input.pekerjaan.edit', compact('pekerjaan', 'ruas_jalan', 'sup', 'uptd', 'jenis', 'mandor','nama_kegiatan_pekerjaan'));
     }
 
     public function createData(Request $req)
@@ -426,6 +427,11 @@ class PekerjaanController extends Controller
             $path = Str::snake(date("YmdHis") . ' ' . $req->foto_akhir->getClientOriginalName());
             $req->foto_akhir->storeAs('public/pekerjaan/', $path);
             $pekerjaan['foto_akhir'] = $path;
+        }
+        if ($req->foto_pegawai != null) {
+            $path = Str::snake(date("YmdHis") . ' ' . $req->foto_pegawai->getClientOriginalName());
+            $req->foto_pegawai->storeAs('public/pekerjaan/', $path);
+            $pekerjaan['foto_pegawai'] = $path;
         }
         if ($req->video != null) {
             $path = Str::snake(date("YmdHis") . ' ' . $req->video->getClientOriginalName());
@@ -497,6 +503,13 @@ class PekerjaanController extends Controller
             $path = Str::snake(date("YmdHis") . ' ' . $req->foto_akhir->getClientOriginalName());
             $req->foto_akhir->storeAs('public/pekerjaan/', $path);
             $pekerjaan['foto_akhir'] = $path;
+        }
+        if ($req->foto_pegawai != null) {
+            $old->foto_pegawai ?? Storage::delete('public/pekerjaan/' . $old->foto_pegawai);
+
+            $path = Str::snake(date("YmdHis") . ' ' . $req->foto_akhir->getClientOriginalName());
+            $req->foto_pegawai->storeAs('public/pekerjaan/', $path);
+            $pekerjaan['foto_pegawai'] = $path;
         }
         if ($req->video != null) {
             $old->video ?? Storage::delete('public/pekerjaan/' . $old->video);
