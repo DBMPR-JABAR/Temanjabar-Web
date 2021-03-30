@@ -30,6 +30,13 @@ class AuthController extends Controller
     public function login(Request $req)
     {
         $credentials = $req->only('email', 'password');
+        $internal = DB::table('user_pegawai')->where('no_pegawai', $req->email);
+
+        if ($internal->count() > 0) {
+            $user = DB::table('users')->where('id', $internal->first()->user_id)->first();
+            $credentials['email'] = $user->email;
+        }
+
         try {
             if (!$token = auth('api')->attempt($credentials)) {
                 $this->response['data']['message'] = 'invalid_credentials';
