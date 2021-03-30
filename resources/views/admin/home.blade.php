@@ -200,7 +200,7 @@
             </div>
         </div>
     @endif
-
+    @if (hasAccess(Auth::user()->internal_role_id, 'Daftar Laporan', 'View'))
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header">
@@ -383,7 +383,7 @@
             </div>
         </div>
     </div>
-
+    @endif
 
     <div class="col-sm-12">
         <div class="card">
