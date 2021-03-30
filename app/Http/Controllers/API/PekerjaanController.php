@@ -67,7 +67,7 @@ class PekerjaanController extends Controller
                 'long' => 'required|string',
                 'panjang' => 'required|string',
                 'jumlah_pekerja' => 'required|string',
-                'peralatan' => 'required|string',
+                // 'peralatan' => 'required|string',
                 'fotoAwal' => 'file',
                 'fotoSedang' => 'file',
                 'fotoAkhir' => 'file',
@@ -93,7 +93,7 @@ class PekerjaanController extends Controller
                 ->where('id_ruas_jalan', $request->idRuasJalan)->first()->nama_ruas_jalan;
             // $pekerjaan['jenis_pekerjaan'] = DB::table('item_pekerjaan')->where('no', $request->idJenisPekerjaan)->first()->nama_item;
             $pekerjaan['jenis_pekerjaan'] = "Pemeliharaan";
-            $pekerjaan['peralatan'] = $request->peralatan;
+            // $pekerjaan['peralatan'] = $request->peralatan;
             $pekerjaan['panjang'] = $request->panjang;
             $pekerjaan['jumlah_pekerja'] = $request->jumlah_pekerja;
             $pekerjaan['lokasi'] = $request->lokasi;
@@ -181,7 +181,7 @@ class PekerjaanController extends Controller
                 'long' => 'string',
                 'panjang' => 'string',
                 'jumlah_pekerja' => 'string',
-                'peralatan' => 'string',
+                // 'peralatan' => 'string',
                 'fotoAwal' => 'file',
                 'fotoSedang' => 'file',
                 'fotoAkhir' => 'file',
@@ -206,8 +206,8 @@ class PekerjaanController extends Controller
             //     $pekerjaan['jenis_pekerjaan'] = DB::table('item_pekerjaan')->where('no', $request->idJenisPekerjaan)->first()->nama_item;
 
             $pekerjaan['jenis_pekerjaan'] = "Pemeliharaan";
-            if ($request->peralatan)
-                $pekerjaan['peralatan'] = $request->peralatan;
+            // if ($request->peralatan)
+            //     $pekerjaan['peralatan'] = $request->peralatan;
             if ($request->panjang)
                 $pekerjaan['panjang'] = $request->panjang;
             if ($request->lat)
