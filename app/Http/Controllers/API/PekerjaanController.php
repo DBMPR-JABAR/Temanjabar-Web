@@ -362,4 +362,18 @@ class PekerjaanController extends Controller
             return response()->json($this->response, 500);
         }
     }
+
+    public function getDetailStatus($id)
+    {
+        try {
+            $detail_status = DB::table('kemandoran_detail_status')->where('id_pek', $id)->get();
+            $this->response['status'] = 'success';
+            $this->response['data']['detail_status'] = $detail_status;
+
+            return response()->json($this->response, 200);
+        } catch (\Exception $e) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
 }

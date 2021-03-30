@@ -44,7 +44,7 @@ class MaterialPekerjaanController extends Controller
                 'nama_bahan1' => 'required|string',
                 'jum_bahan1' => 'required|string',
                 'satuan1' => 'required|string',
-                'pelaratan' => 'required|string',
+                'peralatan' => 'required|string',
                 // 'nama_bahan2' => 'string',
                 // 'jum_bahan2' => 'string',
                 // 'satuan2' => 'string',
@@ -152,7 +152,7 @@ class MaterialPekerjaanController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'jenis_pekerjaan' => 'string',
-                'pelaratan' => 'required|string',
+                'peralatan' => 'required|string',
                 'nama_bahan1' => 'string',
                 'jum_bahan1' => 'string',
                 'satuan1' => 'string',
