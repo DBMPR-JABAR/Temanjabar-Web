@@ -124,6 +124,8 @@ class LaporanBencanaController extends Controller
             $req->video->storeAs('public/laporan_bencana/', $path);
             $laporan_bencana['video'] = $path;
         }
+        $laporan_bencana['created_at'] = Carbon::now();
+        $laporan_bencana['created_by'] = Auth::user()->name;
         $icon_image = DB::table('icon_titik_rawan_bencana')->where('id', $req->icon_id)->get();
         $laporan_bencana['icon_image'] = $icon_image[0]->icon_image;
         DB::table('laporan_bencana')->insert($laporan_bencana);
@@ -158,6 +160,8 @@ class LaporanBencanaController extends Controller
         $icon_image = DB::table('icon_titik_rawan_bencana')->where('id', $req->icon_id)->get();
         $laporan_bencana['icon_image'] = $icon_image[0]->icon_image;
 
+        $laporan_bencana['updated_at'] = Carbon::now();
+        $laporan_bencana['updated_by'] = Auth::user()->name;
         DB::table('laporan_bencana')->where('id', $req->id)->update($laporan_bencana);
 
         $color = "success";
