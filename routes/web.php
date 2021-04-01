@@ -270,6 +270,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('getURL/{id}', 'MasterData\RawanBencanaController@getURL');
         });
 
+        Route::group(['prefix' => 'laporan_bencana'], function () {
+            Route::get('/', 'MasterData\LaporanBencanaController@getData')->name('getDataLaporanBencana');
+            Route::get('edit/{id}', 'MasterData\LaporanBencanaController@editData')->name('editDataLaporanBencana');
+            Route::post('update/{id}', 'MasterData\LaporanBencanaController@updateData')->name('updateDataLaporanBencana');
+            Route::post('create', 'MasterData\LaporanBencanaController@createData')->name('createDataLaporanBencana');
+            Route::get('delete/{id}', 'MasterData\LaporanBencanaController@deleteData')->name('deleteDataLaporanBencana');
+            Route::get('json', 'MasterData\LaporanBencanaController@json')->name('getJsonDataLaporanBencana');
+            Route::get('getDataSUP/{id}', 'MasterData\LaporanBencanaController@getDataSUP')->name('getDataSUP');
+            Route::get('getURL/{id}', 'MasterData\LaporanBencanaController@getURL');
+        });
+
         Route::group(['prefix' => 'CCTV'], function () {
             Route::get('/', 'MasterData\CCTVController@index')->name('getDataCCTV');
             Route::get('detail/{id}', 'MasterData\CCTVController@detail')->name('detailDataCCTV');
