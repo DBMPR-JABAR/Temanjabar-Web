@@ -989,6 +989,24 @@ function getMap(baseUrl, gsvrUrl) {
                                 sourceURL: `${baseUrl}/storage/{FOTO}`
                             }
                         }]
+                    },
+                    {
+                        title: "<b>Video</b>",
+                        type: "custom",
+                        outFields: ["*"],
+                        creator: function(feature) {
+                            const video = feature.graphic.attributes.VIDEO;
+                            let html = '';
+                            if(video != ""){
+                                html += `
+                                <div class="esri-feature-media__item">
+                                    <video controls class="esri-feature-media__item">
+                                        <source src="${baseUrl}/storage/${video}" type="video/mp4">
+                                    </video>
+                                </div>`;
+                            }
+                            return html;
+                        }
                     }
                 ]
             };
