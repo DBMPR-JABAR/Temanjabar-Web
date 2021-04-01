@@ -166,7 +166,7 @@ class LaporanBencanaController extends Controller
     }
     public function deleteData($id)
     {
-        $old = DB::table('master_laporan_bencana_bencana')->where('id', $id);
+        $old = DB::table('laporan_bencana')->where('id', $id);
         $old->delete();
 
         $color = "success";
