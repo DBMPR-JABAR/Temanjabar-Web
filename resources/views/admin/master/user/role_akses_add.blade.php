@@ -79,10 +79,10 @@
                     <div class="col-md-9">
                         <select data-placeholder="User Role..." class="chosen-select " multiple  name="menu[]" tabindex="4" required>
                         @foreach($menu as $data)
-                            <option value="{{$data->menu}}.Create" >{{$data->menu}}.Create</option>
-                            <option value="{{$data->menu}}.View">{{$data->menu}}.View</option>
-                            <option value="{{$data->menu}}.Update">{{$data->menu}}.Update</option>
-                            <option value="{{$data->menu}}.Delete">{{$data->menu}}.Delete</option>
+                            <option value="{{$data->menu}}.Create" @if($data->menu == "Profil") selected @endif>{{$data->menu}}.Create</option>
+                            <option value="{{$data->menu}}.View" @if($data->menu == "Profil") selected @endif>{{$data->menu}}.View</option>
+                            <option value="{{$data->menu}}.Update" @if($data->menu == "Profil") selected @endif>{{$data->menu}}.Update</option>
+                            <option value="{{$data->menu}}.Delete" @if($data->menu == "Profil") selected @endif>{{$data->menu}}.Delete</option>
                         @endforeach
                         </select>
                     </div>

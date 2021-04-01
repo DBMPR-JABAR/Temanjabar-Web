@@ -23,6 +23,67 @@
         }
 
     </style>
+    <style>
+        .switch {
+          position: relative;
+          display: inline-block;
+          width: 60px;
+          height: 34px;
+        }
+        
+        .switch input { 
+          opacity: 0;
+          width: 0;
+          height: 0;
+        }
+        
+        .slider {
+          position: absolute;
+          cursor: pointer;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: #ccc;
+          -webkit-transition: .4s;
+          transition: .4s;
+        }
+        
+        .slider:before {
+          position: absolute;
+          content: "";
+          height: 26px;
+          width: 26px;
+          left: 4px;
+          bottom: 4px;
+          background-color: white;
+          -webkit-transition: .4s;
+          transition: .4s;
+        }
+        
+        input:checked + .slider {
+          background-color: #2196F3;
+        }
+        
+        input:focus + .slider {
+          box-shadow: 0 0 1px #2196F3;
+        }
+        
+        input:checked + .slider:before {
+          -webkit-transform: translateX(26px);
+          -ms-transform: translateX(26px);
+          transform: translateX(26px);
+        }
+        
+        /* Rounded sliders */
+        .slider.round {
+          border-radius: 34px;
+        }
+        
+        .slider.round:before {
+          border-radius: 50%;
+        }
+        </style>
 @endsection
 
 @section('page-header')
@@ -89,7 +150,7 @@
 
                                             <a type='button' href='#editModal' data-toggle='modal'
                                                 data-id='{{ $data->id }}' data-nama='{{ $data->nama }}'
-                                                data-nama_menu='{{ $data->nama_menu }}'
+                                                data-nama_menu='{{ $data->nama_menu }}' data-user_id='{{ $data->view_user_id }}'
                                                 class='btn btn-warning btn-mini waves-effect waves-light'><i
                                                     class='icofont icofont-edit'></i></a>
                                             @if (Auth::user() && Auth::user()->id == $data->created_by)
@@ -202,6 +263,18 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Hanya Dilihat Oleh Super Admin</label>
+                                <div class="col-md-9">
+                                    
+                                    <label class="switch">
+                                        <input type="checkbox" name="lihat_admin">
+                                        <span class="slider round"></span>
+                                    </label>
+
+                                    
+                                </div>
+                            </div>
                         </div>
 
                         <div class="modal-footer">
@@ -245,6 +318,18 @@
                                                 {{ $data->nama }}</option>
                                         @endforeach
                                     </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Hanya Dilihat Oleh Super Admin</label>
+                                <div class="col-md-9">
+                                    
+                                    <label class="switch">
+                                        <input type="checkbox" id="super_admin" name = "lihat_admin">
+                                        <span class="slider round"></span>
+                                    </label>
+
+                                    
                                 </div>
                             </div>
                         </div>
@@ -409,7 +494,7 @@
                 modal.find('.modal-footer #delHref').attr('href', url);
             });
             $('#editModal').on('show.bs.modal', function(event) {
-
+                
                 const link = $(event.relatedTarget);
                 const id = link.data('id');
                 // link.data('nama_menu')
@@ -423,6 +508,8 @@
                     // console.log(selectedMenu[0].id)
                     $('#menu_permission_edit').val(selectedMenu[0].id);
                 }
+                // if(link.data('user_id')){$('#super_admin').prop('checked',true) };
+                link.data('user_id') ? $('#super_admin').prop('checked',true):$('#super_admin').prop('checked',false);
                 // const baseUrl = `{{ url('admin/master-data/user/edit-permission') }}/` + id;
                 // $.get(baseUrl, {
                 //         id: id

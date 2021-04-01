@@ -125,7 +125,7 @@
                                 @php
                                     $pointer = 0;
                                     $pointer1 = $pointer;
-                                    $pointer2 = count($alldata['menu']);
+                                    $pointer2 = count($alldata['menu_test']);
                                     // echo $pointer2;
                                   
                                 @endphp
@@ -157,6 +157,9 @@
                                         @foreach ($alldata['menu_test'] as $data)
 
                                             @if($data['nama_menu'] == $items->nama_menu )
+                                                
+                                                  
+                                               
                                                 <div class="col-sm-12 col-md-6 col-lg-4">
                                                     <label class="form-check-label">
                                                         @foreach ($alldata['permissions'] as $item)
@@ -170,7 +173,9 @@
                                                                 }
                                                             @endphp
                                                         @endforeach
+                                                      
                                                         <input type="checkbox" class="form-check-input" name="menu[]" value="{{ $data['nama'] }}"{{ $i }}>&nbsp;{{ $data['nama'] }}
+                                             
 
                                                     </label>
                                                 </div>

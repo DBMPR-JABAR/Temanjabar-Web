@@ -468,19 +468,33 @@ class UserController extends Controller
             ->orderBy('permissions.menu_id')->groupBy('permissions.menu_id')->get();
         // dd($menu);
 
-        $tempi = array();
+        
         $tempi1 = array();
         $tempi2 = [];
 
         foreach ($menu as $item => $as) {
-            array_push($tempi, $as->nama . '.Create');
-            array_push($tempi, $as->nama . '.View');
-            array_push($tempi, $as->nama . '.Update');
-            array_push($tempi, $as->nama . '.Delete');
-            $tempi2[] = ['nama' => $as->nama . '.Create', 'nama_menu' => $as->nama_menu];
-            $tempi2[] = ['nama' => $as->nama . '.View', 'nama_menu' => $as->nama_menu];
-            $tempi2[] = ['nama' => $as->nama . '.Update', 'nama_menu' => $as->nama_menu];
-            $tempi2[] = ['nama' => $as->nama . '.Delete', 'nama_menu' => $as->nama_menu];
+            // if($as->view_user_id > 0 && $as->view_user_id != Auth::user()->id){
+            //     break;
+            // }
+            if(!$as->view_user_id){
+               
+                $tempi2[] = ['nama' => $as->nama . '.Create', 'nama_menu' => $as->nama_menu,'view_user_id' => $as->view_user_id];
+                $tempi2[] = ['nama' => $as->nama . '.View', 'nama_menu' => $as->nama_menu,'view_user_id' => $as->view_user_id];
+                $tempi2[] = ['nama' => $as->nama . '.Update', 'nama_menu' => $as->nama_menu,'view_user_id' => $as->view_user_id];
+                $tempi2[] = ['nama' => $as->nama . '.Delete', 'nama_menu' => $as->nama_menu,'view_user_id' => $as->view_user_id];
+
+            }
+        }
+        foreach ($menu as $item => $as) {
+            
+            if($as->view_user_id && $as->view_user_id == Auth::user()->id){
+               
+                $tempi2[] = ['nama' => $as->nama . '.Create', 'nama_menu' => $as->nama_menu,'view_user_id' => $as->view_user_id];
+                $tempi2[] = ['nama' => $as->nama . '.View', 'nama_menu' => $as->nama_menu,'view_user_id' => $as->view_user_id];
+                $tempi2[] = ['nama' => $as->nama . '.Update', 'nama_menu' => $as->nama_menu,'view_user_id' => $as->view_user_id];
+                $tempi2[] = ['nama' => $as->nama . '.Delete', 'nama_menu' => $as->nama_menu,'view_user_id' => $as->view_user_id];
+
+            }
         }
         // dd($cekopoint);
         // dd($tempi2);
@@ -489,9 +503,8 @@ class UserController extends Controller
             ->get();
         $temporari = explode(", ", $alldata['permissions']);
         $alldata['permissions'] = $temporari;
-        $alldata['menu'] = $tempi;
         $alldata['menu_test'] = $tempi2;
-
+        // dd($alldata['menu_test']);
 
         foreach (explode(",", $alldata['id_menu']) as $data) {
             $uptd_access = DB::table('utils_role_access_uptd as a')
@@ -924,7 +937,10 @@ class UserController extends Controller
         $data['updated_by'] =  $data['created_by'];
         $data['created_at'] = Carbon::now();
         $data['updated_at'] = $data['created_at'];
-        // dd($request->nama);
+        if($request->lihat_admin == "on")
+            $data['view_user_id'] = Auth::user()->id;
+
+        // dd($data);
         $menu = DB::table('permissions')->insert($data);
         if ($menu) {
             $color = "success";
@@ -948,6 +964,11 @@ class UserController extends Controller
         $data['menu_id'] = $request->menu ?: "";
         $data['updated_by'] =  Auth::user()->id;
         $data['updated_at'] = Carbon::now();
+        if($request->lihat_admin == "on"){
+            $data['view_user_id'] = Auth::user()->id;
+        }else
+            $data['view_user_id'] = null;
+
 
         $menu = DB::table('permissions')->where('id', $request->id)->update($data);
         if ($menu) {
