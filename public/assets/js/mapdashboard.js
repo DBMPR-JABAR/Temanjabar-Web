@@ -223,6 +223,11 @@ function getMap(baseUrl, gsvrUrl) {
                         } else {
                             map.remove(map.findLayerById('tx_laporan'));
                         }
+                        if (kegiatan.indexOf('laporanbencana') >= 0) {
+                            addLaporanBencana(data.laporanbencana, data.iconlaporanbencana);
+                        } else {
+                            map.remove(map.findLayerById('tx_laporan_bencana'));
+                        }
 
                     } else { // json.status != success
                         // do something
@@ -528,7 +533,7 @@ function getMap(baseUrl, gsvrUrl) {
                             type: "image",
                             altText: "Foto Tidak Ada",
                             value: {
-                                sourceURL: "{foto}"
+                                sourceURL: `${baseUrl}/storage/{foto}`
                             }
                         }]
                     }],
@@ -803,7 +808,7 @@ function getMap(baseUrl, gsvrUrl) {
                             type: "image",
                             altText: "Foto Tidak Ada",
                             value: {
-                                sourceURL: "{FOTO}"
+                                sourceURL: `${baseUrl}/storage/{FOTO}`
                             }
                         }]
                     }
@@ -914,6 +919,184 @@ function getMap(baseUrl, gsvrUrl) {
                 }
             });
             map.add(newTitikRawanBencanaLayer);
+        }
+
+        function addLaporanBencana(laporanbencana, iconlaporanbencana) {
+            let uniqueValue = [];
+            // console.log(rawanbencana);
+            iconlaporanbencana.forEach((data) => {
+                uniqueValue.push({
+                    value: data.KETERANGAN,
+                    symbol: {
+                        type: "picture-marker", // autocasts as new PictureMarkerSymbol()
+                        url: `${baseUrl}/storage/${data.ICON_IMAGE}`,
+                        width: "28px",
+                        height: "28px"
+                    }
+                });
+            });
+
+            const popupTemplate = {
+                title: "{RUAS_JALAN}",
+                content: [
+                    {
+                        type: "fields",
+                        fieldInfos: [{
+                                fieldName: "NO_RUAS",
+                                label: "Nomor Ruas",
+                            },
+                            {
+                                fieldName: "LOKASI",
+                                label: "Lokasi",
+                            },
+                            {
+                                fieldName: "DAERAH",
+                                label: "Daerah",
+                            },
+                            {
+                                fieldName: "LAT",
+                                label: "Latitude",
+                            },
+                            {
+                                fieldName: "LONG",
+                                label: "Longitude",
+                            },
+                            {
+                                fieldName: "KETERANGAN",
+                                label: "Keterangan",
+                            },
+                            {
+                                fieldName: "SUP",
+                                label: "SUP",
+                            },
+                            {
+                                fieldName: "UPTD_ID",
+                                label: "UPTD",
+                            },
+                            {
+                                fieldName: "WAKTU_KEJADIAN",
+                                label: "Waktu Kejadian",
+                            }
+                        ]
+                    },
+                    {
+                        type: "media",
+                        mediaInfos: [{
+                            title: "<b>Foto Aktual</b>",
+                            type: "image",
+                            altText: "Foto Tidak Ada",
+                            value: {
+                                sourceURL: `${baseUrl}/storage/{FOTO}`
+                            }
+                        }]
+                    }
+                ]
+            };
+
+            // cari dan hapus layer bila ada pd map
+            let titikLaporanLayer = map.findLayerById('tx_laporan_bencana');
+            if (titikLaporanLayer) {
+                map.remove(titikLaporanLayer);
+            }
+
+            // buat layer baru
+            let newLaporanBencana = [];
+            laporanbencana.forEach(item => {
+                let point = new Point(item.LONG, item.LAT);
+                newLaporanBencana.push(new Graphic({
+                    geometry: point,
+                    attributes: item
+                }));
+            });
+            let newLaporanBencanaLayer = new FeatureLayer({
+                title: 'Laporan Bencana',
+                id: 'tx_laporan_bencana',
+                fields: [{
+                        name: "ID",
+                        alias: "ID",
+                        type: "integer"
+                    },
+                    {
+                        name: "NO_RUAS",
+                        alias: "Nomor Ruas",
+                        type: "string"
+                    },
+                    {
+                        name: "RUAS_JALAN",
+                        alias: "Ruas Jalan",
+                        type: "string"
+                    },
+                    {
+                        name: "LOKASI",
+                        alias: "Lokasi",
+                        type: "string"
+                    },
+                    {
+                        name: "DAERAH",
+                        alias: "Daerah",
+                        type: "string"
+                    },
+                    {
+                        name: "LAT",
+                        alias: "Latitude",
+                        type: "double"
+                    },
+                    {
+                        name: "LONG",
+                        alias: "Longitude",
+                        type: "double"
+                    },
+                    {
+                        name: "KETERANGAN",
+                        alias: "Keterangan",
+                        type: "string"
+                    },
+                    {
+                        name: "FOTO",
+                        alias: "Foto",
+                        type: "string"
+                    },
+                    {
+                        name: "SUP",
+                        alias: "SUP",
+                        type: "string"
+                    },
+                    {
+                        name: "VIDEO",
+                        alias: "Video",
+                        type: "string"
+                    },
+                    {
+                        name: "WAKTU_KEJADIAN",
+                        alias: "Waktu Kejadian",
+                        type: "string"
+                    },
+                    {
+                        name: "ICON_IMAGE",
+                        alias: "Icon Image",
+                        type: "string"
+                    },
+                    {
+                        name: "UPTD_ID",
+                        alias: "UPTD",
+                        type: "string"
+                    }
+                ],
+                outFields: ["*"],
+                objectIdField: "ID",
+                geometryType: "point",
+                spatialReference: {
+                    wkid: 4326
+                },
+                source: newLaporanBencana,
+                popupTemplate: popupTemplate,
+                renderer: {
+                    type: "unique-value", // autocasts as new UniqueValueRenderer()
+                    field: "KETERANGAN",
+                    uniqueValueInfos: uniqueValue
+                }
+            });
+            map.add(newLaporanBencanaLayer);
         }
 
         function addKemantapanJalan() {
@@ -2804,7 +2987,7 @@ function getMap(baseUrl, gsvrUrl) {
                             type: "image",
                             altText: "Foto Tidak Ada",
                             value: {
-                                sourceURL: "{foto}"
+                                sourceURL: `${baseUrl}/storage/{foto}`
                             }
                         }]
                     },

@@ -367,6 +367,7 @@
                     <option value="kondisijalan_titik">Survei Kondisi Jalan (Titik)</option>
                     <option value="jembatan">Jembatan</option>
                     <option value="cctv">CCTV</option>
+                    <option value="laporanbencana">Laporan Bencana</option>
                     <option value="rawanbencana">Titik Rawan Bencana</option>
                     <option value="datarawanbencana">Area Rawan Bencana</option>
                     <option value="tempatwisata">Tempat Wisata</option>
