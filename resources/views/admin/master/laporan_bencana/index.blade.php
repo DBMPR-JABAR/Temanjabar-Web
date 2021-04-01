@@ -233,7 +233,7 @@
         </div>
     @endif
 
-    @if (hasAccess(Auth::user()->internal_role_id, 'laporan_bencana Bencana', 'Delete'))
+    @if (hasAccess(Auth::user()->internal_role_id, 'Laporan Bencana', 'Delete'))
         <div class="modal-only">
             <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
