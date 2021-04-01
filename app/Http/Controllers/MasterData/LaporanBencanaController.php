@@ -190,7 +190,7 @@ class LaporanBencanaController extends Controller
             })
             ->addColumn('videobencana', function ($row) {
                 $path_video = explode('/', $row->video);
-                $video = '<video style="max-width: 100px" controls class="img-thumbnail rounded mx-auto d-block" alt="'.$path_video.'">
+                $video = '<video style="max-width: 100px" controls class="img-thumbnail rounded mx-auto d-block" alt="'.end($path_video).'">
                 <source src="' .url("storage/laporan_bencana/" . $row->video).'" type="video/mp4" />
             </video>';
                 return $video;
