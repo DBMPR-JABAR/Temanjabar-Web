@@ -392,7 +392,7 @@ class UserController extends Controller
         $msg = "Berhasil Menambah Data Grant Access Role Aplikasi";
         return redirect()->route('getRoleAkses')->with(compact('color', 'msg'));
     }
-
+    
     public function editRoleAccess($id)
     {
         $roleExist = DB::table('master_grant_role_aplikasi')->distinct()->pluck('internal_role_id');
@@ -477,25 +477,20 @@ class UserController extends Controller
             //     break;
             // }
             if(!$as->view_user_id){
-               
+                
                 $tempi2[] = ['nama' => $as->nama . '.Create', 'nama_menu' => $as->nama_menu,'view_user_id' => $as->view_user_id];
                 $tempi2[] = ['nama' => $as->nama . '.View', 'nama_menu' => $as->nama_menu,'view_user_id' => $as->view_user_id];
                 $tempi2[] = ['nama' => $as->nama . '.Update', 'nama_menu' => $as->nama_menu,'view_user_id' => $as->view_user_id];
                 $tempi2[] = ['nama' => $as->nama . '.Delete', 'nama_menu' => $as->nama_menu,'view_user_id' => $as->view_user_id];
 
-            }
-        }
-        foreach ($menu as $item => $as) {
-            
-            if($as->view_user_id && $as->view_user_id == Auth::user()->id){
-               
+            }else if($as->view_user_id && $as->view_user_id == Auth::user()->id){
                 $tempi2[] = ['nama' => $as->nama . '.Create', 'nama_menu' => $as->nama_menu,'view_user_id' => $as->view_user_id];
                 $tempi2[] = ['nama' => $as->nama . '.View', 'nama_menu' => $as->nama_menu,'view_user_id' => $as->view_user_id];
                 $tempi2[] = ['nama' => $as->nama . '.Update', 'nama_menu' => $as->nama_menu,'view_user_id' => $as->view_user_id];
                 $tempi2[] = ['nama' => $as->nama . '.Delete', 'nama_menu' => $as->nama_menu,'view_user_id' => $as->view_user_id];
-
             }
         }
+       
         // dd($cekopoint);
         // dd($tempi2);
         $user_role = DB::table('user_role as a')
