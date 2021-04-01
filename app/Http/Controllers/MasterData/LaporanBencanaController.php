@@ -197,7 +197,7 @@ class LaporanBencanaController extends Controller
             })
             ->addColumn('icon_image', function ($row) {
                 $path_icon = explode('/', $row->icon_image);
-                $icon = '<img alt="' . end($path_icon) . '" class="img-fluid" style="max-width: 100px" src="' . url('/storage/' . $row->icon_image) . '">';
+                $icon = '<img alt="' . end($path_icon) . '" class="img-fluid" style="max-width: 150px" src="' . url('/storage/' . $row->icon_image) . '">';
                 return $icon;
             })
             ->addColumn('action', function ($row) {
