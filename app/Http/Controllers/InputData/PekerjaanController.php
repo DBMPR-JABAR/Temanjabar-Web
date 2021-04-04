@@ -587,11 +587,22 @@ class PekerjaanController extends Controller
     }
     public function createDataMaterial(Request $req)
     {
-        $pekerjaan = $req->except(['_token','peralatan']);
+        $pekerjaan = $req->except(['_token','peralatan','nama_bahan','satuan','jum_bahan']);
         $pekerjaan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
         $pekerjaan['updated_by'] = Auth::user()->id;
         $temp=explode(",",$pekerjaan['nama_mandor']);
         $pekerjaan['nama_mandor']=$temp[0];
+        $x=1;
+        for($i = 0; $i<count($req->nama_bahan)-1 ;$i++){
+            $jum_bahan = "jum_bahan$x";
+            $nama_bahan = "nama_bahan$x";
+            $satuan = "satuan$x";
+            $pekerjaan[$nama_bahan]=$req->nama_bahan[$i];
+            $pekerjaan[$jum_bahan]=$req->jum_bahan[$i];
+            $pekerjaan[$satuan]=$req->satuan[$i];
+
+            $x++;
+        }
         // dd($pekerjaan);
         DB::table('bahan_material')->insert($pekerjaan);
         $kemandoran =  DB::table('kemandoran');
@@ -626,11 +637,12 @@ class PekerjaanController extends Controller
     public function updateDataMaterial(Request $req)
     {
         // dd($req->id_pek);
-        $pekerjaan = $req->except('_token', 'id_pek');
+        $pekerjaan = $req->except('_token', 'id_pek','peralatan');
         $pekerjaan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
         $pekerjaan['updated_by'] = Auth::user()->id;
 
         $kemandoran =  DB::table('kemandoran');
+        // dd($pekerjaan);
 
         DB::table('bahan_material')->where('id_pek', $req->id_pek)->update($pekerjaan);
 
@@ -648,6 +660,8 @@ class PekerjaanController extends Controller
                 $insert = $detail_adjustment->insert($data);
                 if($kemandoran->where('id_pek', $req->id_pek)->exists()){
                     $mail['mail'] = 1;
+                    $mail['peralatan'] = $req->peralatan;
+
                     // dd($mail);
                     $kemandoran->update($mail);
 
@@ -657,11 +671,16 @@ class PekerjaanController extends Controller
         // dd($kemandoran->where('id_pek', $req->id_pek)->where('mail', null)->exists());
         if($kemandoran->where('id_pek', $req->id_pek)->where('mail', null)->exists()){
             $mail['mail'] = 1;
+            $mail['peralatan'] = $req->peralatan;
+
             // dd($mail);
             $kemandoran->update($mail);
 
+        }else{
+            $mail['peralatan'] = $req->peralatan;
+            // dd($mail);
+            $kemandoran->update($mail);
         }
-
 
         $color = "success";
         $msg = "Berhasil Mengubah Data Material";

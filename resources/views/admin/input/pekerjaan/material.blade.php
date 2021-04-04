@@ -107,15 +107,545 @@
                             <input name="peralatan" type="text" class="form-control" required value="{{@$pekerjaan->peralatan}}">
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Bahan Material 1</label>
+
+                    
+                    @if ($material!='')
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Bahan Material 1</label>
+                            <div class="col-md-3">
+                                <select class="form-control" name="nama_bahan1" required>
+                                    @if ($material!='')
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan1) ? 'selected' : ''}}>{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @else
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                            <label class="col-md-1 col-form-label">Jumlah</label>
+                            <div class="col-md-2">
+
+                                <input name="jum_bahan1" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan1 : ''}}">
+                            </div>
+                            <label class="col-md-1 col-form-label">Satuan</label>
+                            <div class="col-md-3">
+                            <select class="form-control" name="satuan1" required>
+                                @if ($material!='')
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan1) ? 'selected' : ''}}>{{$data->satuan}}</option>
+                                    @endforeach
+                                @else
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}">{{$data->satuan}}</option>
+                                    @endforeach
+                                @endif
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Bahan Material 2</label>
+                            <div class="col-md-3">
+                                <select class="form-control" name="nama_bahan2" required>
+                                    @if ($material!='')
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan2) ? 'selected' : ''}}>{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @else
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                            <label class="col-md-1 col-form-label">Jumlah</label>
+                            <div class="col-md-2">
+
+                                <input name="jum_bahan2" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan2 : ''}}">
+                            </div>
+                            <label class="col-md-1 col-form-label">Satuan</label>
+                            <div class="col-md-3">
+                            <select class="form-control" name="satuan2" required>
+                                @if ($material!='')
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan2) ? 'selected' : ''}}>{{$data->satuan}}</option>
+                                    @endforeach
+                                @else
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}">{{$data->satuan}}</option>
+                                    @endforeach
+                                @endif
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Bahan Material 3</label>
+                            <div class="col-md-3">
+                                <select class="form-control" name="nama_bahan3" required>
+                                    @if ($material!='')
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan3) ? 'selected' : ''}}>{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @else
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                            <label class="col-md-1 col-form-label">Jumlah</label>
+                            <div class="col-md-2">
+
+                                <input name="jum_bahan3" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan3 : ''}}">
+                            </div>
+                            <label class="col-md-1 col-form-label">Satuan</label>
+                            <div class="col-md-3">
+                            <select class="form-control" name="satuan3" required>
+                                @if ($material!='')
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan3) ? 'selected' : ''}}>{{$data->satuan}}</option>
+                                    @endforeach
+                                @else
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}">{{$data->satuan}}</option>
+                                    @endforeach
+                                @endif
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Bahan Material 4</label>
+                            <div class="col-md-3">
+                                <select class="form-control" name="nama_bahan4" required>
+                                    @if ($material!='')
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan4) ? 'selected' : ''}}>{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @else
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                            <label class="col-md-1 col-form-label">Jumlah</label>
+                            <div class="col-md-2">
+
+                                <input name="jum_bahan4" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan4 : ''}}">
+                            </div>
+                            <label class="col-md-1 col-form-label">Satuan</label>
+                            <div class="col-md-3">
+                            <select class="form-control" name="satuan4" required>
+                                @if ($material!='')
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan4) ? 'selected' : ''}}>{{$data->satuan}}</option>
+                                    @endforeach
+                                @else
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}">{{$data->satuan}}</option>
+                                    @endforeach
+                                @endif
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Bahan Material 5</label>
+                            <div class="col-md-3">
+                                <select class="form-control" name="nama_bahan5" required>
+                                    @if ($material!='')
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan5) ? 'selected' : ''}}>{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @else
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                            <label class="col-md-1 col-form-label">Jumlah</label>
+                            <div class="col-md-2">
+
+                                <input name="jum_bahan5" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan5 : ''}}">
+                            </div>
+                            <label class="col-md-1 col-form-label">Satuan</label>
+                            <div class="col-md-3">
+                            <select class="form-control" name="satuan5" required>
+                                @if ($material!='')
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan5) ? 'selected' : ''}}>{{$data->satuan}}</option>
+                                    @endforeach
+                                @else
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}">{{$data->satuan}}</option>
+                                    @endforeach
+                                @endif
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Bahan Material 6</label>
+                            <div class="col-md-3">
+                                <select class="form-control" name="nama_bahan6" required>
+                                    @if ($material!='')
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan6) ? 'selected' : ''}}>{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @else
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                            <label class="col-md-1 col-form-label">Jumlah</label>
+                            <div class="col-md-2">
+
+                                <input name="jum_bahan6" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan6 : ''}}">
+                            </div>
+                            <label class="col-md-1 col-form-label">Satuan</label>
+                            <div class="col-md-3">
+                            <select class="form-control" name="satuan6" required>
+                                @if ($material!='')
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan6) ? 'selected' : ''}}>{{$data->satuan}}</option>
+                                    @endforeach
+                                @else
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}">{{$data->satuan}}</option>
+                                    @endforeach
+                                @endif
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Bahan Material 7</label>
+                            <div class="col-md-3">
+                                <select class="form-control" name="nama_bahan7" required>
+                                    @if ($material!='')
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan7) ? 'selected' : ''}}>{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @else
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                            <label class="col-md-1 col-form-label">Jumlah</label>
+                            <div class="col-md-2">
+
+                                <input name="jum_bahan7" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan7 : ''}}">
+                            </div>
+                            <label class="col-md-1 col-form-label">Satuan</label>
+                            <div class="col-md-3">
+                            <select class="form-control" name="satuan7" required>
+                                @if ($material!='')
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan7) ? 'selected' : ''}}>{{$data->satuan}}</option>
+                                    @endforeach
+                                @else
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}">{{$data->satuan}}</option>
+                                    @endforeach
+                                @endif
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Bahan Material 8</label>
+                            <div class="col-md-3">
+                                <select class="form-control" name="nama_bahan8" required>
+                                    @if ($material!='')
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan8) ? 'selected' : ''}}>{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @else
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                            <label class="col-md-1 col-form-label">Jumlah</label>
+                            <div class="col-md-2">
+
+                                <input name="jum_bahan8" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan8 : ''}}">
+                            </div>
+                            <label class="col-md-1 col-form-label">Satuan</label>
+                            <div class="col-md-3">
+                            <select class="form-control" name="satuan8" required>
+                                @if ($material!='')
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan8) ? 'selected' : ''}}>{{$data->satuan}}</option>
+                                    @endforeach
+                                @else
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}">{{$data->satuan}}</option>
+                                    @endforeach
+                                @endif
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Bahan Material 9</label>
+                            <div class="col-md-3">
+                                <select class="form-control" name="nama_bahan9" required>
+                                    @if ($material!='')
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan9) ? 'selected' : ''}}>{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @else
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                            <label class="col-md-1 col-form-label">Jumlah</label>
+                            <div class="col-md-2">
+
+                                <input name="jum_bahan9" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan9 : ''}}">
+                            </div>
+                            <label class="col-md-1 col-form-label">Satuan</label>
+                            <div class="col-md-3">
+                            <select class="form-control" name="satuan9" required>
+                                @if ($material!='')
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan9) ? 'selected' : ''}}>{{$data->satuan}}</option>
+                                    @endforeach
+                                @else
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}">{{$data->satuan}}</option>
+                                    @endforeach
+                                @endif
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Bahan Material 10</label>
+                            <div class="col-md-3">
+                                <select class="form-control" name="nama_bahan10" required>
+                                    @if ($material!='')
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan10) ? 'selected' : ''}}>{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @else
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                            <label class="col-md-1 col-form-label">Jumlah</label>
+                            <div class="col-md-2">
+
+                                <input name="jum_bahan10" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan10 : ''}}">
+                            </div>
+                            <label class="col-md-1 col-form-label">Satuan</label>
+                            <div class="col-md-3">
+                            <select class="form-control" name="satuan10" required>
+                                @if ($material!='')
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan10) ? 'selected' : ''}}>{{$data->satuan}}</option>
+                                    @endforeach
+                                @else
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}">{{$data->satuan}}</option>
+                                    @endforeach
+                                @endif
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Bahan Material 11</label>
+                            <div class="col-md-3">
+                                <select class="form-control" name="nama_bahan11" required>
+                                    @if ($material!='')
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan11) ? 'selected' : ''}}>{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @else
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                            <label class="col-md-1 col-form-label">Jumlah</label>
+                            <div class="col-md-2">
+
+                                <input name="jum_bahan11" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan11 : ''}}">
+                            </div>
+                            <label class="col-md-1 col-form-label">Satuan</label>
+                            <div class="col-md-3">
+                            <select class="form-control" name="satuan11" required>
+                                @if ($material!='')
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan11) ? 'selected' : ''}}>{{$data->satuan}}</option>
+                                    @endforeach
+                                @else
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}">{{$data->satuan}}</option>
+                                    @endforeach
+                                @endif
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Bahan Material 12</label>
+                            <div class="col-md-3">
+                                <select class="form-control" name="nama_bahan12" required>
+                                    @if ($material!='')
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan12) ? 'selected' : ''}}>{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @else
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                            <label class="col-md-1 col-form-label">Jumlah</label>
+                            <div class="col-md-2">
+
+                                <input name="jum_bahan12" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan12 : ''}}">
+                            </div>
+                            <label class="col-md-1 col-form-label">Satuan</label>
+                            <div class="col-md-3">
+                            <select class="form-control" name="satuan12" required>
+                                @if ($material!='')
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan12) ? 'selected' : ''}}>{{$data->satuan}}</option>
+                                    @endforeach
+                                @else
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}">{{$data->satuan}}</option>
+                                    @endforeach
+                                @endif
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Bahan Material 13</label>
+                            <div class="col-md-3">
+                                <select class="form-control" name="nama_bahan13" required>
+                                    @if ($material!='')
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan13) ? 'selected' : ''}}>{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @else
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                            <label class="col-md-1 col-form-label">Jumlah</label>
+                            <div class="col-md-2">
+
+                                <input name="jum_bahan13" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan13 : ''}}">
+                            </div>
+                            <label class="col-md-1 col-form-label">Satuan</label>
+                            <div class="col-md-3">
+                            <select class="form-control" name="satuan13" required>
+                                @if ($material!='')
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan13) ? 'selected' : ''}}>{{$data->satuan}}</option>
+                                    @endforeach
+                                @else
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}">{{$data->satuan}}</option>
+                                    @endforeach
+                                @endif
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Bahan Material 14</label>
+                            <div class="col-md-3">
+                                <select class="form-control" name="nama_bahan14" required>
+                                    @if ($material!='')
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan14) ? 'selected' : ''}}>{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @else
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                            <label class="col-md-1 col-form-label">Jumlah</label>
+                            <div class="col-md-2">
+
+                                <input name="jum_bahan14" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan14 : ''}}">
+                            </div>
+                            <label class="col-md-1 col-form-label">Satuan</label>
+                            <div class="col-md-3">
+                            <select class="form-control" name="satuan14" required>
+                                @if ($material!='')
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan14) ? 'selected' : ''}}>{{$data->satuan}}</option>
+                                    @endforeach
+                                @else
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}">{{$data->satuan}}</option>
+                                    @endforeach
+                                @endif
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Bahan Material 15</label>
+                            <div class="col-md-3">
+                                <select class="form-control" name="nama_bahan15" required>
+                                    @if ($material!='')
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan15) ? 'selected' : ''}}>{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @else
+                                        @foreach ($bahan as $data)
+                                        <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                            <label class="col-md-1 col-form-label">Jumlah</label>
+                            <div class="col-md-2">
+
+                                <input name="jum_bahan15" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan15 : ''}}">
+                            </div>
+                            <label class="col-md-1 col-form-label">Satuan</label>
+                            <div class="col-md-3">
+                            <select class="form-control" name="satuan15" required>
+                                @if ($material!='')
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan15) ? 'selected' : ''}}>{{$data->satuan}}</option>
+                                    @endforeach
+                                @else
+                                    @foreach ($satuan as $data)
+                                    <option value="{{$data->satuan}}">{{$data->satuan}}</option>
+                                    @endforeach
+                                @endif
+                                </select>
+                            </div>
+                        </div>
+                    @else
+                    <div class="form-group row fieldGroup">
+                        <label class="col-md-2 col-form-label">Bahan Material</label>
                         <div class="col-md-3">
-                            <select class="form-control" name="nama_bahan1" required>
+                            <select class="form-control" name="nama_bahan[]" required>
                                 @if ($material!='')
                                     @foreach ($bahan as $data)
                                     <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan1) ? 'selected' : ''}}>{{$data->nama_item}}</option>
                                     @endforeach
-                                 @else
+                                @else
                                     @foreach ($bahan as $data)
                                     <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
                                     @endforeach
@@ -125,11 +655,11 @@
                         <label class="col-md-1 col-form-label">Jumlah</label>
                         <div class="col-md-2">
 
-                            <input name="jum_bahan1" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan1 : ''}}">
+                            <input name="jum_bahan[]" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan1 : ''}}">
                         </div>
                         <label class="col-md-1 col-form-label">Satuan</label>
-                        <div class="col-md-3">
-                           <select class="form-control" name="satuan1" required>
+                        <div class="col-md-2">
+                        <select class="form-control" name="satuan[]" required>
                             @if ($material!='')
                                 @foreach ($satuan as $data)
                                 <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan1) ? 'selected' : ''}}>{{$data->satuan}}</option>
@@ -141,17 +671,24 @@
                             @endif
                             </select>
                         </div>
-                    </div>
+                        <div class="col-md-1"> 
+                            {{-- <a href="javascript:void(0)" class="btn btn-success addMore"><span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span> Add</a> --}}
+                            <a href="javascript:void(0)" data-toggle="modal"><button class="btn btn-primary addMore btn-mini waves-effect waves-light" data-toggle="tooltip" title="Tambah Bahan Material"><i class="icofont icofont-plus"></i></button></a>
+                            
+                        </div>
 
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Bahan Material 2</label>
+                </div>
+                <!-- copy of input fields group -->
+                <div class="form-group row fieldGroupCopy" style="display: none;">
+                    
+                        <label class="col-md-2 col-form-label">Bahan Material</label>
                         <div class="col-md-3">
-                            <select class="form-control" name="nama_bahan2" required>
+                            <select class="form-control" name="nama_bahan[]" required>
                                 @if ($material!='')
                                     @foreach ($bahan as $data)
-                                    <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan2) ? 'selected' : ''}}>{{$data->nama_item}}</option>
+                                    <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan1) ? 'selected' : ''}}>{{$data->nama_item}}</option>
                                     @endforeach
-                                 @else
+                                @else
                                     @foreach ($bahan as $data)
                                     <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
                                     @endforeach
@@ -161,49 +698,14 @@
                         <label class="col-md-1 col-form-label">Jumlah</label>
                         <div class="col-md-2">
 
-                            <input name="jum_bahan2" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan2 : ''}}">
+                            <input name="jum_bahan[]" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan1 : ''}}">
                         </div>
                         <label class="col-md-1 col-form-label">Satuan</label>
-                        <div class="col-md-3">
-                           <select class="form-control" name="satuan2" required>
-                            @if ($material!='')
-                                @foreach ($satuan as $data)
-                                <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan2) ? 'selected' : ''}}>{{$data->satuan}}</option>
-                                @endforeach
-                            @else
-                                @foreach ($satuan as $data)
-                                <option value="{{$data->satuan}}">{{$data->satuan}}</option>
-                                @endforeach
-                            @endif
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Bahan Material 3</label>
-                        <div class="col-md-3">
-                            <select class="form-control" name="nama_bahan3" required>
-                                @if ($material!='')
-                                    @foreach ($bahan as $data)
-                                    <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan3) ? 'selected' : ''}}>{{$data->nama_item}}</option>
-                                    @endforeach
-                                 @else
-                                    @foreach ($bahan as $data)
-                                    <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div>
-                        <label class="col-md-1 col-form-label">Jumlah</label>
                         <div class="col-md-2">
-
-                            <input name="jum_bahan3" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan3 : ''}}">
-                        </div>
-                        <label class="col-md-1 col-form-label">Satuan</label>
-                        <div class="col-md-3">
-                           <select class="form-control" name="satuan3" required>
+                        <select class="form-control" name="satuan[]" required>
                             @if ($material!='')
                                 @foreach ($satuan as $data)
-                                <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan3) ? 'selected' : ''}}>{{$data->satuan}}</option>
+                                <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan1) ? 'selected' : ''}}>{{$data->satuan}}</option>
                                 @endforeach
                             @else
                                 @foreach ($satuan as $data)
@@ -212,427 +714,13 @@
                             @endif
                             </select>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Bahan Material 4</label>
-                        <div class="col-md-3">
-                            <select class="form-control" name="nama_bahan4" required>
-                                @if ($material!='')
-                                    @foreach ($bahan as $data)
-                                    <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan4) ? 'selected' : ''}}>{{$data->nama_item}}</option>
-                                    @endforeach
-                                 @else
-                                    @foreach ($bahan as $data)
-                                    <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
-                                    @endforeach
-                                @endif
-                            </select>
+                        <div class="col-md-1"> 
+                            {{-- <a href="javascript:void(0)" class="btn btn-danger remove"><span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span> Remove</a> --}}
+                            <a href="javascript:void(0)" data-toggle="modal"><button class="btn btn-danger remove btn-mini waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
                         </div>
-                        <label class="col-md-1 col-form-label">Jumlah</label>
-                        <div class="col-md-2">
+                </div>
+                    @endif
 
-                            <input name="jum_bahan4" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan4 : ''}}">
-                        </div>
-                        <label class="col-md-1 col-form-label">Satuan</label>
-                        <div class="col-md-3">
-                           <select class="form-control" name="satuan4" required>
-                            @if ($material!='')
-                                @foreach ($satuan as $data)
-                                <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan4) ? 'selected' : ''}}>{{$data->satuan}}</option>
-                                @endforeach
-                            @else
-                                @foreach ($satuan as $data)
-                                <option value="{{$data->satuan}}">{{$data->satuan}}</option>
-                                @endforeach
-                            @endif
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Bahan Material 5</label>
-                        <div class="col-md-3">
-                            <select class="form-control" name="nama_bahan5" required>
-                                @if ($material!='')
-                                    @foreach ($bahan as $data)
-                                    <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan5) ? 'selected' : ''}}>{{$data->nama_item}}</option>
-                                    @endforeach
-                                 @else
-                                    @foreach ($bahan as $data)
-                                    <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div>
-                        <label class="col-md-1 col-form-label">Jumlah</label>
-                        <div class="col-md-2">
-
-                            <input name="jum_bahan5" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan5 : ''}}">
-                        </div>
-                        <label class="col-md-1 col-form-label">Satuan</label>
-                        <div class="col-md-3">
-                           <select class="form-control" name="satuan5" required>
-                            @if ($material!='')
-                                @foreach ($satuan as $data)
-                                <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan5) ? 'selected' : ''}}>{{$data->satuan}}</option>
-                                @endforeach
-                            @else
-                                @foreach ($satuan as $data)
-                                <option value="{{$data->satuan}}">{{$data->satuan}}</option>
-                                @endforeach
-                            @endif
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Bahan Material 6</label>
-                        <div class="col-md-3">
-                            <select class="form-control" name="nama_bahan6" required>
-                                @if ($material!='')
-                                    @foreach ($bahan as $data)
-                                    <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan6) ? 'selected' : ''}}>{{$data->nama_item}}</option>
-                                    @endforeach
-                                 @else
-                                    @foreach ($bahan as $data)
-                                    <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div>
-                        <label class="col-md-1 col-form-label">Jumlah</label>
-                        <div class="col-md-2">
-
-                            <input name="jum_bahan6" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan6 : ''}}">
-                        </div>
-                        <label class="col-md-1 col-form-label">Satuan</label>
-                        <div class="col-md-3">
-                           <select class="form-control" name="satuan6" required>
-                            @if ($material!='')
-                                @foreach ($satuan as $data)
-                                <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan6) ? 'selected' : ''}}>{{$data->satuan}}</option>
-                                @endforeach
-                            @else
-                                @foreach ($satuan as $data)
-                                <option value="{{$data->satuan}}">{{$data->satuan}}</option>
-                                @endforeach
-                            @endif
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Bahan Material 7</label>
-                        <div class="col-md-3">
-                            <select class="form-control" name="nama_bahan7" required>
-                                @if ($material!='')
-                                    @foreach ($bahan as $data)
-                                    <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan7) ? 'selected' : ''}}>{{$data->nama_item}}</option>
-                                    @endforeach
-                                 @else
-                                    @foreach ($bahan as $data)
-                                    <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div>
-                        <label class="col-md-1 col-form-label">Jumlah</label>
-                        <div class="col-md-2">
-
-                            <input name="jum_bahan7" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan7 : ''}}">
-                        </div>
-                        <label class="col-md-1 col-form-label">Satuan</label>
-                        <div class="col-md-3">
-                           <select class="form-control" name="satuan7" required>
-                            @if ($material!='')
-                                @foreach ($satuan as $data)
-                                <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan7) ? 'selected' : ''}}>{{$data->satuan}}</option>
-                                @endforeach
-                            @else
-                                @foreach ($satuan as $data)
-                                <option value="{{$data->satuan}}">{{$data->satuan}}</option>
-                                @endforeach
-                            @endif
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Bahan Material 8</label>
-                        <div class="col-md-3">
-                            <select class="form-control" name="nama_bahan8" required>
-                                @if ($material!='')
-                                    @foreach ($bahan as $data)
-                                    <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan8) ? 'selected' : ''}}>{{$data->nama_item}}</option>
-                                    @endforeach
-                                 @else
-                                    @foreach ($bahan as $data)
-                                    <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div>
-                        <label class="col-md-1 col-form-label">Jumlah</label>
-                        <div class="col-md-2">
-
-                            <input name="jum_bahan8" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan8 : ''}}">
-                        </div>
-                        <label class="col-md-1 col-form-label">Satuan</label>
-                        <div class="col-md-3">
-                           <select class="form-control" name="satuan8" required>
-                            @if ($material!='')
-                                @foreach ($satuan as $data)
-                                <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan8) ? 'selected' : ''}}>{{$data->satuan}}</option>
-                                @endforeach
-                            @else
-                                @foreach ($satuan as $data)
-                                <option value="{{$data->satuan}}">{{$data->satuan}}</option>
-                                @endforeach
-                            @endif
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Bahan Material 9</label>
-                        <div class="col-md-3">
-                            <select class="form-control" name="nama_bahan9" required>
-                                @if ($material!='')
-                                    @foreach ($bahan as $data)
-                                    <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan9) ? 'selected' : ''}}>{{$data->nama_item}}</option>
-                                    @endforeach
-                                 @else
-                                    @foreach ($bahan as $data)
-                                    <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div>
-                        <label class="col-md-1 col-form-label">Jumlah</label>
-                        <div class="col-md-2">
-
-                            <input name="jum_bahan9" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan9 : ''}}">
-                        </div>
-                        <label class="col-md-1 col-form-label">Satuan</label>
-                        <div class="col-md-3">
-                           <select class="form-control" name="satuan9" required>
-                            @if ($material!='')
-                                @foreach ($satuan as $data)
-                                <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan9) ? 'selected' : ''}}>{{$data->satuan}}</option>
-                                @endforeach
-                            @else
-                                @foreach ($satuan as $data)
-                                <option value="{{$data->satuan}}">{{$data->satuan}}</option>
-                                @endforeach
-                            @endif
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Bahan Material 10</label>
-                        <div class="col-md-3">
-                            <select class="form-control" name="nama_bahan10" required>
-                                @if ($material!='')
-                                    @foreach ($bahan as $data)
-                                    <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan10) ? 'selected' : ''}}>{{$data->nama_item}}</option>
-                                    @endforeach
-                                 @else
-                                    @foreach ($bahan as $data)
-                                    <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div>
-                        <label class="col-md-1 col-form-label">Jumlah</label>
-                        <div class="col-md-2">
-
-                            <input name="jum_bahan10" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan10 : ''}}">
-                        </div>
-                        <label class="col-md-1 col-form-label">Satuan</label>
-                        <div class="col-md-3">
-                           <select class="form-control" name="satuan10" required>
-                            @if ($material!='')
-                                @foreach ($satuan as $data)
-                                <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan10) ? 'selected' : ''}}>{{$data->satuan}}</option>
-                                @endforeach
-                            @else
-                                @foreach ($satuan as $data)
-                                <option value="{{$data->satuan}}">{{$data->satuan}}</option>
-                                @endforeach
-                            @endif
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Bahan Material 11</label>
-                        <div class="col-md-3">
-                            <select class="form-control" name="nama_bahan11" required>
-                                @if ($material!='')
-                                    @foreach ($bahan as $data)
-                                    <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan11) ? 'selected' : ''}}>{{$data->nama_item}}</option>
-                                    @endforeach
-                                 @else
-                                    @foreach ($bahan as $data)
-                                    <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div>
-                        <label class="col-md-1 col-form-label">Jumlah</label>
-                        <div class="col-md-2">
-
-                            <input name="jum_bahan11" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan11 : ''}}">
-                        </div>
-                        <label class="col-md-1 col-form-label">Satuan</label>
-                        <div class="col-md-3">
-                           <select class="form-control" name="satuan11" required>
-                            @if ($material!='')
-                                @foreach ($satuan as $data)
-                                <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan11) ? 'selected' : ''}}>{{$data->satuan}}</option>
-                                @endforeach
-                            @else
-                                @foreach ($satuan as $data)
-                                <option value="{{$data->satuan}}">{{$data->satuan}}</option>
-                                @endforeach
-                            @endif
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Bahan Material 12</label>
-                        <div class="col-md-3">
-                            <select class="form-control" name="nama_bahan12" required>
-                                @if ($material!='')
-                                    @foreach ($bahan as $data)
-                                    <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan12) ? 'selected' : ''}}>{{$data->nama_item}}</option>
-                                    @endforeach
-                                 @else
-                                    @foreach ($bahan as $data)
-                                    <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div>
-                        <label class="col-md-1 col-form-label">Jumlah</label>
-                        <div class="col-md-2">
-
-                            <input name="jum_bahan12" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan12 : ''}}">
-                        </div>
-                        <label class="col-md-1 col-form-label">Satuan</label>
-                        <div class="col-md-3">
-                           <select class="form-control" name="satuan12" required>
-                            @if ($material!='')
-                                @foreach ($satuan as $data)
-                                <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan12) ? 'selected' : ''}}>{{$data->satuan}}</option>
-                                @endforeach
-                            @else
-                                @foreach ($satuan as $data)
-                                <option value="{{$data->satuan}}">{{$data->satuan}}</option>
-                                @endforeach
-                            @endif
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Bahan Material 13</label>
-                        <div class="col-md-3">
-                            <select class="form-control" name="nama_bahan13" required>
-                                @if ($material!='')
-                                    @foreach ($bahan as $data)
-                                    <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan13) ? 'selected' : ''}}>{{$data->nama_item}}</option>
-                                    @endforeach
-                                 @else
-                                    @foreach ($bahan as $data)
-                                    <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div>
-                        <label class="col-md-1 col-form-label">Jumlah</label>
-                        <div class="col-md-2">
-
-                            <input name="jum_bahan13" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan13 : ''}}">
-                        </div>
-                        <label class="col-md-1 col-form-label">Satuan</label>
-                        <div class="col-md-3">
-                           <select class="form-control" name="satuan13" required>
-                            @if ($material!='')
-                                @foreach ($satuan as $data)
-                                <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan13) ? 'selected' : ''}}>{{$data->satuan}}</option>
-                                @endforeach
-                            @else
-                                @foreach ($satuan as $data)
-                                <option value="{{$data->satuan}}">{{$data->satuan}}</option>
-                                @endforeach
-                            @endif
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Bahan Material 14</label>
-                        <div class="col-md-3">
-                            <select class="form-control" name="nama_bahan14" required>
-                                @if ($material!='')
-                                    @foreach ($bahan as $data)
-                                    <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan14) ? 'selected' : ''}}>{{$data->nama_item}}</option>
-                                    @endforeach
-                                 @else
-                                    @foreach ($bahan as $data)
-                                    <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div>
-                        <label class="col-md-1 col-form-label">Jumlah</label>
-                        <div class="col-md-2">
-
-                            <input name="jum_bahan14" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan14 : ''}}">
-                        </div>
-                        <label class="col-md-1 col-form-label">Satuan</label>
-                        <div class="col-md-3">
-                           <select class="form-control" name="satuan14" required>
-                            @if ($material!='')
-                                @foreach ($satuan as $data)
-                                <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan14) ? 'selected' : ''}}>{{$data->satuan}}</option>
-                                @endforeach
-                            @else
-                                @foreach ($satuan as $data)
-                                <option value="{{$data->satuan}}">{{$data->satuan}}</option>
-                                @endforeach
-                            @endif
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Bahan Material 15</label>
-                        <div class="col-md-3">
-                            <select class="form-control" name="nama_bahan15" required>
-                                @if ($material!='')
-                                    @foreach ($bahan as $data)
-                                    <option value="{{$data->nama_item}}" {{ ( $data->nama_item == $material->nama_bahan15) ? 'selected' : ''}}>{{$data->nama_item}}</option>
-                                    @endforeach
-                                 @else
-                                    @foreach ($bahan as $data)
-                                    <option value="{{$data->nama_item}}">{{$data->nama_item}}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div>
-                        <label class="col-md-1 col-form-label">Jumlah</label>
-                        <div class="col-md-2">
-
-                            <input name="jum_bahan15" type="number" class="form-control" value="{{ ( $material!='') ? $material->jum_bahan15 : ''}}">
-                        </div>
-                        <label class="col-md-1 col-form-label">Satuan</label>
-                        <div class="col-md-3">
-                           <select class="form-control" name="satuan15" required>
-                            @if ($material!='')
-                                @foreach ($satuan as $data)
-                                <option value="{{$data->satuan}}" {{ ( $data->satuan == $material->satuan15) ? 'selected' : ''}}>{{$data->satuan}}</option>
-                                @endforeach
-                            @else
-                                @foreach ($satuan as $data)
-                                <option value="{{$data->satuan}}">{{$data->satuan}}</option>
-                                @endforeach
-                            @endif
-                            </select>
-                        </div>
-                    </div>
 
                     <button type="submit" class="btn btn-mat btn-success">Simpan Perubahan</button>
                 </form>
@@ -642,4 +730,27 @@
     </div>
 </div>
 
+@endsection
+@section('script')
+<script>
+    $(document).ready(function(){
+    //group add limit
+    var maxGroup = 15;
+    
+    //add more fields group
+    $(".addMore").click(function(){
+        if($('body').find('.fieldGroup').length < maxGroup){
+            var fieldHTML = '<div class="form-group row fieldGroup">'+$(".fieldGroupCopy").html()+'</div>';
+            $('body').find('.fieldGroup:last').after(fieldHTML);
+        }else{
+            alert('Maximum '+maxGroup+' groups are allowed.');
+        }
+    });
+    
+    //remove fields group
+    $("body").on("click",".remove",function(){ 
+        $(this).parents(".fieldGroup").remove();
+    });
+});
+</script>
 @endsection
