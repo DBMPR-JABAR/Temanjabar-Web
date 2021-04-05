@@ -343,8 +343,10 @@
             id_select = '#ruas_jalan'
             text = 'Pilih Ruas Jalan'
             option = 'nama_ruas_jalan'
+            option_id = 'id_ruas_jalan'
 
-            setDataSelect(id, url, id_select, text, option, option)
+
+            setDataSelect(id, url, id_select, text, option_id, option)
 
             //untuk select SUP
             url = "{{ url('admin/master-data/ruas-jalan/getSUP') }}"

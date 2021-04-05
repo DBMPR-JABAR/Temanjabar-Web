@@ -467,7 +467,17 @@ class PekerjaanController extends Controller
 
         $temp1=explode(",",$pekerjaan['sup']);
         $temp2=explode(",",$pekerjaan['ruas_jalan']);
-
+        if(count($temp1) == 1){
+            $getsup = DB::table('utils_sup')->where('id',$pekerjaan['sup'])->select('id','name')->first();
+            $temp1[0]= $getsup->name;
+            $temp1[1]= $getsup->id;
+        }
+        if(count($temp2) == 1){
+            $getruas = DB::table('master_ruas_jalan')->where('id_ruas_jalan',$pekerjaan['ruas_jalan'])->select('id_ruas_jalan','nama_ruas_jalan')->first();
+            $temp2[0]= $getruas->nama_ruas_jalan;
+            $temp2[1]= $getruas->id_ruas_jalan;
+        }
+    //    dd($temp2);
         $pekerjaan['nama_mandor'] = $temp[0];
         $pekerjaan['user_id'] = $temp[1];
         $pekerjaan['sup'] = $temp1[0];
