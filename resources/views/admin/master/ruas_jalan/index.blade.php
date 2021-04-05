@@ -70,8 +70,8 @@
                                     <th>Sup</th>
                                     <th>Lokasi</th>
                                     <th>Panjang (meter)</th>
-                                    <th>Status Awal</th>
-                                    <th>Status Akhir</th>
+                                    <th>STA Awal</th>
+                                    <th>STA Akhir</th>
                                     <th>Lat Awal</th>
                                     <th>Long Awal</th>
                                     <th>Lat Akhir</th>
@@ -227,7 +227,7 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">STA Awal</label>
                                     <div class="col-md-9">
-                                        <input name="sta_awal" placeholder="Contoh : KM.BDG 9+000" type="text"
+                                        <input name="sta_awal" placeholder="1000" type="text"
                                             class="form-control" required>
                                     </div>
                                 </div>
@@ -235,7 +235,7 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">STA Akhir</label>
                                     <div class="col-md-9">
-                                        <input name="sta_akhir" placeholder="Contoh : KM.BDG 9+700" type="text"
+                                        <input name="sta_akhir" placeholder="2100" type="text"
                                             class="form-control" required>
                                     </div>
                                 </div>
