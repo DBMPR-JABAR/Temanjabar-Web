@@ -127,7 +127,7 @@
                         </select> --}}
 
                         @foreach ($input_uptd_lists as $no => $uptd_list)
-                            <input type="checkbox" class="custom-checkbox" name="uptd_access[]" value="{{ $uptd_list->id }}" id="uptd_{{ $uptd_list->id }}" >{{ $uptd_list->nama }}&nbsp;
+                            <input type="checkbox" class="custom-checkbox" name="uptd_access[]" value="{{ $uptd_list->id }}" id="uptd_{{ $uptd_list->id }}" >{{ $uptd_list->nama }}&nbsp;<br>
                         @endforeach
                         <br>
                             <i style="color :red; font-size: 10px;">Wajib isi</i>

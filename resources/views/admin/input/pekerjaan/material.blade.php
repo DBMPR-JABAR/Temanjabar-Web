@@ -637,6 +637,7 @@
                             </div>
                         </div>
                     @else
+                    <i style="color :red; font-size: 10px;">Biarkan jika tidak menggunakan bahan material</i>
                     <div class="form-group row fieldGroup">
                         <label class="col-md-2 col-form-label">Bahan Material</label>
                         <div class="col-md-3">
