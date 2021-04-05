@@ -767,6 +767,9 @@ class PekerjaanController extends Controller
                 // return redirect('admin/user/profile/'. auth()->user()->id)->with(['error' => 'Somethink when wrong!']);
         }
         $material = DB::table('bahan_material')->where('id_pek', $id)->first();
+        $pekerjaan->nama_bahan=[];
+        $pekerjaan->jum_bahan=[];
+        $pekerjaan->satuan=[];
 
         // dd($material);
         for($i=1; $i<=15 ;$i++){

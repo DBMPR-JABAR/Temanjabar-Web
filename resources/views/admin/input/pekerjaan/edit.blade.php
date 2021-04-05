@@ -126,7 +126,7 @@
                             <div class="col-md-10">
                                 <select class="form-control searchableField" id="sup" name="sup" required
                                     value="{{ $pekerjaan->sup }}">
-                                    <option value="{{ $pekerjaan->sup }}">{{ $pekerjaan->sup }}</option>
+                                   
                                     <option></option>
                                     @foreach ($sup as $data)
                                         <option value="{{ $data->name }},{{ $data->id }}"
@@ -351,8 +351,10 @@
             id_select = '#sup'
             text = 'Pilih SUP'
             option = 'name'
+            option_id = 'id'
 
-            setDataSelect(id, url, id_select, text, option, option)
+
+            setDataSelect(id, url, id_select, text, option_id, option)
         }
 
     </script>
