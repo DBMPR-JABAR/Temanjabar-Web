@@ -338,7 +338,7 @@
                                 <li class="{{ Request::segment(3) == 'laporan_bencana' ? 'active' : '' }}">
                                     <a href="{{ url('admin/master-data/laporan_bencana') }}"
                                         class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext">Rawan Bencana</span>
+                                        <span class="pcoded-mtext">Laporan Bencana</span>
                                     </a>
                                 </li>
                             @endif
