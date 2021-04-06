@@ -1,5 +1,5 @@
 //Disable modal close on body click
-const modalsNotCloseOnClick = ['#addModal', '#delModal', '#editModal', '#editModal1', '#addModal1'];
+const modalsNotCloseOnClick = ['#addModal', '#delModal', '#editModal', '#editModal1', '#addModal1', '#importExcel'];
 modalsNotCloseOnClick.forEach(modal => {
     if ($(modal)) $(modal).modal({ backdrop: 'static', keyboard: false, show: false });
 })
