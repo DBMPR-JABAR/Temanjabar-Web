@@ -83,7 +83,7 @@
                                             <td >{!! Str::title(@$profile->nama) !!}</td>
                                         </tr>
                                         <tr>
-                                            <td>NIP</td>
+                                            <td>NIP / NIK</td>
                                             <td >{{ old('no_pegawai', @$profile->no_pegawai) }}</td>
                                         </tr>
 

@@ -71,7 +71,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-md-2 col-form-label">NIP</label>
+                        <label class="col-md-2 col-form-label">NIP/NIK</label>
                         <div class="col-md-10">
                             <input name="no_pegawai" type="text" class="form-control" value="{{@$user->no_pegawai}}" required>
                         </div>
