@@ -78,8 +78,8 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label>NIP</label>
-                            <input name="no_pegawai" placeholder="Enter NIP" type="number"
+                            <label>NIP/NIK</label>
+                            <input name="no_pegawai" placeholder="Masukan NIP/NIK" type="number"
                                 value="{{ old('no_pegawai', @$profile->no_pegawai) }}"
                                 class="form-control  @error('no_pegawai') is-invalid @enderror" required>
                             @error('no_pegawai')
