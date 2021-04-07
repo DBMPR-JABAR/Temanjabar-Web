@@ -673,6 +673,8 @@ class PekerjaanController extends Controller
         $pekerjaan = $req->except('_token', 'id_pek','nama_peralatan' ,'jum_peralatan' ,'satuan_peralatan' ,'nama_bahan_operasional' ,'jum_bahan_operasional' ,'satuan_operasional');
         $pekerjaan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
         $pekerjaan['updated_by'] = Auth::user()->id;
+        $temp=explode(",",$pekerjaan['nama_mandor']);
+
         // dd($pekerjaan);
         DB::table('kemandoran_detail_peralatan')->where('id_pek',$req->id_pek)->delete();
         DB::table('kemandoran_detail_material')->where('id_pek',$req->id_pek)->delete();
