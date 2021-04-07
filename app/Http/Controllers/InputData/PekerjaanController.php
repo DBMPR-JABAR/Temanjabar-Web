@@ -597,7 +597,7 @@ class PekerjaanController extends Controller
         ->leftJoin('item_bahan as b', 'b.no', '=', 'a.id_material')
         ->select('a.id_material','b.nama_item','a.kuantitas','a.satuan')->get()->toArray();
         
-        // dd($detail_bahan_operasional);
+        dd($bahan);
         return view('admin.input.pekerjaan.material', compact('pekerjaan', 'ruas_jalan', 'sup', 'uptd', 'jenis', 'mandor', 'bahan', 'material', 'satuan','detail_peralatan','detail_bahan_operasional'));
     }
     public function createDataMaterial(Request $req)
