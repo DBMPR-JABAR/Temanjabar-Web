@@ -66,6 +66,8 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama</th>
+                                    <th>Keterangan</th>
+
                                     {{-- <th>Satuan</th> --}}
                                     <th style="min-width: 75px;">Aksi</th>
                                 </tr>
@@ -75,6 +77,8 @@
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>{{ $data->nama_item }}</td>
+                                        <td>{{ $data->keterangan }}</td>
+
                                         {{-- <td>{{ $data->satuan }}</td> --}}
                                         <td style="min-width: 75px;">
                                             <div class="btn-group " role="group" data-placement="top" title=""

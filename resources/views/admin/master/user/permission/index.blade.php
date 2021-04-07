@@ -83,7 +83,7 @@
         .slider.round:before {
           border-radius: 50%;
         }
-        </style>
+    </style>
 @endsection
 
 @section('page-header')

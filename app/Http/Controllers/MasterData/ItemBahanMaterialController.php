@@ -22,7 +22,7 @@ class ItemBahanMaterialController extends Controller
      */
     public function index()
     {
-        $item_bahan_material = DB::table('item_bahan')->get();
+        $item_bahan_material = DB::table('item_bahan')->orderBy('keterangan','desc')->get();
         //dd($item_bahan_material[0]->id);
         return view('admin.master.item_bahan.index', compact('item_bahan_material'));
     }
@@ -47,6 +47,12 @@ class ItemBahanMaterialController extends Controller
     public function store(Request $request)
     {
         $item_bahan_material['nama_item'] = $request->nama_item;
+        $item_bahan_material['keterangan'] = $request->keterangan;
+        if($item_bahan_material['keterangan'] != null){
+            $item_bahan_material['keterangan'] = "Bahan Operasional";
+        }else $item_bahan_material['keterangan'] = "";
+
+        // dd($item_bahan_material);
         // $item_bahan_material['satuan'] = $request->satuan;
         DB::table('item_bahan')->insert($item_bahan_material);
         $color = "success";
@@ -87,6 +93,11 @@ class ItemBahanMaterialController extends Controller
     public function update(Request $request, $id)
     {
         $item_bahan_material['nama_item'] = $request->nama_item;
+        $item_bahan_material['keterangan'] = $request->keterangan;
+
+        if($item_bahan_material['keterangan'] != null){
+            $item_bahan_material['keterangan'] = "Bahan Operasional";
+        }else $item_bahan_material['keterangan'] = "";
         // $item_bahan_material['satuan'] = $request->satuan;
         DB::table('item_bahan')->where('no', $id)->update($item_bahan_material);
 

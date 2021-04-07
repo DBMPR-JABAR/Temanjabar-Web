@@ -280,7 +280,6 @@
                                 <th>Jenis Pekerjaan</th>
                                 <th>Lokasi</th>
                                 <th>Panjang (meter)</th>
-                                <th>Peralatan</th>
                                 <th>Jumlah Pekerja</th>
                                 <th>Foto (0%)</th>
                                 <th>Foto (50%)</th>
@@ -303,7 +302,6 @@
                                 <td>{{$data->jenis_pekerjaan}}</td>
                                 <td>{{$data->lokasi}}</td>
                                 <td>{{$data->panjang}}</td>
-                                <td>{{$data->peralatan}}</td>
                                 <td>{{$data->jumlah_pekerja}}</td>
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_awal) !!}" alt="" srcset=""></td>
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_sedang) !!}" alt="" srcset=""></td>

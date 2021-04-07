@@ -409,27 +409,27 @@ class PekerjaanController extends Controller
 
         // $pekerjaan['slug'] = Str::slug($req->nama, '');
         if ($req->foto_awal != null) {
-            $path = Str::snake(date("YmdHis") . ' ' . $req->foto_awal->getClientOriginalName());
+            $path = Str::snake(date("YmdHis") . ' ' . uniqid());
             $req->foto_awal->storeAs('public/pekerjaan/', $path);
             $pekerjaan['foto_awal'] = $path;
         }
         if ($req->foto_sedang != null) {
-            $path = Str::snake(date("YmdHis") . ' ' . $req->foto_sedang->getClientOriginalName());
+            $path = Str::snake(date("YmdHis") . ' ' .uniqid());
             $req->foto_sedang->storeAs('public/pekerjaan/', $path);
             $pekerjaan['foto_sedang'] = $path;
         }
         if ($req->foto_akhir != null) {
-            $path = Str::snake(date("YmdHis") . ' ' . $req->foto_akhir->getClientOriginalName());
+            $path = Str::snake(date("YmdHis") . ' ' . uniqid());
             $req->foto_akhir->storeAs('public/pekerjaan/', $path);
             $pekerjaan['foto_akhir'] = $path;
         }
         if ($req->foto_pegawai != null) {
-            $path = Str::snake(date("YmdHis") . ' ' . $req->foto_pegawai->getClientOriginalName());
+            $path = Str::snake(date("YmdHis") . ' ' . uniqid());
             $req->foto_pegawai->storeAs('public/pekerjaan/', $path);
             $pekerjaan['foto_pegawai'] = $path;
         }
         if ($req->video != null) {
-            $path = Str::snake(date("YmdHis") . ' ' . $req->video->getClientOriginalName());
+            $path = Str::snake(date("YmdHis") . ' ' .uniqid());
             $req->video->storeAs('public/pekerjaan/', $path);
             $pekerjaan['video'] = $path;
         }
@@ -491,35 +491,35 @@ class PekerjaanController extends Controller
         if ($req->foto_awal != null) {
             $old->foto_awal ?? Storage::delete('public/pekerjaan/' . $old->foto_awal);
 
-            $path = Str::snake(date("YmdHis") . ' ' . $req->foto_awal->getClientOriginalName());
+            $path = Str::snake(date("YmdHis") . ' ' . uniqid());
             $req->foto_awal->storeAs('public/pekerjaan/', $path);
             $pekerjaan['foto_awal'] = $path;
         }
         if ($req->foto_sedang != null) {
             $old->foto_sedang ?? Storage::delete('public/pekerjaan/' . $old->foto_sedang);
 
-            $path = Str::snake(date("YmdHis") . ' ' . $req->foto_sedang->getClientOriginalName());
+            $path = Str::snake(date("YmdHis") . ' ' .uniqid());
             $req->foto_sedang->storeAs('public/pekerjaan/', $path);
             $pekerjaan['foto_sedang'] = $path;
         }
         if ($req->foto_akhir != null) {
             $old->foto_akhir ?? Storage::delete('public/pekerjaan/' . $old->foto_akhir);
 
-            $path = Str::snake(date("YmdHis") . ' ' . $req->foto_akhir->getClientOriginalName());
+            $path = Str::snake(date("YmdHis") . ' ' . uniqid());
             $req->foto_akhir->storeAs('public/pekerjaan/', $path);
             $pekerjaan['foto_akhir'] = $path;
         }
         if ($req->foto_pegawai != null) {
             $old->foto_pegawai ?? Storage::delete('public/pekerjaan/' . $old->foto_pegawai);
 
-            $path = Str::snake(date("YmdHis") . ' ' . $req->foto_pegawai->getClientOriginalName());
+            $path = Str::snake(date("YmdHis") . ' ' . uniqid());
             $req->foto_pegawai->storeAs('public/pekerjaan/', $path);
             $pekerjaan['foto_pegawai'] = $path;
         }
         if ($req->video != null) {
             $old->video ?? Storage::delete('public/pekerjaan/' . $old->video);
 
-            $path = Str::snake(date("YmdHis") . ' ' . $req->video->getClientOriginalName());
+            $path = Str::snake(date("YmdHis") . ' ' .uniqid());
             $req->video->storeAs('public/pekerjaan/', $path);
             $pekerjaan['video'] = $path;
         }
@@ -583,7 +583,6 @@ class PekerjaanController extends Controller
         $satuan = DB::table('item_satuan');
         $satuan = $satuan->get();
 
-
         $mandor = DB::table('users')->where('user_role.role', 'like', 'mandor%');
         $mandor = $mandor->leftJoin('user_role', 'user_role.id', '=', 'users.internal_role_id')->select('users.*', 'user_role.id as id_role');
         $mandor = $mandor->where('users.id',$pekerjaan->user_id);
@@ -593,11 +592,17 @@ class PekerjaanController extends Controller
         $sup = $sup->get();
         $uptd = DB::table('landing_uptd')->get();
         // dd($pekerjaan);
-        return view('admin.input.pekerjaan.material', compact('pekerjaan', 'ruas_jalan', 'sup', 'uptd', 'jenis', 'mandor', 'bahan', 'material', 'satuan'));
+        $detail_peralatan = DB::table('kemandoran_detail_peralatan')->where('id_pek',$id)->select('nama_peralatan','kuantitas','satuan')->get()->toArray();
+        $detail_bahan_operasional = DB::table('kemandoran_detail_material as a')->where('a.id_pek',$id)
+        ->leftJoin('item_bahan as b', 'b.no', '=', 'a.id_material')
+        ->select('a.id_material','b.nama_item','a.kuantitas','a.satuan')->get()->toArray();
+        
+        // dd($detail_bahan_operasional);
+        return view('admin.input.pekerjaan.material', compact('pekerjaan', 'ruas_jalan', 'sup', 'uptd', 'jenis', 'mandor', 'bahan', 'material', 'satuan','detail_peralatan','detail_bahan_operasional'));
     }
     public function createDataMaterial(Request $req)
     {
-        $pekerjaan = $req->except(['_token','peralatan','nama_bahan','satuan','jum_bahan']);
+        $pekerjaan = $req->except(['_token','nama_bahan','satuan','jum_bahan','nama_peralatan' ,'jum_peralatan' ,'satuan_peralatan' ,'nama_bahan_operasional' ,'jum_bahan_operasional' ,'satuan_operasional']); 
         $pekerjaan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
         $pekerjaan['updated_by'] = Auth::user()->id;
         $temp=explode(",",$pekerjaan['nama_mandor']);
@@ -610,32 +615,50 @@ class PekerjaanController extends Controller
             $pekerjaan[$nama_bahan]=$req->nama_bahan[$i];
             $pekerjaan[$jum_bahan]=$req->jum_bahan[$i];
             $pekerjaan[$satuan]=$req->satuan[$i];
-
             $x++;
         }
+        for($i = 0; $i<count($req->jum_peralatan)-1 ;$i++){
+            if($req->jum_peralatan[$i] != null){
+                $peralatan['id_pek'] = $req->id_pek;
+                $peralatan['nama_peralatan'] = $req->nama_peralatan[$i];
+                $peralatan['kuantitas'] = $req->jum_peralatan[$i];
+                $peralatan['satuan'] = $req->satuan_peralatan[$i];
+                DB::table('kemandoran_detail_peralatan')->insert($peralatan);
+            }
+        }
+        for($i = 0; $i<count($req->jum_bahan_operasional)-1 ;$i++){
+            if($req->jum_bahan_operasional[$i] != null){
+                $material['id_pek'] = $req->id_pek;
+                $material['id_material'] = $req->nama_bahan_operasional[$i];
+                $material['kuantitas'] = $req->jum_bahan_operasional[$i];
+                $material['satuan'] = $req->satuan_operasional[$i];
+                DB::table('kemandoran_detail_material')->insert($material);
+            }
+        }
+        
         // dd($pekerjaan);
         DB::table('bahan_material')->insert($pekerjaan);
         $kemandoran =  DB::table('kemandoran');
 
         if($kemandoran->where('id_pek', $req->id_pek)->where('mail', null)->exists()){
             $mail['mail'] = 1;
-            $mail['peralatan'] = $req->peralatan;
+            
             $kemandoran->update($mail);
             $detail_adjustment =  DB::table('kemandoran_detail_status');
             $data['pointer'] = 0;
-                $data['adjustment_user_id'] = Auth::user()->id;
-                $data['status'] = "Submitted";
-                $data['id_pek'] = $req->id_pek;
-                $data['updated_at'] = Carbon::now();
-                $data['created_at'] = Carbon::now();
-                $data['created_by'] = Auth::user()->id;
-                if(str_contains(Auth::user()->internalRole->role,'Admin')){
-
-                    $data['adjustment_user_id'] = $temp[1];
-
-                }
-
-                $insert = $detail_adjustment->insert($data);
+            $data['adjustment_user_id'] = Auth::user()->id;
+            $data['status'] = "Submitted";
+            $data['id_pek'] = $req->id_pek;
+            $data['updated_at'] = Carbon::now();
+            $data['created_at'] = Carbon::now();
+            $data['created_by'] = Auth::user()->id;
+            if(str_contains(Auth::user()->internalRole->role,'Admin')){
+    
+                $data['adjustment_user_id'] = $temp[1];
+    
+            }
+    
+            $insert = $detail_adjustment->insert($data);
         }
 
         $color = "success";
@@ -647,9 +670,31 @@ class PekerjaanController extends Controller
     public function updateDataMaterial(Request $req)
     {
         // dd($req->id_pek);
-        $pekerjaan = $req->except('_token', 'id_pek','peralatan');
+        $pekerjaan = $req->except('_token', 'id_pek','nama_peralatan' ,'jum_peralatan' ,'satuan_peralatan' ,'nama_bahan_operasional' ,'jum_bahan_operasional' ,'satuan_operasional');
         $pekerjaan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
         $pekerjaan['updated_by'] = Auth::user()->id;
+        // dd($pekerjaan);
+        DB::table('kemandoran_detail_peralatan')->where('id_pek',$req->id_pek)->delete();
+        DB::table('kemandoran_detail_material')->where('id_pek',$req->id_pek)->delete();
+
+        for($i = 0; $i<count($req->jum_peralatan)-1 ;$i++){
+            if($req->jum_peralatan[$i] != null){
+                $peralatan['id_pek'] = $req->id_pek;
+                $peralatan['nama_peralatan'] = $req->nama_peralatan[$i];
+                $peralatan['kuantitas'] = $req->jum_peralatan[$i];
+                $peralatan['satuan'] = $req->satuan_peralatan[$i];
+                DB::table('kemandoran_detail_peralatan')->insert($peralatan);
+            }
+        }
+        for($i = 0; $i<count($req->jum_bahan_operasional)-1 ;$i++){
+            if($req->jum_bahan_operasional[$i] != null){
+                $material['id_pek'] = $req->id_pek;
+                $material['id_material'] = $req->nama_bahan_operasional[$i];
+                $material['kuantitas'] = $req->jum_bahan_operasional[$i];
+                $material['satuan'] = $req->satuan_operasional[$i];
+                DB::table('kemandoran_detail_material')->insert($material);
+            }
+        }
 
         $kemandoran =  DB::table('kemandoran');
         // dd($pekerjaan);
@@ -657,39 +702,50 @@ class PekerjaanController extends Controller
         DB::table('bahan_material')->where('id_pek', $req->id_pek)->update($pekerjaan);
 
         $detail_adjustment =  DB::table('kemandoran_detail_status');
-        if($detail_adjustment->where('id_pek', $req->id_pek)->where('status', 'Rejected')->where('pointer', 1)->latest('updated_at')->exists()){
-            $data['pointer'] = 0;
-            $update = DB::table('kemandoran_detail_status')->where('id_pek', $req->id_pek)->update($data);
-            if(!$detail_adjustment->where('id_pek', $req->id_pek)->where('adjustment_user_id', Auth::user()->id)->latest('updated_at')->exists()){
+        if($detail_adjustment->where('id_pek', $req->id_pek)->exists()){
+            if($detail_adjustment->where('status', 'Rejected')->where('pointer', 1)->latest('updated_at')->exists()){
                 $data['pointer'] = 0;
-                $data['adjustment_user_id'] = Auth::user()->id;
-                $data['status'] = "Edited";
-                $data['id_pek'] = $req->id_pek;
-                $data['updated_at'] = Carbon::now();
-                $data['created_at'] = Carbon::now();
-                $insert = $detail_adjustment->insert($data);
-                if($kemandoran->where('id_pek', $req->id_pek)->exists()){
-                    $mail['mail'] = 1;
-                    $mail['peralatan'] = $req->peralatan;
-
-                    // dd($mail);
-                    $kemandoran->update($mail);
-
+                $update = DB::table('kemandoran_detail_status')->where('id_pek', $req->id_pek)->update($data);
+                if(!$detail_adjustment->where('id_pek', $req->id_pek)->where('adjustment_user_id', Auth::user()->id)->latest('updated_at')->exists()){
+                    $data['pointer'] = 0;
+                    $data['adjustment_user_id'] = Auth::user()->id;
+                    $data['status'] = "Edited";
+                    $data['id_pek'] = $req->id_pek;
+                    $data['updated_at'] = Carbon::now();
+                    $data['created_at'] = Carbon::now();
+                    $insert = $detail_adjustment->insert($data);
+                    if($kemandoran->where('id_pek', $req->id_pek)->exists()){
+                        $mail['mail'] = 1;
+                
+                        // dd($mail);
+                        $kemandoran->update($mail);
+    
+                    }
                 }
             }
+        }else{
+            $data['pointer'] = 0;
+            $data['adjustment_user_id'] = Auth::user()->id;
+            $data['status'] = "Submitted";
+            $data['id_pek'] = $req->id_pek;
+            $data['updated_at'] = Carbon::now();
+            $data['created_at'] = Carbon::now();
+            $data['created_by'] = Auth::user()->id;
+            if(str_contains(Auth::user()->internalRole->role,'Admin')){
+    
+                $data['adjustment_user_id'] = $temp[1];
+    
+            }
+    
+            $insert = $detail_adjustment->insert($data);
         }
         // dd($kemandoran->where('id_pek', $req->id_pek)->where('mail', null)->exists());
         if($kemandoran->where('id_pek', $req->id_pek)->where('mail', null)->exists()){
             $mail['mail'] = 1;
-            $mail['peralatan'] = $req->peralatan;
 
             // dd($mail);
             $kemandoran->update($mail);
 
-        }else{
-            $mail['peralatan'] = $req->peralatan;
-            // dd($mail);
-            $kemandoran->update($mail);
         }
 
         $color = "success";
