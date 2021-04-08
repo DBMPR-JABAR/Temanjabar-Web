@@ -949,11 +949,16 @@ class PekerjaanController extends Controller
                 }
             }
         }
-        // dd($material);
+        $peralatan = DB::table('kemandoran_detail_peralatan as a')->where('a.id_pek', $id)
+        ->leftJoin('item_peralatan as b', 'b.id', '=', 'a.id_peralatan')->select('b.nama_peralatan','a.kuantitas','a.satuan')->get();
+        $detail_bahan_operasional = DB::table('kemandoran_detail_material as a')->where('a.id_pek',$id)
+        ->leftJoin('item_bahan as b', 'b.no', '=', 'a.id_material')
+        ->select('a.id_material','b.nama_item','a.kuantitas','a.satuan')->get()->toArray();
+        // dd($peralatan);
 
         // dd($pekerjaan);
         // dd($pekerjaan);
-        return view('admin.input.pekerjaan.detail_pekerjaan', compact('pekerjaan','material'));
+        return view('admin.input.pekerjaan.detail_pekerjaan', compact('pekerjaan','material','peralatan','detail_bahan_operasional'));
     }
     public function jugmentLaporan(Request $request, $id){
         // dd($id);
