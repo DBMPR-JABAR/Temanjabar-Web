@@ -30,8 +30,6 @@ function getMap(baseUrl, gsvrUrl) {
                 spatialReference: 4326
             }
         });
-        view.ui.remove(['zoom']);
-
 
         const layerList = new Expand({
             content: new LayerList({
@@ -248,7 +246,11 @@ function getMap(baseUrl, gsvrUrl) {
                     view.ui.add(legend, "bottom-left");
                 }
                 if (!view.ui.find("sch")) {
-                    view.ui.add(searchWidget, "top-left");
+                    view.ui.add([{
+                        component: searchWidget,
+                        position: "top-left",
+                        index: 0
+                    }]);
                 }
             });
         }

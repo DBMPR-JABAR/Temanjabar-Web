@@ -57,6 +57,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('/', function () {
         return redirect(route('monitoring-kontrak'));
     });
+    Route::prefix('pdf')->group(function () {
+        Route::get('laporan_pekerjaan','PrintPDFController@laporanPekerjaan');
+    });
     Route::get('announcement/destroy/{id}', 'AnnouncementController@destroy');
     Route::resource('/announcement', 'AnnouncementController');
 
