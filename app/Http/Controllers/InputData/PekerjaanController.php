@@ -599,8 +599,10 @@ class PekerjaanController extends Controller
         ->leftJoin('item_bahan as b', 'b.no', '=', 'a.id_material')
         ->select('a.id_material','b.nama_item','a.kuantitas','a.satuan')->get()->toArray();
         
+        $item_peralatan = ItemPeralatan::get();
+        // dd($item_peralatan);
         // dd($detail_bahan_operasional);
-        return view('admin.input.pekerjaan.material', compact('pekerjaan', 'ruas_jalan', 'sup', 'uptd', 'jenis', 'mandor', 'bahan', 'material', 'satuan','detail_peralatan','detail_bahan_operasional'));
+        return view('admin.input.pekerjaan.material', compact('pekerjaan', 'ruas_jalan', 'sup', 'uptd', 'jenis', 'mandor', 'bahan', 'material', 'satuan','detail_peralatan','detail_bahan_operasional','item_peralatan'));
     }
     public function createDataMaterial(Request $req)
     {
@@ -622,7 +624,9 @@ class PekerjaanController extends Controller
         for($i = 0; $i<count($req->jum_peralatan)-1 ;$i++){
             if($req->jum_peralatan[$i] != null){
                 $peralatan['id_pek'] = $req->id_pek;
-                $peralatan['nama_peralatan'] = $req->nama_peralatan[$i];
+                $temp_peralatan=explode(",",$req->nama_peralatan[$i]);
+                $peralatan['id_peralatan'] = $temp_peralatan[0];
+                $peralatan['nama_peralatan'] = $temp_peralatan[1];
                 $peralatan['kuantitas'] = $req->jum_peralatan[$i];
                 $peralatan['satuan'] = $req->satuan_peralatan[$i];
                 DB::table('kemandoran_detail_peralatan')->insert($peralatan);
@@ -683,8 +687,12 @@ class PekerjaanController extends Controller
 
         for($i = 0; $i<count($req->jum_peralatan)-1 ;$i++){
             if($req->jum_peralatan[$i] != null){
+                // dd($req->nama_peralatan[$i]);
                 $peralatan['id_pek'] = $req->id_pek;
-                $peralatan['nama_peralatan'] = $req->nama_peralatan[$i];
+                $temp_peralatan=explode(",",$req->nama_peralatan[$i]);
+                $peralatan['id_peralatan'] = $temp_peralatan[0];
+
+                $peralatan['nama_peralatan'] = $temp_peralatan[1];
                 $peralatan['kuantitas'] = $req->jum_peralatan[$i];
                 $peralatan['satuan'] = $req->satuan_peralatan[$i];
                 DB::table('kemandoran_detail_peralatan')->insert($peralatan);

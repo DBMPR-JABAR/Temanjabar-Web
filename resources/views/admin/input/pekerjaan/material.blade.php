@@ -116,12 +116,10 @@
                        
                         <div class="col-md-4">
                             <select class="form-control" name="nama_peralatan[]" required>
-                               
-                                <option value="Dump Truck" @if(@$detail_peralatan[0]->nama_peralatan == "Dump Truck") selected @endif>Dump Truck</option>
-                                <option value="Grass Cutter" @if(@$detail_peralatan[0]->nama_peralatan == "Grass Cutter") selected @endif>Grass Cutter</option>
-                                <option value="Alat Pemadat" @if(@$detail_peralatan[0]->nama_peralatan == "Alat Pemadat") selected @endif>Alat Pemadat</option>
-                                <option value="Alat Bantu" @if(@$detail_peralatan[0]->nama_peralatan == "Alat Bantu") selected @endif>Alat Bantu</option>
-                                  
+                                @foreach ($item_peralatan as $no =>$data)
+                                <option value="{{ $data->id }},{{ $data->nama_peralatan }}" @if(@$detail_peralatan[0]->nama_peralatan == $data->nama_peralatan) selected @endif>{{ $data->nama_peralatan }}</option>
+                                    
+                                @endforeach  
                             </select>
                             <i style="color :red; font-size: 10px;">Segera hubungi admin jika pilihan tidak</i>
 
@@ -148,10 +146,10 @@
                         <div class="col-md-4">
                             <select class="form-control" name="nama_peralatan[]" required>
                                
-                                <option value="Dump Truck" >Dump Truck</option>
-                                <option value="Grass Cutter" >Grass Cutter</option>
-                                <option value="Alat Pemadat" >Alat Pemadat</option>
-                                <option value="Alat Bantu" >Alat Bantu</option>
+                                @foreach ($item_peralatan as $no =>$data)
+                                <option value="{{ $data->id }},{{ $data->nama_peralatan }}">{{ $data->nama_peralatan }}</option>
+                                    
+                                @endforeach  
                                   
                             </select>
                         </div>
@@ -1033,13 +1031,15 @@
     // }}
 
     let html = '';
-    let peralatan = ['Dump Truck', 'Grass Cutter', 'Alat Pemadat', 'Alat Bantu'];
+    // let peralatan = ['Dump Truck', 'Grass Cutter', 'Alat Pemadat', 'Alat Bantu'];
+    let peralatan =  @json($item_peralatan);
+
     detail_peralatan.forEach((value,index)=> {
         if(index>0) {
             html += ` <div class="form-group row fieldGroupPeralatan"><div class="col-md-4">`;
             html += `<select class="form-control" name="nama_peralatan[]" required>`
-            peralatan.forEach(alat=> {
-                html += `<option value="${alat}" ${value.nama_peralatan == alat ? 'selected' : ''}>${alat}</option>`
+            peralatan.forEach((alat,indx)=> {
+                html += `<option value="${alat.id},${alat.nama_peralatan}" ${value.nama_peralatan == alat.nama_peralatan ? 'selected' : ''}>${alat.nama_peralatan}</option>`
             })
 
             html += '</select>';
