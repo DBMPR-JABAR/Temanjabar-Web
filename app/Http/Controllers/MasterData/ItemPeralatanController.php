@@ -134,6 +134,14 @@ class ItemPeralatanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $peralatan = ItemPeralatan::findOrFail($id)->delete();
+        if($peralatan){
+            $color = "success";
+            $msg = "Data Berhasil Dihapus!";
+        }else{
+            $color = "danger";
+            $msg = "Data Gagal Dihapus!";
+        }
+        return redirect()->route('item_peralatan.index')->with(compact('color', 'msg'));
     }
 }

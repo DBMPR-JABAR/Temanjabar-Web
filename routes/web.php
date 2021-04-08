@@ -321,6 +321,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
         Route::get('/item_bahan_material/delete/{id}', 'MasterData\ItemBahanMaterialController@destroy');
         Route::resource('/item_bahan_material', 'MasterData\ItemBahanMaterialController');
+        
+        Route::get('/item_peralatan/delete/{id}', 'MasterData\ItemPeralatanController@destroy');
         Route::resource('/item_peralatan', 'MasterData\ItemPeralatanController');
 
         Route::get('/item_satuan/delete/{id}', 'MasterData\ItemSatuanController@destroy');
