@@ -134,6 +134,7 @@
                 </div>
             </div>
             <div class="card-block">
+                @if(count($peralatan)>=1)
                 
                 <div class="table-responsive">
                     <label style="font-weight: bold;">Alat yang Digunakan</label>
@@ -161,6 +162,7 @@
 
                     </table>
                 </div>
+                @endif
                 @if($pekerjaan->nama_bahan)
                 <div class="table-responsive">
                     <label style="font-weight: bold;">Detail Material</label>
@@ -189,32 +191,35 @@
                     </table>
                 </div>
                 @endif
-                <div class="table-responsive">
-                    <label style="font-weight: bold;">Bahan Operasional Peralatan</label>
-                    <table class="table table-striped">
-                        <tr>
-                            <th>#</th>
-                            <th>Material</th>
-                            <th>Kuantitas</th>
-                            <th>Satuan</th>
+                @if(count($detail_bahan_operasional)>=1)
 
-                        </tr>
-                        @php
-                            $counter = 0;
-                        @endphp
-                        @foreach ($detail_bahan_operasional as $no => $item)
-                        <tr>
-                            <td width="5%">{{ ++$no }}</td>
-                            <td width="35%">{{ $item->nama_item }}</td>
-
-                            <td width="15%">{{ $item->kuantitas }}</td>
-                            <td width="15%">{{ $item->satuan }}</td>
-
-                        </tr>
-                            @endforeach
-
-                    </table>
-                </div>
+                    <div class="table-responsive">
+                        <label style="font-weight: bold;">Bahan Operasional Peralatan</label>
+                        <table class="table table-striped">
+                            <tr>
+                                <th>#</th>
+                                <th>Material</th>
+                                <th>Kuantitas</th>
+                                <th>Satuan</th>
+    
+                            </tr>
+                            @php
+                                $counter = 0;
+                            @endphp
+                            @foreach ($detail_bahan_operasional as $no => $item)
+                            <tr>
+                                <td width="5%">{{ ++$no }}</td>
+                                <td width="35%">{{ $item->nama_item }}</td>
+    
+                                <td width="15%">{{ $item->kuantitas }}</td>
+                                <td width="15%">{{ $item->satuan }}</td>
+    
+                            </tr>
+                                @endforeach
+    
+                        </table>
+                    </div>
+                @endif
             </div>
         </div>
         <a href="{{ url()->previous() }}"><button type="button" class="btn btn-danger waves-effect " data-dismiss="modal">Kembali</button></a>
