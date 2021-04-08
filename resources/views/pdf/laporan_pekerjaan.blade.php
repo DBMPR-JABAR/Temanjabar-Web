@@ -27,7 +27,9 @@
                 <p>SUB KEGIATAN PEMELIHARAAN RUTIN JALAN</p>
                 <h5 class="mt-2 font-weight-bold">BUKU HARIAN STANDAR</h5>
             </div>
-            <div class="col-2"></div>
+            <div class="col-1">
+                <button id="cetak" type="button" class=" text-right">CETAK</button>
+            </div>
         </div>
         <br>
         <div class="row ml-4">
@@ -356,18 +358,18 @@
                         <tr>
                             <td>
                                 <div>
-                                    <table class="no_border" style="width: 100%;">
-                                        <tr>
+                                    <table class="ttd table table-borderless no_border" style="width: 100%;">
+                                        <tr class="no_border">
                                             <td class="no_border">
                                                 <p style="font-size: 7px" class="pb-0 mb-0">Dibuat oleh :</p>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr class="no_border">
                                             <td class="no_border">
                                                 <p class="text-center pb-0 mb-0">{{ @$data->pengamat }}</p>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr class="no_border">
                                             <td class="no_border">
                                                 <p class="text-center font-weight-bold pb-0 mb-0">PENGAMAT</p>
                                             </td>
@@ -384,7 +386,7 @@
                         <tr>
                             <td>
                                 <div>
-                                    <table class="no_border" style="width: 100%;">
+                                    <table class="ttd table table-borderless no_border" style="width: 100%;">
                                         <tr>
                                             <td class="no_border">
                                                 <p style="font-size: 7px" class="pb-0 mb-0">Diperikas oleh :</p>
@@ -504,10 +506,34 @@
 
         @media print {
 
+            #cetak {
+                display: none
+            }
+
             body,
             page {
                 margin: 0;
                 box-shadow: 0;
+            }
+
+
+            .no_border {
+                border: none !important
+            }
+
+            .ttd {
+                border: solid;
+                white !important;
+                border-width: 0 !important;
+                border-bottom-style: none;
+            }
+
+            .ttd th,
+            .ttd td {
+                border: solid;
+                white !important;
+                border-width: 0 !important;
+                border-bottom-style: none;
             }
         }
 
@@ -527,9 +553,11 @@
 
     </style>
     <script type="text/javascript">
-        // document.addEventListener('DOMContentLoaded', ()=> {
-        //     window.print()
-        // })
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('cetak').addEventListener('click', () => {
+                window.print();
+            })
+        })
 
     </script>
 </body>
