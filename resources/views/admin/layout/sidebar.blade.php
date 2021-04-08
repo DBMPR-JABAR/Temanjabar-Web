@@ -200,12 +200,29 @@
                                     </a>
                                 </li>
                             @endif
-                            @if (hasAccess(Auth::user()->internal_role_id, 'Bahan Material', 'View'))
-                                <li class="{{ Request::segment(3) == 'item_bahan_material' ? 'active' : '' }}">
-                                    <a href="{{ url('admin/master-data/item_bahan_material') }}"
-                                        class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext">Bahan Material</span>
+                            @if (hasAccess(Auth::user()->internal_role_id, 'Bahan Material', 'View') || hasAccess(Auth::user()->internal_role_id, 'Peralatan', 'View'))
+                                
+                                <li class=" pcoded-hasmenu  {{ Request::segment(3) == 'item_bahan_material' ||Request::segment(3) == 'peralatan' ? 'pcoded-trigger active' : '' }}">
+                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Peralatan & Material</span>
                                     </a>
+                                    <ul class="pcoded-submenu">
+                                        @if (hasAccess(Auth::user()->internal_role_id, 'Bahan Material', 'View'))
+                                        <li class="{{ Request::segment(4) == 'item_bahan_material' ? 'active' : '' }}">
+                                            <a href="{{ url('admin/master-data/item_bahan_material') }}" class="waves-effect waves-dark">
+                                                <span class="pcoded-mtext">Bahan Material</span>
+                                            </a>
+                                        </li>
+                                        @endif
+                                        @if (hasAccess(Auth::user()->internal_role_id, 'Peralatan', 'View'))
+                                        <li class="{{ Request::segment(4) == 'peralatan' ? 'active' : '' }}">
+                                            <a href="{{ route('item_peralatan.index') }}" class="waves-effect waves-dark">
+                                                <span class="pcoded-mtext">Peralatan Operasional</span>
+                                            </a>
+                                        </li>
+                                        @endif
+                                        
+                                    </ul>
                                 </li>
                             @endif
                             @if (hasAccess(Auth::user()->internal_role_id, 'Item Satuan', 'View'))

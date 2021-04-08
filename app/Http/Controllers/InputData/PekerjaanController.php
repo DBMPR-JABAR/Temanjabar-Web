@@ -14,6 +14,8 @@ use Yajra\Datatables\DataTables;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
+use App\ItemPeralatan;
+
 
 
 class PekerjaanController extends Controller
