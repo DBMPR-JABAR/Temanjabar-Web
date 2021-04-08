@@ -135,7 +135,6 @@
             </div>
             <div class="card-block">
                 @if(count($peralatan)>=1)
-                
                 <div class="table-responsive">
                     <label style="font-weight: bold;">Alat yang Digunakan</label>
                     <table class="table table-striped">
@@ -192,7 +191,6 @@
                 </div>
                 @endif
                 @if(count($detail_bahan_operasional)>=1)
-
                     <div class="table-responsive">
                         <label style="font-weight: bold;">Bahan Operasional Peralatan</label>
                         <table class="table table-striped">

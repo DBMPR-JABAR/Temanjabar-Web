@@ -919,10 +919,14 @@ class PekerjaanController extends Controller
             $mail = $this->setSendEmail($name, $id_pek, $nama_mandor, $jenis_pekerjaan, $uptd, $sup_mail, $status_mail, $keterangan_mandor, $to_email, $to_name, $subject);
 
         }
-
+        $peralatan = DB::table('kemandoran_detail_peralatan as a')->where('a.id_pek', $id)
+        ->leftJoin('item_peralatan as b', 'b.id', '=', 'a.id_peralatan')->select('b.nama_peralatan','a.kuantitas','a.satuan')->get();
+        $detail_bahan_operasional = DB::table('kemandoran_detail_material as a')->where('a.id_pek',$id)
+        ->leftJoin('item_bahan as b', 'b.no', '=', 'a.id_material')
+        ->select('a.id_material','b.nama_item','a.kuantitas','a.satuan')->get();
         // dd($pekerjaan);
         // dd($pekerjaan);
-        return view('admin.input.pekerjaan.show', compact('pekerjaan','material','detail'));
+        return view('admin.input.pekerjaan.show', compact('pekerjaan','material','detail','peralatan','detail_bahan_operasional'));
     }
     public function detailPemeliharaan($id)
     {
@@ -953,7 +957,7 @@ class PekerjaanController extends Controller
         ->leftJoin('item_peralatan as b', 'b.id', '=', 'a.id_peralatan')->select('b.nama_peralatan','a.kuantitas','a.satuan')->get();
         $detail_bahan_operasional = DB::table('kemandoran_detail_material as a')->where('a.id_pek',$id)
         ->leftJoin('item_bahan as b', 'b.no', '=', 'a.id_material')
-        ->select('a.id_material','b.nama_item','a.kuantitas','a.satuan')->get()->toArray();
+        ->select('a.id_material','b.nama_item','a.kuantitas','a.satuan')->get();
         // dd($peralatan);
 
         // dd($pekerjaan);
