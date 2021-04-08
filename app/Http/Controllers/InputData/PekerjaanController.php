@@ -958,18 +958,7 @@ class PekerjaanController extends Controller
 
         // dd($pekerjaan);
         // dd($pekerjaan);
-        $parsing = DB::table('kemandoran_detail_peralatan')->pluck('nama_peralatan');
-        foreach($parsing as $dat){
-            $tempars = DB::table('item_peralatan')->get();
-            foreach($tempars as $dataa){
-                if($dataa->nama_peralatan == $dat){
-                    $in['id_peralatan']=$dataa->id;
-                    DB::table('kemandoran_detail_peralatan')->where('nama_peralatan',$dat)->update($in);
-                }
-            }
-            echo $dat;
-        }
-        dd($parsing);
+        
 
         return view('admin.input.pekerjaan.detail_pekerjaan', compact('pekerjaan','material','peralatan','detail_bahan_operasional'));
     }
