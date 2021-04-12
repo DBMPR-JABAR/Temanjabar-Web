@@ -598,19 +598,40 @@ class PekerjaanController extends Controller
         $detail_bahan_operasional = DB::table('kemandoran_detail_material as a')->where('a.id_pek',$id)
         ->leftJoin('item_bahan as b', 'b.no', '=', 'a.id_material')
         ->select('a.id_material','b.nama_item','a.kuantitas','a.satuan')->get()->toArray();
+        $detail_pekerja = DB::table('kemandoran_detail_pekerja')->where('id_pek',$id)->get()->toArray();
+        $detail_penghambat = DB::table('kemandoran_detail_penghambat')->where('id_pek',$id)->get()->toArray();
+        // dd($detail_penghambat);
         
         $item_peralatan = ItemPeralatan::get();
         // dd($item_peralatan);
         // dd($detail_bahan_operasional);
-        return view('admin.input.pekerjaan.material', compact('pekerjaan', 'ruas_jalan', 'sup', 'uptd', 'jenis', 'mandor', 'bahan', 'material', 'satuan','detail_peralatan','detail_bahan_operasional','item_peralatan'));
+        return view('admin.input.pekerjaan.material', compact('pekerjaan', 'ruas_jalan', 'sup', 'uptd', 'jenis', 'mandor', 'bahan', 'material', 'satuan','detail_peralatan','detail_bahan_operasional','item_peralatan','detail_pekerja', 'detail_penghambat'));
     }
     public function createDataMaterial(Request $req)
     {
-        $pekerjaan = $req->except(['_token','nama_bahan','satuan','jum_bahan','nama_peralatan' ,'jum_peralatan' ,'satuan_peralatan' ,'nama_bahan_operasional' ,'jum_bahan_operasional' ,'satuan_operasional']); 
+        $pekerjaan = $req
+        ->except(
+            ['_token',
+            'nama_bahan',
+            'satuan','jum_bahan',
+            'nama_peralatan',
+            'jum_peralatan',
+            'satuan_peralatan',
+            'nama_bahan_operasional',
+            'jum_bahan_operasional',
+            'satuan_operasional',
+            'jabatan_pekerja',
+            'jum_pekerja',
+            'jenis_gangguan',
+            'start_time',
+            'end_time',
+            'akibat'
+            ]); 
         $pekerjaan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
         $pekerjaan['updated_by'] = Auth::user()->id;
         $temp=explode(",",$pekerjaan['nama_mandor']);
         $pekerjaan['nama_mandor']=$temp[0];
+        // dd($pekerjaan);
         $x=1;
         for($i = 0; $i<count($req->nama_bahan)-1 ;$i++){
             $jum_bahan = "jum_bahan$x";
@@ -639,6 +660,22 @@ class PekerjaanController extends Controller
                 $material['kuantitas'] = $req->jum_bahan_operasional[$i];
                 $material['satuan'] = $req->satuan_operasional[$i];
                 DB::table('kemandoran_detail_material')->insert($material);
+            }
+        }
+        for($i = 0; $i<count($req->jabatan_pekerja)-1 ;$i++){
+            $pekerja['id_pek'] = $req->id_pek;
+            $pekerja['jabatan'] = $req->jabatan_pekerja[$i];
+            $pekerja['jumlah'] = $req->jum_pekerja[$i] ? :0;
+            DB::table('kemandoran_detail_pekerja')->insert($pekerja);
+        }
+        for($i = 0; $i<count($req->jenis_gangguan)-1 ;$i++){
+            if($req->start_time[$i] != null){
+                $penghambat['id_pek'] = $req->id_pek;
+                $penghambat['jenis_gangguan'] = $req->jenis_gangguan[$i];
+                $penghambat['start_time'] = $req->start_time[$i];
+                $penghambat['end_time'] = $req->end_time[$i];
+                $penghambat['akibat'] = $req->akibat[$i];
+                DB::table('kemandoran_detail_penghambat')->insert($penghambat);
             }
         }
         
@@ -676,14 +713,31 @@ class PekerjaanController extends Controller
     public function updateDataMaterial(Request $req)
     {
         // dd($req->id_pek);
-        $pekerjaan = $req->except('_token', 'id_pek','nama_peralatan' ,'jum_peralatan' ,'satuan_peralatan' ,'nama_bahan_operasional' ,'jum_bahan_operasional' ,'satuan_operasional');
+        $pekerjaan = $req
+        ->except('_token', 
+                'id_pek',
+                'nama_peralatan',
+                'jum_peralatan',
+                'satuan_peralatan',
+                'nama_bahan_operasional',
+                'jum_bahan_operasional',
+                'satuan_operasional',
+                'jabatan_pekerja',
+                'jum_pekerja',
+                'jenis_gangguan',
+                'start_time',
+                'end_time',
+                'akibat'
+            );
         $pekerjaan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
         $pekerjaan['updated_by'] = Auth::user()->id;
         $temp=explode(",",$pekerjaan['nama_mandor']);
-
-        // dd($pekerjaan);
+       
+        // dd($req->jenis_gangguan);
         DB::table('kemandoran_detail_peralatan')->where('id_pek',$req->id_pek)->delete();
         DB::table('kemandoran_detail_material')->where('id_pek',$req->id_pek)->delete();
+        DB::table('kemandoran_detail_pekerja')->where('id_pek',$req->id_pek)->delete();
+        DB::table('kemandoran_detail_penghambat')->where('id_pek',$req->id_pek)->delete();
 
         for($i = 0; $i<count($req->jum_peralatan)-1 ;$i++){
             if($req->jum_peralatan[$i] != null){
@@ -707,7 +761,22 @@ class PekerjaanController extends Controller
                 DB::table('kemandoran_detail_material')->insert($material);
             }
         }
-
+        for($i = 0; $i<count($req->jabatan_pekerja)-1 ;$i++){
+                $pekerja['id_pek'] = $req->id_pek;
+                $pekerja['jabatan'] = $req->jabatan_pekerja[$i];
+                $pekerja['jumlah'] = $req->jum_pekerja[$i] ? :0;
+                DB::table('kemandoran_detail_pekerja')->insert($pekerja);
+        }
+        for($i = 0; $i<count($req->jenis_gangguan)-1 ;$i++){
+            if($req->start_time[$i] != null){
+                $penghambat['id_pek'] = $req->id_pek;
+                $penghambat['jenis_gangguan'] = $req->jenis_gangguan[$i];
+                $penghambat['start_time'] = $req->start_time[$i];
+                $penghambat['end_time'] = $req->end_time[$i];
+                $penghambat['akibat'] = $req->akibat[$i];
+                DB::table('kemandoran_detail_penghambat')->insert($penghambat);
+            }
+        }
         $kemandoran =  DB::table('kemandoran');
         // dd($pekerjaan);
 
