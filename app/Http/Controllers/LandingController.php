@@ -450,4 +450,8 @@ class LandingController extends Controller
 
         // return back()->with(compact('color', 'msg'));
     }
+    public function labkon(){
+        return view('landing.uptd.labkon');
+    }
+
 }

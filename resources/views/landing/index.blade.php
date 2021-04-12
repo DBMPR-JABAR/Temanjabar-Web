@@ -281,6 +281,10 @@
                                 <a href="{{ url('uptd/'.$wil->slug) }}" class="opens" title="View Details">
                                     <i class="fas fa-link"></i>
                                 </a>
+                                @else
+                                <a href="{{ url('uptd/labkon/home') }}" class="opens" title="View Details">
+                                    <i class="fas fa-link"></i>
+                                </a>
                                 @endif
                                 <h4 class="w-100">{{$wil->deskripsi}}</h4>
                             </div>

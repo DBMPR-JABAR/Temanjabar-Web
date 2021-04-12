@@ -47,6 +47,8 @@ Route::get('pemeliharaan/pekerjaan/{id}', 'InputData\PekerjaanController@detailP
 // {SiteURL}/uptd/*
 Route::group(['prefix' => 'uptd'], function () {
     Route::get('/{slug}', 'LandingController@uptd');
+    Route::get('/labkon/home', 'LandingController@labkon');
+
 });
 
 Route::get('user', 'CobaController@index');
