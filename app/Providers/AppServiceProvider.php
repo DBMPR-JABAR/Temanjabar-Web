@@ -67,11 +67,29 @@ class AppServiceProvider extends ServiceProvider
         
         View::composer('*', function ($view) {
             $ruas_jalan_lists = DB::table('master_ruas_jalan')->get();
-            $view->with('ruas_jalan_lists', $ruas_jalan_lists);
+            $input_ruas_jalan = DB::table('master_ruas_jalan');
+            if (Auth::user() && Auth::user()->internalRole->uptd) {
+                $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+                $input_ruas_jalan = $input_ruas_jalan->where('uptd_id',$uptd_id);
+            }
+            if (Auth::user() && Auth::user()->sup_id) {
+                $kode_ruas = DB::table('utils_sup')->where('id',Auth::user()->sup_id)->select('kd_sup')->first();
+                $input_ruas_jalan = $input_ruas_jalan->where('kd_sppjj',$kode_ruas->kd_sup);
+            }
+            $input_ruas_jalan = $input_ruas_jalan->get();    
+
+            $view->with(['ruas_jalan_lists'=> $ruas_jalan_lists, 'input_ruas_jalan'=>$input_ruas_jalan]);
         });
         View::composer('*', function ($view) {
             $sup_list = DB::table('utils_sup')->get();
-            $view->with('sup_list', $sup_list);
+            $input_sup = DB::table('utils_sup');
+            if (Auth::user() && Auth::user()->internalRole->uptd) {
+                $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+                $input_sup = $input_sup->where('uptd_id',$uptd_id);
+            }
+            $input_sup = $input_sup->get();    
+
+            $view->with(['sup_list'=> $sup_list, 'input_sup'=>$input_sup]);
         });
         View::composer('*', function ($view) {
             if(Auth::user()){

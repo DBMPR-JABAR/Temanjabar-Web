@@ -351,6 +351,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('jugment/{id}', 'InputData\PekerjaanController@jugmentLaporan')->name('jugmentLaporanMandor');
 
             Route::get('laporan', 'InputData\PekerjaanController@laporanPekerjaan')->name('LaporanPekerjaan');
+            Route::post('laporan', 'InputData\PekerjaanController@generateLaporanPekerjaan')->name('generateLapPekerjaan');
+
 
             Route::get('json', 'InputData\PekerjaanController@json')->name('getJsonDataBencana');
         });
@@ -379,6 +381,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             // Route::post('update', 'InputData\KondisiJalanController@update')->name('updateIDKondisiJalan');
             // Route::get('delete/{id}', 'InputData\KondisiJalanController@delete')->name('deleteIDKondisiJalan');
             Route::get('getRuasJalan', 'InputData\KondisiJalanController@getRuasJalan')->name('getRuasJalanKJ');
+            Route::get('getRuasJalanBySup', 'InputData\KondisiJalanController@getRuasJalanBySup')->name('getRuasJalanBySupKJ');
+
             Route::get('json', 'InputData\KondisiJalanController@getRJ')->name('getRJ');
         });
         Route::get('kondisi_jalan/delete/{id}', 'InputData\KondisiKemantapanJalanController@destroy');

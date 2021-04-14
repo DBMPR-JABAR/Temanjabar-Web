@@ -127,30 +127,68 @@
                     </div>
                 </div>
                 <div class="card-block">
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Ruas Jalan</label>
-                        <div class="col-md-10">
-                            <select class="searchableField" style="width: 100%" name="paket">
-                               
-                                <option value="">Pilih Ruas</option>
-                                
-                            </select>
+                    <form action="{{route('generateLapPekerjaan')}}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        @if (Auth::user()->internalRole->uptd == null)
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">UPTD</label>
+                            <div class="col-md-10">
+                                <select class="form-control" id="uptd" name="uptd_id" onchange="ubahOption()" required>
+                                    <option value="">Pilih UPTD</option>
+                                    @foreach ($input_uptd_lists as $data)
+                                    <option value="{{$data->id}}">{{$data->nama}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Tanggal Pelaksanaan</label>
-                        <div class="col-md-10">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <input name="start_date" type="date" id="start" class="form-control " value="{{ date('Y-m-d') }}">
-                                </div>
-                                s/d
-                                <div class="col-md">
-                                    <input name="end_date" type="date" id="end" class="form-control" value="{{ date('Y-m-d') }}">
+                        @endif
+                        @if (Auth::user()->sup_id == null)
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">SUP</label>
+                            <div class="col-md-10">
+                                {{-- <select class=" searchableField" id="sup" name="sup" required > --}}
+                                <select class="form-control searchableField"  id="sup" name="sup" onchange="ubahOption1()" required>
+                                    @if (Auth::user()->internalRole->uptd != null)
+                                        @foreach ($input_sup as $data)
+                                        <option value="{{$data->kd_sup}}">{{$data->name}}</option>
+                                        @endforeach
+                                    @else
+                                        <option value="">-</option>
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
+                        @endif
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Ruas Jalan</label>
+                            <div class="col-md-10">
+                                <select class="form-control searchableField" id="ruas_jalan" name="ruas_jalan" required>
+                                    @if (Auth::user()->sup_id != null)
+                                        @foreach ($input_ruas_jalan as $data)
+                                        <option value="{{$data->id_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
+                                        @endforeach
+                                    @else
+                                        <option value="">-</option>
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Tanggal Pelaksanaan</label>
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <input name="start_date" type="date" id="start" class="form-control" value="{{ date('Y-m-d') }}" required>
+                                    </div>
+                                    s/d
+                                    <div class="col-md">
+                                        <input name="end_date" type="date" id="end" class="form-control" value="{{ date('Y-m-d') }}">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <button type="submit" class="btn btn-primary waves-effect waves-light ">Simpan</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -185,6 +223,40 @@
         });
 
         
+        function ubahOption() {
 
+            //untuk select SUP
+            id = document.getElementById("uptd").value
+            url = "{{ url('admin/master-data/ruas-jalan/getSUP') }}"
+            id_select = '#sup'
+            text = 'Pilih SUP'
+            option = 'name'
+            id_supp = 'kd_sup'
+
+            setDataSelect(id, url, id_select, text, id_supp, option)
+
+            //untuk select Ruas
+            url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalan') }}"
+            id_select = '#ruas_jalan'
+            text = 'Pilih Ruas Jalan'
+            option = 'nama_ruas_jalan'
+            id_ruass = 'id_ruas_jalan'
+
+            setDataSelect(id, url, id_select, text, id_ruass, option)
+        }
+        function ubahOption1() {
+
+        //untuk select SUP
+        id = document.getElementById("sup").value
+       
+        //untuk select Ruas
+        url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalanBySup') }}"
+        id_select = '#ruas_jalan'
+        text = 'Pilih Ruas Jalan'
+        option = 'nama_ruas_jalan'
+        id_ruass = 'id_ruas_jalan'
+
+        setDataSelect(id, url, id_select, text, id_ruass, option)
+        }
     </script>
 @endsection

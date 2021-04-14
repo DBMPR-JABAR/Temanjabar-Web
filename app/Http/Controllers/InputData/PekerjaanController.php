@@ -1105,6 +1105,28 @@ class PekerjaanController extends Controller
         return redirect(route('getDataPekerjaan'))->with(compact('color', 'msg'));
     }
     public function laporanPekerjaan(){
+        $ruas = DB::table('master_ruas_jalan')->select('kd_sppjj','nm_sppjj');
+        if (Auth::user() && Auth::user()->sup_id) {
+            $get_kd = DB::table('utils_sup')->where('id',Auth::user()->sup_id)->select('kd_sup')->first();
+            // dd($get_kd->kd_sup);
+        }
+        return view('admin.input.pekerjaan.laporan-pekerjaan');
+    }
+    public function generateLaporanPekerjaan(Request $request){
+        $this->validate($request,[
+            'ruas_jalan'=> 'required'
+        ]);
+        $kemandoran = DB::table('kemandoran')->where('ruas_jalan_id',$request->ruas_jalan);
+        if($kemandoran->exists()){
+
+        }else{
+            $color = "danger";
+            $msg = "Data tidak ada";
+            return back()->with(compact('color', 'msg'));
+        }
+        dd($request->ruas_jalan);
+
+        // dd($ruas);
         return view('admin.input.pekerjaan.laporan-pekerjaan');
     }
     public function json(Request $request)
