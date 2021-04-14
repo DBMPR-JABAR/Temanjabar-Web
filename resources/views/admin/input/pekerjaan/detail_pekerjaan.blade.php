@@ -54,9 +54,9 @@
                             <label class="col-md-12 col-form-label">{{$pekerjaan->paket}}</label>
                         </div>
                         <div class="col-md-4">
-                            <label class="col-md-6 col-form-label"><b>Jumlah Pekerja</b></label>
+                            <label class="col-md-12 col-form-label"><b>Perkiraan Kuantitas</b></label>
                             <hr>
-                            <label class="col-md-12 col-form-label">{{$pekerjaan->jumlah_pekerja}} Orang</label>
+                            <label class="col-md-12 col-form-label">{{$pekerjaan->perkiraan_kuantitas}}</label>
                         </div>
                     </div>
 
