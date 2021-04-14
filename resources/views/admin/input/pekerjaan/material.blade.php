@@ -1060,7 +1060,6 @@
                     <label class="col-md-3 col-form-label">Jenis</label>
                     <label class="col-md-5 col-form-label">Waktu</label>
                     <label class="col-md-4 col-form-label">Akibat</label>
-    
                 </div>
                 <div class="form-group row fieldGroupPenghambat">
                     <div class="col-md-3">
@@ -1117,8 +1116,7 @@
                             </div>
                             <div class="col-md-1"> 
                                 {{-- <a href="javascript:void(0)" class="btn btn-success addMore"><span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span> Add</a> --}}
-                                <a href="javascript:void(0)" data-toggle="modal"><button class="btn btn-danger removePenghambat btn-mini waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
-                                
+                                <a href="javascript:void(0)" data-toggle="modal"><button class="btn btn-danger removePenghambat btn-mini waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>                        
                             </div>
                         </div>
                     @endfor

@@ -267,6 +267,9 @@
             <div class="card-block">
                 @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Create"))
                 <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
+                    @if (!str_contains(Auth::user()->internalRole->role,'Mandor'))
+                        {{-- <a href="{{ route('LaporanPekerjaan') }}" class="btn btn-mat btn-success mb-3">Cetak Laporan</a>     --}}
+                    @endif
                 @endif
                 <div class="dt-responsive table-responsive">
                     <table id="dttable"  class="table table-striped table-bordered table-responsive">
@@ -550,9 +553,9 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Jumlah Pekerja</label>
+                            <label class="col-md-2 col-form-label">Perkiraan Kuantitas</label>
                             <div class="col-md-10">
-                                <input name="jumlah_pekerja" type="text" class="form-control formatRibuan" required>
+                                <input name="perkiraan_kuantitas" type="text" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -599,61 +602,62 @@
             </div>
         </div>
     </div>
+</div>
 
-    <div class="modal-only">
+<div class="modal-only">
 
-        <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
+    <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
 
-                    <div class="modal-header">
-                        <h4 class="modal-title">Hapus Data Pekerjaan</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-
-                    <div class="modal-body">
-                        <p>Apakah anda yakin ingin menghapus data ini?</p>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                        <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Hapus</a>
-                    </div>
-
+                <div class="modal-header">
+                    <h4 class="modal-title">Hapus Data Pekerjaan</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-            </div>
-        </div>
 
-    </div>
-
-    <div class="modal-only">
-        <div class="modal fade" id="submitModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Submit Data Material</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-
-                    <div class="modal-body">
-                        <p>Apakah anda yakin melakukan submit data ini?</p>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                        <a id="submitHref" href="" class="btn btn-danger waves-effect waves-light ">Submit</a>
-                    </div>
+                <div class="modal-body">
+                    <p>Apakah anda yakin ingin menghapus data ini?</p>
                 </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                    <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Hapus</a>
+                </div>
+
             </div>
         </div>
     </div>
 
-    @endsection
-    @section('script')
+</div>
+
+<div class="modal-only">
+    <div class="modal fade" id="submitModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Submit Data Material</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <p>Apakah anda yakin melakukan submit data ini?</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                    <a id="submitHref" href="" class="btn btn-danger waves-effect waves-light ">Submit</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@endsection
+@section('script')
     <!-- <script src="{{ asset('assets/vendor/jquery/js/jquery-3.4.1.min.js') }}" ></script> -->
     <script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}"></script>
@@ -884,4 +888,4 @@
             setDataSelect(id, url, id_select, text, id_ruass, option)
         }
     </script>
-    @endsection
+@endsection

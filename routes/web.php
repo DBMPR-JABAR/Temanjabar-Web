@@ -350,6 +350,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('jugment/{id}', 'InputData\PekerjaanController@show')->name('jugmentDataPekerjaan');
             Route::post('jugment/{id}', 'InputData\PekerjaanController@jugmentLaporan')->name('jugmentLaporanMandor');
 
+            Route::get('laporan', 'InputData\PekerjaanController@laporanPekerjaan')->name('LaporanPekerjaan');
+
             Route::get('json', 'InputData\PekerjaanController@json')->name('getJsonDataBencana');
         });
 

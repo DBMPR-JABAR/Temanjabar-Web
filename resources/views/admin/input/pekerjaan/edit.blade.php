@@ -182,10 +182,10 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Jumlah Pekerja</label>
+                            <label class="col-md-2 col-form-label">Perkiraan Kuantitas</label>
                             <div class="col-md-10">
-                                <input name="jumlah_pekerja" type="text" class="form-control formatRibuan" required
-                                    value="{{ $pekerjaan->jumlah_pekerja }}">
+                                <input name="perkiraan_kuantitas" type="text" class="form-control" required
+                                    value="{{ $pekerjaan->perkiraan_kuantitas }}">
                             </div>
                         </div>
                         <div class="form-group row">

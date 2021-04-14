@@ -375,6 +375,7 @@ class PekerjaanController extends Controller
 
     public function createData(Request $req)
     {
+        
         $pekerjaan = $req->except(['_token']);
         // dd($pekerjaan);
         $pekerjaan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
@@ -678,7 +679,6 @@ class PekerjaanController extends Controller
                 DB::table('kemandoran_detail_penghambat')->insert($penghambat);
             }
         }
-        
         // dd($pekerjaan);
         DB::table('bahan_material')->insert($pekerjaan);
         $kemandoran =  DB::table('kemandoran');
@@ -1104,7 +1104,9 @@ class PekerjaanController extends Controller
         $msg = "Berhasil Melakukan Submit Data Material";
         return redirect(route('getDataPekerjaan'))->with(compact('color', 'msg'));
     }
-
+    public function laporanPekerjaan(){
+        return view('admin.input.pekerjaan.laporan-pekerjaan');
+    }
     public function json(Request $request)
     {
         $pekerjaan = DB::table('kemandoran');
