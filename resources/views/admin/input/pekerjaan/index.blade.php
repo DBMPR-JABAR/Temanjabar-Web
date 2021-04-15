@@ -429,7 +429,12 @@
 
                     <div class="modal-body">
                         <!-- <input name="uptd_id" type="hidden" class="form-control" required value="{{Auth::user()->internalRole->uptd}}"> -->
-
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Sub Kegiatan</label>
+                            <div class="col-md-10">
+                                <input name="sub_kegiatan" type="text" value="" placeholder="Entry Sub Kegiatan" class="form-control" required>
+                            </div>
+                        </div>
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Mandor </label>
@@ -458,7 +463,9 @@
                             <label class="col-md-2 col-form-label">Jenis Pekerjaan</label>
                             <div class="col-md-10">
                                 <select class="searchableModalField" name="jenis_pekerjaan" required>
-                                    <option value="Pemeliharaan">Pemeliharaan</option>
+                                    @foreach ($jenis_laporan_pekerjaan as $item)
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
 
                                     
                                 </select>

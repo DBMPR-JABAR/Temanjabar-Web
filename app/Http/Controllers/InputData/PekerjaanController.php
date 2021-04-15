@@ -116,7 +116,7 @@ class PekerjaanController extends Controller
             // echo "$data->id_pek<br>";
 
             $data->status = "";
-
+            $data->jenis_pekerjaan = DB::table('utils_jenis_laporan')->where('id',$data->jenis_pekerjaan)->pluck('name')->first();
             $detail_adjustment=DB::table('kemandoran_detail_status')->where('id_pek',$data->id_pek);
             $input_material= $this->cekMaterial($data->id_pek);
             if($input_material){
@@ -296,8 +296,8 @@ class PekerjaanController extends Controller
             "not_complete" => $not_complete
 
         ];
-
-        return view('admin.input.pekerjaan.index', compact('pekerjaan', 'ruas_jalan', 'sup', 'mandor',  'sum_report', 'nama_kegiatan_pekerjaan'));
+        $jenis_laporan_pekerjaan =DB::table('utils_jenis_laporan')->get();
+        return view('admin.input.pekerjaan.index', compact('pekerjaan', 'ruas_jalan', 'sup', 'mandor',  'sum_report', 'nama_kegiatan_pekerjaan','jenis_laporan_pekerjaan'));
     }
     public function statusData($id){
         $adjustment=DB::table('kemandoran_detail_status')
@@ -370,7 +370,9 @@ class PekerjaanController extends Controller
 
         $sup = $sup->get();
         $uptd = DB::table('landing_uptd')->get();
-        return view('admin.input.pekerjaan.edit', compact('pekerjaan', 'ruas_jalan', 'sup', 'uptd', 'jenis', 'mandor','nama_kegiatan_pekerjaan'));
+        $jenis_laporan_pekerjaan =DB::table('utils_jenis_laporan')->get();
+
+        return view('admin.input.pekerjaan.edit', compact('pekerjaan', 'ruas_jalan', 'sup', 'uptd', 'jenis', 'mandor','nama_kegiatan_pekerjaan','jenis_laporan_pekerjaan'));
     }
 
     public function createData(Request $req)
@@ -995,6 +997,7 @@ class PekerjaanController extends Controller
         ->select('a.id_material','b.nama_item','a.kuantitas','a.satuan')->get();
         $detail_pekerja = DB::table('kemandoran_detail_pekerja as a')->select('jabatan','jumlah')->where('a.id_pek',$id)->get();
         $detail_penghambat = DB::table('kemandoran_detail_penghambat as a')->where('a.id_pek',$id)->get();
+        $pekerjaan->jenis_pekerjaan = DB::table('utils_jenis_laporan')->where('id',$pekerjaan->jenis_pekerjaan)->pluck('name')->first();
         
         // dd($pekerjaan);
         // dd($pekerjaan);
@@ -1034,8 +1037,9 @@ class PekerjaanController extends Controller
         $detail_penghambat = DB::table('kemandoran_detail_penghambat as a')->where('a.id_pek',$id)->get();
         
         // dd($peralatan);
+        $pekerjaan->jenis_pekerjaan = DB::table('utils_jenis_laporan')->where('id',$pekerjaan->jenis_pekerjaan)->pluck('name')->first();
 
-        // dd($pekerjaan);
+        // dd($pekerjaan->jenis_pekerjaan);
         // dd($pekerjaan);
         
 

@@ -310,7 +310,7 @@ class PekerjaanController extends Controller
     public function getJenisPekerjaan()
     {
         try {
-            $jenisPekerjaan = DB::table('item_pekerjaan')
+            $jenisPekerjaan = DB::table('utils_jenis_laporan')
                 ->get();
 
             $this->response['status'] = 'success';
@@ -322,7 +322,22 @@ class PekerjaanController extends Controller
             return response()->json($this->response, 500);
         }
     }
+    public function getJenisKegiatan()
+    {
+        try {
+            $jenisKegiatan = DB::table('utils_nama_kegiatan_pekerjaan')
+                ->get();
 
+            $this->response['status'] = 'success';
+            $this->response['data']['jenis_kegiatan'] = $jenisKegiatan;
+
+            return response()->json($this->response, 200);
+        } catch (\Exception $e) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
+    
     public function sendEmail($data, $to_email, $to_name, $subject)
     {
 

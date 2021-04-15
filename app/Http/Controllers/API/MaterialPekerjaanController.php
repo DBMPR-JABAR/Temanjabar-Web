@@ -238,7 +238,7 @@ class MaterialPekerjaanController extends Controller
     public function bahanMaterial()
     {
         try {
-            $bahan_material = DB::table('item_bahan')->select('no', 'nama_item')->get();
+            $bahan_material = DB::table('item_bahan')->select('no', 'nama_item')->where('keterangan',null)->get();
             $this->response['status'] = 'success';
             $this->response['data']['bahan_material'] = $bahan_material;
             return response()->json($this->response, 200);
@@ -247,7 +247,36 @@ class MaterialPekerjaanController extends Controller
             return response()->json($this->response, 500);
         }
     }
+    public function getAlatOperasional()
+    {
+        try {
+            $alatOperasional = DB::table('item_peralatan')
+                ->get();
 
+            $this->response['status'] = 'success';
+            $this->response['data']['alat_operasional'] = $alatOperasional;
+
+            return response()->json($this->response, 200);
+        } catch (\Exception $e) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
+    public function getBahanMaterialOperasional()
+    {
+        try {
+            $jenisPekerjaan = DB::table('item_bahan')->where('keterangan','Bahan Operasional')
+                ->get();
+
+            $this->response['status'] = 'success';
+            $this->response['data']['jenis_pekerjaan'] = $jenisPekerjaan;
+
+            return response()->json($this->response, 200);
+        } catch (\Exception $e) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
     public function satuanMaterial()
     {
         try {
