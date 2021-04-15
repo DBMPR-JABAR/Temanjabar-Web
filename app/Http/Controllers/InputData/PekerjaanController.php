@@ -993,9 +993,12 @@ class PekerjaanController extends Controller
         $detail_bahan_operasional = DB::table('kemandoran_detail_material as a')->where('a.id_pek',$id)
         ->leftJoin('item_bahan as b', 'b.no', '=', 'a.id_material')
         ->select('a.id_material','b.nama_item','a.kuantitas','a.satuan')->get();
+        $detail_pekerja = DB::table('kemandoran_detail_pekerja as a')->select('jabatan','jumlah')->where('a.id_pek',$id)->get();
+        $detail_penghambat = DB::table('kemandoran_detail_penghambat as a')->where('a.id_pek',$id)->get();
+        
         // dd($pekerjaan);
         // dd($pekerjaan);
-        return view('admin.input.pekerjaan.show', compact('pekerjaan','material','detail','peralatan','detail_bahan_operasional'));
+        return view('admin.input.pekerjaan.show', compact('pekerjaan','material','detail','peralatan','detail_bahan_operasional','detail_pekerja','detail_penghambat'));
     }
     public function detailPemeliharaan($id)
     {
@@ -1027,13 +1030,16 @@ class PekerjaanController extends Controller
         $detail_bahan_operasional = DB::table('kemandoran_detail_material as a')->where('a.id_pek',$id)
         ->leftJoin('item_bahan as b', 'b.no', '=', 'a.id_material')
         ->select('a.id_material','b.nama_item','a.kuantitas','a.satuan')->get();
+        $detail_pekerja = DB::table('kemandoran_detail_pekerja as a')->select('jabatan','jumlah')->where('a.id_pek',$id)->get();
+        $detail_penghambat = DB::table('kemandoran_detail_penghambat as a')->where('a.id_pek',$id)->get();
+        
         // dd($peralatan);
 
         // dd($pekerjaan);
         // dd($pekerjaan);
         
 
-        return view('admin.input.pekerjaan.detail_pekerjaan', compact('pekerjaan','material','peralatan','detail_bahan_operasional'));
+        return view('admin.input.pekerjaan.detail_pekerjaan', compact('pekerjaan','material','peralatan','detail_bahan_operasional','detail_pekerja','detail_penghambat'));
     }
     public function jugmentLaporan(Request $request, $id){
         // dd($id);
@@ -1113,19 +1119,28 @@ class PekerjaanController extends Controller
         return view('admin.input.pekerjaan.laporan-pekerjaan');
     }
     public function generateLaporanPekerjaan(Request $request){
+        $color = "danger";
+        $msg = "Data tidak ada";
         $this->validate($request,[
-            'ruas_jalan'=> 'required'
+            'ruas_jalan'=> 'required',
+            'start_date'=> 'required',
+            'end_date'=> 'required'
         ]);
         $kemandoran = DB::table('kemandoran')->where('ruas_jalan_id',$request->ruas_jalan);
         if($kemandoran->exists()){
-
+            $kemandoran = $kemandoran->whereBetween('tanggal',[$request->start_date,$request->end_date])->get()->toArray();
+            if(count($kemandoran) == 0)
+                return back()->with(compact('color', 'msg'));
         }else{
-            $color = "danger";
-            $msg = "Data tidak ada";
             return back()->with(compact('color', 'msg'));
         }
-        dd($request->ruas_jalan);
-
+        $x = 0;
+        
+        for($i=0 ; $i < count($kemandoran); $i++){
+            echo $kemandoran[$i]->tanggal;
+            $laporan[$kemandoran[$i]->tanggal][] = (object) $kemandoran[$i];
+        }
+        dd($laporan);
         // dd($ruas);
         return view('admin.input.pekerjaan.laporan-pekerjaan');
     }

@@ -182,7 +182,7 @@
                                     </div>
                                     s/d
                                     <div class="col-md">
-                                        <input name="end_date" type="date" id="end" class="form-control" value="{{ date('Y-m-d') }}">
+                                        <input name="end_date" type="date" id="end" class="form-control" value="{{ date('Y-m-d') }}" required>
                                     </div>
                                 </div>
                             </div>

@@ -54,11 +54,37 @@
                             <label class="col-md-12 col-form-label">{{$pekerjaan->paket}}</label>
                         </div>
                         <div class="col-md-4">
-                            <label class="col-md-6 col-form-label"><b>Jumlah Pekerja</b></label>
+                            <label class="col-md-12 col-form-label"><b>Perkiraan Kuantitas</b></label>
                             <hr>
-                            <label class="col-md-12 col-form-label">{{$pekerjaan->jumlah_pekerja}} Orang</label>
+                            <label class="col-md-12 col-form-label">{{$pekerjaan->perkiraan_kuantitas}}</label>
                         </div>
                     </div>
+                    @if(count($detail_pekerja)>=1)
+                    <div class="table-responsive">
+                        <br>
+                        <label style="font-weight: bold;">Tenaga Kerja</label>
+                        <table class="table table-striped">
+                            <tr>
+                                <th>#</th>
+                                <th>Jabatan</th>
+                                <th>Satuan</th>
+                                <th>Jumlah</th>
+
+                            </tr>
+                            @foreach ($detail_pekerja as $no => $item)
+                            <tr>
+                                <td width="5%">{{ ++$no }}</td>
+                                <td width="25%">{{ $item->jabatan }}</td>
+
+                                <td width="15%">Hok</td>
+                                <td width="15%">{{ $item->jumlah }}</td>
+
+                            </tr>
+                                @endforeach
+
+                        </table>
+                    </div>
+                    @endif
 
 
             </div>
@@ -122,6 +148,32 @@
                                 <source src="{{ url('storage/pekerjaan/'.$pekerjaan->video) }}" type="video/mp4" />
                             </video>
                     </div>
+                    @if(count($detail_penghambat)>=1)
+                    <div class="table-responsive">
+                        <br>
+                        <label style="font-weight: bold;">Kejadian Penghambat Pelaksanaan</label>
+                        <table class="table table-striped">
+                            <tr>
+                                <th>#</th>
+                                <th>Jenis Gangguan</th>
+                                <th>Waktu</th>
+                                <th>Akibat</th>
+
+                            </tr>
+                            @foreach ($detail_penghambat as $no => $item)
+                            <tr>
+                                <td width="5%">{{ ++$no }}</td>
+                                <td width="25%">{{ $item->jenis_gangguan }}</td>
+
+                                <td width="15%">{{ $item->start_time }} - {{ $item->end_time }}</td>
+                                <td width="15%">{{ $item->akibat }}</td>
+
+                            </tr>
+                                @endforeach
+
+                        </table>
+                    </div>
+                    @endif
 
             </div>
         </div>
@@ -134,34 +186,72 @@
                 </div>
             </div>
             <div class="card-block">
-                @if(count($peralatan)>=1)
-                <div class="table-responsive">
-                    <label style="font-weight: bold;">Alat yang Digunakan</label>
-                    <table class="table table-striped">
-                        <tr>
-                            <th>#</th>
-                            <th>Peralatan</th>
-                            <th>Kuantitas</th>
-                            <th>Satuan</th>
+                <div class="row">
+                    
+                    <div class="col-md-6 col-sm-12">
+                        @if(count($peralatan)>=1)
+                        <div class="table-responsive">
+                            <label style="font-weight: bold;">Alat yang Digunakan</label>
+                            <table class="table table-striped">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Peralatan</th>
+                                    <th>Kuantitas</th>
+                                    <th>Satuan</th>
+        
+                                </tr>
+                                @php
+                                    $counter = 0;
+                                @endphp
+                                @foreach ($peralatan as $no => $item)
+                                <tr>
+                                    <td width="5%">{{ ++$no }}</td>
+                                    <td width="25%">{{ $item->nama_peralatan }}</td>
+        
+                                    <td width="15%">{{ $item->kuantitas }}</td>
+                                    <td width="15%">{{ $item->satuan }}</td>
+        
+                                </tr>
+                                    @endforeach
+        
+                            </table>
+                        </div>
+                        @endif
 
-                        </tr>
-                        @php
-                            $counter = 0;
-                        @endphp
-                        @foreach ($peralatan as $no => $item)
-                        <tr>
-                            <td width="5%">{{ ++$no }}</td>
-                            <td width="35%">{{ $item->nama_peralatan }}</td>
-
-                            <td width="15%">{{ $item->kuantitas }}</td>
-                            <td width="15%">{{ $item->satuan }}</td>
-
-                        </tr>
-                            @endforeach
-
-                    </table>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        @if(count($detail_bahan_operasional)>=1)
+                            <div class="table-responsive">
+                                <label style="font-weight: bold;">Bahan Operasional Peralatan</label>
+                                <table class="table table-striped">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Material</th>
+                                        <th>Kuantitas</th>
+                                        <th>Satuan</th>
+            
+                                    </tr>
+                                    @php
+                                        $counter = 0;
+                                    @endphp
+                                    @foreach ($detail_bahan_operasional as $no => $item)
+                                    <tr>
+                                        <td width="5%">{{ ++$no }}</td>
+                                        <td width="25%">{{ $item->nama_item }}</td>
+            
+                                        <td width="15%">{{ $item->kuantitas }}</td>
+                                        <td width="15%">{{ $item->satuan }}</td>
+            
+                                    </tr>
+                                        @endforeach
+            
+                                </table>
+                            </div>
+                        @endif
+                        
+                    </div>
+                
                 </div>
-                @endif
                 <div class="table-responsive">
                     <label style="font-weight: bold;">Detail Material</label>
                     <table class="table table-striped">
@@ -188,34 +278,7 @@
 
                     </table>
                 </div>
-                @if(count($detail_bahan_operasional)>=1)
-                <div class="table-responsive">
-                    <label style="font-weight: bold;">Bahan Operasional Peralatan</label>
-                    <table class="table table-striped">
-                        <tr>
-                            <th>#</th>
-                            <th>Material</th>
-                            <th>Kuantitas</th>
-                            <th>Satuan</th>
-
-                        </tr>
-                        @php
-                            $counter = 0;
-                        @endphp
-                        @foreach ($detail_bahan_operasional as $no => $item)
-                        <tr>
-                            <td width="5%">{{ ++$no }}</td>
-                            <td width="35%">{{ $item->nama_item }}</td>
-
-                            <td width="15%">{{ $item->kuantitas }}</td>
-                            <td width="15%">{{ $item->satuan }}</td>
-
-                        </tr>
-                            @endforeach
-
-                    </table>
-                </div>
-                @endif
+                
             </div>
         </div>
 
