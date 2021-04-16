@@ -1139,14 +1139,46 @@ class PekerjaanController extends Controller
             return back()->with(compact('color', 'msg'));
         }
         $x = 0;
-        
+       
         for($i=0 ; $i < count($kemandoran); $i++){
-            echo $kemandoran[$i]->tanggal;
+          
+            $kemandoran[$i]->jenis_pekerjaan = DB::table('utils_jenis_laporan')->where('id',$kemandoran[$i]->jenis_pekerjaan)->pluck('name')->first();
+            // $laporan->tanggal = $kemandoran[$i]->tanggal;
             $laporan[$kemandoran[$i]->tanggal][] = (object) $kemandoran[$i];
         }
-        dd($laporan);
+        $temporari=[];
+        foreach($laporan as $item => $item){
+            foreach($laporan[$item] as $item1 => $item1){
+                $temporari[$item] = (object)[
+                    'uptd' => 'III',
+                    'sub_kegiatan' => 'BOBONGKAR',
+                    'sppj_wilayah' => 'GARUT 2',
+                    'tanggal_hari' => '08-08-2021/Rabu',
+                    'ruas_jalan' => 'Ahmad Yani',
+                    'km' => 12,
+                    'hal_ke' => count($laporan)];
+                // $temporari[$item]=$laporan[$item][$item1];
+                $temporari[$item]->uptd = $laporan[$item][$item1]->uptd_id;
+               
+                $sup = str_replace('SUP ','', $laporan[$item][$item1]->sup);
+                $sup = str_replace('SPP ','', $sup);
+
+                $temporari[$item]->sub_kegiatan = $laporan[$item][$item1]->sub_kegiatan;
+                $temporari[$item]->sppj_wilayah = $sup;
+                $timestamp = strtotime($laporan[$item][$item1]->tanggal);
+                setlocale(LC_TIME, "id");
+                $temporari[$item]->tanggal_hari = $item.'/'.utf8_encode(strftime('%A',$timestamp));
+                $temporari[$item]->ruas_jalan = $laporan[$item][$item1]->ruas_jalan;
+
+                $temporari[$item]->km = $laporan[$item][$item1]->lokasi;
+                
+                // echo  date("l", mktime($laporan[$item][$item1]->tanggal));
+            }
+        }
+        // dd($temporari);
+        // dd(count($laporan));
         // dd($ruas);
-        return view('admin.input.pekerjaan.laporan-pekerjaan');
+        return view('pdf.laporan_pekerjaan', compact('temporari'));
     }
     public function json(Request $request)
     {
