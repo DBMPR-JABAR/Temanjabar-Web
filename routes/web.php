@@ -336,10 +336,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::group(['prefix' => 'input-data'], function () {
         Route::resource('/mandor', 'InputData\MandorController');
         Route::group(['prefix' => 'pekerjaan'], function () {
+            
             Route::get('/', 'InputData\PekerjaanController@getData')->name('getDataPekerjaan');
             Route::get('edit/{id}', 'InputData\PekerjaanController@editData')->name('editDataPekerjaan');
             Route::get('status/{id}', 'InputData\PekerjaanController@statusData')->name('detailStatusPekerjaan');
-
+            
+            Route::get('report', 'InputData\PekerjaanController@reportrekap');
+            
             Route::get('material/{id}', 'InputData\PekerjaanController@materialData')->name('materialDataPekerjaan');
             Route::post('creatematerial/{id}', 'InputData\PekerjaanController@createDataMaterial')->name('createDataMaterialPekerjaan');
             Route::post('updatematerial/{id}', 'InputData\PekerjaanController@updateDataMaterial')->name('updateDataMaterialPekerjaan');
