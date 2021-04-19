@@ -39,7 +39,7 @@ class AppServiceProvider extends ServiceProvider
         View::composer('*', function ($view) {
             $uptd_lists = DB::table('landing_uptd')
             ->get();
-            dd(Auth::user()->internalRole->uptd);
+          
             $input_uptd_lists = DB::table('landing_uptd');
             if (Auth::user() && Auth::user()->internalRole->uptd) {
                 $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
