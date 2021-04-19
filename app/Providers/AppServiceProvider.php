@@ -40,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
             $uptd_lists = DB::table('landing_uptd')
             ->get();
             $input_uptd_lists = DB::table('landing_uptd');
-            if (Auth::user() && Auth::user()->internalRole->uptd) {
+            if (Auth::user() && Auth::user()->internalRole->uptd != null && Auth::user()->internalRole->uptd) {
                 $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
                 $input_uptd_lists = $input_uptd_lists->where('id',$uptd_id);
 

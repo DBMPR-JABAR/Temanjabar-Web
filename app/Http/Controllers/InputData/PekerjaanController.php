@@ -1183,23 +1183,26 @@ class PekerjaanController extends Controller
     public function sqlreportrekap($id){
         $getcountsup = DB::table('kemandoran')
         ->leftjoin('utils_sup','kemandoran.sup_id','=','utils_sup.id')
-        ->select(DB::raw('kemandoran.uptd_id,kemandoran.sup_id,utils_sup.name,count(*) as data_sup_count'))->where('kemandoran.uptd_id',$id)->groupBy('kemandoran.sup_id')->get();
+        ->select(DB::raw('kemandoran.uptd_id,kemandoran.sup_id,utils_sup.name,count(*) as data_sup_count'))->where('kemandoran.uptd_id',$id)->groupBy('kemandoran.sup_id')->whereBetween('kemandoran.tglreal',['2021-03-01','2021-04-16'])->get();
         return($getcountsup);
     }
     public function reportrekap(){
-        $getuptd = DB::table('kemandoran')->select(DB::raw('uptd_id,count(*) as data_uptd_count'))->groupBy('uptd_id')->get();
+        $getuptd = DB::table('kemandoran')->select(DB::raw('uptd_id,count(*) as data_uptd_count'))->groupBy('uptd_id')->whereBetween('tglreal',['2021-03-01','2021-04-16'])->get();
         $getuptd1 = $this->sqlreportrekap(1);
         $getuptd2 = $this->sqlreportrekap(2);
         $getuptd3 = $this->sqlreportrekap(3);
         $getuptd4 = $this->sqlreportrekap(4);
         $getuptd5 = $this->sqlreportrekap(5);
+        $getuptd6 = $this->sqlreportrekap(6);
+
         $report=[
             'uptd'=>$getuptd,
             'uptd1'=>$getuptd1,
             'uptd2'=>$getuptd2,
             'uptd3'=>$getuptd3,
             'uptd4'=>$getuptd4,
-            'uptd5'=>$getuptd5
+            'uptd5'=>$getuptd5,
+            'uptd6'=>$getuptd6
         ];
 
         dd($report);
