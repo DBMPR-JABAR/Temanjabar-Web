@@ -246,7 +246,7 @@
                             <label class="col-md-3 col-form-label">UPTD</label>
                             <div class="col-md-9">
                             @if(Auth::user() && !Auth::user()->internalRole->uptd )
-                            <select  name="uptd" class="form-control" tabindex="4" required>
+                            <select  name="uptd" class="form-control" tabindex="4" >
                                 <option value="">All</option>
                                 @foreach ($uptd_lists as $no => $item)
                                     <option value="{{ Str::limit($item->slug,4,$end=++$no) }}">{{ $item->nama }}</option>
