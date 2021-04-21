@@ -108,7 +108,7 @@
             </div>
             <br>
             <div class="row">
-                {{-- <div class="col-7">
+                <div class="col-7">
                     <div class="row">
                         <div class="col-12">
                             <p class=" font-weight-bold">A. TENAGA KERJA</p>
@@ -123,28 +123,28 @@
                                 </thead>
                                 <tbody>
                                     @php
-                                        $no = 1;
+                                        $notenaga = 1;
                                     @endphp
-                                    @foreach ($data->tenaga_kerja as $row)
+                                    @for ($i = 0 ; $i< count($data->tenaga_kerja->jabatan) ; $i++)
                                         <tr>
-                                            <td>{{ $no }}
+                                            <td>{{ $notenaga }}
                                             </td>
-                                            <td>{{ $row['jabatan'] }}
+                                            <td>{{ $data->tenaga_kerja->jabatan[$i]}}
                                             </td>
-                                            <td>{{ $row['satuan'] }}
+                                            <td>Hok
                                             </td>
-                                            <td>{{ $row['jumlah'] }}
+                                            <td>{{ $data->tenaga_kerja->jumlah[$i] }}
                                             </td>
                                         </tr>
                                         @php
-                                            $no++;
+                                            $notenaga++;
                                         @endphp
-                                    @endforeach
+                                    @endfor
                                 </tbody>
                             </table>
                         </div>
                         <div class="col-12">
-                            <p class=" font-weight-bold">C. HASIL YANG DICAPAI</p>
+                            <p class=" font-weight-bold">B. HASIL YANG DICAPAI</p>
                             <table class="table table-sm table-bordered">
                                 <thead>
                                     <tr>
@@ -160,50 +160,54 @@
                                         </td>
                                     </tr>
                                     @php
-                                        $no = 1;
+                                        $nohasiljalan = 1;
                                     @endphp
-                                    @foreach ($data->hasil_dicapai->pemeliharaan_jalan as $row)
+                                    @for ($i = 0 ;$i < count($data->hasil_kerja->jenis_pekerjaan); $i++)
+                                        @if($data->hasil_kerja->jenis_pekerjaan[$i] == "Pemeliharaan Jalan")
                                         <tr>
-                                            <td>{{ $no }}
+                                            <td>{{ $nohasiljalan }}
                                             </td>
-                                            <td>{{ $row['jenis_pekerjaan'] }}
+                                            <td>{{ $data->hasil_kerja->jenis[$i] }}
                                             </td>
-                                            <td>{{ $row['satuan'] }}
+                                            <td>{{ $data->hasil_kerja->satuan[$i] }}
                                             </td>
-                                            <td>{{ $row['perkiraan_kuantitas'] }}
+                                            <td>{{ $data->hasil_kerja->perkiraan[$i] }}
                                             </td>
                                         </tr>
                                         @php
-                                            $no++;
+                                            $nohasiljalan++;
                                         @endphp
-                                    @endforeach
+                                        @endif
+                                    @endfor
                                     <tr>
                                         <td colspan="4">II. PEMELIHARAAN JEMBATAN
                                         </td>
                                     </tr>
                                     @php
-                                        $no = 1;
+                                        $nohasiljembatan = 1;
                                     @endphp
-                                    @foreach ($data->hasil_dicapai->pemeliharaan_jembatan as $row)
+                                    @for ($i = 0 ;$i < count($data->hasil_kerja->jenis_pekerjaan); $i++)
+                                        @if($data->hasil_kerja->jenis_pekerjaan[$i] == "Pemeliharaan Jembatan")
                                         <tr>
-                                            <td>{{ $no }}
+                                            <td>{{ $nohasiljembatan }}
                                             </td>
-                                            <td>{{ $row['jenis_pekerjaan'] }}
+                                            <td>{{ $data->hasil_kerja->jenis[$i] }}
                                             </td>
-                                            <td>{{ $row['satuan'] }}
+                                            <td>{{ $data->hasil_kerja->satuan[$i] }}
                                             </td>
-                                            <td>{{ $row['perkiraan_kuantitas'] }}
+                                            <td>{{ $data->hasil_kerja->perkiraan[$i] }}
                                             </td>
                                         </tr>
                                         @php
-                                            $no++;
+                                            $nohasiljembatan++;
                                         @endphp
-                                    @endforeach
+                                        @endif
+                                    @endfor
                                 </tbody>
                             </table>
                         </div>
                         <div class="col-12">
-                            <p class=" font-weight-bold">E. PENGHAMBAT PELAKSANAAN</p>
+                            <p class=" font-weight-bold">C. PENGHAMBAT PELAKSANAAN</p>
                             <table class="table table-sm table-bordered">
                                 <thead>
                                     <tr>
@@ -215,23 +219,36 @@
                                 </thead>
                                 <tbody>
                                     @php
-                                        $no = 1;
+                                        $nopenghambat = 1;
                                     @endphp
-                                    @foreach ($data->penghambat_pelaksanaan as $row)
-                                        <tr>
-                                            <td>{{ $no }}
-                                            </td>
-                                            <td>{{ $row['jenis_gangguan_dan_cuaca'] }}
-                                            </td>
-                                            <td>{{ $row['waktu'] }}
-                                            </td>
-                                            <td>{{ $row['akibat'] }}
-                                            </td>
-                                        </tr>
-                                        @php
-                                            $no++;
-                                        @endphp
-                                    @endforeach
+                                    @if ($data->penghambat)
+                                        @foreach ($data->penghambat as $row => $rec)
+                                            <tr rowspan="{{ count($rec->start_time) }}">
+                                                <td rowspan="{{ count($rec->start_time) }}">{{ $nopenghambat }}
+                                                </td>
+                                                <td rowspan="{{ count($rec->start_time) }}">{{ $row}} 
+                                                </td>
+                                            
+                                                @for($m=0;$m<count($rec->start_time);$m++)
+                                                    @if($m >= 1)
+                                                    <tr>
+                                                    @endif
+                                                        <td>{{ $rec->start_time[$m] }} - {{ $rec->end_time[$m] }}
+                                                        </td>
+                                                        <td>{{ $rec->akibat[$m]}}
+                                                        </td>
+                                                    @if($m >= 1)
+                                                    </tr>
+                                                    @endif  
+                                                @endfor
+                                            </tr>
+                                            @php
+                                                $nopenghambat++;
+                                            @endphp
+                                        @endforeach
+                                    @else
+                                           <td colspan ="4" class="text-center">Tidak ada hambatan</td> 
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
@@ -240,12 +257,12 @@
                 <div class="col-5">
                     <div class="row">
                         <div class="col-12">
-                            <p class=" font-weight-bold">B. MATERIAL TIBA DI LOKASI</p>
+                            <p class=" font-weight-bold">D. MATERIAL TIBA DI LOKASI</p>
                             <table class="table table-sm table-bordered">
                                 <thead>
                                     <tr>
                                         <th>NO</th>
-                                        <th>JABATAN</th>
+                                        <th>MATERIAL</th>
                                         <th>SATUAN</th>
                                         <th>JUMLAH</th>
                                     </tr>
@@ -272,8 +289,8 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="col-12">
-                            <p class=" font-weight-bold">D. BAHAN OPERASIONAL PERALATAN</p>
+                        {{-- <div class="col-12">
+                            <p class=" font-weight-bold">E. BAHAN OPERASIONAL PERALATAN</p>
                             <table class="table table-sm table-bordered">
                                 <thead>
                                     <tr>
@@ -337,9 +354,9 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                        </div>
+                        </div> --}}
                     </div>
-                </div> --}}
+                </div>
             </div>
             <div class="row">
                 {{-- <div class="col-12">

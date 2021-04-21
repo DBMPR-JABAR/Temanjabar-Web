@@ -125,7 +125,7 @@ class PrintPDFController extends Controller
 
     public function laporanPekerjaan()
     {
-        dd($this->data_pekerjaan);
+        // dd($this->data_pekerjaan);
         return view('pdf.templet_laporan_pekerjaan', ['data' => $this->data_pekerjaan]);
     }
 }

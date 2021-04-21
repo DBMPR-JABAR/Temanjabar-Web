@@ -1024,7 +1024,6 @@ class PekerjaanController extends Controller
                     $pekerjaan->nama_bahan[] = $material->$nama_bahan;
                     $pekerjaan->jum_bahan[] = $material->$jum_bahan;
                     $pekerjaan->satuan[] = $material->$satuan;
-
                 }
             }
         }
@@ -1122,6 +1121,23 @@ class PekerjaanController extends Controller
         }
         return view('admin.input.pekerjaan.laporan-pekerjaan');
     }
+    public function arrOne($var1,$var2,$var3){
+        $arrOne = (object)[
+            $var1 => [],
+            $var2 => [],
+            $var3 => []
+        ];
+        return $arrOne; 
+    }
+    public function arrTwo($var1,$var2,$var3){
+        $arrTwo = (object)[
+            $var1 => "",
+            $var2 => "",
+            $var3 => ""
+
+        ];
+        return $arrTwo;
+    }
     public function generateLaporanPekerjaan(Request $request){
         $color = "danger";
         $msg = "Data tidak ada";
@@ -1139,15 +1155,65 @@ class PekerjaanController extends Controller
             return back()->with(compact('color', 'msg'));
         }
         $x = 0;
-       
+        // dd($kemandoran);
         for($i=0 ; $i < count($kemandoran); $i++){
-          
+            
+            $mat = $this->arrTwo('nama_bahan','satuan','jum_bahan');
+            
+            $kemandoran[$i]->material_dipakai = "";
+            $kemandoran[$i]->tenaga_kerja = DB::table('kemandoran_detail_pekerja')->where('id_pek',$kemandoran[$i]->id_pek)->select('jabatan','jumlah')->get()->toArray();
+            $kemandoran[$i]->satuan_hasil = DB::table('utils_nama_kegiatan_pekerjaan')->where('name',$kemandoran[$i]->paket)->pluck('satuan')->first();
+            $kemandoran[$i]->penghambat = DB::table('kemandoran_detail_penghambat')->where('id_pek',$kemandoran[$i]->id_pek)->select('jenis_gangguan','start_time','end_time','akibat')->get()->toArray();
+            
+            $material = DB::table('bahan_material')->where('id_pek', $kemandoran[$i]->id_pek)->first();
+            if($material){
+                $arrTwo[$i]=[];
+                for($z=1; $z<=15 ;$z++){
+                    $jum_bahan = "jum_bahan$z";
+                    $nama_bahan = "nama_bahan$z";
+                    $satuan = "satuan$z";
+                    if($material->$jum_bahan != null){
+                        $mat->nama_bahan =$material->$nama_bahan;
+                        $mat->jum_bahan = $material->$jum_bahan;
+                        $mat->satuan = $material->$satuan;
+                        // $kemandoran[$i]->material_dipakai = $mat;
+                     
+                      $arrTwo[$i][] = (object)[
+                        "nama_bahan" => $material->$nama_bahan,
+                        "jum_bahan" => $material->$jum_bahan,
+                        "satuan" => $material->$satuan
+                        ];
+                    }
+                }
+                $kemandoran[$i]->material_dipakai = $arrTwo[$i];
+            }
+            // dd($arrTwo[$i]);
+
             $kemandoran[$i]->jenis_pekerjaan = DB::table('utils_jenis_laporan')->where('id',$kemandoran[$i]->jenis_pekerjaan)->pluck('name')->first();
             // $laporan->tanggal = $kemandoran[$i]->tanggal;
             $laporan[$kemandoran[$i]->tanggal][] = (object) $kemandoran[$i];
         }
+        // dd($kemandoran);
         $temporari=[];
         foreach($laporan as $item => $item){
+            //declare tenaga kerja
+            $tempkerja[$item] = $this->arrOne('jabatan','satuan','jumlah');
+            $tempkerjafix[$item] = $this->arrOne('jabatan','satuan','jumlah');
+            $tempkerjafixed[$item]=[] ;
+
+            //declare hasil yang di capai
+            $temphasilfix[$item] = $this->arrOne('jenis','satuan','perkiraan');
+            
+            //declare penghambat pekerjaan
+            $temppenghambat[$item] = $this->arrOne('jenis_gangguan','start_time','akibat');
+            $temppenghambatfix = [];
+
+             //declare material
+             $tempmaterial[$item] = $this->arrOne('nama_bahan','satuan','jum_bahan');
+             $tempmaterialfix[$item] = $this->arrOne('nama_bahan','satuan','jum_bahan');
+             $tempmaterialfixed[$item]=[] ;
+
+            $con = [];
             foreach($laporan[$item] as $item1 => $item1){
                 $temporari[$item] = (object)[
                     'uptd' => 'III',
@@ -1156,26 +1222,120 @@ class PekerjaanController extends Controller
                     'tanggal_hari' => '08-08-2021/Rabu',
                     'ruas_jalan' => 'Ahmad Yani',
                     'km' => 12,
-                    'hal_ke' => count($laporan)];
+                    'hal_ke' => count($laporan),
+                    'tenaga_kerja' => '',
+                    'hasil_kerja' => ''
+                ];
+                
                 // $temporari[$item]=$laporan[$item][$item1];
                 $temporari[$item]->uptd = $laporan[$item][$item1]->uptd_id;
-               
                 $sup = str_replace('SUP ','', $laporan[$item][$item1]->sup);
                 $sup = str_replace('SPP ','', $sup);
-
                 $temporari[$item]->sub_kegiatan = $laporan[$item][$item1]->sub_kegiatan;
                 $temporari[$item]->sppj_wilayah = $sup;
                 $timestamp = strtotime($laporan[$item][$item1]->tanggal);
                 setlocale(LC_TIME, "id");
                 $temporari[$item]->tanggal_hari = $item.'/'.utf8_encode(strftime('%A',$timestamp));
                 $temporari[$item]->ruas_jalan = $laporan[$item][$item1]->ruas_jalan;
-
                 $temporari[$item]->km = $laporan[$item][$item1]->lokasi;
                 
-                // echo  date("l", mktime($laporan[$item][$item1]->tanggal));
+                $temphasilfix[$item]->jenis_pekerjaan[] = $laporan[$item][$item1]->jenis_pekerjaan;
+                $temphasilfix[$item]->jenis[] = $laporan[$item][$item1]->paket;
+                $temphasilfix[$item]->satuan[] = $laporan[$item][$item1]->satuan_hasil;
+                $temphasilfix[$item]->perkiraan[] = $laporan[$item][$item1]->perkiraan_kuantitas;
+
+                //gabungkan tenaga kerja
+                if($laporan[$item][$item1]->tenaga_kerja ){
+                    for($v = 0 ; $v < count($laporan[$item][$item1]->tenaga_kerja); $v++){
+                        $tempkerja[$item]->jabatan[] =  $laporan[$item][$item1]->tenaga_kerja[$v]->jabatan;
+                        $tempkerja[$item]->jumlah[] =  $laporan[$item][$item1]->tenaga_kerja[$v]->jumlah;
+                    }  
+                }
+
+                //gabungkan penghambat
+                if($laporan[$item][$item1]->penghambat){
+                    for($v = 0 ; $v < count($laporan[$item][$item1]->tenaga_kerja); $v++){
+                        $temppenghambat[$item]->jenis_gangguan[] =  $laporan[$item][$item1]->penghambat[$v]->jenis_gangguan;
+                        $temppenghambat[$item]->start_time[] =  $laporan[$item][$item1]->penghambat[$v]->start_time;
+                        $temppenghambat[$item]->end_time[] =  $laporan[$item][$item1]->penghambat[$v]->end_time;
+                        $temppenghambat[$item]->akibat[] =  $laporan[$item][$item1]->penghambat[$v]->akibat;
+                        $temppenghambatfix[$laporan[$item][$item1]->penghambat[$v]->jenis_gangguan] = $this->arrOne('start_time','end_time','akibat');
+                    }  
+                }
+
+                //gabungkan material
+                if($laporan[$item][$item1]->material_dipakai ){
+                    for($v = 0 ; $v < count($laporan[$item][$item1]->material_dipakai); $v++){
+                        $tempmaterial[$item]->nama_bahan[] =  $laporan[$item][$item1]->material_dipakai[$v]->nama_bahan;
+                        $tempmaterial[$item]->jum_bahan[] =  $laporan[$item][$item1]->material_dipakai[$v]->jum_bahan;
+                        $tempmaterial[$item]->satuan[] =  $laporan[$item][$item1]->material_dipakai[$v]->satuan;
+                    }  
+                }
+
             }
+            // dd($tempmaterial[$item]);
+            //menghilangkan redundan tenaga kerja
+            for($j=0;$j < count($tempkerja[$item]->jabatan) ; $j++){
+                $pointer = null;
+                // echo $tempkerja[$item]->jabatan[$j]. '|||';
+                for($x=0;$x < count($tempkerjafix[$item]->jabatan) ; $x++){
+                    $pointer = null;
+                    if($tempkerjafix[$item]->jabatan[$x] == $tempkerja[$item]->jabatan[$j]){
+                        $pointer = 1;
+                        
+                        break;
+                    }
+                }
+                if($pointer){
+                    $tempkerjafix[$item]->jumlah[$x] =$tempkerjafix[$item]->jumlah[$x] +$tempkerja[$item]->jumlah[$j] ;
+                }else{
+                    $tempkerjafix[$item]->jabatan[$x] = $tempkerja[$item]->jabatan[$j];
+                    $tempkerjafix[$item]->jumlah[$x] = $tempkerja[$item]->jumlah[$j];
+                }
+                // $tempkerjafixed[$item][$tempkerjafix[$item]->jabatan] = $tempkerjafix[$item]->jumlah;
+            }
+            
+            for($x = 0 ; $x<count($temppenghambat[$item]->jenis_gangguan) ; $x++){
+
+                $temppenghambatfix[$temppenghambat[$item]->jenis_gangguan[$x]]->start_time[] = $temppenghambat[$item]->start_time[$x];
+                $temppenghambatfix[$temppenghambat[$item]->jenis_gangguan[$x]]->end_time[] = $temppenghambat[$item]->end_time[$x];
+                $temppenghambatfix[$temppenghambat[$item]->jenis_gangguan[$x]]->akibat[] = $temppenghambat[$item]->akibat[$x];
+                
+            }
+
+            //menghilangkan redundan material
+            for($j=0;$j < count($tempmaterial[$item]->nama_bahan) ; $j++){
+                $pointer = null;
+                // echo $tempmaterial[$item]->nama_bahan[$j]. '|||';
+                for($x=0;$x < count($tempmaterialfix[$item]->nama_bahan) ; $x++){
+                    $pointer = null;
+                    if($tempmaterialfix[$item]->nama_bahan[$x] == $tempmaterial[$item]->nama_bahan[$j]){
+                        $pointer = 1;
+                        
+                        break;
+                    }
+                }
+                if($pointer){
+                    $tempmaterialfix[$item]->jum_bahan[$x] =$tempmaterialfix[$item]->jum_bahan[$x] +$tempmaterial[$item]->jum_bahan[$j] ;
+                }else{
+                    $tempmaterialfix[$item]->nama_bahan[$x] = $tempmaterial[$item]->nama_bahan[$j];
+                    $tempmaterialfix[$item]->jum_bahan[$x] = $tempmaterial[$item]->jum_bahan[$j];
+                    $tempmaterialfix[$item]->satuan[$x] = $tempmaterial[$item]->satuan[$j];
+
+                }
+                // $tempmaterialfixed[$item][$tempmaterialfix[$item]->jabatan] = $tempmaterialfix[$item]->jumlah;
+            }
+            // dd($temppenghambatfix);
+            $temporari[$item]->tenaga_kerja = $tempkerjafix[$item];
+            $temporari[$item]->hasil_kerja = $temphasilfix[$item];
+            $temporari[$item]->penghambat = $temppenghambatfix;
+            $temporari[$item]->material_dipakai = $tempmaterialfix[$item];
+
+
         }
-        // dd($temporari);
+        dd($temporari);
+        // dd($laporan);
+
         // dd(count($laporan));
         // dd($ruas);
         return view('pdf.laporan_pekerjaan', compact('temporari'));
