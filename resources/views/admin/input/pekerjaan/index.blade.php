@@ -268,7 +268,7 @@
                 @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Create"))
                 <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
                     @if (!str_contains(Auth::user()->internalRole->role,'Mandor'))
-                        {{-- <a href="{{ route('LaporanPekerjaan') }}" class="btn btn-mat btn-success mb-3">Cetak Laporan</a>     --}}
+                        <a href="{{ route('LaporanPekerjaan') }}" class="btn btn-mat btn-success mb-3">Cetak Laporan</a>    
                     @endif
                 @endif
                 <div class="dt-responsive table-responsive">
@@ -391,11 +391,9 @@
                                                     <a href="{{ route('editDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i></button></a>
                                                     <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Lengkapi Data"><i class="icofont icofont-list"></i></button></a>
                                                     @endif
-
                                                         @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Delete"))
                                                         <a href="#delModal" data-id="{{$data->id_pek}}" data-toggle="modal"><button class="btn btn-danger btn-sm waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
                                                         @endif
-
                                                 @endif
                                             @endif
                                         @endif

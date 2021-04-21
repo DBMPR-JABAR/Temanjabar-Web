@@ -240,10 +240,10 @@ class PekerjaanController extends Controller
 
         }
         // $kode_otp = rand(100000, 999999);
-    //    echo Auth::user()->internalRole->id;
-    //    echo Auth::user()->sup;
-    // echo Auth::user()->internalRole->role;
-    //    dd($pekerjaan);
+        // echo Auth::user()->internalRole->id;
+        // echo Auth::user()->sup;
+        // echo Auth::user()->internalRole->role;
+        // dd($pekerjaan);
         $approve = 0;
         $reject = 0;
         $submit = 0;
@@ -1188,6 +1188,13 @@ class PekerjaanController extends Controller
                 $kemandoran[$i]->material_dipakai = $arrTwo[$i];
             }
             // dd($arrTwo[$i]);
+            $kemandoran[$i]->material_operasional = DB::table('kemandoran_detail_material as a')
+            ->leftjoin('item_bahan as b','a.id_material','=','b.no')
+            ->where('a.id_pek',$kemandoran[$i]->id_pek)->select('b.nama_item','a.kuantitas','a.satuan')->get()->toArray();
+
+            $kemandoran[$i]->peralatan_operasional = DB::table('kemandoran_detail_peralatan as a')
+            ->leftjoin('item_peralatan as b','a.id_peralatan','=','b.id')
+            ->where('a.id_pek',$kemandoran[$i]->id_pek)->select('b.nama_peralatan','a.kuantitas','a.satuan')->get()->toArray();
 
             $kemandoran[$i]->jenis_pekerjaan = DB::table('utils_jenis_laporan')->where('id',$kemandoran[$i]->jenis_pekerjaan)->pluck('name')->first();
             // $laporan->tanggal = $kemandoran[$i]->tanggal;
@@ -1212,6 +1219,16 @@ class PekerjaanController extends Controller
              $tempmaterial[$item] = $this->arrOne('nama_bahan','satuan','jum_bahan');
              $tempmaterialfix[$item] = $this->arrOne('nama_bahan','satuan','jum_bahan');
              $tempmaterialfixed[$item]=[] ;
+
+             //declare bahan operasional
+            $tempmaterialoperasional[$item] = $this->arrOne('nama_item','satuan','kuantitas');
+            $tempmaterialoperasionalfix[$item] = $this->arrOne('nama_item','satuan','kuantitas');
+            $tempmaterialoperasionalfixed[$item]=[] ;
+
+            //declare peralatan operasional
+            $tempperalatanoperasional[$item] = $this->arrOne('nama_peralatan','satuan','kuantitas');
+            $tempperalatanoperasionalfix[$item] = $this->arrOne('nama_peralatan','satuan','kuantitas');
+            $tempperalatanoperasionalfixed[$item]=[] ;
 
             $con = [];
             foreach($laporan[$item] as $item1 => $item1){
@@ -1272,6 +1289,23 @@ class PekerjaanController extends Controller
                     }  
                 }
 
+                //gabungkan material operasional
+                if($laporan[$item][$item1]->material_operasional ){
+                    for($v = 0 ; $v < count($laporan[$item][$item1]->material_operasional); $v++){
+                        $tempmaterialoperasional[$item]->nama_item[] =  $laporan[$item][$item1]->material_operasional[$v]->nama_item;
+                        $tempmaterialoperasional[$item]->kuantitas[] =  $laporan[$item][$item1]->material_operasional[$v]->kuantitas;
+                        $tempmaterialoperasional[$item]->satuan[] =  $laporan[$item][$item1]->material_operasional[$v]->satuan;
+                    }  
+                }
+
+                //gabungkan peralatan operasional
+                if($laporan[$item][$item1]->peralatan_operasional ){
+                    for($v = 0 ; $v < count($laporan[$item][$item1]->peralatan_operasional); $v++){
+                        $tempperalatanoperasional[$item]->nama_peralatan[] =  $laporan[$item][$item1]->peralatan_operasional[$v]->nama_peralatan;
+                        $tempperalatanoperasional[$item]->kuantitas[] =  $laporan[$item][$item1]->peralatan_operasional[$v]->kuantitas;
+                        $tempperalatanoperasional[$item]->satuan[] =  $laporan[$item][$item1]->peralatan_operasional[$v]->satuan;
+                    }  
+                }
             }
             // dd($tempmaterial[$item]);
             //menghilangkan redundan tenaga kerja
@@ -1281,8 +1315,7 @@ class PekerjaanController extends Controller
                 for($x=0;$x < count($tempkerjafix[$item]->jabatan) ; $x++){
                     $pointer = null;
                     if($tempkerjafix[$item]->jabatan[$x] == $tempkerja[$item]->jabatan[$j]){
-                        $pointer = 1;
-                        
+                        $pointer = 1;   
                         break;
                     }
                 }
@@ -1296,11 +1329,9 @@ class PekerjaanController extends Controller
             }
             
             for($x = 0 ; $x<count($temppenghambat[$item]->jenis_gangguan) ; $x++){
-
                 $temppenghambatfix[$temppenghambat[$item]->jenis_gangguan[$x]]->start_time[] = $temppenghambat[$item]->start_time[$x];
                 $temppenghambatfix[$temppenghambat[$item]->jenis_gangguan[$x]]->end_time[] = $temppenghambat[$item]->end_time[$x];
-                $temppenghambatfix[$temppenghambat[$item]->jenis_gangguan[$x]]->akibat[] = $temppenghambat[$item]->akibat[$x];
-                
+                $temppenghambatfix[$temppenghambat[$item]->jenis_gangguan[$x]]->akibat[] = $temppenghambat[$item]->akibat[$x];     
             }
 
             //menghilangkan redundan material
@@ -1311,7 +1342,6 @@ class PekerjaanController extends Controller
                     $pointer = null;
                     if($tempmaterialfix[$item]->nama_bahan[$x] == $tempmaterial[$item]->nama_bahan[$j]){
                         $pointer = 1;
-                        
                         break;
                     }
                 }
@@ -1321,19 +1351,62 @@ class PekerjaanController extends Controller
                     $tempmaterialfix[$item]->nama_bahan[$x] = $tempmaterial[$item]->nama_bahan[$j];
                     $tempmaterialfix[$item]->jum_bahan[$x] = $tempmaterial[$item]->jum_bahan[$j];
                     $tempmaterialfix[$item]->satuan[$x] = $tempmaterial[$item]->satuan[$j];
-
                 }
                 // $tempmaterialfixed[$item][$tempmaterialfix[$item]->jabatan] = $tempmaterialfix[$item]->jumlah;
             }
+
+            //menghilangkan redundan material operasional
+            for($j=0;$j < count($tempmaterialoperasional[$item]->nama_item) ; $j++){
+                $pointer = null;
+                // echo $tempmaterialoperasional[$item]->nama_item[$j]. '|||';
+                for($x=0;$x < count($tempmaterialoperasionalfix[$item]->nama_item) ; $x++){
+                    $pointer = null;
+                    if($tempmaterialoperasionalfix[$item]->nama_item[$x] == $tempmaterialoperasional[$item]->nama_item[$j]){
+                        $pointer = 1;
+                        break;
+                    }
+                }
+                if($pointer){
+                    $tempmaterialoperasionalfix[$item]->kuantitas[$x] =$tempmaterialoperasionalfix[$item]->kuantitas[$x] +$tempmaterialoperasional[$item]->kuantitas[$j] ;
+                }else{
+                    $tempmaterialoperasionalfix[$item]->nama_item[$x] = $tempmaterialoperasional[$item]->nama_item[$j];
+                    $tempmaterialoperasionalfix[$item]->kuantitas[$x] = $tempmaterialoperasional[$item]->kuantitas[$j];
+                    $tempmaterialoperasionalfix[$item]->satuan[$x] = $tempmaterialoperasional[$item]->satuan[$j];
+                }
+                // $tempmaterialoperasionalfixed[$item][$tempmaterialoperasionalfix[$item]->jabatan] = $tempmaterialoperasionalfix[$item]->jumlah;
+            }
+
+            //menghilangkan redundan peralatan operasional
+            for($j=0;$j < count($tempperalatanoperasional[$item]->nama_peralatan) ; $j++){
+                $pointer = null;
+                // echo $tempperalatanoperasional[$item]->nama_peralatan[$j]. '|||';
+                for($x=0;$x < count($tempperalatanoperasionalfix[$item]->nama_peralatan) ; $x++){
+                    $pointer = null;
+                    if($tempperalatanoperasionalfix[$item]->nama_peralatan[$x] == $tempperalatanoperasional[$item]->nama_peralatan[$j]){
+                        $pointer = 1;
+                        break;
+                    }
+                }
+                if($pointer){
+                    $tempperalatanoperasionalfix[$item]->kuantitas[$x] =$tempperalatanoperasionalfix[$item]->kuantitas[$x] +$tempperalatanoperasional[$item]->kuantitas[$j] ;
+                }else{
+                    $tempperalatanoperasionalfix[$item]->nama_peralatan[$x] = $tempperalatanoperasional[$item]->nama_peralatan[$j];
+                    $tempperalatanoperasionalfix[$item]->kuantitas[$x] = $tempperalatanoperasional[$item]->kuantitas[$j];
+                    $tempperalatanoperasionalfix[$item]->satuan[$x] = $tempperalatanoperasional[$item]->satuan[$j];
+                }
+                // $tempperalatanoperasionalfixed[$item][$tempperalatanoperasionalfix[$item]->jabatan] = $tempperalatanoperasionalfix[$item]->jumlah;
+            }
+
             // dd($temppenghambatfix);
             $temporari[$item]->tenaga_kerja = $tempkerjafix[$item];
             $temporari[$item]->hasil_kerja = $temphasilfix[$item];
             $temporari[$item]->penghambat = $temppenghambatfix;
             $temporari[$item]->material_dipakai = $tempmaterialfix[$item];
-
+            $temporari[$item]->material_operasional = $tempmaterialoperasionalfix[$item];
+            $temporari[$item]->peralatan_operasional = $tempperalatanoperasionalfix[$item];
 
         }
-        dd($temporari);
+        // dd($temporari);
         // dd($laporan);
 
         // dd(count($laporan));

@@ -269,27 +269,32 @@
                                 </thead>
                                 <tbody>
                                     @php
-                                        $no = 1;
+                                        $nomaterialdipakai = 1;
                                     @endphp
-                                    @foreach ($data->material_tiba as $row)
-                                        <tr>
-                                            <td>{{ $no }}
-                                            </td>
-                                            <td>{{ $row['jenis_material'] }}
-                                            </td>
-                                            <td>{{ $row['satuan'] }}
-                                            </td>
-                                            <td>{{ $row['kuantitas'] }}
-                                            </td>
-                                        </tr>
-                                        @php
-                                            $no++;
-                                        @endphp
-                                    @endforeach
+                                    @if ($data->material_dipakai)
+                                    
+                                        @for ($i = 0 ; $i< count($data->material_dipakai->nama_bahan) ; $i++)
+                                            <tr>
+                                                <td>{{ $nomaterialdipakai }}
+                                                </td>
+                                                <td>{{ $data->material_dipakai->nama_bahan[$i]}}
+                                                </td>
+                                                <td>{{ $data->material_dipakai->satuan[$i]}}
+                                                </td>
+                                                <td>{{ $data->material_dipakai->jum_bahan[$i] }}
+                                                </td>
+                                            </tr>
+                                            @php
+                                                $nomaterialdipakai++;
+                                            @endphp
+                                        @endfor
+                                    @else
+                                           <td colspan ="4" class="text-center">Tidak ada material tiba</td> 
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
-                        {{-- <div class="col-12">
+                        <div class="col-12">
                             <p class=" font-weight-bold">E. BAHAN OPERASIONAL PERALATAN</p>
                             <table class="table table-sm table-bordered">
                                 <thead>
@@ -302,23 +307,27 @@
                                 </thead>
                                 <tbody>
                                     @php
-                                        $no = 1;
+                                        $nomaterialoperasional = 1;
                                     @endphp
-                                    @foreach ($data->bahan_operasional as $row)
-                                        <tr>
-                                            <td>{{ $no }}
+                                    @if ($data->material_operasional)
+                                        @for ($i = 0 ; $i< count($data->material_operasional->nama_item) ; $i++)
+                                            <tr>
+                                            <td>{{ $nomaterialoperasional }}
                                             </td>
-                                            <td>{{ $row['jenis_bahan_bakar'] }}
+                                            <td>{{ $data->material_operasional->nama_item[$i]}}
                                             </td>
-                                            <td>{{ $row['satuan'] }}
+                                            <td>{{ $data->material_operasional->satuan[$i]}}
                                             </td>
-                                            <td>{{ $row['kuantitas'] }}
+                                            <td>{{ $data->material_operasional->kuantitas[$i] }}
                                             </td>
-                                        </tr>
-                                        @php
-                                            $no++;
-                                        @endphp
-                                    @endforeach
+                                            </tr>
+                                            @php
+                                                $nomaterialoperasional++;
+                                            @endphp
+                                        @endfor
+                                    @else
+                                        <td colspan ="4" class="text-center">Tidak ada bahan operasional</td>
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
@@ -335,32 +344,36 @@
                                 </thead>
                                 <tbody>
                                     @php
-                                        $no = 1;
+                                        $noperalatanoperasional = 1;
                                     @endphp
-                                    @foreach ($data->peralatan as $row)
-                                        <tr>
-                                            <td>{{ $no }}
+                                    @if ($data->peralatan_operasional)
+                                        @for ($i = 0 ; $i< count($data->peralatan_operasional->nama_peralatan) ; $i++)
+                                            <tr>
+                                            <td>{{ $noperalatanoperasional }}
                                             </td>
-                                            <td>{{ $row['jenis_peralatan'] }}
+                                            <td>{{ $data->peralatan_operasional->nama_peralatan[$i]}}
                                             </td>
-                                            <td>{{ $row['satuan'] }}
+                                            <td>{{ $data->peralatan_operasional->satuan[$i]}}
                                             </td>
-                                            <td>{{ $row['kuantitas'] }}
+                                            <td>{{ $data->peralatan_operasional->kuantitas[$i] }}
                                             </td>
-                                        </tr>
-                                        @php
-                                            $no++;
-                                        @endphp
-                                    @endforeach
+                                            </tr>
+                                            @php
+                                                $noperalatanoperasional++;
+                                            @endphp
+                                        @endfor
+                                    @else 
+                                        <td colspan ="4" class="text-center">Tidak ada peralatan</td>
+                                    @endif
                                 </tbody>
                             </table>
-                        </div> --}}
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="row">
-                {{-- <div class="col-12">
-                    <p class=" font-weight-bold">A. TENAGA KERJA</p>
+                <div class="col-12">
+                    <p class=" font-weight-bold">&nbsp;</p>
                     <table class="table table-sm table-bordered text-center">
                         <tbody>
                             <tr>
@@ -429,7 +442,7 @@
                             </tr>
                         </tbody>
                     </table>
-                </div> --}}
+                </div>
             </div>
         </page>
         

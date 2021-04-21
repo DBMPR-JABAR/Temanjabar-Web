@@ -344,7 +344,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <p class=" font-weight-bold">A. TENAGA KERJA</p>
+                <p class=" font-weight-bold">&nbsp;</p>
                 <table class="table table-sm table-bordered text-center">
                     <tbody>
                         <tr>
