@@ -340,16 +340,13 @@
                                         <br>
                                         <i style="color :red; font-size: 10px;">Lengkapi material</i>
                                     @endif
-
                                 </td>
 
                                 <td style="min-width: 170px;">
 
                                     <div class="btn-group" role="group" data-placement="top" title="" data-original-title=".btn-xlg">
                                         @if(Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor')||str_contains(Auth::user()->internalRole->role,'Admin')||(str_contains(Auth::user()->internalRole->role,'Pengamat')&& $data->status != null && (str_contains($data->status->status,'Rejected')|| str_contains($data->status->status,'Edited'))) && !str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan'))
-                                        
                                             @if(!$data->keterangan_status_lap ||str_contains($data->status->status,'Submitted')|| str_contains($data->status->status,'Rejected')|| (str_contains($data->status->status,'Edited')&&Auth::user()->id == $data->status->adjustment_user_id)||str_contains(Auth::user()->internalRole->role,'Admin'))
-
                                                 @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
                                                 <a href="{{ route('editDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i></button></a>
                                                 <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Lengkapi Data"><i class="icofont icofont-list"></i></button></a>
@@ -365,34 +362,31 @@
                                             @elseif(str_contains(Auth::user()->internalRole->role,'Pengamat')&& $data->status != null && (str_contains($data->status->status,'Edited') && Auth::user()->id != $data->status->adjustment_user_id ))
                                                 @if(Auth::user()->internal_role_id!=null && Auth::user()->internal_role_id ==$data->status->parent )
                                                     @if(str_contains(Auth::user()->internalRole->role,'Pengamat') && Auth::user()->sup_id==$data->status->sup_id)
-                                                        <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i>Judgement</button></a>
+                                                        <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Judgement"><i class="icofont icofont-pencil"></i>Judgement</button></a>
                                                     @endif
                                                 @endif
                                                 @if(@$data->status->adjustment_user_id==Auth::user()->id )
-                                                    <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i>Edit Judgement</button></a>
+                                                    <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit Judgement"><i class="icofont icofont-pencil"></i>Edit Judgement</button></a>
                                                 @endif
                                             @endif
-
                                         @else
                                             @if($data->status)
                                                 @if(Auth::user()->internal_role_id!=null && Auth::user()->internal_role_id ==$data->status->parent )
-
                                                     @if(str_contains(Auth::user()->internalRole->role,'Pengamat') || (str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') && $data->status->status == "Approved" || $data->status->status =="Edited"|| $data->status->status =="Submitted") && Auth::user()->sup_id==$data->status->sup_id)
-                                                        <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i>Judgement</button></a>
+                                                        <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Judgement"><i class="icofont icofont-pencil"></i>Judgement</button></a>
                                                     @elseif(!str_contains(Auth::user()->internalRole->role,'Pengamat') && !str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') && $data->status->status == "Approved")
-                                                        <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i>Judgement</button></a>
+                                                        <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Judgement"><i class="icofont icofont-pencil"></i>Judgement</button></a>
                                                     @endif
                                                 @endif
                                                 @if(@$data->status->adjustment_user_id==Auth::user()->id && !str_contains($data->status->status,'Submitted'))
-                                                    <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i>Edit Judgement</button></a>
+                                                    <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit Judgement"><i class="icofont icofont-pencil"></i>Edit Judgement</button></a>
                                                 @elseif(str_contains(Auth::user()->internalRole->role,'Pengamat') && str_contains($data->status->status,'Submitted')&& str_contains($data->status->jabatan,'Pengamat'))
                                                     @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
-
                                                     <a href="{{ route('editDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i></button></a>
                                                     <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Lengkapi Data"><i class="icofont icofont-list"></i></button></a>
                                                     @endif
                                                         @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Delete"))
-                                                        <a href="#delModal" data-id="{{$data->id_pek}}" data-toggle="modal"><button class="btn btn-danger btn-sm waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
+                                                            <a href="#delModal" data-id="{{$data->id_pek}}" data-toggle="modal"><button class="btn btn-danger btn-sm waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
                                                         @endif
                                                 @endif
                                             @endif

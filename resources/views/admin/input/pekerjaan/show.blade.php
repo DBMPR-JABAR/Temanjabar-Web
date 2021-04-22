@@ -281,39 +281,64 @@
                 
             </div>
         </div>
-
-        <div class="card">
-
-            <div class="card-block">
-
-                <form action="{{ route('jugmentLaporanMandor',$pekerjaan->id_pek) }}" method="post" enctype="multipart/form-data">
-                    @csrf
-                    <div class="form-group">
-                        <label>Judgement</label>
-                        <select class="form-control" name="status" required>
-                            <option value="">Select</option>
-
-                            <option value="Approved" @if (@$detail->status != null && strpos('Approved', @$detail->status) !== false) selected @endif>Approved</option>
-                            <option value="Rejected" @if (@$detail->status != null && strpos('Rejected', @$detail->status) !== false) selected @endif>Rejected</option>
-                        </select>
+        <form action="{{ route('jugmentLaporanMandor',$pekerjaan->id_pek) }}" method="post" enctype="multipart/form-data">
+            @csrf
+        
+            @if (str_contains(Auth::user()->internalRole->role,'Pengamat')|| str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan'))
+                <div class="card">
+                    <div class="card-header">
+                        <h6>Instruksi / Saran / Usul</h6>
+                        <div class="card-header-right">
+                            <ul class="list-unstyled card-option">
+                                {{-- <li><i class="feather icon-maximize full-card"></i></li> --}}
+                                <li><i class="feather icon-minus minimize-card"></i></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Keterangan</label>
-                        <input type="text" name="keterangan" id="keterangan"
-                            value="{{ old('keterangan', @$detail->description) }}" placeholder="Masukan Keterangan"
-                            class="form-control @error('keterangan') is-invalid @enderror" >
-                        @error('keterangan')
-                            <div class="invalid-feedback" style="display: block; color:red">
-                                {{ $message }}
+                    <div class="card-block">   
+                        
+                        <div class="form-group row">
+                            <label class="col-md-12 col-form-label">Apakah ada Instruksi / Saran / Usul ?</label>
+                            <div class="col-md-12">
+                                <input name="keterangan_instruksi" type="text" class="form-control" placeholder="Type here" required value="{{ @$detail_instruksi }}">
                             </div>
-                        @enderror
+                        </div>
+                        
                     </div>
-                    <a href="{{ url()->previous() }}"><button type="button" class="btn btn-danger waves-effect " data-dismiss="modal">Kembali</button></a>
-                <button type="submit" class="btn btn-responsive btn-primary">Submit</button>
-                </form>
+                </div>
+                
+            @endif
+            <div class="card">
 
+                <div class="card-block">
+
+                        <div class="form-group">
+                            <label>Judgement</label>
+                            <select class="form-control" name="status" required>
+                                <option value="">Select</option>
+
+                                <option value="Approved" @if (@$detail->status != null && strpos('Approved', @$detail->status) !== false) selected @endif>Approved</option>
+                                <option value="Rejected" @if (@$detail->status != null && strpos('Rejected', @$detail->status) !== false) selected @endif>Rejected</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Keterangan</label>
+                            <input type="text" name="keterangan" id="keterangan"
+                                value="{{ old('keterangan', @$detail->description) }}" placeholder="Masukan Keterangan"
+                                class="form-control @error('keterangan') is-invalid @enderror" >
+                            @error('keterangan')
+                                <div class="invalid-feedback" style="display: block; color:red">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <a href="{{ url()->previous() }}"><button type="button" class="btn btn-danger waves-effect " data-dismiss="modal">Kembali</button></a>
+                    <button type="submit" class="btn btn-responsive btn-primary">Submit</button>
+
+                </div>
             </div>
-        </div>
+        </form>
+
     </div>
 </div>
 

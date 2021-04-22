@@ -1154,6 +1154,30 @@
                 </div>
             </div>
         </div>
+        @if (str_contains(Auth::user()->internalRole->role,'Pengamat'))
+            <div class="card">
+                <div class="card-header">
+                    <h6>Instruksi / Saran / Usul</h6>
+                    <div class="card-header-right">
+                        <ul class="list-unstyled card-option">
+                            {{-- <li><i class="feather icon-maximize full-card"></i></li> --}}
+                            <li><i class="feather icon-minus minimize-card"></i></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-block">   
+                    
+                    <div class="form-group row">
+                        <label class="col-md-12 col-form-label">Apakah ada Instruksi / Saran / Usul ?</label>
+                        <div class="col-md-12">
+                            <input name="keterangan_instruksi" type="text" class="form-control" placeholder="Type here" required value="{{ @$detail_instruksi }}">
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        @endif
     </div>
    
     <div class="col-md-12">
