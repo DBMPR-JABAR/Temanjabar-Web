@@ -1,7 +1,10 @@
 @extends('admin.layout.index')
 
 @section('title') Edit User @endsection
+@section('head')
+<link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/chosen.css') }}">
 
+@endsection
 @section('page-header')
 <div class="row align-items-end">
     <div class="col-lg-8">
@@ -42,12 +45,12 @@
 
                 <form action="{{ route('updateUser') }}" method="post">
                     @csrf
-                    <input type="hidden" name="id" value="{{$user->id}}">
+                    <input type="hidden" name="id" value="{{$users->id}}">
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Email</label>
                         <div class="col-md-10">
-                            <input name="email" type="email" class="form-control" value="{{$user->email}}" disabled required>
+                            <input name="email" type="email" class="form-control" value="{{$users->email}}" required>
                             <small class="form-text text-muted">Tidak bisa diedit</small>
                         </div>
                     </div>
@@ -66,21 +69,21 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Nama Lengkap</label>
                         <div class="col-md-10">
-                            <input name="name" type="text" class="form-control" value="{{$user->name}}" required>
+                            <input name="name" type="text" class="form-control" value="{{$users->name}}" required>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">NIP/NIK</label>
                         <div class="col-md-10">
-                            <input name="no_pegawai" type="text" class="form-control" value="{{@$user->no_pegawai}}" required>
+                            <input name="no_pegawai" type="text" class="form-control" value="{{@$users->pegawai->no_pegawai}}" required>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">No. Telp/HP</label>
                         <div class="col-md-10">
-                            <input name="no_tlp" type="text" class="form-control" value="{{@$user->no_tlp}}" >
+                            <input name="no_tlp" type="text" class="form-control" value="{{@$users->pegawai->no_tlp}}" >
                         </div>
                     </div>
 
@@ -90,11 +93,24 @@
                             <select class="form-control searchableField" name="sup_id">
                                 <option value=" , ">Pilih SUP</option>
                                 @foreach ($sup as $data)
-                                <option value="{{ $data->id }},{{ $data->name }}" @if($user->sup_id == $data->id) selected @endif>{{$data->name}}</option>
+                                <option value="{{ $data->id }},{{ $data->name }}" @if($users->sup_id == $data->id) selected @endif>{{$data->name}}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Ruas Jalan</label>
+                        <div class="col-md-10">
+                            <select data-placeholder="Ruas jalan" class="form-control chosen-select" multiple id="ruas_jalan" name="ruas_jalan[]" tabindex="4">
+                                <option value="">Pilih Ruas</option>
+                                    @foreach ($input_ruas_jalan as $data)
+                                    <option value="{{$data->id}}" @if(in_array($data->id,array_column( $users->ruas->toArray(), 'id'))) selected @endif>{{$data->nama_ruas_jalan}}</option>
+                                    @endforeach
+                            </select>
+                        </div>
+                    </div>
+
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Pilih Jabatan</label>
@@ -136,6 +152,12 @@
 
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/chosen.jquery.js') }}" type="text/javascript"></script>
+<script>
+    $(document).ready(function() {
+        $(".chosen-select").chosen( { width: '100%' } );
+    });
+</script>
 <script>
     $(".toggle-password").click(function() {
         $(this).toggleClass("ti-eye ti-lock");

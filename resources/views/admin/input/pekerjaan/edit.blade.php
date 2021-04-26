@@ -179,14 +179,14 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Panjang (meter)</label>
                             <div class="col-md-10">
-                                <input name="panjang" type="text" class="form-control formatRibuan" required
+                                <input name="panjang" type="number" class="form-control formatRibuan" required
                                     value="{{ $pekerjaan->panjang }}">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Perkiraan Kuantitas</label>
                             <div class="col-md-10">
-                                <input name="perkiraan_kuantitas" type="text" class="form-control" required
+                                <input name="perkiraan_kuantitas" type="number" class="form-control" required
                                     value="{{ $pekerjaan->perkiraan_kuantitas }}">
                             </div>
                         </div>

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 
 
@@ -262,7 +263,7 @@ class DetailUserController extends Controller
 
             // echo Auth::user()->password;
             $validator = Validator::make($request->all(), [
-                'email' => 'required|email',
+                'email' => Rule::unique('users', 'email')->ignore($id),
                 'password'   => 'confirmed'
             ]);
             if ($validator->fails()) {

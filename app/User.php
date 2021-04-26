@@ -63,6 +63,12 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne('App\Model\Push\UserPushNotification', 'user_id');
     }
 
+    public function ruas()
+    {
+        // return $this->belongsToMany('App\Model\Transactional\RuasJalan');
+        return $this->belongsToMany('App\Model\Transactional\RuasJalan','user_master_ruas_jalan','user_id','master_ruas_jalan_id');
+    }
+
     // public function sup()
     // {
     //     return $this->hasOne('App\Model\Transactional\SUP', 'user_id');

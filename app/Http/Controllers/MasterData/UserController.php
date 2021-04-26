@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\MasterData;
 
 use App\User;
+use App\Model\Transactional\RuasJalan;
+
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,7 +14,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
-
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -111,14 +114,29 @@ class UserController extends Controller
             $role = $role->where('uptd', Auth::user()->internalRole->uptd);
         }
         $role = $role->get();
-        // dd($user);
-        return view('admin.master.user.edit', compact('user','sup','role'));
+        $users = User::find($id);
+        // dd(in_array(32,array_column( $users->ruas->toArray(), 'id')));
+        // dd($users->ruas);
+        return view('admin.master.user.edit', compact('user','sup','role','users'));
     }
 
 
     public function update(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'email' => Rule::unique('users', 'email')->ignore($request->id)
+            
+        ]);
+
+        if ($validator->fails()) {
+            $color = "danger";
+            $msg = "Email telah terdaftar";
+            return back()->with(compact('color', 'msg'));
+        }
+
+        $user['email']= $request->email;
         $temp = explode(",",$request->input('sup_id'));
+
         $user['sup_id']= $temp[0];
         $user['sup']= $temp[1];
         $userId = $request->id;
@@ -146,8 +164,17 @@ class UserController extends Controller
         }else{
             $userPegawai['user_id'] = $userId;
             $user_peg = $user_peg->insert($userPegawai);
-
         }
+        
+        if($request->ruas_jalan){
+            DB::table('user_master_ruas_jalan')->where('user_id',$request->id)->delete();
+            foreach($request->ruas_jalan as $data){
+                $userRuas['user_id'] =$request->id;
+                $userRuas['master_ruas_jalan_id'] =$data;
+                DB::table('user_master_ruas_jalan')->insert($userRuas);   
+            }
+        }
+
         $color = "success";
         $msg = "Berhasil Memperbaharui Data User";
         return back()->with(compact('color', 'msg'));

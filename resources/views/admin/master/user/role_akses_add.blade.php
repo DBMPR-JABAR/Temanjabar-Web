@@ -86,20 +86,7 @@
                         @endforeach
                         </select>
                     </div>
-                    {{-- <div class="col-md-9 ">
-                        <div class="form-check-inline">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" value="">Option 1
-                                @foreach($menu as $data)
-                                <input type="checkbox" class="form-check-input" name="menu[]" value="{{$data->menu}}.Create" >{{$data->menu}}.Create&nbsp;
-                                <input type="checkbox" class="form-check-input" name="menu[]" value="{{$data->menu}}.View" >{{$data->menu}}.View&nbsp;
-                                <input type="checkbox" class="form-check-input" name="menu[]" value="{{$data->menu}}.Update" >{{$data->menu}}.Update&nbsp;
-                                <input type="checkbox" class="form-check-input" name="menu[]" value="{{$data->menu}}.Delete" >{{$data->menu}}.Delete&nbsp;
-                            @endforeach
-                            </label>
-                        </div>
-
-                    </div> --}}
+                    
                 </div>
 
                 {{-- <div class="form-group row">

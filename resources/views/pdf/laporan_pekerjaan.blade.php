@@ -32,7 +32,9 @@
                     <h5 class="mt-2 font-weight-bold">BUKU HARIAN STANDAR</h5>
                 </div>
                 <div class="col-1">
+                    @if($no == 0)
                     <button id="cetak" type="button" class=" text-right">CETAK</button>
+                    @endif
                 </div>
             </div>
             <br>
