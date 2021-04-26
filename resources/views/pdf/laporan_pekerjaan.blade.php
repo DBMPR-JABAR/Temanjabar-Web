@@ -395,7 +395,7 @@
                                             </tr>
                                             <tr class="no_border">
                                                 <td class="no_border">
-                                                    <p class="text-center pb-0 mb-0">{{ @$data->pengamat }}</p>
+                                                    <p class="text-center pb-0 mb-0">{{ @$data->instruksi->nama[0] }}</p>
                                                 </td>
                                             </tr>
                                             <tr class="no_border">
@@ -407,7 +407,7 @@
                                     </div>
                                 </td>
                                 <td class=" align-middle">
-                                    <p class="text-center ">{{ @$data->usulan_pengamat }}</p>
+                                    <p class="text-center ">{{ @$data->instruksi->keterangan[0] }}</p>
                                 </td>
                                 <td>
                                 </td>
@@ -423,7 +423,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="no_border">
-                                                    <p class="text-center pb-0 mb-0">{{ @$data->ksppjj }}</p>
+                                                    <p class="text-center pb-0 mb-0">{{ @$data->instruksi->nama[1] }}</p>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -435,7 +435,7 @@
                                     </div>
                                 </td>
                                 <td class=" align-middle">
-                                    <p class="text-center ">{{ @$data->usulan_ksppjj }}</p>
+                                    <p class="text-center ">{{ @$data->instruksi->keterangan[1] }}</p>
                                 </td>
                                 <td>
                                 </td>

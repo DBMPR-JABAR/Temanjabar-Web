@@ -1374,7 +1374,6 @@ class PekerjaanController extends Controller
                     $tempkerjafix[$item]->jabatan[$x] = $tempkerja[$item]->jabatan[$j];
                     $tempkerjafix[$item]->jumlah[$x] = $tempkerja[$item]->jumlah[$j];
                 }
-                // $tempkerjafixed[$item][$tempkerjafix[$item]->jabatan] = $tempkerjafix[$item]->jumlah;
             }
             
             for($x = 0 ; $x<count($temppenghambat[$item]->jenis_gangguan) ; $x++){
@@ -1422,7 +1421,6 @@ class PekerjaanController extends Controller
                     $tempmaterialoperasionalfix[$item]->kuantitas[$x] = $tempmaterialoperasional[$item]->kuantitas[$j];
                     $tempmaterialoperasionalfix[$item]->satuan[$x] = $tempmaterialoperasional[$item]->satuan[$j];
                 }
-                // $tempmaterialoperasionalfixed[$item][$tempmaterialoperasionalfix[$item]->jabatan] = $tempmaterialoperasionalfix[$item]->jumlah;
             }
 
             //menghilangkan redundan peralatan operasional
@@ -1457,15 +1455,12 @@ class PekerjaanController extends Controller
                     }
                 }
                 if($pointer){
-                    
+                    $cek = $tempinstruksifix[$item]->keterangan[$x];
+                    $tempinstruksifix[$item]->keterangan[$x] = $cek .', '.$tempinstruksi[$item]->keterangan[$j];
                 }else{
                     $tempinstruksifix[$item]->user_id[$x] = $tempinstruksi[$item]->user_id[$j];
                     $tempinstruksifix[$item]->keterangan[$x] = $tempinstruksi[$item]->keterangan[$j];
-                    // foreach($instruksi as $row){
-                    //     // Auth::user()->internalRole->role
-                    //     // str_contains(Auth::user()->internalRole->role,'Pengamat')|| str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan')
-                    //     $inst->user_id = $row->user_id;
-                    //     $inst->keterangan = $row->keterangan;
+              
                     $getusr = User::where('id',$tempinstruksi[$item]->user_id[$j])->first();
                     if($getusr->exists()){
                         // dd($getusr);
@@ -1476,14 +1471,11 @@ class PekerjaanController extends Controller
                         
                         $tempinstruksifix[$item]->nama[$x] =$getusr->name;
 
-
                     }
-                    // }
-                    // $kemandoran[$i]->instruksi = $inst;
 
 
                 }
-                // $tempinstruksifixed[$item][$tempinstruksifix[$item]->jabatan] = $tempinstruksifix[$item]->jumlah;
+       
             }
 
             // dd($tempinstruksifix);
@@ -1497,7 +1489,7 @@ class PekerjaanController extends Controller
 
 
         }
-        dd($temporari);
+        // dd($temporari);
         // dd($laporan);
 
         // dd(count($laporan));

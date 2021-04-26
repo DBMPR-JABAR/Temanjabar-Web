@@ -66,7 +66,9 @@ class PekerjaanController extends Controller
                 'lat' => 'required|string',
                 'long' => 'required|string',
                 'panjang' => 'required|string',
-                'perkiraan_kuantitas' => 'required',
+                // 'perkiraan_kuantitas' => 'required',
+                'jumlah_pekerja' => 'required',
+
                 // 'peralatan' => 'required|string',
                 'fotoAwal' => 'file',
                 'fotoSedang' => 'file',
@@ -95,7 +97,9 @@ class PekerjaanController extends Controller
             $pekerjaan['jenis_pekerjaan'] = "Pemeliharaan";
             // $pekerjaan['peralatan'] = $request->peralatan;
             $pekerjaan['panjang'] = $request->panjang;
-            $pekerjaan['perkiraan_kuantitas'] = $request->perkiraan_kuantitas;
+            // $pekerjaan['perkiraan_kuantitas'] = $request->perkiraan_kuantitas;
+            $pekerjaan['jumlah_pekerja'] = $request->jumlah_pekerja;
+
             $pekerjaan['lokasi'] = $request->lokasi;
 
             $pekerjaan['lat'] = $request->lat;
@@ -180,7 +184,9 @@ class PekerjaanController extends Controller
                 'lat' => 'string',
                 'long' => 'string',
                 'panjang' => 'string',
-                'perkiraan_kuantitas' => 'required',
+                // 'perkiraan_kuantitas' => 'required',
+                'jumlah_pekerja' => 'required',
+
                 // 'peralatan' => 'string',
                 'fotoAwal' => 'file',
                 'fotoSedang' => 'file',
@@ -240,7 +246,8 @@ class PekerjaanController extends Controller
                 $request->video->storeAs('public/pekerjaan/', $path);
                 $pekerjaan['video'] = $path;
             }
-            $pekerjaan['perkiraan_kuantitas'] = $request->perkiraan_kuantitas;
+            // $pekerjaan['perkiraan_kuantitas'] = $request->perkiraan_kuantitas;
+            $pekerjaan['jumlah_pekerja'] = $request->jumlah_pekerja;
 
             $pekerjaan['uptd_id'] = $this->userUptd == '' ? 0 : $this->userUptd;
             $pekerjaan['updated_by'] = $this->user->id;
