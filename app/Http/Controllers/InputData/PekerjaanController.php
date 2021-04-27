@@ -390,7 +390,6 @@ class PekerjaanController extends Controller
         }else
             $temp=explode(",",$pekerjaan['nama_mandor']);
         
-
             $pekerjaan['ruas_jalan_id'] = $pekerjaan['ruas_jalan'];
             $pekerjaan['sup_id'] = DB::table('utils_sup')->where('kd_sup',$pekerjaan['sup'])->pluck('id')->first();
             $pekerjaan['sup'] = DB::table('utils_sup')->where('id',$pekerjaan['sup_id'])->pluck('name')->first();
