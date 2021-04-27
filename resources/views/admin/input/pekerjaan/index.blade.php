@@ -486,7 +486,7 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Uptd</label>
                             <div class="col-md-10">
-                                <select class=" searchableModalField" id="uptd" name="uptd_id" onchange="ubahOption()">
+                                <select class=" searchableModalField" id="uptd" name="uptd_id" onchange="ubahOption()" required>
                                     <option>Pilih UPTD</option>
                                     @foreach ($input_uptd_lists as $data)
                                     <option value="{{$data->id}}">{{$data->nama}}</option>
@@ -498,10 +498,10 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">SUP</label>
                             <div class="col-md-10">
-                                <select class=" searchableModalField" id="sup" name="sup" required >
+                                <select class=" searchableModalField" id="sup" name="sup" onchange="ubahOption1()" required >
                                     @if (Auth::user()->internalRole->uptd)
                                     @foreach ($sup as $data)
-                                    <option value="{{$data->name}},{{$data->id}}" @if(Auth::user()->sup_id != null && Auth::user()->sup_id == $data->id) selected @endif>{{$data->name}}</option>
+                                    <option value="{{$data->kd_sup}}" @if(Auth::user()->sup_id != null && Auth::user()->sup_id == $data->id) selected @endif>{{$data->name}}</option>
                                     @endforeach
                                     @else
                                     <option>-</option>
@@ -514,11 +514,11 @@
                             <div class="col-md-10">
                                 <select class=" searchableModalField" id="ruas_jalan" name="ruas_jalan" required>
                                     @if (Auth::user()->internalRole->uptd)
-                                    @foreach ($ruas_jalan as $data)
-                                    <option value="{{$data->nama_ruas_jalan}},{{$data->id_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
-                                    @endforeach
+                                        @foreach ($input_ruas_jalan as $data)
+                                            <option value="{{$data->id_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
+                                        @endforeach
                                     @else
-                                    <option>-</option>
+                                        <option>-</option>
                                     @endif
                                 </select>
                             </div>
@@ -873,12 +873,26 @@
             id_select = '#sup'
             text = 'Pilih SUP'
             option = 'name'
-            id_supp = 'id'
+            id_supp = 'kd_sup'
 
             setDataSelect(id, url, id_select, text, id_supp, option)
 
             //untuk select Ruas
             url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalan') }}"
+            id_select = '#ruas_jalan'
+            text = 'Pilih Ruas Jalan'
+            option = 'nama_ruas_jalan'
+            id_ruass = 'id_ruas_jalan'
+
+            setDataSelect(id, url, id_select, text, id_ruass, option)
+        }
+        function ubahOption1() {
+
+            //untuk select SUP
+            id = document.getElementById("sup").value
+
+            //untuk select Ruas
+            url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalanBySup') }}"
             id_select = '#ruas_jalan'
             text = 'Pilih Ruas Jalan'
             option = 'nama_ruas_jalan'

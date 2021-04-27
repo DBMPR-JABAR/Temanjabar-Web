@@ -389,22 +389,13 @@ class PekerjaanController extends Controller
             $temp[1]=Auth::user()->id;
         }else
             $temp=explode(",",$pekerjaan['nama_mandor']);
-        // dd($pekerjaan['sup']);
-        if(!Auth::user()->internalRole->uptd){
-            $pekerjaan['sup_id'] = $pekerjaan['sup'];
+        
+
             $pekerjaan['ruas_jalan_id'] = $pekerjaan['ruas_jalan'];
+            $pekerjaan['sup_id'] = DB::table('utils_sup')->where('kd_sup',$pekerjaan['sup'])->pluck('id')->first();
             $pekerjaan['sup'] = DB::table('utils_sup')->where('id',$pekerjaan['sup_id'])->pluck('name')->first();
             $pekerjaan['ruas_jalan'] = DB::table('master_ruas_jalan')->where('id_ruas_jalan',$pekerjaan['ruas_jalan_id'])->pluck('nama_ruas_jalan')->first();
-
-            // dd($pekerjaan);
-        }else{
-            $temp1=explode(",",$pekerjaan['sup']);
-            $temp2=explode(",",$pekerjaan['ruas_jalan']);
-            $pekerjaan['sup'] = $temp1[0];
-            $pekerjaan['sup_id'] = $temp1[1];
-            $pekerjaan['ruas_jalan'] = $temp2[0];
-            $pekerjaan['ruas_jalan_id'] = $temp2[1];
-        }
+          
         $pekerjaan['nama_mandor'] = $temp[0];
         $pekerjaan['user_id'] = $temp[1];
 
