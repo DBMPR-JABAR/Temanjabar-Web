@@ -10,6 +10,7 @@
         href="{{ asset('assets/vendor/data-table/extensions/responsive/css/responsive.dataTables.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/chosen.css') }}">
     <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/chosen.css') }}">
 
     <style>
         .chosen-container.chosen-container-single {
@@ -223,6 +224,22 @@
                             {{-- <i style="color :red; font-size: 10px;">Untuk perubahan hubungi admin</i> --}}
                         </div>
                         <div class="form-group">
+                            <label>Ruas Jalan</label>
+                            <select data-placeholder="Ruas jalan" class="form-control chosen-select @error('ruas_jalan') is-invalid @enderror" multiple id="ruas_jalan" name="ruas_jalan[]">
+                                <option value="">Pilih Ruas</option>
+                                @foreach ($input_ruas_jalan as $data)
+                                    <option value="{{ $data->id }}" @if(in_array($data->id,array_column( Auth::user()->ruas->toArray(), 'id'))) selected @endif>{{ $data->nama_ruas_jalan }}</option>    
+                                @endforeach
+                            </select>
+                           
+                            @error('ruas_jalan')
+                                <div class="invalid-feedback" style="display: block; color:red">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                            {{-- <i style="color :red; font-size: 10px;">Untuk perubahan hubungi admin</i> --}}
+                        </div>
+                        <div class="form-group">
                             <label>Tanggal Mulai</label>
                             <input name="tgl_mulai_kerja" placeholder="Tanggal Mulai Kerja" type="date"
                                 value="{{ old('tgl_mulai_kerja', @$profile->tgl_mulai_kerja) }}"
@@ -369,8 +386,12 @@
 
     <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/chosen.jquery.js') }}"
-        type="text/javascript"></script>
+    <script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/chosen.jquery.js') }}" type="text/javascript"></script>
+    <script>
+        $(document).ready(function() {
+            $(".chosen-select").chosen( { width: '100%' } );
+        });
+    </script>
     <script>
         // $(function () {
         //     $('#province').on('change', function () {
