@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class SUPController extends Controller
 {
@@ -60,8 +61,20 @@ class SUPController extends Controller
         $this->validate($request, [
             'name'      => 'required'
         ]);
+        $validator = Validator::make($request->all(), [
+            'kd_sup' => 'required|unique:utils_sup'
+            
+        ]);
+        if ($validator->fails()) {
+            $color = "danger";
+            $msg = "Kode sudah ada";
+            return back()->with(compact('color', 'msg'));
+        }
+
         $uptd_id = $request->uptd_id;
         $sup['name'] = $request->name;
+        $sup['kd_sup'] = $request->kd_sup;
+
 
         if(Auth::user() && Auth::user()->internalRole->uptd != null)
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
@@ -119,8 +132,21 @@ class SUPController extends Controller
         $this->validate($request, [
             'name'      => 'required'
         ]);
+
+        $validator = Validator::make($request->all(), [
+            'kd_sup' => Rule::unique('utils_sup', 'kd_sup')->ignore($id)
+            
+        ]);
+
+        if ($validator->fails()) {
+            $color = "danger";
+            $msg = "Kode telah terdaftar";
+            return back()->with(compact('color', 'msg'));
+        }
+
         $uptd_id = $request->uptd_id;
         $sup['name'] = $request->name;
+        $sup['kd_sup'] = $request->kd_sup;
 
         if(Auth::user() && Auth::user()->internalRole->uptd != null)
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
