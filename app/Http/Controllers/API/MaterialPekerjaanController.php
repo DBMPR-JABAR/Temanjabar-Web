@@ -46,12 +46,12 @@ class MaterialPekerjaanController extends Controller
                 // 'jum_bahan1' => 'required|string',
                 // 'satuan1' => 'required|string',
                 
-                'bahan_material' => '',
+                'bahan_material' => 'string',
 
                 'peralatan_operasional' => 'required|string',
-                'bahan_operasional' => '',
-                'pekerja' => '',
-                'penghambat_pelaksanaan' =>'',
+                'bahan_operasional' => 'string',
+                'pekerja' => 'string',
+                'penghambat_pelaksanaan' =>'string',
                 'uptd_id' => 'required|int'
             ]);
 
