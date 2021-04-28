@@ -38,7 +38,7 @@ class MaterialPekerjaanController extends Controller
     public function store(Request $request)
     {
         try {
-            
+
             $validator = Validator::make($request->all(), [
                 'id_pek' => 'required',
                 'jenis_pekerjaan' => 'required|string',
@@ -77,6 +77,7 @@ class MaterialPekerjaanController extends Controller
                 'start_time',
                 'end_time',
                 'akibat',
+                'tanggal',
             ]); 
             DB::table('bahan_material')->insert($bahan_tiba);
                  
