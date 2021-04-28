@@ -38,55 +38,14 @@ class MaterialPekerjaanController extends Controller
     public function store(Request $request)
     {
         try {
+            
             $validator = Validator::make($request->all(), [
                 'id_pek' => 'required',
                 'jenis_pekerjaan' => 'required|string',
                 'nama_bahan1' => 'required|string',
                 'jum_bahan1' => 'required|string',
                 'satuan1' => 'required|string',
-                'peralatan' => 'required|string',
-                // 'nama_bahan2' => 'string',
-                // 'jum_bahan2' => 'string',
-                // 'satuan2' => 'string',
-                // 'nama_bahan3' => 'string',
-                // 'jum_bahan3' => 'string',
-                // 'satuan3' => 'string',
-                // 'nama_bahan4' => 'string',
-                // 'jum_bahan4' => 'string',
-                // 'satuan4' => 'string',
-                // 'nama_bahan5' => 'string',
-                // 'jum_bahan5' => 'string',
-                // 'satuan5' => 'string',
-                // 'nama_bahan6' => 'string',
-                // 'jum_bahan6' => 'string',
-                // 'satuan6' => 'string',
-                // 'nama_bahan7' => 'string',
-                // 'jum_bahan7' => 'string',
-                // 'satuan7' => 'string',
-                // 'nama_bahan8' => 'string',
-                // 'jum_bahan8' => 'string',
-                // 'satuan8' => 'string',
-                // 'nama_bahan9' => 'string',
-                // 'jum_bahan9' => 'string',
-                // 'satuan9' => 'string',
-                // 'nama_bahan10' => 'string',
-                // 'jum_bahan10' => 'string',
-                // 'satuan10' => 'string',
-                // 'nama_bahan11' => 'string',
-                // 'jum_bahan11' => 'string',
-                // 'satuan11' => 'string',
-                // 'nama_bahan12' => 'string',
-                // 'jum_bahan12' => 'string',
-                // 'satuan12' => 'string',
-                // 'nama_bahan13' => 'string',
-                // 'jum_bahan13' => 'string',
-                // 'satuan13' => 'string',
-                // 'nama_bahan14' => 'string',
-                // 'jum_bahan14' => 'string',
-                // 'satuan14' => 'string',
-                // 'nama_bahan15' => 'string',
-                // 'jum_bahan15' => 'string',
-                // 'satuan15' => 'string',
+                
                 'uptd_id' => 'required|int'
             ]);
 
@@ -105,11 +64,24 @@ class MaterialPekerjaanController extends Controller
 
             $request['tanggal'] = Carbon::now();
             $request['nama_mandor'] = $this->user->name;
-            DB::table('bahan_material')->insert($request->except('peralatan'));
-
+            $bahan_tiba =$request->except([
+                'nama_peralatan',
+                'jum_peralatan',
+                'satuan_peralatan',
+                'nama_bahan_operasional',
+                'jum_bahan_operasional',
+                'satuan_operasional',
+                'jabatan_pekerja',
+                'jum_pekerja',
+                'jenis_gangguan',
+                'start_time',
+                'end_time',
+                'akibat',
+            ]); 
+            DB::table('bahan_material')->insert($bahan_tiba);
+                 
             $kemandoran = DB::table('kemandoran')->where('id_pek', $request->id_pek);
             $kemandoranUpdate['mail'] = 1;
-            $kemandoranUpdate['peralatan'] = $request->peralatan;
             $kemandoran->update($kemandoranUpdate);
             $this->response['status'] = 'success';
             $this->response['data']['message'] = 'Berhasil Menambah Material Pekerjaan';
