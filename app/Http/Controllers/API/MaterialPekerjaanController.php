@@ -63,6 +63,8 @@ class MaterialPekerjaanController extends Controller
 
             if ($sudahAda) {
                 $this->response['status'] = 'success';
+                $this->response['data']['data'] = $request->all();
+                $this->response['data']['data1'] = count($request->peralatan_operasional);
                 $this->response['data']['message'] = 'Bahan material sudah ada, silahkan update';
                 return response()->json($this->response, 200);
             }
