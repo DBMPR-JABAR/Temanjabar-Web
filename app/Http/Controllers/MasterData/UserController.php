@@ -133,7 +133,7 @@ class UserController extends Controller
             $msg = "Email telah terdaftar";
             return back()->with(compact('color', 'msg'));
         }
-
+        // dd($request->ruas_jalan);
         $user['email']= $request->email;
         $temp = explode(",",$request->input('sup_id'));
 
@@ -166,8 +166,8 @@ class UserController extends Controller
             $user_peg = $user_peg->insert($userPegawai);
         }
         
+        DB::table('user_master_ruas_jalan')->where('user_id',$request->id)->delete();
         if($request->ruas_jalan){
-            DB::table('user_master_ruas_jalan')->where('user_id',$request->id)->delete();
             foreach($request->ruas_jalan as $data){
                 $userRuas['user_id'] =$request->id;
                 $userRuas['master_ruas_jalan_id'] =$data;

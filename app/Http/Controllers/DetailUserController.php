@@ -247,8 +247,8 @@ class DetailUserController extends Controller
                 $updatetouser = DB::table('users')->where('id', $id)->update($updatenama);
                 //redirect dengan pesan sukses
 
+                DB::table('user_master_ruas_jalan')->where('user_id',$id)->delete();
                 if($request->ruas_jalan){
-                    DB::table('user_master_ruas_jalan')->where('user_id',$id)->delete();
                     foreach($request->ruas_jalan as $data){
                         $userRuas['user_id'] =$id;
                         $userRuas['master_ruas_jalan_id'] =$data;

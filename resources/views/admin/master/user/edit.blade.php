@@ -103,9 +103,9 @@
                         <label class="col-md-2 col-form-label">Ruas Jalan</label>
                         <div class="col-md-10">
                             <select data-placeholder="Ruas jalan" class="form-control chosen-select" multiple id="ruas_jalan" name="ruas_jalan[]" tabindex="4">
-                                <option value="">Pilih Ruas</option>
+                                <option value=" ">Pilih Ruas</option>
                                     @foreach ($input_ruas_jalan as $data)
-                                    <option value="{{$data->id}}" @if(in_array($data->id,array_column( $users->ruas->toArray(), 'id'))) selected @endif>{{$data->nama_ruas_jalan}}</option>
+                                    <option value="{{$data->id}}" @if(@$users->ruas && in_array($data->id,array_column( @$users->ruas->toArray(), 'id'))) selected @endif>{{@$data->nama_ruas_jalan}}</option>
                                     @endforeach
                             </select>
                         </div>
