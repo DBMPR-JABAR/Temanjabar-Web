@@ -109,7 +109,8 @@ class MaterialPekerjaanController extends Controller
                 }
 
         } catch (\Exception $e) {
-            $this->response['data']['message'] = 'Internal Error ';
+            
+            $this->response['data']['message'] = 'Internal Error awdawdawd';
             return response()->json($this->response, 500);
         }
     }
