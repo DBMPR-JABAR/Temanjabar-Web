@@ -99,14 +99,16 @@ class MaterialPekerjaanController extends Controller
                 }else{
                     $this->response['status'] = 'error';
                     $this->response['data']['message'] = 'data gagal disimpan';
-                    
+                    $this->response['data']['data'] = $request->all();
+                    $this->response['data']['data1'] = count($request->peralatan_operasional);
                     
                     return response()->json($this->response, 500);
                 }
 
         } catch (\Exception $e) {
      
-            
+            $this->response['data']['data'] = $request->all();
+                    $this->response['data']['data1'] = count($request->peralatan_operasional);
             $this->response['data']['message'] = 'Internal Error awdawdawd';
             return response()->json($this->response, 500);
         }
