@@ -80,6 +80,7 @@ class MaterialPekerjaanController extends Controller
 
                 
             ]);
+            
              
             $store_material = DB::table('bahan_material')->insert($bahan_tiba);
                 if($store_material){
@@ -88,15 +89,20 @@ class MaterialPekerjaanController extends Controller
                     $kemandoranUpdate['mail'] = 1;
                     $kemandoran->update($kemandoranUpdate);
                     $this->response['status'] = 'success';
+                    $this->response['data']['data'] = $request->all();
+
                     $this->response['data']['message'] = 'Berhasil Menambah Material Pekerjaan';
                     return response()->json($this->response, 200);
                 }else{
                     $this->response['status'] = 'error';
                     $this->response['data']['message'] = 'data gagal disimpan';
+                    $this->response['data']['data'] = $request->all();
+                    
                     return response()->json($this->response, 500);
                 }
 
         } catch (\Exception $e) {
+            $this->response['data']['data'] = $request->all();
             
             $this->response['data']['message'] = 'Internal Error awdawdawd';
             return response()->json($this->response, 500);
