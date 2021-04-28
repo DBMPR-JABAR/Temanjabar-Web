@@ -70,18 +70,7 @@ class MaterialPekerjaanController extends Controller
             $request['tanggal'] = Carbon::now();
             $request['nama_mandor'] = $this->user->name;
             $bahan_tiba =$request->except([
-                'nama_peralatan',
-                'jum_peralatan',
-                'satuan_peralatan',
-                'nama_bahan_operasional',
-                'jum_bahan_operasional',
-                'satuan_operasional',
-                'jabatan_pekerja',
-                'jum_pekerja',
-                'jenis_gangguan',
-                'start_time',
-                'end_time',
-                'akibat',
+                'peralatan',
 
                 'bahan_material',
                 'peralatan_operasional',
