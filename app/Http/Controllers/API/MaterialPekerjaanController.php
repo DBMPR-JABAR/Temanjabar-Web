@@ -63,8 +63,8 @@ class MaterialPekerjaanController extends Controller
 
             if ($sudahAda) {
                 $this->response['status'] = 'success';
-                $this->response['data']['data'] = $request->all();
-                $this->response['data']['data1'] = count($request->peralatan_operasional);
+                $this->response['tess'] = json_decode($request->peralatan_operasional);
+                
                 $this->response['data']['message'] = 'Bahan material sudah ada, silahkan update';
                 return response()->json($this->response, 200);
             }
@@ -91,25 +91,25 @@ class MaterialPekerjaanController extends Controller
                     $kemandoranUpdate['mail'] = 1;
                     $kemandoran->update($kemandoranUpdate);
                     $this->response['status'] = 'success';
-                    $this->response['data']['data'] = $request->all();
-                    $this->response['data']['data1'] = count($request->peralatan_operasional);
+                  
+                    $this->response['tess'] = json_decode($request->peralatan_operasional);
 
                     $this->response['data']['message'] = 'Berhasil Menambah Material Pekerjaan';
                     return response()->json($this->response, 200);
                 }else{
                     $this->response['status'] = 'error';
                     $this->response['data']['message'] = 'data gagal disimpan';
-                    $this->response['data']['data'] = $request->all();
-                    $this->response['data']['data1'] = count($request->peralatan_operasional);
+                $this->response['tess'] = json_decode($request->peralatan_operasional);
+                    
                     
                     return response()->json($this->response, 500);
                 }
 
         } catch (\Exception $e) {
-     
-            $this->response['data']['data'] = $request->all();
-                    $this->response['data']['data1'] = count($request->peralatan_operasional);
-            $this->response['data']['message'] = 'Internal Error awdawdawd';
+           
+            $this->response['tess'] = json_decode($request->peralatan_operasional);
+            
+            $this->response['data']['message'] = 'Internal Error';
             return response()->json($this->response, 500);
         }
     }
