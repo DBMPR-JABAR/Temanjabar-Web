@@ -88,12 +88,9 @@ class MaterialPekerjaanController extends Controller
                 'akibat',
 
                 'bahan_material',
-
                 'peralatan_operasional',
                 'bahan_operasional',
-
                 'pekerja',
-
                 'penghambat_pelaksanaan'
 
                 
