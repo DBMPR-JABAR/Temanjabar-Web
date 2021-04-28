@@ -42,8 +42,19 @@ class MaterialPekerjaanController extends Controller
             $validator = Validator::make($request->all(), [
                 'id_pek' => 'required',
                 'jenis_pekerjaan' => 'required|string',
-               
+                // 'nama_bahan1' => 'required|string',
+                // 'jum_bahan1' => 'required|string',
+                // 'satuan1' => 'required|string',
                 
+                'bahan_material' => '',
+
+                'peralatan_operasional' => 'required|string',
+                'bahan_operasional' => '',
+
+                'pekerja' => '',
+
+                'penghambat_pelaksanaan' =>'',
+
                 'uptd_id' => 'required|int'
             ]);
 
@@ -74,9 +85,20 @@ class MaterialPekerjaanController extends Controller
                 'jenis_gangguan',
                 'start_time',
                 'end_time',
-                'akibat'
-            ]);
+                'akibat',
 
+                'bahan_material',
+
+                'peralatan_operasional',
+                'bahan_operasional',
+
+                'pekerja',
+
+                'penghambat_pelaksanaan'
+
+                
+            ]);
+             
             DB::table('bahan_material')->insert($bahan_tiba);
                  
             $kemandoran = DB::table('kemandoran')->where('id_pek', $request->id_pek);
