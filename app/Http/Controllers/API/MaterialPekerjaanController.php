@@ -50,11 +50,8 @@ class MaterialPekerjaanController extends Controller
 
                 'peralatan_operasional' => 'required|string',
                 'bahan_operasional' => '',
-
                 'pekerja' => '',
-
                 'penghambat_pelaksanaan' =>'',
-
                 'uptd_id' => 'required|int'
             ]);
 
@@ -96,15 +93,21 @@ class MaterialPekerjaanController extends Controller
                 
             ]);
              
-            DB::table('bahan_material')->insert($bahan_tiba);
-                 
-            $kemandoran = DB::table('kemandoran')->where('id_pek', $request->id_pek);
-            $kemandoranUpdate['mail'] = 1;
-            $kemandoran->update($kemandoranUpdate);
-            $this->response['status'] = 'success';
-            $this->response['data']['message'] = 'Berhasil Menambah Material Pekerjaan';
+            $store_material = DB::table('bahan_material')->insert($bahan_tiba);
+                if($store_material){
 
-            return response()->json($this->response, 200);
+                    $kemandoran = DB::table('kemandoran')->where('id_pek', $request->id_pek);
+                    $kemandoranUpdate['mail'] = 1;
+                    $kemandoran->update($kemandoranUpdate);
+                    $this->response['status'] = 'success';
+                    $this->response['data']['message'] = 'Berhasil Menambah Material Pekerjaan';
+                    return response()->json($this->response, 200);
+                }else{
+                    $this->response['status'] = 'error';
+                    $this->response['data']['message'] = 'data gagal disimpan';
+                    return response()->json($this->response, 500);
+                }
+
         } catch (\Exception $e) {
             $this->response['data']['message'] = 'Internal Error ';
             return response()->json($this->response, 500);
