@@ -123,12 +123,18 @@ class MaterialPekerjaanController extends Controller
                             DB::table('kemandoran_detail_material')->insert($material);
                         }
                     }
-                    for($i = 0; $i<count($temp_pekerja) ;$i++){
+                    foreach($temp_pekerja as $dat){
                         $pekerja['id_pek'] = $request->id_pek;
-                        $pekerja['jabatan'] = $temp_pekerja[$i]->jabatan_pekerja;
-                        $pekerja['jumlah'] = $temp_pekerja[$i]->jum_pekerja;
+                        $pekerja['jabatan'] = $dat->jabatan_pekerja;
+                        $pekerja['jumlah'] = $dat ->jum_pekerja;
                         DB::table('kemandoran_detail_pekerja')->insert($pekerja);
+
                     }
+                    // for($i = 0; $i<count($temp_pekerja) ;$i++){
+                    //     $pekerja['id_pek'] = $request->id_pek;
+                    //     $pekerja['jabatan'] = $temp_pekerja[$i]->jabatan_pekerja;
+                    //     $pekerja['jumlah'] = $temp_pekerja[$i]->jum_pekerja;
+                    // }
                     for($i = 0; $i<count($temp_penghambat_pelaksanaan) ;$i++){
                         if($temp_penghambat_pelaksanaan[$i]->start_time != 0){
                             $penghambat['id_pek'] = $request->id_pek;
