@@ -95,7 +95,7 @@ class MaterialPekerjaanController extends Controller
                     $jum_bahan = "jum_bahan$x";
                     $nama_bahan = "nama_bahan$x";
                     $satuan = "satuan$x";
-                    $bahan_tiba[$nama_bahan]=$temp_bahan_tiba[$i]->nama_bahan;
+                    $bahan_tiba[$nama_bahan]=DB::table('item_bahan')->where('no',$temp_bahan_tiba[$i]->nama_bahan)->pluck('nama_item')->first();
                     $bahan_tiba[$jum_bahan]=$temp_bahan_tiba[$i]->jum_bahan;
                     $bahan_tiba[$satuan]=$temp_bahan_tiba[$i]->satuan;
                     $x++;
