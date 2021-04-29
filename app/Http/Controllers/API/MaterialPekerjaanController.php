@@ -83,31 +83,6 @@ class MaterialPekerjaanController extends Controller
                 
             ]);
 
->'bahan_material',
-            'nama_bahan',
-            'satuan',
-            'jum_bahan',
-
->'peralatan_operasional',
-            'nama_peralatan',
-            'jum_peralatan',
-            'satuan_peralatan',
-
->'bahan_operasional',
-            'nama_bahan_operasional',
-            'jum_bahan_operasional',
-            'satuan_operasional',
-
->'pekerja',
-            'jabatan_pekerja',
-            'jum_pekerja',
-
->'penghambat_pelaksanaan'
-            'jenis_gangguan',
-            'start_time',
-            'end_time',
-            'akibat',
-
             $temp_bahan_tiba = json_decode($request->bahan_material);
             $temp_peralatan_operasional = json_decode($request->peralatan_operasional);
             $temp_bahan_operasional = json_decode($request->bahan_operasional);
