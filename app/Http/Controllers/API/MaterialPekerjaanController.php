@@ -47,7 +47,7 @@ class MaterialPekerjaanController extends Controller
                 // 'satuan1' => 'required|string',
                 
                 'bahan_material' => '',
-                'peralatan_operasional' => 'string',
+                'peralatan_operasional' => 'required|string',
                 'bahan_operasional' => '',
                 'pekerja' => '',
                 'penghambat_pelaksanaan' =>'',
