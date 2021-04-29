@@ -135,10 +135,10 @@ class UserController extends Controller
         }
         // dd($request->ruas_jalan);
         $user['email']= $request->email;
-        $temp = explode(",",$request->input('sup_id'));
-
-        $user['sup_id']= $temp[0];
-        $user['sup']= $temp[1];
+        $getsup = DB::table('utils_sup')->where('kd_sup',$request->input('sup_id'))->select('id','name')->first();
+        $user['sup_id']= $getsup->id;
+        $user['sup']= $getsup->name;
+       
         $userId = $request->id;
         $user['name'] = $request->name;
         $user['internal_role_id'] = $request->internal_role_id;

@@ -209,10 +209,10 @@
                         </div>
                         <div class="form-group">
                             <label>SUP</label>
-                            <select name="sup_id" class="form-control searchableField  @error('sup_id') is-invalid @enderror">
+                            <select name="sup_id" id="sup_id" onchange="ubahOption1()" class="form-control searchableField  @error('sup_id') is-invalid @enderror">
                                 <option value=" , ">Pilih SUP</option>
-                                @foreach ($sup as $data)
-                                    <option value="{{ $data->id }},{{ $data->name }}" @if (Auth::user()->sup_id != null && Auth::user()->sup_id == $data->id) selected @endif>{{ $data->name }}</option>
+                                @foreach ($input_sup as $data)
+                                    <option value="{{ $data->kd_sup }}" @if (Auth::user()->sup_id != null && Auth::user()->sup_id == $data->id) selected @endif>{{ $data->name }}</option>
                                 @endforeach
                             </select>
                            
@@ -225,7 +225,7 @@
                         </div>
                         <div class="form-group">
                             <label>Ruas Jalan</label>
-                            <select data-placeholder="Ruas jalan" class="form-control chosen-select @error('ruas_jalan') is-invalid @enderror" multiple id="ruas_jalan" name="ruas_jalan[]">
+                            <select data-placeholder="Ruas jalan" id="ruas_jalan" name="ruas_jalan[]" class="form-control chosen-select @error('ruas_jalan') is-invalid @enderror" multiple >
                                 <option value="">Pilih Ruas</option>
                                 @foreach ($input_ruas_jalan as $data)
                                     <option value="{{ $data->id }}" @if(in_array($data->id,array_column( Auth::user()->ruas->toArray(), 'id'))) selected @endif>{{ $data->nama_ruas_jalan }}</option>    
@@ -418,6 +418,54 @@
 
 
             setDataSelect(id, url, id_select, text, value, option)
+
+        }
+        function setDataSelectChosen(id, url, id_select, text, valueOption, textOption) {
+            $.ajax({
+                url: url,
+                method: "get",
+                dataType: "JSON",
+                data: {
+                    id: id,
+                },
+                complete: function(result) {
+                    
+                    $(id_select).empty(); // remove old options
+                    $(id_select).append($("<option disable></option>").text(text));
+                    let i = 0;
+                    result.responseJSON.forEach(function(item) {
+                        $(id_select).append(
+                            $("<option></option>")
+                            .attr("value", item[valueOption])
+                            .text(item[textOption])
+                        )
+                        i++
+                        
+                    });
+                    
+                    if(i === result.responseJSON.length){ 
+                        $(id_select).chosen("destroy")
+                        $(id_select).chosen()
+                    }
+
+                },
+            });
+        }
+        function ubahOption1() {
+
+            //untuk select SUP
+            id = document.getElementById("sup_id").value
+            
+            //untuk select Ruas
+            url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalanBySup') }}"
+            id_select = '#ruas_jalan'
+            text = 'Pilih Ruas Jalan'
+            option = 'nama_ruas_jalan'
+            id_ruass = 'id'
+            
+          
+            setDataSelectChosen(id, url, id_select, text, id_ruass, option)
+         
 
         }
 

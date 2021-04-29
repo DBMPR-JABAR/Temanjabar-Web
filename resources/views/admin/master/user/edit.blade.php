@@ -90,10 +90,10 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">SUP</label>
                         <div class="col-md-10">
-                            <select class="form-control searchableField" name="sup_id">
+                            <select class="form-control searchableField" name="sup_id" id="sup_id" onchange="ubahOption1()">
                                 <option value=" , ">Pilih SUP</option>
-                                @foreach ($sup as $data)
-                                <option value="{{ $data->id }},{{ $data->name }}" @if($users->sup_id == $data->id) selected @endif>{{$data->name}}</option>
+                                @foreach ($input_sup as $data)
+                                <option value="{{ $data->kd_sup }}" @if($users->sup_id == $data->id) selected @endif>{{$data->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -102,7 +102,7 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Ruas Jalan</label>
                         <div class="col-md-10">
-                            <select data-placeholder="Ruas jalan" class="form-control chosen-select" multiple id="ruas_jalan" name="ruas_jalan[]" tabindex="4">
+                            <select data-placeholder="Ruas jalan" id="ruas_jalan_chosen" class="form-control chosen-select" multiple name="ruas_jalan[]" tabindex="4">
                                 <option value=" ">Pilih Ruas</option>
                                     @foreach ($input_ruas_jalan as $data)
                                     <option value="{{$data->id}}" @if(@$users->ruas && in_array($data->id,array_column( @$users->ruas->toArray(), 'id'))) selected @endif>{{@$data->nama_ruas_jalan}}</option>
@@ -157,6 +157,70 @@
     $(document).ready(function() {
         $(".chosen-select").chosen( { width: '100%' } );
     });
+
+    function ubahOption1() {
+
+    //untuk select SUP
+    id = document.getElementById("sup").value
+
+    //untuk select Ruas
+    url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalanBySup') }}"
+    id_select = '#ruas_jalan'
+    text = 'Pilih Ruas Jalan'
+    option = 'nama_ruas_jalan'
+    id_ruass = 'id_ruas_jalan'
+
+    setDataSelect(id, url, id_select, text, id_ruass, option)
+    }
+    function setDataSelectChosen(id, url, id_select, text, valueOption, textOption) {
+            $.ajax({
+                url: url,
+                method: "get",
+                dataType: "JSON",
+                data: {
+                    id: id,
+                },
+                complete: function(result) {
+                    
+                    $(id_select).empty(); // remove old options
+                    $(id_select).append($("<option disable></option>").text(text));
+                    let i = 0;
+                    result.responseJSON.forEach(function(item) {
+                        $(id_select).append(
+                            $("<option></option>")
+                            .attr("value", item[valueOption])
+                            .text(item[textOption])
+                        )
+                        i++
+                        
+                    });
+                    
+                    if(i === result.responseJSON.length){ 
+
+                        $(id_select).chosen("destroy")
+                        $(id_select).chosen()
+                    }
+
+                },
+            });
+        }
+        function ubahOption1() {
+
+            //untuk select SUP
+            id = document.getElementById("sup_id").value
+            
+            //untuk select Ruas
+            url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalanBySup') }}"
+            id_select = '#ruas_jalan_chosen'
+            text = 'Pilih Ruas Jalan'
+            option = 'nama_ruas_jalan'
+            id_ruass = 'id'
+            
+          
+            setDataSelectChosen(id, url, id_select, text, id_ruass, option)
+         
+
+        }
 </script>
 <script>
     $(".toggle-password").click(function() {
