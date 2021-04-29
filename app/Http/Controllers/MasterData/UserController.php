@@ -124,10 +124,8 @@ class UserController extends Controller
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => Rule::unique('users', 'email')->ignore($request->id)
-            
+            'email' => Rule::unique('users', 'email')->ignore($request->id) 
         ]);
-
         if ($validator->fails()) {
             $color = "danger";
             $msg = "Email telah terdaftar";
@@ -148,9 +146,7 @@ class UserController extends Controller
         if ($request->password != "") {
             $user['password'] = Hash::make($request->password);
         }
-
         DB::table('users')->where('id', $userId)->update($user);
-
         $userPegawai['no_pegawai'] = $request->no_pegawai;
         $userPegawai['nama'] = $request->name;
         $userPegawai['no_tlp'] = $request->no_tlp;
