@@ -123,22 +123,22 @@ class MaterialPekerjaanController extends Controller
                             DB::table('kemandoran_detail_material')->insert($material);
                         }
                     }
-                    // for($i = 0; $i<count($temp_pekerja)-1 ;$i++){
-                    //     $pekerja['id_pek'] = $request->id_pek;
-                    //     $pekerja['jabatan'] = $temp_pekerja[$i]->jabatan_pekerja;
-                    //     $pekerja['jumlah'] = $temp_pekerja[$i]->jum_pekerja ? :0;
-                    //     DB::table('kemandoran_detail_pekerja')->insert($pekerja);
-                    // }
-                    // for($i = 0; $i<count($temp_penghambat_pelaksanaan)-1 ;$i++){
-                    //     if($temp_penghambat_pelaksanaan[$i]->start_time != null){
-                    //         $penghambat['id_pek'] = $request->id_pek;
-                    //         $penghambat['jenis_gangguan'] = $temp_penghambat_pelaksanaan[$i]->jenis_gangguan;
-                    //         $penghambat['start_time'] = $temp_penghambat_pelaksanaan[$i]->start_time;
-                    //         $penghambat['end_time'] = $temp_penghambat_pelaksanaan[$i]->end_time;
-                    //         $penghambat['akibat'] = $temp_penghambat_pelaksanaan[$i]->akibat;
-                    //         DB::table('kemandoran_detail_penghambat')->insert($penghambat);
-                    //     }
-                    // }
+                    for($i = 0; $i<count($temp_pekerja)-1 ;$i++){
+                        $pekerja['id_pek'] = $request->id_pek;
+                        $pekerja['jabatan'] = $temp_pekerja[$i]->jabatan_pekerja;
+                        $pekerja['jumlah'] = $temp_pekerja[$i]->jum_pekerja;
+                        DB::table('kemandoran_detail_pekerja')->insert($pekerja);
+                    }
+                    for($i = 0; $i<count($temp_penghambat_pelaksanaan)-1 ;$i++){
+                        if($temp_penghambat_pelaksanaan[$i]->start_time != 0){
+                            $penghambat['id_pek'] = $request->id_pek;
+                            $penghambat['jenis_gangguan'] = $temp_penghambat_pelaksanaan[$i]->jenis_gangguan;
+                            $penghambat['start_time'] = $temp_penghambat_pelaksanaan[$i]->start_time;
+                            $penghambat['end_time'] = $temp_penghambat_pelaksanaan[$i]->end_time;
+                            $penghambat['akibat'] = $temp_penghambat_pelaksanaan[$i]->akibat;
+                            DB::table('kemandoran_detail_penghambat')->insert($penghambat);
+                        }
+                    }
 
                     $kemandoran = DB::table('kemandoran')->where('id_pek', $request->id_pek);
                     $kemandoranUpdate['mail'] = 1;
