@@ -88,21 +88,7 @@ class MaterialPekerjaanController extends Controller
             $temp_bahan_operasional = json_decode($request->bahan_operasional);
             $temp_pekerja = json_decode($request->pekerja);
             $temp_penghambat_pelaksanaan = json_decode($request->penghambat_pelaksanaan);
-            for($i = 0; $i<count($temp_pekerja) ;$i++){
-                $pekerja['id_pek'] = $request->id_pek;
-                $pekerja['jabatan'] = $temp_pekerja[$i]->jabatan_pekerja;
-                $pekerja['jumlah'] = $temp_pekerja[$i]->jum_pekerja;
-                $savepekerja = DB::table('kemandoran_detail_pekerja')->insert($pekerja);
-            }
-            if($savepekerja){
-                $this->response['status'] = 'success';
-
-                    $this->response['data']['message'] = 'Berhasil Menambah Pekerjaan';
-            }else{
-                $this->response['status'] = 'error';
-
-                    $this->response['data']['message'] = 'Gaga Menambah Pekerjaan';
-            }
+            
             $x=1;
             if($temp_bahan_tiba){
                 for($i = 0; $i<count($temp_bahan_tiba) ;$i++){
