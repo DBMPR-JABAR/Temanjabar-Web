@@ -105,7 +105,7 @@ class MaterialPekerjaanController extends Controller
                 if($store_material){
                     
                     for($i = 0; $i<count($temp_peralatan_operasional) ;$i++){
-                        if($temp_peralatan_operasional[$i]->jum_peralatan != null){
+                        if($temp_peralatan_operasional[$i]->jum_peralatan != 0){
                             $peralatan['id_pek'] = $request->id_pek;
                             $peralatan['id_peralatan'] = $temp_peralatan_operasional[$i]->nama_peralatan;
                             $peralatan['kuantitas'] = $temp_peralatan_operasional[$i]->jum_peralatan;
@@ -114,15 +114,15 @@ class MaterialPekerjaanController extends Controller
                         }
                     }
 
-                    // for($i = 0; $i<count($temp_bahan_operasional) ;$i++){
-                    //     if($temp_bahan_operasional[$i]->jum_bahan_operasional != null){
-                    //         $material['id_pek'] = $request->id_pek;
-                    //         $material['id_material'] = $temp_bahan_operasional[$i]->nama_bahan_operasional;
-                    //         $material['kuantitas'] = $temp_bahan_operasional[$i]->jum_bahan_operasional;
-                    //         $material['satuan'] = $temp_bahan_operasional[$i]->satuan_operasional;
-                    //         DB::table('kemandoran_detail_material')->insert($material);
-                    //     }
-                    // }
+                    for($i = 0; $i<count($temp_bahan_operasional) ;$i++){
+                        if($temp_bahan_operasional[$i]->jum_bahan_operasional != 0){
+                            $material['id_pek'] = $request->id_pek;
+                            $material['id_material'] = $temp_bahan_operasional[$i]->nama_bahan_operasional;
+                            $material['kuantitas'] = $temp_bahan_operasional[$i]->jum_bahan_operasional;
+                            $material['satuan'] = $temp_bahan_operasional[$i]->satuan_operasional;
+                            DB::table('kemandoran_detail_material')->insert($material);
+                        }
+                    }
                     // for($i = 0; $i<count($temp_pekerja)-1 ;$i++){
                     //     $pekerja['id_pek'] = $request->id_pek;
                     //     $pekerja['jabatan'] = $temp_pekerja[$i]->jabatan_pekerja;
