@@ -88,7 +88,7 @@ class MaterialPekerjaanController extends Controller
             $temp_bahan_operasional = json_decode($request->bahan_operasional);
             $temp_pekerja = json_decode($request->pekerja);
             $temp_penghambat_pelaksanaan = json_decode($request->penghambat_pelaksanaan);
-            for($i = 0; $i<count($temp_pekerja)-1 ;$i++){
+            for($i = 0; $i<count($temp_pekerja) ;$i++){
                 $pekerja['id_pek'] = $request->id_pek;
                 $pekerja['jabatan'] = $temp_pekerja[$i]->jabatan_pekerja;
                 $pekerja['jumlah'] = $temp_pekerja[$i]->jum_pekerja;
@@ -137,13 +137,13 @@ class MaterialPekerjaanController extends Controller
                             DB::table('kemandoran_detail_material')->insert($material);
                         }
                     }
-                    for($i = 0; $i<count($temp_pekerja)-1 ;$i++){
+                    for($i = 0; $i<count($temp_pekerja) ;$i++){
                         $pekerja['id_pek'] = $request->id_pek;
                         $pekerja['jabatan'] = $temp_pekerja[$i]->jabatan_pekerja;
                         $pekerja['jumlah'] = $temp_pekerja[$i]->jum_pekerja;
                         DB::table('kemandoran_detail_pekerja')->insert($pekerja);
                     }
-                    for($i = 0; $i<count($temp_penghambat_pelaksanaan)-1 ;$i++){
+                    for($i = 0; $i<count($temp_penghambat_pelaksanaan) ;$i++){
                         if($temp_penghambat_pelaksanaan[$i]->start_time != 0){
                             $penghambat['id_pek'] = $request->id_pek;
                             $penghambat['jenis_gangguan'] = $temp_penghambat_pelaksanaan[$i]->jenis_gangguan;
