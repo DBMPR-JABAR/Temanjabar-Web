@@ -90,17 +90,17 @@ class MaterialPekerjaanController extends Controller
             $temp_penghambat_pelaksanaan = json_decode($request->penghambat_pelaksanaan);
 
             $x=1;
-            if($temp_bahan_tiba){
-                for($i = 0; $i<count($temp_bahan_tiba) ;$i++){
-                    $jum_bahan = "jum_bahan$x";
-                    $nama_bahan = "nama_bahan$x";
-                    $satuan = "satuan$x";
-                    $bahan_tiba[$nama_bahan]=$temp_bahan_tiba->nama_bahan[$i];
-                    $bahan_tiba[$jum_bahan]=$temp_bahan_tiba->jum_bahan[$i];
-                    $bahan_tiba[$satuan]=$temp_bahan_tiba->satuan[$i];
-                    $x++;
-                }
-            }
+            // if($temp_bahan_tiba){
+            //     for($i = 0; $i<count($temp_bahan_tiba) ;$i++){
+            //         $jum_bahan = "jum_bahan$x";
+            //         $nama_bahan = "nama_bahan$x";
+            //         $satuan = "satuan$x";
+            //         $bahan_tiba[$nama_bahan]=$temp_bahan_tiba->nama_bahan[$i];
+            //         $bahan_tiba[$jum_bahan]=$temp_bahan_tiba->jum_bahan[$i];
+            //         $bahan_tiba[$satuan]=$temp_bahan_tiba->satuan[$i];
+            //         $x++;
+            //     }
+            // }
             $store_material = DB::table('bahan_material')->insert($bahan_tiba);
                 if($store_material){
                     
@@ -145,7 +145,7 @@ class MaterialPekerjaanController extends Controller
                     $kemandoran->update($kemandoranUpdate);
                     $this->response['status'] = 'success';
                   
-                    $this->response['data']['tess'] = json_decode($request->peralatan_operasional);
+                    $this->response['data']['tess'] = $temp_bahan_tiba->nama_bahan[0];
 
                     $this->response['data']['message'] = 'Berhasil Menambah Material Pekerjaan';
                     return response()->json($this->response, 200);
