@@ -91,7 +91,7 @@
                         <label class="col-md-2 col-form-label">SUP</label>
                         <div class="col-md-10">
                             <select class="form-control searchableField" name="sup_id" id="sup_id" onchange="ubahOption1()">
-                                <option value=" , ">Pilih SUP</option>
+                                <option value=",">Pilih SUP</option>
                                 @foreach ($input_sup as $data)
                                 <option value="{{ $data->kd_sup }}" @if($users->sup_id == $data->id) selected @endif>{{$data->name}}</option>
                                 @endforeach
@@ -123,6 +123,18 @@
                             </select>
                         </div>
                     </div>
+                    @if (Auth::user()->id == 1)
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Role</label>
+                        <div class="col-md-10">
+                            <select class="form-control searchableField" required name="role">
+                                <option value="internal" @if($user->role == 'internal') selected @endif>Internal</option>
+                                <option value="masyarakat" @if($user->role == 'masyarakat') selected @endif>Masyarakat</option>
+                            </select>
+                        </div>
+                    </div>
+                    @endif
+
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Blokir</label>
                         <div class="col-md-10">
@@ -181,7 +193,7 @@
                     id: id,
                 },
                 complete: function(result) {
-                    
+
                     $(id_select).empty(); // remove old options
                     $(id_select).append($("<option disable></option>").text(text));
                     let i = 0;
@@ -192,10 +204,10 @@
                             .text(item[textOption])
                         )
                         i++
-                        
+
                     });
-                    
-                    if(i === result.responseJSON.length){ 
+
+                    if(i === result.responseJSON.length){
 
                         $(id_select).chosen("destroy")
                         $(id_select).chosen()
@@ -208,17 +220,17 @@
 
             //untuk select SUP
             id = document.getElementById("sup_id").value
-            
+
             //untuk select Ruas
             url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalanBySup') }}"
             id_select = '#ruas_jalan_chosen'
             text = 'Pilih Ruas Jalan'
             option = 'nama_ruas_jalan'
             id_ruass = 'id'
-            
-          
+
+
             setDataSelectChosen(id, url, id_select, text, id_ruass, option)
-         
+
 
         }
 </script>

@@ -97,8 +97,8 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        $user = User::where('users.id',$id)
-        ->leftjoin('user_pegawai', 'user_pegawai.user_id', '=', 'users.id')->select('users.*', 'user_pegawai.no_pegawai','user_pegawai.no_tlp')->first();
+        $user = User::where('users.id', $id)
+            ->leftjoin('user_pegawai', 'user_pegawai.user_id', '=', 'users.id')->select('users.*', 'user_pegawai.no_pegawai', 'user_pegawai.no_tlp')->first();
 
         $sup = DB::table('utils_sup');
         if (Auth::user()->internalRole->uptd) {
@@ -117,26 +117,29 @@ class UserController extends Controller
         $users = User::find($id);
         // dd(in_array(32,array_column( $users->ruas->toArray(), 'id')));
         // dd($users->ruas);
-        return view('admin.master.user.edit', compact('user','sup','role','users'));
+        return view('admin.master.user.edit', compact('user', 'sup', 'role', 'users'));
     }
 
 
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => Rule::unique('users', 'email')->ignore($request->id) 
+            'email' => Rule::unique('users', 'email')->ignore($request->id),
         ]);
         if ($validator->fails()) {
             $color = "danger";
-            $msg = "Email telah terdaftar";
+            $msg = "Email telah terdaftar ";
             return back()->with(compact('color', 'msg'));
         }
         // dd($request->ruas_jalan);
-        $user['email']= $request->email;
-        $getsup = DB::table('utils_sup')->where('kd_sup',$request->input('sup_id'))->select('id','name')->first();
-        $user['sup_id']= $getsup->id;
-        $user['sup']= $getsup->name;
-       
+        $user['email'] = $request->email;
+        if ($request->role == 'internal') {
+            $getsup = DB::table('utils_sup')->where('kd_sup', $request->input('sup_id'))->select('id', 'name')->first();
+            $user['sup_id'] = $getsup->id;
+            $user['sup'] = $getsup->name;
+        }
+        $user['role'] = $request->role;
+
         $userId = $request->id;
         $user['name'] = $request->name;
         $user['internal_role_id'] = $request->internal_role_id;
@@ -152,22 +155,22 @@ class UserController extends Controller
         $userPegawai['no_tlp'] = $request->no_tlp;
         $userPegawai['updated_at'] = date('Y-m-d H:i:s');
         $userPegawai['created_by'] = Auth::user()->id;
-        
+
         // dd($userPegawai);
-        $user_peg = DB::table('user_pegawai')->where('user_id',$userId);
-        if($user_peg->exists()){
+        $user_peg = DB::table('user_pegawai')->where('user_id', $userId);
+        if ($user_peg->exists()) {
             $user_peg = $user_peg->update($userPegawai);
-        }else{
+        } else {
             $userPegawai['user_id'] = $userId;
             $user_peg = $user_peg->insert($userPegawai);
         }
-        
-        DB::table('user_master_ruas_jalan')->where('user_id',$request->id)->delete();
-        if($request->ruas_jalan){
-            foreach($request->ruas_jalan as $data){
-                $userRuas['user_id'] =$request->id;
-                $userRuas['master_ruas_jalan_id'] =$data;
-                DB::table('user_master_ruas_jalan')->insert($userRuas);   
+
+        DB::table('user_master_ruas_jalan')->where('user_id', $request->id)->delete();
+        if ($request->ruas_jalan) {
+            foreach ($request->ruas_jalan as $data) {
+                $userRuas['user_id'] = $request->id;
+                $userRuas['master_ruas_jalan_id'] = $data;
+                DB::table('user_master_ruas_jalan')->insert($userRuas);
             }
         }
 
@@ -415,7 +418,7 @@ class UserController extends Controller
         $msg = "Berhasil Menambah Data Grant Access Role Aplikasi";
         return redirect()->route('getRoleAkses')->with(compact('color', 'msg'));
     }
-    
+
     public function editRoleAccess($id)
     {
         $roleExist = DB::table('master_grant_role_aplikasi')->distinct()->pluck('internal_role_id');
@@ -491,7 +494,7 @@ class UserController extends Controller
             ->orderBy('permissions.menu_id')->groupBy('permissions.menu_id')->get();
         // dd($menu);
 
-        
+
         $tempi1 = array();
         $tempi2 = [];
 
@@ -499,21 +502,20 @@ class UserController extends Controller
             // if($as->view_user_id > 0 && $as->view_user_id != Auth::user()->id){
             //     break;
             // }
-            if(!$as->view_user_id){
-                
-                $tempi2[] = ['nama' => $as->nama . '.Create', 'nama_menu' => $as->nama_menu,'view_user_id' => $as->view_user_id];
-                $tempi2[] = ['nama' => $as->nama . '.View', 'nama_menu' => $as->nama_menu,'view_user_id' => $as->view_user_id];
-                $tempi2[] = ['nama' => $as->nama . '.Update', 'nama_menu' => $as->nama_menu,'view_user_id' => $as->view_user_id];
-                $tempi2[] = ['nama' => $as->nama . '.Delete', 'nama_menu' => $as->nama_menu,'view_user_id' => $as->view_user_id];
+            if (!$as->view_user_id) {
 
-            }else if($as->view_user_id && $as->view_user_id == Auth::user()->id){
-                $tempi2[] = ['nama' => $as->nama . '.Create', 'nama_menu' => $as->nama_menu,'view_user_id' => $as->view_user_id];
-                $tempi2[] = ['nama' => $as->nama . '.View', 'nama_menu' => $as->nama_menu,'view_user_id' => $as->view_user_id];
-                $tempi2[] = ['nama' => $as->nama . '.Update', 'nama_menu' => $as->nama_menu,'view_user_id' => $as->view_user_id];
-                $tempi2[] = ['nama' => $as->nama . '.Delete', 'nama_menu' => $as->nama_menu,'view_user_id' => $as->view_user_id];
+                $tempi2[] = ['nama' => $as->nama . '.Create', 'nama_menu' => $as->nama_menu, 'view_user_id' => $as->view_user_id];
+                $tempi2[] = ['nama' => $as->nama . '.View', 'nama_menu' => $as->nama_menu, 'view_user_id' => $as->view_user_id];
+                $tempi2[] = ['nama' => $as->nama . '.Update', 'nama_menu' => $as->nama_menu, 'view_user_id' => $as->view_user_id];
+                $tempi2[] = ['nama' => $as->nama . '.Delete', 'nama_menu' => $as->nama_menu, 'view_user_id' => $as->view_user_id];
+            } else if ($as->view_user_id && $as->view_user_id == Auth::user()->id) {
+                $tempi2[] = ['nama' => $as->nama . '.Create', 'nama_menu' => $as->nama_menu, 'view_user_id' => $as->view_user_id];
+                $tempi2[] = ['nama' => $as->nama . '.View', 'nama_menu' => $as->nama_menu, 'view_user_id' => $as->view_user_id];
+                $tempi2[] = ['nama' => $as->nama . '.Update', 'nama_menu' => $as->nama_menu, 'view_user_id' => $as->view_user_id];
+                $tempi2[] = ['nama' => $as->nama . '.Delete', 'nama_menu' => $as->nama_menu, 'view_user_id' => $as->view_user_id];
             }
         }
-       
+
         // dd($cekopoint);
         // dd($tempi2);
         $user_role = DB::table('user_role as a')
@@ -955,7 +957,7 @@ class UserController extends Controller
         $data['updated_by'] =  $data['created_by'];
         $data['created_at'] = Carbon::now();
         $data['updated_at'] = $data['created_at'];
-        if($request->lihat_admin == "on")
+        if ($request->lihat_admin == "on")
             $data['view_user_id'] = Auth::user()->id;
 
         // dd($data);
@@ -982,9 +984,9 @@ class UserController extends Controller
         $data['menu_id'] = $request->menu ?: "";
         $data['updated_by'] =  Auth::user()->id;
         $data['updated_at'] = Carbon::now();
-        if($request->lihat_admin == "on"){
+        if ($request->lihat_admin == "on") {
             $data['view_user_id'] = Auth::user()->id;
-        }else
+        } else
             $data['view_user_id'] = null;
 
 
