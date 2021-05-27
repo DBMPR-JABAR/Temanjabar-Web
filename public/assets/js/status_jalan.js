@@ -3,11 +3,11 @@ $(document).ready(function() {
         require([
             "esri/Map",
             "esri/views/MapView",
-            "esri/Graphic",
             "esri/widgets/BasemapToggle",
             "esri/widgets/Compass",
             "esri/widgets/Track",
-            "esri/widgets/Fullscreen"
+            "esri/widgets/Fullscreen",
+            "esri/Graphic",
         ], function(Map, MapView, BasemapToggle, Compass, Track, Fullscreen, Graphic) {
 
             const map = new Map({
