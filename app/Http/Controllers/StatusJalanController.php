@@ -32,7 +32,7 @@ class StatusJalanController extends Controller
         $longitude = $request->longitude;
         $radius = $request->radius;
         $pemeliharaan = DB::table('kemandoran')
-            ->select('kemandoran.*')
+            ->select('*')
             ->selectRaw('( 6371393 * acos( cos( radians(?) ) *
                            cos( radians( lat ) )
                            * cos( radians( lng ) - radians(?)
@@ -42,8 +42,49 @@ class StatusJalanController extends Controller
             ->havingRaw("distance < ?", [$radius])
             ->orderBy('distance')
             ->get();
+        $ruas_jalan = DB::table('master_ruas_jalan')
+            ->select('*')
+            ->selectRaw('( 6371393 * acos( cos( radians(?) ) *
+                       cos( radians( lat_awal ) )
+                       * cos( radians( long_awal ) - radians(?)
+                       ) + sin( radians(?) ) *
+                       sin( radians( lat_awal ) ) )
+                     ) AS distance_awal', [$latitude, $longitude, $latitude])
+            ->selectRaw('( 6371393 * acos( cos( radians(?) ) *
+                     cos( radians( lat_ctr ) )
+                     * cos( radians( long_ctr ) - radians(?)
+                     ) + sin( radians(?) ) *
+                     sin( radians( lat_ctr ) ) )
+                   ) AS distance_center', [$latitude, $longitude, $latitude])
+            ->selectRaw('( 6371393 * acos( cos( radians(?) ) *
+                   cos( radians( lat_akhir ) )
+                   * cos( radians( long_akhir ) - radians(?)
+                   ) + sin( radians(?) ) *
+                   sin( radians( lat_akhir ) ) )
+                 ) AS distance_akhir', [$latitude, $longitude, $latitude])
+            ->selectRaw('(((CAST(( 6371393 * acos( cos( radians(?) ) *
+            cos( radians( lat_awal ) )
+            * cos( radians( long_awal ) - radians(?)
+            ) + sin( radians(?) ) *
+            sin( radians( lat_awal ) ) )
+          ) as decimal)) + (CAST(( 6371393 * acos( cos( radians(?) ) *
+          cos( radians( lat_ctr ) )
+          * cos( radians( long_ctr ) - radians(?)
+          ) + sin( radians(?) ) *
+          sin( radians( lat_ctr ) ) )
+        ) as decimal)) + (CAST(( 6371393 * acos( cos( radians(?) ) *
+        cos( radians( lat_akhir ) )
+        * cos( radians( long_akhir ) - radians(?)
+        ) + sin( radians(?) ) *
+        sin( radians( lat_akhir ) ) )
+      ) as decimal)))) / 3 AS total_distance', [$latitude, $longitude, $latitude,$latitude, $longitude, $latitude,$latitude, $longitude, $latitude])
+            ->havingRaw('total_distance < ?', [$radius])
+            ->orderBy('total_distance')
+            ->limit(1)
+            ->get();
         $response['pemeliharaan'] = $pemeliharaan;
-        $response['test'] = $radius.$latitude.$longitude;
+        $response['ruas_jalan'] = $ruas_jalan;
+        $response['test'] = $radius . $latitude . $longitude;
         return response()->json($response, 200);
     }
 }
