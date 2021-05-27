@@ -62,29 +62,29 @@ class StatusJalanController extends Controller
                    ) + sin( radians(?) ) *
                    sin( radians( lat_akhir ) ) )
                  ) AS distance_akhir', [$latitude, $longitude, $latitude])
-            ->selectRaw('(((CAST(( 6371393 * acos( cos( radians(?) ) *
+            ->selectRaw('LEAST(( 6371393 * acos( cos( radians(?) ) *
             cos( radians( lat_awal ) )
             * cos( radians( long_awal ) - radians(?)
             ) + sin( radians(?) ) *
             sin( radians( lat_awal ) ) )
-          ) as decimal)) + (CAST(( 6371393 * acos( cos( radians(?) ) *
-          cos( radians( lat_ctr ) )
-          * cos( radians( long_ctr ) - radians(?)
-          ) + sin( radians(?) ) *
-          sin( radians( lat_ctr ) ) )
-        ) as decimal)) + (CAST(( 6371393 * acos( cos( radians(?) ) *
-        cos( radians( lat_akhir ) )
-        * cos( radians( long_akhir ) - radians(?)
-        ) + sin( radians(?) ) *
-        sin( radians( lat_akhir ) ) )
-      ) as decimal)))) / 3 AS total_distance', [$latitude, $longitude, $latitude,$latitude, $longitude, $latitude,$latitude, $longitude, $latitude])
-            ->havingRaw('total_distance < ?', [$radius])
-            ->orderBy('total_distance')
+    ),( 6371393 * acos( cos( radians(?) ) *
+    cos( radians( lat_ctr ) )
+    * cos( radians( long_ctr ) - radians(?)
+    ) + sin( radians(?) ) *
+    sin( radians( lat_ctr ) ) )
+),( 6371393 * acos( cos( radians(?) ) *
+    cos( radians( lat_akhir ) )
+    * cos( radians( long_akhir ) - radians(?)
+    ) + sin( radians(?) ) *
+    sin( radians( lat_akhir ) ) )
+)) AS min_distance', [$latitude, $longitude, $latitude, $latitude, $longitude, $latitude, $latitude, $longitude, $latitude])
+            ->havingRaw('min_distance < ?', [1000000])
+            ->orderBy('min_distance')
             ->limit(1)
             ->get();
         $response['pemeliharaan'] = $pemeliharaan;
         $response['ruas_jalan'] = $ruas_jalan;
-        $response['test'] = $radius . $latitude . $longitude;
+        $response['coords'] = $radius . '-' . $latitude . '-' . $longitude;
         return response()->json($response, 200);
     }
 }
