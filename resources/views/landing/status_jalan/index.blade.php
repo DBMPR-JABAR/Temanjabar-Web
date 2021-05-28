@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/status_jalan.css') }}">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <link rel="stylesheet" href="https://js.arcgis.com/4.19/esri/themes/light/main.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>Status Jalan</title>
 </head>
@@ -38,6 +39,11 @@
             name: "react-dom",
             location: "https://unpkg.com/react-dom@16/umd/",
             main: "react-dom.development",
+        },
+        {
+            name: "swiper",
+            location: "https://unpkg.com/swiper/",
+            main: "swiper-bundle",
         }
     ]
     };

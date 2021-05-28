@@ -12,6 +12,7 @@ $(document).ready(function () {
             "react-dom",
             "esri/core/watchUtils",
             "esri/widgets/Zoom/ZoomViewModel",
+            "swiper",
         ], function (
             Map,
             MapView,
@@ -23,31 +24,116 @@ $(document).ready(function () {
             React,
             ReactDOM,
             watchUtils,
-            ZoomViewModel
+            ZoomViewModel,
+            Swiper
         ) {
-            const { useState } = React;
-            const StatusJalan = ({ view, track }) => {
-                console.log(view, track);
-                const [coords, setCoords] = useState({
-                    latitude: null,
-                    longitude: null,
-                });
-
-                React.useEffect(() => {
-                    track.on("track", async (trackEvent) => {
-                        const coordsTemp = trackEvent.position.coords;
-                        setCoords({
-                            latitude: coordsTemp.latitude,
-                            longitude: coordsTemp.longitude,
-                        });
-                        // console.log(coords.latitude);
+            console.log("test", Swiper);
+            const { useState, useEffect, useRef } = React;
+            const Pemeliharaan = ({ view, track, pemeliharaanProps }) => {
+                const [pemeliharaan, setPemeliharaan] =
+                    useState(pemeliharaanProps);
+                const swiperRef = useRef(null);
+                useEffect(() => {
+                    const swiper = new Swiper(swiperRef.current, {
+                        speed: 4000,
+                        autoplay: {
+                            delay: 3000,
+                        },
+                        direction: "horizontal",
+                        loop: true,
+                        spaceBetween: 10,
+                        slidesPerView: 1,
                     });
-                }, []);
-                console.log(coords);
+                }, [pemeliharaan]);
+
                 return (
-                    <div className="p-2 card w-30">
-                        <p>Latitude: {coords.latitude ? coords.latitude : 'inisialisasi..'}</p>
-                        <p>Longitude: {coords.longitude ? coords.longitude : 'inisialisasi..'}</p>
+                    <div
+                        className="card small"
+                        style={{ width: 18 + "rem", maxHeight: 20 + "rem" }}
+                    >
+                        <div className="card-body">
+                            <h6 className="card-subtitle mb-1 text-muted small">
+                                Pekerjaan
+                            </h6>
+                            <p className="card-text small p-2 mb-0">
+                                Daftar lokasi pekerjaan DBMPR terdekat
+                            </p>{" "}
+                            <div
+                                ref={swiperRef}
+                                className="list-group small swiper-container"
+                            >
+                                <div className="swiper-wrapper">
+                                    {pemeliharaan &&
+                                        pemeliharaan.map((data) => (
+                                            <a
+                                                key={data.id_pek}
+                                                href="#"
+                                                className="list-group-item list-group-item-action flex-column align-items-start swiper-slide"
+                                            >
+                                                <div className="d-flex w-100 justify-content-between">
+                                                    <h5 className="mb-1 small">
+                                                        {data.paket}
+                                                    </h5>
+                                                    <small>
+                                                        {data.tanggal}
+                                                    </small>
+                                                </div>
+                                                <p className="mb-1">
+                                                    {data.ruas_jalan}
+                                                </p>
+                                                <small>
+                                                    Donec id elit non mi porta.
+                                                </small>
+                                            </a>
+                                        ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            };
+
+            const StatusJalan = ({ view, track, statusJalanProps }) => {
+                const [coords, setCoords] = useState({
+                    latitude: statusJalanProps.coords.latitude,
+                    longitude: statusJalanProps.coords.longitude,
+                });
+                const [statusJalan, setStatusJalan] =
+                    useState(statusJalanProps);
+
+                useEffect(() => {
+                    console.log(statusJalan);
+                }, [statusJalan]);
+
+                return (
+                    <div className="p-2 card small">
+                        <ul className="list-group list-group-flush">
+                            {statusJalan.ruas_jalan && (
+                                <>
+                                    <li className="list-group-item p-1">
+                                        Ruas Jalan:{" "}
+                                        {
+                                            statusJalan.ruas_jalan[0]
+                                                .nama_ruas_jalan
+                                        }
+                                    </li>
+                                    <li className="list-group-item p-1">
+                                        Kabupaten Kota:{" "}
+                                        {statusJalan.ruas_jalan[0].kab_kota}
+                                    </li>
+                                </>
+                            )}
+                            {coords.latitude && (
+                                <>
+                                    <li className="list-group-item p-1">
+                                        Latitude: {coords.latitude}
+                                    </li>
+                                    <li className="list-group-item p-1">
+                                        Longitude: {coords.longitude}
+                                    </li>
+                                </>
+                            )}
+                        </ul>
                     </div>
                 );
             };
@@ -80,15 +166,16 @@ $(document).ready(function () {
             const fullscreen = new Fullscreen({
                 view,
             });
-            const statusJalanContainer = document.createElement("div");
+            const statusJalanWidgetContainer = document.createElement("div");
+            const pemeliharaanWidgetContainer = document.createElement("div");
             view.ui.add([
                 {
-                    component: statusJalanContainer,
-                    position: "top-right",
+                    component: pemeliharaanWidgetContainer,
+                    position: "bottom-trailing",
                 },
                 {
-                    component: toggle,
-                    position: "bottom-left",
+                    component: statusJalanWidgetContainer,
+                    position: "top-right",
                 },
                 {
                     component: compass,
@@ -102,61 +189,62 @@ $(document).ready(function () {
                     component: track,
                     position: "top-left",
                 },
+                {
+                    component: toggle,
+                    position: "top-left",
+                },
             ]);
-            ReactDOM.render(
-                <StatusJalan view={view} track={track} />,
-                statusJalanContainer
-            );
 
-            let coords = {
-                latitude,
-                longitude,
+            const getData = ({ radius, latitude, longitude }) => {
+                const url = new URL(baseUrl + "/status_jalan/api"),
+                    params = {
+                        latitude,
+                        longitude,
+                        radius,
+                    };
+                Object.keys(params).forEach((key) =>
+                    url.searchParams.append(key, params[key])
+                );
+
+                fetch(url)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        ReactDOM.render(
+                            <StatusJalan
+                                view={view}
+                                track={track}
+                                statusJalanProps={data}
+                            />,
+                            statusJalanWidgetContainer
+                        );
+                        if (data.pemeliharaan) {
+                            console.log("test", data.pemeliharaan);
+                            if (data.pemeliharaan.length > 0) {
+                                console.log("tests", data.pemeliharaan);
+                                ReactDOM.render(
+                                    <Pemeliharaan
+                                        view={view}
+                                        track={track}
+                                        pemeliharaanProps={data.pemeliharaan}
+                                    />,
+                                    pemeliharaanWidgetContainer
+                                );
+                            }
+                        }
+                    });
             };
 
             view.when(function () {
                 track.start();
                 track.on("track", async (trackEvent) => {
                     const coordsTemp = trackEvent.position.coords;
-                    coords.latitude = coordsTemp.latitude;
-                    coords.longitude = coordsTemp.longitude;
-                    $("#latitude").text(coordsTemp.latitude);
-                    $("#longitude").text(coordsTemp.longitude);
-                });
-                getData();
-            });
-
-            const getData = () => {
-                const url = new URL(baseUrl + "/status_jalan/api"),
-                    params = {
-                        ...coords,
-                        radius: 100,
-                    };
-                Object.keys(params).forEach((key) =>
-                    url.searchParams.append(key, params[key])
-                );
-                fetch(url)
-                    .then((response) => response.json())
-                    .then((data) => {
-                        console.log(data.pemeliharaan);
-                        let html = "";
-                        data.pemeliharaan.forEach((pemeliharaan) => {
-                            html += `
-                                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                                  <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">${pemeliharaan.paket}</h5>
-                                    <small>${pemeliharaan.distance} M</small>
-                                  </div>
-                                  <p class="mb-1">${pemeliharaan.ruas_jalan}</p>
-                                  <small>${pemeliharaan.tanggal}</small>
-                                </a>`;
-                        });
-                        const pekerjaanContainer = document.getElementById(
-                            "pekerjaan_list_container"
-                        );
-                        pekerjaanContainer.innerHTML = html;
+                    getData({
+                        radius: 1000,
+                        latitude: coordsTemp.latitude,
+                        longitude: coordsTemp.longitude,
                     });
-            };
+                });
+            });
         });
     });
-    console.log(geoServerUrl, baseUrl);
 });

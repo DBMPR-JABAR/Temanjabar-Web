@@ -84,7 +84,8 @@ class StatusJalanController extends Controller
             ->get();
         $response['pemeliharaan'] = $pemeliharaan;
         $response['ruas_jalan'] = $ruas_jalan;
-        $response['coords'] = $radius . '-' . $latitude . '-' . $longitude;
+        $response['coords']['latitude'] = $latitude;
+        $response['coords']['longitude'] = $longitude;
         return response()->json($response, 200);
     }
 }
