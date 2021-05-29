@@ -54,11 +54,37 @@
                             <label class="col-md-12 col-form-label">{{$pekerjaan->paket}}</label>
                         </div>
                         <div class="col-md-4">
-                            <label class="col-md-6 col-form-label"><b>Jumlah Pekerja</b></label>
+                            <label class="col-md-12 col-form-label"><b>Perkiraan Kuantitas</b></label>
                             <hr>
-                            <label class="col-md-12 col-form-label">{{$pekerjaan->jumlah_pekerja}} Orang</label>
+                            <label class="col-md-12 col-form-label">{{$pekerjaan->perkiraan_kuantitas}}</label>
                         </div>
                     </div>
+                    @if(count($detail_pekerja)>=1)
+                    <div class="table-responsive">
+                        <br>
+                        <label style="font-weight: bold;">Tenaga Kerja</label>
+                        <table class="table table-striped">
+                            <tr>
+                                <th>#</th>
+                                <th>Jabatan</th>
+                                <th>Satuan</th>
+                                <th>Jumlah</th>
+
+                            </tr>
+                            @foreach ($detail_pekerja as $no => $item)
+                            <tr>
+                                <td width="5%">{{ ++$no }}</td>
+                                <td width="25%">{{ $item->jabatan }}</td>
+
+                                <td width="15%">Hok</td>
+                                <td width="15%">{{ $item->jumlah }}</td>
+
+                            </tr>
+                                @endforeach
+
+                        </table>
+                    </div>
+                    @endif
 
 
             </div>
@@ -122,6 +148,32 @@
                                 <source src="{{ url('storage/pekerjaan/'.$pekerjaan->video) }}" type="video/mp4" />
                             </video>
                     </div>
+                    @if(count($detail_penghambat)>=1)
+                    <div class="table-responsive">
+                        <br>
+                        <label style="font-weight: bold;">Kejadian Penghambat Pelaksanaan</label>
+                        <table class="table table-striped">
+                            <tr>
+                                <th>#</th>
+                                <th>Jenis Gangguan</th>
+                                <th>Waktu</th>
+                                <th>Akibat</th>
+
+                            </tr>
+                            @foreach ($detail_penghambat as $no => $item)
+                            <tr>
+                                <td width="5%">{{ ++$no }}</td>
+                                <td width="25%">{{ $item->jenis_gangguan }}</td>
+
+                                <td width="15%">{{ $item->start_time }} - {{ $item->end_time }}</td>
+                                <td width="15%">{{ $item->akibat }}</td>
+
+                            </tr>
+                                @endforeach
+
+                        </table>
+                    </div>
+                    @endif
 
             </div>
         </div>
@@ -134,34 +186,72 @@
                 </div>
             </div>
             <div class="card-block">
-                @if(count($peralatan)>=1)
-                <div class="table-responsive">
-                    <label style="font-weight: bold;">Alat yang Digunakan</label>
-                    <table class="table table-striped">
-                        <tr>
-                            <th>#</th>
-                            <th>Peralatan</th>
-                            <th>Kuantitas</th>
-                            <th>Satuan</th>
+                <div class="row">
+                    
+                    <div class="col-md-6 col-sm-12">
+                        @if(count($peralatan)>=1)
+                        <div class="table-responsive">
+                            <label style="font-weight: bold;">Alat yang Digunakan</label>
+                            <table class="table table-striped">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Peralatan</th>
+                                    <th>Kuantitas</th>
+                                    <th>Satuan</th>
+        
+                                </tr>
+                                @php
+                                    $counter = 0;
+                                @endphp
+                                @foreach ($peralatan as $no => $item)
+                                <tr>
+                                    <td width="5%">{{ ++$no }}</td>
+                                    <td width="25%">{{ $item->nama_peralatan }}</td>
+        
+                                    <td width="15%">{{ $item->kuantitas }}</td>
+                                    <td width="15%">{{ $item->satuan }}</td>
+        
+                                </tr>
+                                    @endforeach
+        
+                            </table>
+                        </div>
+                        @endif
 
-                        </tr>
-                        @php
-                            $counter = 0;
-                        @endphp
-                        @foreach ($peralatan as $no => $item)
-                        <tr>
-                            <td width="5%">{{ ++$no }}</td>
-                            <td width="35%">{{ $item->nama_peralatan }}</td>
-
-                            <td width="15%">{{ $item->kuantitas }}</td>
-                            <td width="15%">{{ $item->satuan }}</td>
-
-                        </tr>
-                            @endforeach
-
-                    </table>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        @if(count($detail_bahan_operasional)>=1)
+                            <div class="table-responsive">
+                                <label style="font-weight: bold;">Bahan Operasional Peralatan</label>
+                                <table class="table table-striped">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Material</th>
+                                        <th>Kuantitas</th>
+                                        <th>Satuan</th>
+            
+                                    </tr>
+                                    @php
+                                        $counter = 0;
+                                    @endphp
+                                    @foreach ($detail_bahan_operasional as $no => $item)
+                                    <tr>
+                                        <td width="5%">{{ ++$no }}</td>
+                                        <td width="25%">{{ $item->nama_item }}</td>
+            
+                                        <td width="15%">{{ $item->kuantitas }}</td>
+                                        <td width="15%">{{ $item->satuan }}</td>
+            
+                                    </tr>
+                                        @endforeach
+            
+                                </table>
+                            </div>
+                        @endif
+                        
+                    </div>
+                
                 </div>
-                @endif
                 <div class="table-responsive">
                     <label style="font-weight: bold;">Detail Material</label>
                     <table class="table table-striped">
@@ -188,69 +278,67 @@
 
                     </table>
                 </div>
-                @if(count($detail_bahan_operasional)>=1)
-                <div class="table-responsive">
-                    <label style="font-weight: bold;">Bahan Operasional Peralatan</label>
-                    <table class="table table-striped">
-                        <tr>
-                            <th>#</th>
-                            <th>Material</th>
-                            <th>Kuantitas</th>
-                            <th>Satuan</th>
-
-                        </tr>
-                        @php
-                            $counter = 0;
-                        @endphp
-                        @foreach ($detail_bahan_operasional as $no => $item)
-                        <tr>
-                            <td width="5%">{{ ++$no }}</td>
-                            <td width="35%">{{ $item->nama_item }}</td>
-
-                            <td width="15%">{{ $item->kuantitas }}</td>
-                            <td width="15%">{{ $item->satuan }}</td>
-
-                        </tr>
-                            @endforeach
-
-                    </table>
-                </div>
-                @endif
+                
             </div>
         </div>
-
-        <div class="card">
-
-            <div class="card-block">
-
-                <form action="{{ route('jugmentLaporanMandor',$pekerjaan->id_pek) }}" method="post" enctype="multipart/form-data">
-                    @csrf
-                    <div class="form-group">
-                        <label>Judgement</label>
-                        <select class="form-control" name="status" required>
-                            <option value="">Select</option>
-
-                            <option value="Approved" @if (@$detail->status != null && strpos('Approved', @$detail->status) !== false) selected @endif>Approved</option>
-                            <option value="Rejected" @if (@$detail->status != null && strpos('Rejected', @$detail->status) !== false) selected @endif>Rejected</option>
-                        </select>
+        <form action="{{ route('jugmentLaporanMandor',$pekerjaan->id_pek) }}" method="post" enctype="multipart/form-data">
+            @csrf
+        
+            @if (str_contains(Auth::user()->internalRole->role,'Pengamat')|| str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan'))
+                <div class="card">
+                    <div class="card-header">
+                        <h6>Instruksi / Saran / Usul</h6>
+                        <div class="card-header-right">
+                            <ul class="list-unstyled card-option">
+                                {{-- <li><i class="feather icon-maximize full-card"></i></li> --}}
+                                <li><i class="feather icon-minus minimize-card"></i></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Keterangan</label>
-                        <input type="text" name="keterangan" id="keterangan"
-                            value="{{ old('keterangan', @$detail->description) }}" placeholder="Masukan Keterangan"
-                            class="form-control @error('keterangan') is-invalid @enderror" >
-                        @error('keterangan')
-                            <div class="invalid-feedback" style="display: block; color:red">
-                                {{ $message }}
+                    <div class="card-block">   
+                        
+                        <div class="form-group row">
+                            <label class="col-md-12 col-form-label">Apakah ada Instruksi / Saran / Usul ?</label>
+                            <div class="col-md-12">
+                                <input name="keterangan_instruksi" type="text" class="form-control" placeholder="Type here" required value="{{ @$detail_instruksi }}">
                             </div>
-                        @enderror
+                        </div>
+                        
                     </div>
-                    <a href="{{ url()->previous() }}"><button type="button" class="btn btn-danger waves-effect " data-dismiss="modal">Kembali</button></a>
-                <button type="submit" class="btn btn-responsive btn-primary">Submit</button>
-                </form>
+                </div>
+                
+            @endif
+            <div class="card">
 
+                <div class="card-block">
+
+                        <div class="form-group">
+                            <label>Judgement</label>
+                            <select class="form-control" name="status" required>
+                                <option value="">Select</option>
+
+                                <option value="Approved" @if (@$detail->status != null && strpos('Approved', @$detail->status) !== false) selected @endif>Approved</option>
+                                <option value="Rejected" @if (@$detail->status != null && strpos('Rejected', @$detail->status) !== false) selected @endif>Rejected</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Keterangan</label>
+                            <input type="text" name="keterangan" id="keterangan"
+                                value="{{ old('keterangan', @$detail->description) }}" placeholder="Masukan Keterangan"
+                                class="form-control @error('keterangan') is-invalid @enderror" >
+                            @error('keterangan')
+                                <div class="invalid-feedback" style="display: block; color:red">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <a href="{{ url()->previous() }}"><button type="button" class="btn btn-danger waves-effect " data-dismiss="modal">Kembali</button></a>
+                    <button type="submit" class="btn btn-responsive btn-primary">Submit</button>
+
+                </div>
             </div>
-        </div>
+        </form>
+
     </div>
 </div>
 

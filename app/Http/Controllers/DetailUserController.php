@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 
 
@@ -69,18 +70,22 @@ class DetailUserController extends Controller
             return back()->with(compact('color', 'msg'));
             // return redirect('admin/user/profile/'. auth()->user()->id)->with(['error' => 'Somethink when wrong!']);
         }else{
-            $profile = DB::table('user_pegawai')
-            ->leftJoin('users', 'users.id', '=', 'user_pegawai.user_id')
-            ->leftJoin('user_role', 'user_role.id', '=', 'users.internal_role_id')->where('user_pegawai.user_id',$id)->first();
+
+            $profile=User::find($id);
+            // $profile = DB::table('user_pegawai')
+            // ->leftJoin('users', 'users.id', '=', 'user_pegawai.user_id')
+            // ->leftJoin('user_role', 'user_role.id', '=', 'users.internal_role_id')->where('user_pegawai.user_id',$id)->first();
 
             // dd($profile);
-            if($profile){
-                $kota = $profile->city_id ? DB::table('indonesia_cities')->where('id', $profile->city_id)->pluck('name')->first() :'';
-                $provinsi = $profile->province_id? DB::table('indonesia_provinces')->where('id', $profile->province_id)->pluck('name')->first()  :'';
-                $profile->provinsi=$provinsi;
-                $profile->kota=$kota;
+            $kota = "";
+            $provinsi = "";
+            if($profile->pegawai){
+                $kota = $profile->pegawai->city_id ? DB::table('indonesia_cities')->where('id', $profile->pegawai->city_id)->pluck('name')->first() :'';
+                $provinsi = $profile->pegawai->province_id ? DB::table('indonesia_provinces')->where('id', $profile->pegawai->province_id)->pluck('name')->first()  :'';
             }
-
+            $profile->provinsi=$provinsi;
+            $profile->kota=$kota;
+            // dd($profile);
             return view('admin.master.user.show',compact('profile'));
         }
     }
@@ -172,7 +177,6 @@ class DetailUserController extends Controller
             // dd($request);
             $this->validate($request,[
                 'nama' => 'required',
-                'no_pegawai'   => 'required',
                 'tgl_lahir'    => 'required',
                 'tmp_lahir'    => 'required',
                 'jenis_kelamin'    => 'required',
@@ -188,9 +192,22 @@ class DetailUserController extends Controller
                 'kode_pos' => '',
                 'alamat' => '',
                 'agama' => 'required',
-                ]);
-            $temp = explode(",",$request->input('sup_id'));
+                'ruas_jalan' => '',
 
+                ]);
+                // dd($id);
+                $updateprofile = DB::table('user_pegawai')
+                ->where('user_id', $id)->first();
+                $validator = Validator::make($request->all(), [
+                    'no_pegawai' => Rule::unique('user_pegawai', 'no_pegawai')->ignore($updateprofile->id)
+                ]);
+                if ($validator->fails()) {
+                    $color = "danger";
+                    $msg = $validator->messages()->first();
+                    return redirect(route('editProfile', $id))->with(compact('color', 'msg'));
+                }
+                // $temp = explode(",",$request->input('sup_id'));
+                
             $userprofile['nama'] = $request->input('nama');
                 // $userprofile['frontDegree']     = $request->input('frontDegree');
                 // $userprofile['backDegree']     = $request->input('backDegree');
@@ -213,22 +230,29 @@ class DetailUserController extends Controller
             $userprofile['alamat']  = $request->input('alamat');
             $updatetouser = null;
             if($request->input('sup_id') != null){
-                $userupdat['sup_id']= $temp[0];
-                $userupdat['sup']= $temp[1];
+                $getsup = DB::table('utils_sup')->where('kd_sup',$request->input('sup_id'))->select('id','name')->first();
+                $userupdat['sup_id']= $getsup->id;
+                $userupdat['sup']= $getsup->name;
                 $updatetouser = DB::table('users')->where('id', $id)->update($userupdat);
             }
-            $updateprofile = DB::table('user_pegawai')
-            ->where('user_id', $id); //beneriiiiiiiiin
-            if($updateprofile->exists()){
-                $updateprofile = $updateprofile->update($userprofile);
+             //beneriiiiiiiiin
+            if($updateprofile){
+                $updateprofile = DB::table('user_pegawai')->where('id',$updateprofile->id)->update($userprofile);
             }else{
                 $userprofile['user_id']  = $id;
-                $updateprofile = $updateprofile->insert($userprofile);
+                $updateprofile = DB::table('user_pegawai')->insert($userprofile);
             }
             // echo $request->input('sup_id');
             // dd($temp);
-
-            if($updateprofile || $updatetouser){
+            $updateruas = DB::table('user_master_ruas_jalan')->where('user_id',$id)->delete();
+            if($request->ruas_jalan){
+                foreach($request->ruas_jalan as $data){
+                    $userRuas['user_id'] =$id;
+                    $userRuas['master_ruas_jalan_id'] =$data;
+                    $updateruas =  DB::table('user_master_ruas_jalan')->insert($userRuas);   
+                }
+            }
+            if($updateprofile || $updatetouser || $updateruas){
                 $updatenama['name'] = $request->input('nama');
                 $updatetouser = DB::table('users')->where('id', $id)->update($updatenama);
                 //redirect dengan pesan sukses
@@ -262,7 +286,7 @@ class DetailUserController extends Controller
 
             // echo Auth::user()->password;
             $validator = Validator::make($request->all(), [
-                'email' => 'required|email',
+                'email' => Rule::unique('users', 'email')->ignore($id),
                 'password'   => 'confirmed'
             ]);
             if ($validator->fails()) {

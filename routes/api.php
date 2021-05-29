@@ -79,10 +79,13 @@ Route::group(['middleware' => ['jwt.auth']], function () {
         Route::get('get-sup', 'API\PekerjaanController@getSUP');
         Route::get('get-ruas-jalan', 'API\PekerjaanController@getRuasJalan');
         Route::get('get-jenis-pekerjaan', 'API\PekerjaanController@getJenisPekerjaan');
+        Route::get('get-jenis-kegiatan', 'API\PekerjaanController@getJenisKegiatan');
 
         Route::group(['prefix' => 'material_pekerjaan'], function () {
             Route::get('bahan_material', 'API\MaterialPekerjaanController@bahanMaterial');
             Route::get('satuan_material', 'API\MaterialPekerjaanController@satuanMaterial');
+            Route::get('get-alat-operasional', 'API\MaterialPekerjaanController@getAlatOperasional');
+            Route::get('get-bahan-operasional', 'API\MaterialPekerjaanController@getBahanMaterialOperasional');
         });
         Route::resource('material_pekerjaan', 'API\MaterialPekerjaanController')->except('index');
     });

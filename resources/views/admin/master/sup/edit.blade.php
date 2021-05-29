@@ -60,7 +60,13 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Nama SUP</label>
                         <div class="col-md-10">
-                            <input name="name" id="sup_name" type="text" class="form-control" value="{{ $sup->name }}" required>
+                            <input name="name" id="sup_name" type="text" class="form-control" value="{{ @$sup->name }}" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Kode SUP</label>
+                        <div class="col-md-10">
+                            <input name="kd_sup" id="kd_sup" type="text" class="form-control" value="{{ @$sup->kd_sup }}" required>
                         </div>
                     </div>
                     <div class=" form-group row">

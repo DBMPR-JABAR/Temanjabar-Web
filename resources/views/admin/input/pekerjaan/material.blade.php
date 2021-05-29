@@ -175,6 +175,118 @@
         </div>
         <div class="card">
             <div class="card-header">
+                <h6>Bahan Operasional Peralatan</h6>
+                <i style="color :red; font-size: 10px;">Biarkan jika tidak ada</i>
+
+                <div class="card-header-right">
+                    <ul class="list-unstyled card-option">
+                        {{-- <li><i class="feather icon-maximize full-card"></i></li> --}}
+                        <li><i class="feather icon-minus minimize-card"></i></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-block">   
+                 
+
+                <div class="form-group row">
+                    <label class="col-md-4 col-form-label">Material</label>
+                    
+                    <label class="col-md-3 col-form-label">Jumlah</label>
+                    
+                    <label class="col-md-4 col-form-label">Satuan</label>
+                </div>
+                <div class="form-group row fieldGroupOperasional">
+                 
+                    <div class="col-md-4">
+                        <select class="form-control" name="nama_bahan_operasional[]" required>
+                            @foreach ($bahan as $data)
+                                @if ($data->keterangan)
+                                    <option value="{{$data->no}}" @if(@$detail_bahan_operasional[0]->id_material == $data->no) selected @endif>{{$data->nama_item}}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <input name="jum_bahan_operasional[]" type="number" class="form-control" value="{{ @$detail_bahan_operasional[0]->kuantitas}}">
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-control" name="satuan_operasional[]" required >
+                            <option value="Ltr" @if (@$detail_bahan_operasional[0]->satuan == "Ltr") selected @endif>Ltr</option>
+
+                        </select>
+                    </div>
+                    <div class="col-md-1"> 
+                        {{-- <a href="javascript:void(0)" class="btn btn-success addMore"><span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span> Add</a> --}}
+                        <a href="javascript:void(0)" data-toggle="modal"><button class="btn btn-primary addMoreOperasional btn-mini waves-effect waves-light" data-toggle="tooltip" title="Tambah Bahan Material"><i class="icofont icofont-plus"></i></button></a>
+                    </div>
+                </div>
+
+                @if(@$detail_bahan_operasional && count($detail_bahan_operasional)>1)
+                    @for ($i = 1; $i< count($detail_bahan_operasional);$i++ )
+                    
+                        <div class="form-group row fieldGroupOperasional">
+                            <div class="col-md-4">
+                                <select class="form-control" name="nama_bahan_operasional[]" required>
+                                    @foreach ($bahan as $data)
+                                        @if ($data->keterangan)
+                                            <option value="{{$data->no}}" @if(@$detail_bahan_operasional[$i]->id_material == $data->no) selected @endif>{{$data->nama_item}}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <input name="jum_bahan_operasional[]" type="number" class="form-control" value="{{ @$detail_bahan_operasional[$i]->kuantitas}}">
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-control" name="satuan_operasional[]" required >
+                                    <option value="Ltr" @if (@$detail_bahan_operasional[$i]->satuan == "Ltr") selected @endif>Ltr</option>
+
+                                </select>
+                            </div>
+                            <div class="col-md-1"> 
+                                {{-- <a href="javascript:void(0)" class="btn btn-success addMore"><span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span> Add</a> --}}
+                                <a href="javascript:void(0)" data-toggle="modal"><button class="btn btn-danger removeOperasional btn-mini waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
+                                
+                            </div>
+                        </div>
+                    @endfor
+                @endif
+                <!-- copy of input fields group -->
+                <div class="form-group row fieldGroupCopyOperasional" style="display: none;">
+                    
+                        <div class="col-md-4">
+                            <select class="form-control" name="nama_bahan_operasional[]" required>
+                                
+                                @foreach ($bahan as $data)
+                                    @if ($data->keterangan)
+                                        <option value="{{$data->no}}">{{$data->nama_item}}</option>
+                                    @endif
+                                @endforeach
+                              
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+
+                            <input name="jum_bahan_operasional[]" type="number" class="form-control" >
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control" name="satuan_operasional[]" required>
+                                   
+                                    <option value="Ltr" >Ltr</option>
+
+                            </select>
+                        </div>
+                        <div class="col-md-1"> 
+                            {{-- <a href="javascript:void(0)" class="btn btn-danger remove"><span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span> Remove</a> --}}
+                            <a href="javascript:void(0)" data-toggle="modal"><button class="btn btn-danger removeOperasional btn-mini waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
+                        </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
                 <h6>Material Tiba Di Lokasi</h6>
                 <i style="color :red; font-size: 10px;">Biarkan jika tidak ada</i>
                 <div class="card-header-right">
@@ -855,9 +967,7 @@
         </div>
         <div class="card">
             <div class="card-header">
-                <h6>Bahan Operasional Peralatan</h6>
-                <i style="color :red; font-size: 10px;">Biarkan jika tidak ada</i>
-
+                <h6>Tenaga Kerja</h6>
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
                         {{-- <li><i class="feather icon-maximize full-card"></i></li> --}}
@@ -867,104 +977,210 @@
             </div>
             <div class="card-block">   
                  
-
                 <div class="form-group row">
-                    <label class="col-md-4 col-form-label">Material</label>
+                    <label class="col-md-7 col-form-label">Jabatan</label>
                     
-                    <label class="col-md-3 col-form-label">Jumlah</label>
-                    
-                    <label class="col-md-4 col-form-label">Satuan</label>
+                    <label class="col-md-4 col-form-label">Jumlah</label>
                 </div>
-                <div class="form-group row fieldGroupOperasional">
+                <div class="form-group row fieldGroupPekerja">
                  
-                    <div class="col-md-4">
-                        <select class="form-control" name="nama_bahan_operasional[]" required>
-                            @foreach ($bahan as $data)
-                                @if ($data->keterangan)
-                                    <option value="{{$data->no}}" @if(@$detail_bahan_operasional[0]->id_material == $data->no) selected @endif>{{$data->nama_item}}</option>
-                                @endif
-                            @endforeach
+                    <div class="col-md-7">
+                        <select class="form-control" name="jabatan_pekerja[]" required>
+                            <option value="Pekerja" @if(@$detail_pekerja[0]->jabatan == "Pekerja") selected @endif>Pekerja</option>
+                            <option value="Tukang" @if(@$detail_pekerja[0]->jabatan == "Tukang") selected @endif>Tukang</option>
+                            <option value="Operator" @if(@$detail_pekerja[0]->jabatan == "Operator") selected @endif>Operator</option>
+                            <option value="Sopir" @if(@$detail_pekerja[0]->jabatan == "Sopir") selected @endif>Sopir</option>    
                         </select>
                     </div>
-                    <div class="col-md-3">
-                        <input name="jum_bahan_operasional[]" type="number" class="form-control" value="{{ @$detail_bahan_operasional[0]->kuantitas}}">
-                    </div>
                     <div class="col-md-4">
-                        <select class="form-control" name="satuan_operasional[]" required >
-                            <option value="Ltr" @if (@$detail_bahan_operasional[0]->satuan == "Ltr") selected @endif>Ltr</option>
-
-                        </select>
+                        <input name="jum_pekerja[]" type="number" class="form-control" value="{{ @$detail_pekerja[0]->jumlah }}">
                     </div>
                     <div class="col-md-1"> 
                         {{-- <a href="javascript:void(0)" class="btn btn-success addMore"><span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span> Add</a> --}}
-                        <a href="javascript:void(0)" data-toggle="modal"><button class="btn btn-primary addMoreOperasional btn-mini waves-effect waves-light" data-toggle="tooltip" title="Tambah Bahan Material"><i class="icofont icofont-plus"></i></button></a>
+                        <a href="javascript:void(0)" data-toggle="modal"><button class="btn btn-primary addMorePekerja btn-mini waves-effect waves-light" data-toggle="tooltip" title="Tambah Pekerja"><i class="icofont icofont-plus"></i></button></a>
                     </div>
                 </div>
-
-                @if(@$detail_bahan_operasional && count($detail_bahan_operasional)>1)
-                    @for ($i = 1; $i< count($detail_bahan_operasional);$i++ )
+                @if(@$detail_pekerja && count($detail_pekerja)>1)
+                    @for ($i = 1; $i< count($detail_pekerja);$i++ )
+                    <div class="form-group row fieldGroupPekerja">
+                        <div class="col-md-7">
+                            <select class="form-control" name="jabatan_pekerja[]" required>
+                                <option value="Pekerja" @if(@$detail_pekerja[$i]->jabatan == "Pekerja") selected @endif>Pekerja</option>
+                                <option value="Tukang" @if(@$detail_pekerja[$i]->jabatan == "Tukang") selected @endif>Tukang</option>
+                                <option value="Operator" @if(@$detail_pekerja[$i]->jabatan == "Operator") selected @endif>Operator</option>
+                                <option value="Sopir" @if(@$detail_pekerja[$i]->jabatan == "Sopir") selected @endif>Sopir</option>    
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <input name="jum_pekerja[]" type="number" class="form-control" value="{{ @$detail_pekerja[$i]->jumlah }}">
+                        </div>
+                        <div class="col-md-1"> 
+                            {{-- <a href="javascript:void(0)" class="btn btn-success addMore"><span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span> Add</a> --}}
+                           
+                            <a href="javascript:void(0)" data-toggle="modal"><button class="btn btn-danger removePekerja btn-mini waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
+                        
+                        </div>
+                    </div>
+                    @endfor
+                @endif
+                <!-- copy of input fields group -->
+                <div class="form-group row fieldGroupCopyPekerja" style="display: none;">
                     
-                        <div class="form-group row fieldGroupOperasional">
-                            <div class="col-md-4">
-                                <select class="form-control" name="nama_bahan_operasional[]" required>
-                                    @foreach ($bahan as $data)
-                                        @if ($data->keterangan)
-                                            <option value="{{$data->no}}" @if(@$detail_bahan_operasional[$i]->id_material == $data->no) selected @endif>{{$data->nama_item}}</option>
-                                        @endif
-                                    @endforeach
+                    <div class="col-md-7">
+                        <select class="form-control" name="jabatan_pekerja[]" required>
+                            <option value="Pekerja">Pekerja</option>
+                            <option value="Tukang">Tukang</option>
+                            <option value="Operator">Operator</option>
+                            <option value="Sopir">Sopir</option>    
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <input name="jum_pekerja[]" type="number" class="form-control" value="">
+                    </div>
+                        <div class="col-md-1"> 
+                            {{-- <a href="javascript:void(0)" class="btn btn-danger remove"><span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span> Remove</a> --}}
+                            <a href="javascript:void(0)" data-toggle="modal"><button class="btn btn-danger removePekerja btn-mini waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h6>Penghambat Pelaksanaan</h6>
+                <div class="card-header-right">
+                    <ul class="list-unstyled card-option">
+                        {{-- <li><i class="feather icon-maximize full-card"></i></li> --}}
+                        <li><i class="feather icon-minus minimize-card"></i></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-block">   
+                 
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label">Jenis</label>
+                    <label class="col-md-5 col-form-label">Waktu</label>
+                    <label class="col-md-4 col-form-label">Akibat</label>
+                </div>
+                <div class="form-group row fieldGroupPenghambat">
+                    <div class="col-md-3">
+                        <select class="form-control" name="jenis_gangguan[]" required>
+                            <option value="Cerah" @if(@$detail_penghambat[0]->jenis_gangguan == "Cerah") selected @endif>Cerah</option>
+                            <option value="Berawan" @if(@$detail_penghambat[0]->jenis_gangguan == "Berawan") selected @endif>Berawan</option>
+                            <option value="Hujan Gerimis" @if(@$detail_penghambat[0]->jenis_gangguan == "Hujan Gerimis") selected @endif>Hujan Gerimis</option>
+                            <option value="Hujan Lebat" @if(@$detail_penghambat[0]->jenis_gangguan == "Hujan Lebat") selected @endif>Hujan Lebat</option>    
+                        </select>
+                    </div>
+                    <div class="col-md-5 "id="start_time">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input name="start_time[]" type="time" class="form-control " value="{{ @$detail_penghambat[0]->start_time}}">
+                            </div>
+                            s/d
+                            <div class="col-md-5">
+                                <input name="end_time[]" type="time" id="end_time_input" class="form-control" value="{{ @$detail_penghambat[0]->end_time}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <textarea name="akibat[]" class="form-control">{{ @$detail_penghambat[0]->akibat }}</textarea>
+                    </div>
+                    <div class="col-md-1"> 
+                        {{-- <a href="javascript:void(0)" class="btn btn-success addMore"><span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span> Add</a> --}}
+                        <a href="javascript:void(0)" data-toggle="modal"><button class="btn btn-primary addMorePenghambat btn-mini waves-effect waves-light" data-toggle="tooltip" title="Tambah Penghambat"><i class="icofont icofont-plus"></i></button></a>
+                    </div>
+                </div>
+                @if(@$detail_penghambat && count($detail_penghambat)>1)
+                    @for ($i = 1; $i< count($detail_penghambat);$i++ )
+                        <div class="form-group row fieldGroupPenghambat">
+                            <div class="col-md-3">
+                                <select class="form-control" name="jenis_gangguan[]" required>
+                                    <option value="Cerah" @if(@$detail_penghambat[$i]->jenis_gangguan == "Cerah") selected @endif>Cerah</option>
+                                    <option value="Berawan" @if(@$detail_penghambat[$i]->jenis_gangguan == "Berawan") selected @endif>Berawan</option>
+                                    <option value="Hujan Gerimis" @if(@$detail_penghambat[$i]->jenis_gangguan == "Hujan Gerimis") selected @endif>Hujan Gerimis</option>
+                                    <option value="Hujan Lebat" @if(@$detail_penghambat[$i]->jenis_gangguan == "Hujan Lebat") selected @endif>Hujan Lebat</option>    
                                 </select>
+                            </div>
+                            <div class="col-md-5 "id="start_time">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <input name="start_time[]" type="time" class="form-control " value="{{ @$detail_penghambat[$i]->start_time}}">
+                                    </div>
+                                    s/d
+                                    <div class="col-md-5">
+                                        <input name="end_time[]" type="time" id="end_time_input" class="form-control" value="{{ @$detail_penghambat[$i]->end_time}}">
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-3">
-                                <input name="jum_bahan_operasional[]" type="number" class="form-control" value="{{ @$detail_bahan_operasional[$i]->kuantitas}}">
-                            </div>
-                            <div class="col-md-4">
-                                <select class="form-control" name="satuan_operasional[]" required >
-                                    <option value="Ltr" @if (@$detail_bahan_operasional[$i]->satuan == "Ltr") selected @endif>Ltr</option>
-
-                                </select>
+                                <textarea name="akibat[]" class="form-control">{{ @$detail_penghambat[$i]->akibat }}</textarea>
                             </div>
                             <div class="col-md-1"> 
                                 {{-- <a href="javascript:void(0)" class="btn btn-success addMore"><span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span> Add</a> --}}
-                                <a href="javascript:void(0)" data-toggle="modal"><button class="btn btn-danger removeOperasional btn-mini waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
-                                
+                                <a href="javascript:void(0)" data-toggle="modal"><button class="btn btn-danger removePenghambat btn-mini waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>                        
                             </div>
                         </div>
                     @endfor
                 @endif
                 <!-- copy of input fields group -->
-                <div class="form-group row fieldGroupCopyOperasional" style="display: none;">
+                <div class="form-group row fieldGroupCopyPenghambat" style="display: none;">
                     
-                        <div class="col-md-4">
-                            <select class="form-control" name="nama_bahan_operasional[]" required>
-                                
-                                @foreach ($bahan as $data)
-                                    @if ($data->keterangan)
-                                        <option value="{{$data->no}}">{{$data->nama_item}}</option>
-                                    @endif
-                                @endforeach
-                              
-                            </select>
+                    <div class="col-md-3">
+                        <select class="form-control" name="jenis_gangguan[]" required>
+                            <option value="Cerah">Cerah</option>
+                            <option value="Berawan">Berawan</option>
+                            <option value="Hujan Gerimis">Hujan Gerimis</option>
+                            <option value="Hujan Lebat">Hujan Lebat</option>    
+                        </select>
+                    </div>
+                    <div class="col-md-5 "id="start_time">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input name="start_time[]" type="time" class="form-control " value="{{ @$detail_penghambat[0]->waktu}}">
+                            </div>
+                            s/d
+                            <div class="col-md-5">
+                                <input name="end_time[]" type="time" id="end_time_input" class="form-control" value="{{ @$detail_penghambat[0]->waktu}}">
+                            </div>
                         </div>
-                        <div class="col-md-3">
-
-                            <input name="jum_bahan_operasional[]" type="number" class="form-control" >
-                        </div>
-                        <div class="col-md-4">
-                            <select class="form-control" name="satuan_operasional[]" required>
-                                   
-                                    <option value="Ltr" >Ltr</option>
-
-                            </select>
-                        </div>
-                        <div class="col-md-1"> 
-                            {{-- <a href="javascript:void(0)" class="btn btn-danger remove"><span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span> Remove</a> --}}
-                            <a href="javascript:void(0)" data-toggle="modal"><button class="btn btn-danger removeOperasional btn-mini waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
-                        </div>
+                    </div>
+                  
+                    <div class="col-md-3">
+                        <textarea name="akibat[]" class="form-control"></textarea>
+                    </div>
+                    <div class="col-md-1"> 
+                        {{-- <a href="javascript:void(0)" class="btn btn-danger remove"><span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span> Remove</a> --}}
+                        <a href="javascript:void(0)" data-toggle="modal"><button class="btn btn-danger removePenghambat btn-mini waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
+                    </div>
                 </div>
-
-
             </div>
         </div>
+        @if (str_contains(Auth::user()->internalRole->role,'Pengamat'))
+            <div class="card">
+                <div class="card-header">
+                    <h6>Instruksi / Saran / Usul</h6>
+                    <div class="card-header-right">
+                        <ul class="list-unstyled card-option">
+                            {{-- <li><i class="feather icon-maximize full-card"></i></li> --}}
+                            <li><i class="feather icon-minus minimize-card"></i></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-block">   
+                    
+                    <div class="form-group row">
+                        <label class="col-md-12 col-form-label">Apakah ada Instruksi / Saran / Usul ?</label>
+                        <div class="col-md-12">
+                            <input name="keterangan_instruksi" type="text" class="form-control" placeholder="Type here" required value="{{ @$detail_instruksi }}">
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        @endif
+    </div>
+   
+    <div class="col-md-12">
         <button type="submit" class="btn btn-mat btn-success">Simpan Perubahan</button>
         </form>
     </div>
@@ -973,11 +1189,15 @@
 @endsection
 @section('script')
 <script>
+    
     $(document).ready(function(){
     //group add limit
     var maxGroup = 15;
     var maxGroupOperasional = 4;
     var maxGroupPeralatan = 9;
+    var maxGroupPekerja = 4;
+    var maxGroupPenghambat = 4;
+
     
     //add more fields group
     $(".addMore").click(function(){
@@ -1006,6 +1226,33 @@
     //remove fields group
     $("body").on("click",".removeOperasional",function(){ 
         $(this).parents(".fieldGroupOperasional").remove();
+    });
+
+    $(".addMorePekerja").click(function(){
+        if($('body').find('.fieldGroupPekerja').length < maxGroupPekerja){
+            var fieldHTML = '<div class="form-group row fieldGroupPekerja">'+$(".fieldGroupCopyPekerja").html()+'</div>';
+            $('body').find('.fieldGroupPekerja:last').after(fieldHTML);
+        }else{
+            alert('Maximum '+maxGroupPekerja+' groups are allowed.');
+        }
+    });
+    
+    //remove fields group
+    $("body").on("click",".removePekerja",function(){ 
+        $(this).parents(".fieldGroupPekerja").remove();
+    });
+    $(".addMorePenghambat").click(function(){
+        if($('body').find('.fieldGroupPenghambat').length < maxGroupPenghambat){
+            var fieldHTML = '<div class="form-group row fieldGroupPenghambat">'+$(".fieldGroupCopyPenghambat").html()+'</div>';
+            $('body').find('.fieldGroupPenghambat:last').after(fieldHTML);
+        }else{
+            alert('Maximum '+maxGroupPenghambat+' groups are allowed.');
+        }
+    });
+    
+    //remove fields group
+    $("body").on("click",".removePenghambat",function(){ 
+        $(this).parents(".fieldGroupPenghambat").remove();
     });
 
     $(".addMorePeralatan").click(function(){
@@ -1064,6 +1311,8 @@
     $("body").on("click",".removePeralatan",function(){ 
         $(this).parents(".fieldGroupPeralatan").remove();
     });
+
+    
 
 });
 </script>

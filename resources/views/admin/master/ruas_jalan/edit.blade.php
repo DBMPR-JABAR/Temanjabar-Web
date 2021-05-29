@@ -83,7 +83,7 @@
                             <label class="col-md-2 col-form-label">UPTD</label>
                             <div class="col-md-10">
                                 <select class="form-control searchableField" id="uptd_id" name="uptd_id"
-                                    style="min-width: 100%;" onchange="ubahDataSUP()">
+                                    style="min-width: 100%;" onchange="ubahDataSUP()" required>
                                     @foreach ($uptd as $uptdData)
                                         @if ($ruasJalan->uptd_id == $uptdData->id)
                                             <option value="<?php echo $uptdData->id; ?>"
@@ -103,7 +103,7 @@
                         <div class=" form-group row">
                             <label class="col-md-2 col-form-label">SUP</label>
                             <div class="col-md-10">
-                                <select class="form-control searchableField" id="sup" name="sup" style="min-width: 100%;">
+                                <select class="form-control searchableField" id="sup" name="sup" style="min-width: 100%;" required>
                                     <!-- <option value="" selected>- Event Name -</option> -->
 
                                     @foreach ($sup as $supData)
@@ -209,28 +209,9 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Kode SPPJJ</label>
-                            <div class="col-md-10">
-                                <input name="kd_sppjj" type="text" class="form-control" required
-                                    value="{{ $ruasJalan->kd_sppjj }}">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Nama SPPJJ</label>
-                            <div class="col-md-10">
-                                <input name="nm_sppjj" type="text" class="form-control" required
-                                    value="{{ $ruasJalan->nm_sppjj }}">
-                            </div>
-                        </div>
+                        
 
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Wilayah UPTD</label>
-                            <div class="col-md-10">
-                                <input name="wil_uptd" type="text" class="form-control" required
-                                    value="{{ $ruasJalan->wil_uptd }}">
-                            </div>
-                        </div>
+                       
                         <a href="{{ url()->previous() }}"><button type="button" class="btn btn-danger waves-effect "
                                 data-dismiss="modal">Kembali</button></a>
 

@@ -267,6 +267,9 @@
             <div class="card-block">
                 @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Create"))
                 <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
+                    @if (!str_contains(Auth::user()->internalRole->role,'Mandor'))
+                        <a href="{{ route('LaporanPekerjaan') }}" class="btn btn-mat btn-success mb-3">Cetak Laporan</a>    
+                    @endif
                 @endif
                 <div class="dt-responsive table-responsive">
                     <table id="dttable"  class="table table-striped table-bordered table-responsive">
@@ -280,7 +283,7 @@
                                 <th>Jenis Pekerjaan</th>
                                 <th>Lokasi</th>
                                 <th>Panjang (meter)</th>
-                                <th>Jumlah Pekerja</th>
+                                <th>Perkiraan Kuantitas</th>
                                 <th>Foto (0%)</th>
                                 <th>Foto (50%)</th>
                                 <th>Foto (100%)</th>
@@ -302,7 +305,7 @@
                                 <td>{{$data->jenis_pekerjaan}}</td>
                                 <td>{{$data->lokasi}}</td>
                                 <td>{{$data->panjang}}</td>
-                                <td>{{$data->jumlah_pekerja}}</td>
+                                <td>{{$data->perkiraan_kuantitas}}</td>
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_awal) !!}" alt="" srcset=""></td>
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_sedang) !!}" alt="" srcset=""></td>
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_akhir) !!}" alt="" srcset=""></td>
@@ -337,19 +340,16 @@
                                         <br>
                                         <i style="color :red; font-size: 10px;">Lengkapi material</i>
                                     @endif
-
                                 </td>
 
                                 <td style="min-width: 170px;">
 
                                     <div class="btn-group" role="group" data-placement="top" title="" data-original-title=".btn-xlg">
                                         @if(Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor')||str_contains(Auth::user()->internalRole->role,'Admin')||(str_contains(Auth::user()->internalRole->role,'Pengamat')&& $data->status != null && (str_contains($data->status->status,'Rejected')|| str_contains($data->status->status,'Edited'))) && !str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan'))
-                                        
                                             @if(!$data->keterangan_status_lap ||str_contains($data->status->status,'Submitted')|| str_contains($data->status->status,'Rejected')|| (str_contains($data->status->status,'Edited')&&Auth::user()->id == $data->status->adjustment_user_id)||str_contains(Auth::user()->internalRole->role,'Admin'))
-
                                                 @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
                                                 <a href="{{ route('editDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i></button></a>
-                                                <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Material"><i class="icofont icofont-list"></i></button></a>
+                                                <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Lengkapi Data"><i class="icofont icofont-list"></i></button></a>
                                                 @endif
                                                 @if(!$data->keterangan_status_lap ||str_contains(Auth::user()->internalRole->role,'Admin'))
                                                     @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Delete"))
@@ -362,41 +362,36 @@
                                             @elseif(str_contains(Auth::user()->internalRole->role,'Pengamat')&& $data->status != null && (str_contains($data->status->status,'Edited') && Auth::user()->id != $data->status->adjustment_user_id ))
                                                 @if(Auth::user()->internal_role_id!=null && Auth::user()->internal_role_id ==$data->status->parent )
                                                     @if(str_contains(Auth::user()->internalRole->role,'Pengamat') && Auth::user()->sup_id==$data->status->sup_id)
-                                                        <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i>Judgement</button></a>
+                                                        <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Judgement"><i class="icofont icofont-pencil"></i>Judgement</button></a>
                                                     @endif
                                                 @endif
                                                 @if(@$data->status->adjustment_user_id==Auth::user()->id )
-                                                    <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i>Edit Judgement</button></a>
+                                                    <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit Judgement"><i class="icofont icofont-pencil"></i>Edit Judgement</button></a>
                                                 @endif
                                             @endif
-
                                         @else
                                             @if($data->status)
                                                 @if(Auth::user()->internal_role_id!=null && Auth::user()->internal_role_id ==$data->status->parent )
-
                                                     @if(str_contains(Auth::user()->internalRole->role,'Pengamat') || (str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') && $data->status->status == "Approved" || $data->status->status =="Edited"|| $data->status->status =="Submitted") && Auth::user()->sup_id==$data->status->sup_id)
-                                                        <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i>Judgement</button></a>
+                                                        <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Judgement"><i class="icofont icofont-pencil"></i>Judgement</button></a>
                                                     @elseif(!str_contains(Auth::user()->internalRole->role,'Pengamat') && !str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') && $data->status->status == "Approved")
-                                                        <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i>Judgement</button></a>
+                                                        <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Judgement"><i class="icofont icofont-pencil"></i>Judgement</button></a>
                                                     @endif
                                                 @endif
                                                 @if(@$data->status->adjustment_user_id==Auth::user()->id && !str_contains($data->status->status,'Submitted'))
-                                                    <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i>Edit Judgement</button></a>
+                                                    <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit Judgement"><i class="icofont icofont-pencil"></i>Edit Judgement</button></a>
                                                 @elseif(str_contains(Auth::user()->internalRole->role,'Pengamat') && str_contains($data->status->status,'Submitted')&& str_contains($data->status->jabatan,'Pengamat'))
                                                     @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
-
                                                     <a href="{{ route('editDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i></button></a>
-                                                    <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Material"><i class="icofont icofont-list"></i></button></a>
+                                                    <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Lengkapi Data"><i class="icofont icofont-list"></i></button></a>
                                                     @endif
-
                                                         @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Delete"))
-                                                        <a href="#delModal" data-id="{{$data->id_pek}}" data-toggle="modal"><button class="btn btn-danger btn-sm waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
+                                                            <a href="#delModal" data-id="{{$data->id_pek}}" data-toggle="modal"><button class="btn btn-danger btn-sm waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
                                                         @endif
-
                                                 @endif
                                             @endif
                                         @endif
-                                        &nbsp;<a href="{{ route('detailPemeliharaan',$data->id_pek) }}"><button class="btn btn-success btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-search"></i></button></a>
+                                        &nbsp;<a href="{{ route('detailPemeliharaan',$data->id_pek) }}"><button class="btn btn-success btn-sm waves-effect waves-light" data-toggle="tooltip" title="lihat"><i class="icofont icofont-search"></i></button></a>
 
                                     </div>
                                 </td>
@@ -426,7 +421,12 @@
 
                     <div class="modal-body">
                         <!-- <input name="uptd_id" type="hidden" class="form-control" required value="{{Auth::user()->internalRole->uptd}}"> -->
-
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Sub Kegiatan</label>
+                            <div class="col-md-10">
+                                <input name="sub_kegiatan" type="text" value="" placeholder="Entry Sub Kegiatan" class="form-control" required>
+                            </div>
+                        </div>
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Mandor </label>
@@ -455,7 +455,9 @@
                             <label class="col-md-2 col-form-label">Jenis Pekerjaan</label>
                             <div class="col-md-10">
                                 <select class="searchableModalField" name="jenis_pekerjaan" required>
-                                    <option value="Pemeliharaan">Pemeliharaan</option>
+                                    @foreach ($jenis_laporan_pekerjaan as $item)
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
 
                                     
                                 </select>
@@ -484,7 +486,7 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Uptd</label>
                             <div class="col-md-10">
-                                <select class=" searchableModalField" id="uptd" name="uptd_id" onchange="ubahOption()">
+                                <select class=" searchableModalField" id="uptd" name="uptd_id" onchange="ubahOption()" required>
                                     <option>Pilih UPTD</option>
                                     @foreach ($input_uptd_lists as $data)
                                     <option value="{{$data->id}}">{{$data->nama}}</option>
@@ -496,10 +498,10 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">SUP</label>
                             <div class="col-md-10">
-                                <select class=" searchableModalField" id="sup" name="sup" required >
+                                <select class=" searchableModalField" id="sup" name="sup" onchange="ubahOption1()" required >
                                     @if (Auth::user()->internalRole->uptd)
                                     @foreach ($sup as $data)
-                                    <option value="{{$data->name}},{{$data->id}}" @if(Auth::user()->sup_id != null && Auth::user()->sup_id == $data->id) selected @endif>{{$data->name}}</option>
+                                    <option value="{{$data->kd_sup}}" @if(Auth::user()->sup_id != null && Auth::user()->sup_id == $data->id) selected @endif>{{$data->name}}</option>
                                     @endforeach
                                     @else
                                     <option>-</option>
@@ -512,11 +514,11 @@
                             <div class="col-md-10">
                                 <select class=" searchableModalField" id="ruas_jalan" name="ruas_jalan" required>
                                     @if (Auth::user()->internalRole->uptd)
-                                    @foreach ($ruas_jalan as $data)
-                                    <option value="{{$data->nama_ruas_jalan}},{{$data->id_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
-                                    @endforeach
+                                        @foreach ($input_ruas_jalan as $data)
+                                            <option value="{{$data->id_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
+                                        @endforeach
                                     @else
-                                    <option>-</option>
+                                        <option>-</option>
                                     @endif
                                 </select>
                             </div>
@@ -546,13 +548,13 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Panjang (meter)</label>
                             <div class="col-md-10">
-                                <input name="panjang" type="text" class="form-control formatRibuan" required>
+                                <input name="panjang" type="number" class="form-control formatRibuan" required>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Jumlah Pekerja</label>
+                            <label class="col-md-2 col-form-label">Perkiraan Kuantitas</label>
                             <div class="col-md-10">
-                                <input name="jumlah_pekerja" type="text" class="form-control formatRibuan" required>
+                                <input name="perkiraan_kuantitas" type="number" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -599,61 +601,62 @@
             </div>
         </div>
     </div>
+</div>
 
-    <div class="modal-only">
+<div class="modal-only">
 
-        <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
+    <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
 
-                    <div class="modal-header">
-                        <h4 class="modal-title">Hapus Data Pekerjaan</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-
-                    <div class="modal-body">
-                        <p>Apakah anda yakin ingin menghapus data ini?</p>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                        <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Hapus</a>
-                    </div>
-
+                <div class="modal-header">
+                    <h4 class="modal-title">Hapus Data Pekerjaan</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-            </div>
-        </div>
 
-    </div>
-
-    <div class="modal-only">
-        <div class="modal fade" id="submitModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Submit Data Material</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-
-                    <div class="modal-body">
-                        <p>Apakah anda yakin melakukan submit data ini?</p>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                        <a id="submitHref" href="" class="btn btn-danger waves-effect waves-light ">Submit</a>
-                    </div>
+                <div class="modal-body">
+                    <p>Apakah anda yakin ingin menghapus data ini?</p>
                 </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                    <a id="delHref" href="" class="btn btn-danger waves-effect waves-light ">Hapus</a>
+                </div>
+
             </div>
         </div>
     </div>
 
-    @endsection
-    @section('script')
+</div>
+
+<div class="modal-only">
+    <div class="modal fade" id="submitModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Submit Data Material</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <p>Apakah anda yakin melakukan submit data ini?</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                    <a id="submitHref" href="" class="btn btn-danger waves-effect waves-light ">Submit</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@endsection
+@section('script')
     <!-- <script src="{{ asset('assets/vendor/jquery/js/jquery-3.4.1.min.js') }}" ></script> -->
     <script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}"></script>
@@ -870,7 +873,7 @@
             id_select = '#sup'
             text = 'Pilih SUP'
             option = 'name'
-            id_supp = 'id'
+            id_supp = 'kd_sup'
 
             setDataSelect(id, url, id_select, text, id_supp, option)
 
@@ -883,5 +886,19 @@
 
             setDataSelect(id, url, id_select, text, id_ruass, option)
         }
+        function ubahOption1() {
+
+            //untuk select SUP
+            id = document.getElementById("sup").value
+
+            //untuk select Ruas
+            url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalanBySup') }}"
+            id_select = '#ruas_jalan'
+            text = 'Pilih Ruas Jalan'
+            option = 'nama_ruas_jalan'
+            id_ruass = 'id_ruas_jalan'
+
+            setDataSelect(id, url, id_select, text, id_ruass, option)
+        }
     </script>
-    @endsection
+@endsection

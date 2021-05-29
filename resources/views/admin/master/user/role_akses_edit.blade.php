@@ -127,16 +127,16 @@
                                     $pointer1 = $pointer;
                                     $pointer2 = count($alldata['menu_test']);
                                     // echo $pointer2;
-                                  
+
                                 @endphp
-                                
+
                                 <div class="row">
                                     {{-- @foreach ($alldata['menu'] as $data)
-                                        
+
                                         <div class="col-sm-12 col-md-6 col-lg-4">
                                             <label class="form-check-label">
                                                 @foreach ($alldata['permissions'] as $item)
-                                                   
+
                                                     @php
                                                         if (strpos($item, $data) !== false) {
                                                             $i = 'checked';
@@ -150,18 +150,18 @@
 
                                             </label>
                                         </div>
-                                       
+
                                     @endforeach --}}
                                     @foreach ($cekopoint as $nos => $items)
-                                    <label class="col-md-12 col-form-label text-center font-weight-bold">{{ $items->nama_menu }} </label>
+                                    <label class="col-md-12 col-form-label text-center font-weight-bold">
+                                        <input id="{{'_checkall_'.$nos}}" type="checkbox" class="form-check-input" name="select_all">&nbsp;Pilih semua {{ $items->nama_menu }} </label>
                                         @foreach ($alldata['menu_test'] as $data)
 
                                             @if($data['nama_menu'] == $items->nama_menu )
-                                                
                                                 <div class="col-sm-12 col-md-6 col-lg-4">
                                                     <label class="form-check-label">
                                                         @foreach ($alldata['permissions'] as $item)
-                                                            
+
                                                             @php
                                                                 if (strpos($item, $data['nama']) !== false) {
                                                                     $i = 'checked';
@@ -171,14 +171,14 @@
                                                                 }
                                                             @endphp
                                                         @endforeach
-                                                      
-                                                        <input type="checkbox" class="form-check-input" name="menu[]" value="{{ $data['nama'] }}"{{ $i }}>&nbsp;{{ $data['nama'] }}
-                                             
+
+                                                        <input id="{{implode('_',explode(' ',$data['nama'])).'_'.$nos}}" type="checkbox" class="form-check-input" name="menu[]" value="{{ $data['nama'] }}"{{ $i }}>&nbsp;{{ $data['nama'] }}
+
 
                                                     </label>
                                                 </div>
-                                               
-                                            @endif    
+
+                                            @endif
                                         @endforeach
                                     @endforeach
 
@@ -229,6 +229,33 @@
 
 
         });
+
+        $(document).ready(()=>{
+            const cekopoint = @json($cekopoint);
+            const allData = @json($alldata['menu_test']);
+            const permission = @json($alldata['permissions']);
+            cekopoint.forEach((data,key)=> {
+                const selectAllButton = document.getElementById(`_checkall_${key}`)
+                const menus = allData.filter(permission=> permission.nama_menu === data.nama_menu)
+                const ids = menus.map(menu => {
+                       return {
+                           id: String(menu.nama).split(' ').join('_')+'_'+key
+                       }
+                   })
+                   let checkedAll = true;
+                   ids.forEach(id => {
+                       if(document.getElementById(id.id).checked === false) checkedAll = false
+                   })
+
+                   selectAllButton.checked = checkedAll
+               selectAllButton.onchange = (event) => {
+                   console.log(event.target.checked)
+                   ids.forEach(id=>{
+                       document.getElementById(id.id).checked = event.target.checked
+                   })
+               }
+            })
+        })
 
     </script>
 @endsection

@@ -58,6 +58,8 @@
             </div>
             <div class="card-block">
                 <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
+             
+
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered able-responsive">
                         <thead>
@@ -105,6 +107,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    {{-- <button onclick="tableHtmlToExcel('dttable', 'members-data')">Export Table Data To Excel File</button> --}}
                 </div>
             </div>
         </div>
@@ -317,6 +320,34 @@
             modal.find('.modal-footer #delHref').attr('href', url);
         });
 
+        
+
     });
+
+    function tableHtmlToExcel(dttable, filename = ''){
+        var downloadLink;
+        var dataType = 'application/vnd.ms-excel';
+        var tableSelect = document.getElementById(dttable);
+        var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+    
+        filename = filename?filename+'.xls':'excel_data.xls';
+    
+        downloadLink = document.createElement("a");
+        
+        document.body.appendChild(downloadLink);
+        
+        if(navigator.msSaveOrOpenBlob){
+            var blob = new Blob(['\ufeff', tableHTML], {
+                type: dataType
+            });
+            navigator.msSaveOrOpenBlob( blob, filename);
+        }else{
+            downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+    
+            downloadLink.download = filename;
+        
+            downloadLink.click();
+        }
+    }
 </script>
 @endsection

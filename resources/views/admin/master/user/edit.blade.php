@@ -1,7 +1,10 @@
 @extends('admin.layout.index')
 
 @section('title') Edit User @endsection
+@section('head')
+<link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/chosen.css') }}">
 
+@endsection
 @section('page-header')
 <div class="row align-items-end">
     <div class="col-lg-8">
@@ -42,12 +45,12 @@
 
                 <form action="{{ route('updateUser') }}" method="post">
                     @csrf
-                    <input type="hidden" name="id" value="{{$user->id}}">
+                    <input type="hidden" name="id" value="{{$users->id}}">
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Email</label>
                         <div class="col-md-10">
-                            <input name="email" type="email" class="form-control" value="{{$user->email}}" disabled required>
+                            <input name="email" type="email" class="form-control" value="{{$users->email}}" required>
                             <small class="form-text text-muted">Tidak bisa diedit</small>
                         </div>
                     </div>
@@ -66,35 +69,48 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Nama Lengkap</label>
                         <div class="col-md-10">
-                            <input name="name" type="text" class="form-control" value="{{$user->name}}" required>
+                            <input name="name" type="text" class="form-control" value="{{$users->name}}" required>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">NIP/NIK</label>
                         <div class="col-md-10">
-                            <input name="no_pegawai" type="text" class="form-control" value="{{@$user->no_pegawai}}" required>
+                            <input name="no_pegawai" type="text" class="form-control" value="{{@$users->pegawai->no_pegawai}}" required>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">No. Telp/HP</label>
                         <div class="col-md-10">
-                            <input name="no_tlp" type="text" class="form-control" value="{{@$user->no_tlp}}" >
+                            <input name="no_tlp" type="text" class="form-control" value="{{@$users->pegawai->no_tlp}}" >
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">SUP</label>
                         <div class="col-md-10">
-                            <select class="form-control searchableField" name="sup_id">
-                                <option value=" , ">Pilih SUP</option>
-                                @foreach ($sup as $data)
-                                <option value="{{ $data->id }},{{ $data->name }}" @if($user->sup_id == $data->id) selected @endif>{{$data->name}}</option>
+                            <select class="form-control searchableField" name="sup_id" id="sup_id" onchange="ubahOption1()">
+                                <option value=",">Pilih SUP</option>
+                                @foreach ($input_sup as $data)
+                                <option value="{{ $data->kd_sup }}" @if($users->sup_id == $data->id) selected @endif>{{$data->name}}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Ruas Jalan</label>
+                        <div class="col-md-10">
+                            <select data-placeholder="Ruas jalan" id="ruas_jalan_chosen" class="form-control chosen-select" multiple name="ruas_jalan[]" tabindex="4">
+                                <option value=" ">Pilih Ruas</option>
+                                    @foreach ($input_ruas_jalan as $data)
+                                    <option value="{{$data->id}}" @if(@$users->ruas && in_array($data->id,array_column( @$users->ruas->toArray(), 'id'))) selected @endif>{{@$data->nama_ruas_jalan}}</option>
+                                    @endforeach
+                            </select>
+                        </div>
+                    </div>
+
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Pilih Jabatan</label>
@@ -107,6 +123,18 @@
                             </select>
                         </div>
                     </div>
+                    @if (Auth::user()->id == 1)
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Role</label>
+                        <div class="col-md-10">
+                            <select class="form-control searchableField" required name="role">
+                                <option value="internal" @if($user->role == 'internal') selected @endif>Internal</option>
+                                <option value="masyarakat" @if($user->role == 'masyarakat') selected @endif>Masyarakat</option>
+                            </select>
+                        </div>
+                    </div>
+                    @endif
+
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Blokir</label>
                         <div class="col-md-10">
@@ -136,6 +164,76 @@
 
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/chosen.jquery.js') }}" type="text/javascript"></script>
+<script>
+    $(document).ready(function() {
+        $(".chosen-select").chosen( { width: '100%' } );
+    });
+
+    function ubahOption1() {
+
+    //untuk select SUP
+    id = document.getElementById("sup").value
+
+    //untuk select Ruas
+    url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalanBySup') }}"
+    id_select = '#ruas_jalan'
+    text = 'Pilih Ruas Jalan'
+    option = 'nama_ruas_jalan'
+    id_ruass = 'id_ruas_jalan'
+
+    setDataSelect(id, url, id_select, text, id_ruass, option)
+    }
+    function setDataSelectChosen(id, url, id_select, text, valueOption, textOption) {
+            $.ajax({
+                url: url,
+                method: "get",
+                dataType: "JSON",
+                data: {
+                    id: id,
+                },
+                complete: function(result) {
+
+                    $(id_select).empty(); // remove old options
+                    $(id_select).append($("<option disable></option>").text(text));
+                    let i = 0;
+                    result.responseJSON.forEach(function(item) {
+                        $(id_select).append(
+                            $("<option></option>")
+                            .attr("value", item[valueOption])
+                            .text(item[textOption])
+                        )
+                        i++
+
+                    });
+
+                    if(i === result.responseJSON.length){
+
+                        $(id_select).chosen("destroy")
+                        $(id_select).chosen()
+                    }
+
+                },
+            });
+        }
+        function ubahOption1() {
+
+            //untuk select SUP
+            id = document.getElementById("sup_id").value
+
+            //untuk select Ruas
+            url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalanBySup') }}"
+            id_select = '#ruas_jalan_chosen'
+            text = 'Pilih Ruas Jalan'
+            option = 'nama_ruas_jalan'
+            id_ruass = 'id'
+
+
+            setDataSelectChosen(id, url, id_select, text, id_ruass, option)
+
+
+        }
+</script>
 <script>
     $(".toggle-password").click(function() {
         $(this).toggleClass("ti-eye ti-lock");

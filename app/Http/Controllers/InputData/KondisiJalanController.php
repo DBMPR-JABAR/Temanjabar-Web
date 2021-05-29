@@ -210,4 +210,13 @@ class KondisiJalanController extends Controller
 
         return response()->json($sup);
     }
+    public function getRuasJalanBySup(Request $req)
+    {
+        $idSup = $req->id;
+        $sup = DB::table('master_ruas_jalan');
+        $sup = $sup->where('kd_sppjj', $idSup);
+        $sup = $sup->get();
+
+        return response()->json($sup);
+    }
 }

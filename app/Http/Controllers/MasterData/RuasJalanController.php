@@ -60,6 +60,12 @@ class RuasJalanController extends Controller
     public function create(Request $req)
     {
         $ruasJalan = $req->except('_token', 'gambar');
+
+        $getsup= DB::table('utils_sup')->where('id', $req->sup)->select('kd_sup','name')->first();
+        $ruasJalan['kd_sppjj'] = $getsup->kd_sup;
+        $ruasJalan['nm_sppjj'] = $getsup->name;
+        $ruasJalan['wil_uptd'] = DB::table('landing_uptd')->where('id', $req->uptd_id)->pluck('nama')->first();
+        
         $ruasJalan['created_by'] = Auth::user()->id;
         $ruasJalan['created_date'] = date("YmdHis");
 
@@ -94,6 +100,12 @@ class RuasJalanController extends Controller
         //
         $ruasJalan = $req->except('_token', 'gambar', 'id');
         // $ruasJalan['slug'] = Str::slug($req->nama, '');
+        $getsup= DB::table('utils_sup')->where('id', $req->sup)->select('kd_sup','name')->first();
+        $ruasJalan['kd_sppjj'] = $getsup->kd_sup;
+        $ruasJalan['nm_sppjj'] = $getsup->name;
+        $ruasJalan['wil_uptd'] = DB::table('landing_uptd')->where('id', $req->uptd_id)->pluck('nama')->first();
+        // dd($ruasJalan);
+
         $ruasJalan['updated_by'] = Auth::user()->id;
         $ruasJalan['updated_date'] = date("YmdHis");
 

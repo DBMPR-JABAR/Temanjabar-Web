@@ -48,9 +48,12 @@
                         enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="id_pek" value="{{ $pekerjaan->id_pek }}">
-
-
-
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Sub Kegiatan</label>
+                            <div class="col-md-10">
+                                <input name="sub_kegiatan" type="text" value="{{ $pekerjaan->sub_kegiatan }}" placeholder="Entry Sub Kegiatan" class="form-control" required>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Tanggal</label>
                             <div class="col-md-10">
@@ -81,12 +84,11 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Jenis Pekerjaan</label>
                             <div class="col-md-10">
-                                <select class="form-control searchableField" name="jenis_pekerjaan" required
-                                    value="{{ $pekerjaan->jenis_pekerjaan }}">
-                                    @foreach ($jenis as $data)
-                                        <option value="{{ $data->nama_item }}"
-                                            {{ $data->nama_item == $pekerjaan->jenis_pekerjaan ? 'selected' : '' }}>
-                                            {{ $data->nama_item }}</option>
+                                <select class="form-control searchableField" name="jenis_pekerjaan" required>
+                                    @foreach ($jenis_laporan_pekerjaan as $data)
+                                        <option value="{{ $data->id }}"
+                                            {{ $data->id == $pekerjaan->jenis_pekerjaan ? 'selected' : '' }}>
+                                            {{ $data->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -177,15 +179,15 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Panjang (meter)</label>
                             <div class="col-md-10">
-                                <input name="panjang" type="text" class="form-control formatRibuan" required
+                                <input name="panjang" type="number" class="form-control formatRibuan" required
                                     value="{{ $pekerjaan->panjang }}">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Jumlah Pekerja</label>
+                            <label class="col-md-2 col-form-label">Perkiraan Kuantitas</label>
                             <div class="col-md-10">
-                                <input name="jumlah_pekerja" type="text" class="form-control formatRibuan" required
-                                    value="{{ $pekerjaan->jumlah_pekerja }}">
+                                <input name="perkiraan_kuantitas" type="number" class="form-control" required
+                                    value="{{ $pekerjaan->perkiraan_kuantitas }}">
                             </div>
                         </div>
                         <div class="form-group row">

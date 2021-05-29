@@ -10,6 +10,7 @@
         href="{{ asset('assets/vendor/data-table/extensions/responsive/css/responsive.dataTables.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/chosen.css') }}">
     <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/chosen.css') }}">
 
     <style>
         .chosen-container.chosen-container-single {
@@ -208,14 +209,30 @@
                         </div>
                         <div class="form-group">
                             <label>SUP</label>
-                            <select name="sup_id" class="form-control searchableField  @error('sup_id') is-invalid @enderror">
+                            <select name="sup_id" id="sup_id" onchange="ubahOption1()" class="form-control searchableField  @error('sup_id') is-invalid @enderror">
                                 <option value=" , ">Pilih SUP</option>
-                                @foreach ($sup as $data)
-                                    <option value="{{ $data->id }},{{ $data->name }}" @if (Auth::user()->sup_id != null && Auth::user()->sup_id == $data->id) selected @endif>{{ $data->name }}</option>
+                                @foreach ($input_sup as $data)
+                                    <option value="{{ $data->kd_sup }}" @if (Auth::user()->sup_id != null && Auth::user()->sup_id == $data->id) selected @endif>{{ $data->name }}</option>
                                 @endforeach
                             </select>
                            
                             @error('sup_id')
+                                <div class="invalid-feedback" style="display: block; color:red">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                            {{-- <i style="color :red; font-size: 10px;">Untuk perubahan hubungi admin</i> --}}
+                        </div>
+                        <div class="form-group">
+                            <label>Ruas Jalan</label>
+                            <select data-placeholder="Ruas jalan" id="ruas_jalan" name="ruas_jalan[]" class="form-control chosen-select @error('ruas_jalan') is-invalid @enderror" multiple >
+                                <option value="">Pilih Ruas</option>
+                                @foreach ($input_ruas_jalan as $data)
+                                    <option value="{{ $data->id }}" @if(in_array($data->id,array_column( Auth::user()->ruas->toArray(), 'id'))) selected @endif>{{ $data->nama_ruas_jalan }}</option>    
+                                @endforeach
+                            </select>
+                           
+                            @error('ruas_jalan')
                                 <div class="invalid-feedback" style="display: block; color:red">
                                     {{ $message }}
                                 </div>
@@ -369,8 +386,12 @@
 
     <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/chosen.jquery.js') }}"
-        type="text/javascript"></script>
+    <script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/chosen.jquery.js') }}" type="text/javascript"></script>
+    <script>
+        $(document).ready(function() {
+            $(".chosen-select").chosen( { width: '100%' } );
+        });
+    </script>
     <script>
         // $(function () {
         //     $('#province').on('change', function () {
@@ -397,6 +418,54 @@
 
 
             setDataSelect(id, url, id_select, text, value, option)
+
+        }
+        function setDataSelectChosen(id, url, id_select, text, valueOption, textOption) {
+            $.ajax({
+                url: url,
+                method: "get",
+                dataType: "JSON",
+                data: {
+                    id: id,
+                },
+                complete: function(result) {
+                    
+                    $(id_select).empty(); // remove old options
+                    $(id_select).append($("<option disable></option>").text(text));
+                    let i = 0;
+                    result.responseJSON.forEach(function(item) {
+                        $(id_select).append(
+                            $("<option></option>")
+                            .attr("value", item[valueOption])
+                            .text(item[textOption])
+                        )
+                        i++
+                        
+                    });
+                    
+                    if(i === result.responseJSON.length){ 
+                        $(id_select).chosen("destroy")
+                        $(id_select).chosen()
+                    }
+
+                },
+            });
+        }
+        function ubahOption1() {
+
+            //untuk select SUP
+            id = document.getElementById("sup_id").value
+            
+            //untuk select Ruas
+            url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalanBySup') }}"
+            id_select = '#ruas_jalan'
+            text = 'Pilih Ruas Jalan'
+            option = 'nama_ruas_jalan'
+            id_ruass = 'id'
+            
+          
+            setDataSelectChosen(id, url, id_select, text, id_ruass, option)
+         
 
         }
 

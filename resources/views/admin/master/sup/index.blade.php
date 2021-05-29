@@ -52,6 +52,7 @@
                         <thead>
                             <tr>
                                 <th width="5%">No</th>
+                                <th width="1%">Kode SUP</th>
                                 <th>Nama</th>
                                 <th width="5%">UPTD</th>
 
@@ -63,6 +64,8 @@
 
                                 <tr>
                                     <td>{{++$no}}</td>
+                                    <td>{{$data->kd_sup}}</td>
+
                                     <td>{{$data->name}}</td>
                                     <td>UPTD {{$data->uptd_id}}</td>
 
@@ -116,6 +119,12 @@
                             <label class="col-md-2 col-form-label">Nama SUP</label>
                             <div class="col-md-10">
                                 <input name="name" type="text" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Kode SUP</label>
+                            <div class="col-md-10">
+                                <input name="kd_sup" type="text" class="form-control" required>
                             </div>
                         </div>
 
