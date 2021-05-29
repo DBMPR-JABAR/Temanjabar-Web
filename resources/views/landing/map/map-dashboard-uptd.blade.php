@@ -342,17 +342,24 @@
         $('#spp_filter').trigger("chosen:updated");
 
         $("#kegiatan").empty();
-        kegiatan = `<option value="ruasjalan">Ruas Jalan</option>
-                    <option value="pembangunan">Pembangunan</option>
-                    <option value="peningkatan">Peningkatan</option>
-                    <option value="rehabilitasi">Rehabilitasi</option>
-                    <option value="jembatan">Jembatan</option>
-                    <option value="cctv">CCTV</option>
-                    <option value="laporanbencana">Laporan Bencana</option>
-                    <option value="rawanbencana">Titik Rawan Bencana</option>
-                    <option value="datarawanbencana">Area Rawan Bencana</option>
-                    <option value="tempatwisata">Tempat Wisata</option>
-                    <option value="satuanpendidikan">Satuan Pendidikan</option>
+        kegiatan = `
+                    <optgroup label="Jalan Jawa Barat">
+                        <option value="ruasjalan">Ruas Jalan</option>
+                    </optgroup>
+                    <optgroup label="Kebencanaan">
+                        <option value="laporanbencana">Laporan Bencana</option>
+                        <option value="rawanbencana">Titik Rawan Bencana</option>
+                        <option value="datarawanbencana">Area Rawan Bencana</option>
+                    </optgroup>
+                    <optgroup label="Proyek">
+                        <option value="jembatan">Jembatan</option>
+                        <option value="pekerjaan">Paket Pekerjaan</option>
+                    </optgroup>
+                    <optgroup label="Tata Ruang">
+                        <option value="cctv">CCTV</option>
+                        <option value="tempatwisata">Tempat Wisata</option>
+                        <option value="satuanpendidikan">Satuan Pendidikan</option>
+                    </optgroup>
                     `;
         $('#kegiatan').html(kegiatan).trigger('liszt:updated');
         $('#kegiatan').trigger("chosen:updated");

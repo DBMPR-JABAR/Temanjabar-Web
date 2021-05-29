@@ -356,23 +356,29 @@
         $('#spp_filter').trigger("chosen:updated");
 
         $("#kegiatan").empty();
-        kegiatan = `<option value="ruasjalan">Ruas Jalan</option>
-                    <option value="pembangunan">Pembangunan</option>
-                    <option value="peningkatan">Peningkatan</option>
-                    <option value="rehabilitasi">Rehabilitasi</option>
-                    <option value="pemeliharaan">Pemeliharaan</option>
-                    <option value="vehiclecounting">Vehicle Counting</option>
-                    <option value="kemantapanjalan">Kemantapan Jalan</option>
-                    <option value="kondisijalan">Survei Kondisi Jalan</option>
-                    <option value="kondisijalan_titik">Survei Kondisi Jalan (Titik)</option>
-                    <option value="jembatan">Jembatan</option>
-                    <option value="cctv">CCTV</option>
-                    <option value="laporanbencana">Laporan Bencana</option>
-                    <option value="rawanbencana">Titik Rawan Bencana</option>
-                    <option value="datarawanbencana">Area Rawan Bencana</option>
-                    <option value="tempatwisata">Tempat Wisata</option>
-                    <option value="satuanpendidikan">Satuan Pendidikan</option>
-                    <option value="laporanmasyarakat">Laporan Masyarakat</option>
+        kegiatan = `
+                    <optgroup label="Kondisi Jalan">
+                        <option value="ruasjalan">Ruas Jalan</option>
+                        <option value="kemantapanjalan">Survei Kondisi Kemantapan Jalan</option>
+                        <option value="kondisijalan">Survei Kondisi Jalan dengan Roaddroid</option>
+                        <option value="kondisijalan_titik">Survei Kondisi Jalan (Titik Roaddroid)</option>
+                    </optgroup>
+                    <optgroup label="Kebencanaan">
+                        <option value="laporanbencana">Laporan Bencana</option>
+                        <option value="rawanbencana">Titik Rawan Bencana</option>
+                        <option value="datarawanbencana">Area Rawan Bencana</option>
+                    </optgroup>
+                    <optgroup label="Proyek">
+                        <option value="jembatan">Jembatan</option>
+                        <option value="pekerjaan">Paket Pekerjaan</option>
+                        <option value="laporanmasyarakat">Laporan Masyarakat</option>
+                    </optgroup>
+                    <optgroup label="Tata Ruang">
+                        <option value="cctv">CCTV</option>
+                        <option value="tempatwisata">Tempat Wisata</option>
+                        <option value="satuanpendidikan">Satuan Pendidikan</option>
+                        <option value="vehiclecounting">Vehicle Counting</option>
+                    </optgroup>
                     `;
         $('#kegiatan').html(kegiatan).trigger('liszt:updated');
         $('#kegiatan').trigger("chosen:updated");
