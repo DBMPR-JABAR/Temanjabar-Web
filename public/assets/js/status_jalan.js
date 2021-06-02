@@ -20,6 +20,7 @@ $(document).ready(function () {
             "esri/layers/GroupLayer",
             "esri/widgets/LayerList",
             "esri/widgets/Expand",
+            "esri/widgets/Search",
         ], function (
             Map,
             MapView,
@@ -38,19 +39,21 @@ $(document).ready(function () {
             Point,
             GroupLayer,
             LayerList,
-            Expand
+            Expand,
+            Search
         ) {
             const { useState, useEffect, useRef } = React;
             const Pemeliharaan = ({ view, track, pemeliharaanProps }) => {
                 const [pemeliharaan, setPemeliharaan] =
                     useState(pemeliharaanProps);
+
                 const swiperRef = useRef(null);
                 useEffect(() => {
                     const swiper = new Swiper(swiperRef.current, {
                         speed: 4000,
-                        autoplay: {
-                            delay: 5000,
-                        },
+                        // autoplay: {
+                        //     delay: 5000,
+                        // },
                         direction: "horizontal",
                         loop: true,
                         spaceBetween: 10,
@@ -61,25 +64,29 @@ $(document).ready(function () {
                 const onClick = (e, { idPek }) => {
                     e.preventDefault();
                     goToPemeliharaan({ idPek });
+                    sideCanvas.hide();
                 };
 
                 return (
                     <div
-                        className="card small"
-                        style={{ width: 18 + "rem", maxHeight: 20 + "rem" }}
+                        className="card mx-3 mt-3"
+                        style={{
+                            maxHeight: 20 + "rem",
+                            display: "relative",
+                        }}
                     >
                         <div className="card-body">
-                            <h6 className="card-subtitle mb-1 text-muted small">
+                            <h6 className="card-subtitle mb-1 text-muted">
                                 Pekerjaan
                             </h6>
-                            <p className="card-text small p-2 mb-0">
+                            <p className="card-text p-2 mb-0">
                                 Daftar lokasi pekerjaan BMPR terdekat
                             </p>{" "}
                             <div
                                 ref={swiperRef}
-                                className="list-group small swiper-container"
+                                className="list-group swiper-container"
                             >
-                                <div className="swiper-wrapper">
+                                <div className="swiper-wrapper p-0 m-0">
                                     {pemeliharaan &&
                                         pemeliharaan.map((data) => (
                                             <div
@@ -89,11 +96,11 @@ $(document).ready(function () {
                                                     })
                                                 }
                                                 key={data.id_pek}
-                                                href="#"
-                                                className="list-group-item list-group-item-action flex-column align-items-start swiper-slide"
+                                                className="list-group-item list-group-item-action align-items-start swiper-slide mt-1"
+                                                // style={{ maxWidth: 85 + "%", margin:'auto' }}
                                             >
-                                                <div className="d-flex w-100 justify-content-between">
-                                                    <h5 className="mb-1 small">
+                                                <div className="d-flex justify-content-between">
+                                                    <h5 className="mb-1">
                                                         {data.paket}
                                                     </h5>
                                                     <small>
@@ -121,13 +128,9 @@ $(document).ready(function () {
                 const [statusJalan, setStatusJalan] =
                     useState(statusJalanProps);
 
-                // useEffect(() => {
-                // console.log(statusJalan);
-                // }, [statusJalan]);
-
                 return (
-                    <div className="p-2 card small">
-                        <h6 className="card-subtitle mb-1 text-muted small">
+                    <div className="card mx-3 px-2">
+                        <h6 className="card-subtitle text-mutedl py-2">
                             Ruas Jalan BMPR terdekat
                         </h6>
                         <ul className="list-group list-group-flush">
@@ -271,38 +274,78 @@ $(document).ready(function () {
                 expandTooltip: "Layer Aktif",
             });
 
-            const statusJalanWidgetContainer = document.createElement("div");
-            const pemeliharaanWidgetContainer = document.createElement("div");
+            const statusJalanWidgetContainer =
+                document.getElementById("status_jalan");
+            const pemeliharaanWidgetContainer =
+                document.getElementById("pemeliharaan_jalan");
 
-            const statusJalanWidget = new Expand({
-                content: statusJalanWidgetContainer,
-                view,
-                expanded: false,
-                expandIconClass: "esri-icon-notice-round",
-                expandTooltip: "Informasi Ruas Jalan Terdekat",
-            });
+            const buttonToggleSidePanel = document.createElement("div");
+            const sideCanvasElement = document.getElementById("sideCanvas");
+            const sideCanvas = new bootstrap.Offcanvas(sideCanvasElement);
+            const ButtonToggleLeftSideCanvas = () => {
+                const [canvasElement, setCanvasElement] =
+                    useState(sideCanvasElement);
+                const [canvas, setCanvas] = useState(sideCanvas);
+                const [show, setShow] = useState(() => canvas._isShown);
 
-            const pemeliharaanWidget = new Expand({
-                content: pemeliharaanWidgetContainer,
-                view,
-                expanded: false,
-                expandIconClass: "esri-icon-notice-triangle",
-                expandTooltip: "Informasi Pemeliharaan Terdekat",
-            });
+                const toggleCanvas = () => {
+                    canvas._isShown
+                        ? (canvas.hide(), setShow(false))
+                        : (canvas.show(), setShow(true));
+                };
+
+                useEffect(() => {
+                    canvasElement.addEventListener(
+                        "hide.bs.offcanvas",
+                        (event) => {
+                            setShow(false);
+                        }
+                    );
+                }, [canvasElement]);
+
+                return (
+                    <>
+                        <div
+                            aria-expanded="false"
+                            className="esri-widget--button"
+                            role="button"
+                            tabIndex="0"
+                            title="Informasi Pekerjaan BMPR terdekat"
+                            onClick={toggleCanvas}
+                        >
+                            <span
+                                aria-hidden="true"
+                                className={
+                                    show
+                                        ? "esri-collapse__icon esri-icon-close"
+                                        : "esri-collapse__icon esri-icon-notice-round"
+                                }
+                            ></span>
+                            <span className="esri-icon-font-fallback-text">
+                                Informasi Pekerjaan BMPR terdekat
+                            </span>
+                        </div>
+                    </>
+                );
+            };
 
             view.ui.add([
                 {
+                    component: buttonToggleSidePanel,
+                    position: "top-right",
+                },
+                {
                     component: layerList,
-                    position: "bottom-left",
+                    position: "top-left",
                 },
-                {
-                    component: statusJalanWidget,
-                    position: "top-right",
-                },
-                {
-                    component: pemeliharaanWidget,
-                    position: "top-right",
-                },
+                // {
+                //     component: statusJalanWidget,
+                //     position: "top-right",
+                // },
+                // {
+                //     component: pemeliharaanWidgetContainer,
+                //     position: "bottom-right",
+                // },
                 {
                     component: compass,
                     position: "top-left",
@@ -424,6 +467,10 @@ $(document).ready(function () {
             };
 
             view.when(() => {
+                ReactDOM.render(
+                    <ButtonToggleLeftSideCanvas />,
+                    buttonToggleSidePanel
+                );
                 track.start();
                 track.on("track", async (trackEvent) => {
                     const coordsTemp = trackEvent.position.coords;
@@ -717,6 +764,121 @@ $(document).ready(function () {
                 },
             });
 
+            let highlightSelectGoToFeature = null;
+            const goToFeature = ({ feature, layer }) => {
+                view.whenLayerView(layer).then((layerView) => {
+                    if (highlightSelectGoToFeature) {
+                        highlightSelectGoToFeature.remove();
+                    }
+
+                    highlightSelectGoToFeature = layerView.highlight(feature);
+
+                    view.goTo(
+                        {
+                            target: feature.geometry,
+                            tilt: 70,
+                            zoom: 13,
+                        },
+                        {
+                            duration: 1500,
+                            easing: "in-out-expo",
+                        }
+                    ).then(() => {
+                        view.popup.open({
+                            features: [feature],
+                            location: feature.geometry.centroid,
+                        });
+                    });
+                });
+            };
+
+            const SearchRouteRoads = (props) => {
+                const [value, setValue] = useState("Cari");
+                const { lists } = props;
+                console.log("teste", lists);
+                const [itemLists, setItemLists] = useState(
+                    lists.map((data) => {
+                        return {
+                            label: data.attributes.nm_ruas,
+                            id: data.attributes.gid,
+                        };
+                    })
+                );
+                const [itemListFilter, setItemListFilter] = useState(itemLists);
+                const onChange = (value) => {
+                    setItemListFilter(
+                        itemLists.filter(
+                            (data) =>
+                                data.label
+                                    .toLowerCase()
+                                    .indexOf(value.toLowerCase()) > -1
+                        )
+                    );
+                    console.log(itemListFilter);
+                    setValue(value);
+                };
+                console.log(itemLists);
+                return (
+                    <div className="card mx-3 p-2 mb-3">
+                        <h6 className="card-subtitle text-mutedl py-2">
+                            Cari Ruas Jalan
+                        </h6>
+                        <div className="input-group">
+                            <Autocomplete
+                                getItemValue={(item) => item.label}
+                                items={itemListFilter}
+                                className="form-outline"
+                                renderItem={(item, isHighlighted) => (
+                                    <div
+                                        style={{ zIndex: 999 }}
+                                        key={item.id}
+                                        style={{
+                                            background: isHighlighted
+                                                ? "lightgray"
+                                                : "white",
+                                        }}
+                                    >
+                                        {item.label}
+                                    </div>
+                                )}
+                                value={value}
+                                onChange={(e) => onChange(e.target.value)}
+                                onSelect={(val) => setValue(val)}
+                            />
+                            <button type="button" className="btn btn-primary">
+                                <i className="esri-icon-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                );
+            };
+
+            const routeData = [];
+            const callBackAfterAddRoads = ({ routeGroupLayer }) => {
+                view.whenLayerView(routeGroupLayer).then((layerView) => {
+                    provinceRoadsLayer
+                        .queryFeatures()
+                        .then((result) => {
+                            routeData.PROVINCE_DATA = result.features;
+                            routeData.PROVINCE_DATA.LAYER_VIEW = layerView;
+                            goToFeature({
+                                feature: routeData.PROVINCE_DATA[0],
+                                layer: provinceRoadsLayer,
+                            });
+                        })
+                        .then(() => {
+                            const searchContainer =
+                                document.getElementById("cari_ruas_jalan");
+                            // ReactDOM.render(
+                            //     <SearchRouteRoads
+                            //         lists={routeData.PROVINCE_DATA}
+                            //     />,
+                            //     searchContainer
+                            // );
+                        });
+                });
+            };
+
             const addRoads = () => {
                 const routeGroupLayer = new GroupLayer({
                     title: "Ruas Jalan",
@@ -727,8 +889,56 @@ $(document).ready(function () {
                 routeGroupLayer.add(tollRoadsOperationsLayer, 2);
                 routeGroupLayer.add(tollRoadsConstructionsLayer, 3);
                 map.add(routeGroupLayer);
+                callBackAfterAddRoads({ routeGroupLayer });
             };
             addRoads();
+
+            const searchWidget = new Search({
+                view: view,
+                allPlaceholder: "District or Senator",
+                includeDefaultSources: false,
+                sources: [
+                    {
+                        layer: provinceRoadsLayer,
+                        searchFields: ["nm_ruas"],
+                        displayField: "nm_ruas",
+                        exactMatch: false,
+                        outFields: ["nm_ruas"],
+                        name: "Ruas Jalan Provinsi",
+                        placeholder: "example: ---",
+                    },
+                    {
+                        layer: nationalRoadsLayer,
+                        searchFields: ["nm_ruas"],
+                        suggestionTemplate: "{nm_ruas}",
+                        exactMatch: false,
+                        outFields: ["*"],
+                        placeholder: "example: ---",
+                        name: "Jalan Raya Nasional",
+                        zoomScale: 500000,
+                        resultSymbol: {
+                            type: "picture-marker",
+                            url: "https://developers.arcgis.com/javascript/latest/sample-code/widgets-search-multiplesource/live/images/senate.png",
+                            height: 36,
+                            width: 36,
+                        },
+                    },
+                    // {
+                    //     name: "ArcGIS World Geocoding Service",
+                    //     placeholder: "example: Nuuk, GRL",
+                    //     apiKey: "AAPKd6517aa887304b5891f6b959ea426015CLWBA2qIMPI4-vgwnS0B8RGRBVMArpJu0IN2BUL-G6GZ_aa8NF-r_JvSnsWp_A2M",
+                    //     singleLineFieldName: "SingleLine",
+                    //     locator: new Locator({
+                    //         url: "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer",
+                    //     }),
+                    // },
+                ],
+            });
+
+            // Add the search widget to the top left corner of the view
+            view.ui.add(searchWidget, {
+                position: "bottom-right",
+            });
         });
     });
 });

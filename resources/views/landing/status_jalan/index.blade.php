@@ -16,10 +16,23 @@
 </head>
 
 <body>
-    <div id="logo">
-        <img width="200" class="img-fluid" src="{{ asset('assets/images/brand/text_putih.png')}}" alt="Logo DBMPR">
+    <div id="maps_container">
+        <div id="logo">
+            <img width="200" class="img-fluid" src="{{ asset('assets/images/brand/text_putih.png')}}" alt="Logo DBMPR">
+        </div>
+        <div class="offcanvas offcanvas-end bg-light" tabindex="-1" id="sideCanvas" aria-labelledby="sideCanvasLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="sideCanvasLabel">Informasi Jalan</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body p-0 m-0">
+                <div id="status_jalan"></div>
+                <div id="pemeliharaan_jalan"></div>
+                <div id="cari_ruas_jalan"></div>
+            </div>
+        </div>
     </div>
-    <div id="maps_container"></div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
@@ -44,7 +57,7 @@
             name: "swiper",
             location: "https://unpkg.com/swiper/",
             main: "swiper-bundle",
-        }
+        },
     ]
     };
 </script>
@@ -52,4 +65,5 @@
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script src="https://js.arcgis.com/4.19"></script>
 <script type="text/babel" src="{{ asset('assets/js/status_jalan.js') }}"></script>
+
 </html>
