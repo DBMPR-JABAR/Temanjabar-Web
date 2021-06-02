@@ -1722,8 +1722,7 @@ function getMap(baseUrl, gsvrUrl) {
                     value: katPaket[i],
                     symbol: {
                       type: "simple-marker",
-                      style: "solid",
-                      color: colors[i],
+                      color: colors[i]
                     }
                 };
                 const valueInfoLine = {
