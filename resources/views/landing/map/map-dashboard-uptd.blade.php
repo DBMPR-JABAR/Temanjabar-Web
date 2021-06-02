@@ -353,6 +353,7 @@
                     </optgroup>
                     <optgroup label="Proyek">
                         <option value="jembatan">Jembatan</option>
+                        <option value="pemeliharaan">Pemeliharaan</option>
                         <option value="pekerjaan">Paket Pekerjaan</option>
                     </optgroup>
                     <optgroup label="Tata Ruang">
