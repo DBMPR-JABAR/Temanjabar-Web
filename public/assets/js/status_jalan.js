@@ -449,7 +449,7 @@ $(document).ready(function () {
                 track.on("track", async (trackEvent) => {
                     const coordsTemp = trackEvent.position.coords;
                     getData({
-                        radius: 1000,
+                        radius: 100000,
                         latitude: coordsTemp.latitude,
                         longitude: coordsTemp.longitude,
                     });
