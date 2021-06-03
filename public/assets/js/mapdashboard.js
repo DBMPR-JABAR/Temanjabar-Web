@@ -347,7 +347,7 @@ function getMap(baseUrl, gsvrUrl) {
                         },
                         {
                             name: "pemilik",
-                            title: "Pengelola Jalan",
+                            title: "Status Jalan",
                             expression: `return "DBMPR Jawa Barat"`,
                         }
 
@@ -430,7 +430,7 @@ function getMap(baseUrl, gsvrUrl) {
                     }],
                     expressionInfos: [{
                         name: "pemilik",
-                        title: "Pengelola Jalan",
+                        title: "Status Jalan",
                         expression: `return "Kementrian PUPR"`,
                     }],
                     actions: [prepSVAction]
@@ -1758,6 +1758,10 @@ function getMap(baseUrl, gsvrUrl) {
                     fieldInfos: [{
                             fieldName: "NO_KONTRAK",
                             label: "Nomor Kontrak"
+                        },
+                        {
+                            fieldName: "nama_kategori",
+                            label: "Jenis Pekerjaan"
                         },
                         {
                             fieldName: "TGL_KONTRAK",
