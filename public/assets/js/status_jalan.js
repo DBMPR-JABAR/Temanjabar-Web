@@ -254,12 +254,16 @@ $(document).ready(function () {
             });
 
             map.add(pemeliharaanLayer);
+
             const toggle = new BasemapToggle({
                 view,
                 nextBasemap: "hybrid",
             });
+
             const compass = new Compass({ view });
+
             const track = new Track({ view });
+
             const fullscreen = new Fullscreen({ view });
             // const legend = new Legend({ view });
 
@@ -276,12 +280,16 @@ $(document).ready(function () {
 
             const statusJalanWidgetContainer =
                 document.getElementById("status_jalan");
+
             const pemeliharaanWidgetContainer =
                 document.getElementById("pemeliharaan_jalan");
 
             const buttonToggleSidePanel = document.createElement("div");
+
             const sideCanvasElement = document.getElementById("sideCanvas");
+
             const sideCanvas = new bootstrap.Offcanvas(sideCanvasElement);
+
             const ButtonToggleLeftSideCanvas = () => {
                 const [canvasElement, setCanvasElement] =
                     useState(sideCanvasElement);
@@ -329,41 +337,6 @@ $(document).ready(function () {
                 );
             };
 
-            view.ui.add([
-                {
-                    component: buttonToggleSidePanel,
-                    position: "top-right",
-                },
-                {
-                    component: layerList,
-                    position: "top-left",
-                },
-                // {
-                //     component: statusJalanWidget,
-                //     position: "top-right",
-                // },
-                // {
-                //     component: pemeliharaanWidgetContainer,
-                //     position: "bottom-right",
-                // },
-                {
-                    component: compass,
-                    position: "top-left",
-                },
-                {
-                    component: fullscreen,
-                    position: "top-left",
-                },
-                {
-                    component: track,
-                    position: "top-left",
-                },
-                {
-                    component: toggle,
-                    position: "top-left",
-                },
-            ]);
-
             const applyEditsToLayer = ({ edits }) => {
                 pemeliharaanLayer
                     .applyEdits(edits)
@@ -385,6 +358,7 @@ $(document).ready(function () {
                         console.log(error);
                     });
             };
+
             const addFeatures = ({ dataPemeliharaan }) => {
                 const dataTemp = [];
                 dataPemeliharaan.forEach((data) => {
@@ -535,7 +509,6 @@ $(document).ready(function () {
                 },
                 title: "Ruas Jalan Provinsi",
                 id: "provinceRoads",
-                outFields: ["*"],
                 renderer: {
                     type: "simple",
                     symbol: {
@@ -554,6 +527,10 @@ $(document).ready(function () {
                                 {
                                     fieldName: "IDruas",
                                     label: "Kode Ruas",
+                                },
+                                {
+                                    fieldName: "nm_ruas",
+                                    label: "Nama Ruas",
                                 },
                                 {
                                     fieldName: "expression/pemilik",
@@ -633,6 +610,10 @@ $(document).ready(function () {
                                 {
                                     fieldName: "NO_RUAS",
                                     label: "Nomor Ruas",
+                                },
+                                {
+                                    fieldName: "NAMA_SK",
+                                    label: "Nama SK",
                                 },
                                 {
                                     fieldName: "expression/pemilik",
@@ -792,128 +773,39 @@ $(document).ready(function () {
                 });
             };
 
-            const SearchRouteRoads = (props) => {
-                const [value, setValue] = useState("Cari");
-                const { lists } = props;
-                console.log("teste", lists);
-                const [itemLists, setItemLists] = useState(
-                    lists.map((data) => {
-                        return {
-                            label: data.attributes.nm_ruas,
-                            id: data.attributes.gid,
-                        };
-                    })
-                );
-                const [itemListFilter, setItemListFilter] = useState(itemLists);
-                const onChange = (value) => {
-                    setItemListFilter(
-                        itemLists.filter(
-                            (data) =>
-                                data.label
-                                    .toLowerCase()
-                                    .indexOf(value.toLowerCase()) > -1
-                        )
-                    );
-                    console.log(itemListFilter);
-                    setValue(value);
-                };
-                console.log(itemLists);
-                return (
-                    <div className="card mx-3 p-2 mb-3">
-                        <h6 className="card-subtitle text-mutedl py-2">
-                            Cari Ruas Jalan
-                        </h6>
-                        <div className="input-group">
-                            <Autocomplete
-                                getItemValue={(item) => item.label}
-                                items={itemListFilter}
-                                className="form-outline"
-                                renderItem={(item, isHighlighted) => (
-                                    <div
-                                        style={{ zIndex: 999 }}
-                                        key={item.id}
-                                        style={{
-                                            background: isHighlighted
-                                                ? "lightgray"
-                                                : "white",
-                                        }}
-                                    >
-                                        {item.label}
-                                    </div>
-                                )}
-                                value={value}
-                                onChange={(e) => onChange(e.target.value)}
-                                onSelect={(val) => setValue(val)}
-                            />
-                            <button type="button" className="btn btn-primary">
-                                <i className="esri-icon-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                );
-            };
-
-            const routeData = [];
-            const callBackAfterAddRoads = ({ routeGroupLayer }) => {
-                view.whenLayerView(routeGroupLayer).then((layerView) => {
-                    provinceRoadsLayer
-                        .queryFeatures()
-                        .then((result) => {
-                            routeData.PROVINCE_DATA = result.features;
-                            routeData.PROVINCE_DATA.LAYER_VIEW = layerView;
-                            goToFeature({
-                                feature: routeData.PROVINCE_DATA[0],
-                                layer: provinceRoadsLayer,
-                            });
-                        })
-                        .then(() => {
-                            const searchContainer =
-                                document.getElementById("cari_ruas_jalan");
-                            // ReactDOM.render(
-                            //     <SearchRouteRoads
-                            //         lists={routeData.PROVINCE_DATA}
-                            //     />,
-                            //     searchContainer
-                            // );
-                        });
-                });
-            };
-
-            const addRoads = () => {
-                const routeGroupLayer = new GroupLayer({
-                    title: "Ruas Jalan",
-                    id: "Roads",
-                });
-                routeGroupLayer.add(provinceRoadsLayer, 0);
-                routeGroupLayer.add(nationalRoadsLayer, 1);
-                routeGroupLayer.add(tollRoadsOperationsLayer, 2);
-                routeGroupLayer.add(tollRoadsConstructionsLayer, 3);
-                map.add(routeGroupLayer);
-                callBackAfterAddRoads({ routeGroupLayer });
-            };
-            addRoads();
-
+            console.log(provinceRoadsLayer);
             const searchWidget = new Search({
-                view: view,
-                allPlaceholder: "District or Senator",
+                view,
+                allPlaceholder: "Cari Ruas Jalan",
                 includeDefaultSources: false,
                 sources: [
+                    {
+                        layer: pemeliharaanLayer,
+                        searchFields: ["RUAS_JALAN","PAKET"],
+                        displayField: "RUAS_JALAN",
+                        exactMatch: false,
+                        outFields: ["*"],
+                        name: "Pemeliharaan",
+                        placeholder: "Cari Jalan Provinsi",
+                        suggestionTemplate: "{PAKET} {RUAS_JALAN}",
+                    },
                     {
                         layer: provinceRoadsLayer,
                         searchFields: ["nm_ruas"],
                         displayField: "nm_ruas",
                         exactMatch: false,
-                        outFields: ["nm_ruas"],
+                        outFields: ["*"],
                         name: "Ruas Jalan Provinsi",
-                        placeholder: "example: ---",
+                        placeholder: "Cari Jalan Provinsi",
+                        suggestionTemplate: "{nm_ruas}",
                     },
                     {
                         layer: nationalRoadsLayer,
-                        searchFields: ["nm_ruas"],
-                        suggestionTemplate: "{nm_ruas}",
+                        searchFields: ["NAMA_SK"],
+                        suggestionTemplate: "{NAMA_SK}",
                         exactMatch: false,
                         outFields: ["*"],
-                        placeholder: "example: ---",
+                        placeholder: "Cari Jalan Nasional",
                         name: "Jalan Raya Nasional",
                         zoomScale: 500000,
                         resultSymbol: {
@@ -934,10 +826,89 @@ $(document).ready(function () {
                     // },
                 ],
             });
+            console.log(searchWidget);
 
-            // Add the search widget to the top left corner of the view
-            view.ui.add(searchWidget, {
-                position: "bottom-right",
+            view.ui.add([
+                {
+                    component: searchWidget,
+                    position: "top-right",
+                },
+                {
+                    component: buttonToggleSidePanel,
+                    position: "top-right",
+                },
+                {
+                    component: layerList,
+                    position: "top-left",
+                },
+                // {
+                //     component: statusJalanWidget,
+                //     position: "top-right",
+                // },
+                // {
+                //     component: pemeliharaanWidgetContainer,
+                //     position: "bottom-right",
+                // },
+                {
+                    component: compass,
+                    position: "top-left",
+                },
+                {
+                    component: fullscreen,
+                    position: "top-left",
+                },
+                {
+                    component: track,
+                    position: "top-left",
+                },
+                {
+                    component: toggle,
+                    position: "top-left",
+                },
+            ]);
+            const addRoads = new Promise((resolve, reject) => {
+                const routeGroupLayer = new GroupLayer({
+                    title: "Ruas Jalan",
+                    id: "Roads",
+                });
+                routeGroupLayer.add(provinceRoadsLayer, 0);
+                routeGroupLayer.add(nationalRoadsLayer, 1);
+                routeGroupLayer.add(tollRoadsOperationsLayer, 2);
+                routeGroupLayer.add(tollRoadsConstructionsLayer, 3);
+                map.add(routeGroupLayer);
+                resolve(routeGroupLayer);
+            });
+
+            addRoads.then((layer) => {
+                view.whenLayerView(layer).then((layerView) => {
+                    provinceRoadsLayer
+                        .queryFeatures()
+                        .then((result) =>
+                            console.log("provinceRoadsLayer", result)
+                        );
+                    nationalRoadsLayer
+                        .queryFeatures()
+                        .then((result) =>
+                            console.log("nationalRoadsLayer", result)
+                        );
+                    tollRoadsConstructionsLayer
+                        .queryFeatures()
+                        .then((result) =>
+                            console.log("tollRoadsConstructionsLayer", result)
+                        );
+                    tollRoadsOperationsLayer
+                        .queryFeatures()
+                        .then((result) =>
+                            console.log("tollRoadsOperationsLayer", result)
+                        );
+                    view.whenLayerView(pemeliharaanLayer).then((layerView) => {
+                        pemeliharaanLayer
+                            .queryFeatures()
+                            .then((result) =>
+                                console.log("pemeliharaanLayer", result)
+                            );
+                    });
+                });
             });
         });
     });
