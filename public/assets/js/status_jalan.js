@@ -577,7 +577,7 @@ $(document).ready(function () {
                         },
                         {
                             name: "pemilik",
-                            title: "Pengelola Jalan",
+                            title: "Status Jalan",
                             expression: `return "DBMPR Jawa Barat"`,
                         },
                     ],
@@ -640,7 +640,7 @@ $(document).ready(function () {
                     expressionInfos: [
                         {
                             name: "pemilik",
-                            title: "Pengelola Jalan",
+                            title: "Status Jalan",
                             expression: `return "Kementrian PUPR"`,
                         },
                     ],
@@ -786,7 +786,7 @@ $(document).ready(function () {
                         exactMatch: false,
                         outFields: ["*"],
                         name: "Pemeliharaan",
-                        placeholder: "Cari Jalan Provinsi",
+                        placeholder: "Cari Kegiatan Pemeliharran",
                         suggestionTemplate: "{PAKET} {RUAS_JALAN}",
                     },
                     {
@@ -794,7 +794,7 @@ $(document).ready(function () {
                         searchFields: ["nm_ruas"],
                         displayField: "nm_ruas",
                         exactMatch: false,
-                        outFields: ["*"],
+                        outFields: ["nm_ruas"],
                         name: "Ruas Jalan Provinsi",
                         placeholder: "Cari Jalan Provinsi",
                         suggestionTemplate: "{nm_ruas}",
@@ -804,7 +804,7 @@ $(document).ready(function () {
                         searchFields: ["NAMA_SK"],
                         suggestionTemplate: "{NAMA_SK}",
                         exactMatch: false,
-                        outFields: ["*"],
+                        outFields: ["NAMA_SK"],
                         placeholder: "Cari Jalan Nasional",
                         name: "Jalan Raya Nasional",
                         zoomScale: 500000,
