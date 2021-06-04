@@ -91,7 +91,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::view('survey-kondisi-jalan/{uptd}', 'admin.monitoring.survey-kondisi-jalan-uptd')->name('kondisiJalanUPTD');
         Route::view('survey-kondisi-jalan/{uptd}/{jalan}', 'admin.monitoring.survey-kondisi-jalan-uptd-detail')->name('kondisiJalanUPTDDetail');
 
-        Route::get('kendali-kontrak', 'ProyekController@getKendaliKontrak')->name('monitoring-kontrak');
+        // Route::get('kendali-kontrak', 'ProyekController@getKendaliKontrak')->name('monitoring-kontrak');
+        Route::get('kendali-kontrak', 'IntegrasiTalikuatController@curva_s')->name('monitoring-kontrak');
         Route::get('kendali-kontrak/progress', 'ProyekController@getKendaliKontrakProgress')->name('monitoring-kontrak-progress');
         // Route::view('proyek-kontrak', 'admin.monitoring.proyek-kontrak')->name('monitoring-kontrak');
 

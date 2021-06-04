@@ -15,11 +15,13 @@
                         <a class="nav-link active pagescroll" href="#home">Beranda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active"
-                            href="{{ url('map/map-dashboard-masyarakat') }}">Map DBMPR</a>
+                        <a class="nav-link active" href="{{ url('map/map-dashboard-masyarakat') }}">Map DBMPR</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link pagescroll scrollupto" href="#about">Tentang Kami</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url('status_jalan')}}" target="_blank">Status Jalan</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link pagescroll" href="#uptd">UPTD</a>
@@ -58,8 +60,10 @@
                         <a class="nav-link active pagescroll" href="#home">Beranda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active"
-                            href="{{ url('map/map-dashboard-masyarakat') }}">Map DBMPR</a>
+                        <a class="nav-link active" href="{{url('status_jalan')}}" target="_blank">Status Jalan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url('map/map-dashboard-masyarakat') }}">Map DBMPR</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link pagescroll scrollupto" href="#about">Tentang Kami</a>
@@ -80,10 +84,14 @@
             </nav>
             <div class="side-footer w-100">
                 <ul class="social-icons-simple white top40">
-                    <li><a href="{!! $profil->link_facebook !!}" target="_blank" class="facebook"><i class="fab fa-facebook-f"></i> </a> </li>
-                    <li><a href="{!! $profil->link_twitter !!}" target="_blank" class="twitter"><i class="fab fa-twitter"></i> </a> </li>
-                    <li><a href="{!! $profil->link_instagram !!}" target="_blank" class="insta"><i class="fab fa-instagram"></i> </a> </li>
-                    <li><a href="{!! $profil->link_youtube !!}" target="_blank" class="youtube"><i class="fab fa-youtube"></i> </a> </li>
+                    <li><a href="{!! $profil->link_facebook !!}" target="_blank" class="facebook"><i
+                                class="fab fa-facebook-f"></i> </a> </li>
+                    <li><a href="{!! $profil->link_twitter !!}" target="_blank" class="twitter"><i
+                                class="fab fa-twitter"></i> </a> </li>
+                    <li><a href="{!! $profil->link_instagram !!}" target="_blank" class="insta"><i
+                                class="fab fa-instagram"></i> </a> </li>
+                    <li><a href="{!! $profil->link_youtube !!}" target="_blank" class="youtube"><i
+                                class="fab fa-youtube"></i> </a> </li>
                 </ul>
                 <p class="whitecolor">&copy; <span id="year"></span> {{$profil->nama}}</p>
             </div>
@@ -106,16 +114,17 @@
                     data-easein="Power100.easeIn" data-easeout="Power100.easeOut" data-masterspeed="2000"
                     data-fsmasterspeed="1500" data-param1="0{{$n}}">
                     <!-- MAIN IMAGE -->
-                    <img src="{{ url('storage/'.$slide->gambar) }}" alt="" data-bgposition="center center" data-bgfit="cover"
-                        data-bgrepeat="no-repeat" data-bgparallax="10" class="rev-slidebg" data-no-retina>
+                    <img src="{{ url('storage/'.$slide->gambar) }}" alt="" data-bgposition="center center"
+                        data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="10" class="rev-slidebg"
+                        data-no-retina>
                     <div class="overlay overlay-dark opacity-6"></div>
 
                     <!-- LAYER NR. 2 -->
                     <div class="tp-caption tp-resizeme" data-x="['center','center','center','center']"
                         data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                        data-voffset="['-70','-70','-50','-20']" data-width="none" data-height="none"
-                        data-type="text" data-textAlign="['center','center','center','center']"
-                        data-responsive_offset="on" data-start="1000"
+                        data-voffset="['-70','-70','-50','-20']" data-width="none" data-height="none" data-type="text"
+                        data-textAlign="['center','center','center','center']" data-responsive_offset="on"
+                        data-start="1000"
                         data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","mask":"x:0px;y:[100%];s:inherit;e:inherit;","speed":2000,"to":"o:1;","delay":1500,"ease":"Power4.easeInOut"},{"delay":"wait","speed":1000,"to":"y:[100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power2.easeInOut"}]'>
                         <h1 class="text-capitalize font-bold whitecolor text-center">{{$slide->judul}}</h1>
                     </div>
@@ -129,11 +138,15 @@
         </div>
     </div>
     <ul class="social-icons-simple revicon white">
-        <li class="d-table"><a href="{!! $profil->link_facebook !!}" target="_blank" class="facebook"><i class="fab fa-facebook-f"></i></a>
+        <li class="d-table"><a href="{!! $profil->link_facebook !!}" target="_blank" class="facebook"><i
+                    class="fab fa-facebook-f"></i></a>
         </li>
-        <li class="d-table"><a href="{!! $profil->link_twitter !!}" target="_blank" class="twitter"><i class="fab fa-twitter"></i> </a> </li>
-        <li class="d-table"><a href="{!! $profil->link_instagram !!}" target="_blank" class="insta"><i class="fab fa-instagram"></i> </a> </li>
-        <li class="d-table"><a href="{!! $profil->link_youtube !!}" target="_blank" class="youtube"><i class="fab fa-youtube"></i> </a> </li>
+        <li class="d-table"><a href="{!! $profil->link_twitter !!}" target="_blank" class="twitter"><i
+                    class="fab fa-twitter"></i> </a> </li>
+        <li class="d-table"><a href="{!! $profil->link_instagram !!}" target="_blank" class="insta"><i
+                    class="fab fa-instagram"></i> </a> </li>
+        <li class="d-table"><a href="{!! $profil->link_youtube !!}" target="_blank" class="youtube"><i
+                    class="fab fa-youtube"></i> </a> </li>
     </ul>
 </section>
 <!--Main Slider ends -->
@@ -181,29 +194,34 @@
         <h3 class="darkcolor font-normal bottom30">Berita kami</h3>
         <div class="row">
             @foreach ($pengumuman_masyarakat as $item)
-                <div class="col-md-6">
-                    <a href="{{ route('announcementShow', $item->slug) }}" target="_blank">
+            <div class="col-md-6">
+                <a href="{{ route('announcementShow', $item->slug) }}" target="_blank">
                     <div class="card w-100 mb-2 ">
                         <div class="card-block">
                             <div class="media">
-                                <div class="media-left media-top">  
-                                    <img class="media-object" src="{{ url('storage/pengumuman/'.$item->image) }}" height="100px" width="100px" alt="image">
+                                <div class="media-left media-top">
+                                    <img class="media-object" src="{{ url('storage/pengumuman/'.$item->image) }}"
+                                        height="100px" width="100px" alt="image">
                                 </div>
                                 <div class="media-body">
-                                    <p class="media-heading">&nbsp; {{ $item->title }}                             
-                                    <div class="pull-right">&nbsp; <span style="color :grey; font-size: 10px;"><i class='icofont icofont-user'></i> {{ $item->nama_user }}|| <i class='icofont icofont-time'></i> {{ Carbon\Carbon::parse($item->created_at)->diffForHumans()}}</span></div>
-                                    
+                                    <p class="media-heading">&nbsp; {{ $item->title }}
+                                        <div class="pull-right">&nbsp; <span style="color :grey; font-size: 10px;"><i
+                                                    class='icofont icofont-user'></i> {{ $item->nama_user }}|| <i
+                                                    class='icofont icofont-time'></i>
+                                                {{ Carbon\Carbon::parse($item->created_at)->diffForHumans()}}</span>
+                                        </div>
+
 
                                     </p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    </a>
-                </div>
+                </a>
+            </div>
             @endforeach
             {{-- {{ $pengumuman_masyarakat->links() }} --}}
-            
+
         </div>
         <div class="container-grid fadeInUp" data-wow-delay="300ms">
             @foreach ($video as $index => $data)
@@ -221,7 +239,8 @@
         <div class="row align-items-center text-center">
             <div class="col-lg-4 col-md-4 col-sm-4 bottom10">
                 <div class="counters whitecolor  top10 bottom10">
-                    <span class="count_nums font-light" data-to="{{ $profil->pencapaian_selesai }}" data-speed="2500"> </span>
+                    <span class="count_nums font-light" data-to="{{ $profil->pencapaian_selesai }}" data-speed="2500">
+                    </span>
                 </div>
                 <h3 class="font-light whitecolor top20">Infrastruktur Yang terselesaikan diseluruh wilayah Jawa
                     Barat</h3>
@@ -232,7 +251,8 @@
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 bottom10">
                 <div class="counters whitecolor top10 bottom10">
-                    <span class="count_nums font-light" data-to="{{ $profil->pencapaian_target }}" data-speed="2500"> </span>
+                    <span class="count_nums font-light" data-to="{{ $profil->pencapaian_target }}" data-speed="2500">
+                    </span>
                 </div>
                 <h3 class="font-light whitecolor top20">Target Infrastruktur diseluruh wilayah Jawa Barat</h3>
             </div>
@@ -255,8 +275,7 @@
                 </div>
             </div>
             <div class="col-lg-12">
-                <div id="mosaic-filter" class="cbp-l-filters bottom30 wow fadeIn text-center"
-                    data-wow-delay="350ms">
+                <div id="mosaic-filter" class="cbp-l-filters bottom30 wow fadeIn text-center" data-wow-delay="350ms">
                     <div data-filter="*" class="cbp-filter-item">
                         <span>All</span>
                     </div>
@@ -337,26 +356,29 @@
             <div class="col-lg-6 col-md-12 col-sm-12 pr-lg-0 whitebox wow fadeInLeft">
                 <div class="widget logincontainer">
                     <h3 class="darkcolor bottom35 text-center text-md-left">Identitas Pelapor </h3>
-                    <form action="{{ route('tambah-laporan') }}" method="POST" class="getin_form border-form" id="register" enctype="multipart/form-data">
+                    <form action="{{ route('tambah-laporan') }}" method="POST" class="getin_form border-form"
+                        id="register" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label for="registerName" class="d-none"></label>
-                                    <input name="nama" class="form-control" type="text" placeholder="Nama Lengkap:" required
-                                        id="registerName">
+                                    <input name="nama" class="form-control" type="text" placeholder="Nama Lengkap:"
+                                        required id="registerName">
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label for="nik" class="d-none"></label>
-                                    <input name="nik" class="form-control" type="number" placeholder="No.KTP:" required id="nik">
+                                    <input name="nik" class="form-control" type="number" placeholder="No.KTP:" required
+                                        id="nik">
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label for="telp" class="d-none"></label>
-                                    <input name="telp" class="form-control" type="number" placeholder="Telp:" required id="telp">
+                                    <input name="telp" class="form-control" type="number" placeholder="Telp:" required
+                                        id="telp">
                                 </div>
                             </div>
                             <div class="col-md-12 col-sm-12">
@@ -369,17 +391,19 @@
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label for="alamat" class="d-none"></label>
-                                    <textarea name="alamat" class="form-control" type="text" placeholder="Alamat lengkap: " required
-                                        id="alamat"></textarea>
+                                    <textarea name="alamat" class="form-control" type="text"
+                                        placeholder="Alamat lengkap: " required id="alamat"></textarea>
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label class="my-1 mr-2" for="pilihanUptd">UPTD</label>
-                                    <select name="uptd_id" class="custom-select my-1 mr-sm-2" id="pilihanUptd" onchange="ubahOption()" required>
+                                    <select name="uptd_id" class="custom-select my-1 mr-sm-2" id="pilihanUptd"
+                                        onchange="ubahOption()" required>
                                         <option selected>Pilih...</option>
                                         @foreach ($uptd_lists as $no => $uptd_list)
-                                            <option value="{{ $uptd_list->id }}">{{ $uptd_list->nama }} ({{ $uptd_list->deskripsi }})</option>
+                                        <option value="{{ $uptd_list->id }}">{{ $uptd_list->nama }}
+                                            ({{ $uptd_list->deskripsi }})</option>
                                         @endforeach
                                         {{-- <option value="1">UPTD-I (kab.cianjur, kota/kab.bogor, kota depok, kota/kab.bekasi)</option>
                                         <option value="2">UPTD-II (kota & kab. sukabumi)</option>
@@ -394,7 +418,8 @@
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label class="my-1 mr-2" for="pilihanKeluhan">Lokasi</label>
-                                    <select name="lokasi" class="custom-select my-1 mr-sm-2 w-100" id="ruas_jalan" required>
+                                    <select name="lokasi" class="custom-select my-1 mr-sm-2 w-100" id="ruas_jalan"
+                                        required>
                                         <option selected>Pilih...</option>
                                         @foreach ($lokasi as $kabkota)
                                         <option value="{{$kabkota->name}}">{{$kabkota->name}}</option>
@@ -406,7 +431,8 @@
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label class="my-1 mr-2" for="pilihanKeluhan">Keluhan</label>
-                                    <select name="jenis" class="custom-select my-1 mr-sm-2 w-100" id="pilihanKeluhan" required>
+                                    <select name="jenis" class="custom-select my-1 mr-sm-2 w-100" id="pilihanKeluhan"
+                                        required>
                                         <option selected>Pilih...</option>
                                         @foreach ($jenis_laporan as $laporan)
                                         <option value="{{$laporan->id}}">{{$laporan->name}}</option>
@@ -417,8 +443,8 @@
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label for="saran" class="d-none"></label>
-                                    <textarea name="deskripsi" class="form-control" type="text" placeholder="Saran/Keluhan:" required
-                                        id=saran></textarea>
+                                    <textarea name="deskripsi" class="form-control" type="text"
+                                        placeholder="Saran/Keluhan:" required id=saran></textarea>
                                 </div>
                             </div>
                             <input name="lat" type="hidden" id="lat">
@@ -438,24 +464,29 @@
                             </div> -->
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group">
-                                    <button type="button" class="button gradient-btn" data-toggle="modal" data-target="#latLong">
+                                    <button type="button" class="button gradient-btn" data-toggle="modal"
+                                        data-target="#latLong">
                                         <i class="fas fa-map-marked-alt"></i> Lat Long
                                     </button>
                                 </div>
-                                <div class="modal fade" id="latLong" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="latLong" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                    aria-hidden="true">
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title">Pilih lokasi kerusakan untuk mendapatkan data Lat Long</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
+                                                <h5 class="modal-title">Pilih lokasi kerusakan untuk mendapatkan data
+                                                    Lat Long</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
                                             <div class="modal-body w-100">
                                                 <div id="mapLatLong" class="full-map"></div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
                                             </div>
                                         </div>
                                     </div>
@@ -519,31 +550,38 @@
                         <p class="bottom10"><a href="mailto:{{ $profil->email }}">{{ $profil->email }}</a></p>
                         <p class="bottom10">Senin - Jumat: {{ $profil->jam_layanan }}</p>
                         <ul class="social-icons mt-4 mb-4 mb-sm-0 wow fadeInUp" data-wow-delay="300ms">
-                            <li><a href="{!! $profil->link_facebook !!}" target="_blank"><i class="fab fa-facebook-f"></i> </a> </li>
-                            <li><a href="{!! $profil->link_twitter !!}" target="_blank"><i class="fab fa-twitter"></i> </a> </li>
-                            <li><a href="{!! $profil->link_instagram !!}" target="_blank"><i class="fab fa-instagram"></i> </a> </li>
-                            <li><a href="{!! $profil->link_youtube !!}" target="_blank"><i class="fab fa-youtube"></i> </a> </li>
-                            <li><a href="mailto:{!! $profil->email !!}" target="_blank"><i class="far fa-envelope"></i> </a> </li>
+                            <li><a href="{!! $profil->link_facebook !!}" target="_blank"><i
+                                        class="fab fa-facebook-f"></i> </a> </li>
+                            <li><a href="{!! $profil->link_twitter !!}" target="_blank"><i class="fab fa-twitter"></i>
+                                </a> </li>
+                            <li><a href="{!! $profil->link_instagram !!}" target="_blank"><i
+                                        class="fab fa-instagram"></i> </a> </li>
+                            <li><a href="{!! $profil->link_youtube !!}" target="_blank"><i class="fab fa-youtube"></i>
+                                </a> </li>
+                            <li><a href="mailto:{!! $profil->email !!}" target="_blank"><i class="far fa-envelope"></i>
+                                </a> </li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6">
                     <div class="heading-title  wow fadeInUp" data-wow-delay="300ms">
-                        <form action="{{ url('tambah-pesan') }}" method="POST" class="getin_form wow fadeInUp" data-wow-delay="400ms">
+                        <form action="{{ url('tambah-pesan') }}" method="POST" class="getin_form wow fadeInUp"
+                            data-wow-delay="400ms">
                             @csrf
                             <div class="row px-2">
                                 <div class="col-md-12 col-sm-12" id="result1"></div>
                                 <div class="col-md-12 col-sm-12">
                                     <div class="form-group">
                                         <label for="name1" class="d-none"></label>
-                                        <input name="nama" class="form-control" id="name1" type="text" placeholder="Nama:"
-                                            required>
+                                        <input name="nama" class="form-control" id="name1" type="text"
+                                            placeholder="Nama:" required>
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-sm-12">
                                     <div class="form-group">
                                         <label for="email1" class="d-none"></label>
-                                        <input name="email" class="form-control" type="email" id="email1" placeholder="Email:">
+                                        <input name="email" class="form-control" type="email" id="email1"
+                                            placeholder="Email:">
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-sm-12">
@@ -606,13 +644,35 @@
 </div>
 <!-- map end -->
 <!-- Contact US ends -->
+<div>
+    <a id="container_wa" href="#" target="_blank"><i id="wa" class="fab fa-whatsapp"></i>
+    </a>
+</div>
+<style>
+    #container_wa {
+        position: fixed;
+        width: 40px;
+        height: 40px;
+        bottom: 80px;
+        right: 20px;
+        background-color: #25d366;
+        color: #FFF;
+        border-radius: 50px;
+        text-align: center;
+        font-size: 27px;
+        box-shadow: 2px 2px 3px #999;
+        z-index: 100;
+    }
 
+    #wa {
+        margin-top: -2px;
+    }
+</style>
 @endsection
 @section('script')
 <script src="https://js.arcgis.com/4.18/"></script>
 <script>
-
-$(document).ready(() => {
+    $(document).ready(() => {
     const baseUrl = "{{url('/')}}";
 
     $('#mapLatLong').ready(() => {
