@@ -21,6 +21,8 @@ $(document).ready(function () {
             "esri/widgets/LayerList",
             "esri/widgets/Expand",
             "esri/widgets/Search",
+            "esri/widgets/Search/SearchSource",
+            "esri/geometry/geometryEngine",
         ], function (
             Map,
             MapView,
@@ -40,7 +42,9 @@ $(document).ready(function () {
             GroupLayer,
             LayerList,
             Expand,
-            Search
+            Search,
+            SearchSource,
+            geometryEngine
         ) {
             const { useState, useEffect, useRef } = React;
             const Pemeliharaan = ({ view, track, pemeliharaanProps }) => {
@@ -744,89 +748,23 @@ $(document).ready(function () {
                     },
                 },
             });
-
-            let highlightSelectGoToFeature = null;
-            const goToFeature = ({ feature, layer }) => {
-                view.whenLayerView(layer).then((layerView) => {
-                    if (highlightSelectGoToFeature) {
-                        highlightSelectGoToFeature.remove();
-                    }
-
-                    highlightSelectGoToFeature = layerView.highlight(feature);
-
-                    view.goTo(
-                        {
-                            target: feature.geometry,
-                            tilt: 70,
-                            zoom: 13,
-                        },
-                        {
-                            duration: 1500,
-                            easing: "in-out-expo",
-                        }
-                    ).then(() => {
-                        view.popup.open({
-                            features: [feature],
-                            location: feature.geometry.centroid,
-                        });
-                    });
-                });
-            };
-
-            console.log(provinceRoadsLayer);
+            
             const searchWidget = new Search({
-                view,
-                allPlaceholder: "Cari Ruas Jalan",
-                includeDefaultSources: false,
-                sources: [
-                    {
-                        layer: pemeliharaanLayer,
-                        searchFields: ["RUAS_JALAN","PAKET"],
-                        displayField: "RUAS_JALAN",
-                        exactMatch: false,
-                        outFields: ["*"],
-                        name: "Pemeliharaan",
-                        placeholder: "Cari Kegiatan Pemeliharran",
-                        suggestionTemplate: "{PAKET} {RUAS_JALAN}",
-                    },
-                    {
-                        layer: provinceRoadsLayer,
-                        searchFields: ["nm_ruas"],
-                        displayField: "nm_ruas",
-                        exactMatch: false,
-                        outFields: ["nm_ruas"],
-                        name: "Ruas Jalan Provinsi",
-                        placeholder: "Cari Jalan Provinsi",
-                        suggestionTemplate: "{nm_ruas}",
-                    },
-                    {
-                        layer: nationalRoadsLayer,
-                        searchFields: ["NAMA_SK"],
-                        suggestionTemplate: "{NAMA_SK}",
-                        exactMatch: false,
-                        outFields: ["NAMA_SK"],
-                        placeholder: "Cari Jalan Nasional",
-                        name: "Jalan Raya Nasional",
-                        zoomScale: 500000,
-                        resultSymbol: {
-                            type: "picture-marker",
-                            url: "https://developers.arcgis.com/javascript/latest/sample-code/widgets-search-multiplesource/live/images/senate.png",
-                            height: 36,
-                            width: 36,
-                        },
-                    },
-                    // {
-                    //     name: "ArcGIS World Geocoding Service",
-                    //     placeholder: "example: Nuuk, GRL",
-                    //     apiKey: "AAPKd6517aa887304b5891f6b959ea426015CLWBA2qIMPI4-vgwnS0B8RGRBVMArpJu0IN2BUL-G6GZ_aa8NF-r_JvSnsWp_A2M",
-                    //     singleLineFieldName: "SingleLine",
-                    //     locator: new Locator({
-                    //         url: "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer",
-                    //     }),
-                    // },
-                ],
+                                view,
+                                allPlaceholder: "Cari Kegiatan",
+                                includeDefaultSources: false,
+                                sources: [
+                                    {
+                                        layer: pemeliharaanLayer,
+                                        searchFields: ["RUAS_JALAN", "PAKET"],
+                                        displayField: "RUAS_JALAN",
+                                        exactMatch: false,
+                                        outFields: ["*"],
+                                        name: "Pemeliharaan",
+                                        placeholder: "Cari Kegiatan Pemeliharran",
+                                        suggestionTemplate: "{PAKET} {RUAS_JALAN}",
+                                    },]
             });
-            console.log(searchWidget);
 
             view.ui.add([
                 {
@@ -866,6 +804,37 @@ $(document).ready(function () {
                     position: "top-left",
                 },
             ]);
+
+            let highlightSelectGoToFeature = null;
+            const goToFeature = ({ feature, layer }) => {
+                view.whenLayerView(layer).then((layerView) => {
+                    if (highlightSelectGoToFeature) {
+                        highlightSelectGoToFeature.remove();
+                    }
+
+                    highlightSelectGoToFeature = layerView.highlight(feature);
+
+                    view.goTo(
+                        {
+                            target: feature.geometry,
+                            tilt: 70,
+                            zoom: 13,
+                        },
+                        {
+                            duration: 1500,
+                            easing: "in-out-expo",
+                        }
+                    ).then(() => {
+                        view.popup.open({
+                            features: [feature],
+                            location: feature.geometry.centroid,
+                        });
+                    });
+                });
+            };
+
+            console.log(provinceRoadsLayer);
+
             const addRoads = new Promise((resolve, reject) => {
                 const routeGroupLayer = new GroupLayer({
                     title: "Ruas Jalan",
@@ -879,37 +848,151 @@ $(document).ready(function () {
                 resolve(routeGroupLayer);
             });
 
-            addRoads.then((layer) => {
-                view.whenLayerView(layer).then((layerView) => {
-                    provinceRoadsLayer
-                        .queryFeatures()
-                        .then((result) =>
-                            console.log("provinceRoadsLayer", result)
-                        );
-                    nationalRoadsLayer
-                        .queryFeatures()
-                        .then((result) =>
-                            console.log("nationalRoadsLayer", result)
-                        );
-                    tollRoadsConstructionsLayer
-                        .queryFeatures()
-                        .then((result) =>
-                            console.log("tollRoadsConstructionsLayer", result)
-                        );
-                    tollRoadsOperationsLayer
-                        .queryFeatures()
-                        .then((result) =>
-                            console.log("tollRoadsOperationsLayer", result)
-                        );
-                    view.whenLayerView(pemeliharaanLayer).then((layerView) => {
-                        pemeliharaanLayer
-                            .queryFeatures()
-                            .then((result) =>
-                                console.log("pemeliharaanLayer", result)
-                            );
-                    });
-                });
-            });
+            addRoads;
+            // .then((layer) => {
+            //     view.whenLayerView(layer).then((layerView) => {
+            //         provinceRoadsLayer.queryFeatures().then((result) => {
+            //             console.log("provinceRoadsLayer", result.features);
+            //             const customSourceRuasJalan = new SearchSource({
+            //                 placeholder: "Ruas Jalan Provinsis",
+            //                 name: "Ruas Jalan Provinsis",
+            //                 getSuggestions: (params) => {
+            //                     const filter = result.features.filter(
+            //                         (feature) =>
+            //                             feature.attributes.nm_ruas.indexOf(
+            //                                 params.suggestTerm
+            //                             ) >= 0
+            //                     );
+            //                     const objectResults = []
+            //                     filter.map((feature) => {
+            //                         objectResults.push( {
+            //                             key: "name",
+            //                             text: feature.attributes.nm_ruas,
+            //                             sourceIndex: params.sourceIndex,
+            //                         });
+            //                     });
+            //                     console.log(objectResults.slice(0,5));
+            //                     return objectResults.slice(0,5);
+            //                 },
+            //                 getResults: (params) => {
+            //                     const filter = result.features.filter(
+            //                         (feature) =>
+            //                             feature.attributes.nm_ruas.indexOf(
+            //                                 params.suggestResult.text
+            //                             ) >= 0
+            //                     );
+            //                     console.log("filter", filter);
+            //                     const searchResults = filter.map((feature) => {
+            //                         const graphic = new Graphic({
+            //                             geometry: feature.geometry,
+            //                             x: feature.attributes.lat_awal,
+            //                             y: feature.attributes.long_awal,
+            //                             attributes: feature.attributes,
+            //                         });
+
+            //                         const buffer =
+            //                             geometryEngine.goedesicBuffer(
+            //                                 graphic.geometry,
+            //                                 200,
+            //                                 "meters"
+            //                             );
+
+            //                         const searchResult = {
+            //                             extent: buffer.extent,
+            //                             feature: graphic,
+            //                             name: feature.attributes.id_ruas,
+            //                         };
+            //                         return searchResult;
+            //                     });
+            //                     console.log("searchResults", searchResults);
+            //                     return searchResults.slice(0,5);
+            //                 },
+            //             });
+            //             // MOVING TODO
+            //             const searchWidget = new Search({
+            //                 view,
+            //                 allPlaceholder: "Cari Kegiatan",
+            //                 includeDefaultSources: false,
+            //                 sources: [
+            //                     {
+            //                         layer: pemeliharaanLayer,
+            //                         searchFields: ["RUAS_JALAN", "PAKET"],
+            //                         displayField: "RUAS_JALAN",
+            //                         exactMatch: false,
+            //                         outFields: ["*"],
+            //                         name: "Pemeliharaan",
+            //                         placeholder: "Cari Kegiatan Pemeliharran",
+            //                         suggestionTemplate: "{PAKET} {RUAS_JALAN}",
+            //                     },
+            //                     // {
+            //                     //     layer: provinceRoadsLayer,
+            //                     //     searchFields: ["nm_ruas"],
+            //                     //     displayField: "nm_ruas",
+            //                     //     exactMatch: false,
+            //                     //     outFields: ["nm_ruas"],
+            //                     //     name: "Ruas Jalan Provinsi",
+            //                     //     placeholder: "Cari Jalan Provinsi",
+            //                     //     suggestionTemplate: "{nm_ruas}",
+            //                     // },
+            //                     // {
+            //                     //     layer: nationalRoadsLayer,
+            //                     //     searchFields: ["NAMA_SK"],
+            //                     //     suggestionTemplate: "{NAMA_SK}",
+            //                     //     exactMatch: false,
+            //                     //     outFields: ["NAMA_SK"],
+            //                     //     placeholder: "Cari Jalan Nasional",
+            //                     //     name: "Jalan Raya Nasional",
+            //                     //     zoomScale: 500000,
+            //                     //     resultSymbol: {
+            //                     //         type: "picture-marker",
+            //                     //         url: "https://developers.arcgis.com/javascript/latest/sample-code/widgets-search-multiplesource/live/images/senate.png",
+            //                     //         height: 36,
+            //                     //         width: 36,
+            //                     //     },
+            //                     // },
+            //                     // customSourceRuasJalan,
+            //                     // {
+            //                     //     name: "ArcGIS World Geocoding Service",
+            //                     //     placeholder: "example: Nuuk, GRL",
+            //                     //     apiKey: "AAPKd6517aa887304b5891f6b959ea426015CLWBA2qIMPI4-vgwnS0B8RGRBVMArpJu0IN2BUL-G6GZ_aa8NF-r_JvSnsWp_A2M",
+            //                     //     singleLineFieldName: "SingleLine",
+            //                     //     locator: new Locator({
+            //                     //         url: "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer",
+            //                     //     }),
+            //                     // },
+            //                 ],
+            //             });
+            //             console.log(searchWidget);
+
+            //             view.ui.add(searchWidget, {
+            //                 position: "top-right",
+            //             });
+            //             // MOVING TODO END
+            //         });
+            //         nationalRoadsLayer
+            //             .queryFeatures()
+            //             .then((result) =>
+            //                 console.log("nationalRoadsLayer", result)
+            //             );
+            //         tollRoadsConstructionsLayer
+            //             .queryFeatures()
+            //             .then((result) =>
+            //                 console.log("tollRoadsConstructionsLayer", result)
+            //             );
+            //         tollRoadsOperationsLayer
+            //             .queryFeatures()
+            //             .then((result) =>
+            //                 console.log("tollRoadsOperationsLayer", result)
+            //             );
+            //         view.whenLayerView(pemeliharaanLayer).then((layerView) => {
+            //             pemeliharaanLayer
+            //                 .queryFeatures()
+            //                 .then((result) =>
+            //                     console.log("pemeliharaanLayer", result)
+            //                 );
+            //         });
+            //     });
+            // });
         });
     });
 });
