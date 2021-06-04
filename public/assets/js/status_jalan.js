@@ -748,7 +748,7 @@ $(document).ready(function () {
                     },
                 },
             });
-            
+
             const searchWidget = new Search({
                                 view,
                                 allPlaceholder: "Cari Kegiatan",
@@ -832,6 +832,10 @@ $(document).ready(function () {
                     });
                 });
             };
+
+            view.whenLayerView(provinceRoadsLayer).then((layerView)=> {
+                provinceRoadsLayer.queryFeatures().then(result => console.log('JALAN PROVINSI',result))
+            })
 
             console.log(provinceRoadsLayer);
 
