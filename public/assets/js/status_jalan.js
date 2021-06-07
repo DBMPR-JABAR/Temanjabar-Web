@@ -341,8 +341,8 @@ $(document).ready(function () {
                 );
             };
 
-            const applyEditsToLayer = ({ edits }) => {
-                pemeliharaanLayer
+            const applyEditsToLayer = ({ edits, layer }) => {
+                layer
                     .applyEdits(edits)
                     .then(function (results) {
                         if (results.addFeatureResults.length > 0) {
@@ -355,47 +355,6 @@ $(document).ready(function () {
                     .catch(function (error) {
                         console.log(error);
                     });
-            };
-
-            const addFeatures = ({ dataPemeliharaan }) => {
-                const dataTemp = [];
-                dataPemeliharaan.forEach((data) => {
-                    dataTemp.push({
-                        ID_PEK: data.id_pek,
-                        LATITUDE: data.lat,
-                        LONGITUDE: data.lng,
-                        PAKET: data.paket,
-                        LOKASI: data.lokasi,
-                        RUAS_JALAN: data.ruas_jalan,
-                        JUMLAH_PEKERJA: data.jumlah_pekerja,
-                    });
-                });
-                const graphics = [];
-                let graphic;
-                for (let i = 0; i < dataTemp.length; i++) {
-                    graphic = new Graphic({
-                        geometry: new Point({
-                            longitude: dataTemp[i].LONGITUDE,
-                            latitude: dataTemp[i].LATITUDE,
-                        }),
-                        attributes: dataTemp[i],
-                    });
-                    graphics.push(graphic);
-                }
-
-                const addEdits = {
-                    addFeatures: graphics,
-                };
-
-                pemeliharaanLayer
-                    .queryFeatures()
-                    .then((results) => {
-                        const deleteEdits = {
-                            deleteFeatures: results.features,
-                        };
-                        applyEditsToLayer({ edits: deleteEdits });
-                    })
-                    .then(() => applyEditsToLayer({ edits: addEdits }));
             };
 
             const getData = ({ radius, latitude, longitude }) => {
@@ -422,8 +381,21 @@ $(document).ready(function () {
                         );
                         if (data.pemeliharaan) {
                             if (data.pemeliharaan.length > 0) {
-                                addFeatures({
-                                    dataPemeliharaan: data.pemeliharaan,
+                                const dataPemeliharaan = [];
+                                data.pemeliharaan.forEach((data) => {
+                                    dataPemeliharaan.push({
+                                        ID_PEK: data.id_pek,
+                                        LATITUDE: data.lat,
+                                        LONGITUDE: data.lng,
+                                        PAKET: data.paket,
+                                        LOKASI: data.lokasi,
+                                        RUAS_JALAN: data.ruas_jalan,
+                                        JUMLAH_PEKERJA: data.jumlah_pekerja,
+                                    });
+                                });
+                                loadPointToFeatureLayer({
+                                    data: dataPemeliharaan,
+                                    layer: pemeliharaanLayer,
                                 });
                                 ReactDOM.render(
                                     <Pemeliharaan
@@ -743,10 +715,7 @@ $(document).ready(function () {
                 },
             });
 
-
-
-            let highlightSelectGoToFeature = null;
-
+            let highlightSelectGoToFeature = null; // BAD
             const goToFeature = ({ feature, layer }) => {
                 view.whenLayerView(layer).then((layerView) => {
                     if (highlightSelectGoToFeature) {
@@ -772,6 +741,35 @@ $(document).ready(function () {
                         });
                     });
                 });
+            };
+
+            const loadPointToFeatureLayer = ({ data, layer }) => {
+                const graphics = [];
+                let graphic;
+                for (let i = 0; i < data.length; i++) {
+                    graphic = new Graphic({
+                        geometry: new Point({
+                            longitude: data[i].LONGITUDE,
+                            latitude: data[i].LATITUDE,
+                        }),
+                        attributes: data[i],
+                    });
+                    graphics.push(graphic);
+                }
+
+                const addEdits = {
+                    addFeatures: graphics,
+                };
+
+                layer
+                    .queryFeatures()
+                    .then((results) => {
+                        const deleteEdits = {
+                            deleteFeatures: results.features,
+                        };
+                        applyEditsToLayer({ edits: deleteEdits, layer });
+                    })
+                    .then(() => applyEditsToLayer({ edits: addEdits, layer }));
             };
 
             const addRoads = new Promise((resolve, reject) => {
@@ -922,13 +920,14 @@ $(document).ready(function () {
                             placeholder: "Cari Kegiatan Pemeliharran",
                             suggestionTemplate: "{PAKET} {RUAS_JALAN}",
                         },
-                        ...customSearchWidgets
+                        ...customSearchWidgets,
                     ],
                 });
-                view.ui.add([{
-                    component: searchWidget,
-                    position: "top-right",
-                },
+                view.ui.add([
+                    {
+                        component: searchWidget,
+                        position: "top-right",
+                    },
                     {
                         component: buttonToggleSidePanel,
                         position: "top-right",
