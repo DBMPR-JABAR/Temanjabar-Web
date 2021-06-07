@@ -654,7 +654,7 @@
         width: 65px;
         height: 65px;
         bottom: 80px;
-        left: 20px;
+        right: 20px;
         background-color: #25d366;
         color: #FFF;
         border-radius: 50px;
