@@ -345,12 +345,6 @@ $(document).ready(function () {
                 pemeliharaanLayer
                     .applyEdits(edits)
                     .then(function (results) {
-                        // if (results.deleteFeatureResults.length > 0) {
-                        //     console.log(
-                        //         results.deleteFeatureResults.length,
-                        //         "features have been removed"
-                        //     );
-                        // }
                         if (results.addFeatureResults.length > 0) {
                             const objectIds = [];
                             results.addFeatureResults.forEach(function (item) {
@@ -449,7 +443,7 @@ $(document).ready(function () {
                     <ButtonToggleLeftSideCanvas />,
                     buttonToggleSidePanel
                 );
-                track.start();
+                // track.start();
                 track.on("track", async (trackEvent) => {
                     const coordsTemp = trackEvent.position.coords;
                     getData({
@@ -749,63 +743,10 @@ $(document).ready(function () {
                 },
             });
 
-            const searchWidget = new Search({
-                                view,
-                                allPlaceholder: "Cari Kegiatan",
-                                includeDefaultSources: false,
-                                sources: [
-                                    {
-                                        layer: pemeliharaanLayer,
-                                        searchFields: ["RUAS_JALAN", "PAKET"],
-                                        displayField: "RUAS_JALAN",
-                                        exactMatch: false,
-                                        outFields: ["*"],
-                                        name: "Pemeliharaan",
-                                        placeholder: "Cari Kegiatan Pemeliharran",
-                                        suggestionTemplate: "{PAKET} {RUAS_JALAN}",
-                                    },]
-            });
 
-            view.ui.add([
-                {
-                    component: searchWidget,
-                    position: "top-right",
-                },
-                {
-                    component: buttonToggleSidePanel,
-                    position: "top-right",
-                },
-                {
-                    component: layerList,
-                    position: "top-left",
-                },
-                // {
-                //     component: statusJalanWidget,
-                //     position: "top-right",
-                // },
-                // {
-                //     component: pemeliharaanWidgetContainer,
-                //     position: "bottom-right",
-                // },
-                {
-                    component: compass,
-                    position: "top-left",
-                },
-                {
-                    component: fullscreen,
-                    position: "top-left",
-                },
-                {
-                    component: track,
-                    position: "top-left",
-                },
-                {
-                    component: toggle,
-                    position: "top-left",
-                },
-            ]);
 
             let highlightSelectGoToFeature = null;
+
             const goToFeature = ({ feature, layer }) => {
                 view.whenLayerView(layer).then((layerView) => {
                     if (highlightSelectGoToFeature) {
@@ -833,12 +774,6 @@ $(document).ready(function () {
                 });
             };
 
-            view.whenLayerView(provinceRoadsLayer).then((layerView)=> {
-                provinceRoadsLayer.queryFeatures().then(result => console.log('JALAN PROVINSI',result))
-            })
-
-            console.log(provinceRoadsLayer);
-
             const addRoads = new Promise((resolve, reject) => {
                 const routeGroupLayer = new GroupLayer({
                     title: "Ruas Jalan",
@@ -853,150 +788,173 @@ $(document).ready(function () {
             });
 
             addRoads;
-            // .then((layer) => {
-            //     view.whenLayerView(layer).then((layerView) => {
-            //         provinceRoadsLayer.queryFeatures().then((result) => {
-            //             console.log("provinceRoadsLayer", result.features);
-            //             const customSourceRuasJalan = new SearchSource({
-            //                 placeholder: "Ruas Jalan Provinsis",
-            //                 name: "Ruas Jalan Provinsis",
-            //                 getSuggestions: (params) => {
-            //                     const filter = result.features.filter(
-            //                         (feature) =>
-            //                             feature.attributes.nm_ruas.indexOf(
-            //                                 params.suggestTerm
-            //                             ) >= 0
-            //                     );
-            //                     const objectResults = []
-            //                     filter.map((feature) => {
-            //                         objectResults.push( {
-            //                             key: "name",
-            //                             text: feature.attributes.nm_ruas,
-            //                             sourceIndex: params.sourceIndex,
-            //                         });
-            //                     });
-            //                     console.log(objectResults.slice(0,5));
-            //                     return objectResults.slice(0,5);
-            //                 },
-            //                 getResults: (params) => {
-            //                     const filter = result.features.filter(
-            //                         (feature) =>
-            //                             feature.attributes.nm_ruas.indexOf(
-            //                                 params.suggestResult.text
-            //                             ) >= 0
-            //                     );
-            //                     console.log("filter", filter);
-            //                     const searchResults = filter.map((feature) => {
-            //                         const graphic = new Graphic({
-            //                             geometry: feature.geometry,
-            //                             x: feature.attributes.lat_awal,
-            //                             y: feature.attributes.long_awal,
-            //                             attributes: feature.attributes,
-            //                         });
 
-            //                         const buffer =
-            //                             geometryEngine.goedesicBuffer(
-            //                                 graphic.geometry,
-            //                                 200,
-            //                                 "meters"
-            //                             );
+            const getDataFeature = (layer) =>
+                new Promise((resolve, reject) => {
+                    view.whenLayerView(layer).then((layerView) => {
+                        layer.queryFeatures().then((result) => resolve(result));
+                    });
+                });
 
-            //                         const searchResult = {
-            //                             extent: buffer.extent,
-            //                             feature: graphic,
-            //                             name: feature.attributes.id_ruas,
-            //                         };
-            //                         return searchResult;
-            //                     });
-            //                     console.log("searchResults", searchResults);
-            //                     return searchResults.slice(0,5);
-            //                 },
-            //             });
-            //             // MOVING TODO
-            //             const searchWidget = new Search({
-            //                 view,
-            //                 allPlaceholder: "Cari Kegiatan",
-            //                 includeDefaultSources: false,
-            //                 sources: [
-            //                     {
-            //                         layer: pemeliharaanLayer,
-            //                         searchFields: ["RUAS_JALAN", "PAKET"],
-            //                         displayField: "RUAS_JALAN",
-            //                         exactMatch: false,
-            //                         outFields: ["*"],
-            //                         name: "Pemeliharaan",
-            //                         placeholder: "Cari Kegiatan Pemeliharran",
-            //                         suggestionTemplate: "{PAKET} {RUAS_JALAN}",
-            //                     },
-            //                     // {
-            //                     //     layer: provinceRoadsLayer,
-            //                     //     searchFields: ["nm_ruas"],
-            //                     //     displayField: "nm_ruas",
-            //                     //     exactMatch: false,
-            //                     //     outFields: ["nm_ruas"],
-            //                     //     name: "Ruas Jalan Provinsi",
-            //                     //     placeholder: "Cari Jalan Provinsi",
-            //                     //     suggestionTemplate: "{nm_ruas}",
-            //                     // },
-            //                     // {
-            //                     //     layer: nationalRoadsLayer,
-            //                     //     searchFields: ["NAMA_SK"],
-            //                     //     suggestionTemplate: "{NAMA_SK}",
-            //                     //     exactMatch: false,
-            //                     //     outFields: ["NAMA_SK"],
-            //                     //     placeholder: "Cari Jalan Nasional",
-            //                     //     name: "Jalan Raya Nasional",
-            //                     //     zoomScale: 500000,
-            //                     //     resultSymbol: {
-            //                     //         type: "picture-marker",
-            //                     //         url: "https://developers.arcgis.com/javascript/latest/sample-code/widgets-search-multiplesource/live/images/senate.png",
-            //                     //         height: 36,
-            //                     //         width: 36,
-            //                     //     },
-            //                     // },
-            //                     // customSourceRuasJalan,
-            //                     // {
-            //                     //     name: "ArcGIS World Geocoding Service",
-            //                     //     placeholder: "example: Nuuk, GRL",
-            //                     //     apiKey: "AAPKd6517aa887304b5891f6b959ea426015CLWBA2qIMPI4-vgwnS0B8RGRBVMArpJu0IN2BUL-G6GZ_aa8NF-r_JvSnsWp_A2M",
-            //                     //     singleLineFieldName: "SingleLine",
-            //                     //     locator: new Locator({
-            //                     //         url: "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer",
-            //                     //     }),
-            //                     // },
-            //                 ],
-            //             });
-            //             console.log(searchWidget);
+            const features = [
+                {
+                    name: "Jalan Provinsi",
+                    layer: provinceRoadsLayer,
+                    textField: "nm_ruas",
+                },
+                {
+                    name: "Jalan Nasional",
+                    layer: nationalRoadsLayer,
+                    textField: "NAMA_SK",
+                },
+                {
+                    name: "Jalan Tol Operasional",
+                    layer: tollRoadsOperationsLayer,
+                    textField: "NAMA",
+                },
+                {
+                    name: "Jalan Tol Konstruksi",
+                    layer: tollRoadsConstructionsLayer,
+                    textField: "Nama",
+                },
+            ];
 
-            //             view.ui.add(searchWidget, {
-            //                 position: "top-right",
-            //             });
-            //             // MOVING TODO END
-            //         });
-            //         nationalRoadsLayer
-            //             .queryFeatures()
-            //             .then((result) =>
-            //                 console.log("nationalRoadsLayer", result)
-            //             );
-            //         tollRoadsConstructionsLayer
-            //             .queryFeatures()
-            //             .then((result) =>
-            //                 console.log("tollRoadsConstructionsLayer", result)
-            //             );
-            //         tollRoadsOperationsLayer
-            //             .queryFeatures()
-            //             .then((result) =>
-            //                 console.log("tollRoadsOperationsLayer", result)
-            //             );
-            //         view.whenLayerView(pemeliharaanLayer).then((layerView) => {
-            //             pemeliharaanLayer
-            //                 .queryFeatures()
-            //                 .then((result) =>
-            //                     console.log("pemeliharaanLayer", result)
-            //                 );
-            //         });
-            //     });
-            // });
+            const promiseFeatures = features.map((feature) => {
+                return getDataFeature(feature.layer);
+            });
+
+            const featureFilter = ({ features, attributesField, includes }) =>
+                features.filter((feature) =>
+                    feature.attributes[attributesField]
+                        .toLowerCase()
+                        .includes(includes)
+                );
+
+            const customSearchWidget = ({
+                features,
+                placeholder,
+                name,
+                attributesField,
+                layer,
+            }) =>
+                new SearchSource({
+                    placeholder,
+                    name,
+                    getSuggestions: async (params) => {
+                        return featureFilter({
+                            features,
+                            attributesField,
+                            includes: params.suggestTerm.toLowerCase(),
+                        }).map((feature) => {
+                            return {
+                                key: "name",
+                                text: feature.attributes[attributesField],
+                                sourceIndex: params.sourceIndex,
+                                feature,
+                                layer,
+                            };
+                        });
+                    },
+                    getResults: async (params) => {
+                        if (params.suggestResult.feature) {
+                            const buffer = geometryEngine.geodesicBuffer(
+                                params.suggestResult.feature.geometry,
+                                100,
+                                "meters"
+                            );
+                            return [
+                                {
+                                    extent: buffer.extent,
+                                    feature: params.suggestResult.feature,
+                                    name: params.suggestResult.text,
+                                },
+                            ];
+                        } else {
+                            const featuresFilter = featureFilter({
+                                features,
+                                attributesField,
+                                includes:
+                                    params.suggestResult.text.toLowerCase(),
+                            });
+
+                            const buffer = geometryEngine.geodesicBuffer(
+                                featuresFilter[0].geometry,
+                                100,
+                                "meters"
+                            );
+                            return [
+                                {
+                                    extent: buffer.extent,
+                                    feature: featuresFilter[0],
+                                    name: params.suggestResult.text,
+                                },
+                            ];
+                        }
+                    },
+                });
+
+            Promise.all(promiseFeatures).then((values) => {
+                const customSearchWidgets = [];
+                values.forEach((feature, index) => {
+                    customSearchWidgets.push(
+                        customSearchWidget({
+                            features: feature.features,
+                            placeholder: features[index].name,
+                            name: features[index].name,
+                            attributesField: features[index].textField,
+                            layer: features[index].layer,
+                        })
+                    );
+                });
+
+                const searchWidget = new Search({
+                    view,
+                    allPlaceholder: "Cari Kegiatan",
+                    includeDefaultSources: false,
+                    sources: [
+                        {
+                            layer: pemeliharaanLayer,
+                            searchFields: ["RUAS_JALAN", "PAKET"],
+                            displayField: "RUAS_JALAN",
+                            exactMatch: false,
+                            outFields: ["*"],
+                            name: "Pemeliharaan",
+                            placeholder: "Cari Kegiatan Pemeliharran",
+                            suggestionTemplate: "{PAKET} {RUAS_JALAN}",
+                        },
+                        ...customSearchWidgets
+                    ],
+                });
+                view.ui.add([{
+                    component: searchWidget,
+                    position: "top-right",
+                },
+                    {
+                        component: buttonToggleSidePanel,
+                        position: "top-right",
+                    },
+                    {
+                        component: layerList,
+                        position: "top-left",
+                    },
+                    {
+                        component: compass,
+                        position: "top-left",
+                    },
+                    {
+                        component: fullscreen,
+                        position: "top-left",
+                    },
+                    {
+                        component: track,
+                        position: "top-left",
+                    },
+                    {
+                        component: toggle,
+                        position: "top-left",
+                    },
+                ]);
+            });
         });
     });
 });

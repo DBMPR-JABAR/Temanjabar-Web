@@ -651,15 +651,15 @@
 <style>
     #container_wa {
         position: fixed;
-        width: 40px;
-        height: 40px;
+        width: 65px;
+        height: 65px;
         bottom: 80px;
-        right: 20px;
+        left: 20px;
         background-color: #25d366;
         color: #FFF;
         border-radius: 50px;
         text-align: center;
-        font-size: 27px;
+        font-size: 42px;
         box-shadow: 2px 2px 3px #999;
         z-index: 100;
     }
