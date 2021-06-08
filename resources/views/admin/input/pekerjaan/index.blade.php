@@ -106,7 +106,7 @@
 
                 <div class="card-deck col-md-12">
                     <div class="card w-100">
-                        <a href="{{ url('admin/lapor') }}">
+                        {{-- <a href="{{ url('admin/lapor') }}"> --}}
                         <div class="card-block">
                             <div class="row align-items-center">
                                 <div class="col-8">
@@ -120,7 +120,7 @@
                                 </div>
                             </div>
                         </div>
-                        </a>
+                        {{-- </a> --}}
                         <div class="card-footer bg-warning">
                             <div class="row align-items-center">
                                 <div class="col-9">
@@ -134,7 +134,7 @@
                     </div>
 
                     <div class="card w-100">
-                        <a href="{{ url('admin/lapor') }}">
+                        {{-- <a href="{{ url('admin/lapor') }}"> --}}
                         <div class="card-block">
                             <div class="row align-items-center">
                                 <div class="col-8">
@@ -148,7 +148,7 @@
                                 </div>
                             </div>
                         </div>
-                        </a>
+                        {{-- </a> --}}
                         <div class="card-footer bg-success">
                             <div class="row align-items-center">
                                 <div class="col-9">
@@ -162,7 +162,7 @@
                     </div>
 
                     <div class="card w-100">
-                        <a href="{{ url('admin/lapor') }}">
+                        {{-- <a href="{{ url('admin/lapor') }}"> --}}
                         <div class="card-block">
                             <div class="row align-items-center">
                                 <div class="col-8">
@@ -176,7 +176,7 @@
                                 </div>
                             </div>
                         </div>
-                        </a>
+                        {{-- </a> --}}
                         <div class="card-footer bg-primary">
                             <div class="row align-items-center">
                                 <div class="col-9">
@@ -190,7 +190,7 @@
                     </div>
 
                     <div class="card w-100">
-                        <a href="{{ url('admin/lapor') }}">
+                        {{-- <a href="{{ url('admin/lapor') }}"> --}}
                         <div class="card-block">
                             <div class="row align-items-center">
                                 <div class="col-8">
@@ -205,7 +205,7 @@
                                 </div>
                             </div>
                         </div>
-                        </a>
+                        {{-- </a> --}}
                         <div class="card-footer bg-danger">
                             <div class="row align-items-center">
                                 <div class="col-9">
@@ -220,7 +220,7 @@
                 </div>
                 <div class="card-deck col-md-12 mt-3">
                     <div class="card w-100">
-                        <a href="{{ url('admin/lapor') }}">
+                        {{-- <a href="{{ url('admin/lapor') }}"> --}}
                         <div class="card-block">
                             <div class="row align-items-center">
                                 <div class="col-8">
@@ -235,7 +235,7 @@
                                 </div>
                             </div>
                         </div>
-                        </a>
+                        {{-- </a> --}}
                         <div class="card-footer bg-default">
                             <div class="row align-items-center">
                                 <div class="col-9">
@@ -268,7 +268,7 @@
                 @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Create"))
                 <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
                     @if (!str_contains(Auth::user()->internalRole->role,'Mandor'))
-                        <a href="{{ route('LaporanPekerjaan') }}" class="btn btn-mat btn-success mb-3">Cetak Laporan</a>    
+                        <a href="{{ route('LaporanPekerjaan') }}" class="btn btn-mat btn-success mb-3">Cetak Laporan</a>
                     @endif
                 @endif
                 <div class="dt-responsive table-responsive">
@@ -459,7 +459,7 @@
                                         <option value="{{ $item->id }}">{{ $item->name }}</option>
                                     @endforeach
 
-                                    
+
                                 </select>
                             </div>
                         </div>
