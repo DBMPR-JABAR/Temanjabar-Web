@@ -292,7 +292,7 @@
                             </li>
                             @if (hasAccess(Auth::user()->internal_role_id, 'Data Paket', 'View') || hasAccess(Auth::user()->internal_role_id, 'Progress Kerja', 'View'))
 
-                            <li class=" pcoded-hasmenu  {{ Request::segment(3) == 'data-paket' ? 'pcoded-trigger active' : '' }}">
+                            <li class=" pcoded-hasmenu  {{ Request::segment(3) == 'data-paket' || Request::segment(3) == 'bankeu' ? 'pcoded-trigger active' : '' }}">
                                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                                     <span class="pcoded-mtext">Pembangunan</span>
                                 </a>
@@ -313,12 +313,14 @@
                                             </a>
                                         </li>
                                     @endif
+                                    @if (hasAccess(Auth::user()->internal_role_id, 'Bantuan Keuangan', 'View'))
                                     <li class="{{ Request::segment(3) == 'bankeu' ? 'active' : '' }}">
                                         <a href="{{ url('admin/input-data/bankeu') }}"
                                             class="waves-effect waves-dark">
                                             <span class="pcoded-mtext">Bantuan Keuangan</span>
                                         </a>
                                     </li>
+                                    @endif
                                 </ul>
                             </li>
                             @endif

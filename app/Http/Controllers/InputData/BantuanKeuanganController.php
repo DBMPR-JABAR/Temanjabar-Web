@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\DB;
 
 class BantuanKeuanganController extends Controller
 {
+    public function __construct()
+    {
+        $roles = setAccessBuilder('Bantuan Keuangan', ['create', 'store'], ['index'], ['edit', 'update'], ['destroy']);
+        foreach ($roles as $role => $permission) {
+            $this->middleware($role)->only($permission);
+        }
+    }
     /**
      * Display a listing of the resource.
      *
