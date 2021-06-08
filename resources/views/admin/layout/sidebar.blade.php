@@ -164,7 +164,7 @@
                                     </a>
                                 </li>
                             @endif
-                            
+
                             @if (hasAccess(Auth::user()->internal_role_id, 'UPTD', 'View'))
                                 <li class="{{ Request::segment(3) == 'uptd' ? 'active' : '' }}">
                                     <a href="{{ url('admin/master-data/uptd') }}" class="waves-effect waves-dark">
@@ -202,7 +202,7 @@
                             </li>
                             @endif
                             @if (hasAccess(Auth::user()->internal_role_id, 'Bahan Material', 'View') || hasAccess(Auth::user()->internal_role_id, 'Peralatan', 'View'))
-                                
+
                                 <li class=" pcoded-hasmenu  {{ Request::segment(3) == 'item_bahan_material' ||Request::segment(3) == 'peralatan' ? 'pcoded-trigger active' : '' }}">
                                     <a href="javascript:void(0)" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Peralatan & Material</span>
@@ -222,7 +222,7 @@
                                             </a>
                                         </li>
                                         @endif
-                                        
+
                                     </ul>
                                 </li>
                             @endif
@@ -313,6 +313,12 @@
                                             </a>
                                         </li>
                                     @endif
+                                    <li class="{{ Request::segment(3) == 'bankeu' ? 'active' : '' }}">
+                                        <a href="{{ url('admin/input-data/bankeu') }}"
+                                            class="waves-effect waves-dark">
+                                            <span class="pcoded-mtext">Bantuan Keuangan</span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                             @endif

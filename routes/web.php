@@ -424,6 +424,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('import', 'InputData\SurveiKondisiJalanController@import')->name('importSurveiRuasJalan');
         });
         Route::resource('survei_kondisi_jalan', 'InputData\SurveiKondisiJalanController');
+
+        Route::prefix('bankeu')->group(function () {
+            Route::get('delete/{id}', 'InputData\BantuanKeuanganController@destroy');
+        });
+        Route::resource('bankeu', 'InputData\BantuanKeuanganController');
     });
 
     Route::group(['prefix' => 'lapor'], function () {
