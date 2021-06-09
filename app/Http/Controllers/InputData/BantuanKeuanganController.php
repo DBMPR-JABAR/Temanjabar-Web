@@ -54,8 +54,13 @@ class BantuanKeuanganController extends Controller
         $bankeu = $request->except(["_token",'progress_old']);
         $bankeu["created_by"] = Auth::user()->id;
         $bankeu['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
-        DB::table('bankeu')->insert($bankeu);
-
+        $id =  DB::table('bankeu')->insertGetId($bankeu);
+        $historis["id_bankeu"] = $id;
+        $historis['progress'] = $request->progress;
+        $historis['progress_old'] = 0;
+        $historis['updated_by'] = Auth::user()->id;
+        $historis['updated_at'] = Carbon::now();
+        DB::table('utils_historis_bankeu')->insert($historis);
         $color = "success";
         $msg = "Berhasil Menambah Data Bantuan Keuangan";
         return redirect(route('bankeu.index'))->with(compact('color', 'msg'));
@@ -69,7 +74,14 @@ class BantuanKeuanganController extends Controller
      */
     public function show($id)
     {
-        //
+        $kategori = DB::table('master_kategori_paket')->get();
+        $penyedia_jasa = DB::connection('talikuat')->table('master_penyedia_jasa')->get();
+        $konsultan = DB::connection('talikuat')->table('master_konsultan')->get();
+        $bankeu = DB::table('bankeu')->where('id', $id)->first();
+        $ppk = DB::connection('talikuat')->table('master_ppk')->get();
+        $historis = DB::table('utils_historis_bankeu')->where('id_bankeu', $id)->get();
+        // dd($historis);
+        return view('admin.input_data.bankeu.progress', compact('bankeu','kategori', 'penyedia_jasa', 'konsultan', 'ppk','historis'));
     }
 
     /**

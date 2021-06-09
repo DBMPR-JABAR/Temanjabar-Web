@@ -360,12 +360,13 @@
         const progressSlider =
         document.getElementById('proggress_slider')
         const onChange = (event) => {
-            if(event.target.value < progressBefore) {
+            if(event.target.value < Number(progressBefore)) {
                 progressPercentage.innerText = progressBefore
                 progressSlider.value = progressBefore
             }
-            else
+            else{
             progressPercentage.innerText = event.target.value
+            progressSlider.value = event.target.value}
         }
         progressSlider.oninput = onChange
         progressSlider.onclick = onChange
