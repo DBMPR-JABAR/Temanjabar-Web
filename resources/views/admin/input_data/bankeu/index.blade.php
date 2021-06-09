@@ -1,33 +1,18 @@
 @extends('admin.layout.index') @section('title') Bantuan Keuangan @endsection
 @section('head')
-<link
-    rel="stylesheet"
-    type="text/css"
-    href="{{
+<link rel="stylesheet" type="text/css" href="{{
         asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css')
-    }}"
-/>
-<link
-    rel="stylesheet"
-    type="text/css"
-    href="{{
+    }}" />
+<link rel="stylesheet" type="text/css" href="{{
         asset('assets/vendor/datatables.net/css/buttons.dataTables.min.css')
-    }}"
-/>
-<link
-    rel="stylesheet"
-    type="text/css"
-    href="{{
+    }}" />
+<link rel="stylesheet" type="text/css" href="{{
         asset(
             'assets/vendor/data-table/extensions/responsive/css/responsive.dataTables.css'
         )
-    }}"
-/>
+    }}" />
 
-<link
-    rel="stylesheet"
-    href="https://js.arcgis.com/4.17/esri/themes/light/main.css"
-/>
+<link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css" />
 
 <style>
     table.table-bordered tbody td {
@@ -78,22 +63,13 @@
             <div class="card-block">
                 @if (hasAccess(Auth::user()->internal_role_id, 'Bantuan Keuangan',
                 'Create'))
-                <a
-                    href="{{ route('bankeu.create') }}"
-                    class="btn btn-mat btn-primary mb-3"
-                    >Tambah</a
-                >
+                <a href="{{ route('bankeu.create') }}" class="btn btn-mat btn-primary mb-3">Tambah</a>
                 @endif
                 <div class="dt-responsive table-responsive">
-                    <table
-                        id="bankeu_table"
-                        class="table table-striped table-bordered able-responsive"
-                    >
+                    <table id="bankeu_table" class="table table-striped table-bordered able-responsive">
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Pemda</th>
-                                <th>OPD</th>
                                 <th>Kategori</th>
                                 <th>Nama Kegiatan</th>
                                 <th>No. Kontrak</th>
@@ -115,8 +91,6 @@
                             @foreach ($bankeu as $data)
                             <tr>
                                 <td>{{ $loop->index + 1 }}</td>
-                                <td>{{ $data->pemda }}</td>
-                                <td>{{ $data->opd }}</td>
                                 <td>{{ $data->kategori }}</td>
                                 <td>{{ $data->nama_kegiatan }}</td>
                                 <td>{{ $data->no_kontrak }}</td>
@@ -132,42 +106,25 @@
                                 <td>{{ $data->nama_gs }}</td>
                                 <td>{{ $data->progress }}</td>
                                 <td style="min-width: 75px">
-                                    <div
-                                        class="btn-group"
-                                        role="group"
-                                        data-placement="top"
-                                        title=""
-                                        data-original-title=".btn-xlg"
-                                    >
+                                    <div class="btn-group" role="group" data-placement="top" title=""
+                                        data-original-title=".btn-xlg">
+                                        <a class="d-inline-block" href="{{ route('bankeu.show', $data->id) }}"><button
+                                                class="btn btn-success btn-sm waves-effect mr-1 waves-light"
+                                                data-toggle="tooltip" title="Histori Progres">
+                                                <i class="icofont icofont-eye-alt"></i></button></a>
                                         @if(hasAccess(Auth::user()->internal_role_id,
                                         'Bantuan Keuangan', 'Update'))
-                                        <a
-                                            href="{{ route('bankeu.edit', $data->id) }}"
-                                            ><button
-                                                class="btn btn-primary btn-sm waves-effect waves-light"
-                                                data-toggle="tooltip"
-                                                title="Edit"
-                                            >
-                                                <i
-                                                    class="icofont icofont-pencil"
-                                                ></i></button
-                                        ></a>
+                                        <a class="d-inline-block" href="{{ route('bankeu.edit', $data->id) }}"><button
+                                                class="btn btn-primary mr-1 btn-sm waves-effect waves-light"
+                                                data-toggle="tooltip" title="Edit">
+                                                <i class="icofont icofont-pencil"></i></button></a>
                                         @endif
                                         @if(hasAccess(Auth::user()->internal_role_id,
                                         'Bantuan Keuangan', 'Delete'))
-                                        <a
-                                            href="#delModal"
-                                            data-id="{{ $data->id }}"
-                                            data-toggle="modal"
-                                            ><button
+                                        <a class="d-inline-block" href="#delModal" data-id="{{ $data->id }}" data-toggle="modal"><button
                                                 class="btn btn-danger btn-sm waves-effect waves-light"
-                                                data-toggle="tooltip"
-                                                title="Hapus"
-                                            >
-                                                <i
-                                                    class="icofont icofont-trash"
-                                                ></i></button
-                                        ></a>
+                                                data-toggle="tooltip" title="Hapus">
+                                                <i class="icofont icofont-trash"></i></button></a>
                                         @endif
                                     </div>
                                 </td>
@@ -186,12 +143,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Hapus Data Bantuan Keuangan</h4>
-                    <button
-                        type="button"
-                        class="close"
-                        data-dismiss="modal"
-                        aria-label="Close"
-                    >
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -201,19 +153,10 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button
-                        type="button"
-                        class="btn btn-default waves-effect"
-                        data-dismiss="modal"
-                    >
+                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">
                         Tutup
                     </button>
-                    <a
-                        id="delHref"
-                        href=""
-                        class="btn btn-danger waves-effect waves-light"
-                        >Hapus</a
-                    >
+                    <a id="delHref" href="" class="btn btn-danger waves-effect waves-light">Hapus</a>
                 </div>
             </div>
         </div>

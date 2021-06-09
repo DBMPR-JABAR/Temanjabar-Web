@@ -10,6 +10,11 @@
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<style>
+    .highcharts-credits {
+        display: none
+    }
+    </style>
 @endsection
 
 @section('page-header')
@@ -17,7 +22,7 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Bantuan Keuangan {{$bankeu->id}}</h4>
+                <h4>Bantuan Keuangan</h4>
                 <span>Bantuan Keuangan DBMPR Jabar</span>
             </div>
         </div>
@@ -53,11 +58,6 @@
             <div class="card-block pl-5 pr-5 pb-5">
                 <figure class="highcharts-figure">
                     <div id="container"></div>
-                    <p class="highcharts-description">
-                        This chart shows the use of a logarithmic y-axis. Logarithmic axes can
-                        be useful when dealing with data with spikes or large value gaps,
-                        as they allow variance in the smaller values to remain visible.
-                    </p>
                 </figure>
             </div>
         </div>
@@ -81,42 +81,43 @@
 
     const historis = @json($historis)
 
-
-    const data = [0]
+    const data = []
+    const categories = []
     console.log(historis.length)
-    historis && historis.forEach((histori, idx)=> {
-        // for(let i = (Number(historis[idx].progress)-(Number(historis[idx-0].progress)||0)); i>0;i--) {
-            data.push(Number(historis[idx].progress))
-        // }
-    })
-    // for(let i = data[historis.length]; i<100;i++) {
-    //     data.push(data[historis.length])
-    // }
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
-    console.log(historis)
+    historis && historis.forEach((histori, idx)=> {
+            data.push(Number(historis[idx].progress))
+            categories.push(new Date(historis[idx].updated_at).toLocaleDateString('id-ID', options))
+    })
+
+
+    console.log(historis, bankeu, data)
     $(document).ready(() => {
         Highcharts.chart('container', {
 
-            title: {
-        text: 'Solar Employment Growth by Sector, 2010-2016'
+    title: {
+        text: bankeu.nama_kegiatan
     },
 
     subtitle: {
-        text: 'Source: thesolarfoundation.com'
+        text: bankeu.kategori
     },
 
     yAxis: {
         title: {
-            text: 'Number of Employees'
-        }
-    },
-
-    xAxis: {
-        accessibility: {
-            rangeDescription: 'Range: 2010 to 2017'
+            text: 'Persentase Proggres'
         },
         min:0,
         max:100
+    },
+
+    xAxis: {
+        type: 'datetime',
+        accessibility: {
+            rangeDescription: 'Tanggal Update Proggres'
+        },
+        categories
     },
 
     legend: {
@@ -136,7 +137,7 @@
     },
 
     series: [{
-        name: 'Installation',
+        name: 'Persentase Proggres',
         data
     }],
 
