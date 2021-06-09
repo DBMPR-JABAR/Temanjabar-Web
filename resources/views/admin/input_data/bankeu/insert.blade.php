@@ -63,7 +63,7 @@
                             <div class="col-md-8">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input name="pemda" value="{{ @$bankeu->pemda }}" type="text"
+                                        <input name="pemda" value="PEMERINTAH PROVINSI JAWA BARAT" type="text" readonly
                                             class="form-control" placeholder="PEMERINTAH PROVINSI JAWA BARAT" required>
                                     </div>
                                 </div>
@@ -75,7 +75,7 @@
                             <div class="col-md-8">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input name="opd" value="{{ @$bankeu->opd }}" type="text" class="form-control"
+                                        <input name="opd" value="DINAS BINA MARGA DAN PENATAAN RUANG" readonly type="text" class="form-control"
                                             placeholder="DINAS BINA MARGA DAN PENATAAN RUANG" required>
                                     </div>
                                 </div>
@@ -144,7 +144,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <input name="tanggal_kontrak" value="{{ @$bankeu->tanggal_kontrak }}"
-                                            type="datetime-local" class="form-control">
+                                            type="date" class="form-control">
                                     </div>
                                     <div class="col-md-4">
                                         <input name="nilai_kontrak" value="{{ @$bankeu->nilai_kontrak }}" type="number"
@@ -164,7 +164,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <input name="tanggal_spmk" value="{{ @$bankeu->tanggal_spmk }}"
-                                            type="datetime-local" class="form-control">
+                                            type="date" class="form-control">
                                     </div>
                                 </div>
                             </div>
