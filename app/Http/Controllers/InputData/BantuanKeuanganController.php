@@ -51,7 +51,7 @@ class BantuanKeuanganController extends Controller
      */
     public function store(Request $request)
     {
-        $bankeu = $request->except(["_token"]);
+        $bankeu = $request->except(["_token",'progress_old']);
         $bankeu["created_by"] = Auth::user()->id;
         $bankeu['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
         DB::table('bankeu')->insert($bankeu);
@@ -98,10 +98,18 @@ class BantuanKeuanganController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $bankeu = $request->except(["_token", "_method"]);
+        $bankeu = $request->except(["_token", "_method",'progress_old']);
         $bankeu["updated_by"] = Auth::user()->id;
         $bankeu['updated_at'] = Carbon::now()->format('Y-m-d H:i:s');
         DB::table('bankeu')->where('id', $id)->update($bankeu);
+        if($request->progress !== $request->progress_old){
+            $historis["id_bankeu"] = $id;
+            $historis['progress'] = $request->progress;
+            $historis['progress_old'] = $request->progress_old;
+            $historis['updated_by'] = Auth::user()->id;
+            $historis['updated_at'] = Carbon::now();
+            DB::table('utils_historis_bankeu')->insert($historis);
+        }
 
         $color = "success";
         $msg = "Berhasil Mengubah Data Bantuan Keuangan";

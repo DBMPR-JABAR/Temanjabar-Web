@@ -87,8 +87,7 @@
                             <div class="col-md-8">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <select class="form-control" id="edit_uptd" name="unor"
-                                            required>
+                                        <select class="form-control" id="edit_uptd" name="unor" required>
                                             <option>Pilih UPTD</option>
                                             @foreach ($uptd_lists as $data)
                                             <option value="{{ 'uptd' . $data->id }}" id="uptd_{{ $data->id }}"
@@ -312,12 +311,17 @@
                         <div id="mapLatLong" class="full-map mb-3" style="height: 300px; width: 100%"></div>
 
                         <div class=" form-group row">
-                            <label class="col-md-4 col-form-label">Proggress (%)</label>
+                            <label class="col-md-4 col-form-label">Proggress (<span
+                                    id="proggress_percent">{{@$bankeu->progress}}</span>%)</label>
                             <div class="col-md-8">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input name="progress" value="{{ @$bankeu->progress }}" type="number"
-                                            class="form-control" placeholder="Proggress" required>
+                                        <input name="progress_old" class="d-none" value="{{ @$bankeu->progress }}">
+                                        <div id="progress_container">
+                                            <input id="proggress_slider" name="progress"
+                                                value="{{ @$bankeu->progress }}" type="range" class="form-control-range"
+                                                placeholder="Proggress" required min="0" max="100">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -349,8 +353,23 @@
 <script src="https://js.arcgis.com/4.18/"></script>
 
 <script>
+    $(document).ready(() => {
+        const progressBefore = {{ @$bankeu->progress }}
 
-        $(document).ready(() => {
+        const progressPercentage = document.getElementById('proggress_percent')
+        const progressSlider =
+        document.getElementById('proggress_slider')
+        const onChange = (event) => {
+            if(event.target.value < progressBefore) {
+                progressPercentage.innerText = progressBefore
+                progressSlider.value = progressBefore
+            }
+            else
+            progressPercentage.innerText = event.target.value
+        }
+        progressSlider.oninput = onChange
+        progressSlider.onclick = onChange
+
             const uptd = document.getElementById("edit_uptd");
             if (uptd.length == 2) uptd.value = uptd[1].value;
 
