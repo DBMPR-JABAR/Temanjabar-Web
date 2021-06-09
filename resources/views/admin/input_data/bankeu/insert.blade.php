@@ -354,7 +354,7 @@
 
 <script>
     $(document).ready(() => {
-        const progressBefore = {{ @$bankeu->progress }}
+        const progressBefore = `{{ @$bankeu->progress }}`
 
         const progressPercentage = document.getElementById('proggress_percent')
         const progressSlider =
