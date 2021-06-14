@@ -272,7 +272,7 @@
                     @endif
                 @endif
                 <div class="dt-responsive table-responsive">
-                    <table id="dttable"  class="table table-striped table-bordered table-responsive">
+                    <table id="dttable"  class="table table-striped table-bordered able-responsive">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -284,10 +284,10 @@
                                 <th>Lokasi</th>
                                 <th>Panjang (meter)</th>
                                 <th>Perkiraan Kuantitas</th>
-                                <th>Foto (0%)</th>
+                                {{-- <th>Foto (0%)</th>
                                 <th>Foto (50%)</th>
                                 <th>Foto (100%)</th>
-                                <th>Video</th>
+                                <th>Video</th> --}}
                                 <th>Tanggal</th>
                                 <th>Status</th>
 
@@ -304,13 +304,13 @@
                                 <td>{{$data->ruas_jalan}}</td>
                                 <td>{{$data->jenis_pekerjaan}}</td>
                                 <td>{{$data->lokasi}}</td>
-                                <td>{{$data->panjang}}</td>
-                                <td>{{$data->perkiraan_kuantitas}}</td>
-                                <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_awal) !!}" alt="" srcset=""></td>
+                                <td>{{@$data->panjang}}</td>
+                                <td>{{@$data->perkiraan_kuantitas}}</td>
+                                {{-- <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_awal) !!}" alt="" srcset=""></td>
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_sedang) !!}" alt="" srcset=""></td>
                                 <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_akhir) !!}" alt="" srcset=""></td>
                                 <td><video width='150' height='100' controls>
-                                        <source src="{!! url('storage/pekerjaan/'.$data->video) !!}" type='video/*' Sorry, your browser doesn't support the video element.></video></td>
+                                        <source src="{!! url('storage/pekerjaan/'.$data->video) !!}" type='video/*' Sorry, your browser doesn't support the video element.></video></td> --}}
                                 <td>{{$data->tanggal}}</td>
                                 <td>@if($data->status)
                                         @if(str_contains($data->status->status,'Submitted') ||str_contains($data->status->status,'Approved') || str_contains($data->status->status,'Rejected')|| str_contains($data->status->status,'Edited') )
