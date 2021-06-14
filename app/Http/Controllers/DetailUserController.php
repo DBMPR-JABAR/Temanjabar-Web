@@ -95,7 +95,8 @@ class DetailUserController extends Controller
 
             $profile = DB::table('user_pegawai')
             ->leftJoin('users', 'users.id', '=', 'user_pegawai.user_id')
-            ->leftJoin('user_role', 'user_role.id', '=', 'users.internal_role_id')->where('user_pegawai.user_id',$id)->first();
+            ->leftJoin('user_role', 'user_role.id', '=', 'users.internal_role_id')
+            ->where('user_pegawai.user_id',$id)->first();
 
             if($profile){
                 $kota = $profile->city_id ? DB::table('indonesia_cities')->where('id', $profile->city_id)->pluck('name')->first() :'';
@@ -103,6 +104,9 @@ class DetailUserController extends Controller
                 $profile->provinsi=$provinsi;
                 $profile->kota=$kota;
             }
+
+            $profile->ruas = DB::table('user_master_ruas_jalan')
+            ->where('user_id',$profile->user_id)->leftJoin('master_ruas_jalan','master_ruas_jalan.id','=','user_master_ruas_jalan.master_ruas_jalan_id')->get();
 
             return view('admin.master.user.show',compact('profile'));
 
@@ -207,7 +211,7 @@ class DetailUserController extends Controller
                     return redirect(route('editProfile', $id))->with(compact('color', 'msg'));
                 }
                 // $temp = explode(",",$request->input('sup_id'));
-                
+
             $userprofile['nama'] = $request->input('nama');
                 // $userprofile['frontDegree']     = $request->input('frontDegree');
                 // $userprofile['backDegree']     = $request->input('backDegree');
@@ -249,7 +253,7 @@ class DetailUserController extends Controller
                 foreach($request->ruas_jalan as $data){
                     $userRuas['user_id'] =$id;
                     $userRuas['master_ruas_jalan_id'] =$data;
-                    $updateruas =  DB::table('user_master_ruas_jalan')->insert($userRuas);   
+                    $updateruas =  DB::table('user_master_ruas_jalan')->insert($userRuas);
                 }
             }
             if($updateprofile || $updatetouser || $updateruas){

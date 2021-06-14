@@ -174,7 +174,7 @@
                                             <td>Ruas Jalan</td>
                                             <td>
                                                 @foreach (@$profile->ruas as $item)
-                                                    
+
                                                 {{ @$item->nama_ruas_jalan }}@if (count($profile->ruas)>1);<br> @endif
                                                 @endforeach
                                             </td>
