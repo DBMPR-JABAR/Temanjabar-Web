@@ -202,7 +202,7 @@
                             <div class="col-md-8">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <select class="form-control" name="kode_ruas_jalan" required>
+                                        <select class="form-control searchableField" name="kode_ruas_jalan" required>
                                             <option>Pilih Ruas Jalan</option>
                                             @foreach ($ruas_jalan as $data)
                                             <option value="{{ $data->id_ruas_jalan }}"
