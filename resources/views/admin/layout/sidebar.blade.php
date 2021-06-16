@@ -321,6 +321,14 @@
                                         </a>
                                     </li>
                                     @endif
+                                    @if (hasAccess(Auth::user()->internal_role_id, 'DPA', 'View'))
+                                    <li class="{{ Request::segment(3) == 'dpa' ? 'active' : '' }}">
+                                        <a href="{{ url('admin/input-data/dpa') }}"
+                                            class="waves-effect waves-dark">
+                                            <span class="pcoded-mtext">DPA</span>
+                                        </a>
+                                    </li>
+                                    @endif
                                 </ul>
                             </li>
                             @endif

@@ -102,7 +102,7 @@
                         </div>
 
                         <div class=" form-group row">
-                            <label class="col-md-4 col-form-label">Kategori Paker Pekerjaan</label>
+                            <label class="col-md-4 col-form-label">Kategori Paket Pekerjaan</label>
                             <div class="col-md-8">
                                 <div class="row">
                                     <div class="col-md-12">

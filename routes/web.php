@@ -429,6 +429,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('delete/{id}', 'InputData\BantuanKeuanganController@destroy');
         });
         Route::resource('bankeu', 'InputData\BantuanKeuanganController');
+
+
+        Route::prefix('dpa')->group(function () {
+            Route::get('delete/{id}', 'InputData\DPAController@destroy');
+        });
+        Route::resource('dpa', 'InputData\DPAController');
     });
 
     Route::group(['prefix' => 'lapor'], function () {
