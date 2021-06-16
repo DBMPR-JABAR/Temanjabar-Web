@@ -76,7 +76,6 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <select class="form-control" id="edit_uptd" name="kategori" required>
-                                            <option>Pilih Kategori</option>
                                             @foreach ($kategori as $data)
                                             <option value="{{$data->id }}" id="{{ $data->id }}"
                                                 @isset($dpa)
@@ -95,7 +94,6 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <select class="form-control" id="edit_uptd" name="uptd" required>
-                                            <option>Pilih UPTD</option>
                                             @foreach ($uptd_dpa as $data)
                                             <option value="{{ $data->id }}" id="{{ $data->id }}"
                                                 @isset($dpa)
@@ -151,7 +149,6 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <select class="form-control" name="check" required>
-                                            <option>Pilih Check</option>
                                             @foreach ($check as $data)
                                             <option value="{{ $data->id }}" id="{{ $data->id }}"
                                                 @isset($dpa)
@@ -170,7 +167,6 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <select class="form-control" name="pendanaan" required>
-                                            <option>Pilih UPTD</option>
                                             @foreach ($pendanaan as $data)
                                             <option value="{{ $data->id }}" id="{{ $data->id }}"
                                                 @isset($dpa)
@@ -189,7 +185,6 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <select class="form-control" name="jenis_pengadaan" required>
-                                            <option>Pilih Jenis Pengadaan</option>
                                             @foreach ($pengadaan as $data)
                                             <option value="{{ $data->id }}" id="{{ $data->id }}"
                                                 @isset($dpa)
