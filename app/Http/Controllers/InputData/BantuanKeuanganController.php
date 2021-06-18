@@ -62,6 +62,18 @@ class BantuanKeuanganController extends Controller
             $bankeu['foto'] = $path;
         }
         $id =  DB::table('bankeu')->insertGetId($bankeu);
+        // dd(json_decode($request->geo_json));
+        if($request->geo_json) {
+        $geo_json['geo_json'] = json_encode([
+            "type"=>"MultiLineString",
+            "coordinates"=> json_decode($request->geo_json)[0],
+            "crs"=>["type"=>"name","properties"=>["name"=>"EPSG:4326"]]
+        ]);
+        $geo_json['id_bankeu'] = $id;
+        // dd(json_encode($geo_json);
+
+        DB::table('bankeu_geo_json')->insert($geo_json);
+    }
         $historis["id_bankeu"] = $id;
         $historis['progress'] = $request->progress;
         $historis['progress_old'] = 0;
@@ -136,7 +148,16 @@ class BantuanKeuanganController extends Controller
             $historis['updated_at'] = Carbon::now();
             DB::table('utils_historis_bankeu')->insert($historis);
         }
+        if($request->geo_json) {
+            $geo_json['geo_json'] = json_encode([
+                "type"=>"MultiLineString",
+                "coordinates"=> json_decode($request->geo_json)[0],
+                "crs"=>["type"=>"name","properties"=>["name"=>"EPSG:4326"]]
+            ]);
+            $geo_json['id_bankeu'] = $id;
 
+            DB::table('bankeu_geo_json')->where('id_bankeu',$id)->update($geo_json);
+        }
         $color = "success";
         $msg = "Berhasil Mengubah Data Bantuan Keuangan";
         return redirect(route('bankeu.index'))->with(compact('color', 'msg'));
