@@ -354,7 +354,8 @@
                         </div>
                         <input id="geo_json" name="geo_json" style="display:none"/>
 
-                        <p>*Jika tidak terdapat pada ruas jalan yang tersedia, anda dapat menggambar manual dengan klik icon polyline pada peta, gunakan jarak zoom terdekat untuk lebih presisi </p>
+                        <small class="mb-1">*Jika tidak terdapat pada ruas jalan yang tersedia, anda dapat menggambar manual dengan klik icon polyline pada peta, gunakan jarak zoom terdekat untuk lebih presisi.</small>
+                        <small class="text-danger">Klik 2x untuk mengakhiri gambar</small>
                         <div id="mapLatLong" class="mb-3 full-map" style="height: 300px; width: 100%">
                             <div id="tempel_disini"></div>
                         </div>
