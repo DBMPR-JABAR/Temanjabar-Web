@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class BantuanKeuanganController extends Controller
 {
@@ -35,12 +36,13 @@ class BantuanKeuanganController extends Controller
      */
     public function create()
     {
+        $ruas_jalan = DB::table('ruas_jalan_kabupaten_tarung')->select(['*'])->get();
         $kategori = DB::table('master_kategori_paket')->get();
         $penyedia_jasa = DB::connection('talikuat')->table('master_penyedia_jasa')->get();
         $konsultan = DB::connection('talikuat')->table('master_konsultan')->get();
         $ppk = DB::connection('talikuat')->table('master_ppk')->get();
         $action = 'store';
-        return view('admin.input_data.bankeu.insert', compact('action','kategori', 'penyedia_jasa', 'konsultan', 'ppk'));
+        return view('admin.input_data.bankeu.insert', compact('action','ruas_jalan','kategori', 'penyedia_jasa', 'konsultan', 'ppk'));
     }
 
     /**
@@ -51,9 +53,14 @@ class BantuanKeuanganController extends Controller
      */
     public function store(Request $request)
     {
-        $bankeu = $request->except(["_token",'progress_old']);
+        $bankeu = $request->except(["_token",'progress_old','foto']);
         $bankeu["created_by"] = Auth::user()->id;
         $bankeu['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
+        if ($request->file('foto') != null) {
+            $path = 'bankeu/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto')->getClientOriginalName());
+            $request->file('foto')->storeAs('public/', $path);
+            $bankeu['foto'] = $path;
+        }
         $id =  DB::table('bankeu')->insertGetId($bankeu);
         $historis["id_bankeu"] = $id;
         $historis['progress'] = $request->progress;
@@ -92,13 +99,14 @@ class BantuanKeuanganController extends Controller
      */
     public function edit($id)
     {
+        $ruas_jalan = DB::table('ruas_jalan_kabupaten_tarung')->select(['*'])->get();
         $kategori = DB::table('master_kategori_paket')->get();
         $penyedia_jasa = DB::connection('talikuat')->table('master_penyedia_jasa')->get();
         $konsultan = DB::connection('talikuat')->table('master_konsultan')->get();
         $bankeu = DB::table('bankeu')->where('id', $id)->first();
         $ppk = DB::connection('talikuat')->table('master_ppk')->get();
         $action = 'update';
-        return view('admin.input_data.bankeu.insert', compact('action','bankeu','kategori', 'penyedia_jasa', 'konsultan', 'ppk'));
+        return view('admin.input_data.bankeu.insert', compact('action','bankeu','kategori', 'penyedia_jasa', 'konsultan', 'ppk','ruas_jalan'));
     }
 
     /**
@@ -110,9 +118,15 @@ class BantuanKeuanganController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $bankeu = $request->except(["_token", "_method",'progress_old']);
+        $bankeu = $request->except(["_token", "_method",'progress_old','foto']);
         $bankeu["updated_by"] = Auth::user()->id;
         $bankeu['updated_at'] = Carbon::now()->format('Y-m-d H:i:s');
+
+        if ($request->file('foto') != null) {
+            $path = 'bankeu/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto')->getClientOriginalName());
+            $request->file('foto')->storeAs('public/', $path);
+            $bankeu['foto'] = $path;
+        }
         DB::table('bankeu')->where('id', $id)->update($bankeu);
         if($request->progress !== $request->progress_old){
             $historis["id_bankeu"] = $id;
@@ -140,5 +154,11 @@ class BantuanKeuanganController extends Controller
         $color = "success";
         $msg = "Berhasil Menghapus Data Bantuan Keuangan";
         return redirect(route('bankeu.index'))->with(compact('color', 'msg'));
+    }
+
+    public function getRuasJalanByGeoId($id)
+    {
+        $ruas_jalan = DB::table('ruas_jalan_kabupaten_tarung')->where('geo_id',$id)->first();
+        return response()->json(["coordinates" => json_decode($ruas_jalan->geo_json)->coordinates[0]],200);
     }
 }

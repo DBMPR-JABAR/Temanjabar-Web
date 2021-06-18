@@ -2,7 +2,7 @@
 
 @section('title') Bantuan Keuangan @endsection
 @section('head')
-<link rel="stylesheet" href="https://js.arcgis.com/4.18/esri/themes/light/main.css">
+<link rel="stylesheet" href="https://js.arcgis.com/4.19/esri/themes/light/main.css">
 {{-- <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer>
 </script> --}}
 @endsection
@@ -49,12 +49,13 @@
                     </ul>
                 </div>
             </div>
-            <div class="card-block pl-5 pr-5 pb-5">
+            <div class="pb-5 pl-5 pr-5 card-block">
 
                 @if ($action == 'store')
-                <form action="{{ route('bankeu.store') }}" method="post">
+                <form action="{{ route('bankeu.store') }}" method="post" enctype="multipart/form-data">
                     @else
-                    <form action="{{ route('bankeu.update', $bankeu->id) }}" method="post">
+                    <form action="{{ route('bankeu.update', $bankeu->id) }}" method="post"
+                        enctype="multipart/form-data">
                         @method('PUT')
                         @endif
                         @csrf
@@ -75,7 +76,8 @@
                             <div class="col-md-8">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input name="opd" value="DINAS BINA MARGA DAN PENATAAN RUANG" readonly type="text" class="form-control"
+                                        <input name="opd" value="DINAS BINA MARGA DAN PENATAAN RUANG" readonly
+                                            type="text" class="form-control"
                                             placeholder="DINAS BINA MARGA DAN PENATAAN RUANG" required>
                                     </div>
                                 </div>
@@ -106,7 +108,7 @@
                             <div class="col-md-8">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <select class="form-control" id="edit_uptd" name="kategori" required>
+                                        <select class="form-control" name="kategori" required>
                                             <option>Pilih Kategori Paket Pekerjaan</option>
                                             @foreach ($kategori as $data)
                                             <option value="{{ $data->nama }}" @isset($bankeu)
@@ -163,8 +165,8 @@
                                             class="form-control" placeholder="">
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="tanggal_spmk" value="{{ @$bankeu->tanggal_spmk }}"
-                                            type="date" class="form-control">
+                                        <input name="tanggal_spmk" value="{{ @$bankeu->tanggal_spmk }}" type="date"
+                                            class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -271,7 +273,7 @@
 
 
 
-                        <div class=" form-group row">
+                        {{-- <div class=" form-group row">
                             <label class="col-md-4 col-form-label">Latitude dan Longitude Awal (Marker Biru)</label>
                             <div class="col-md-8">
                                 <div class="row">
@@ -305,10 +307,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <p>(Dipilih Bergantian) </p>
-                        <div id="mapLatLong" class="full-map mb-3" style="height: 300px; width: 100%"></div>
+                        </div> --}}
 
                         <div class=" form-group row">
                             <label class="col-md-4 col-form-label">Proggress (<span
@@ -327,10 +326,43 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Foto</label>
+                            <div class="col-md-5">
+                                <img class="mx-auto rounded img-thumbnail d-block" id="foto_preview"
+                                    src="{{ url('storage/' . @$bankeu->foto) }}" alt="">
+                            </div>
+                            <div class="col-md-5">
+                                <input id="foto" name="foto" type="file" accept="image/*" class="form-control">
+                            </div>
+                        </div>
+
+
+                        <div class=" form-group row">
+                            <label class="col-md-4 col-form-label">Ruas Jalan</label>
+                            <div class="col-md-8">
+                                <select id="ruas_jalan" style="max-width: 100%" class="searchableField"
+                                    name="geo_id" required>
+                                    <option value="-1">Gambar Manual</option>
+                                    @foreach ($ruas_jalan as $data)
+                                    <option value="{{ $data->geo_id }}" @isset($bankeu)
+                                        {{ $bankeu->geo_id == $data->geo_id ? 'selected' : '' }} @endisset>
+                                        {{ $data->nama_ruas_jalan }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <input id="geo_json" name="geo_json" style="display:none"/>
+
+                        <p>*Jika tidak terdapat pada ruas jalan yang tersedia, anda dapat menggambar manual dengan klik icon polyline pada peta, gunakan jarak zoom terdekat untuk lebih presisi </p>
+                        <div id="mapLatLong" class="mb-3 full-map" style="height: 300px; width: 100%">
+                            <div id="tempel_disini"></div>
+                        </div>
+
                         <div class=" form-group row">
                             <a href="{{ route('bankeu.index') }}"><button type="button"
                                     class="btn btn-default waves-effect">Batal</button></a>
-                            <button type="submit" class="btn btn-primary waves-effect waves-light ml-2">Simpan</button>
+                            <button type="submit" class="ml-2 btn btn-primary waves-effect waves-light">Simpan</button>
                         </div>
                     </form>
 
@@ -350,10 +382,22 @@
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
-<script src="https://js.arcgis.com/4.18/"></script>
+<script src="https://js.arcgis.com/4.19/"></script>
 
-<script>
+<script type="text/javascript">
+const url = "{{url('/admin/input-data/bankeu/get_ruas_jalan_by_geo_id')}}"
+let exitsData = null
+@isset($bankeu)
+exitsData = @json($bankeu)
+@endisset
+
     $(document).ready(() => {
+        const fotoInput = document.getElementById("foto")
+        fotoInput.onchange = event => {
+            const [file] = fotoInput.files
+            if(file) document.getElementById('foto_preview').src = URL.createObjectURL(file)
+        }
+
         const progressBefore = `{{ @$bankeu->progress }}`
 
         const progressPercentage = document.getElementById('proggress_percent')
@@ -374,90 +418,8 @@
             const uptd = document.getElementById("edit_uptd");
             if (uptd.length == 2) uptd.value = uptd[1].value;
 
-            $('#mapLatLong').ready(() => {
-                require([
-                    "esri/Map",
-                    "esri/views/MapView",
-                    "esri/Graphic"
-                ], function(Map, MapView, Graphic) {
-
-                    const map = new Map({
-                        basemap: "hybrid"
-                    });
-
-                    const view = new MapView({
-                        container: "mapLatLong",
-                        map: map,
-                        center: [107.6191, -6.9175],
-                        zoom: 9,
-                    });
-
-                    let tempGraphic = [];
-
-                    if ($("#lat0").val() != undefined && $("#long0").val() !=
-                        undefined) {
-                        addTitik(0, $("#lat0").val(), $("#long0").val(), "blue");
-                    }
-                    if ($("#lat1").val() != undefined && $("#long1").val() !=
-                        undefined) {
-                        addTitik(1, $("#lat1").val(), $("#long1").val(), "green");
-                    }
-
-                    let mouseclick = 0;
-
-                    view.on("click", function(event) {
-                        const lat = event.mapPoint.latitude;
-                        const long = event.mapPoint.longitude;
-
-                        // Genap = Titik Awal
-                        if (mouseclick % 2 == 0) {
-                            addTitik(0, lat, long, "blue");
-                            $("#lat0").val(lat);
-                            $("#long0").val(long);
-                        } else {
-                            addTitik(1, lat, long, "green");
-                            $("#lat1").val(lat);
-                            $("#long1").val(long);
-                        }
-                        mouseclick++;
-                    });
-
-                    $("#lat0, #long0").keyup(function() {
-                        const lat = $("#lat0").val();
-                        const long = $("#long0").val();
-                        addTitik(0, lat, long, "blue");
-                    });
-                    $("#lat1, #long1").keyup(function() {
-                        const lat = $("#lat1").val();
-                        const long = $("#long1").val();
-                        addTitik(1, lat, long, "green");
-                    });
-
-                    function addTitik(point, lat, long, color) {
-                        if ($("#lat" + point).val() != '' && $("#long" + point).val() != '') {
-                            view.graphics.remove(tempGraphic[point]);
-                        }
-
-                        const graphic = new Graphic({
-                            geometry: {
-                                type: "point",
-                                longitude: long,
-                                latitude: lat
-                            },
-                            symbol: {
-                                type: "picture-marker",
-                                url: `http://esri.github.io/quickstart-map-js/images/${color}-pin.png`,
-                                width: "14px",
-                                height: "24px"
-                            }
-                        });
-                        tempGraphic[point] = graphic;
-
-                        view.graphics.add(graphic);
-                    }
-                });
-            });
         })
 
 </script>
+<script type="text/javascript" src="{{ asset('assets/js/bankeu.js') }}"></script>
 @endsection

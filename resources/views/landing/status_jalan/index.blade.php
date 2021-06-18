@@ -26,7 +26,7 @@
                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
                     aria-label="Close"></button>
             </div>
-            <div class="offcanvas-body p-0 m-0">
+            <div class="p-0 m-0 offcanvas-body">
                 <div id="status_jalan"></div>
                 <div id="pemeliharaan_jalan"></div>
                 <div id="cari_ruas_jalan"></div>
