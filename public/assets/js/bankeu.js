@@ -211,6 +211,7 @@ $("#mapLatLong")
                         } else {
                             const paths = JSON.parse(exitsData.geo_json)
                             addPolyLine(paths)
+                            drawMode()
                         }
                     } else { drawMode() }
 
