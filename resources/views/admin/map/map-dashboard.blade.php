@@ -376,8 +376,6 @@
                     </optgroup>
                     <optgroup label="Tata Ruang">
                         <option value="cctv">CCTV</option>
-                        <option value="tempatwisata">Tempat Wisata</option>
-                        <option value="satuanpendidikan">Satuan Pendidikan</option>
                         <option value="vehiclecounting">Vehicle Counting</option>
                     </optgroup>
                     `;
