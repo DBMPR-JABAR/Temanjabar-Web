@@ -66,7 +66,7 @@ class BantuanKeuanganController extends Controller
         if($request->geo_json) {
         $geo_json['geo_json'] = json_encode([
             "type"=>"MultiLineString",
-            "coordinates"=> json_decode($request->geo_json)[0],
+            "coordinates"=> json_decode($request->geo_json),
             "crs"=>["type"=>"name","properties"=>["name"=>"EPSG:4326"]]
         ]);
         $geo_json['id_bankeu'] = $id;
@@ -151,7 +151,7 @@ class BantuanKeuanganController extends Controller
         if($request->geo_json) {
             $geo_json['geo_json'] = json_encode([
                 "type"=>"MultiLineString",
-                "coordinates"=> json_decode($request->geo_json)[0],
+                "coordinates"=> json_decode($request->geo_json),
                 "crs"=>["type"=>"name","properties"=>["name"=>"EPSG:4326"]]
             ]);
             $geo_json['id_bankeu'] = $id;
