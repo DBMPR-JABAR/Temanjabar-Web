@@ -202,16 +202,18 @@ $("#mapLatLong")
             const onChangeRuasJalan = async(event) => {
                 const geo_id = event.target.value;
 
-                if (geo_id != "-1")
+                if (geo_id != -1)
                     view.ui.remove(gambarManual);
                 else {
-                    if (exitsData.geo_id != -1) {
-                        onChangeRuasJalan({ target: { value: exitsData.geo_id } })
-                    } else {
-                        const paths = JSON.parse(exitsData.geo_json)
-                        addPolyLine(paths)
-                    }
-                    drawMode()
+                    if (exitsData !== null) {
+                        if (exitsData.geo_id != -1) {
+                            onChangeRuasJalan({ target: { value: exitsData.geo_id } })
+                        } else {
+                            const paths = JSON.parse(exitsData.geo_json)
+                            addPolyLine(paths)
+                        }
+                    } else { drawMode() }
+
                 }
 
                 const response = await fetch(`${url}/${geo_id}`);
@@ -225,11 +227,13 @@ $("#mapLatLong")
             inputRuasJalan.onchange = (event) => onChangeRuasJalan(event);
 
 
-            if (exitsData) {
-                view.when(() => {
+            view.when(() => {
+                if (exitsData !== null) {
                     onChangeRuasJalan({ target: { value: exitsData.geo_id } })
-                })
-            }
+                } else {
+                    onChangeRuasJalan({ target: { value: -1 } })
+                }
+            })
         });
     });
 
