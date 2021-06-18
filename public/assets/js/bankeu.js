@@ -53,30 +53,30 @@ $("#mapLatLong")
 
             let gambarManual
             const drawMode = () => {
-                gambarManual = document.createElement("div")
-                gambarManual.className = 'esri-widget esri-widget--button esri-interactive'
-                gambarManual.title = "Draw polyline"
-                gambarManual.innerHTML = '<span class="esri-icon-polyline"></span>'
+                    gambarManual = document.createElement("div")
+                    gambarManual.className = 'esri-widget esri-widget--button esri-interactive'
+                    gambarManual.title = "Draw polyline"
+                    gambarManual.innerHTML = '<span class="esri-icon-polyline"></span>'
 
-                view.ui.add(gambarManual, "top-left");
-                gambarManual.onclick = () => {
-                    view.graphics.removeAll();
-                    const action = draw.create("polyline");
-                    view.focus();
-                    action.on(
-                        [
-                            "vertex-add",
-                            "vertex-remove",
-                            "cursor-update",
-                            "redo",
-                            "undo",
-                            "draw-complete"
-                        ],
-                        updateVertices
-                    );
-                };
-            }
-            drawMode();
+                    view.ui.add(gambarManual, "top-left");
+                    gambarManual.onclick = () => {
+                        view.graphics.removeAll();
+                        const action = draw.create("polyline");
+                        view.focus();
+                        action.on(
+                            [
+                                "vertex-add",
+                                "vertex-remove",
+                                "cursor-update",
+                                "redo",
+                                "undo",
+                                "draw-complete"
+                            ],
+                            updateVertices
+                        );
+                    };
+                }
+                // drawMode();
 
             const geoJson = document.getElementById('geo_json')
 
@@ -202,10 +202,17 @@ $("#mapLatLong")
             const onChangeRuasJalan = async(event) => {
                 const geo_id = event.target.value;
 
-                if (geo_id !== "-1")
+                if (geo_id != "-1")
                     view.ui.remove(gambarManual);
-                else
+                else {
+                    if (exitsData.geo_id != -1) {
+                        onChangeRuasJalan({ target: { value: exitsData.geo_id } })
+                    } else {
+                        const paths = JSON.parse(exitsData.geo_json)
+                        addPolyLine(paths)
+                    }
                     drawMode()
+                }
 
                 const response = await fetch(`${url}/${geo_id}`);
                 const ruasJalan = await response.json();
@@ -219,14 +226,8 @@ $("#mapLatLong")
 
 
             if (exitsData) {
-                console.log(exitsData.geo_id)
                 view.when(() => {
-                    if (exitsData.geo_id != -1) {
-                        onChangeRuasJalan({ target: { value: exitsData.geo_id } })
-                    } else {
-                        const paths = JSON.parse(exitsData.geo_json)
-                        addPolyLine(paths)
-                    }
+                    onChangeRuasJalan({ target: { value: exitsData.geo_id } })
                 })
             }
         });
