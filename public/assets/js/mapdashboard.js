@@ -3760,7 +3760,7 @@ function getMap(baseUrl, gsvrUrl) {
                 });
 
             }
-            // layer.definitionExpression = whereUptd;
+            layer.definitionExpression = whereUptd;
             map.add(layer)
         }
 
