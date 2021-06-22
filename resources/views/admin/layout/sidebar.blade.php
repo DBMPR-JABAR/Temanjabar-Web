@@ -63,13 +63,19 @@
                                 </li>
                             @endif
                             @if (hasAccess(Auth::user()->internal_role_id, 'Monitoring Survei Kondisi Jalan', 'View'))
-                                <li
-                                    class="{{ Request::segment(3) == 'roadroid-survei-kondisi-jalan' ? 'active' : '' }}">
+                                <li class="{{ Request::segment(3) == 'roadroid-survei-kondisi-jalan' ? 'active' : '' }}">
                                     <a href="{{ url('/admin/monitoring/roadroid-survei-kondisi-jalan') }}"
                                         class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Survei Kondisi Jalan</span>
                                     </a>
                                 </li>
+                            @endif
+                            @if (hasAccess(Auth::user()->internal_role_id, 'Pekerjaan', 'View'))
+                            <li class="{{ Request::segment(3) == 'pekerjaan_resume' ? 'active' : '' }}">
+                                <a href="{{ url('/admin/monitoring/pekerjaan_resume') }}">
+                                    <span class="pcoded-mtext">Pekerjaan</span>
+                                </a>
+                            </li>
                             @endif
                         </ul>
                     </li>
