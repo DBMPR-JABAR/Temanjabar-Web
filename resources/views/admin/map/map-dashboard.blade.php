@@ -369,6 +369,7 @@
                         <option value="datarawanbencana">Area Rawan Bencana</option>
                     </optgroup>
                     <optgroup label="Proyek">
+                        <option value="bankeu">Bantuan Keuangan</option>
                         <option value="jembatan">Jembatan</option>
                         <option value="pekerjaan">Paket Pekerjaan</option>
                         <option value="pemeliharaan">Pemeliharaan</option>

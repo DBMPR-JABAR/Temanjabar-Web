@@ -169,6 +169,7 @@ function getMap(baseUrl, gsvrUrl) {
             render('rehabilitasi', 'pr_rehab', addRehabilitasi());
             render('tempatwisata', 'tx_wisata', addTempatWisata());
             render('satuanpendidikan', 'tx_sekolah', addSekolah());
+            render('bankeu', 'rj_bankeu', addBankeu());
 
             render('kinerjajalan', 'kj', addKinerjaJalan());
             render('geometrijalan', 'gj', addGeometriJalan());
@@ -3624,6 +3625,142 @@ function getMap(baseUrl, gsvrUrl) {
 
             }
             layer.definitionExpression = whereUptd;
+            map.add(layer)
+        }
+
+        function addBankeu(){
+
+            const popupTemplate = {
+                title: "{nama_kegiatan}",
+                content: [
+                {
+                    type: "fields",
+                    fieldInfos: [{
+                            fieldName: "pemda",
+                            label: "Pemda"
+                        },
+                        {
+                            fieldName: "opd",
+                            label: "OPD"
+                        },
+                        {
+                            fieldName: "unor",
+                            label: "UPTD"
+                        },
+                        {
+                            fieldName: "kategori",
+                            label: "Kategori Paket Pekerjaan"
+                        },
+                        {
+                            fieldName: "no_kontrak",
+                            label: "No Kontrak"
+                        },
+                        {
+                            fieldName: "progress",
+                            label: "Proggress (%)"
+                        },
+                        {
+                            fieldName: "tanggal_kontrak",
+                            label: "Tanggal Kontrak"
+                        },
+                        {
+                            fieldName: "nilai_kontrak",
+                            label: "Nilai Kontrak (Rp)"
+                        },
+                        {
+                            fieldName: "no_spmk",
+                            label: "No SMPK"
+                        },
+                        {
+                            fieldName: "tanggal_spmk",
+                            label: "Tanggal SPMK"
+                        },
+                        {
+                            fieldName: "panjang",
+                            label: "Panjang (km)"
+                        },
+                        {
+                            fieldName: "waktu_pelaksanaan",
+                            label: "Waktu Pelaksanaan (hari)"
+                        },
+                        {
+                            fieldName: "ppk_kegiatan",
+                            label: "PPK Kegiatan"
+                        },
+                        {
+                            fieldName: "penyedia_jasa",
+                            label: "Penyedia Jasa"
+                        },
+                        {
+                            fieldName: "konsultasi_supervisi",
+                            label: "Konsultan Supervisi"
+                        },
+                        {
+                            fieldName: "nama_ppk",
+                            label: "Nama PPK"
+                        },
+                        {
+                            fieldName: "nama_sse",
+                            label: "Nama SSE"
+                        },
+                        {
+                            fieldName: "nama_gs",
+                            label: "Nama Gs"
+                        },
+                        {
+                            fieldName: "created_at",
+                            label: "Dibuat Tanggal"
+                        },
+                        {
+                            fieldName: "updated_at",
+                            label: "Diperbarui Tanggal"
+                        },
+                    ]
+                },
+                {
+                    type: "media",
+                    mediaInfos: [{
+                        title: "<b>Foto</b>",
+                        type: "image",
+                        altText: "Foto Tidak Ada",
+                        value: {
+                            sourceURL: `${baseUrl}/storage/{foto}`
+                        }
+                    }]
+                }
+            ],
+                actions: [prepSVAction]
+            };
+            let uptdSel = $('#uptd').val();
+            let whereUptd = 'unor=' + `'${uptdSel.shift()}'`;
+            $.each(uptdSel, function(idx, elem) {
+                whereUptd = whereUptd + ' OR unor=' + `'${elem}'`;
+            });
+
+            let layer = map.findLayerById('rj_bankeu');
+            if (!layer) {
+                layer = new FeatureLayer({
+                    url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/15/",
+                    customParameters: {
+                        ak: authKey
+                    },
+                    title: 'Bantuan Keuangan',
+                    id: 'rj_bankeu',
+                    outFields: ["*"],
+                    popupTemplate: popupTemplate,
+                    renderer: {
+                        type: "simple", // autocasts as new SimpleRenderer()
+                        symbol: {
+                            type: "simple-line", // autocasts as new SimpleLineSymbol()
+                            color: "lime",
+                            width: "2px",
+                            style: "solid",
+                        }
+                    }
+                });
+
+            }
+            // layer.definitionExpression = whereUptd;
             map.add(layer)
         }
 
