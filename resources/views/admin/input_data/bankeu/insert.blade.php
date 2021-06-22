@@ -327,7 +327,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Foto</label>
+                            <label class="col-md-2 col-form-label">Foto Bukti Kegiatan</label>
                             <div class="col-md-5">
                                 <img class="mx-auto rounded img-thumbnail d-block" id="foto_preview"
                                     src="{{ url('storage/' . @$bankeu->foto) }}" alt="">
