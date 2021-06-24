@@ -349,7 +349,7 @@ function getMap(baseUrl, gsvrUrl) {
                         {
                             name: "pemilik",
                             title: "Status Jalan",
-                            expression: `return "DBMPR Jawa Barat"`,
+                            expression: `return "Jalan Provinsi Jawa Barat"`,
                         }
 
                     ],
@@ -432,7 +432,7 @@ function getMap(baseUrl, gsvrUrl) {
                     expressionInfos: [{
                         name: "pemilik",
                         title: "Status Jalan",
-                        expression: `return "Kementrian PUPR"`,
+                        expression: `return "Jalan Nasional"`,
                     }],
                     actions: [prepSVAction]
                 };
