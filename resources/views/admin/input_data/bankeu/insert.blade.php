@@ -279,97 +279,122 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <input id="lat0" name="latitude_awal" value="{{ @$bankeu->latitude_awal }}"
-                                            type="text" class="form-control formatLatLong" required
-                                            placeholder="Latitude Awal">
-                                    </div>
-                                    <div class=" col-md-6">
-                                        <input id="long0" name="longitude_awal" value="{{ @$bankeu->longitude_awal }}"
-                                            type="text" class="form-control formatLatLong" required
-                                            placeholder="Longitude Awal">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class=" form-group row">
-                            <label class="col-md-4 col-form-label">Latitude dan Longitude Akhir (Marker Hijau)</label>
-                            <div class="col-md-8">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <input id="lat1" name="latitude_akhir" value="{{ @$bankeu->latitude_akhir }}"
-                                            type="text" class="form-control formatLatLong" required
-                                            placeholder="Latitude Akhir">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <input id="long1" name="longitude_akhir" value="{{ @$bankeu->longitude_akhir }}"
-                                            type="text" class="form-control formatLatLong" required
-                                            placeholder="Longitude Akhir">
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
-
-                        <div class=" form-group row">
-                            <label class="col-md-4 col-form-label">Proggress (<span
-                                    id="proggress_percent">{{@$bankeu->progress}}</span>%)</label>
-                            <div class="col-md-8">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <input name="progress_old" class="d-none" value="{{ @$bankeu->progress }}">
-                                        <div id="progress_container">
-                                            <input id="proggress_slider" name="progress"
-                                                value="{{ @$bankeu->progress }}" type="range" class="form-control-range"
-                                                placeholder="Proggress" required min="0" max="100">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Foto Bukti Kegiatan</label>
-                            <div class="col-md-5">
-                                <img class="mx-auto rounded img-thumbnail d-block" id="foto_preview"
-                                    src="{{ url('storage/' . @$bankeu->foto) }}" alt="">
-                            </div>
-                            <div class="col-md-5">
-                                <input id="foto" name="foto" type="file" accept="image/*" class="form-control">
-                            </div>
-                        </div>
-
-
-                        <div class=" form-group row">
-                            <label class="col-md-4 col-form-label">Ruas Jalan</label>
-                            <div class="col-md-8">
-                                <select id="ruas_jalan" style="max-width: 100%" class="searchableField"
-                                    name="geo_id" required>
-                                    <option value="-1">Gambar Manual</option>
-                                    @foreach ($ruas_jalan as $data)
-                                    <option value="{{ $data->geo_id }}" @isset($bankeu)
-                                        {{ $bankeu->geo_id == $data->geo_id ? 'selected' : '' }} @endisset>
-                                        {{ $data->nama_ruas_jalan }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <input id="geo_json" name="geo_json" style="display:none"/>
-
-                        <small class="mb-1">*Jika tidak terdapat pada ruas jalan yang tersedia, anda dapat menggambar manual dengan klik icon polyline pada peta, gunakan jarak zoom terdekat untuk lebih presisi.</small>
-                        <small class="text-danger">Klik 2x untuk mengakhiri gambar</small>
-                        <div id="mapLatLong" class="mb-3 full-map" style="height: 300px; width: 100%">
-                            <div id="tempel_disini"></div>
-                        </div>
-
-                        <div class=" form-group row">
-                            <a href="{{ route('bankeu.index') }}"><button type="button"
-                                    class="btn btn-default waves-effect">Batal</button></a>
-                            <button type="submit" class="ml-2 btn btn-primary waves-effect waves-light">Simpan</button>
-                        </div>
-                    </form>
-
+                        type="text" class="form-control formatLatLong" required
+                        placeholder="Latitude Awal">
+            </div>
+            <div class=" col-md-6">
+                <input id="long0" name="longitude_awal" value="{{ @$bankeu->longitude_awal }}" type="text"
+                    class="form-control formatLatLong" required placeholder="Longitude Awal">
             </div>
         </div>
     </div>
+</div>
+
+<div class=" form-group row">
+    <label class="col-md-4 col-form-label">Latitude dan Longitude Akhir (Marker Hijau)</label>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-6">
+                <input id="lat1" name="latitude_akhir" value="{{ @$bankeu->latitude_akhir }}" type="text"
+                    class="form-control formatLatLong" required placeholder="Latitude Akhir">
+            </div>
+            <div class="col-md-6">
+                <input id="long1" name="longitude_akhir" value="{{ @$bankeu->longitude_akhir }}" type="text"
+                    class="form-control formatLatLong" required placeholder="Longitude Akhir">
+            </div>
+        </div>
+    </div>
+</div> --}}
+
+<div class=" form-group row">
+    <label class="col-md-4 col-form-label">Proggress (<span
+            id="proggress_percent">{{@$bankeu->progress}}</span>%)</label>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-12">
+                <input name="progress_old" class="d-none" value="{{ @$bankeu->progress }}">
+                <div id="progress_container">
+                    <input id="proggress_slider" name="progress" value="{{ @$bankeu->progress }}" type="range"
+                        class="form-control-range" placeholder="Proggress" required min="0" max="100">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-group row">
+    <label class="col-md-2 col-form-label">Foto Bukti Kegiatan</label>
+    <div class="col-md-5">
+        <img class="mx-auto rounded img-thumbnail d-block" id="foto_preview"
+            src="{{ url('storage/' . @$bankeu->foto) }}" alt="">
+    </div>
+    <div class="col-md-5">
+        <input id="foto" name="foto" type="file" accept="image/*" class="form-control">
+    </div>
+</div>
+<div class="form-group row">
+    <label class="col-md-2 col-form-label">Foto Bukti Kegiatan</label>
+    <div class="col-md-5">
+        <img class="mx-auto rounded img-thumbnail d-block" id="foto_preview_1"
+            src="{{ url('storage/' . @$bankeu->foto_1) }}" alt="">
+    </div>
+    <div class="col-md-5">
+        <input id="foto_1" name="foto_1" type="file" accept="image/*" class="form-control">
+    </div>
+</div>
+<div class="form-group row">
+    <label class="col-md-2 col-form-label">Foto Bukti Kegiatan</label>
+    <div class="col-md-5">
+        <img class="mx-auto rounded img-thumbnail d-block" id="foto_preview_2"
+            src="{{ url('storage/' . @$bankeu->foto_2) }}" alt="">
+    </div>
+    <div class="col-md-5">
+        <input id="foto_2" name="foto_2" type="file" accept="image/*" class="form-control">
+    </div>
+</div>
+<div class="form-group row">
+    <label class="col-md-2 col-form-label">Video Bukti Kegiatan</label>
+    <div class="col-md-5">
+        <video class="mx-auto rounded img-thumbnail d-block" id="video_preview"
+            src="{{ url('storage/' . @$bankeu->video) }}" alt="" controls>
+    </div>
+    <div class="col-md-5">
+        <input id="video" name="video" type="file" accept="video/mp4" class="form-control">
+    </div>
+</div>
+
+
+<div class=" form-group row">
+    <label class="col-md-4 col-form-label">Ruas Jalan</label>
+    <div class="col-md-8">
+        <select id="ruas_jalan" style="max-width: 100%" class="searchableField" name="geo_id" required>
+            <option value="-1">Gambar Manual</option>
+            @foreach ($ruas_jalan as $data)
+            <option value="{{ $data->geo_id }}" @isset($bankeu) {{ $bankeu->geo_id == $data->geo_id ? 'selected' : '' }}
+                @endisset>
+                {{ $data->nama_ruas_jalan }}</option>
+            @endforeach
+        </select>
+    </div>
+</div>
+<input id="geo_json" name="geo_json" style="display:none" />
+
+<small class="mb-1">*Jika tidak terdapat pada ruas jalan yang tersedia, anda dapat menggambar manual dengan klik icon
+    polyline pada peta, gunakan jarak zoom terdekat untuk lebih presisi.</small>
+<small class="text-danger">Klik 2x untuk mengakhiri gambar</small>
+<div id="mapLatLong" class="mb-3 full-map" style="height: 300px; width: 100%">
+    <div id="tempel_disini"></div>
+</div>
+
+<div class=" form-group row">
+    <a href="{{ route('bankeu.index') }}"><button type="button" class="btn btn-default waves-effect">Batal</button></a>
+    <button type="submit" class="ml-2 btn btn-primary waves-effect waves-light">Simpan</button>
+</div>
+</form>
+
+</div>
+</div>
+</div>
 </div>
 
 @endsection
@@ -386,18 +411,36 @@
 <script src="https://js.arcgis.com/4.19/"></script>
 
 <script type="text/javascript">
-const url = "{{url('/admin/input-data/bankeu/get_ruas_jalan_by_geo_id')}}"
+    const url = "{{url('/admin/input-data/bankeu/get_ruas_jalan_by_geo_id')}}"
 let exitsData = null
 @isset($bankeu)
 exitsData = @json($bankeu)
 @endisset
 
     $(document).ready(() => {
-        const fotoInput = document.getElementById("foto")
-        fotoInput.onchange = event => {
-            const [file] = fotoInput.files
-            if(file) document.getElementById('foto_preview').src = URL.createObjectURL(file)
+        const filePreviews = [
+            {
+                input:"foto",
+                preview:"foto_preview"
+            },{
+                input:"foto_1",
+                preview:"foto_preview_1"
+            },{
+                input:"foto_2",
+                preview:"foto_preview_2"
+            },{
+                input:"video",
+                preview:"video_preview"
+            },
+        ]
+        filePreviews.forEach(data=>{
+            const inputElement = document.getElementById(data.input)
+            inputElement.onchange = event => {
+            const [file] = inputElement.files
+            if(file) document.getElementById(data.preview).src = URL.createObjectURL(file)
         }
+        })
+
 
         const progressBefore = `{{ @$bankeu->progress }}`
 

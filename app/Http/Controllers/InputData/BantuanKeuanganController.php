@@ -61,6 +61,21 @@ class BantuanKeuanganController extends Controller
             $request->file('foto')->storeAs('public/', $path);
             $bankeu['foto'] = $path;
         }
+        if ($request->file('foto_1') != null) {
+            $path = 'bankeu/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto_1')->getClientOriginalName());
+            $request->file('foto_1')->storeAs('public/', $path);
+            $bankeu['foto'] = $path;
+        }
+        if ($request->file('foto_2') != null) {
+            $path = 'bankeu/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto_2')->getClientOriginalName());
+            $request->file('foto_2')->storeAs('public/', $path);
+            $bankeu['foto_2'] = $path;
+        }
+        if ($request->file('video') != null) {
+            $path = 'bankeu/' . Str::snake(date("YmdHis") . ' ' . $request->file('video')->getClientOriginalName());
+            $request->file('video')->storeAs('public/', $path);
+            $bankeu['video'] = $path;
+        }
         $id =  DB::table('bankeu')->insertGetId($bankeu);
         // dd(json_decode($request->geo_json));
         if($request->geo_json) {
@@ -138,6 +153,21 @@ class BantuanKeuanganController extends Controller
             $path = 'bankeu/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto')->getClientOriginalName());
             $request->file('foto')->storeAs('public/', $path);
             $bankeu['foto'] = $path;
+        }
+        if ($request->file('foto_1') != null) {
+            $path = 'bankeu/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto_1')->getClientOriginalName());
+            $request->file('foto_1')->storeAs('public/', $path);
+            $bankeu['foto'] = $path;
+        }
+        if ($request->file('foto_2') != null) {
+            $path = 'bankeu/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto_2')->getClientOriginalName());
+            $request->file('foto_2')->storeAs('public/', $path);
+            $bankeu['foto_2'] = $path;
+        }
+        if ($request->file('video') != null) {
+            $path = 'bankeu/' . Str::snake(date("YmdHis") . ' ' . $request->file('video')->getClientOriginalName());
+            $request->file('video')->storeAs('public/', $path);
+            $bankeu['video'] = $path;
         }
         DB::table('bankeu')->where('id', $id)->update($bankeu);
         if($request->progress !== $request->progress_old){
