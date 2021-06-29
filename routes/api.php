@@ -116,7 +116,7 @@ Route::post('map/dashboard/data-proyek', 'API\MapDashboardController@getDataProy
 Route::post('map/dashboard/jembatan', 'API\MapDashboardController@getJembatan');
 Route::post('map/kemantapan-jalan', 'MonitoringController@getKemantapanJalanAPI')->name('api.kemantapanjalan');
 Route::get('map/pemeliharaan', 'API\MapDashboardController@getPemeliharaan')->name('api.map.pemeliharaan');
-
+Route::get('map/pembangunan', 'API\MapDashboardController@getPembangunan')->name('api.map.pembangunan');
 
 Route::resource('vehicle-counting', 'API\VehicleCountingController');
 

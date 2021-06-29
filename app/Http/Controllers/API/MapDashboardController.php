@@ -264,4 +264,30 @@ class MapDashboardController extends Controller
             return response()->json($this->response, 500);
         }
     }
+
+    public function getPembangunan(Request $request)
+    {
+        try {
+            if($request->ruas_jalan) $this->response['status'] = 'success';
+
+            $date_from = Carbon::now()->subYear()->format("Y-m-d");
+            $date_to = Carbon::now()->format("Y-m-d");
+
+            if($request->date_from && $request->date_to){
+                $date_from = $request->date_from;
+                $date_to = $request->date_to;
+            }
+
+            $data = Pembangunan::where('LOKASI_PEKERJAAN',"LIKE",$request->ruas_jalan." - ".$request->id_ruas."%");
+
+            $data = $data->whereBetween('TGL_KONTRAK', [$date_from, $date_to]);
+
+            $data = $data->get();
+            $this->response['data']['pembangunan'] = $data;
+            return response()->json($this->response, 200);
+        } catch (\Exception $th) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
 }
