@@ -244,15 +244,15 @@ class MapDashboardController extends Controller
         try {
             if($request->ruas_jalan) $this->response['status'] = 'success';
 
-            $date_from = Carbon::now()->subMonth()->format("Y-m-d");
-            $date_to = Carbon::now()->format("Y-m-d");
+            $date_from = Carbon::now()->subMonth()->format("Y-m-d H:i:s");
+            $date_to = Carbon::now()->format("Y-m-d H:i:s");
 
             if($request->date_from && $request->date_to){
                 $date_from = $request->date_from;
                 $date_to = $request->date_to;
             }
 
-            $data = Kemandoran::where('RUAS_JALAN',$request->ruas_jalan);
+            $data = DB::table('kemandoran')->where('ruas_jalan',"LIKE","%".$request->ruas_jalan."%");
 
             $data = $data->whereBetween('TANGGAL', [$date_from, $date_to]);
 
@@ -270,17 +270,17 @@ class MapDashboardController extends Controller
         try {
             if($request->ruas_jalan) $this->response['status'] = 'success';
 
-            $date_from = Carbon::now()->subYear()->format("Y-m-d");
-            $date_to = Carbon::now()->format("Y-m-d");
+            $date_from = Carbon::now()->subYear()->format("Y-m-d H:i:s");
+            $date_to = Carbon::now()->format("Y-m-d H:i:s");
 
             if($request->date_from && $request->date_to){
                 $date_from = $request->date_from;
                 $date_to = $request->date_to;
             }
 
-            $data = Pembangunan::where('LOKASI_PEKERJAAN',"LIKE",$request->ruas_jalan." - ".$request->id_ruas."%");
+            $data = DB::table('pembangunan')->where('lokasi_pekerjaan',"LIKE",$request->ruas_jalan." - ".$request->id_ruas."%");
 
-            $data = $data->whereBetween('TGL_KONTRAK', [$date_from, $date_to]);
+            $data = $data->whereBetween('tgl_kontrak', [$date_from, $date_to]);
 
             $data = $data->get();
             $this->response['data']['pembangunan'] = $data;

@@ -53,7 +53,7 @@ class BantuanKeuanganController extends Controller
      */
     public function store(Request $request)
     {
-        $bankeu = $request->except(["_token",'progress_old','foto']);
+        $bankeu = $request->except(["_token",'progress_old','foto','foto_1','foto_2','video']);
         $bankeu["created_by"] = Auth::user()->id;
         $bankeu['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
         if ($request->file('foto') != null) {
@@ -145,7 +145,7 @@ class BantuanKeuanganController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $bankeu = $request->except(["_token", "_method",'progress_old','foto']);
+        $bankeu = $request->except(["_token", "_method",'progress_old','foto','foto_1','foto_2','video']);
         $bankeu["updated_by"] = Auth::user()->id;
         $bankeu['updated_at'] = Carbon::now()->format('Y-m-d H:i:s');
 
