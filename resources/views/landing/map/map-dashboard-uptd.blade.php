@@ -358,6 +358,7 @@
                     </optgroup>
                     <optgroup label="Tata Ruang">
                         <option value="cctv">CCTV</option>
+                        <option value="satuanpendidikan">Satuan Pendidikan</option>
                     </optgroup>
                     `;
         $('#kegiatan').html(kegiatan).trigger('liszt:updated');

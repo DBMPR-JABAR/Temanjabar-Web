@@ -289,11 +289,11 @@ function getMap(baseUrl, gsvrUrl) {
                 rutejalanLayer.add(jalanTolKonstruksi(), 0);
                 rutejalanLayer.add(jalanTolOperasi(), 1);
                 rutejalanLayer.add(jalanNasional(), 2);
-                // rutejalanLayer.add(gerbangTol(), 4);
+                rutejalanLayer.add(jalanKabKota(), 3);
 
                 map.add(rutejalanLayer);
             }
-            rutejalanLayer.add(jalanProvinsi(), 3);
+            rutejalanLayer.add(jalanProvinsi(), 4);
             // rutejalanLayer.reorder();
 
             function jalanProvinsi() {
@@ -335,6 +335,14 @@ function getMap(baseUrl, gsvrUrl) {
                             {
                                 fieldName: "nm_sppjj",
                                 label: "SUP"
+                            },
+                            {
+                                fieldName: "sumber_data",
+                                label: "Sumber Data"
+                            },
+                            {
+                                fieldName: "sumber_tahun",
+                                label: "Tahun Data Diambil"
                             },
                             {
                                 fieldName: "expression/pjg_km",
@@ -426,6 +434,14 @@ function getMap(baseUrl, gsvrUrl) {
                             {
                                 fieldName: "TAHUN",
                                 label: "Tahun"
+                            },
+                            {
+                                fieldName: "sumber_data",
+                                label: "Sumber Data"
+                            },
+                            {
+                                fieldName: "sumber_tahun",
+                                label: "Tahun Data Diambil"
                             }
                         ]
                     }],
@@ -449,6 +465,51 @@ function getMap(baseUrl, gsvrUrl) {
                         //   placement: "begin-end",
                         // style: "circle"
                         // }
+                    }
+                }
+                return layer;
+            }
+
+            function jalanKabKota() {
+                const layer = new FeatureLayer({
+                    url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/16/",
+                    customParameters: {
+                        ak: authKey
+                    },
+                    title: 'Ruas Jalan Kab/Kota'
+                });
+                const popupTemplate = {
+                    title: "{nama_jalan}",
+                    content: [{
+                        type: "fields",
+                        fieldInfos: [{
+                                fieldName: "jenis_jalan",
+                                label: "Jenis Jalan"
+                            },
+                            {
+                                fieldName: "status_jalan",
+                                label: "Status Jalan"
+                            },
+                            {
+                                fieldName: "sumber_data",
+                                label: "Sumber Data"
+                            },
+                            {
+                                fieldName: "sumber_tahun",
+                                label: "Tahun Data Diambil"
+                            }
+                        ]
+                    }],
+                    actions: [prepSVAction]
+                };
+                layer.popupTemplate = popupTemplate;
+                layer.renderer = {
+                    type: "simple", // autocasts as new SimpleRenderer()
+                    symbol: {
+                        type: "simple-line", // autocasts as new SimpleLineSymbol()
+                        color: "white",
+                        width: "2px",
+                        style: "solid"
                     }
                 }
                 return layer;
@@ -485,6 +546,14 @@ function getMap(baseUrl, gsvrUrl) {
                             {
                                 fieldName: "Propinsi",
                                 label: "Propinsi"
+                            },
+                            {
+                                fieldName: "sumber_data",
+                                label: "Sumber Data"
+                            },
+                            {
+                                fieldName: "sumber_tahun",
+                                label: "Tahun Data Diambil"
                             }
                         ]
                     }]
@@ -538,6 +607,14 @@ function getMap(baseUrl, gsvrUrl) {
                             {
                                 fieldName: "keterangan",
                                 label: "Keterangan"
+                            },
+                            {
+                                fieldName: "sumber_data",
+                                label: "Sumber Data"
+                            },
+                            {
+                                fieldName: "sumber_tahun",
+                                label: "Tahun Data Diambil"
                             }
                         ]
                     }]
@@ -1041,7 +1118,7 @@ function getMap(baseUrl, gsvrUrl) {
                         creator: function(feature) {
                             const video = feature.graphic.attributes.VIDEO;
                             let html = '';
-                            if(video != ""){
+                            if(video !== undefined){
                                 html += `
                                 <div class="esri-feature-media__item">
                                     <video controls class="esri-feature-media__item">
@@ -3146,16 +3223,35 @@ function getMap(baseUrl, gsvrUrl) {
         function addSekolah(){
             // cari dan hapus layer bila ada pd map
             const popupTemplate = {
-                title: "{poi_name}",
+                title: "{nama}",
                 content: [{
                     type: "fields",
                     fieldInfos: [
                         {
-                            fieldName: "st_name",
+                            fieldName: "alamat",
                             label: "Alamat"
                         },
+                        {
+                            fieldName: "npsn",
+                            label: "NPSN"
+                        },
+                        {
+                            fieldName: "tingkatan",
+                            label: "Tingkatan"
+                        },
+                        {
+                            fieldName: "expression/sumber_data",
+                            label: "Sumber Data"
+                        }
                     ]
-                }]
+                }],
+                expressionInfos: [
+                    {
+                        name: "sumber_data",
+                        title: "Sumber Data",
+                        expression: `return "Satupeta Jabar DISDIK, 2021"`,
+                    }
+                ],
             };
             let sekolahLayer = map.findLayerById('tx_sekolah');
             if (sekolahLayer) {
@@ -3165,78 +3261,14 @@ function getMap(baseUrl, gsvrUrl) {
 
             let tx_sekolah = map.findLayerById('tx_sekolah');
             if (!tx_sekolah) {
-                tx_sekolah = new GroupLayer({
+                tx_sekolah = new FeatureLayer({
+                    url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/DATA_PENDIDIKAN_PT/sebaran_pendidikan/MapServer/0",
                     title: 'Persebaran Satuan Pendidikan',
-                    id: 'tx_sekolah'
+                    id: 'tx_sekolah',
+                    outFields: ["*"],
+                    popupTemplate: popupTemplate
                 });
-                tx_sekolah.add(sekolahPG(), 0);
-                tx_sekolah.add(sekolahTK(), 1);
-                tx_sekolah.add(sekolahSD(), 2);
-                tx_sekolah.add(sekolahSMP(), 3);
-                tx_sekolah.add(sekolahSMA(), 4);
-                tx_sekolah.add(sekolahPT(), 5);
                 map.add(tx_sekolah, 2);
-            }
-
-            function sekolahPT(){
-                const layer = new FeatureLayer({
-                    url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/SATUPETA_DISDIK/Sebaran_Sekolah/MapServer/0",
-                    title: 'Perguruan Tinggi',
-                    id: 'tx_sekolah_pt',
-                    outFields: ["*"],
-                    popupTemplate: popupTemplate
-                });
-                return layer;
-            }
-            function sekolahSMA(){
-                const layer = new FeatureLayer({
-                    url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/SATUPETA_DISDIK/Sebaran_Sekolah/MapServer/1",
-                    title: 'Sekolah Menengah Atas',
-                    id: 'tx_sekolah_sma',
-                    outFields: ["*"],
-                    popupTemplate: popupTemplate
-                });
-                return layer;
-            }
-            function sekolahSMP(){
-                const layer = new FeatureLayer({
-                    url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/SATUPETA_DISDIK/Sebaran_Sekolah/MapServer/2",
-                    title: 'Sekolah Menengah Pertama',
-                    id: 'tx_sekolah_smp',
-                    outFields: ["*"],
-                    popupTemplate: popupTemplate
-                });
-                return layer;
-            }
-            function sekolahSD(){
-                const layer = new FeatureLayer({
-                    url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/SATUPETA_DISDIK/Sebaran_Sekolah/MapServer/3",
-                    title: 'Sekolah Dasar',
-                    id: 'tx_sekolah_sd',
-                    outFields: ["*"],
-                    popupTemplate: popupTemplate
-                });
-                return layer;
-            }
-            function sekolahTK(){
-                const layer = new FeatureLayer({
-                    url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/SATUPETA_DISDIK/Sebaran_Sekolah/MapServer/4",
-                    title: 'Taman Kanak-kanak',
-                    id: 'tx_sekolah_tk',
-                    outFields: ["*"],
-                    popupTemplate: popupTemplate
-                });
-                return layer;
-            }
-            function sekolahPG(){
-                const layer = new FeatureLayer({
-                    url: "https://satupeta.jabarprov.go.id/arcgis/rest/services/SATUPETA_DISDIK/Sebaran_Sekolah/MapServer/5",
-                    title: 'Playgroup',
-                    id: 'tx_sekolah_pg',
-                    outFields: ["*"],
-                    popupTemplate: popupTemplate
-                });
-                return layer;
             }
         }
 
@@ -3634,8 +3666,41 @@ function getMap(baseUrl, gsvrUrl) {
                 title: "{nama_kegiatan}",
                 content: [
                 {
+                    title: "<b>Progress</b>",
+                    type: "custom",
+                    outFields: ["*"],
+                    creator: function(feature) {
+                        const progress = feature.graphic.attributes.progress;
+                        let html = '';
+                        if(progress !== undefined){
+                            html += `
+                                <p>Progress</p>
+                                <div class="progress">
+                                    <div class="progress-bar bg-success"
+                                        role="progressbar" style="width: ${progress}%"
+                                        aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100">${progress}%</div>
+                                </div>
+                            `;
+                        }
+                        return html;
+                    }
+                },
+                {
                     type: "fields",
-                    fieldInfos: [{
+                    fieldInfos: [
+                        {
+                            fieldName: "progress",
+                            label: "Proggress (%)"
+                        },
+                        {
+                            fieldName: "nama_kegiatan",
+                            label: "Nama Kegiatan"
+                        },
+                        {
+                            fieldName: "nama_lokasi",
+                            label: "Lokasi"
+                        },
+                        {
                             fieldName: "pemda",
                             label: "Pemda"
                         },
@@ -3654,10 +3719,6 @@ function getMap(baseUrl, gsvrUrl) {
                         {
                             fieldName: "no_kontrak",
                             label: "No Kontrak"
-                        },
-                        {
-                            fieldName: "progress",
-                            label: "Proggress (%)"
                         },
                         {
                             fieldName: "tanggal_kontrak",
@@ -3715,19 +3776,51 @@ function getMap(baseUrl, gsvrUrl) {
                             fieldName: "updated_at",
                             label: "Diperbarui Tanggal"
                         },
+                        {
+                            fieldName: "sumber_data",
+                            label: "Sumber Data"
+                        },
                     ]
                 },
                 {
-                    type: "media",
-                    mediaInfos: [{
-                        title: "<b>Foto</b>",
-                        type: "image",
-                        altText: "Foto Tidak Ada",
-                        value: {
-                            sourceURL: `${baseUrl}/storage/{foto}`
+                    title: "<b>Progress</b>",
+                    type: "custom",
+                    outFields: ["*"],
+                    creator: function(feature) {
+                        const foto = feature.graphic.attributes.foto;
+                        const foto1 = feature.graphic.attributes.foto_1;
+                        const foto2 = feature.graphic.attributes.foto_2;
+                        const video = feature.graphic.attributes.video;
+                        let html = '';
+                        if(foto !== undefined){
+                            html += `
+                            <div class="esri-feature-media__item">
+                                <img src="${baseUrl}/storage/${foto}" alt="Foto Evidence 1" />
+                            </div>`;
                         }
-                    }]
-                }
+                        if(foto1 !== undefined){
+                            html += `
+                            <div class="esri-feature-media__item">
+                                <img src="${baseUrl}/storage/${foto1}" alt="Foto Evidence 2" />
+                            </div>`;
+                        }
+                        if(foto2 !== undefined){
+                            html += `
+                            <div class="esri-feature-media__item">
+                                <img src="${baseUrl}/storage/${foto2}" alt="Foto Evidence 3" />
+                            </div>`;
+                        }
+                        if(video !== undefined){
+                            html += `
+                            <div class="esri-feature-media__item">
+                                <video controls class="esri-feature-media__item">
+                                    <source src="${baseUrl}/storage/${video}" type="video/mp4">
+                                </video>
+                            </div>`;
+                        }
+                        return html;
+                    }
+                },
             ],
                 actions: [prepSVAction]
             };
