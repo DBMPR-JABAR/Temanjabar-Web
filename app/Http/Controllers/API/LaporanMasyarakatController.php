@@ -262,4 +262,99 @@ class LaporanMasyarakatController extends Controller
     {
         //
     }
+    public function storeBencana(Request $request)
+    {
+        try {
+            $laporan_bencana = $request->except('_token', 'ruas_jalan');
+            // $laporan_bencana['slug'] = Str::slug($request->nama, '');
+            $laporan_bencana['uptd_id'] = $request->uptd_id == '' ? 0 : $request->uptd_id;
+            $ruas_jalan = DB::table('master_ruas_jalan')->where('id_ruas_jalan', $request->ruas_jalan)->first();
+            $laporan_bencana['no_ruas'] = $ruas_jalan->id_ruas_jalan;
+            $laporan_bencana['ruas_jalan'] = $ruas_jalan->nama_ruas_jalan;
+            if ($request->foto != null) {
+                $path =  Str::snake(date("YmdHis") . ' ' . $request->foto->getClientOriginalName());
+                $request->foto->storeAs('public/laporan_bencana/', $path);
+                $laporan_bencana['foto'] = $path;
+            }
+            if ($request->video != null) {
+                $path =  Str::snake(date("YmdHis") . ' ' . $request->video->getClientOriginalName());
+                $request->video->storeAs('public/laporan_bencana/', $path);
+                $laporan_bencana['video'] = $path;
+            }
+            $laporan_bencana['created_at'] = Carbon::now();
+            $laporan_bencana['created_by'] = Auth::user()->id;
+            $icon_image = DB::table('icon_titik_rawan_bencana')->where('id', $request->icon_id)->get();
+            $laporan_bencana['icon_image'] = $icon_image[0]->icon_image;
+            DB::table('laporan_bencana')->insert($laporan_bencana);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Berhasil Menambahkan Bencana',  
+                $this->response
+            ]);
+    
+        } catch (\Exception $th) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
+    public function getBencana($userId)
+    {
+        $laporan_bencana = DB::table('laporan_bencana')->where('created_by',$userId)->get();
+
+        return response()->json([
+            "response" => [
+                "status"    => 200,
+                "message"   => "List Data Bencana"
+            ],
+            "data" => $laporan_bencana
+        ], 200);
+        
+    }
+    public function destroyBencana($id)
+    {
+        //
+        try {
+            $old = DB::table('laporan_bencana')->where('id', $id);
+            $old->delete();
+            return response()->json([
+                'success' => true,
+                'message' => 'Berhasil Menghapus Data Bencana',  
+                $this->response
+            ]);
+    
+        } catch (\Exception $th) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
+    public function getRuasJalan()
+    {
+        try {
+            $ruasJalan = DB::table('master_ruas_jalan')
+                ->get();
+
+            $this->response['status'] = 'success';
+            $this->response['data']['ruas_jalan'] = $ruasJalan;
+
+            return response()->json($this->response, 200);
+        } catch (\Exception $e) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
+    public function getIcon()
+    {
+        try {
+            $icon = DB::table('icon_titik_rawan_bencana')->get();
+
+            $this->response['status'] = 'success';
+            $this->response['data']['icon'] = $icon;
+
+            return response()->json($this->response, 200);
+        } catch (\Exception $e) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
 }

@@ -59,6 +59,13 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::get('laporan-masyarakat/progress/{id}', 'API\LaporanMasyarakatController@getOnProgress');
     Route::get('laporan-masyarakat/status/{status}', 'API\LaporanMasyarakatController@getListLaporan');
 
+    Route::post('laporan-bencana/store', 'API\LaporanMasyarakatController@storeBencana');
+    Route::get('laporan-bencana/get/{userId}', 'API\LaporanMasyarakatController@getBencana');
+    Route::get('laporan-bencana/delete/{id}', 'API\LaporanMasyarakatController@destroyBencana');
+    Route::get('laporan-bencana/get-ruas-jalan', 'API\LaporanMasyarakatController@getRuasJalan');
+    Route::get('laporan-bencana/get-icon', 'API\LaporanMasyarakatController@getIcon');
+
+    
     Route::get('utils/petugas', 'API\LaporanMasyarakatController@getPetugas');
     Route::get('utils/lokasi', 'API\LaporanMasyarakatController@getLokasi');
     Route::get('utils/uptd', 'API\LaporanMasyarakatController@getUPTD');
