@@ -10,7 +10,7 @@
                 <img src="{{ asset('assets/images/brand/text_hitam.png') }}" alt="logo" class="logo-scrolled">
             </a>
             <div class="collapse navbar-collapse">
-                <ul class="navbar-nav mx-auto ml-xl-auto mr-xl-0">
+                <ul class="mx-auto navbar-nav ml-xl-auto mr-xl-0">
                     <li class="nav-item">
                         <a class="nav-link active pagescroll" href="#home">Beranda</a>
                     </li>
@@ -21,7 +21,7 @@
                         <a class="nav-link pagescroll scrollupto" href="#about">Tentang Kami</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{url('status_jalan')}}" target="_blank">Status Jalan</a>
+                        <a class="nav-link" href="http://124.81.122.131/status_jalan" target="_blank">Status Jalan</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link pagescroll" href="#uptd">UPTD</a>
@@ -50,7 +50,7 @@
         </a>
     </nav>
     <!-- side menu -->
-    <div class="side-menu opacity-0 gradient-bg">
+    <div class="opacity-0 side-menu gradient-bg">
         <div class="overlay"></div>
         <div class="inner-wrapper">
             <span class="btn-close btn-close-no-padding" id="btn_sideNavClose"><i></i><i></i></span>
@@ -60,7 +60,7 @@
                         <a class="nav-link active pagescroll" href="#home">Beranda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{url('status_jalan')}}" target="_blank">Status Jalan</a>
+                        <a class="nav-link active" href="http://124.81.122.131/status_jalan" target="_blank">Status Jalan</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="{{ url('map/map-dashboard-masyarakat') }}">Map DBMPR</a>
@@ -103,7 +103,7 @@
 <!-- header -->
 <!--Main Slider-->
 <section id="home" class="position-relative">
-    <div id="revo_main_wrapper" class="rev_slider_wrapper fullwidthbanner-container m-0 p-0 bg-dark"
+    <div id="revo_main_wrapper" class="p-0 m-0 rev_slider_wrapper fullwidthbanner-container bg-dark"
         data-alias="classic4export" data-source="gallery">
         <!-- START REVOLUTION SLIDER 5.4.1 fullwidth mode -->
         <div id="rev_main" class="rev_slider fullwidthabanner white" data-version="5.4.1">
@@ -126,7 +126,7 @@
                         data-textAlign="['center','center','center','center']" data-responsive_offset="on"
                         data-start="1000"
                         data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","mask":"x:0px;y:[100%];s:inherit;e:inherit;","speed":2000,"to":"o:1;","delay":1500,"ease":"Power4.easeInOut"},{"delay":"wait","speed":1000,"to":"y:[100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power2.easeInOut"}]'>
-                        <h1 class="text-capitalize font-bold whitecolor text-center">{{$slide->judul}}</h1>
+                        <h1 class="font-bold text-center text-capitalize whitecolor">{{$slide->judul}}</h1>
                     </div>
 
                     @php $n++; @endphp
@@ -173,14 +173,14 @@
 <section id="about" class="single-feature padding mt-n5">
     <div class="container">
         <div class="row d-flex align-items-center">
-            <div class="col-lg-6 col-md-7 col-sm-7 text-sm-left text-center wow fadeInLeft" data-wow-delay="300ms">
-                <div class="heading-title mb-4">
-                    <h2 class="darkcolor font-normal bottom30">Kami {{ $profil->nama }}</h2>
+            <div class="text-center col-lg-6 col-md-7 col-sm-7 text-sm-left wow fadeInLeft" data-wow-delay="300ms">
+                <div class="mb-4 heading-title">
+                    <h2 class="font-normal darkcolor bottom30">Kami {{ $profil->nama }}</h2>
                 </div>
                 <p class="bottom35">
                     {{ $profil->deskripsi }}
                 </p>
-                <a href="{!! $profil->link_website !!}" class="button gradient-btn mb-sm-0 mb-4">Lihat
+                <a href="{!! $profil->link_website !!}" class="mb-4 button gradient-btn mb-sm-0">Lihat
                     Selengkapnya</a>
             </div>
             <div class="col-lg-5 offset-lg-1 col-md-5 col-sm-5 wow fadeInRight" data-wow-delay="300ms">
@@ -191,12 +191,12 @@
 </section>
 <section id="video" class="padding">
     <div class="container">
-        <h3 class="darkcolor font-normal bottom30">Berita kami</h3>
+        <h3 class="font-normal darkcolor bottom30">Berita kami</h3>
         <div class="row">
             @foreach ($pengumuman_masyarakat as $item)
             <div class="col-md-6">
                 <a href="{{ route('announcementShow', $item->slug) }}" target="_blank">
-                    <div class="card w-100 mb-2 ">
+                    <div class="mb-2 card w-100 ">
                         <div class="card-block">
                             <div class="media">
                                 <div class="media-left media-top">
@@ -236,22 +236,22 @@
 <!-- Counters -->
 <section id="bg-counters" class="padding bg-counters parallax">
     <div class="container">
-        <div class="row align-items-center text-center">
+        <div class="text-center row align-items-center">
             <div class="col-lg-4 col-md-4 col-sm-4 bottom10">
-                <div class="counters whitecolor  top10 bottom10">
-                    <span class="count_nums font-light" data-to="{{ $profil->pencapaian_selesai }}" data-speed="2500">
+                <div class="counters whitecolor top10 bottom10">
+                    <span class="font-light count_nums" data-to="{{ $profil->pencapaian_selesai }}" data-speed="2500">
                     </span>
                 </div>
                 <h3 class="font-light whitecolor top20">Infrastruktur Yang terselesaikan diseluruh wilayah Jawa
                     Barat</h3>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4">
-                <p class="whitecolor top20 bottom20 font-light title">Kami terus meningkatkan konektivitas jalan dan
+                <p class="font-light whitecolor top20 bottom20 title">Kami terus meningkatkan konektivitas jalan dan
                     infrastruktur ke seluruh wilayah Jawa Barat</p>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 bottom10">
                 <div class="counters whitecolor top10 bottom10">
-                    <span class="count_nums font-light" data-to="{{ $profil->pencapaian_target }}" data-speed="2500">
+                    <span class="font-light count_nums" data-to="{{ $profil->pencapaian_target }}" data-speed="2500">
                     </span>
                 </div>
                 <h3 class="font-light whitecolor top20">Target Infrastruktur diseluruh wilayah Jawa Barat</h3>
@@ -264,7 +264,7 @@
 <section id="uptd" class="position-relative padding">
     <div class="container">
         <div class="row">
-            <div class="col-md-12 text-center wow fadeIn" data-wow-delay="300ms">
+            <div class="text-center col-md-12 wow fadeIn" data-wow-delay="300ms">
                 <div class="heading-title darkcolor wow fadeInUp" data-wow-delay="300ms">
                     <span class="defaultcolor"> Ayo pantau proses pembangunan di daerah anda </span>
                     <h2 class="font-normal darkcolor heading_space_half"> Unit Pelaksana Teknis Dinas Daerah (UPTD)
@@ -275,7 +275,7 @@
                 </div>
             </div>
             <div class="col-lg-12">
-                <div id="mosaic-filter" class="cbp-l-filters bottom30 wow fadeIn text-center" data-wow-delay="350ms">
+                <div id="mosaic-filter" class="text-center cbp-l-filters bottom30 wow fadeIn" data-wow-delay="350ms">
                     <div data-filter="*" class="cbp-filter-item">
                         <span>All</span>
                     </div>
@@ -315,7 +315,7 @@
                     Load more itema from another html file using ajax
                     <div id="js-loadMore-mosaic" class="cbp-l-loadMore-button ">
                         <a href="load-more.html"
-                            class="cbp-l-loadMore-link border-0 font-13 button gradient-btn whitecolor transition-3"
+                            class="border-0 cbp-l-loadMore-link font-13 button gradient-btn whitecolor transition-3"
                             rel="nofollow">
                             <span class="cbp-l-loadMore-defaultText">Load More (<span
                                     class="cbp-l-loadMore-loadItems">6</span>)</span>
@@ -334,7 +334,7 @@
 <section id="laporan" class="bglight position-relative padding">
     <div class="container">
         <div class="row">
-            <div class="col-md-12 text-center wow fadeIn" data-wow-delay="300ms">
+            <div class="text-center col-md-12 wow fadeIn" data-wow-delay="300ms">
                 <h2 class="heading bottom40 darkcolor font-light2"><span class="font-normal">Laporkan</span> Kerusakan
                     <span class="divider-center"></span>
                 </h2>
@@ -355,7 +355,7 @@
             @endif
             <div class="col-lg-6 col-md-12 col-sm-12 pr-lg-0 whitebox wow fadeInLeft">
                 <div class="widget logincontainer">
-                    <h3 class="darkcolor bottom35 text-center text-md-left">Identitas Pelapor </h3>
+                    <h3 class="text-center darkcolor bottom35 text-md-left">Identitas Pelapor </h3>
                     <form action="{{ route('tambah-laporan') }}" method="POST" class="getin_form border-form"
                         id="register" enctype="multipart/form-data">
                         @csrf
@@ -398,7 +398,7 @@
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label class="my-1 mr-2" for="pilihanUptd">UPTD</label>
-                                    <select name="uptd_id" class="custom-select my-1 mr-sm-2" id="pilihanUptd"
+                                    <select name="uptd_id" class="my-1 custom-select mr-sm-2" id="pilihanUptd"
                                         onchange="ubahOption()" required>
                                         <option selected>Pilih...</option>
                                         @foreach ($uptd_lists as $no => $uptd_list)
@@ -418,7 +418,7 @@
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label class="my-1 mr-2" for="pilihanKeluhan">Lokasi</label>
-                                    <select name="lokasi" class="custom-select my-1 mr-sm-2 w-100" id="ruas_jalan"
+                                    <select name="lokasi" class="my-1 custom-select mr-sm-2 w-100" id="ruas_jalan"
                                         required>
                                         <option selected>Pilih...</option>
                                         @foreach ($lokasi as $kabkota)
@@ -431,7 +431,7 @@
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group bottom35">
                                     <label class="my-1 mr-2" for="pilihanKeluhan">Keluhan</label>
-                                    <select name="jenis" class="custom-select my-1 mr-sm-2 w-100" id="pilihanKeluhan"
+                                    <select name="jenis" class="my-1 custom-select mr-sm-2 w-100" id="pilihanKeluhan"
                                         required>
                                         <option selected>Pilih...</option>
                                         @foreach ($jenis_laporan as $laporan)
@@ -517,10 +517,10 @@
 <!-- Contact US -->
 <section id="kontak" class="position-relative padding noshadow">
     <div class="container whitebox">
-        <div class="widget py-5">
+        <div class="py-5 widget">
             <div class="row">
-                <div class="col-md-12 text-center wow fadeIn mt-n3" data-wow-delay="300ms">
-                    <h2 class="heading bottom30 darkcolor font-light2 pt-1"><span class="font-normal">Kontak</span>
+                <div class="text-center col-md-12 wow fadeIn mt-n3" data-wow-delay="300ms">
+                    <h2 class="pt-1 heading bottom30 darkcolor font-light2"><span class="font-normal">Kontak</span>
                         Kami
                         <span class="divider-center"></span>
                     </h2>
@@ -539,17 +539,17 @@
                 </div>
                 @endif
                 <div class="col-md-6 col-sm-6 order-sm-2">
-                    <div class="contact-meta px-2 text-center text-md-left">
+                    <div class="px-2 text-center contact-meta text-md-left">
                         <div class="heading-title">
-                            <span class="defaultcolor mb-3">Agen {{ $profil->nama }}</span>
-                            <h2 class="darkcolor font-normal mb-4">
+                            <span class="mb-3 defaultcolor">Agen {{ $profil->nama }}</span>
+                            <h2 class="mb-4 font-normal darkcolor">
                                 Kantor Pusat Kami <span class="d-none d-md-inline-block">Di Kota Bandung</span></h2>
                         </div>
                         <p class="bottom10">Alamat: {!! $profil->alamat !!}</p>
                         <p class="bottom10">{{ $profil->kontak }}</p>
                         <p class="bottom10"><a href="mailto:{{ $profil->email }}">{{ $profil->email }}</a></p>
                         <p class="bottom10">Senin - Jumat: {{ $profil->jam_layanan }}</p>
-                        <ul class="social-icons mt-4 mb-4 mb-sm-0 wow fadeInUp" data-wow-delay="300ms">
+                        <ul class="mt-4 mb-4 social-icons mb-sm-0 wow fadeInUp" data-wow-delay="300ms">
                             <li><a href="{!! $profil->link_facebook !!}" target="_blank"><i
                                         class="fab fa-facebook-f"></i> </a> </li>
                             <li><a href="{!! $profil->link_twitter !!}" target="_blank"><i class="fab fa-twitter"></i>
@@ -564,11 +564,11 @@
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6">
-                    <div class="heading-title  wow fadeInUp" data-wow-delay="300ms">
+                    <div class="heading-title wow fadeInUp" data-wow-delay="300ms">
                         <form action="{{ url('tambah-pesan') }}" method="POST" class="getin_form wow fadeInUp"
                             data-wow-delay="400ms">
                             @csrf
-                            <div class="row px-2">
+                            <div class="px-2 row">
                                 <div class="col-md-12 col-sm-12" id="result1"></div>
                                 <div class="col-md-12 col-sm-12">
                                     <div class="form-group">
@@ -603,7 +603,7 @@
         </div>
         <div class="row">
             <div class="col-lg-3 col-md-3">
-                <div class="widget text-center top60 w-100">
+                <div class="text-center widget top60 w-100">
                     <div class="contact-box">
                         <span class="icon-contact defaultcolor"><i class="fas fa-mobile-alt"></i></span>
                         <p class="bottom0"><a href="tel:{!! $profil->kontak !!}">{!! $profil->kontak !!}</a></p>
@@ -611,7 +611,7 @@
                 </div>
             </div>
             <div class="col-lg-3 col-md-3">
-                <div class="widget text-center top60 w-100">
+                <div class="text-center widget top60 w-100">
                     <div class="contact-box">
                         <span class="icon-contact defaultcolor"><i class="fas fa-map-marker-alt"></i></span>
                         <p class="bottom0">{!! $profil->alamat !!}</p>
@@ -619,7 +619,7 @@
                 </div>
             </div>
             <div class="col-lg-3 col-md-3">
-                <div class="widget text-center top60 w-100">
+                <div class="text-center widget top60 w-100">
                     <div class="contact-box">
                         <span class="icon-contact defaultcolor"><i class="far fa-envelope"></i></span>
                         <p class="bottom0"><a href="mailto:{!! $profil->email !!}">{!! $profil->email !!}</a></p>
@@ -627,7 +627,7 @@
                 </div>
             </div>
             <div class="col-lg-3 col-md-3">
-                <div class="widget text-center top60 w-100">
+                <div class="text-center widget top60 w-100">
                     <div class="contact-box">
                         <span class="icon-contact defaultcolor"><i class="far fa-clock"></i></span>
                         <p class="bottom15">Senin - Jumat: {!! $profil->jam_layanan !!}</p>

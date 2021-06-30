@@ -377,6 +377,15 @@
         </select>
     </div>
 </div>
+
+<div class=" form-group row" id="nama_lokasi">
+    <label class="col-md-4 col-form-label">Nama Lokasi</label>
+    <div class="col-md-8">
+                <input id="nama_lokasi_value" name="nama_lokasi" value="{{@$nama_lokasi}}" type="text"
+                    class="form-control" required>
+    </div>
+</div>
+
 <input id="geo_json" name="geo_json" style="display:none" />
 
 <small class="mb-1">*Jika tidak terdapat pada ruas jalan yang tersedia, anda dapat menggambar manual dengan klik icon

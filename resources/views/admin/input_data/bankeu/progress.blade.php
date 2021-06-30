@@ -55,7 +55,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="card-block pl-5 pr-5 pb-5">
+            <div class="pb-5 pl-5 pr-5 card-block">
                 <figure class="highcharts-figure">
                     <div id="container"></div>
                 </figure>

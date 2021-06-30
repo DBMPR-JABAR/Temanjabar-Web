@@ -201,10 +201,11 @@ $("#mapLatLong")
 
             const onChangeRuasJalan = async(event) => {
                 const geo_id = event.target.value;
-
-                if (geo_id != -1)
+                const namaLokasi = document.getElementById('nama_lokasi')
+                if (geo_id != -1) {
                     view.ui.remove(gambarManual);
-                else {
+                    $("#nama_lokasi").hide()
+                } else {
                     if (exitsData !== null) {
                         if (exitsData.geo_id != -1) {
                             onChangeRuasJalan({ target: { value: exitsData.geo_id } })
@@ -212,8 +213,14 @@ $("#mapLatLong")
                             const paths = JSON.parse(exitsData.geo_json)
                             addPolyLine(paths)
                             drawMode()
+                            $("#nama_lokasi").show()
+                            console.log(exitsData.nama_lokasi)
+                            $("#nama_lokasi_value").val(exitsData.nama_lokasi)
                         }
-                    } else { drawMode() }
+                    } else {
+                        drawMode();
+                        $("#nama_lokasi").show()
+                    }
 
                 }
 

@@ -244,20 +244,48 @@ class MapDashboardController extends Controller
         try {
             if($request->ruas_jalan) $this->response['status'] = 'success';
 
-            $date_from = Carbon::now()->subMonth()->format("Y-m-d");
-            $date_to = Carbon::now()->format("Y-m-d");
+            $date_from = Carbon::now()->subMonth()->format("Y-m-d H:i:s");
+            $date_to = Carbon::now()->format("Y-m-d H:i:s");
 
             if($request->date_from && $request->date_to){
                 $date_from = $request->date_from;
                 $date_to = $request->date_to;
             }
 
-            $data = Kemandoran::where('RUAS_JALAN',$request->ruas_jalan);
+            $data = DB::table('kemandoran')->where('ruas_jalan',"LIKE","%".$request->ruas_jalan."%");
 
             $data = $data->whereBetween('TANGGAL', [$date_from, $date_to]);
 
             $data = $data->get();
             $this->response['data']['pemeliharaan'] = $data;
+            return response()->json($this->response, 200);
+        } catch (\Exception $th) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
+
+    public function getPembangunan(Request $request)
+    {
+        try {
+            if($request->ruas_jalan) $this->response['status'] = 'success';
+
+            $date_from = Carbon::now()->subYear()->format("Y-m-d H:i:s");
+            $date_to = Carbon::now()->format("Y-m-d H:i:s");
+
+            if($request->date_from && $request->date_to){
+                $date_from = $request->date_from;
+                $date_to = $request->date_to;
+            }
+
+            $data = DB::connection('talikuat')
+            ->table('pembangunan_rencana')
+            ->where('lokasi_pekerjaan',"LIKE",$request->ruas_jalan." - ".$request->id_ruas."%");
+
+            $data = $data->whereBetween('tgl_kontrak', [$date_from, $date_to]);
+
+            $data = $data->get();
+            $this->response['data']['pembangunan'] = $data;
             return response()->json($this->response, 200);
         } catch (\Exception $th) {
             $this->response['data']['message'] = 'Internal Error';
