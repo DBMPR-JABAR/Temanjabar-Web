@@ -278,7 +278,9 @@ class MapDashboardController extends Controller
                 $date_to = $request->date_to;
             }
 
-            $data = DB::table('pembangunan')->where('lokasi_pekerjaan',"LIKE",$request->ruas_jalan." - ".$request->id_ruas."%");
+            $data = DB::connection('talikuat')
+            ->table('pembangunan_rencana')
+            ->where('lokasi_pekerjaan',"LIKE",$request->ruas_jalan." - ".$request->id_ruas."%");
 
             $data = $data->whereBetween('tgl_kontrak', [$date_from, $date_to]);
 
