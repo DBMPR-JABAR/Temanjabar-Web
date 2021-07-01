@@ -33,7 +33,12 @@ class MapDashboardController extends Controller
     public function getSUP(Request $request)
     {
         try {
-            $sup = RuasJalan::select('SUP','UPTD')->whereIn('UPTD',$request->uptd)->distinct()->get();
+            $getId = fn($uptd) => substr($uptd, -1);
+            $uptdIdArr = array_map($getId, $request->uptd);
+
+            $sup = DB::table('utils_sup')->selectRaw('name AS SUP, uptd_id AS UPTD')
+                                         ->whereIn('uptd_id', $uptdIdArr)
+                                         ->get();
 
             $this->response['status'] = 'success';
 
