@@ -305,7 +305,7 @@
                             select += '<optgroup label=' + len[i] + '>';
                             select += '';
                             for (let j = 0; j < spp.length; j++) {
-                                if (len[i] == spp[j].UPTD) {
+                                if (len[i].charAt(4) == ''+spp[j].UPTD) {
                                     select += '<option ' + 'value="' + spp[j].SUP + '" selected>' + spp[j].SUP + '</option>';
                                 }
                             }
