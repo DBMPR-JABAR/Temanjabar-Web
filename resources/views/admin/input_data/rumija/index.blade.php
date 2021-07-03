@@ -187,7 +187,7 @@
         const link = $(event.relatedTarget);
         const id = link.data("id");
         console.log(id);
-        const url = `{{ url('admin/master_data/rumija/delete') }}/` + id;
+        const url = `{{ url('admin/master-data/rumija/delete') }}/` + id;
         console.log(url);
         const modal = $(this);
         modal.find(".modal-footer #delHref").attr("href", url);
