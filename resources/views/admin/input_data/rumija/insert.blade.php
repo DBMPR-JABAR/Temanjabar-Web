@@ -276,8 +276,25 @@
                         center: [107.6191, -6.9175],
                         zoom: 8,
                     });
-
                     let tempGraphic;
+                    if ($("#lat").val() != '' && $("#long").val() != '') {
+                        var graphic = new Graphic({
+                            geometry:{
+                                type: "point",
+                                longitude: $("#long").val(),
+                                latitude: $("#lat").val()
+                            },
+                            symbol: {
+                                type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
+                                url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+                                width: "14px",
+                                height: "24px"
+                            }
+                        });
+                        tempGraphic = graphic;
+
+                        view.graphics.add(graphic);
+                        }
                     view.on("click", function(event) {
                         if ($("#lat").val() != '' && $("#long").val() != '') {
                             view.graphics.remove(tempGraphic);
