@@ -87,7 +87,7 @@
                             <div class="col-md-8">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input name="no_ijin" value="{{@$rumija->no_ijin}}" type="text"
+                                        <input name="no_ijin" value="{{@$rumija->no_ijin}}" type="number"
                                             class="form-control"  required>
                                     </div>
                                 </div>
