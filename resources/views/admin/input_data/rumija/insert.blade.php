@@ -167,8 +167,8 @@
                             <div class="col-md-8">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input name="luas" value="{{@$rumija->luas}}"  type="number" class="form-control"
-                                            min="0"required>
+                                        <input pattern="([0-9]+.{0,1}[0-9]*,{0,1})*[0-9]" required name="luas" value="{{@$rumija->luas}}"  type="number" class="form-control"
+                                            min="0" step="0.01">
                                     </div>
                                 </div>
                             </div>
@@ -195,6 +195,28 @@
                                             class="form-control"  required>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Foto</label>
+                            <div class="col-md-5">
+                                <img class="mx-auto rounded img-thumbnail d-block" id="foto_preview"
+                                    src="{{ url('storage/' . @$rumija->foto) }}" alt="">
+                            </div>
+                            <div class="col-md-5">
+                                <input id="foto" name="foto" type="file" accept="image/*" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Video</label>
+                            <div class="col-md-5">
+                                <video class="mx-auto rounded img-thumbnail d-block" id="video_preview"
+                                    src="{{ url('storage/' . @$rumija->video) }}" alt="" controls>
+                            </div>
+                            <div class="col-md-5">
+                                <input id="video" name="video" type="file" accept="video/mp4" class="form-control">
                             </div>
                         </div>
 
@@ -249,6 +271,22 @@
 
 <script>
     $(document).ready(function() {
+        const filePreviews = [
+            {
+                input:"foto",
+                preview:"foto_preview"
+            },{
+                input:"video",
+                preview:"video_preview"
+            },
+        ]
+        filePreviews.forEach(data=>{
+            const inputElement = document.getElementById(data.input)
+            inputElement.onchange = event => {
+            const [file] = inputElement.files
+            if(file) document.getElementById(data.preview).src = URL.createObjectURL(file)
+        }
+        })
             // Format mata uang.
             $('.formatRibuan').mask('000.000.000.000.000', {
                 reverse: true

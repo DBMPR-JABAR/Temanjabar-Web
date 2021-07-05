@@ -5,6 +5,7 @@ namespace App\Http\Controllers\InputData;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class RumijaController extends Controller
 {
@@ -16,8 +17,8 @@ class RumijaController extends Controller
     public function index()
     {
         $rumija = DB::table('rumija')
-        ->get();
-        return view('admin.input_data.rumija.index',compact('rumija'));
+            ->get();
+        return view('admin.input_data.rumija.index', compact('rumija'));
     }
 
     /**
@@ -31,7 +32,7 @@ class RumijaController extends Controller
         $ruas_jalan = DB::table('master_ruas_jalan')->get();
         $kab_kota = DB::table('indonesia_cities')->get();
         $action = 'store';
-        return view('admin.input_data.rumija.insert',compact('uptd','ruas_jalan','kab_kota','action'));
+        return view('admin.input_data.rumija.insert', compact('uptd', 'ruas_jalan', 'kab_kota', 'action'));
     }
 
     /**
@@ -42,7 +43,18 @@ class RumijaController extends Controller
      */
     public function store(Request $request)
     {
-        DB::table('rumija')->insert($request->except('_token'));
+        $rumija = $request->except('_token','foto','video');
+        if ($request->file('foto') != null) {
+            $path = 'rumija/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto')->getClientOriginalName());
+            $request->file('foto')->storeAs('public/', $path);
+            $rumija['foto'] = $path;
+        }
+        if ($request->file('video') != null) {
+            $path = 'rumija/' . Str::snake(date("YmdHis") . ' ' . $request->file('video')->getClientOriginalName());
+            $request->file('video')->storeAs('public/', $path);
+            $rumija['video'] = $path;
+        }
+        DB::table('rumija')->insert($rumija);
         $color = "success";
         $msg = "Berhasil Menambah Data Rumija";
         return redirect(route('rumija.index'))->with(compact('color', 'msg'));
@@ -68,12 +80,11 @@ class RumijaController extends Controller
     public function edit($id)
     {
         $uptd = DB::table('landing_uptd')->get();
-        $rumija = DB::table('rumija')->where('id',$id)->first();
+        $rumija = DB::table('rumija')->where('id', $id)->first();
         $ruas_jalan = DB::table('master_ruas_jalan')->get();
         $kab_kota = DB::table('indonesia_cities')->get();
         $action = 'update';
-        return view('admin.input_data.rumija.insert',compact('uptd','rumija','ruas_jalan','kab_kota','action'));
-
+        return view('admin.input_data.rumija.insert', compact('uptd', 'rumija', 'ruas_jalan', 'kab_kota', 'action'));
     }
 
     /**
@@ -85,7 +96,18 @@ class RumijaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        DB::table('rumija')->where('id',$id)->update($request->except('_token','_method'));
+        $rumija = $request->except('_token', '_method','foto','video');
+        if ($request->file('foto') != null) {
+            $path = 'rumija/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto')->getClientOriginalName());
+            $request->file('foto')->storeAs('public/', $path);
+            $rumija['foto'] = $path;
+        }
+        if ($request->file('video') != null) {
+            $path = 'rumija/' . Str::snake(date("YmdHis") . ' ' . $request->file('video')->getClientOriginalName());
+            $request->file('video')->storeAs('public/', $path);
+            $rumija['video'] = $path;
+        }
+        DB::table('rumija')->where('id', $id)->update($rumija);
         $color = "success";
         $msg = "Berhasil Memperbaharui Data Rumija";
         return redirect(route('rumija.index'))->with(compact('color', 'msg'));
@@ -99,7 +121,7 @@ class RumijaController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('rumija')->where('id',$id)->delete();
+        DB::table('rumija')->where('id', $id)->delete();
         $color = "success";
         $msg = "Berhasil Memnghapus Data Rumija";
         return redirect(route('rumija.index'))->with(compact('color', 'msg'));
