@@ -30,7 +30,7 @@ class RumijaController extends Controller
     {
         $uptd = DB::table('landing_uptd')->get();
         $ruas_jalan = DB::table('master_ruas_jalan')->get();
-        $kab_kota = DB::table('indonesia_cities')->get();
+        $kab_kota = DB::table('indonesia_cities')->where('province_id',32)->get();
         $action = 'store';
         return view('admin.input_data.rumija.insert', compact('uptd', 'ruas_jalan', 'kab_kota', 'action'));
     }
@@ -82,7 +82,7 @@ class RumijaController extends Controller
         $uptd = DB::table('landing_uptd')->get();
         $rumija = DB::table('rumija')->where('id', $id)->first();
         $ruas_jalan = DB::table('master_ruas_jalan')->get();
-        $kab_kota = DB::table('indonesia_cities')->get();
+        $kab_kota = DB::table('indonesia_cities')->where('province_id',32)->get();
         $action = 'update';
         return view('admin.input_data.rumija.insert', compact('uptd', 'rumija', 'ruas_jalan', 'kab_kota', 'action'));
     }
