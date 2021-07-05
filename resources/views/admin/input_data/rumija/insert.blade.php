@@ -52,9 +52,9 @@
             <div class="pb-5 pl-5 pr-5 card-block">
 
                 @if ($action == 'store')
-                <form action="{{ route('rumija.store') }}" method="post">
+                <form action="{{ route('rumija.store') }}" method="post" enctype="multipart/form-data">
                     @else
-                    <form action="{{ route('rumija.update', $rumija->id) }}" method="post">
+                    <form action="{{ route('rumija.update', $rumija->id) }}" method="post" enctype="multipart/form-data">
                         @method('PUT')
                         @endif
                         @csrf
