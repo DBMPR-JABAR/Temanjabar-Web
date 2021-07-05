@@ -64,7 +64,7 @@ class BantuanKeuanganController extends Controller
         if ($request->file('foto_1') != null) {
             $path = 'bankeu/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto_1')->getClientOriginalName());
             $request->file('foto_1')->storeAs('public/', $path);
-            $bankeu['foto'] = $path;
+            $bankeu['foto_1'] = $path;
         }
         if ($request->file('foto_2') != null) {
             $path = 'bankeu/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto_2')->getClientOriginalName());
@@ -157,7 +157,7 @@ class BantuanKeuanganController extends Controller
         if ($request->file('foto_1') != null) {
             $path = 'bankeu/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto_1')->getClientOriginalName());
             $request->file('foto_1')->storeAs('public/', $path);
-            $bankeu['foto'] = $path;
+            $bankeu['foto_1'] = $path;
         }
         if ($request->file('foto_2') != null) {
             $path = 'bankeu/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto_2')->getClientOriginalName());
