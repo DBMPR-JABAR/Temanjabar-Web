@@ -48,6 +48,15 @@ class RumijaController extends Controller
             $path = 'rumija/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto')->getClientOriginalName());
             $request->file('foto')->storeAs('public/', $path);
             $rumija['foto'] = $path;
+        } if ($request->file('foto_1') != null) {
+            $path = 'rumija/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto_1')->getClientOriginalName());
+            $request->file('foto_1')->storeAs('public/', $path);
+            $rumija['foto'] = $path;
+        }
+        if ($request->file('foto_2') != null) {
+            $path = 'rumija/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto_2')->getClientOriginalName());
+            $request->file('foto_2')->storeAs('public/', $path);
+            $rumija['foto_2'] = $path;
         }
         if ($request->file('video') != null) {
             $path = 'rumija/' . Str::snake(date("YmdHis") . ' ' . $request->file('video')->getClientOriginalName());
@@ -106,6 +115,15 @@ class RumijaController extends Controller
             $path = 'rumija/' . Str::snake(date("YmdHis") . ' ' . $request->file('video')->getClientOriginalName());
             $request->file('video')->storeAs('public/', $path);
             $rumija['video'] = $path;
+        } if ($request->file('foto_1') != null) {
+            $path = 'rumija/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto_1')->getClientOriginalName());
+            $request->file('foto_1')->storeAs('public/', $path);
+            $rumija['foto'] = $path;
+        }
+        if ($request->file('foto_2') != null) {
+            $path = 'rumija/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto_2')->getClientOriginalName());
+            $request->file('foto_2')->storeAs('public/', $path);
+            $rumija['foto_2'] = $path;
         }
         DB::table('rumija')->where('id', $id)->update($rumija);
         $color = "success";

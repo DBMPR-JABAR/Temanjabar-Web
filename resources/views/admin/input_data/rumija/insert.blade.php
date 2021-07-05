@@ -199,16 +199,35 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Foto</label>
+                            <label class="col-md-2 col-form-label">Foto 1</label>
                             <div class="col-md-5">
-                                <img class="mx-auto rounded img-thumbnail d-block" id="foto_preview"
+                                <img style="min-height: 40px" class="mx-auto rounded img-thumbnail d-block" id="foto_preview"
                                     src="{{ url('storage/' . @$rumija->foto) }}" alt="">
                             </div>
                             <div class="col-md-5">
                                 <input id="foto" name="foto" type="file" accept="image/*" class="form-control">
                             </div>
                         </div>
-
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Foto 2</label>
+                            <div class="col-md-5">
+                                <img style="min-height: 40px" class="mx-auto rounded img-thumbnail d-block" id="foto_preview_1"
+                                    src="{{ url('storage/' . @$rumija->foto_1) }}" alt="">
+                            </div>
+                            <div class="col-md-5">
+                                <input  id="foto_1" name="foto_1" type="file" accept="image/*" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Foto 3</label>
+                            <div class="col-md-5">
+                                <img style="min-height: 40px" class="mx-auto rounded img-thumbnail d-block" id="foto_preview_2"
+                                    src="{{ url('storage/' . @$rumija->foto_2) }}" alt="">
+                            </div>
+                            <div class="col-md-5">
+                                <input id="foto_2" name="foto_2" type="file" accept="image/*" class="form-control">
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Video</label>
                             <div class="col-md-5">
@@ -275,6 +294,12 @@
             {
                 input:"foto",
                 preview:"foto_preview"
+            },{
+                input:"foto_1",
+                preview:"foto_preview_1"
+            },{
+                input:"foto_2",
+                preview:"foto_preview_2"
             },{
                 input:"video",
                 preview:"video_preview"
