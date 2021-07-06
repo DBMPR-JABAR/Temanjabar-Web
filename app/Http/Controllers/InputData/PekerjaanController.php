@@ -77,7 +77,7 @@ class PekerjaanController extends Controller
 
             // dd($subject);
             // dd($item);
-            $mail = $this->sendEmail($temporari, $to_email, $to_name, $subject);
+            // $mail = $this->sendEmail($temporari, $to_email, $to_name, $subject);
     }
     public function getData()
     {
