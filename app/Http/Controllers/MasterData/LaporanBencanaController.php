@@ -161,7 +161,7 @@ class LaporanBencanaController extends Controller
         $laporan_bencana['icon_image'] = $icon_image[0]->icon_image;
 
         $laporan_bencana['updated_at'] = Carbon::now();
-        $laporan_bencana['updated_by'] = Auth::user()->name;
+        $laporan_bencana['updated_by'] = Auth::user()->id;
         DB::table('laporan_bencana')->where('id', $req->id)->update($laporan_bencana);
 
         $color = "success";
