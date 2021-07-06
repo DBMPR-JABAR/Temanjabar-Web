@@ -240,6 +240,13 @@
                                     </a>
                                 </li>
                             @endif
+                            @if (hasAccess(Auth::user()->internal_role_id, 'Rumija', 'View'))
+                            <li class="{{ Request::segment(3) == 'rumija' ? 'active' : '' }}">
+                                <a href="{{ url('admin/master-data/rumija') }}" class="waves-effect waves-dark">
+                                    <span class="pcoded-mtext">Rumija</span>
+                                </a>
+                            </li>
+                            @endif
                         </ul>
                     </li>
                 </ul>

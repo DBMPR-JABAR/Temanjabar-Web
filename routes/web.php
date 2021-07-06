@@ -340,6 +340,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::resource('/item_satuan', 'MasterData\ItemSatuanController');
         Route::get('/nama_kegiatan_pekerjaan/delete/{id}', 'MasterData\NamaKegiatanPekerjaanController@destroy');
         Route::resource('/nama_kegiatan_pekerjaan', 'MasterData\NamaKegiatanPekerjaanController');
+
+        Route::prefix('rumija')->group(function () {
+            Route::get('delete/{id}', 'InputData\RumijaController@destroy');
+        });
+        Route::resource('rumija', "InputData\RumijaController");
     });
 
     Route::group(['prefix' => 'input-data'], function () {
