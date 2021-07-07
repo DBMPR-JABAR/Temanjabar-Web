@@ -43,7 +43,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="card-block pl-5 pr-5 pb-5">
+                <div class="pb-5 pl-5 pr-5 card-block">
 
                     <form action="{{ route('updateMasterRuasJalan') }}" method="post" enctype="multipart/form-data">
                         @csrf
@@ -199,7 +199,7 @@
                         </div>
 
                         <p>Marker Biru: Titik Awal <br> Marker Hijau: Titik Tengah <br> Marker Merah: Titik Akhir <br> (Dipilih Bergantian) </p>
-                        <div id="mapLatLong" class="full-map mb-2" style="height: 300px; width: 100%"></div>
+                        <div id="mapLatLong" class="mb-2 full-map" style="height: 300px; width: 100%"></div>
 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Kabupaten Kota</label>
@@ -209,9 +209,48 @@
                             </div>
                         </div>
 
-                        
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Foto 1</label>
+                            <div class="col-md-5">
+                                <img style="min-height: 40px" class="mx-auto rounded img-thumbnail d-block" id="foto_preview"
+                                    src="{{ url('storage/' . @$ruasJalan->foto) }}" alt="">
+                            </div>
+                            <div class="col-md-5">
+                                <input id="foto" name="foto" type="file" accept="image/*" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Foto 2</label>
+                            <div class="col-md-5">
+                                <img style="min-height: 40px" class="mx-auto rounded img-thumbnail d-block" id="foto_preview_1"
+                                    src="{{ url('storage/' . @$ruasJalan->foto_1) }}" alt="">
+                            </div>
+                            <div class="col-md-5">
+                                <input  id="foto_1" name="foto_1" type="file" accept="image/*" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Foto 3</label>
+                            <div class="col-md-5">
+                                <img style="min-height: 40px" class="mx-auto rounded img-thumbnail d-block" id="foto_preview_2"
+                                    src="{{ url('storage/' . @$ruasJalan->foto_2) }}" alt="">
+                            </div>
+                            <div class="col-md-5">
+                                <input id="foto_2" name="foto_2" type="file" accept="image/*" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Video</label>
+                            <div class="col-md-5">
+                                <video class="mx-auto rounded img-thumbnail d-block" id="video_preview"
+                                    src="{{ url('storage/' . @$ruasJalan->video) }}" alt="" controls>
+                            </div>
+                            <div class="col-md-5">
+                                <input id="video" name="video" type="file" accept="video/mp4" class="form-control">
+                            </div>
+                        </div>
 
-                       
+
                         <a href="{{ url()->previous() }}"><button type="button" class="btn btn-danger waves-effect "
                                 data-dismiss="modal">Kembali</button></a>
 
@@ -264,6 +303,29 @@
         }
 
         $('#mapLatLong').ready(() => {
+
+            const filePreviews = [
+            {
+                input:"foto",
+                preview:"foto_preview"
+            },{
+                input:"foto_1",
+                preview:"foto_preview_1"
+            },{
+                input:"foto_2",
+                preview:"foto_preview_2"
+            },{
+                input:"video",
+                preview:"video_preview"
+            },
+        ]
+        filePreviews.forEach(data=>{
+            const inputElement = document.getElementById(data.input)
+            inputElement.onchange = event => {
+            const [file] = inputElement.files
+            if(file) document.getElementById(data.preview).src = URL.createObjectURL(file)
+        }
+        })
             require([
             "esri/Map",
             "esri/views/MapView",

@@ -59,13 +59,32 @@ class RuasJalanController extends Controller
      */
     public function create(Request $req)
     {
-        $ruasJalan = $req->except('_token', 'gambar');
+        $ruasJalan = $req->except('_token', 'gambar','foto','foto_1','foto_2','video');
 
         $getsup= DB::table('utils_sup')->where('id', $req->sup)->select('kd_sup','name')->first();
         $ruasJalan['kd_sppjj'] = $getsup->kd_sup;
         $ruasJalan['nm_sppjj'] = $getsup->name;
         $ruasJalan['wil_uptd'] = DB::table('landing_uptd')->where('id', $req->uptd_id)->pluck('nama')->first();
-        
+        if ($req->file('foto') != null) {
+            $path = 'ruasJalan/' . Str::snake(date("YmdHis") . ' ' . $req->file('foto')->getClientOriginalName());
+            $req->file('foto')->storeAs('public/', $path);
+            $ruasJalan['foto'] = $path;
+        }
+        if ($req->file('foto_1') != null) {
+            $path = 'ruasJalan/' . Str::snake(date("YmdHis") . ' ' . $req->file('foto_1')->getClientOriginalName());
+            $req->file('foto_1')->storeAs('public/', $path);
+            $ruasJalan['foto_1'] = $path;
+        }
+        if ($req->file('foto_2') != null) {
+            $path = 'ruasJalan/' . Str::snake(date("YmdHis") . ' ' . $req->file('foto_2')->getClientOriginalName());
+            $req->file('foto_2')->storeAs('public/', $path);
+            $ruasJalan['foto_2'] = $path;
+        }
+        if ($req->file('video') != null) {
+            $path = 'ruasJalan/' . Str::snake(date("YmdHis") . ' ' . $req->file('video')->getClientOriginalName());
+            $req->file('video')->storeAs('public/', $path);
+            $ruasJalan['video'] = $path;
+        }
         $ruasJalan['created_by'] = Auth::user()->id;
         $ruasJalan['created_date'] = date("YmdHis");
 
@@ -98,14 +117,33 @@ class RuasJalanController extends Controller
     public function update(Request $req)
     {
         //
-        $ruasJalan = $req->except('_token', 'gambar', 'id');
+        $ruasJalan = $req->except('_token', 'gambar', 'id','foto','foto_1','foto_2','video');
         // $ruasJalan['slug'] = Str::slug($req->nama, '');
         $getsup= DB::table('utils_sup')->where('id', $req->sup)->select('kd_sup','name')->first();
         $ruasJalan['kd_sppjj'] = $getsup->kd_sup;
         $ruasJalan['nm_sppjj'] = $getsup->name;
         $ruasJalan['wil_uptd'] = DB::table('landing_uptd')->where('id', $req->uptd_id)->pluck('nama')->first();
         // dd($ruasJalan);
-
+        if ($req->file('foto') != null) {
+            $path = 'ruasJalan/' . Str::snake(date("YmdHis") . ' ' . $req->file('foto')->getClientOriginalName());
+            $req->file('foto')->storeAs('public/', $path);
+            $ruasJalan['foto'] = $path;
+        }
+        if ($req->file('foto_1') != null) {
+            $path = 'ruasJalan/' . Str::snake(date("YmdHis") . ' ' . $req->file('foto_1')->getClientOriginalName());
+            $req->file('foto_1')->storeAs('public/', $path);
+            $ruasJalan['foto_1'] = $path;
+        }
+        if ($req->file('foto_2') != null) {
+            $path = 'ruasJalan/' . Str::snake(date("YmdHis") . ' ' . $req->file('foto_2')->getClientOriginalName());
+            $req->file('foto_2')->storeAs('public/', $path);
+            $ruasJalan['foto_2'] = $path;
+        }
+        if ($req->file('video') != null) {
+            $path = 'ruasJalan/' . Str::snake(date("YmdHis") . ' ' . $req->file('video')->getClientOriginalName());
+            $req->file('video')->storeAs('public/', $path);
+            $ruasJalan['video'] = $path;
+        }
         $ruasJalan['updated_by'] = Auth::user()->id;
         $ruasJalan['updated_date'] = date("YmdHis");
 

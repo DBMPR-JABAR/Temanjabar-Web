@@ -58,7 +58,7 @@
                 </div>
                 <div class="card-block">
                     @if (hasAccess(Auth::user()->internal_role_id, 'Ruas Jalan', 'Create'))
-                        <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
+                        <a data-toggle="modal" href="#addModal" class="mb-3 btn btn-mat btn-primary">Tambah</a>
                     @endif
                     <div class="dt-responsive table-responsive">
                         <table id="dttable" class="table table-striped table-bordered able-responsive">
@@ -156,7 +156,7 @@
                                 </button>
                             </div>
 
-                            <div class="modal-body p-5">
+                            <div class="p-5 modal-body">
 
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Kode Ruas Jalan</label>
@@ -282,7 +282,7 @@
                                 </div>
 
                                 <p>Marker Biru: Titik Awal <br> Marker Hijau: Titik Tengah <br> Marker Merah: Titik Akhir <br> (Dipilih Bergantian) </p>
-                                <div id="mapLatLong" class="full-map mb-2" style="height: 300px; width: 100%"></div>
+                                <div id="mapLatLong" class="mb-2 full-map" style="height: 300px; width: 100%"></div>
 
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Kabupaten Kota</label>
@@ -291,7 +291,46 @@
                                     </div>
                                 </div>
 
-                                
+                                <div class="form-group row">
+                                    <label class="col-md-2 col-form-label">Foto 1</label>
+                                    <div class="col-md-5">
+                                        <img style="min-height: 40px" class="mx-auto rounded img-thumbnail d-block" id="foto_preview"
+                                            src="" alt="">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <input id="foto" name="foto" type="file" accept="image/*" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-2 col-form-label">Foto 2</label>
+                                    <div class="col-md-5">
+                                        <img style="min-height: 40px" class="mx-auto rounded img-thumbnail d-block" id="foto_preview_1"
+                                            src="" alt="">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <input  id="foto_1" name="foto_1" type="file" accept="image/*" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-2 col-form-label">Foto 3</label>
+                                    <div class="col-md-5">
+                                        <img style="min-height: 40px" class="mx-auto rounded img-thumbnail d-block" id="foto_preview_2"
+                                            src="" alt="">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <input id="foto_2" name="foto_2" type="file" accept="image/*" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-2 col-form-label">Video</label>
+                                    <div class="col-md-5">
+                                        <video class="mx-auto rounded img-thumbnail d-block" id="video_preview"
+                                            src="" alt="" controls>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <input id="video" name="video" type="file" accept="video/mp4" class="form-control">
+                                    </div>
+                                </div>
 
                             </div>
 
@@ -346,6 +385,28 @@
 
     <script>
         $(document).ready(function() {
+            const filePreviews = [
+            {
+                input:"foto",
+                preview:"foto_preview"
+            },{
+                input:"foto_1",
+                preview:"foto_preview_1"
+            },{
+                input:"foto_2",
+                preview:"foto_preview_2"
+            },{
+                input:"video",
+                preview:"video_preview"
+            },
+        ]
+        filePreviews.forEach(data=>{
+            const inputElement = document.getElementById(data.input)
+            inputElement.onchange = event => {
+            const [file] = inputElement.files
+            if(file) document.getElementById(data.preview).src = URL.createObjectURL(file)
+        }
+        })
             // $("#dttable").DataTable();
             $('#delModal').on('show.bs.modal', function(event) {
                 const link = $(event.relatedTarget);
