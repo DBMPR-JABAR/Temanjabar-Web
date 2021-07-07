@@ -65,7 +65,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::get('laporan-bencana/get-ruas-jalan', 'API\LaporanMasyarakatController@getRuasJalan');
     Route::get('laporan-bencana/get-icon', 'API\LaporanMasyarakatController@getIcon');
 
-    
+
     Route::get('utils/petugas', 'API\LaporanMasyarakatController@getPetugas');
     Route::get('utils/lokasi', 'API\LaporanMasyarakatController@getLokasi');
     Route::get('utils/uptd', 'API\LaporanMasyarakatController@getUPTD');
@@ -130,6 +130,8 @@ Route::resource('vehicle-counting', 'API\VehicleCountingController');
 Route::post('save-token', 'API\PushNotifController@saveToken')->name('save-token');
 Route::post('send-notification-user', 'API\PushNotifController@sendNotificationUser')->name('send.notification');
 Route::post('debug-notification', 'API\PushNotifController@debugNotification')->name('debug.notification');
+
+Route::get('map/geojson/ruas_jalan_propinsi','API\GeoJsonController@getRuasJalanProvinsi');
 
 Route::fallback(function () {
     return response()->json([
