@@ -191,8 +191,8 @@
                             <div class="col-md-8">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input name="uraian" value="{{@$rumija->uraian}}" type="text"
-                                            class="form-control"  required>
+                                        <textarea rows="3" name="uraian" value="{{@$rumija->uraian}}"
+                                            class="form-control"  required>{{@$rumija->uraian}}</textarea>
                                     </div>
                                 </div>
                             </div>
