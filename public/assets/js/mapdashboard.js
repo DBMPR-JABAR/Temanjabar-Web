@@ -418,7 +418,6 @@ function getMap(baseUrl, gsvrUrl) {
                         },
                         title: 'Ruas Jalan Provinsi',
                         id: 'rjp',
-                        objectIdField: 'gid',
                         outFields: ["*"],
                         popupTemplate: popupTemplate,
                         renderer: {
