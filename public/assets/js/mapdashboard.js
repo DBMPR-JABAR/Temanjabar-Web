@@ -348,6 +348,10 @@ function getMap(baseUrl, gsvrUrl) {
                                 },
                                 {
                                     fieldName: "expression/pjg_km",
+                                },
+                                                                {
+                                    fieldName: "updated_date",
+                                    label: "Terakhir Diperbarui"
                                 }
                             ]
                         },
