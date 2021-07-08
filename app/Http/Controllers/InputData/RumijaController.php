@@ -17,6 +17,8 @@ class RumijaController extends Controller
     public function index()
     {
         $rumija = DB::table('rumija')
+            ->leftJoin('landing_uptd', 'landing_uptd.id', 'rumija.uptd')
+            ->select('rumija.*','landing_uptd.nama as uptd_name')
             ->get();
         return view('admin.input_data.rumija.index', compact('rumija'));
     }
@@ -30,7 +32,7 @@ class RumijaController extends Controller
     {
         $uptd = DB::table('landing_uptd')->get();
         $ruas_jalan = DB::table('master_ruas_jalan')->get();
-        $kab_kota = DB::table('indonesia_cities')->where('province_id',32)->get();
+        $kab_kota = DB::table('indonesia_cities')->where('province_id', 32)->get();
         $action = 'store';
         return view('admin.input_data.rumija.insert', compact('uptd', 'ruas_jalan', 'kab_kota', 'action'));
     }
@@ -43,12 +45,13 @@ class RumijaController extends Controller
      */
     public function store(Request $request)
     {
-        $rumija = $request->except('_token','foto','video','foto_1','foto_2');
+        $rumija = $request->except('_token', 'foto', 'video', 'foto_1', 'foto_2');
         if ($request->file('foto') != null) {
             $path = 'rumija/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto')->getClientOriginalName());
             $request->file('foto')->storeAs('public/', $path);
             $rumija['foto'] = $path;
-        } if ($request->file('foto_1') != null) {
+        }
+        if ($request->file('foto_1') != null) {
             $path = 'rumija/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto_1')->getClientOriginalName());
             $request->file('foto_1')->storeAs('public/', $path);
             $rumija['foto_1'] = $path;
@@ -91,7 +94,7 @@ class RumijaController extends Controller
         $uptd = DB::table('landing_uptd')->get();
         $rumija = DB::table('rumija')->where('id', $id)->first();
         $ruas_jalan = DB::table('master_ruas_jalan')->get();
-        $kab_kota = DB::table('indonesia_cities')->where('province_id',32)->get();
+        $kab_kota = DB::table('indonesia_cities')->where('province_id', 32)->get();
         $action = 'update';
         return view('admin.input_data.rumija.insert', compact('uptd', 'rumija', 'ruas_jalan', 'kab_kota', 'action'));
     }
@@ -105,7 +108,7 @@ class RumijaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $rumija = $request->except('_token', '_method','foto','video','foto_1','foto_2');
+        $rumija = $request->except('_token', '_method', 'foto', 'video', 'foto_1', 'foto_2');
         if ($request->file('foto') != null) {
             $path = 'rumija/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto')->getClientOriginalName());
             $request->file('foto')->storeAs('public/', $path);
@@ -115,7 +118,8 @@ class RumijaController extends Controller
             $path = 'rumija/' . Str::snake(date("YmdHis") . ' ' . $request->file('video')->getClientOriginalName());
             $request->file('video')->storeAs('public/', $path);
             $rumija['video'] = $path;
-        } if ($request->file('foto_1') != null) {
+        }
+        if ($request->file('foto_1') != null) {
             $path = 'rumija/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto_1')->getClientOriginalName());
             $request->file('foto_1')->storeAs('public/', $path);
             $rumija['foto_1'] = $path;
