@@ -170,6 +170,7 @@ function getMap(baseUrl, gsvrUrl) {
             render('tempatwisata', 'tx_wisata', addTempatWisata());
             render('satuanpendidikan', 'tx_sekolah', addSekolah());
             render('bankeu', 'rj_bankeu', addBankeu());
+            render('rumija', 'tx_rumija', addRumija());
 
             render('kinerjajalan', 'kj', addKinerjaJalan());
             render('geometrijalan', 'gj', addGeometriJalan());
@@ -299,56 +300,96 @@ function getMap(baseUrl, gsvrUrl) {
             function jalanProvinsi() {
                 const popupTemplate = {
                     title: "{nm_ruas}",
-                    content: [{
-                        type: "fields",
-                        fieldInfos: [{
-                                fieldName: "IDruas",
-                                label: "Kode Ruas"
-                            },
-                            {
-                                fieldName: "expression/pemilik"
-                            },
-                            {
-                                fieldName: "LAT_AWAL",
-                                label: "Latitude 0"
-                            },
-                            {
-                                fieldName: "LONG_AWAL",
-                                label: "Longitude 0"
-                            },
-                            {
-                                fieldName: "LAT_AKHIR",
-                                label: "Latitude 1"
-                            },
-                            {
-                                fieldName: "LONG_AKHIR",
-                                label: "Longitude 1"
-                            },
-                            {
-                                fieldName: "kab_kota",
-                                label: "Kab/Kota"
-                            },
-                            {
-                                fieldName: "wil_uptd",
-                                label: "UPTD"
-                            },
-                            {
-                                fieldName: "nm_sppjj",
-                                label: "SUP"
-                            },
-                            {
-                                fieldName: "sumber_data",
-                                label: "Sumber Data"
-                            },
-                            {
-                                fieldName: "sumber_tahun",
-                                label: "Tahun Data Diambil"
-                            },
-                            {
-                                fieldName: "expression/pjg_km",
+                    content: [
+                        {
+                            type: "fields",
+                            fieldInfos: [{
+                                    fieldName: "IDruas",
+                                    label: "Kode Ruas"
+                                },
+                                {
+                                    fieldName: "expression/pemilik"
+                                },
+                                {
+                                    fieldName: "LAT_AWAL",
+                                    label: "Latitude 0"
+                                },
+                                {
+                                    fieldName: "LONG_AWAL",
+                                    label: "Longitude 0"
+                                },
+                                {
+                                    fieldName: "LAT_AKHIR",
+                                    label: "Latitude 1"
+                                },
+                                {
+                                    fieldName: "LONG_AKHIR",
+                                    label: "Longitude 1"
+                                },
+                                {
+                                    fieldName: "kab_kota",
+                                    label: "Kab/Kota"
+                                },
+                                {
+                                    fieldName: "wil_uptd",
+                                    label: "UPTD"
+                                },
+                                {
+                                    fieldName: "nm_sppjj",
+                                    label: "SUP"
+                                },
+                                {
+                                    fieldName: "sumber_data",
+                                    label: "Sumber Data"
+                                },
+                                {
+                                    fieldName: "sumber_tahun",
+                                    label: "Tahun Data Diambil"
+                                },
+                                {
+                                    fieldName: "expression/pjg_km",
+                                }
+                            ]
+                        },
+                        {
+                            type: "custom",
+                            outFields: ["*"],
+                            creator: function(feature) {
+                                const foto = feature.graphic.attributes.foto;
+                                const foto1 = feature.graphic.attributes.foto_1;
+                                const foto2 = feature.graphic.attributes.foto_2;
+                                const video = feature.graphic.attributes.video;
+                                let html = '';
+                                if(foto !== undefined){
+                                    html += `
+                                    <div class="esri-feature-media__item">
+                                        <img src="${baseUrl}/storage/${foto}" alt="Foto 1" />
+                                    </div>`;
+                                }
+                                if(foto1 !== undefined){
+                                    html += `
+                                    <div class="esri-feature-media__item">
+                                        <img src="${baseUrl}/storage/${foto1}" alt="Foto 2" />
+                                    </div>`;
+                                }
+                                if(foto2 !== undefined){
+                                    html += `
+                                    <div class="esri-feature-media__item">
+                                        <img src="${baseUrl}/storage/${foto2}" alt="Foto 3" />
+                                    </div>`;
+                                }
+                                if(video !== undefined){
+                                    html += `
+                                    <div class="esri-feature-media__item">
+                                        <video controls class="esri-feature-media__item">
+                                            <source src="${baseUrl}/storage/${video}" type="video/mp4">
+                                        </video>
+                                    </div>`;
+                                }
+                                return html;
                             }
-                        ]
-                    }],
+                        },
+                    ],
                     expressionInfos: [{
                             name: "pjg_km",
                             title: "Panjang Ruas (KM)",
@@ -3848,6 +3889,129 @@ function getMap(baseUrl, gsvrUrl) {
                             color: "lime",
                             width: "2px",
                             style: "solid",
+                        }
+                    }
+                });
+
+            }
+            layer.definitionExpression = whereUptd;
+            map.add(layer)
+        }
+
+        function addRumija(){
+
+            const popupTemplate = {
+                title: "{jenis_penggunaan}",
+                content: [
+                    {
+                        type: "fields",
+                        fieldInfos: [
+                            {
+                                fieldName: "nama",
+                                label: "Nama"
+                            },
+                            {
+                                fieldName: "alamat",
+                                label: "Alamat"
+                            },
+                            {
+                                fieldName: "no_ijin",
+                                label: "Nomor Izin"
+                            },
+                            {
+                                fieldName: "tanggal_ijin",
+                                label: "Tanggal Izin"
+                            },
+                            {
+                                fieldName: "ruas_jalan",
+                                label: "Ruas Jalan"
+                            },
+                            {
+                                fieldName: "kab_kota",
+                                label: "Kab/Kota"
+                            },
+                            {
+                                fieldName: "uptd",
+                                label: "UPTD"
+                            },
+                            {
+                                fieldName: "luas",
+                                label: "Luas (m2)"
+                            },
+                            {
+                                fieldName: "jenis_penggunaan",
+                                label: "Jenis Penggunaan"
+                            },
+                            {
+                                fieldName: "uraian",
+                                label: "Uraian"
+                            },
+                        ]
+                    },
+                    {
+                        type: "custom",
+                        outFields: ["*"],
+                        creator: function(feature) {
+                            const foto = feature.graphic.attributes.foto;
+                            const foto1 = feature.graphic.attributes.foto_1;
+                            const foto2 = feature.graphic.attributes.foto_2;
+                            const video = feature.graphic.attributes.video;
+                            let html = '';
+                            if(foto !== undefined){
+                                html += `
+                                <div class="esri-feature-media__item">
+                                    <img src="${baseUrl}/storage/${foto}" alt="Foto 1" />
+                                </div>`;
+                            }
+                            if(foto1 !== undefined){
+                                html += `
+                                <div class="esri-feature-media__item">
+                                    <img src="${baseUrl}/storage/${foto1}" alt="Foto 2" />
+                                </div>`;
+                            }
+                            if(foto2 !== undefined){
+                                html += `
+                                <div class="esri-feature-media__item">
+                                    <img src="${baseUrl}/storage/${foto2}" alt="Foto 3" />
+                                </div>`;
+                            }
+                            if(video !== undefined){
+                                html += `
+                                <div class="esri-feature-media__item">
+                                    <video controls class="esri-feature-media__item">
+                                        <source src="${baseUrl}/storage/${video}" type="video/mp4">
+                                    </video>
+                                </div>`;
+                            }
+                            return html;
+                        }
+                    },
+                ],
+            };
+            let uptdSel = $('#uptd').val();
+            let whereUptd = 'uptd=' + `'${uptdSel.shift().charAt(4)}'`;
+            $.each(uptdSel, function(idx, elem) {
+                whereUptd = whereUptd + ' OR uptd=' + `'${elem.charAt(4)}'`;
+            });
+
+            let layer = map.findLayerById('tx_rumija');
+            if (!layer) {
+                layer = new FeatureLayer({
+                    url: gsvrUrl + "/geoserver/gsr/services/temanjabar/FeatureServer/17/",
+                    customParameters: {
+                        ak: authKey
+                    },
+                    title: 'Rumija',
+                    id: 'tx_rumija',
+                    outFields: ["*"],
+                    popupTemplate: popupTemplate,
+                    renderer: {
+                        type: "simple", // autocasts as new SimpleRenderer()
+                        symbol: {
+                            type: "picture-marker",
+                            url: baseUrl + "/assets/images/marker/peningkatan.png",
+                            width: "24px",
+                            height: "24px"
                         }
                     }
                 });

@@ -376,6 +376,7 @@
                         <option value="laporanmasyarakat">Laporan Masyarakat</option>
                     </optgroup>
                     <optgroup label="Tata Ruang">
+                        <option value="rumija">Rumija</option>
                         <option value="cctv">CCTV</option>
                         <option value="vehiclecounting">Vehicle Counting</option>
                         <option value="satuanpendidikan">Satuan Pendidikan</option>
