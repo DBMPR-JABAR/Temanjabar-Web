@@ -93,7 +93,7 @@
                                 <td>{{ $data->tanggal_ijin }}</td>
                                 <td>{{ $data->ruas_jalan }}</td>
                                 <td>{{ $data->kab_kota }}</td>
-                                <td>{{ $data->uptd }}</td>
+                                <td>{{ $data->uptd_name }}</td>
                                 <td>{{ $data->luas }}</td>
                                 <td>{{ $data->jenis_penggunaan }}</td>
                                 <td>{{ $data->uraian }}</td>

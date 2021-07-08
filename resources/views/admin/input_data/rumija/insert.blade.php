@@ -151,9 +151,9 @@
                                     <div class="col-md-12">
                                         <select class="form-control searchableField" id="edit_uptd" name="uptd" required>
                                             @foreach ($uptd as $data)
-                                            <option value="{{ $data->nama }}" id="{{ $data->id }}"
+                                            <option value="{{ $data->id }}" id="{{ $data->id }}"
                                                 @isset($rumija)
-                                                {{ $rumija->uptd == $data->nama ? 'selected' : '' }} @endisset>
+                                                {{ $rumija->uptd == $data->id ? 'selected' : '' }} @endisset>
                                                 {{ $data->nama }}</option>
                                             @endforeach
                                         </select>
