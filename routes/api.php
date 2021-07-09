@@ -47,6 +47,10 @@ Route::group(['prefix' => 'auth'], function () {
 
 
 Route::group(['middleware' => ['jwt.auth']], function () {
+
+    Route::get('has_access/{permission}', 'API\UtilsController@has_access');
+    Route::get('uptd_list', 'API\UtilsController@uptd_list');
+
     Route::get('/pengumuman/masyarakat', 'API\AnnouncementController@getDataMasyarakat');
     Route::get('/pengumuman/{slug?}', 'API\AnnouncementController@show');
     Route::get('/pengumuman/internal', 'API\AnnouncementController@getDataInternal');
@@ -101,6 +105,41 @@ Route::group(['middleware' => ['jwt.auth']], function () {
         Route::get('get-paket-dan-penyedia', 'API\ProgressPekerjaanController@getPaketDanPenyedia');
     });
     Route::resource('progress-pekerjaan', 'API\ProgressPekerjaanController');
+
+    Route::prefix('labkon')->group(function () {
+        Route::prefix('daftar_pemohon')->group(function () {
+            Route::get('/', 'API\LabKonController@daftar_pemohon')->name('api_labkon_pemohon_index');
+            Route::post('create', 'API\LabKonController@create_pemohon')->name('api_labkon_pemohon_create');
+            Route::get('delete/{id}', 'API\LabKonController@delete_pemohon')->name('api_labkon_pemohon_delete');
+            Route::put('edit/{id}', 'API\LabKonController@edit_pemohon')->name('api_labkon_pemohon_edit');
+            Route::get('show/{id}', 'API\LabKonController@show_pemohon')->name('api_labkon_pemohon_show');
+            Route::delete('delete/{id}', 'API\LabKonController@delete_pemohon')->name('api_labkon_pemohon_delete');
+        });
+        Route::prefix('permohonan')->group(function () {
+            Route::get('/', 'API\LabKonController@daftar_permohonan');
+            Route::post('create', 'API\LabKonController@create_permohonan');
+            Route::get('show/{id}', 'API\LabKonController@show_permohonan');
+            Route::put('edit/{id}', 'API\LabKonController@edit_permohonan');
+            Route::delete('delete/{id}', 'API\LabKonController@delete_permohonan');
+            Route::post('upload_dokumen_persyaratan_permohonan/{id}', 'API\LabKonController@upload_dokumen_persyaratan_permohonan');
+            Route::get('cetak_formulir_data/{id}', 'API\LabKonController@cetak_formulir_data');
+            Route::get('dokumen_persyaratan_permohonan/{id}', 'API\LabKonController@dokumen_persyaratan_permohonan');
+            Route::put('update_status_permohonan/{id}', 'API\LabKonController@update_status_permohonan');
+            Route::put('pengkajian_permohonan/{id}', 'API\LabKonController@pengkajian_permohonan');
+            Route::get('riwayat_permohonan/{id}', 'API\LabKonController@riwayat_permohonan');
+            Route::post('catatan_status_progress/{id}', 'API\LabKonController@catatan_status_progress');
+            Route::get('catatan_status_progress_last/{id}', 'API\LabKonController@catatan_status_progress_last');
+            Route::post('create_questioner/{id}', 'API\LabKonController@create_questioner');
+            Route::get('formulir_pengaduan_data_exits/{id}', 'API\LabKonController@formulir_pengaduan_data_exits');
+            Route::get('kuesioner/{id}', 'API\LabKonController@kuesioner');
+            Route::post('upload_dokumen_hasil_pengujian/{id}', 'API\LabKonController@upload_dokumen_hasil_pengujian');
+            Route::get('dokumen_hasil_pengujian/{id}', 'API\LabKonController@dokumen_hasil_pengujian');
+
+        });
+        Route::post('tambah_nama_pengujian', 'API\LabKonController@tambah_nama_pengujian');
+        Route::get('nama_pengujian', 'API\LabKonController@nama_pengujian');
+        Route::get('metode_pengujian', 'API\LabKonController@metode_pengujian');
+    });
 });
 
 Route::post('pembangunan_talikuat', 'API\PembangunanTalikuatController@getPembangunanTalikuat');
