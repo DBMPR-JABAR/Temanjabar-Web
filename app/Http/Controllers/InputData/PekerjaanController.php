@@ -77,7 +77,19 @@ class PekerjaanController extends Controller
 
             // dd($subject);
             // dd($item);
-            // $mail = $this->sendEmail($temporari, $to_email, $to_name, $subject);
+            $count_email=DB::table('session_email')->where('created_at',Carbon::now()->format('Y-m-d'))->count();
+            if($count_email <=350){
+                $email=[
+                    'description'=>'Laporan Pemeliharaan',
+                    'created_at'=>Carbon::now()->format('Y-m-d')
+                ];
+                // dd($email);
+                DB::table('session_email')->insert($email);
+                $mail = $this->sendEmail($temporari, $to_email, $to_name, $subject);
+
+            }else
+                return true;
+
     }
     public function getData()
     {

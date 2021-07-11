@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+
 
 class Home extends Controller
 {
@@ -10,6 +12,7 @@ class Home extends Controller
     {
        
         // Compact mengubah variabel profil untuk dijadikan variabel yang dikirim
+    
         return view('admin.home');
     }
 
