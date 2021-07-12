@@ -383,12 +383,14 @@ class AuthController extends Controller
             } else {
                 $user = new User;
             }
+            $role_masyarakat = DB::table('user_role')->where('role', 'like', '%masyarakat/eksternal%')->first();
 
             // Create User Data
             $user->name = $req->get('name');
             $user->email = $req->get('email');
             $user->password = Hash::make($req->get('password'));
             $user->role = 'masyarakat';
+            $user->internal_role_id = $role_masyarakat->id;
             $user->kode_otp = $kode_otp;
             $user->save();
 
