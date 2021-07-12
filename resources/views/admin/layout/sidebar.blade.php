@@ -247,6 +247,34 @@
                                 </a>
                             </li>
                             @endif
+                            @if (hasAccess(Auth::user()->internal_role_id, 'Data Master LabKon', 'View') || hasAccess(Auth::user()->internal_role_id, 'Bahan Uji LabKon', 'View'))
+                                <li
+                                    class=" pcoded-hasmenu  {{ Request::segment(3) == 'labkon' ? 'pcoded-trigger active' : '' }}">
+                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Labolatorium Kontruksi</span>
+                                    </a>
+                                    <ul class="pcoded-submenu">
+                                        @if (hasAccess(Auth::user()->internal_role_id, 'Bahan Uji LabKon', 'View'))
+                                            <li
+                                                class="{{ Request::segment(4) == 'bahan_uji_labkon' ? 'active' : '' }}">
+                                                <a href="{{ url('admin/master-data/labkon/bahan_uji_labkon') }}"
+                                                    class="waves-effect waves-dark">
+                                                    <span class="pcoded-mtext">Bahan Uji</span>
+                                                </a>
+                                            </li>
+                                        @endif
+                                        @if (hasAccess(Auth::user()->internal_role_id, 'Metode Pengujian Labkon', 'View'))
+                                        <li
+                                            class="{{ Request::segment(4) == 'metode_pengujian_labkon' ? 'active' : '' }}">
+                                            <a href="{{ url('admin/master-data/labkon/metode_pengujian_labkon') }}"
+                                                class="waves-effect waves-dark">
+                                                <span class="pcoded-mtext">Metode Pengujian</span>
+                                            </a>
+                                        </li>
+                                    @endif
+                                    </ul>
+                                </li>
+                            @endif
                         </ul>
                     </li>
                 </ul>
