@@ -262,8 +262,8 @@
                                                     <span class="pcoded-mtext">Bahan Uji</span>
                                                 </a>
                                             </li>
-                                        {{-- @endif
-                                        @if (hasAccess(Auth::user()->internal_role_id, 'Metode Pengujian Labkon', 'View'))
+                                        @endif
+                                        {{-- @if (hasAccess(Auth::user()->internal_role_id, 'Metode Pengujian Labkon', 'View'))
                                         <li
                                             class="{{ Request::segment(4) == 'metode_pengujian_labkon' ? 'active' : '' }}">
                                             <a href="{{ url('admin/master-data/labkon/metode_pengujian_labkon') }}"
