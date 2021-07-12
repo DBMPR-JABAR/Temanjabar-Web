@@ -262,7 +262,7 @@
                                                     <span class="pcoded-mtext">Bahan Uji</span>
                                                 </a>
                                             </li>
-                                        @endif
+                                        {{-- @endif
                                         @if (hasAccess(Auth::user()->internal_role_id, 'Metode Pengujian Labkon', 'View'))
                                         <li
                                             class="{{ Request::segment(4) == 'metode_pengujian_labkon' ? 'active' : '' }}">
@@ -271,7 +271,7 @@
                                                 <span class="pcoded-mtext">Metode Pengujian</span>
                                             </a>
                                         </li>
-                                    @endif
+                                    @endif --}}
                                     </ul>
                                 </li>
                             @endif
