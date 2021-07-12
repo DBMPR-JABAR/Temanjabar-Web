@@ -66,6 +66,23 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('/', function () {
         return redirect(route('monitoring-kontrak'));
     });
+
+    Route::group(['prefix' => 'pengujian_bahan'], function () {
+        Route::get('dashboard_pengujian', 'LabKonController@index');
+        Route::get('input_data_pengujian', 'LabKonController@show')->name('listPengujianLabKon');
+        Route::get('input_data_pengujian/add', 'LabKonController@add')->name('addPengujianLabkon');
+        Route::post('input_data_pengujian/bahan_uji', 'LabKonController@bahan_uji')->name('bahanUjiPengujianLabkon');
+        Route::post('input_data_pengujian/pengkajian', 'LabKonController@pengkajian')->name('pengkajianPengujianLabkon');
+        Route::get('input_data_pengujian/cetak_permohonan/{id}', 'LabKonController@cetak_permohonan')->name('cetakPermohonanPengujianLabkon');
+        Route::get('input_data_pengujian/pengkajian/{id}', 'LabKonController@pengkajian')->name('pengkajianPengujianLabkon');
+    });
+
+    Route::prefix('labkon')->group(function () {
+        Route::prefix('daftar_pemohon')->group(function () {
+            Route::get('/', 'LabKonController@daftar_pemohon')->name('labkon_index_pemohon');
+        });
+    });
+
     Route::prefix('pdf')->group(function () {
         Route::get('laporan_pekerjaan','PrintPDFController@laporanPekerjaan');
     });
@@ -340,6 +357,23 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::resource('/item_satuan', 'MasterData\ItemSatuanController');
         Route::get('/nama_kegiatan_pekerjaan/delete/{id}', 'MasterData\NamaKegiatanPekerjaanController@destroy');
         Route::resource('/nama_kegiatan_pekerjaan', 'MasterData\NamaKegiatanPekerjaanController');
+
+        # Bahan uji Lab Kontruksi
+        Route::prefix('labkon')->group(function () {
+            Route::prefix('bahan_uji_labkon')->group(function () {
+                Route::get('delete/{id}', 'MasterData\BahanUjiLabKonController@destroy');
+                Route::prefix('detail')->group(function () {
+                    Route::get('edit/{id}', 'MasterData\BahanUjiLabKonController@editDetail')->name('detail_bahan_uji_labkon.edit');
+                    Route::get('create', 'MasterData\BahanUjiLabKonController@createDetail')->name('detail_bahan_uji_labkon.create');
+                    Route::post('store', 'MasterData\BahanUjiLabKonController@storeDetail')->name('detail_bahan_uji_labkon.store');
+                    Route::put('edit/{id}', 'MasterData\BahanUjiLabKonController@updateDetail')->name('detail_bahan_uji_labkon.update');
+                    Route::get('delete/{id}', 'MasterData\BahanUjiLabKonController@destroyDetail');
+                });
+            });
+            Route::resource('bahan_uji_labkon', 'MasterData\BahanUjiLabKonController');
+            Route::get('metode_pengujian_labkon/delete/{id}', 'MasterData\MetodePengujianLabKonController@destroy');
+            Route::resource('metode_pengujian_labkon', 'MasterData\MetodePengujianLabKonController');
+        });
 
         Route::prefix('rumija')->group(function () {
             Route::get('delete/{id}', 'InputData\RumijaController@destroy');
