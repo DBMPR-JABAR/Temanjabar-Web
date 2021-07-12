@@ -87,8 +87,7 @@ class PekerjaanController extends Controller
                 DB::table('session_email')->insert($email);
                 $mail = $this->sendEmail($temporari, $to_email, $to_name, $subject);
 
-            }else
-                return true;
+            }
 
     }
     public function getData()
