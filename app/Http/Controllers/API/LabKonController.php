@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 use PhpParser\Node\Expr\Cast\Object_;
 use Illuminate\Support\Facades\Validator;
@@ -521,7 +522,7 @@ class LabKonController extends Controller
             }
             $hasil_pengujian['id_permohonan'] = $id;
             if ($request->dokumen_hasil_pengujian != null) {
-                $name = 'Hasil_Uji_' . $id . '.' . $request->dokumen_hasil_pengujian->getClientOriginalExtension();
+                $name = 'Hasil_Uji_' . uniqid(date('mdYHis'), true) . $id . '.' . $request->dokumen_hasil_pengujian->getClientOriginalExtension();
                 $path = 'hasil_uji_labkon/' . $name;
                 if (File::exists('public/' . $path)) File::delete('public/' . $path);
                 $request->dokumen_hasil_pengujian->storeAs('public/', $path);
@@ -589,10 +590,18 @@ class LabKonController extends Controller
     public function dokumen_hasil_pengujian($id)
     {
         try {
-            $dokumen_hasil_pengujian = DB::table('labkon_dokumen_hasil_pengujian')->where('id_permohonan', $id)->first();
-            $this->response['status'] = 'success';
-            $this->response['data']['dokumen_hasil_pengujiann'] = $dokumen_hasil_pengujian;
-            return response()->json($this->response, 200);
+            $dokumen_hasil_pengujian = DB::table('labkon_dokumen_hasil_pengujian');
+            if (hasAccess(auth('api')->user()->internal_role_id, "Semua Data Laboratorium Konstruksi", "View")) {
+                $dokumen_hasil_pengujian = $dokumen_hasil_pengujian->where('id_permohonan', $id)->first();
+            } else {
+                $dokumen_hasil_pengujian = $dokumen_hasil_pengujian->leftJoin('labkon_trans_progress', 'labkon_trans_progres.id_permohonan', 'labkon_dokumen_hasil_pengujian.id_permohonan')->leftJoin('labkon_master_pemohon.id_pemohon', 'labkon_trans_progres.id_pemohon')->where('labkon_master_pemohon.created_by', auth('api')->user->id)->where('labkon_dokumen_hasil_pengujian.id_permohonan', $id)->first();
+            }
+            if ($dokumen_hasil_pengujian)
+                return response()->download(public_path('storage/'.$dokumen_hasil_pengujian->dokumen_hasil_pengujian), $dokumen_hasil_pengujian->id_permohonan, ['Content-Type' => 'application/pdf']);
+                else {
+                $this->response['status'] = 'success';
+                $this->response['message'] = 'Kenapa anda coba-coba mendownload hasil pengujian orang lain :(';
+            }
         } catch (\Exception $th) {
             $this->response['message'] = 'Internal Error';
             $this->response['error']['message'] = $th->getMessage();
