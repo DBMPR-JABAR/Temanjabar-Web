@@ -208,6 +208,7 @@ $("#mapLatLong")
                     $("#nama_lokasi").hide()
                     $("#nama_lokasi_value").prop('required', false);
                 } else {
+                    drawMode();
                     $("#nama_lokasi").show()
                     $("#nama_lokasi_value").prop('required', true);
                     if (exitsData !== null) {
@@ -221,7 +222,6 @@ $("#mapLatLong")
                             $("#nama_lokasi_value").val(exitsData.nama_lokasi)
                         }
                     } else {
-                        drawMode();
                         $("#nama_lokasi").show()
                     }
 
