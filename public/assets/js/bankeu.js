@@ -217,7 +217,6 @@ $("#mapLatLong")
                         } else {
                             const paths = JSON.parse(exitsData.geo_json)
                             addPolyLine(paths)
-                            drawMode()
                             console.log(exitsData.nama_lokasi)
                             $("#nama_lokasi_value").val(exitsData.nama_lokasi)
                         }
