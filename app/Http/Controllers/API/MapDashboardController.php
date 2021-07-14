@@ -342,7 +342,7 @@ class MapDashboardController extends Controller
             $data = $data->whereBetween('tanggal_spmk', [$date_from, $date_to]);
 
             $data = $data->leftJoin('bankeu_geo_json','bankeu_geo_json.id_bankeu','bankeu.id')->get();
-            $this->response['data']['rumija'] = $data;
+            $this->response['data']['bankeu'] = $data;
             return response()->json($this->response, 200);
         } catch (\Exception $th) {
             $this->response['data']['message'] = 'Internal Error';
