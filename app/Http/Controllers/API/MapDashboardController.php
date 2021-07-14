@@ -297,4 +297,56 @@ class MapDashboardController extends Controller
             return response()->json($this->response, 500);
         }
     }
+
+    public function getRumija(Request $request)
+    {
+        try {
+            if($request->ruas_jalan) $this->response['status'] = 'success';
+
+            // $date_from = Carbon::now()->subMonth()->format("Y-m-d H:i:s");
+            // $date_to = Carbon::now()->format("Y-m-d H:i:s");
+
+            // if($request->date_from && $request->date_to){
+            //     $date_from = $request->date_from;
+            //     $date_to = $request->date_to;
+            // }
+
+            $data = DB::table('rumija')->where('ruas_jalan',"LIKE","%".$request->ruas_jalan."%");
+
+            // $data = $data->whereBetween('TANGGAL', [$date_from, $date_to]);
+
+            $data = $data->get();
+            $this->response['data']['rumija'] = $data;
+            return response()->json($this->response, 200);
+        } catch (\Exception $th) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
+
+    public function getBankeu(Request $request)
+    {
+        try {
+            if($request->ruas_jalan) $this->response['status'] = 'success';
+
+            $date_from = Carbon::now()->subMonth()->format("Y-m-d H:i:s");
+            $date_to = Carbon::now()->format("Y-m-d H:i:s");
+
+            if($request->date_from && $request->date_to){
+                $date_from = $request->date_from;
+                $date_to = $request->date_to;
+            }
+
+            $data = DB::table('bankeu')->where('ruas_jalan',"LIKE","%".$request->ruas_jalan."%");
+
+            $data = $data->whereBetween('tanggal_spmk', [$date_from, $date_to]);
+
+            $data = $data->leftJoin('bankeu_geo_json','bankeu_geo_json.id_bankeu','bankeu.id')->get();
+            $this->response['data']['rumija'] = $data;
+            return response()->json($this->response, 200);
+        } catch (\Exception $th) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
 }

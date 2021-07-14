@@ -163,6 +163,9 @@ Route::post('map/dashboard/jembatan', 'API\MapDashboardController@getJembatan');
 Route::post('map/kemantapan-jalan', 'MonitoringController@getKemantapanJalanAPI')->name('api.kemantapanjalan');
 Route::get('map/pemeliharaan', 'API\MapDashboardController@getPemeliharaan')->name('api.map.pemeliharaan');
 Route::get('map/pembangunan', 'API\MapDashboardController@getPembangunan')->name('api.map.pembangunan');
+Route::get('map/rumija', 'API\MapDashboardController@getRumija')->name('api.map.rumija');
+Route::get('map/bankeu', 'API\MapDashboardController@getBankeu')->name('api.map.bankeu');
+
 
 Route::resource('vehicle-counting', 'API\VehicleCountingController');
 
