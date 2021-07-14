@@ -42,7 +42,7 @@ class BantuanKeuanganController extends Controller
         $konsultan = DB::connection('talikuat')->table('master_konsultan')->get();
         $ppk = DB::connection('talikuat')->table('master_ppk')->get();
         $action = 'store';
-        return view('admin.input_data.bankeu.insert', compact('action','ruas_jalan','kategori', 'penyedia_jasa', 'konsultan', 'ppk'));
+        return view('admin.input_data.bankeu.insert', compact('action', 'ruas_jalan', 'kategori', 'penyedia_jasa', 'konsultan', 'ppk'));
     }
 
     /**
@@ -53,7 +53,7 @@ class BantuanKeuanganController extends Controller
      */
     public function store(Request $request)
     {
-        $bankeu = $request->except(["_token",'progress_old','foto','foto_1','foto_2','video']);
+        $bankeu = $request->except(["_token", 'progress_old', 'foto', 'foto_1', 'foto_2', 'video']);
         $bankeu["created_by"] = Auth::user()->id;
         $bankeu['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
         if ($request->file('foto') != null) {
@@ -78,17 +78,24 @@ class BantuanKeuanganController extends Controller
         }
         $id =  DB::table('bankeu')->insertGetId($bankeu);
         // dd(json_decode($request->geo_json));
-        if($request->geo_json) {
-        $geo_json['geo_json'] = json_encode([
-            "type"=>"MultiLineString",
-            "coordinates"=> json_decode($request->geo_json),
-            "crs"=>["type"=>"name","properties"=>["name"=>"EPSG:4326"]]
-        ]);
-        $geo_json['id_bankeu'] = $id;
-        // dd(json_encode($geo_json);
+        if ($request->geo_json) {
+            $geo_json['geo_json'] = json_encode([
+                "type" => "MultiLineString",
+                "coordinates" => json_decode($request->geo_json),
+                "crs" => ["type" => "name", "properties" => ["name" => "EPSG:4326"]]
+            ]);
+            $geo_json['id_bankeu'] = $id;
+            // dd(json_encode($geo_json);
 
-        DB::table('bankeu_geo_json')->insert($geo_json);
-    }
+            $ruas_jalan_custom['flag_id'] = $id;
+            $ruas_jalan_custom['flag'] = 'bankeu';
+            $ruas_jalan_custom['keterangan'] = 'Custom ruas jalan dari bankeu';
+            $ruas_jalan_custom['nama_lokasi'] = $request->nama_lokasi;
+            $ruas_jalan_custom['geo_json'] = $geo_json['geo_json'];
+            $id_ruas_jalan_custom = DB::table('ruas_jalan_custom')->insertGetId($ruas_jalan_custom);
+            DB::table('bankeu')->where('id', $id)->update(['ruas_jalan_custom_id' => $id_ruas_jalan_custom]);
+            DB::table('bankeu_geo_json')->insert($geo_json);
+        }
         $historis["id_bankeu"] = $id;
         $historis['progress'] = $request->progress;
         $historis['progress_old'] = 0;
@@ -115,7 +122,7 @@ class BantuanKeuanganController extends Controller
         $ppk = DB::connection('talikuat')->table('master_ppk')->get();
         $historis = DB::table('utils_historis_bankeu')->where('id_bankeu', $id)->get();
         // dd($historis);
-        return view('admin.input_data.bankeu.progress', compact('bankeu','kategori', 'penyedia_jasa', 'konsultan', 'ppk','historis'));
+        return view('admin.input_data.bankeu.progress', compact('bankeu', 'kategori', 'penyedia_jasa', 'konsultan', 'ppk', 'historis'));
     }
 
     /**
@@ -133,7 +140,7 @@ class BantuanKeuanganController extends Controller
         $bankeu = DB::table('bankeu')->where('id', $id)->first();
         $ppk = DB::connection('talikuat')->table('master_ppk')->get();
         $action = 'update';
-        return view('admin.input_data.bankeu.insert', compact('action','bankeu','kategori', 'penyedia_jasa', 'konsultan', 'ppk','ruas_jalan'));
+        return view('admin.input_data.bankeu.insert', compact('action', 'bankeu', 'kategori', 'penyedia_jasa', 'konsultan', 'ppk', 'ruas_jalan'));
     }
 
     /**
@@ -145,7 +152,7 @@ class BantuanKeuanganController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $bankeu = $request->except(["_token", "_method",'progress_old','foto','foto_1','foto_2','video']);
+        $bankeu = $request->except(["_token", "_method", 'progress_old', 'foto', 'foto_1', 'foto_2', 'video']);
         $bankeu["updated_by"] = Auth::user()->id;
         $bankeu['updated_at'] = Carbon::now()->format('Y-m-d H:i:s');
 
@@ -170,7 +177,7 @@ class BantuanKeuanganController extends Controller
             $bankeu['video'] = $path;
         }
         DB::table('bankeu')->where('id', $id)->update($bankeu);
-        if($request->progress !== $request->progress_old){
+        if ($request->progress !== $request->progress_old) {
             $historis["id_bankeu"] = $id;
             $historis['progress'] = $request->progress;
             $historis['progress_old'] = $request->progress_old;
@@ -178,15 +185,25 @@ class BantuanKeuanganController extends Controller
             $historis['updated_at'] = Carbon::now();
             DB::table('utils_historis_bankeu')->insert($historis);
         }
-        if($request->geo_json) {
+        if ($request->geo_json) {
             $geo_json['geo_json'] = json_encode([
-                "type"=>"MultiLineString",
-                "coordinates"=> json_decode($request->geo_json),
-                "crs"=>["type"=>"name","properties"=>["name"=>"EPSG:4326"]]
+                "type" => "MultiLineString",
+                "coordinates" => json_decode($request->geo_json),
+                "crs" => ["type" => "name", "properties" => ["name" => "EPSG:4326"]]
             ]);
             $geo_json['id_bankeu'] = $id;
 
-            DB::table('bankeu_geo_json')->where('id_bankeu',$id)->update($geo_json);
+            $ruas_jalan_custom['keterangan'] = 'Custom ruas jalan dari bankeu';
+            $ruas_jalan_custom['nama_lokasi'] = $request->nama_lokasi;
+            $ruas_jalan_custom['geo_json'] = $geo_json['geo_json'];
+            if (DB::table('bankeu')->where('id', $id)->count() > 1) {
+                $id_ruas_jalan_custom = DB::table('ruas_jalan_custom')->insertGetId($ruas_jalan_custom);
+                DB::table('bankeu')->where('id', $id)->update(['ruas_jalan_custom_id' => $id_ruas_jalan_custom]);
+            } else
+                DB::table('ruas_jalan_custom')->where('flag', 'bankeu')
+                    ->where('flag_id', $id)->update($ruas_jalan_custom);
+
+            DB::table('bankeu_geo_json')->where('id_bankeu', $id)->update($geo_json);
         }
         $color = "success";
         $msg = "Berhasil Mengubah Data Bantuan Keuangan";
@@ -201,6 +218,9 @@ class BantuanKeuanganController extends Controller
      */
     public function destroy($id)
     {
+        if (!(DB::table('bankeu')->where('id', $id)->count() > 1))
+            DB::table('ruas_jalan_custom')->where('flag', 'bankeu')
+                ->where('flag_id', $id)->delete();
         $temp = DB::table('bankeu')->where('id', $id)->delete();
         $color = "success";
         $msg = "Berhasil Menghapus Data Bantuan Keuangan";
@@ -209,7 +229,7 @@ class BantuanKeuanganController extends Controller
 
     public function getRuasJalanByGeoId($id)
     {
-        $ruas_jalan = DB::table('ruas_jalan_kabupaten_tarung')->where('geo_id',$id)->first();
-        return response()->json(["coordinates" => json_decode($ruas_jalan->geo_json)->coordinates[0]],200);
+        $ruas_jalan = DB::table('ruas_jalan_kabupaten_tarung')->where('geo_id', $id)->first();
+        return response()->json(["coordinates" => json_decode($ruas_jalan->geo_json)->coordinates[0]], 200);
     }
 }
