@@ -174,6 +174,7 @@ Route::post('send-notification-user', 'API\PushNotifController@sendNotificationU
 Route::post('debug-notification', 'API\PushNotifController@debugNotification')->name('debug.notification');
 
 Route::get('map/geojson/ruas_jalan_propinsi','API\GeoJsonController@getRuasJalanProvinsi');
+Route::get('map/geojson/ruas_jalan_custom','API\GeoJsonController@getRuasJalanCustom');
 
 Route::fallback(function () {
     return response()->json([
