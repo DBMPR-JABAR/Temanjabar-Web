@@ -382,7 +382,7 @@
     <label class="col-md-4 col-form-label">Nama Lokasi</label>
     <div class="col-md-8">
                 <input id="nama_lokasi_value" name="nama_lokasi" value="{{@$nama_lokasi}}" type="text"
-                    class="form-control" required>
+                    class="form-control">
     </div>
 </div>
 

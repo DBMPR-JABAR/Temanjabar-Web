@@ -200,20 +200,23 @@ $("#mapLatLong")
             }
 
             const onChangeRuasJalan = async(event) => {
-                const geo_id = event.target.value;
+                try { view.ui.remove(gambarManual) } catch (e) { console.log(e) };
+                let geo_id = event.target.value;
+                console.log(geo_id)
                 const namaLokasi = document.getElementById('nama_lokasi')
                 if (geo_id != -1) {
-                    view.ui.remove(gambarManual);
                     $("#nama_lokasi").hide()
+                    $("#nama_lokasi_value").prop('required', false);
                 } else {
+                    $("#nama_lokasi").show()
+                    $("#nama_lokasi_value").prop('required', true);
                     if (exitsData !== null) {
                         if (exitsData.geo_id != -1) {
-                            onChangeRuasJalan({ target: { value: exitsData.geo_id } })
+                            geo_id = exitsData.geo_id
                         } else {
                             const paths = JSON.parse(exitsData.geo_json)
                             addPolyLine(paths)
                             drawMode()
-                            $("#nama_lokasi").show()
                             console.log(exitsData.nama_lokasi)
                             $("#nama_lokasi_value").val(exitsData.nama_lokasi)
                         }
@@ -223,11 +226,12 @@ $("#mapLatLong")
                     }
 
                 }
-
-                const response = await fetch(`${url}/${geo_id}`);
-                const ruasJalan = await response.json();
-                console.log([ruasJalan.coordinates[0]]);
-                addPolyLine([ruasJalan.coordinates])
+                if (geo_id != -1) {
+                    const response = await fetch(`${url}/${geo_id}`);
+                    const ruasJalan = await response.json();
+                    console.log([ruasJalan.coordinates[0]]);
+                    addPolyLine([ruasJalan.coordinates])
+                }
 
             };
 
