@@ -23,7 +23,7 @@
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZXJBVDf7R4JqmSpopVPoduIGWx1IwpBM"></script>
     <script type="text/javascript" src="{{ asset('assets/labkon/js/plugins.js')}}"></script>
 
-	
+
 	</head>
 	<body>
 	<div class="svg-wrap">
@@ -61,10 +61,11 @@
           <div class="collapse navbar-collapse" id="menu">
             <ul class="nav navbar-nav navbar-right">
               <li><a href="#header">Beranda</a></li>
-              <li><a href="#about">Tentang Kami</a></li>              
+              <li><a href="#about">Tentang Kami</a></li>
               <li><a href="#portfolio">Jenis Pengujian</a></li>
 			  <li><a href="#team">Informasi</a></li>
               <li><a href="#contact">Kontak Kami</a></li>
+              <li><a href="http://124.81.122.131/laboratorium_konstruksi/login">Login</a></li>
             </ul>
           </div> <!-- /.navbar-collapse -->
         </div> <!-- /.container -->
@@ -78,7 +79,7 @@
               <path d="M 0,0 0,60 80,60 80,0 Z M 80,0 80,60 0,60 0,0 Z"/>
             </svg>
           </div> <!-- /.pageload-overlay -->
-          
+
           <div class="image-slide bg-fixed">
             <div class="overlay">
               <div class="container">
@@ -189,8 +190,8 @@
         </div> <!-- /.row table-row -->
       </div> <!-- /.container -->
     </section>
-	
-	
+
+
 	    <!-- PORTFOLIO -->
 
     <section id="portfolio" class="light">
@@ -203,13 +204,13 @@
         <div class="row">
           <ul id="filters" class="list-inline">
             <li data-filter="all" class="filter">All</li>
-            <li data-filter=".branding" class="filter">Aspal</li> 
-            <li data-filter=".graphic" class="filter">Agregat</li> 
-            <li data-filter=".printing" class="filter">Beton</li> 
-            <li data-filter=".video" class="filter">Campuran Aspal</li> 
-			<li data-filter=".tanah" class="filter">Tanah</li> 
+            <li data-filter=".branding" class="filter">Aspal</li>
+            <li data-filter=".graphic" class="filter">Agregat</li>
+            <li data-filter=".printing" class="filter">Beton</li>
+            <li data-filter=".video" class="filter">Campuran Aspal</li>
+			<li data-filter=".tanah" class="filter">Tanah</li>
 			<li data-filter=".lapangan" class="filter">Lapangan</li>
-			<li data-filter=".campuran" class="filter">Perencanaan Campuran</li> 
+			<li data-filter=".campuran" class="filter">Perencanaan Campuran</li>
           </ul>
         </div>
 
@@ -274,7 +275,7 @@
                       link : "stabilitas_penyimpanan.html",
                       text : "SNI 2434:2011 dan ASTM D 5976-00."
                     },
-					
+
 				    {
                       category : "branding",
                       image : "{{ asset('assets/labkon/images/kadarparafin1.jpg')}}",
@@ -282,7 +283,7 @@
                       link : "parafin.html",
                       text : "SNI 03-3639-2002."
                     },
-					
+
 
 				   {
                       category : "branding",
@@ -291,7 +292,7 @@
                       link : "Penetrasi_Aspal25.html",
                       text : "SNI 2465 :2011."
                     },
-					
+
 			         {
                       category : "branding",
                       image : "{{ asset('assets/labkon/images/daktilitas2.jpg')}}",
@@ -299,7 +300,7 @@
                       link : "daktilitas_aspal25.html",
                       text : "SNI 2432:2011."
                     },
-					
+
 					{
                       category : "branding",
                       image : "{{ asset('assets/labkon/images/berathilang.jpg')}}",
@@ -307,8 +308,8 @@
                       link : "kehilangan_tfot.html",
                       text : "SNI 2432:2011."
                     },
-					
-					
+
+
                     {
                       category : "graphic",
                       image : "{{ asset('assets/labkon/images/p-2.png')}}",
@@ -351,7 +352,7 @@
                       link : "#none",
                       text : "SNI 03-4428-1997."
                     },
-						
+
 				    {
                       category : "graphic",
                       image : "{{ asset('assets/labkon/images/urah.jpg')}}",
@@ -409,7 +410,7 @@
                       link : "ekstraksi.html",
                       text : "SNI 3423:2008."
                     },
-					 
+
 					{
                       category : "video",
                       image : "{{ asset('assets/labkon/images/p-4.png')}}",
@@ -425,7 +426,7 @@
                       link : "Bj_maksimum.html",
                       text : "SNI 3423:2008."
                     },
-				
+
 
 					{
                       category : "tanah",
@@ -588,7 +589,7 @@
                       link : "#none",
                       text : "SNI 6890 : 204."
                     },
-					
+
 					{
                       category : "campuran",
                       image : "{{ asset('assets/labkon/images/dmxaspal.jpg')}}",
@@ -596,7 +597,7 @@
                       link : "dm_acwc",
                       text : "SNI 6890 : 204."
                     },
-                     
+
 					 {
                       category : "campuran",
                       image : "{{ asset('assets/labkon/images/aspalacwc.jpg')}}",
@@ -724,10 +725,10 @@
                       text : "SNI 1972 : 2008."
 
                     }
-					
-				
-			
-				
+
+
+
+
                 ];
             </script>
           </div>
@@ -743,7 +744,7 @@
         <h2>Informasi <span>UPTD Laboratorium Bahan Konstruksi</span></h2>
         <p>Informasi Mengenai Pengujian UPTD Laboratorium Bahan Konstruksi.</p>
       </header>
-      
+
       <div class="container">
         <div class="row">
           <div class="col-md-3 col-sm-6 text-center">
@@ -753,7 +754,7 @@
               </div>
 
               <h3><a href= "https://docs.google.com/forms/d/12e6XgW4VsGHilVrvd7N0TaZcnfCGkepJWhCnda4UPYg/viewform?edit_requested=true">Pendaftaran</a></h3>
-           
+
 
 
               <p>Silakan Mulai Lakukan Pendaftaran Pada Saat Ingin Melakukan Pengujian.</p>
@@ -763,19 +764,19 @@
                   <li><a href="#" class="fa fa-linkedin"></a></li>
                   <li><a href="#" class="fa fa-facebook"></a></li>
                   <li><a href="#" class="fa fa-google-plus"></a></li>
-                </ul> 
-              </div>                
+                </ul>
+              </div>
             </div>
           </div>
 
           <div class="col-md-3 col-sm-6 text-center">
-            <div class="wrap animated" data-animate="fadeInDown"> 
+            <div class="wrap animated" data-animate="fadeInDown">
               <div class="img-team">
                 <img src="{{ asset('assets/labkon/images/kuisioner.png')}}" alt="" class="img-circle">
               </div>
 
               <h3><a href="https://docs.google.com/forms/d/e/1FAIpQLSeS7_qujh_vtpAsl-DiV3JZECfcNW3e4W7wzDJLTWPxh1BZNg/viewform">Kuisioner</a></h3>
-          
+
 
               <p>Silakan isi kuisioner setelah pengambilan laporan hasil sampel uji.</p>
 
@@ -785,19 +786,19 @@
                   <li><a href="#" class="fa fa-linkedin"></a></li>
                   <li><a href="#" class="fa fa-facebook"></a></li>
                   <li><a href="#" class="fa fa-google-plus"></a></li>
-                </ul> 
-              </div>                
+                </ul>
+              </div>
             </div>
           </div>
 
           <div class="col-md-3 col-sm-6 text-center">
-            <div class="wrap animated" data-animate="fadeInDown"> 
+            <div class="wrap animated" data-animate="fadeInDown">
               <div class="img-team">
                 <img src="{{ asset('assets/labkon/images/kuisioner.png')}}" alt="" class="img-circle">
               </div>
 
             <h3><a href="syarat_uji.html">Syarat Uji</a></h3>
-             
+
 
               <p>Syarat Uji Sampel Berisi Tentang Persyratan Pengujian dan Rincian Kebutuhan Sampel.</p>
 
@@ -807,18 +808,18 @@
                   <li><a href="#" class="fa fa-linkedin"></a></li>
                   <li><a href="#" class="fa fa-facebook"></a></li>
                   <li><a href="#" class="fa fa-google-plus"></a></li>
-                </ul> 
-              </div>                
+                </ul>
+              </div>
             </div>
           </div>
 
 
           <div class="col-md-3 col-sm-6 text-center">
-            <div class="wrap animated" data-animate="fadeInDown"> 
+            <div class="wrap animated" data-animate="fadeInDown">
               <div class="img-team">
                 <img src="{{ asset('assets/labkon/images/Persyaratan-Pengujian.jpg')}}" alt="" class="img-circle">
               </div>
-			  
+
 
               <h3><a href="alur.html">Alur Pengujian</a></h3>
               <p>Silahkan Agar Membaca Alur pengujian Terlebih Dahulu Sebelum Mendaftar.</p>
@@ -829,14 +830,14 @@
                   <li><a href="#" class="fa fa-linkedin"></a></li>
                   <li><a href="#" class="fa fa-facebook"></a></li>
                   <li><a href="#" class="fa fa-google-plus"></a></li>
-                </ul> 
-              </div>                
+                </ul>
+              </div>
             </div>
           </div>
         </div>
       </div> <!-- /.container -->
     </section>
-	
+
 	    <!-- INFO -->
 
     <!-- FOOTER CONTACT -->
@@ -876,7 +877,7 @@
                 <span><i class="fa fa-globe fa-lg"></i> <a href="http://support.example.com">dbmpr.balaiuji@yahoo.com</a></span>
             </address>
           </div>
-		  
+
         </div>
       </div>
     </section>
@@ -893,7 +894,7 @@
     </section>
 
    </div><!-- /.container-fluid -->
-    
+
     <!-- SCRIPT -->
     <script type="text/javascript" src="{{ asset('assets/labkon/js/main.js')}}"></script>
 	</body>
