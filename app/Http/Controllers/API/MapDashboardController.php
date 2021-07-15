@@ -345,7 +345,7 @@ class MapDashboardController extends Controller
 
             $data = $data->whereBetween('tanggal_spmk', [$date_from, $date_to]);
 
-            $data = $data->leftJoin('bankeu_geo_json', 'bankeu_geo_json.id_bankeu', 'bankeu.id')->get();
+            $data = $data->get();
             $this->response['data']['bankeu'] = $data;
             return response()->json($this->response, 200);
         } catch (\Exception $th) {
