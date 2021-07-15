@@ -65,7 +65,7 @@
               <li><a href="#portfolio">Jenis Pengujian</a></li>
 			  <li><a href="#team">Informasi</a></li>
               <li><a href="#contact">Kontak Kami</a></li>
-              <li><a href="http://124.81.122.131/laboratorium_konstruksi/login">Login</a></li>
+              <li><a href="http://124.81.122.131/laboratorium_konstruksi/dashboard">Login</a></li>
             </ul>
           </div> <!-- /.navbar-collapse -->
         </div> <!-- /.container -->
