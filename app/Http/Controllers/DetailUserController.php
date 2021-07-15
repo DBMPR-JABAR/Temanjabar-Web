@@ -180,25 +180,24 @@ class DetailUserController extends Controller
 
             // dd($request);
             $this->validate($request,[
-                'nama' => 'required',
-                'tgl_lahir'    => 'required',
-                'tmp_lahir'    => 'required',
-                'jenis_kelamin'    => 'required',
-                'no_tlp'    => 'numeric|digits_between:8,13',
-                'no_tlp_rumah'    => '',
-                'sup_id' => '',
-                'tgl_mulai_kerja' => '',
-                'sekolah' => '',
-                'jejang' => '',
-                'jurusan_pendidikan' => '',
-                'provinsi' => '',
-                'kota' => '',
-                'kode_pos' => '',
-                'alamat' => '',
-                'agama' => 'required',
-                'ruas_jalan' => '',
-
-                ]);
+                'nama'=> 'required',
+                'tgl_lahir'=> 'required',
+                'tmp_lahir'=> 'required',
+                'jenis_kelamin'=> 'required',
+                'no_tlp'=> 'numeric|digits_between:8,13',
+                'no_tlp_rumah'=> '',
+                'sup_id'=> '',
+                'tgl_mulai_kerja'=> '',
+                'sekolah'=> '',
+                'jejang'=> '',
+                'jurusan_pendidikan'=> '',
+                'provinsi'=> '',
+                'kota'=> '',
+                'kode_pos'=> '',
+                'alamat'=> '',
+                'agama'=> 'required',
+                'ruas_jalan'=> '',
+            ]);
                 // dd($id);
                 $updateprofile = DB::table('user_pegawai')
                 ->where('user_id', $id)->first();
@@ -213,15 +212,11 @@ class DetailUserController extends Controller
                 // $temp = explode(",",$request->input('sup_id'));
 
             $userprofile['nama'] = $request->input('nama');
-                // $userprofile['frontDegree']     = $request->input('frontDegree');
-                // $userprofile['backDegree']     = $request->input('backDegree');
             $userprofile['no_pegawai']     = $request->input('no_pegawai');
             $userprofile['tgl_lahir']   = $request->input('tgl_lahir');
             $userprofile['tmp_lahir']   = $request->input('tmp_lahir');
             $userprofile['agama']  = $request->input('agama');
-
             $userprofile['jenis_kelamin'] = $request->input('jenis_kelamin');
-            // dd($userprofile['jenis_kelamin']);
             $userprofile['no_tlp']  = $request->input('no_tlp');
             $userprofile['no_tlp_rumah']  = $request->input('no_tlp_rumah');
             $userprofile['tgl_mulai_kerja']  = $request->input('tgl_mulai_kerja');

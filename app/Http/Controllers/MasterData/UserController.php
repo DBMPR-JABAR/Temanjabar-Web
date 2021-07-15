@@ -135,8 +135,11 @@ class UserController extends Controller
         $user['email'] = $request->email;
         if ($request->role == 'internal') {
             $getsup = DB::table('utils_sup')->where('kd_sup', $request->input('sup_id'))->select('id', 'name')->first();
-            $user['sup_id'] = $getsup->id;
-            $user['sup'] = $getsup->name;
+            if($getsup){
+                $user['sup_id'] = $getsup->id;
+                $user['sup'] = $getsup->name;
+
+            }
         }
         $user['role'] = $request->role;
 
