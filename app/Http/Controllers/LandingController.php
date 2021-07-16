@@ -451,7 +451,32 @@ class LandingController extends Controller
         // return back()->with(compact('color', 'msg'));
     }
     public function labkon(){
-        return view('landing.uptd.labkon');
+        $data = DB::table('labkon_posts')->get();
+        
+        return view('landing.uptd.labkon',compact('data'));
+    }
+    public function createpost(){
+        return view('landing.uptd.lab.posts');
+    }
+    public function storepost(Request $request){
+        // dd($request->cover);
+        $this->validate($request,[
+            'title'         => 'required|unique:labkon_posts',
+            'content'       => 'required',
+            'image'       => '',
+            'category'      =>''
+        ]);
+        $posting = [
+            'title'       => $request->input('title'),
+            'slug'        => Str::slug($request->input('title'), '-'),
+            'content'     => $request->input('content'),
+            'view'          => 0,
+            'image'         => $request->input('image'),
+            'category'         => $request->input('category'),
+
+        ];
+        DB::table('labkon_posts')->insert($posting);
+        return back();
     }
 
 }

@@ -208,530 +208,1044 @@
             <li data-filter=".graphic" class="filter">Agregat</li>
             <li data-filter=".printing" class="filter">Beton</li>
             <li data-filter=".video" class="filter">Campuran Aspal</li>
-			<li data-filter=".tanah" class="filter">Tanah</li>
-			<li data-filter=".lapangan" class="filter">Lapangan</li>
-			<li data-filter=".campuran" class="filter">Perencanaan Campuran</li>
+            <li data-filter=".tanah" class="filter">Tanah</li>
+            <li data-filter=".lapangan" class="filter">Lapangan</li>
+            <li data-filter=".campuran" class="filter">Perencanaan Campuran</li>
           </ul>
         </div>
 
         <div class="row">
+          {{-- <div class="container-portfolio">
+            <!-- PORTFOLIO OBJECT -->
+                        <script type="text/javascript">
+                          var portfolio = [
+                                {
+                                  category : "branding",
+                                  image : "{{ asset('assets/labkon/images/penetrasi.jpg')}}",
+                                  title : "Penetrasi Pada 25 C(0,1 mm)",
+                                  link : "Penetrasi_Aspal.html",
+                                  text : "SNI 2456:2011."
+                                },
+                                          {
+                                  category : "branding",
+                                  image : "{{ asset('assets/labkon/images/viskonsitas1.jpg')}}",
+                                  title : "Viskonsitas Kinematis 135 C",
+                                  link : "viskonsitas.html",
+                                  text : "ASTM D2170 - 10."
+                                },
+                                          {
+                                  category : "branding",
+                                  image : "{{ asset('assets/labkon/images/titiklembek1.jpg')}}",
+                                  title : "Titik Lembek",
+                                  link : "Titik_Lembek.html",
+                                  text : "SNI 2434:2011."
+                                },
+                        {
+                                  category : "branding",
+                                  image : "{{ asset('assets/labkon/images/daktilitassetelah.jpg')}}",
+                                  title : "Daktilitas pada 25 C (cm)",
+                                  link : "daktilitas_aspal.html",
+                                  text : "SNI 2432:2011."
+                                },
+                      {
+                                  category : "branding",
+                                  image : "{{ asset('assets/labkon/images/titiknyala1.jpg')}}",
+                                  title : "Titik Nyala",
+                                  link : "titiknyala_aspal.html",
+                                  text : "SNI 2433:2011."
+                                },
+                      {
+                                  category : "branding",
+                                  image : "{{ asset('assets/labkon/images/kelarutan1.jpg')}}",
+                                  title : "Kelarutan dalam Trichloroethylene(%)",
+                                  link : "kelarutan_aspal.html",
+                                  text : "AASHTO T44-14."
+                                },
+                        {
+                                  category : "branding",
+                                  image : "{{ asset('assets/labkon/images/bj_aspal1.jpg')}}",
+                                  title : "Berat Jenis",
+                                  link : "beratjenis.html",
+                                  text : "SNI 2441:2011."
+                                },
+                              {
+                                  category : "branding",
+                                  image : "{{ asset('assets/labkon/images/stabilitasaspal.jpg')}}",
+                                  title : "Stabilitas Penyimpanan ",
+                                  link : "stabilitas_penyimpanan.html",
+                                  text : "SNI 2434:2011 dan ASTM D 5976-00."
+                                },
+
+                        {
+                                  category : "branding",
+                                  image : "{{ asset('assets/labkon/images/kadarparafin1.jpg')}}",
+                                  title : "Kadar Parafin Lilin(%)",
+                                  link : "parafin.html",
+                                  text : "SNI 03-3639-2002."
+                                },
+
+
+                      {
+                                  category : "branding",
+                                  image : "{{ asset('assets/labkon/images/penetrasisetelah.jpg')}}",
+                                  title : "Penetrasi Setelah TFOT 25 C ",
+                                  link : "Penetrasi_Aspal25.html",
+                                  text : "SNI 2465 :2011."
+                                },
+
+                          {
+                                  category : "branding",
+                                  image : "{{ asset('assets/labkon/images/daktilitas2.jpg')}}",
+                                  title : "Daktilitas Setelah TFOT 25 C ",
+                                  link : "daktilitas_aspal25.html",
+                                  text : "SNI 2432:2011."
+                                },
+
+                      {
+                                  category : "branding",
+                                  image : "{{ asset('assets/labkon/images/berathilang.jpg')}}",
+                                  title : "Kehilangan TFOT",
+                                  link : "kehilangan_tfot.html",
+                                  text : "SNI 2432:2011."
+                                },
+
+
+                                {
+                                  category : "graphic",
+                                  image : "{{ asset('assets/labkon/images/p-2.png')}}",
+                                  title : "Kekekalan (Soundness)",
+                                  link : "#none",
+                                  text : "SNI 3407:2008."
+                                },
+                                {
+                                  category : "graphic",
+                                  image : "{{ asset('assets/labkon/images/abrasiagg.jpg')}}",
+                                  title : "Abrasi Los Angeles",
+                                  link : "abrasi.html",
+                                  text : "SNI 2147 : 2008."
+                                },
+                      {
+                                  category : "graphic",
+                                  image : "{{ asset('assets/labkon/images/kelekatan1.jpg')}}",
+                                  title : "Kelekatan Agregat Terhadap Aspal",
+                                  link : "#none",
+                                  text : "SNI 2439 : 2011."
+                                },
+                        {
+                                  category : "graphic",
+                                  image : "{{ asset('assets/labkon/images/butiranagg.jpg')}}",
+                                  title : "Butiran Pecah Agregat Kasar",
+                                  link : "#none",
+                                  text : "SNI 7619:2012."
+                                },
+                      {
+                                  category : "graphic",
+                                  image : "{{ asset('assets/labkon/images/200ag.jpg')}}",
+                                  title : "Material Lolos Ayakan No.200",
+                                  link : "#none",
+                                  text : "SNI ASTM C 117:2012."
+                                },
+                        {
+                                  category : "graphic",
+                                  image : "{{ asset('assets/labkon/images/Sand-equivalent.jpg')}}",
+                                  title : "Sand Equivalent",
+                                  link : "#none",
+                                  text : "SNI 03-4428-1997."
+                                },
+
+                        {
+                                  category : "graphic",
+                                  image : "{{ asset('assets/labkon/images/urah.jpg')}}",
+                                  title : "Uji Rongga Kadar Agregat Halus Tanpa Pemadatan",
+                                  link : "ronggaudaraagg.html",
+                                  text : "SNI 03-6877-2002."
+                                },
+                        {
+                                  category : "graphic",
+                                  image : "{{ asset('assets/labkon/images/lempung.jpg')}}",
+                                  title : "Butiran Gumpalan Lempung",
+                                  link : "#none",
+                                  text : "SNI 4141:2015."
+                                },
+                      {
+                                  category : "graphic",
+                                  image : "{{ asset('assets/labkon/images/agregathalus.jpg')}}",
+                                  title : "Berat Jenis Agregat Halus",
+                                  link : "bj_agregathalus.html",
+                                  text : "SNI 1970:2016."
+                                },
+                        {
+                                  category : "graphic",
+                                  image : "{{ asset('assets/labkon/images/analisca.jpg')}}",
+                                  title : "Analisis Saringan Campuran Aspal, Analisis Saringan Laporan Pondasi,Analisis Saringan Hasil Ekstraksi",
+                                  link : "analisa_saringanag.html",
+                                  text : "SNI ASTM C136:2012."
+                                },
+                            {
+                                  category : "graphic",
+                                  image : "{{ asset('assets/labkon/images/bi_agregat.jpg')}}",
+                                  title : "Berat Isi",
+                                  link : "#none",
+                                  text : "SNI 03-4804-1998."
+                                },
+                                {
+                                  category : "video",
+                                  image : "{{ asset('assets/labkon/images/p-4.png')}}",
+                                  title : "Marshall<span>Test</span>",
+                                  link : "marshal.html",
+                                  text : "SNI 1996:2008."
+                                },
+                      {
+                                  category : "video",
+                                  image : "{{ asset('assets/labkon/images/p-4.png')}}",
+                                  title : "Density Core Drill<span>/Briket</span>",
+                                  link : "density.html",
+                                  text : "SNI 3423:2008."
+                                },
+
+                      {
+                                  category : "video",
+                                  image : "{{ asset('assets/labkon/images/p-4.png')}}",
+                                  title : "Kadar Aspal<span>/ Ekstraksi</span>",
+                                  link : "ekstraksi.html",
+                                  text : "SNI 3423:2008."
+                                },
+
+                      {
+                                  category : "video",
+                                  image : "{{ asset('assets/labkon/images/p-4.png')}}",
+                                  title : "Gradasi<span>/ Campuran</span>",
+                                  link : "gradasi.html",
+                                  text : "SNI 3423:2008."
+                                },
+
+                      {
+                                  category : "video",
+                                  image : "{{ asset('assets/labkon/images/p-4.png')}}",
+                                  title : "Berat Jenis Maksimum<span>/ GMM</span>",
+                                  link : "Bj_maksimum.html",
+                                  text : "SNI 3423:2008."
+                                },
+
+
+                      {
+                                  category : "tanah",
+                                  image : "{{ asset('assets/labkon/images/saringan.jpg')}}",
+                                  title : "AnalisisSarinagan<span>dan Hidrometer</span>",
+                                  link : "hidro_ansa.html",
+                                  text : "SNI 3423:2008."
+                                },
+                      {
+                                  category : "tanah",
+                                  image : "{{ asset('assets/labkon/images/bi_tanah1.jpg')}}",
+                                  title : "Berat<span>Isi</span>",
+                                  link : "beratisitanah.html",
+                                  text : "SNI 03-3637-1994."
+                                },
+                      {
+                                  category : "tanah",
+                                  image : "{{ asset('assets/labkon/images/bj_tanah.jpg')}}",
+                                  title : "Berat<span>Jenis</span>",
+                                  link : "beratjenis_tanah.html",
+                                  text : "SNI 1964:2008."
+                                },
+                      {
+                                  category : "tanah",
+                                  image : "{{ asset('assets/labkon/images/kadarair_tanah.jpg')}}",
+                                  title : "Kadar<span>Air</span>",
+                                  link : "kadarairtanah.html",
+                                  text : "SNI 1965:2008."
+                                },
+                      {
+                                  category : "tanah",
+                                  image : "{{ asset('assets/labkon/images/ucs1.jpg')}}",
+                                  title : "UCS",
+                                  link : "ucs.html",
+                                  text : "SNI 3638:2012."
+                                },
+                      {
+                                  category : "tanah",
+                                  image : "{{ asset('assets/labkon/images/directshear.jpg')}}",
+                                  title : "Direct<span>Shear</span>",
+                                  link : "directsheartanah.html",
+                                  text : "SNI 2813:2008."
+                                },
+                      {
+                                  category : "tanah",
+                                  image : "{{ asset('assets/labkon/images/konsolidasi1.jpg')}}",
+                                  title : "Konsolidasi",
+                                  link : "konsolidasitanah.html",
+                                  text : "SNI 2812:2012."
+                                },
+                      {
+                                  category : "tanah",
+                                  image : "{{ asset('assets/labkon/images/atteberg.png')}}",
+                                  title : "Atteberg<span>Limit</span>",
+                                  link : "atteberglimit.html",
+                                  text : "SNI 1966:2008."
+                                },
+                      {
+                                  category : "tanah",
+                                  image : "{{ asset('assets/labkon/images/pemadatantanah.jpg')}}",
+                                  title : "Pemadatan<span>Standar</span>",
+                                  link : "pemadatantanah",
+                                  text : "SNI 6886:2012."
+                                },
+                      {
+                                  category : "tanah",
+                                  image : "{{ asset('assets/labkon/images/rendam.jpg')}}",
+                                  title : "Pemadatan Modified; CBR Rendaman Modified<span>CBR Rendaman Standar</span>",
+                                  link : "#none",
+                                  text : "SNI 1743-2008."
+                                },
+                      {
+                                  category : "tanah",
+                                  image : "{{ asset('assets/labkon/images/cbrstandar.jpg')}}",
+                                  title : "CBR Langsung Standar<span>CBR Langsung Modified</span>",
+                                  link : "#none",
+                                  text : "SNI 1744:2012."
+                                },
+                        {
+                                  category : "lapangan",
+                                  image : "{{ asset('assets/labkon/images/sandcone.jpg')}}",
+                                  title : "Sand<span>Cone</span>",
+                                  link : "sandcone.html",
+                                  text : "SNI 03-2828-2011."
+                                },
+                      {
+                                  category : "lapangan",
+                                  image : "{{ asset('assets/labkon/images/dcp.gif')}}",
+                                  title : "DCP",
+                                  link : "#none",
+                                  text : "."
+                                },
+                      {
+                                  category : "lapangan",
+                                  image : "{{asset('assets/labkon/images/humertest.jpg')}}",
+                                  title : "Hammer<span>Test</span>",
+                                  link : "#none",
+                                  text : ""
+                                },
+                      {
+                                  category : "lapangan",
+                                  image : "{{ asset('assets/labkon/images/sondir.png')}}",
+                                  title : "Sondir",
+                                  link : "sondir.html",
+                                  text : "SNI 2827 : 2008."
+                                },
+                        {
+                                  category : "lapangan",
+                                  image : "{{ asset('assets/labkon/images/handboring.jpg')}}",
+                                  title : "Hand<span>Boring</span>",
+                                  link : "handboring.html",
+                                  text : "SNI 03-2436-2008."
+                                },
+                      {
+                                  category : "lapangan",
+                                  image : "{{ asset('assets/labkon/images/cbr.jpg')}}",
+                                  title : "CBR<span>Lapangan</span>",
+                                  link : "CBR_Laboratorium.html",
+                                  text : "SNI 1738 : 2011."
+                                },
+                      {
+                                  category : "lapangan",
+                                  image : "{{ asset('assets/labkon/images/testpit.jpg')}}",
+                                  title : "Testpit",
+                                  link : "#none",
+                                  text : "SNI 6872 : 2015."
+                                },
+                                {
+                                  category : "lapangan",
+                                  image : "{{ asset('assets/labkon/images/coredrilaspal.jpg')}}",
+                                  title : "Coredrill<span>Beton Aspal</span>",
+                                  link : "#none",
+                                  text : "SNI 03-6890-2002."
+                                },
+                      {
+                                  category : "lapangan",
+                                  image : "{{ asset('assets/labkon/images/coredrilsemen.jpg')}}",
+                                  title : "Coredrill<span>Beton Semen</span>",
+                                  link : "#none",
+                                  text : "SNI 03-2492-2011."
+                                },
+                      {
+                                  category : "lapangan",
+                                  image : "{{ asset('assets/labkon/images/benkelman-beam.jpg')}}",
+                                  title : "Benkelman<span>Beam</span>",
+                                  link : "benkelmanbeam.html",
+                                  text : "SNI 2416:2011."
+                                },
+                      {
+                                  category : "lapangan",
+                                  image : "{{ asset('assets/labkon/images/geolistrik1.jpg')}}",
+                                  title : "Pengujian<span>Geolistrik</span>",
+                                  link : "#none",
+                                  text : "-."
+                                },
+                      {
+                                  category : "lapangan",
+                                  image : "{{ asset('assets/labkon/images/p-4.png')}}",
+                                  title : "Pengambilan Contoh Uji <span>Campuran Beraspal</span>",
+                                  link : "#none",
+                                  text : "SNI 6890 : 204."
+                                },
+
+                      {
+                                  category : "campuran",
+                                  image : "{{ asset('assets/labkon/images/dmxaspal.jpg')}}",
+                                  title : "Design Mix Camp<span>Aspal(AC-WC)</span>",
+                                  link : "dm_acwc",
+                                  text : "SNI 6890 : 204."
+                                },
+
+                      {
+                                  category : "campuran",
+                                  image : "{{ asset('assets/labkon/images/aspalacwc.jpg')}}",
+                                  title : "Design Mix Camp<span>Aspal(AC-BC)</span>",
+                                  link : "dm_acbc",
+                                  text : "SNI 6890 : 204."
+                                },
+                          {
+                                  category : "campuran",
+                                  image : "{{ asset('assets/labkon/images/acb.jpg')}}",
+                                  title : "Design Mix Camp<span>Aspal(AC-Base)</span>",
+                                  link : "dm_acbase",
+                                  text : "SNI 6890 : 204."
+                                },
+                      {
+                                  category : "campuran",
+                                  image : "{{ asset('assets/labkon/images/betondmx.jpg')}}",
+                                  title : "Design Mix Camp<span>Aspal(Beton)</span>",
+                                  link : "dm_beton",
+                                  text : "SNI 6890 : 204."
+                                },
+                      {
+                                  category : "campuran",
+                                  image : "{{ asset('assets/labkon/images/mortar.jpg')}}",
+                                  title : "Design Mix Camp<span>Aspal(Mortar)</span>",
+                                  link : "dm_mortar",
+                                  text : "SNI 6890 : 204."
+                                },
+                        {
+                                  category : "campuran",
+                                  image : "{{ asset('assets/labkon/images/penetrasiaspal.jpg')}}",
+                                  title : "Design Mix Camp<span>Aspal(LPA)</span>",
+                                  link : "dm_lpa",
+                                  text : "SNI 6890 : 204."
+                                },
+                      {
+                                  category : "campuran",
+                                  image : "{{ asset('assets/labkon/images/penetrasiaspal.jpg')}}",
+                                  title : "Design Mix Camp<span>Aspal(LPB)</span>",
+                                  link : "dm_lpb",
+                                  text : "SNI 6890 : 204."
+                                },
+                      {
+                                  category : "campuran",
+                                  image : "{{ asset('assets/labkon/images/p-4.png')}}",
+                                  title : "Design Mix Camp<span>Aspal(LPS)</span>",
+                                  link : "dm_lps",
+                                  text : "SNI 6890 : 204."
+                                },
+                      {
+                                  category : "printing",
+                                  image : "{{ asset('assets/labkon/images/analisabeton.jpg')}}",
+                                  title : "Analisa<span>Saringan</span> ",
+                                  link : "as_beton",
+                                  text : "SNI ASTM C136:2012."
+                                },
+                            {
+                                  category : "printing",
+                                  image : "{{ asset('assets/labkon/images/beratisibeton.jpg')}}",
+                                  title : "Berat<span>Isi</span> ",
+                                  link : "bi_beton.html",
+                                  text : "SNI 03-4804-1998."
+                                },
+                      {
+                                  category : "printing",
+                                  image : "{{ asset('assets/labkon/images/keausanbeton.jpg')}}",
+                                  title : "Keausan Agregat<span>dengan Mesin Los Angeles</span> ",
+                                  link : "angeles.html",
+                                  text : "SNI 2417 : 2008."
+                                },
+                      {
+                                  category : "printing",
+                                  image : "{{ asset('assets/labkon/images/kuattekan.jpg')}}",
+                                  title : "Kekekalan Bentuk Agregat terhadap<span>larutan Natrium sulfat</span> ",
+                                  link : "sulfat.html",
+                                  text : "SNI 3407 : 2008."
+                                },
+                      {
+                                  category : "printing",
+                                  image : "{{ asset('assets/labkon/images/kuattekan.jpg')}}",
+                                  title : "Gumpulan Lempung<span> dan Butir Mudah Pecah</span> ",
+                                  link : "lempung.html",
+                                  text : "SNI 03-4141-1996."
+                                },
+                      {
+                                  category : "printing",
+                                  image : "{{ asset('assets/labkon/images/kuattekan.jpg')}}",
+                                  title : "Berat yang lolos saringan<span> No.200</span> ",
+                                  link : "no200.html",
+                                  text : "SNI ASTM C117: 2012."
+                                },
+                                {
+                                  category : "printing",
+                                  image : "{{ asset('assets/labkon/images/bj_betonkasar.jpg')}}",
+                                  title : "Berat Jenis<span> Agregat Kasar</span> ",
+                                  link : "bj_agregatkasar",
+                                  text : "SNI 1969:2016."
+                                },
+                      {
+                                  category : "printing",
+                                  image : "{{ asset('assets/labkon/images/bj_betonhalus.jpg')}}",
+                                  title : "Berat Jenis<span> Agregat Halus</span> ",
+                                  link : "bj_agregathalus.html",
+                                  text : "SNI 1970:2016."
+                                },
+                                {
+                                  category : "printing",
+                                  image : "{{ asset('assets/labkon/images/kuattekan1.jpg')}}",
+                                  title : "Kuat<span>Tekan</span> ",
+                                  link : "kuattekan.html",
+                                  text : "SNI 03-3403-1994."
+                                },
+                                {
+                                  category : "printing",
+                                  image : "{{ asset('assets/labkon/images/kuatlentur1.jpg')}}",
+                                  title : "Kuat<span> Lentur</span> ",
+                                  link : "kuatlentur.html",
+                                  text : "SNI 4431:2011."
+                                },
+                                {
+                                  category : "printing",
+                                  image : "{{ asset('assets/labkon/images/slumptest1.jpg')}}",
+                                  title : "Slump <span>Test</span>",
+                                  link : "slump.html",
+                                  text : "SNI 1972 : 2008."
+
+                                }
+                              ];
+                          </script>
+          </div> --}}
           <div class="container-portfolio">
             <!-- PORTFOLIO OBJECT -->
-            <script type="text/javascript">
-            var portfolio = [
-                    {
-                      category : "branding",
-                      image : "{{ asset('assets/labkon/images/penetrasi.jpg')}}",
-                      title : "Penetrasi Pada 25 C(0,1 mm)",
-                      link : "Penetrasi_Aspal.html",
-                      text : "SNI 2456:2011."
-                    },
-					                    {
-                      category : "branding",
-                      image : "{{ asset('assets/labkon/images/viskonsitas1.jpg')}}",
-                      title : "Viskonsitas Kinematis 135 C",
-                      link : "viskonsitas.html",
-                      text : "ASTM D2170 - 10."
-                    },
-					                    {
-                      category : "branding",
-                      image : "{{ asset('assets/labkon/images/titiklembek1.jpg')}}",
-                      title : "Titik Lembek",
-                      link : "Titik_Lembek.html",
-                      text : "SNI 2434:2011."
-                    },
-				    {
-                      category : "branding",
-                      image : "{{ asset('assets/labkon/images/daktilitassetelah.jpg')}}",
-                      title : "Daktilitas pada 25 C (cm)",
-                      link : "daktilitas_aspal.html",
-                      text : "SNI 2432:2011."
-                    },
-					{
-                      category : "branding",
-                      image : "{{ asset('assets/labkon/images/titiknyala1.jpg')}}",
-                      title : "Titik Nyala",
-                      link : "titiknyala_aspal.html",
-                      text : "SNI 2433:2011."
-                    },
-					{
-                      category : "branding",
-                      image : "{{ asset('assets/labkon/images/kelarutan1.jpg')}}",
-                      title : "Kelarutan dalam Trichloroethylene(%)",
-                      link : "kelarutan_aspal.html",
-                      text : "AASHTO T44-14."
-                    },
-				    {
-                      category : "branding",
-                      image : "{{ asset('assets/labkon/images/bj_aspal1.jpg')}}",
-                      title : "Berat Jenis",
-                      link : "beratjenis.html",
-                      text : "SNI 2441:2011."
-                    },
-	                {
-                      category : "branding",
-                      image : "{{ asset('assets/labkon/images/stabilitasaspal.jpg')}}",
-                      title : "Stabilitas Penyimpanan ",
-                      link : "stabilitas_penyimpanan.html",
-                      text : "SNI 2434:2011 dan ASTM D 5976-00."
-                    },
+                        <script type="text/javascript">
+                          var portfolio = [
+                                {
+                                  category : "branding",
+                                  image : "{{ asset('assets/labkon/images/penetrasi.jpg')}}",
+                                  title : "Penetrasi Pada 25 C(0,1 mm)",
+                                  link : "#",
+                                  text : "SNI 2456:2011."
+                                },
+                                          {
+                                  category : "branding",
+                                  image : "{{ asset('assets/labkon/images/viskonsitas1.jpg')}}",
+                                  title : "Viskonsitas Kinematis 135 C",
+                                  link : "#",
+                                  text : "ASTM D2170 - 10."
+                                },
+                                          {
+                                  category : "branding",
+                                  image : "{{ asset('assets/labkon/images/titiklembek1.jpg')}}",
+                                  title : "Titik Lembek",
+                                  link : "#",
+                                  text : "SNI 2434:2011."
+                                },
+                        {
+                                  category : "branding",
+                                  image : "{{ asset('assets/labkon/images/daktilitassetelah.jpg')}}",
+                                  title : "Daktilitas pada 25 C (cm)",
+                                  link : "#",
+                                  text : "SNI 2432:2011."
+                                },
+                      {
+                                  category : "branding",
+                                  image : "{{ asset('assets/labkon/images/titiknyala1.jpg')}}",
+                                  title : "Titik Nyala",
+                                  link : "#",
+                                  text : "SNI 2433:2011."
+                                },
+                      {
+                                  category : "branding",
+                                  image : "{{ asset('assets/labkon/images/kelarutan1.jpg')}}",
+                                  title : "Kelarutan dalam Trichloroethylene(%)",
+                                  link : "#",
+                                  text : "AASHTO T44-14."
+                                },
+                        {
+                                  category : "branding",
+                                  image : "{{ asset('assets/labkon/images/bj_aspal1.jpg')}}",
+                                  title : "Berat Jenis",
+                                  link : "#",
+                                  text : "SNI 2441:2011."
+                                },
+                              {
+                                  category : "branding",
+                                  image : "{{ asset('assets/labkon/images/stabilitasaspal.jpg')}}",
+                                  title : "Stabilitas Penyimpanan ",
+                                  link : "#",
+                                  text : "SNI 2434:2011 dan ASTM D 5976-00."
+                                },
 
-				    {
-                      category : "branding",
-                      image : "{{ asset('assets/labkon/images/kadarparafin1.jpg')}}",
-                      title : "Kadar Parafin Lilin(%)",
-                      link : "parafin.html",
-                      text : "SNI 03-3639-2002."
-                    },
-
-
-				   {
-                      category : "branding",
-                      image : "{{ asset('assets/labkon/images/penetrasisetelah.jpg')}}",
-                      title : "Penetrasi Setelah TFOT 25 C ",
-                      link : "Penetrasi_Aspal25.html",
-                      text : "SNI 2465 :2011."
-                    },
-
-			         {
-                      category : "branding",
-                      image : "{{ asset('assets/labkon/images/daktilitas2.jpg')}}",
-                      title : "Daktilitas Setelah TFOT 25 C ",
-                      link : "daktilitas_aspal25.html",
-                      text : "SNI 2432:2011."
-                    },
-
-					{
-                      category : "branding",
-                      image : "{{ asset('assets/labkon/images/berathilang.jpg')}}",
-                      title : "Kehilangan TFOT",
-                      link : "kehilangan_tfot.html",
-                      text : "SNI 2432:2011."
-                    },
+                        {
+                                  category : "branding",
+                                  image : "{{ asset('assets/labkon/images/kadarparafin1.jpg')}}",
+                                  title : "Kadar Parafin Lilin(%)",
+                                  link : "#",
+                                  text : "SNI 03-3639-2002."
+                                },
 
 
-                    {
-                      category : "graphic",
-                      image : "{{ asset('assets/labkon/images/p-2.png')}}",
-                      title : "Kekekalan (Soundness)",
-                      link : "#none",
-                      text : "SNI 3407:2008."
-                    },
-                    {
-                      category : "graphic",
-                      image : "{{ asset('assets/labkon/images/abrasiagg.jpg')}}",
-                      title : "Abrasi Los Angeles",
-                      link : "abrasi.html",
-                      text : "SNI 2147 : 2008."
-                    },
-					{
-                      category : "graphic",
-                      image : "{{ asset('assets/labkon/images/kelekatan1.jpg')}}",
-                      title : "Kelekatan Agregat Terhadap Aspal",
-                      link : "#none",
-                      text : "SNI 2439 : 2011."
-                    },
-				    {
-                      category : "graphic",
-                      image : "{{ asset('assets/labkon/images/butiranagg.jpg')}}",
-                      title : "Butiran Pecah Agregat Kasar",
-                      link : "#none",
-                      text : "SNI 7619:2012."
-                    },
-				   {
-                      category : "graphic",
-                      image : "{{ asset('assets/labkon/images/200ag.jpg')}}",
-                      title : "Material Lolos Ayakan No.200",
-                      link : "#none",
-                      text : "SNI ASTM C 117:2012."
-                    },
-				    {
-                      category : "graphic",
-                      image : "{{ asset('assets/labkon/images/Sand-equivalent.jpg')}}",
-                      title : "Sand Equivalent",
-                      link : "#none",
-                      text : "SNI 03-4428-1997."
-                    },
+                      {
+                                  category : "branding",
+                                  image : "{{ asset('assets/labkon/images/penetrasisetelah.jpg')}}",
+                                  title : "Penetrasi Setelah TFOT 25 C ",
+                                  link : "#",
+                                  text : "SNI 2465 :2011."
+                                },
 
-				    {
-                      category : "graphic",
-                      image : "{{ asset('assets/labkon/images/urah.jpg')}}",
-                      title : "Uji Rongga Kadar Agregat Halus Tanpa Pemadatan",
-                      link : "ronggaudaraagg.html",
-                      text : "SNI 03-6877-2002."
-                    },
-				    {
-                      category : "graphic",
-                      image : "{{ asset('assets/labkon/images/lempung.jpg')}}",
-                      title : "Butiran Gumpalan Lempung",
-                      link : "#none",
-                      text : "SNI 4141:2015."
-                    },
-					{
-                      category : "graphic",
-                      image : "{{ asset('assets/labkon/images/agregathalus.jpg')}}",
-                      title : "Berat Jenis Agregat Halus",
-                      link : "bj_agregathalus.html",
-                      text : "SNI 1970:2016."
-                    },
-				    {
-                      category : "graphic",
-                      image : "{{ asset('assets/labkon/images/analisca.jpg')}}",
-                      title : "Analisis Saringan Campuran Aspal, Analisis Saringan Laporan Pondasi,Analisis Saringan Hasil Ekstraksi",
-                      link : "analisa_saringanag.html",
-                      text : "SNI ASTM C136:2012."
-                    },
-		            {
-                      category : "graphic",
-                      image : "{{ asset('assets/labkon/images/bi_agregat.jpg')}}",
-                      title : "Berat Isi",
-                      link : "#none",
-                      text : "SNI 03-4804-1998."
-                    },
-                    {
-                      category : "video",
-                      image : "{{ asset('assets/labkon/images/p-4.png')}}",
-                      title : "Marshall<span>Test</span>",
-                      link : "marshal.html",
-                      text : "SNI 1996:2008."
-                    },
-					{
-                      category : "video",
-                      image : "{{ asset('assets/labkon/images/p-4.png')}}",
-                      title : "Density Core Drill<span>/Briket</span>",
-                      link : "density.html",
-                      text : "SNI 3423:2008."
-                    },
+                          {
+                                  category : "branding",
+                                  image : "{{ asset('assets/labkon/images/daktilitas2.jpg')}}",
+                                  title : "Daktilitas Setelah TFOT 25 C ",
+                                  link : "#",
+                                  text : "SNI 2432:2011."
+                                },
 
-				  {
-                      category : "video",
-                      image : "{{ asset('assets/labkon/images/p-4.png')}}",
-                      title : "Kadar Aspal<span>/ Ekstraksi</span>",
-                      link : "ekstraksi.html",
-                      text : "SNI 3423:2008."
-                    },
-
-					{
-                      category : "video",
-                      image : "{{ asset('assets/labkon/images/p-4.png')}}",
-                      title : "Gradasi<span>/ Campuran</span>",
-                      link : "gradasi.html",
-                      text : "SNI 3423:2008."
-                    },
-
-				   {
-                      category : "video",
-                      image : "{{ asset('assets/labkon/images/p-4.png')}}",
-                      title : "Berat Jenis Maksimum<span>/ GMM</span>",
-                      link : "Bj_maksimum.html",
-                      text : "SNI 3423:2008."
-                    },
+                      {
+                                  category : "branding",
+                                  image : "{{ asset('assets/labkon/images/berathilang.jpg')}}",
+                                  title : "Kehilangan TFOT",
+                                  link : "#",
+                                  text : "SNI 2432:2011."
+                                },
 
 
-					{
-                      category : "tanah",
-                      image : "{{ asset('assets/labkon/images/saringan.jpg')}}",
-                      title : "AnalisisSarinagan<span>dan Hidrometer</span>",
-                      link : "hidro_ansa.html",
-                      text : "SNI 3423:2008."
-                    },
-					{
-                      category : "tanah",
-                      image : "{{ asset('assets/labkon/images/bi_tanah1.jpg')}}",
-                      title : "Berat<span>Isi</span>",
-                      link : "beratisitanah.html",
-                      text : "SNI 03-3637-1994."
-                    },
-					{
-                      category : "tanah",
-                      image : "{{ asset('assets/labkon/images/bj_tanah.jpg')}}",
-                      title : "Berat<span>Jenis</span>",
-                      link : "beratjenis_tanah.html",
-                      text : "SNI 1964:2008."
-                    },
-					{
-                      category : "tanah",
-                      image : "{{ asset('assets/labkon/images/kadarair_tanah.jpg')}}",
-                      title : "Kadar<span>Air</span>",
-                      link : "kadarairtanah.html",
-                      text : "SNI 1965:2008."
-                    },
-					{
-                      category : "tanah",
-                      image : "{{ asset('assets/labkon/images/ucs1.jpg')}}",
-                      title : "UCS",
-                      link : "ucs.html",
-                      text : "SNI 3638:2012."
-                    },
-					{
-                      category : "tanah",
-                      image : "{{ asset('assets/labkon/images/directshear.jpg')}}",
-                      title : "Direct<span>Shear</span>",
-                      link : "directsheartanah.html",
-                      text : "SNI 2813:2008."
-                    },
-					{
-                      category : "tanah",
-                      image : "{{ asset('assets/labkon/images/konsolidasi1.jpg')}}",
-                      title : "Konsolidasi",
-                      link : "konsolidasitanah.html",
-                      text : "SNI 2812:2012."
-                    },
-					{
-                      category : "tanah",
-                      image : "{{ asset('assets/labkon/images/atteberg.png')}}",
-                      title : "Atteberg<span>Limit</span>",
-                      link : "atteberglimit.html",
-                      text : "SNI 1966:2008."
-                    },
-					{
-                      category : "tanah",
-                      image : "{{ asset('assets/labkon/images/pemadatantanah.jpg')}}",
-                      title : "Pemadatan<span>Standar</span>",
-                      link : "pemadatantanah",
-                      text : "SNI 6886:2012."
-                    },
-					{
-                      category : "tanah",
-                      image : "{{ asset('assets/labkon/images/rendam.jpg')}}",
-                      title : "Pemadatan Modified; CBR Rendaman Modified<span>CBR Rendaman Standar</span>",
-                      link : "#none",
-                      text : "SNI 1743-2008."
-                    },
-					{
-                      category : "tanah",
-                      image : "{{ asset('assets/labkon/images/cbrstandar.jpg')}}",
-                      title : "CBR Langsung Standar<span>CBR Langsung Modified</span>",
-                      link : "#none",
-                      text : "SNI 1744:2012."
-                    },
-				    {
-                      category : "lapangan",
-                      image : "{{ asset('assets/labkon/images/sandcone.jpg')}}",
-                      title : "Sand<span>Cone</span>",
-                      link : "sandcone.html",
-                      text : "SNI 03-2828-2011."
-                    },
-				   {
-                      category : "lapangan",
-                      image : "{{ asset('assets/labkon/images/dcp.gif')}}",
-                      title : "DCP",
-                      link : "#none",
-                      text : "."
-                    },
-					{
-                      category : "lapangan",
-                      image : "{{asset('assets/labkon/images/humertest.jpg')}}",
-                      title : "Hammer<span>Test</span>",
-                      link : "#none",
-                      text : ""
-                    },
-					{
-                      category : "lapangan",
-                      image : "{{ asset('assets/labkon/images/sondir.png')}}",
-                      title : "Sondir",
-                      link : "sondir.html",
-                      text : "SNI 2827 : 2008."
-                    },
-				    {
-                      category : "lapangan",
-                      image : "{{ asset('assets/labkon/images/handboring.jpg')}}",
-                      title : "Hand<span>Boring</span>",
-                      link : "handboring.html",
-                      text : "SNI 03-2436-2008."
-                    },
-					{
-                      category : "lapangan",
-                      image : "{{ asset('assets/labkon/images/cbr.jpg')}}",
-                      title : "CBR<span>Lapangan</span>",
-                      link : "CBR_Laboratorium.html",
-                      text : "SNI 1738 : 2011."
-                    },
-					{
-                      category : "lapangan",
-                      image : "{{ asset('assets/labkon/images/testpit.jpg')}}",
-                      title : "Testpit",
-                      link : "#none",
-                      text : "SNI 6872 : 2015."
-                    },
-                    {
-                      category : "lapangan",
-                      image : "{{ asset('assets/labkon/images/coredrilaspal.jpg')}}",
-                      title : "Coredrill<span>Beton Aspal</span>",
-                      link : "#none",
-                      text : "SNI 03-6890-2002."
-                    },
-					{
-                      category : "lapangan",
-                      image : "{{ asset('assets/labkon/images/coredrilsemen.jpg')}}",
-                      title : "Coredrill<span>Beton Semen</span>",
-                      link : "#none",
-                      text : "SNI 03-2492-2011."
-                    },
-					{
-                      category : "lapangan",
-                      image : "{{ asset('assets/labkon/images/benkelman-beam.jpg')}}",
-                      title : "Benkelman<span>Beam</span>",
-                      link : "benkelmanbeam.html",
-                      text : "SNI 2416:2011."
-                    },
-					{
-                      category : "lapangan",
-                      image : "{{ asset('assets/labkon/images/geolistrik1.jpg')}}",
-                      title : "Pengujian<span>Geolistrik</span>",
-                      link : "#none",
-                      text : "-."
-                    },
-					{
-                      category : "lapangan",
-                      image : "{{ asset('assets/labkon/images/p-4.png')}}",
-                      title : "Pengambilan Contoh Uji <span>Campuran Beraspal</span>",
-                      link : "#none",
-                      text : "SNI 6890 : 204."
-                    },
+                                {
+                                  category : "graphic",
+                                  image : "{{ asset('assets/labkon/images/p-2.png')}}",
+                                  title : "Kekekalan (Soundness)",
+                                  link : "#",
+                                  text : "SNI 3407:2008."
+                                },
+                                {
+                                  category : "graphic",
+                                  image : "{{ asset('assets/labkon/images/abrasiagg.jpg')}}",
+                                  title : "Abrasi Los Angeles",
+                                  link : "#",
+                                  text : "SNI 2147 : 2008."
+                                },
+                      {
+                                  category : "graphic",
+                                  image : "{{ asset('assets/labkon/images/kelekatan1.jpg')}}",
+                                  title : "Kelekatan Agregat Terhadap Aspal",
+                                  link : "#",
+                                  text : "SNI 2439 : 2011."
+                                },
+                        {
+                                  category : "graphic",
+                                  image : "{{ asset('assets/labkon/images/butiranagg.jpg')}}",
+                                  title : "Butiran Pecah Agregat Kasar",
+                                  link : "#",
+                                  text : "SNI 7619:2012."
+                                },
+                      {
+                                  category : "graphic",
+                                  image : "{{ asset('assets/labkon/images/200ag.jpg')}}",
+                                  title : "Material Lolos Ayakan No.200",
+                                  link : "#",
+                                  text : "SNI ASTM C 117:2012."
+                                },
+                        {
+                                  category : "graphic",
+                                  image : "{{ asset('assets/labkon/images/Sand-equivalent.jpg')}}",
+                                  title : "Sand Equivalent",
+                                  link : "#",
+                                  text : "SNI 03-4428-1997."
+                                },
 
-					{
-                      category : "campuran",
-                      image : "{{ asset('assets/labkon/images/dmxaspal.jpg')}}",
-                      title : "Design Mix Camp<span>Aspal(AC-WC)</span>",
-                      link : "dm_acwc",
-                      text : "SNI 6890 : 204."
-                    },
+                        {
+                                  category : "graphic",
+                                  image : "{{ asset('assets/labkon/images/urah.jpg')}}",
+                                  title : "Uji Rongga Kadar Agregat Halus Tanpa Pemadatan",
+                                  link : "#",
+                                  text : "SNI 03-6877-2002."
+                                },
+                        {
+                                  category : "graphic",
+                                  image : "{{ asset('assets/labkon/images/lempung.jpg')}}",
+                                  title : "Butiran Gumpalan Lempung",
+                                  link : "#",
+                                  text : "SNI 4141:2015."
+                                },
+                      {
+                                  category : "graphic",
+                                  image : "{{ asset('assets/labkon/images/agregathalus.jpg')}}",
+                                  title : "Berat Jenis Agregat Halus",
+                                  link : "#",
+                                  text : "SNI 1970:2016."
+                                },
+                        {
+                                  category : "graphic",
+                                  image : "{{ asset('assets/labkon/images/analisca.jpg')}}",
+                                  title : "Analisis Saringan Campuran Aspal, Analisis Saringan Laporan Pondasi,Analisis Saringan Hasil Ekstraksi",
+                                  link : "#",
+                                  text : "SNI ASTM C136:2012."
+                                },
+                            {
+                                  category : "graphic",
+                                  image : "{{ asset('assets/labkon/images/bi_agregat.jpg')}}",
+                                  title : "Berat Isi",
+                                  link : "#",
+                                  text : "SNI 03-4804-1998."
+                                },
+                                {
+                                  category : "video",
+                                  image : "{{ asset('assets/labkon/images/p-4.png')}}",
+                                  title : "Marshall<span>Test</span>",
+                                  link : "#",
+                                  text : "SNI 1996:2008."
+                                },
+                      {
+                                  category : "video",
+                                  image : "{{ asset('assets/labkon/images/p-4.png')}}",
+                                  title : "Density Core Drill<span>/Briket</span>",
+                                  link : "#",
+                                  text : "SNI 3423:2008."
+                                },
 
-					 {
-                      category : "campuran",
-                      image : "{{ asset('assets/labkon/images/aspalacwc.jpg')}}",
-                      title : "Design Mix Camp<span>Aspal(AC-BC)</span>",
-                      link : "dm_acbc",
-                      text : "SNI 6890 : 204."
-                    },
-			        {
-                      category : "campuran",
-                      image : "{{ asset('assets/labkon/images/acb.jpg')}}",
-                      title : "Design Mix Camp<span>Aspal(AC-Base)</span>",
-                      link : "dm_acbase",
-                      text : "SNI 6890 : 204."
-                    },
-					{
-                      category : "campuran",
-                      image : "{{ asset('assets/labkon/images/betondmx.jpg')}}",
-                      title : "Design Mix Camp<span>Aspal(Beton)</span>",
-                      link : "dm_beton",
-                      text : "SNI 6890 : 204."
-                    },
-					{
-                      category : "campuran",
-                      image : "{{ asset('assets/labkon/images/mortar.jpg')}}",
-                      title : "Design Mix Camp<span>Aspal(Mortar)</span>",
-                      link : "dm_mortar",
-                      text : "SNI 6890 : 204."
-                    },
-				    {
-                      category : "campuran",
-                      image : "{{ asset('assets/labkon/images/penetrasiaspal.jpg')}}",
-                      title : "Design Mix Camp<span>Aspal(LPA)</span>",
-                      link : "dm_lpa",
-                      text : "SNI 6890 : 204."
-                    },
-					{
-                      category : "campuran",
-                      image : "{{ asset('assets/labkon/images/penetrasiaspal.jpg')}}",
-                      title : "Design Mix Camp<span>Aspal(LPB)</span>",
-                      link : "dm_lpb",
-                      text : "SNI 6890 : 204."
-                    },
-					{
-                      category : "campuran",
-                      image : "{{ asset('assets/labkon/images/p-4.png')}}",
-                      title : "Design Mix Camp<span>Aspal(LPS)</span>",
-                      link : "dm_lps",
-                      text : "SNI 6890 : 204."
-                    },
-					{
-                      category : "printing",
-                      image : "{{ asset('assets/labkon/images/analisabeton.jpg')}}",
-                      title : "Analisa<span>Saringan</span> ",
-                      link : "as_beton",
-                      text : "SNI ASTM C136:2012."
-                    },
-		            {
-                      category : "printing",
-                      image : "{{ asset('assets/labkon/images/beratisibeton.jpg')}}",
-                      title : "Berat<span>Isi</span> ",
-                      link : "bi_beton.html",
-                      text : "SNI 03-4804-1998."
-                    },
-					{
-                      category : "printing",
-                      image : "{{ asset('assets/labkon/images/keausanbeton.jpg')}}",
-                      title : "Keausan Agregat<span>dengan Mesin Los Angeles</span> ",
-                      link : "angeles.html",
-                      text : "SNI 2417 : 2008."
-                    },
-					{
-                      category : "printing",
-                      image : "{{ asset('assets/labkon/images/kuattekan.jpg')}}",
-                      title : "Kekekalan Bentuk Agregat terhadap<span>larutan Natrium sulfat</span> ",
-                      link : "sulfat.html",
-                      text : "SNI 3407 : 2008."
-                    },
-					{
-                      category : "printing",
-                      image : "{{ asset('assets/labkon/images/kuattekan.jpg')}}",
-                      title : "Gumpulan Lempung<span> dan Butir Mudah Pecah</span> ",
-                      link : "lempung.html",
-                      text : "SNI 03-4141-1996."
-                    },
-					{
-                      category : "printing",
-                      image : "{{ asset('assets/labkon/images/kuattekan.jpg')}}",
-                      title : "Berat yang lolos saringan<span> No.200</span> ",
-                      link : "no200.html",
-                      text : "SNI ASTM C117: 2012."
-                    },
-                    {
-                      category : "printing",
-                      image : "{{ asset('assets/labkon/images/bj_betonkasar.jpg')}}",
-                      title : "Berat Jenis<span> Agregat Kasar</span> ",
-                      link : "bj_agregatkasar",
-                      text : "SNI 1969:2016."
-                    },
-					{
-                      category : "printing",
-                      image : "{{ asset('assets/labkon/images/bj_betonhalus.jpg')}}",
-                      title : "Berat Jenis<span> Agregat Halus</span> ",
-                      link : "bj_agregathalus.html",
-                      text : "SNI 1970:2016."
-                    },
-                    {
-                      category : "printing",
-                      image : "{{ asset('assets/labkon/images/kuattekan1.jpg')}}",
-                      title : "Kuat<span>Tekan</span> ",
-                      link : "kuattekan.html",
-                      text : "SNI 03-3403-1994."
-                    },
-                    {
-                      category : "printing",
-                      image : "{{ asset('assets/labkon/images/kuatlentur1.jpg')}}",
-                      title : "Kuat<span> Lentur</span> ",
-                      link : "kuatlentur.html",
-                      text : "SNI 4431:2011."
-                    },
-                    {
-                      category : "printing",
-                      image : "{{ asset('assets/labkon/images/slumptest1.jpg')}}",
-                      title : "Slump <span>Test</span>",
-                      link : "slump.html",
-                      text : "SNI 1972 : 2008."
+                      {
+                                  category : "video",
+                                  image : "{{ asset('assets/labkon/images/p-4.png')}}",
+                                  title : "Kadar Aspal<span>/ Ekstraksi</span>",
+                                  link : "#",
+                                  text : "SNI 3423:2008."
+                                },
 
-                    }
+                      {
+                                  category : "video",
+                                  image : "{{ asset('assets/labkon/images/p-4.png')}}",
+                                  title : "Gradasi<span>/ Campuran</span>",
+                                  link : "#",
+                                  text : "SNI 3423:2008."
+                                },
+
+                      {
+                                  category : "video",
+                                  image : "{{ asset('assets/labkon/images/p-4.png')}}",
+                                  title : "Berat Jenis Maksimum<span>/ GMM</span>",
+                                  link : "#",
+                                  text : "SNI 3423:2008."
+                                },
 
 
+                      {
+                                  category : "tanah",
+                                  image : "{{ asset('assets/labkon/images/saringan.jpg')}}",
+                                  title : "AnalisisSarinagan<span>dan Hidrometer</span>",
+                                  link : "#",
+                                  text : "SNI 3423:2008."
+                                },
+                      {
+                                  category : "tanah",
+                                  image : "{{ asset('assets/labkon/images/bi_tanah1.jpg')}}",
+                                  title : "Berat<span>Isi</span>",
+                                  link : "#",
+                                  text : "SNI 03-3637-1994."
+                                },
+                      {
+                                  category : "tanah",
+                                  image : "{{ asset('assets/labkon/images/bj_tanah.jpg')}}",
+                                  title : "Berat<span>Jenis</span>",
+                                  link : "#",
+                                  text : "SNI 1964:2008."
+                                },
+                      {
+                                  category : "tanah",
+                                  image : "{{ asset('assets/labkon/images/kadarair_tanah.jpg')}}",
+                                  title : "Kadar<span>Air</span>",
+                                  link : "#",
+                                  text : "SNI 1965:2008."
+                                },
+                      {
+                                  category : "tanah",
+                                  image : "{{ asset('assets/labkon/images/ucs1.jpg')}}",
+                                  title : "UCS",
+                                  link : "#",
+                                  text : "SNI 3638:2012."
+                                },
+                      {
+                                  category : "tanah",
+                                  image : "{{ asset('assets/labkon/images/directshear.jpg')}}",
+                                  title : "Direct<span>Shear</span>",
+                                  link : "#",
+                                  text : "SNI 2813:2008."
+                                },
+                      {
+                                  category : "tanah",
+                                  image : "{{ asset('assets/labkon/images/konsolidasi1.jpg')}}",
+                                  title : "Konsolidasi",
+                                  link : "#",
+                                  text : "SNI 2812:2012."
+                                },
+                      {
+                                  category : "tanah",
+                                  image : "{{ asset('assets/labkon/images/atteberg.png')}}",
+                                  title : "Atteberg<span>Limit</span>",
+                                  link : "#",
+                                  text : "SNI 1966:2008."
+                                },
+                      {
+                                  category : "tanah",
+                                  image : "{{ asset('assets/labkon/images/pemadatantanah.jpg')}}",
+                                  title : "Pemadatan<span>Standar</span>",
+                                  link : "#",
+                                  text : "SNI 6886:2012."
+                                },
+                      {
+                                  category : "tanah",
+                                  image : "{{ asset('assets/labkon/images/rendam.jpg')}}",
+                                  title : "Pemadatan Modified; CBR Rendaman Modified<span>CBR Rendaman Standar</span>",
+                                  link : "#",
+                                  text : "SNI 1743-2008."
+                                },
+                      {
+                                  category : "tanah",
+                                  image : "{{ asset('assets/labkon/images/cbrstandar.jpg')}}",
+                                  title : "CBR Langsung Standar<span>CBR Langsung Modified</span>",
+                                  link : "#",
+                                  text : "SNI 1744:2012."
+                                },
+                        {
+                                  category : "lapangan",
+                                  image : "{{ asset('assets/labkon/images/sandcone.jpg')}}",
+                                  title : "Sand<span>Cone</span>",
+                                  link : "#",
+                                  text : "SNI 03-2828-2011."
+                                },
+                      {
+                                  category : "lapangan",
+                                  image : "{{ asset('assets/labkon/images/dcp.gif')}}",
+                                  title : "DCP",
+                                  link : "#",
+                                  text : "."
+                                },
+                      {
+                                  category : "lapangan",
+                                  image : "{{asset('assets/labkon/images/humertest.jpg')}}",
+                                  title : "Hammer<span>Test</span>",
+                                  link : "#",
+                                  text : ""
+                                },
+                      {
+                                  category : "lapangan",
+                                  image : "{{ asset('assets/labkon/images/sondir.png')}}",
+                                  title : "Sondir",
+                                  link : "#",
+                                  text : "SNI 2827 : 2008."
+                                },
+                        {
+                                  category : "lapangan",
+                                  image : "{{ asset('assets/labkon/images/handboring.jpg')}}",
+                                  title : "Hand<span>Boring</span>",
+                                  link : "#",
+                                  text : "SNI 03-2436-2008."
+                                },
+                      {
+                                  category : "lapangan",
+                                  image : "{{ asset('assets/labkon/images/cbr.jpg')}}",
+                                  title : "CBR<span>Lapangan</span>",
+                                  link : "#",
+                                  text : "SNI 1738 : 2011."
+                                },
+                      {
+                                  category : "lapangan",
+                                  image : "{{ asset('assets/labkon/images/testpit.jpg')}}",
+                                  title : "Testpit",
+                                  link : "#",
+                                  text : "SNI 6872 : 2015."
+                                },
+                                {
+                                  category : "lapangan",
+                                  image : "{{ asset('assets/labkon/images/coredrilaspal.jpg')}}",
+                                  title : "Coredrill<span>Beton Aspal</span>",
+                                  link : "#",
+                                  text : "SNI 03-6890-2002."
+                                },
+                      {
+                                  category : "lapangan",
+                                  image : "{{ asset('assets/labkon/images/coredrilsemen.jpg')}}",
+                                  title : "Coredrill<span>Beton Semen</span>",
+                                  link : "#",
+                                  text : "SNI 03-2492-2011."
+                                },
+                      {
+                                  category : "lapangan",
+                                  image : "{{ asset('assets/labkon/images/benkelman-beam.jpg')}}",
+                                  title : "Benkelman<span>Beam</span>",
+                                  link : "#",
+                                  text : "SNI 2416:2011."
+                                },
+                      {
+                                  category : "lapangan",
+                                  image : "{{ asset('assets/labkon/images/geolistrik1.jpg')}}",
+                                  title : "Pengujian<span>Geolistrik</span>",
+                                  link : "#",
+                                  text : "-."
+                                },
+                      {
+                                  category : "lapangan",
+                                  image : "{{ asset('assets/labkon/images/p-4.png')}}",
+                                  title : "Pengambilan Contoh Uji <span>Campuran Beraspal</span>",
+                                  link : "#",
+                                  text : "SNI 6890 : 204."
+                                },
 
+                      {
+                                  category : "campuran",
+                                  image : "{{ asset('assets/labkon/images/dmxaspal.jpg')}}",
+                                  title : "Design Mix Camp<span>Aspal(AC-WC)</span>",
+                                  link : "#",
+                                  text : "SNI 6890 : 204."
+                                },
 
-                ];
-            </script>
+                      {
+                                  category : "campuran",
+                                  image : "{{ asset('assets/labkon/images/aspalacwc.jpg')}}",
+                                  title : "Design Mix Camp<span>Aspal(AC-BC)</span>",
+                                  link : "#",
+                                  text : "SNI 6890 : 204."
+                                },
+                          {
+                                  category : "campuran",
+                                  image : "{{ asset('assets/labkon/images/acb.jpg')}}",
+                                  title : "Design Mix Camp<span>Aspal(AC-Base)</span>",
+                                  link : "#",
+                                  text : "SNI 6890 : 204."
+                                },
+                      {
+                                  category : "campuran",
+                                  image : "{{ asset('assets/labkon/images/betondmx.jpg')}}",
+                                  title : "Design Mix Camp<span>Aspal(Beton)</span>",
+                                  link : "#",
+                                  text : "SNI 6890 : 204."
+                                },
+                      {
+                                  category : "campuran",
+                                  image : "{{ asset('assets/labkon/images/mortar.jpg')}}",
+                                  title : "Design Mix Camp<span>Aspal(Mortar)</span>",
+                                  link : "#",
+                                  text : "SNI 6890 : 204."
+                                },
+                        {
+                                  category : "campuran",
+                                  image : "{{ asset('assets/labkon/images/penetrasiaspal.jpg')}}",
+                                  title : "Design Mix Camp<span>Aspal(LPA)</span>",
+                                  link : "#",
+                                  text : "SNI 6890 : 204."
+                                },
+                      {
+                                  category : "campuran",
+                                  image : "{{ asset('assets/labkon/images/penetrasiaspal.jpg')}}",
+                                  title : "Design Mix Camp<span>Aspal(LPB)</span>",
+                                  link : "#",
+                                  text : "SNI 6890 : 204."
+                                },
+                      {
+                                  category : "campuran",
+                                  image : "{{ asset('assets/labkon/images/p-4.png')}}",
+                                  title : "Design Mix Camp<span>Aspal(LPS)</span>",
+                                  link : "#",
+                                  text : "SNI 6890 : 204."
+                                },
+                      {
+                                  category : "printing",
+                                  image : "{{ asset('assets/labkon/images/analisabeton.jpg')}}",
+                                  title : "Analisa<span>Saringan</span> ",
+                                  link : "#",
+                                  text : "SNI ASTM C136:2012."
+                                },
+                            {
+                                  category : "printing",
+                                  image : "{{ asset('assets/labkon/images/beratisibeton.jpg')}}",
+                                  title : "Berat<span>Isi</span> ",
+                                  link : "#",
+                                  text : "SNI 03-4804-1998."
+                                },
+                      {
+                                  category : "printing",
+                                  image : "{{ asset('assets/labkon/images/keausanbeton.jpg')}}",
+                                  title : "Keausan Agregat<span>dengan Mesin Los Angeles</span> ",
+                                  link : "#",
+                                  text : "SNI 2417 : 2008."
+                                },
+                      {
+                                  category : "printing",
+                                  image : "{{ asset('assets/labkon/images/kuattekan.jpg')}}",
+                                  title : "Kekekalan Bentuk Agregat terhadap<span>larutan Natrium sulfat</span> ",
+                                  link : "#",
+                                  text : "SNI 3407 : 2008."
+                                },
+                      {
+                                  category : "printing",
+                                  image : "{{ asset('assets/labkon/images/kuattekan.jpg')}}",
+                                  title : "Gumpulan Lempung<span> dan Butir Mudah Pecah</span> ",
+                                  link : "#",
+                                  text : "SNI 03-4141-1996."
+                                },
+                      {
+                                  category : "printing",
+                                  image : "{{ asset('assets/labkon/images/kuattekan.jpg')}}",
+                                  title : "Berat yang lolos saringan<span> No.200</span> ",
+                                  link : "#",
+                                  text : "SNI ASTM C117: 2012."
+                                },
+                                {
+                                  category : "printing",
+                                  image : "{{ asset('assets/labkon/images/bj_betonkasar.jpg')}}",
+                                  title : "Berat Jenis<span> Agregat Kasar</span> ",
+                                  link : "#",
+                                  text : "SNI 1969:2016."
+                                },
+                      {
+                                  category : "printing",
+                                  image : "{{ asset('assets/labkon/images/bj_betonhalus.jpg')}}",
+                                  title : "Berat Jenis<span> Agregat Halus</span> ",
+                                  link : "#",
+                                  text : "SNI 1970:2016."
+                                },
+                                {
+                                  category : "printing",
+                                  image : "{{ asset('assets/labkon/images/kuattekan1.jpg')}}",
+                                  title : "Kuat<span>Tekan</span> ",
+                                  link : "#",
+                                  text : "SNI 03-3403-1994."
+                                },
+                                {
+                                  category : "printing",
+                                  image : "{{ asset('assets/labkon/images/kuatlentur1.jpg')}}",
+                                  title : "Kuat<span> Lentur</span> ",
+                                  link : "#",
+                                  text : "SNI 4431:2011."
+                                },
+                                {
+                                  category : "printing",
+                                  image : "{{ asset('assets/labkon/images/slumptest1.jpg')}}",
+                                  title : "Slump <span>Test</span>",
+                                  link : "#",
+                                  text : "SNI 1972 : 2008."
+
+                                }
+                              ];
+                          </script>
           </div>
+          {{-- <div class="container-portfolio">
+            @foreach ($data as $no => $item)
+              <img src="{{ asset($item->image) }}" style="width: 10%; height: auto" alt="">
+            @endforeach
+          </div> --}}
         </div>
       </div>
     </section>

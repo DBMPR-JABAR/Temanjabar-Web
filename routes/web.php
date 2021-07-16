@@ -55,6 +55,9 @@ Route::prefix('status_jalan')->group(function () {
 Route::group(['prefix' => 'uptd'], function () {
     Route::get('/{slug}', 'LandingController@uptd');
     Route::get('/labkon/home', 'LandingController@labkon');
+    Route::get('/labkon/posts', 'LandingController@createpost');
+    Route::post('/labkon/posts', 'LandingController@storepost');
+
 
 });
 
