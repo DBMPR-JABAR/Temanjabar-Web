@@ -84,6 +84,7 @@
                                 <th>Nama SSE</th>
                                 <th>Nama GS</th>
                                 <th>Progress (%)</th>
+                                <th>Terverifikasi</th>
                                 <th style="min-width: 75px">Aksi</th>
                             </tr>
                         </thead>
@@ -105,6 +106,7 @@
                                 <td>{{ $data->nama_sse }}</td>
                                 <td>{{ $data->nama_gs }}</td>
                                 <td>{{ $data->progress }}</td>
+                                <td>{{ $data->is_verified == '1' ? 'Ya' : 'Tidak' }}</td>
                                 <td style="min-width: 75px">
                                     <div class="btn-group" role="group" data-placement="top" title=""
                                         data-original-title=".btn-xlg">

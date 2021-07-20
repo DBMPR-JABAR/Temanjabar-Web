@@ -381,7 +381,7 @@
 <div class=" form-group row" id="nama_lokasi">
     <label class="col-md-4 col-form-label">Nama Lokasi</label>
     <div class="col-md-8">
-                <input id="nama_lokasi_value" name="nama_lokasi" value="{{@$nama_lokasi}}" type="text"
+                <input id="nama_lokasi_value" name="nama_lokasi" value="{{@$bankeu->nama_lokasi}}" type="text"
                     class="form-control">
     </div>
 </div>
@@ -394,7 +394,26 @@
 <div id="mapLatLong" class="mb-3 full-map" style="height: 300px; width: 100%">
     <div id="tempel_disini"></div>
 </div>
-
+@if(hasAccess(Auth::user()->internal_role_id,
+'Verifikasi Bantuan Keuangan', 'Update'))
+<fieldset class="form-group row">
+    <legend class="col-form-label col-sm-2 float-sm-left pt-0">Terverifikasi ?</legend>
+    <div class="col-sm-8">
+      <div class="form-check-inline">
+        <input class="form-check-input" type="radio" name="is_verified" id="gridRadios1" value="1" {{@$bankeu->is_verified == '1' ? 'checked' : ''}}>
+        <label class="form-check-label" for="gridRadios1">
+          Iya
+        </label>
+      </div>
+      <div class="form-check-inline">
+        <input class="form-check-input" type="radio" name="is_verified" id="gridRadios2" value="0" {{@$bankeu->is_verified == '0' ? 'checked' : ''}}>
+        <label class="form-check-label" for="gridRadios2">
+          Tidak
+        </label>
+      </div>
+    </div>
+  </fieldset>
+@endif
 <div class=" form-group row">
     <a href="{{ route('bankeu.index') }}"><button type="button" class="btn btn-default waves-effect">Batal</button></a>
     <button type="submit" class="ml-2 btn btn-primary waves-effect waves-light">Simpan</button>
