@@ -6,6 +6,45 @@
 {{-- <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/style.css') }}"> --}}
 {{-- <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/docsupport/prism.css') }}"> --}}
 <meta name="csrf-token" content="{{ csrf_token() }}" />
+<style>
+    html,
+    body,
+    .esri-view,
+    .map-view {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        z-index: -1;
+    }
+
+    #logo {
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translate(-50%, 0);
+        z-index: 99;
+        background-color: rgba(0, 0, 0, 0.267);
+        padding: 5px;
+        border-radius: 5px;
+        /* Black background with opacity */
+    }
+
+    .esri-attribution__sources,
+    .esri-attribution__powered-by {
+        display: none;
+    }
+
+    @media only screen and (max-width: 900px) {
+        #logo {
+            display: none;
+        }
+    }
+
+</style>
+<script src="https://kit.fontawesome.com/a5c9211044.js" crossorigin="anonymous"></script>
+<script defer="defer" src="{{ asset('assets/js/executive/mapdashboard.uptd.js') }}"></script>
+
 @endsection
 
 @section('body')
@@ -58,9 +97,7 @@
                                 <h3 class="darkcolor font-normal bottom15">DBMPR</h3>
                                 <p class="bottom30">Sistem Pengendalian Jalan dan Jembatan Dinas Bina Marga dan Penataan Ruang (DBMPR) merupakan sebuah aplikasi WebGIS yang dikembangkan sebagai media pelaporan dan penyampaian informasi spasial pembangunan infrastruktur DBMPR.</p>
                                 <div class="col-12 px-0">
-                                    <div class="w-100">
-                                        <iframe src="{{ route('landing.map.map-dashboard-uptd', $uptd->id) }}" frameborder="0" style="width: 100%; height: 600px"></iframe>
-                                    </div>
+                                    <div id="root" style="width: 100%; height: 600px"></div>
                                 </div>
                             </div>
                         </div>
@@ -74,5 +111,9 @@
 
 </main>
 <!-- main ends -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
+</script>
+<script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
 @endsection
 
