@@ -57,8 +57,6 @@ Route::group(['prefix' => 'uptd'], function () {
     Route::get('/labkon/home', 'LandingController@labkon');
     Route::get('/labkon/posts', 'LandingController@createpost');
     Route::post('/labkon/posts', 'LandingController@storepost');
-
-
 });
 
 Route::get('user', 'CobaController@index');
@@ -87,7 +85,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     });
 
     Route::prefix('pdf')->group(function () {
-        Route::get('laporan_pekerjaan','PrintPDFController@laporanPekerjaan');
+        Route::get('laporan_pekerjaan', 'PrintPDFController@laporanPekerjaan');
     });
     Route::get('announcement/destroy/{id}', 'AnnouncementController@destroy');
     Route::resource('/announcement', 'AnnouncementController');
@@ -106,7 +104,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     // {SiteURL}/admin/monitoring/*
     Route::group(['prefix' => 'monitoring'], function () {
         Route::get('progress-pekerjaan', 'MonitoringController@getProgressPekerjaan');
-        Route::get('pekerjaan_resume','Monitoring\ResumeController@pekerjaan')->name('resume_pekerjaan');
+        Route::get('pekerjaan_resume', 'Monitoring\ResumeController@pekerjaan')->name('resume_pekerjaan');
 
         Route::view('survey-kondisi-jalan', 'admin.monitoring.survey-kondisi-jalan');
         Route::view('survey-kondisi-jalan/{uptd}', 'admin.monitoring.survey-kondisi-jalan-uptd')->name('kondisiJalanUPTD');
@@ -470,7 +468,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
         Route::prefix('bankeu')->group(function () {
             Route::get('delete/{id}', 'InputData\BantuanKeuanganController@destroy');
-            Route::get('get_ruas_jalan_by_geo_id/{id}','InputData\BantuanKeuanganController@getRuasJalanByGeoId')->name('getRuasJalanByGeoId');
+            Route::get('get_ruas_jalan_by_geo_id/{id}', 'InputData\BantuanKeuanganController@getRuasJalanByGeoId')->name('getRuasJalanByGeoId');
         });
         Route::resource('bankeu', 'InputData\BantuanKeuanganController');
 
@@ -479,6 +477,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('delete/{id}', 'InputData\DPAController@destroy');
         });
         Route::resource('dpa', 'InputData\DPAController');
+
+        Route::view('master_ruas_jalan', 'admin.input_data.master_ruas_jalan.index');
     });
 
     Route::group(['prefix' => 'lapor'], function () {
