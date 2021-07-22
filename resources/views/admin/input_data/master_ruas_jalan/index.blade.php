@@ -44,13 +44,13 @@
                 <input type="file" name="file" class="form-control form-control-sm" id="inFile">
             </div>
         </div>
-        <div class="form-group row">
+        {{-- <div class="form-group row">
             <div class="col-sm-12">
                 <button type="button" class="btn btn-primary btn-sm">
                     Muat shapefile
                 </button>
             </div>
-        </div>
+        </div> --}}
         <form>
         <span class="file-upload-status" style="opacity: 1" id="upload-status"></span>
         <div id="fileInfo"></div>
@@ -60,6 +60,7 @@
 
 @section('script')
 <script src="https://js.arcgis.com/4.19/"></script>
+<script src="https://unpkg.com/shpjs@latest/dist/shp.js"></script>
 <script type="text/javascript">
     const url = "{{url('/admin/input-data/bankeu/get_ruas_jalan_by_geo_id')}}"
     $("#mapLatLong")
@@ -92,7 +93,7 @@
             const portalUrl = "https://www.arcgis.com";
 
             const map = new Map({
-                basemap: "osm",
+                basemap: "hybrid",
             });
 
             const view = new MapView({
@@ -108,7 +109,7 @@
 
             const toggle = new BasemapToggle({
                 view,
-                nextBasemap: "hybrid",
+                nextBasemap: "osm",
             });
 
             view.ui.add(toggle, 'top-right');
@@ -270,7 +271,7 @@
           .getElementById("uploadForm")
           .addEventListener("change", (event) => {
             const fileName = event.target.value.toLowerCase();
-
+            console.log(fileName)
             if (fileName.indexOf(".zip") !== -1) {
               //is file a zip - if not notify user
               generateFeatureCollection(fileName);

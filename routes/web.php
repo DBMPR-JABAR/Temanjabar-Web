@@ -498,6 +498,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::get('pemetaan', 'LaporController@pemetaanLaporanMasyarakat')->name('pemetaanLaporanMasyarakat');
         Route::get('laporan-kerusakan', 'MonitoringController@getLaporan');
     });
+
+
 });
 Route::get('map/target-realisasi', 'ProyekController@getTargetRealisasiAPI')->name('api.targetrealisasi');
 Route::get('map/kendali-kontrak', 'ProyekController@getProyekKontrakAPI')->name('api.proyekkontrak');
@@ -525,3 +527,12 @@ Route::view('map-progress-mingguan', 'debug.map-progress-mingguan');
 Route::view('map-ruas-jalan', 'debug.map-ruas-jalan');
 
 Route::get('debug', 'Backup\DebugController@debug');
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::prefix('v1')->group(function () {
+        Route::prefix('bankeu')->group(function () {
+            Route::get('pre', 'MockupController@bankeu_create_pre');
+        });
+    });
+});
