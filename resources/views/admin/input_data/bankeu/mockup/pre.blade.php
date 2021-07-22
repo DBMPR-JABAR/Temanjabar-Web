@@ -3,18 +3,6 @@
 @section('title') Bantuan Keuangan @endsection
 @section('head')
 <link rel="stylesheet" href="https://js.arcgis.com/4.19/esri/themes/light/main.css">
-{{-- <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer>
-</script> --}}
-
-{{-- <script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
-<script src="https://code.highcharts.com/modules/export-data.js"></script>
-<script src="https://code.highcharts.com/modules/accessibility.js"></script>
-<style>
-    .highcharts-credits {
-        display: none
-    }
-</style> --}}
 @endsection
 
 @section('page-header')
@@ -355,30 +343,6 @@
                             </div>
                         </div>
 
-                        @if(hasAccess(Auth::user()->internal_role_id,
-                        'Verifikasi Bantuan Keuangan', 'Update'))
-                        <fieldset class="form-group row">
-                            <legend class="col-form-label col-sm-2 float-sm-left pt-0">Terverifikasi ?</legend>
-                            <div class="col-sm-8">
-                                <div class="form-check-inline">
-                                    <input class="form-check-input" type="radio" name="is_verified" id="gridRadios1"
-                                        value="1" {{@$bankeu->is_verified == '1' ? 'checked' : ''}}>
-                                    <label class="form-check-label" for="gridRadios1">
-                                        Iya
-                                    </label>
-                                </div>
-                                <div class="form-check-inline">
-                                    <input class="form-check-input" type="radio" name="is_verified" id="gridRadios2"
-                                        value="0" {{@$bankeu->is_verified == '0' ? 'checked' : ''}}>
-                                    <label class="form-check-label" for="gridRadios2">
-                                        Tidak
-                                    </label>
-                                </div>
-                            </div>
-                        </fieldset>
-                        @endif
-
-                        <div id="isVerifiedOnly">
                             <div class=" form-group row">
                                 <label class="col-md-4 col-form-label">Proggress (<span
                                         id="proggress_percent">{{@$bankeu->progress}}</span>%)</label>
@@ -454,16 +418,51 @@
                                                     class="form-control">
                                             </div>
                                         </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-md-3 col-form-label">Dokumen (Optional) 1</label>
+                                            <div class="col-md-5">
+                                                <input id="dokumen" name="dokumen_1" type="file" accept="application/pdf"
+                                                    class="form-control">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                         </div>
 
-                        {{-- <div class="col-lg-12">
-                            <figure class="highcharts-figure">
-                                <div id="history_container"></div>
-                            </figure>
-                        </div> --}}
+
+                        @if(hasAccess(Auth::user()->internal_role_id,
+                        'Verifikasi Bantuan Keuangan', 'Update'))
+                        <fieldset class="form-group row">
+                            <legend class="col-form-label col-sm-2 float-sm-left pt-0">Terverifikasi ?</legend>
+                            <div class="col-sm-8">
+                                <div class="form-check-inline">
+                                    <input class="form-check-input" type="radio" name="is_verified" id="gridRadios1"
+                                        value="1" {{@$bankeu->is_verified == '1' ? 'checked' : ''}}>
+                                    <label class="form-check-label" for="gridRadios1">
+                                        Iya
+                                    </label>
+                                </div>
+                                <div class="form-check-inline">
+                                    <input class="form-check-input" type="radio" name="is_verified" id="gridRadios2"
+                                        value="0" {{@$bankeu->is_verified == '0' ? 'checked' : ''}}>
+                                    <label class="form-check-label" for="gridRadios2">
+                                        Tidak
+                                    </label>
+                                </div>
+                            </div>
+                        </fieldset>
+                        @endif
+
+                        <div id="isVerifiedOnly">
+                        <div class=" form-group row">
+                            <label class="col-md-4 col-form-label">Catatan Perbaikan</label>
+                            <div class="col-md-8">
+                                <input id="nama_lokasi_value" name="catatan_perbaikan"
+                                    type="text" class="form-control">
+                            </div>
+                        </div>
+                        </div>
 
                         <div class=" form-group row">
                             <a href="{{ route('bankeu.index') }}"><button type="button"
@@ -507,10 +506,10 @@ exitsData = @json($bankeu)
         const isNoVerified = document.getElementById('gridRadios2')
 
         isNoVerified.onchange = (event) => {
-            if(event.target.checked)  isVerifiedContainer.hide()
+            if(event.target.checked)  isVerifiedContainer.show()
         }
         isVerified.onchange = (event) => {
-            if(event.target.checked)  isVerifiedContainer.show()
+            if(event.target.checked)  isVerifiedContainer.hide()
 
         }
 
@@ -555,6 +554,13 @@ exitsData = @json($bankeu)
                                             <input id="video" name="video_${ke}" type="file" accept="video/mp4" class="form-control">
                                         </div>
                                     </div>
+                                    <div class="form-group row">
+                                            <label class="col-md-3 col-form-label">Dokumen (Optional) ${ke}</label>
+                                            <div class="col-md-5">
+                                                <input id="dokumen" name="dokumen_${ke}" type="file" accept="application/pdf"
+                                                    class="form-control">
+                                            </div>
+                                        </div>
                                 </div>`
 
             const navTemplate = (ke) => `<li class="nav-item">
@@ -614,71 +620,6 @@ exitsData = @json($bankeu)
         progressSlider.oninput = onChange
         progressSlider.onclick = onChange
 
-
-    //     Highcharts.chart('history_container', {
-    //     title: {
-    //         text: 'Progres'
-    //     },
-
-    //     subtitle: {
-    //         text: 'Perbandingan Progres'
-    //     },
-
-    //     yAxis: {
-    //         title: {
-    //             text: 'Persentase Proggres'
-    //         },
-    //         min:0,
-    //         max:100
-    //     },
-
-    //     xAxis: {
-    //         type: 'datetime',
-    //         accessibility: {
-    //             rangeDescription: 'Tanggal Update Proggres'
-    //         },
-    //         categories : [0,1]
-    //     },
-
-    //     legend: {
-    //         layout: 'vertical',
-    //         align: 'right',
-    //         verticalAlign: 'middle'
-    //     },
-
-    //     plotOptions: {
-    //         series: {
-    //             label: {
-    //                 connectorAllowed: false
-    //             },
-    //             pointStart: 0,
-    //             pointEnd: 100
-    //         }
-    //     },
-
-    //     series: [{
-    //         name: 'Rencana',
-    //         data: [0,20,30,60,90,100]
-    //     },{
-    //         name:'Realisasi',
-    //         data:[0,15,32,55,85,100]
-    //     }],
-
-    //     responsive: {
-    //         rules: [{
-    //             condition: {
-    //                 maxWidth: 500
-    //             },
-    //             chartOptions: {
-    //                 legend: {
-    //                     layout: 'horizontal',
-    //                     align: 'center',
-    //                     verticalAlign: 'bottom'
-    //                 }
-    //             }
-    //         }]
-    //     }
-    // });
         })
 
 </script>
