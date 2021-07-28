@@ -81,7 +81,7 @@
                                 <th>PPK Kegiatan</th>
                                 <th>Konsultasi Supervisi</th>
                                 <th>Nama PPK</th>
-                                <th>Nama SSE</th>
+                                <th>Nama SE</th>
                                 <th>Nama GS</th>
                                 <th>Progress (%)</th>
                                 <th>Terverifikasi</th>
@@ -103,17 +103,17 @@
                                 <td>{{ $data->ppk_kegiatan }}</td>
                                 <td>{{ $data->konsultasi_supervisi }}</td>
                                 <td>{{ $data->nama_ppk }}</td>
-                                <td>{{ $data->nama_sse }}</td>
+                                <td>{{ $data->nama_se }}</td>
                                 <td>{{ $data->nama_gs }}</td>
                                 <td>{{ $data->progress }}</td>
                                 <td>{{ $data->is_verified == '1' ? 'Ya' : 'Tidak' }}</td>
                                 <td style="min-width: 75px">
                                     <div class="btn-group" role="group" data-placement="top" title=""
                                         data-original-title=".btn-xlg">
-                                        <a class="d-inline-block" href="{{ route('bankeu.show', $data->id) }}"><button
+                                        {{-- <a class="d-inline-block" href="{{ route('bankeu.show', $data->id) }}"><button
                                                 class="btn btn-success btn-sm waves-effect mr-1 waves-light"
                                                 data-toggle="tooltip" title="Histori Progres">
-                                                <i class="icofont icofont-eye-alt"></i></button></a>
+                                                <i class="icofont icofont-eye-alt"></i></button></a> --}}
                                         @if(hasAccess(Auth::user()->internal_role_id,
                                         'Bantuan Keuangan', 'Update'))
                                         <a class="d-inline-block" href="{{ route('bankeu.edit', $data->id) }}"><button

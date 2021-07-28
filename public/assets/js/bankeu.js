@@ -1,3 +1,226 @@
+$(document).ready(() => {
+            const pembagianProgres = document.getElementById("pembagian_progres")
+            const targetContainer = document.getElementById("target_container")
+            const buktiNavContainer = document.getElementById("bukti_nav_container")
+            const buktiContentContainer = document.getElementById("bukti_content_container")
+            console.log('test', pembagianProgres)
+            const isVerifiedContainer = $('#isVerifiedOnly')
+            isVerifiedContainer.hide()
+            const isVerified = document.getElementById('gridRadios1')
+            const isNoVerified = document.getElementById('gridRadios2')
+
+            if (access) {
+                isNoVerified.onchange = (event) => {
+                    if (event.target.checked) isVerifiedContainer.hide()
+                }
+                isVerified.onchange = (event) => {
+                    if (event.target.checked) isVerifiedContainer.show()
+
+                }
+            }
+
+
+            const buktiTemplate = ({ ke, data }) => `<div class="tab-pane ${ke == 1 ? "active show" :''}" id="bukti_${ke}" role="tabpanel" aria-selected="${ke == 1 ? 'true' :'false'}">
+                                    <div class="form-group row">
+                                        <label class="col-md-2 col-form-label">Foto ${ke}.1</label>
+                                        <div class="col-md-5">
+                                            <img ${data && `src="${urlStorage}/${data.foto_1}"`} class="mx-auto rounded img-thumbnail d-block" id="foto_${ke}_preview_1">
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input id="foto_${ke}_1" name="foto_${ke}_1" type="file" accept="image/*" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-2 col-form-label">Foto ${ke}.2</label>
+                                        <div class="col-md-5">
+                                            <img ${data && `src="${urlStorage}/${data.foto_2}"`} class="mx-auto rounded img-thumbnail d-block" id="foto_${ke}_preview_2">
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input id="foto_${ke}_2" name="foto_${ke}_2" type="file" accept="image/*" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-2 col-form-label">Foto ${ke}.3</label>
+                                        <div class="col-md-5">
+                                            <img ${data && `src="${urlStorage}/${data.foto_3}"`} class="mx-auto rounded d-block img-thumbnail" id="foto_${ke}_preview_3">
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input id="foto_${ke}_3" name="foto_${ke}_3" type="file" accept="image/*" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-2 col-form-label">Video ${ke}</label>
+                                        <div class="col-md-5">
+                                            <video ${data && `src="${urlStorage}/${data.video}"`} class="mx-auto rounded img-thumbnail d-block" id="video_${ke}_preview"
+                                                src="" alt="" controls>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input id="video_${ke}" name="video_${ke}" type="file" accept="video/mp4" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                            <label class="col-md-3 col-form-label">Dokumen ${ke} (Optional)</label>
+                                            <div class="col-md-5">
+                                                <input id="dokumen_${ke}" name="dokumen_${ke}" type="file" accept="application/pdf"
+                                                    class="form-control">
+                                            </div>
+                                            ${data && data.dokumen && (action == 'update') && `<div class="col-md-3">
+                                        <a href="${urlStorage}/${data.dokumen}" download><button type="button"
+                                        class="btn btn-default waves-effect">Unduh</button></a>
+                                        </div>`}
+                                        </div>
+                                </div>`
+
+    const navTemplate = ({ ke, data }) => `<li class="nav-item">
+                                    <a class="nav-link ${ke == 1 ? "active show" :''}" data-toggle="tab" href="#bukti_${ke}" role="tab" aria-selected="${ke == 1 ? 'true' :'false'}">Target ke-${ke}</a>
+                                </li>`
+
+    const targetTemplate = ({ ke, data }) => `<div class=" form-group row">
+                            <label class="col-md-4 col-form-label">Target ke-${ke}</label>
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <input type="date" ${data && `value="${data.tanggal}"`} name="tanggal_target_${ke}" class="form-control" ${!access && 'readonly'}>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <input ${data && `value="${data.persentase}"`} type="number" name="persentase_target_${ke}" step="1" class="form-control" ${!access && 'readonly'}>
+                                            <span class="input-group-append">
+                                                <label class="input-group-text">%</label>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`
+
+    pembagianProgres.onchange = (event) => {
+        let i = 1;
+        const value = Number(event.target.value);
+        let htmlTarget = ""
+        let htmlBuktiNav = ""
+        let htmlBuktiContent = ""
+        const filePreviews = []
+        for (i; i <= value; i++) {
+            filePreviews.push({
+                input: `foto_${i}_1`,
+                preview: `foto_${i}_preview_1`
+            })
+            filePreviews.push({
+                input: `foto_${i}_2`,
+                preview: `foto_${i}_preview_2`
+            })
+            filePreviews.push({
+                input: `foto_${i}_3`,
+                preview: `foto_${i}_preview_3`
+            })
+            filePreviews.push({
+                input: `video_${i}`,
+                preview: `video_${i}_preview`
+            })
+            htmlTarget += targetTemplate({ ke: i })
+            htmlBuktiNav += navTemplate({ ke: i })
+            htmlBuktiContent += buktiTemplate({ ke: i })
+        }
+        targetContainer.innerHTML = htmlTarget
+        buktiNavContainer.innerHTML = htmlBuktiNav
+        buktiContentContainer.innerHTML = htmlBuktiContent
+
+        filePreviews.forEach(data => {
+            const inputElement = document.getElementById(data.input)
+            inputElement.onchange = event => {
+                const [file] = inputElement.files
+                if (file) document.getElementById(data.preview).src = URL.createObjectURL(file)
+            }
+        })
+    }
+
+    const filePreviews = [{
+        input: `foto_1_1`,
+        preview: `foto_1_preview_1`
+    }, {
+        input: `foto_1_2`,
+        preview: `foto_1_preview_2`
+    }, {
+        input: `foto_1_3`,
+        preview: `foto_1_preview_3`
+    }, {
+        input: `video_1`,
+        preview: `video_1_preview`
+    }]
+
+    filePreviews.forEach(data => {
+        const inputElement = document.getElementById(data.input)
+        inputElement.onchange = event => {
+            const [file] = inputElement.files
+            if (file) document.getElementById(data.preview).src = URL.createObjectURL(file)
+        }
+    })
+
+    const progressPercentage = document.getElementById('proggress_percent')
+    const progressSlider =
+        document.getElementById('proggress_slider')
+    const onChange = (event) => {
+        if (event.target.value < Number(progressBefore)) {
+            progressPercentage.innerText = progressBefore
+            progressSlider.value = progressBefore
+        } else {
+            progressPercentage.innerText = event.target.value
+            progressSlider.value = event.target.value
+        }
+    }
+    progressSlider.oninput = onChange
+    progressSlider.onclick = onChange
+
+
+
+   console.log(exitsData, exitsProgres)
+    if (exitsData && exitsProgres) {
+        if(exitsData.is_verified == "1") isVerifiedContainer.show()
+        console.log(access)
+        let i = 1;
+        const value = Number(exitsData.pembagian_progres);
+        let htmlTarget = ""
+        let htmlBuktiNav = ""
+        let htmlBuktiContent = ""
+        const filePreviews = []
+        for (i; i <= value; i++) {
+            filePreviews.push({
+                input: `foto_${i}_1`,
+                preview: `foto_${i}_preview_1`
+            })
+            filePreviews.push({
+                input: `foto_${i}_2`,
+                preview: `foto_${i}_preview_2`
+            })
+            filePreviews.push({
+                input: `foto_${i}_3`,
+                preview: `foto_${i}_preview_3`
+            })
+            filePreviews.push({
+                input: `video_${i}`,
+                preview: `video_${i}_preview`
+            })
+            htmlTarget += targetTemplate({ ke: i, data: exitsProgres[i-1] })
+            htmlBuktiNav += navTemplate({ ke: i, data: exitsProgres[i-1] })
+            htmlBuktiContent += buktiTemplate({ ke: i, data: exitsProgres[i-1] })
+        }
+        targetContainer.innerHTML = htmlTarget
+        buktiNavContainer.innerHTML = htmlBuktiNav
+        buktiContentContainer.innerHTML = htmlBuktiContent
+
+        filePreviews.forEach(data => {
+            const inputElement = document.getElementById(data.input)
+            inputElement.onchange = event => {
+                const [file] = inputElement.files
+                if (file) document.getElementById(data.preview).src = URL.createObjectURL(file)
+            }
+        })
+    }
+
+})
+
+
 $("#mapLatLong")
     .ready(() => {
         require(["esri/Map",
@@ -6,7 +229,6 @@ $("#mapLatLong")
             "esri/views/draw/Draw",
             "esri/geometry/geometryEngine",
             "esri/widgets/BasemapToggle",
-            "esri/geometry/SpatialReference",
             "esri/geometry/support/webMercatorUtils"
         ], function(
             Map,
@@ -15,7 +237,6 @@ $("#mapLatLong")
             Draw,
             geometryEngine,
             BasemapToggle,
-            SpatialReference,
             webMercatorUtils
         ) {
 
@@ -28,13 +249,6 @@ $("#mapLatLong")
                 map,
                 center: [107.6191, -6.9175],
                 zoom: 9,
-                // spatialReference: {
-                //     wkid: 4326
-                // }
-                // spatialReference: {
-                //     wkid: 4326
-                // }
-
             });
 
 
@@ -202,8 +416,6 @@ $("#mapLatLong")
             const onChangeRuasJalan = async(event) => {
                 try { view.ui.remove(gambarManual) } catch (e) { console.log(e) };
                 let geo_id = event.target.value;
-                console.log(geo_id)
-                const namaLokasi = document.getElementById('nama_lokasi')
                 if (geo_id != -1) {
                     $("#nama_lokasi").hide()
                     $("#nama_lokasi_value").prop('required', false);
@@ -247,75 +459,3 @@ $("#mapLatLong")
             })
         });
     });
-
-
-
-
-
-
-
-// old
-// let tempGraphic = [];
-
-// if ($("#lat0").val() != undefined && $("#long0").val() != undefined) {
-//     addTitik(0, $("#lat0").val(), $("#long0").val(), "blue");
-// }
-// if ($("#lat1").val() != undefined && $("#long1").val() != undefined) {
-//     addTitik(1, $("#lat1").val(), $("#long1").val(), "green");
-// }
-
-// let mouseclick = 0;
-
-// view.on("click", function(event) {
-//     const lat = event.mapPoint.latitude;
-//     const long = event.mapPoint.longitude;
-
-//     // Genap = Titik Awal
-//     if (mouseclick % 2 == 0) {
-//         addTitik(0, lat, long, "blue");
-//         $("#lat0").val(lat);
-//         $("#long0").val(long);
-//     } else {
-//         addTitik(1, lat, long, "green");
-//         $("#lat1").val(lat);
-//         $("#long1").val(long);
-//     }
-//     mouseclick++;
-// });
-
-// $("#lat0, #long0").keyup(function() {
-//     const lat = $("#lat0").val();
-//     const long = $("#long0").val();
-//     addTitik(0, lat, long, "blue");
-// });
-// $("#lat1, #long1").keyup(function() {
-//     const lat = $("#lat1").val();
-//     const long = $("#long1").val();
-//     addTitik(1, lat, long, "green");
-// });
-
-// function addTitik(point, lat, long, color) {
-//     if (
-//         $("#lat" + point).val() != "" &&
-//         $("#long" + point).val() != ""
-//     ) {
-//         view.graphics.remove(tempGraphic[point]);
-//     }
-
-//     const graphic = new Graphic({
-//         geometry: {
-//             type: "point",
-//             longitude: long,
-//             latitude: lat,
-//         },
-//         symbol: {
-//             type: "picture-marker",
-//             url: `http://esri.github.io/quickstart-map-js/images/${color}-pin.png`,
-//             width: "14px",
-//             height: "24px",
-//         },
-//     });
-//     tempGraphic[point] = graphic;
-
-//     view.graphics.add(graphic);
-// }
