@@ -54,7 +54,8 @@
                 @if ($action == 'store')
                 <form action="{{ route('rumija.store') }}" method="post" enctype="multipart/form-data">
                     @else
-                    <form action="{{ route('rumija.update', $rumija->id) }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('rumija.update', $rumija->id) }}" method="post"
+                        enctype="multipart/form-data">
                         @method('PUT')
                         @endif
                         @csrf
@@ -63,8 +64,8 @@
                             <div class="col-md-8">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input name="nama" value="{{@$rumija->nama}}" type="text"
-                                            class="form-control"  required>
+                                        <input name="nama" value="{{@$rumija->nama}}" type="text" class="form-control"
+                                            required>
                                     </div>
                                 </div>
                             </div>
@@ -76,7 +77,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <input name="alamat" value="{{@$rumija->alamat}}" type="text"
-                                            class="form-control"  required>
+                                            class="form-control" required>
                                     </div>
                                 </div>
                             </div>
@@ -88,7 +89,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <input name="no_ijin" value="{{@$rumija->no_ijin}}" type="number"
-                                            class="form-control"  required>
+                                            class="form-control" required>
                                     </div>
                                 </div>
                             </div>
@@ -100,7 +101,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <input name="tanggal_ijin" value="{{@$rumija->tanggal_ijin}}" type="date"
-                                            class="form-control"  required>
+                                            class="form-control" required>
                                     </div>
                                 </div>
                             </div>
@@ -114,9 +115,9 @@
                                         <select class="form-control searchableField" name="ruas_jalan" required>
                                             <option>Pilih Ruas Jalan</option>
                                             @foreach ($ruas_jalan as $data)
-                                            <option value="{{ $data->nama_ruas_jalan }}"
-                                                @isset($rumija)
-                                                {{ $rumija->ruas_jalan == $data->nama_ruas_jalan ? 'selected' : '' }} @endisset>
+                                            <option value="{{ $data->nama_ruas_jalan }}" @isset($rumija)
+                                                {{ $rumija->ruas_jalan == $data->nama_ruas_jalan ? 'selected' : '' }}
+                                                @endisset>
                                                 {{ $data->nama_ruas_jalan }}</option>
                                             @endforeach
                                         </select>
@@ -133,8 +134,7 @@
                                         <select class="form-control searchableField" name="kab_kota" required>
                                             <option>Pilih Kab/Kota</option>
                                             @foreach ($kab_kota as $data)
-                                            <option value="{{ $data->name }}"
-                                                @isset($rumija)
+                                            <option value="{{ $data->name }}" @isset($rumija)
                                                 {{ $rumija->kab_kota == $data->name ? 'selected' : '' }} @endisset>
                                                 {{ $data->name }}</option>
                                             @endforeach
@@ -149,10 +149,10 @@
                             <div class="col-md-8">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <select class="form-control searchableField" id="edit_uptd" name="uptd" required>
+                                        <select class="form-control searchableField" id="edit_uptd" name="uptd"
+                                            required>
                                             @foreach ($uptd as $data)
-                                            <option value="{{ $data->id }}" id="{{ $data->id }}"
-                                                @isset($rumija)
+                                            <option value="{{ $data->id }}" id="{{ $data->id }}" @isset($rumija)
                                                 {{ $rumija->uptd == $data->id ? 'selected' : '' }} @endisset>
                                                 {{ $data->nama }}</option>
                                             @endforeach
@@ -167,8 +167,9 @@
                             <div class="col-md-8">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input pattern="([0-9]+.{0,1}[0-9]*,{0,1})*[0-9]" required name="luas" value="{{@$rumija->luas}}"  type="number" class="form-control"
-                                            min="0" step="0.01">
+                                        <input pattern="([0-9]+.{0,1}[0-9]*,{0,1})*[0-9]" required name="luas"
+                                            value="{{@$rumija->luas}}" type="number" class="form-control" min="0"
+                                            step="0.01">
                                     </div>
                                 </div>
                             </div>
@@ -179,8 +180,8 @@
                             <div class="col-md-8">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input name="jenis_penggunaan" value="{{@$rumija->jenis_penggunaan}}" type="text"
-                                            class="form-control"  required>
+                                        <input name="jenis_penggunaan" value="{{@$rumija->jenis_penggunaan}}"
+                                            type="text" class="form-control" required>
                                     </div>
                                 </div>
                             </div>
@@ -192,7 +193,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <textarea rows="3" name="uraian" value="{{@$rumija->uraian}}"
-                                            class="form-control"  required>{{@$rumija->uraian}}</textarea>
+                                            class="form-control" required>{{@$rumija->uraian}}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -201,8 +202,8 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Foto 1</label>
                             <div class="col-md-5">
-                                <img style="min-height: 40px" class="mx-auto rounded img-thumbnail d-block" id="foto_preview"
-                                    src="{{ url('storage/' . @$rumija->foto) }}" alt="">
+                                <img style="min-height: 40px" class="mx-auto rounded img-thumbnail d-block"
+                                    id="foto_preview" src="{{ url('storage/' . @$rumija->foto) }}" alt="">
                             </div>
                             <div class="col-md-5">
                                 <input id="foto" name="foto" type="file" accept="image/*" class="form-control">
@@ -211,18 +212,18 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Foto 2</label>
                             <div class="col-md-5">
-                                <img style="min-height: 40px" class="mx-auto rounded img-thumbnail d-block" id="foto_preview_1"
-                                    src="{{ url('storage/' . @$rumija->foto_1) }}" alt="">
+                                <img style="min-height: 40px" class="mx-auto rounded img-thumbnail d-block"
+                                    id="foto_preview_1" src="{{ url('storage/' . @$rumija->foto_1) }}" alt="">
                             </div>
                             <div class="col-md-5">
-                                <input  id="foto_1" name="foto_1" type="file" accept="image/*" class="form-control">
+                                <input id="foto_1" name="foto_1" type="file" accept="image/*" class="form-control">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Foto 3</label>
                             <div class="col-md-5">
-                                <img style="min-height: 40px" class="mx-auto rounded img-thumbnail d-block" id="foto_preview_2"
-                                    src="{{ url('storage/' . @$rumija->foto_2) }}" alt="">
+                                <img style="min-height: 40px" class="mx-auto rounded img-thumbnail d-block"
+                                    id="foto_preview_2" src="{{ url('storage/' . @$rumija->foto_2) }}" alt="">
                             </div>
                             <div class="col-md-5">
                                 <input id="foto_2" name="foto_2" type="file" accept="image/*" class="form-control">
@@ -239,12 +240,30 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Video (link Youtube)</label>
+                            <div class="col-md-5">
+                                <div id="video_yt_frame_container"
+                                    style="min-height: 40px;@if(@$rumija->video_yt) height:350px @endif"
+                                    class="embed-responsive border">
+                                    <iframe id="video_yt_frame" class="embed-responsive-item"
+                                        src="{{@$rumija->video_yt}}"></iframe>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <input id="video_yt_input" name="video_yt" value="{{@$rumija->video_yt}}" type="text"
+                                    class="form-control"
+                                    placeholder="https://www.youtube.com/embed/ZrkHsRb3xI0?controls=0">
+                            </div>
+                        </div>
+
                         <div class=" form-group row">
                             <label class="col-md-4 col-form-label">Koordinat X</label>
                             <div class="col-md-8">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input name="lat" id="lat" type="text" class="form-control formatLatLong" required  value="{{@$rumija->lat}}" >
+                                        <input name="lat" id="lat" type="text" class="form-control formatLatLong"
+                                            required value="{{@$rumija->lat}}">
                                     </div>
                                 </div>
                             </div>
@@ -255,7 +274,8 @@
                             <div class="col-md-8">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input name="lng" id="long" type="text" class="form-control formatLatLong" value="{{@$rumija->lng}}" required>
+                                        <input name="lng" id="long" type="text" class="form-control formatLatLong"
+                                            value="{{@$rumija->lng}}" required>
                                     </div>
                                 </div>
                             </div>
@@ -290,6 +310,19 @@
 
 <script>
     $(document).ready(function() {
+        const ytFrameContainer = document.getElementById('video_yt_frame_container')
+        const ytFrame = document.getElementById('video_yt_frame')
+        const ytInput = document.getElementById('video_yt_input')
+        ytInput.onchange = (event) => {
+            if(String(event.target.value).includes('embed')){
+            ytFrame.src = event.target.value
+            ytFrameContainer.style.height = '350px'}
+            else {
+                ytFrame.src = null
+            ytFrameContainer.style.height = '40px'
+            }
+        }
+
         const filePreviews = [
             {
                 input:"foto",
