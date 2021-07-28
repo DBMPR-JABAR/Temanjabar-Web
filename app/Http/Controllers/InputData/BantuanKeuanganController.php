@@ -142,19 +142,16 @@ class BantuanKeuanganController extends Controller
         $color = "success";
         $msg = "Berhasil Menambah Data Bantuan Keuangan";
 
-        try {
-            $subject = 'Bantuan Keuangan ' . $request->no_kontrak;
-            $view = 'mail.bankeu_new';
-            foreach ($request->ditunjukan_untuk as $id_user) {
-                $to = DB::table('users')->where('id', $id_user)->first();
-                // dd($to);
-                $data = [
-                    'no_kontrak' => $request->no_kontrak,
-                    'to_name' => $to->name,
-                ];
-                $this->send_email($to->email, $to->name, $subject, Auth::user()->email, Auth::user()->name, $view, $data);
-            }
-        } catch (Error $e) {
+        $subject = 'Bantuan Keuangan ' . $request->no_kontrak;
+        $view = 'mail.bankeu_new';
+        foreach ($request->ditunjukan_untuk as $id_user) {
+            $to = DB::table('users')->where('id', $id_user)->first();
+            // dd($to);
+            $data = [
+                'no_kontrak' => $request->no_kontrak,
+                'to_name' => $to->name,
+            ];
+            $this->send_email($to->email, $to->name, $subject, Auth::user()->email, Auth::user()->name, $view, $data);
         }
 
         return redirect(route('bankeu.index'))->with(compact('color', 'msg'));
@@ -320,9 +317,13 @@ class BantuanKeuanganController extends Controller
 
     private function send_email($to_email, $to_name, $subject, $form_email, $from_name, $view, $data)
     {
-        Mail::send($view, $data, function ($message) use ($to_name, $to_email, $subject, $form_email, $from_name) {
-            $message->to($to_email, $to_name)->subject($subject);
-            $message->from($form_email, $from_name);
-        });
+        try {
+            Mail::send($view, $data, function ($message) use ($to_name, $to_email, $subject, $form_email, $from_name) {
+                $message->to($to_email, $to_name)->subject($subject);
+                $message->from($form_email, $from_name);
+            });
+        } catch (Error $e) {
+            $error = $e;
+        }
     }
 }
