@@ -64,10 +64,10 @@ $(document).ready(() => {
                                                 <input id="dokumen_${ke}" name="dokumen_${ke}" type="file" accept="application/pdf"
                                                     class="form-control">
                                             </div>
-                                            ${data && data.dokumen && (action == 'update') && `<div class="col-md-3">
+                                            ${(data && data.dokumen && (action == 'update') && `<div class="col-md-3">
                                         <a href="${urlStorage}/${data.dokumen}" download><button type="button"
                                         class="btn btn-default waves-effect">Unduh</button></a>
-                                        </div>`}
+                                        </div>`)||""}
                                         </div>
                                 </div>`
 
