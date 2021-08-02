@@ -201,9 +201,17 @@ class DetailUserController extends Controller
                 // dd($id);
                 $updateprofile = DB::table('user_pegawai')
                 ->where('user_id', $id)->first();
-                $validator = Validator::make($request->all(), [
-                    'no_pegawai' => Rule::unique('user_pegawai', 'no_pegawai')->ignore($updateprofile->id)
-                ]);
+                if(isset($updateprofile)){
+                    $validator = Validator::make($request->all(), [
+                        'no_pegawai' => Rule::unique('user_pegawai', 'no_pegawai')->ignore($updateprofile->id)
+                    ]);
+
+                }else{
+                    $validator = Validator::make($request->all(), [
+                        'no_pegawai' => Rule::unique('user_pegawai', 'no_pegawai')
+                    ]);
+                }
+               
                 if ($validator->fails()) {
                     $color = "danger";
                     $msg = $validator->messages()->first();
@@ -228,10 +236,16 @@ class DetailUserController extends Controller
             $userprofile['kode_pos']  = $request->input('kode_pos');
             $userprofile['alamat']  = $request->input('alamat');
             $updatetouser = null;
+            // dd($request->input('sup_id'));
+
             if($request->input('sup_id') != null){
                 $getsup = DB::table('utils_sup')->where('kd_sup',$request->input('sup_id'))->select('id','name')->first();
                 $userupdat['sup_id']= $getsup->id;
                 $userupdat['sup']= $getsup->name;
+                $updatetouser = DB::table('users')->where('id', $id)->update($userupdat);
+            }else{
+                $userupdat['sup_id']= null;
+                $userupdat['sup']= null;
                 $updatetouser = DB::table('users')->where('id', $id)->update($userupdat);
             }
              //beneriiiiiiiiin
