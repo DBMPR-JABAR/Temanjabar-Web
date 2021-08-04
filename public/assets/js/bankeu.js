@@ -3,7 +3,6 @@ $(document).ready(() => {
             const targetContainer = document.getElementById("target_container")
             const buktiNavContainer = document.getElementById("bukti_nav_container")
             const buktiContentContainer = document.getElementById("bukti_content_container")
-            console.log('test', pembagianProgres)
             const isVerifiedContainer = $('#isVerifiedOnly')
             isVerifiedContainer.hide()
             const isVerified = document.getElementById('gridRadios1')
@@ -174,10 +173,8 @@ $(document).ready(() => {
 
 
 
-   console.log(exitsData, exitsProgres)
     if (exitsData && exitsProgres) {
         if(exitsData.is_verified == "1") isVerifiedContainer.show()
-        console.log(access)
         let i = 1;
         const value = Number(exitsData.pembagian_progres);
         let htmlTarget = ""
@@ -429,7 +426,7 @@ $("#mapLatLong")
                         } else {
                             const paths = JSON.parse(exitsData.geo_json)
                             addPolyLine(paths)
-                            console.log(exitsData.nama_lokasi)
+                            geoJson.value = JSON.stringify(paths)
                             $("#nama_lokasi_value").val(exitsData.nama_lokasi)
                         }
                     } else {
