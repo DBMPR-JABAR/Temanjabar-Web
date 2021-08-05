@@ -46,7 +46,9 @@
                 </div>
             </div>
             <div class="card-block">
+                @if(hasAccess(Auth::user()->internal_role_id, 'UPTD', 'Create'))
                 <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
+                @endif
                 <table id="dttable" class="table table-bordered table-responsive">
                     <thead>
                         <tr>
