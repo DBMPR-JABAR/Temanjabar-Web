@@ -10,10 +10,16 @@ $(document).ready(() => {
 
             if (access) {
                 isNoVerified.onchange = (event) => {
-                    if (event.target.checked) isVerifiedContainer.hide()
+                    if (event.target.checked) {
+                        isVerifiedContainer.hide()
+                        $("#ditunjukan_untuk").prop('required', false);
+                    }
                 }
                 isVerified.onchange = (event) => {
-                    if (event.target.checked) isVerifiedContainer.show()
+                    if (event.target.checked) {
+                        isVerifiedContainer.show()
+                        $("#ditunjukan_untuk").prop('required', true);
+                    }
 
                 }
             }

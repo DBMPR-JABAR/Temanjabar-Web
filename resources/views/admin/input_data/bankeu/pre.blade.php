@@ -384,7 +384,7 @@
                                 <div class="col-md-8">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <select class="form-control form-select searchableField"
+                                            <select id="ditunjukan_untuk" class="form-control form-select searchableField"
                                                 name="ditunjukan_untuk[]" required multiple>
                                                 <option>Pilih Pengguna untuk dikirimkan pemberitahuan</option>
                                                 @foreach ($users as $data)

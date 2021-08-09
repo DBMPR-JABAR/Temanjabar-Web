@@ -75,7 +75,7 @@ class BantuanKeuanganController extends Controller
         $bankeu = $request->only(['pemda', 'opd', 'kab_kota', 'kategori', 'nama_kegiatan', 'no_kontrak', 'tanggal_kontrak', 'nilai_kontrak', 'no_spmk', 'tanggal_spmk', 'panjang', 'waktu_pelaksanaan', 'ppk_kegiatan', 'penyedia_jasa', 'konsultasi_supervisi', 'nama_ppk', 'nama_se', 'nama_gs', 'geo_id', 'nama_lokasi', 'geo_json', 'pembagian_progres', 'is_verified', 'progress']);
         $bankeu["created_by"] = Auth::user()->id;
         $bankeu['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
-        $bankeu['ditunjukan_untuk'] = implode('__', $request->ditunjukan_untuk);
+        if ($request->ditunjukan_untuk) $bankeu['ditunjukan_untuk'] = implode('__', $request->ditunjukan_untuk);
         // dd($request->all());
         $id =  DB::table('bankeu')->insertGetId($bankeu);
         $count = (int)$request->pembagian_progres;
@@ -149,14 +149,16 @@ class BantuanKeuanganController extends Controller
 
         $subject = 'Bantuan Keuangan ' . $request->no_kontrak;
         $view = 'mail.bankeu_new';
-        foreach ($request->ditunjukan_untuk as $id_user) {
-            $to = DB::table('users')->where('id', $id_user)->first();
-            // dd($to);
-            $data = [
-                'no_kontrak' => $request->no_kontrak,
-                'to_name' => $to->name,
-            ];
-            $this->send_email($to->email, $to->name, $subject, Auth::user()->email, Auth::user()->name, $view, $data);
+        if ($request->ditunjukan_untuk) {
+            foreach ($request->ditunjukan_untuk as $id_user) {
+                $to = DB::table('users')->where('id', $id_user)->first();
+                // dd($to);
+                $data = [
+                    'no_kontrak' => $request->no_kontrak,
+                    'to_name' => $to->name,
+                ];
+                $this->send_email($to->email, $to->name, $subject, Auth::user()->email, Auth::user()->name, $view, $data);
+            }
         }
 
         return redirect(route('bankeu.index'))->with(compact('color', 'msg'));
@@ -222,7 +224,7 @@ class BantuanKeuanganController extends Controller
         $bankeu = $request->only(['pemda', 'opd', 'kab_kota', 'kategori', 'nama_kegiatan', 'no_kontrak', 'tanggal_kontrak', 'nilai_kontrak', 'no_spmk', 'tanggal_spmk', 'panjang', 'waktu_pelaksanaan', 'ppk_kegiatan', 'penyedia_jasa', 'konsultasi_supervisi', 'nama_ppk', 'nama_se', 'nama_gs', 'geo_id', 'nama_lokasi', 'geo_json', 'pembagian_progres', 'is_verified', 'progress']);
         $bankeu["updated_by"] = Auth::user()->id;
         $bankeu['updated_at'] = Carbon::now()->format('Y-m-d H:i:s');
-        $bankeu['ditunjukan_untuk'] = implode('__', $request->ditunjukan_untuk);
+        if ($request->ditunjukan_untuk) $bankeu['ditunjukan_untuk'] = implode('__', $request->ditunjukan_untuk);
         // DB::table('bankeu')->where('id', $id)->update($bankeu);
         $count = (int)$request->pembagian_progres;
         for ($i = 1; $i <= $count; $i++) {
