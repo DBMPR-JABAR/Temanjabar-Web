@@ -44,7 +44,17 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('resendOTPMail', 'API\AuthController@resendOTPMail');
 });
 
-
+Route::prefix('jqr')->group(function () {
+    Route::prefix('laporan_masyarakat')->group(function () {
+        Route::get('/', 'API\LaporJQRController@index');
+        Route::post('/', 'API\LaporJQRController@store');
+        Route::put('/{id}/edit', 'API\LaporJQRController@update');
+        Route::get('/{id}/show', 'API\LaporJQRController@show');
+        Route::delete('/{id}', 'API\LaporJQRController@destroy');
+        Route::get('/cities', "API\LaporJQRController@get_cities");
+        Route::get('/jenis_laporan', "API\LaporJQRController@get_jenis_laporan");
+    });
+});
 
 Route::group(['middleware' => ['jwt.auth']], function () {
 
@@ -86,7 +96,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::get('proyek-kontrak/status/{status}', 'API\ProyekController@getByStatus');
 
     Route::group(['prefix' => 'pekerjaan'], function () {
-        Route::get('get-nama-kegiatan-pekerjaan','API\PekerjaanController@getNamaKegiatanPekerjaan');
+        Route::get('get-nama-kegiatan-pekerjaan', 'API\PekerjaanController@getNamaKegiatanPekerjaan');
         Route::get('get-sup', 'API\PekerjaanController@getSUP');
         Route::get('get-ruas-jalan', 'API\PekerjaanController@getRuasJalan');
         Route::get('get-jenis-pekerjaan', 'API\PekerjaanController@getJenisPekerjaan');
@@ -134,7 +144,6 @@ Route::group(['middleware' => ['jwt.auth']], function () {
             Route::get('kuesioner/{id}', 'API\LabKonController@kuesioner');
             Route::post('upload_dokumen_hasil_pengujian/{id}', 'API\LabKonController@upload_dokumen_hasil_pengujian');
             Route::get('dokumen_hasil_pengujian/{id}', 'API\LabKonController@dokumen_hasil_pengujian');
-
         });
         Route::post('tambah_nama_pengujian', 'API\LabKonController@tambah_nama_pengujian');
         Route::get('nama_pengujian', 'API\LabKonController@nama_pengujian');
@@ -173,8 +182,8 @@ Route::post('save-token', 'API\PushNotifController@saveToken')->name('save-token
 Route::post('send-notification-user', 'API\PushNotifController@sendNotificationUser')->name('send.notification');
 Route::post('debug-notification', 'API\PushNotifController@debugNotification')->name('debug.notification');
 
-Route::get('map/geojson/ruas_jalan_propinsi','API\GeoJsonController@getRuasJalanProvinsi');
-Route::get('map/geojson/ruas_jalan_custom','API\GeoJsonController@getRuasJalanCustom');
+Route::get('map/geojson/ruas_jalan_propinsi', 'API\GeoJsonController@getRuasJalanProvinsi');
+Route::get('map/geojson/ruas_jalan_custom', 'API\GeoJsonController@getRuasJalanCustom');
 
 Route::fallback(function () {
     return response()->json([
