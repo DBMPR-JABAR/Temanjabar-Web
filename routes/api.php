@@ -49,6 +49,7 @@ Route::prefix('jqr')->group(function () {
         Route::get('/', 'API\LaporJQRController@index');
         Route::post('/', 'API\LaporJQRController@store');
         Route::put('/{id}/edit', 'API\LaporJQRController@update');
+        Route::put('/{id}/edit_status', 'API\LaporJQRController@status_update');
         Route::get('/{id}/show', 'API\LaporJQRController@show');
         Route::delete('/{id}', 'API\LaporJQRController@destroy');
         Route::get('/cities', "API\LaporJQRController@get_cities");

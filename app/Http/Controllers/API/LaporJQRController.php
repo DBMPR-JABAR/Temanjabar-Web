@@ -53,6 +53,7 @@ class LaporJQRController extends Controller
                     'jenis',
                     'gambar',
                     'deskripsi as pengaduan',
+                    'status',
                     'created_at',
                     'updated_at'
                 ])
@@ -200,6 +201,7 @@ class LaporJQRController extends Controller
                 'telp' => 'required|string|min:9',
                 'email' => 'required|email',
                 'gambar' => 'required|image',
+                'status' => 'in:Submitted,Progress,Done',
                 'pengaduan' => 'required|string',
             ]);
 
@@ -213,6 +215,7 @@ class LaporJQRController extends Controller
             $laporan_masyarakat['jenis'] = $request->jenis_laporan_id;
             $laporan_masyarakat['deskripsi'] = $request->pengaduan;
             $laporan_masyarakat['uptd_id'] = $lokasi->uptd_id;
+            $laporan_masyarakat['status'] = $request->status;
             $laporan_masyarakat['lokasi'] = $lokasi->name;
             $laporan_masyarakat['updated_at'] = Carbon::now();
 
@@ -288,6 +291,44 @@ class LaporJQRController extends Controller
             return response()->json($this->response, 200);
         } catch (\Exception $th) {
             $this->response['status'] = 'failed';
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
+
+    public function status_update(Request $request, $id)
+    {
+        try {
+            if (!$this->credentialsCheck($request)) {
+                return response()->json($this->response, 401);
+            }
+
+            $exits = DB::table('monitoring_laporan_masyarakat')->where('nomorPengaduan', $id)->count();
+            if ($exits === 0) {
+                $this->response['data']['message'] = "Nomor Aduan " . $id . " not exits";
+                return response()->json($this->response, 400);
+            }
+
+            $validator = Validator::make($request->all(), [
+                'status' => 'required|in:Submitted,Progress,Done',
+            ]);
+
+            if ($validator->fails()) {
+                $this->response['data']['error'] = $validator->errors();
+                return response()->json($this->response, 400);
+            }
+
+            $laporan_masyarakat = $request->except(['_method']);
+            $laporan_masyarakat['status'] = $request->status;
+            $laporan_masyarakat['updated_at'] = Carbon::now();
+
+            DB::table('monitoring_laporan_masyarakat')->where('nomorPengaduan', $id)->update($laporan_masyarakat);
+
+            $this->response['status'] = 'success';
+            $this->response['data']["message"] = "Berhasil memperbaharui status laporan " . $id;
+            // $this->response['data']["laporan_masyarakat"] = $laporan_masyarakat;
+            return response()->json($this->response, 200);
+        } catch (\Exception $th) {
             $this->response['data']['message'] = 'Internal Error';
             return response()->json($this->response, 500);
         }
