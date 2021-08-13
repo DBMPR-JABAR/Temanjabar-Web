@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Events\SendMailLaporanMasyarakat;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -115,6 +117,8 @@ class LaporJQRController extends Controller
             }
 
             DB::table('monitoring_laporan_masyarakat')->insert($laporan_masyarakat);
+
+            Event::dispatch(new SendMailLaporanMasyarakat($request->no_aduan, 'Submitted'));
 
             $this->response['status'] = 'success';
             $this->response['data']["message"] = "Berhasil menambahkan laporan";
@@ -324,12 +328,14 @@ class LaporJQRController extends Controller
 
             DB::table('monitoring_laporan_masyarakat')->where('nomorPengaduan', $id)->update($laporan_masyarakat);
 
+            Event::dispatch(new SendMailLaporanMasyarakat($request->no_aduan, $request->status));
+
             $this->response['status'] = 'success';
             $this->response['data']["message"] = "Berhasil memperbaharui status laporan " . $id;
             // $this->response['data']["laporan_masyarakat"] = $laporan_masyarakat;
             return response()->json($this->response, 200);
         } catch (\Exception $th) {
-            $this->response['data']['message'] = 'Internal Error';
+            $this->response['data']['message'] = 'Internal Error'.$th;
             return response()->json($this->response, 500);
         }
     }
