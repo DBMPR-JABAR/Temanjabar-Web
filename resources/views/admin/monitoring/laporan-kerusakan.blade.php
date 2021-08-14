@@ -175,7 +175,7 @@
                                 caption: "diunggah oleh user",
                                 value: {
                                 sourceURL:
-                                    `${baseUrl}/storage/{gambar}`
+                                    "https://tj.temanjabar.net/storage/{gambar}"
                                 }
                             }
                         ]
