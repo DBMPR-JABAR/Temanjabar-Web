@@ -219,7 +219,7 @@
                                                     ${item.long}
                                                 </td>
                                                 <td>
-                                                    <img src="${item.gambar}" class="img-fluid rounded" alt="" style="max-width: 224px;">
+                                                    <img src="https://tj.temanjabar.net/storage/${item.gambar}" class="img-fluid rounded" alt="" style="max-width: 224px;">
                                                 </td>
                                             </tr>`;
                     });
