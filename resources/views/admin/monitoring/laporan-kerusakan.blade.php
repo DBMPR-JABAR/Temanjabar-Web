@@ -173,7 +173,7 @@
                                 caption: "diunggah oleh user",
                                 value: {
                                 sourceURL:
-                                    "{gambar}"
+                                    "http://124.81.122.131/temanjabar/public/storage/{gambar}"
                                 }
                             }
                         ]
