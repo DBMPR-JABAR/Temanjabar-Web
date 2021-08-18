@@ -60,8 +60,8 @@ class BantuanKeuanganController extends Controller
         // dd($users);
         $access = hasAccess(
             Auth::user()->internal_role_id,
-            'Verifikasi Bantuan Keuangan',
-            'Update'
+            'Bantuan Keuangan',
+            'Create'
         );
         $action = 'store';
         return view('admin.input_data.bankeu.pre', compact('action', 'ruas_jalan', 'kategori', 'penyedia_jasa', 'konsultan', 'ppk', 'kab_kota', 'access', 'users'));
@@ -204,8 +204,8 @@ class BantuanKeuanganController extends Controller
         $bankeu_progres = DB::table('bankeu_progres')->where('id_bankeu', $id)->get();
         $access = hasAccess(
             Auth::user()->internal_role_id,
-            'Verifikasi Bantuan Keuangan',
-            'Update'
+            'Bantuan Keuangan',
+            'Create'
         );
         $users = DB::table('users')->leftJoin('user_role', 'user_role.id', 'users.internal_role_id')->select(['users.name', 'user_role.role', 'users.id'])->get();
         $ditunjukan_untuk = explode('__', $bankeu->ditunjukan_untuk);
