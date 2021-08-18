@@ -78,7 +78,7 @@
                                 <th>No. SPMK</th>
                                 <th>Panjang (km)</th>
                                 <th>Waktu Pelaksanaan</th>
-                                <th>PPK Kegiatan</th>
+                                {{-- <th>PPK Kegiatan</th> --}}
                                 <th>Konsultasi Supervisi</th>
                                 <th>Nama PPK</th>
                                 <th>Nama SE</th>
@@ -100,7 +100,7 @@
                                 <td>{{ $data->no_spmk }}</td>
                                 <td>{{ $data->panjang }}</td>
                                 <td>{{ $data->waktu_pelaksanaan }}</td>
-                                <td>{{ $data->ppk_kegiatan }}</td>
+                                {{-- <td>{{ $data->ppk_kegiatan }}</td> --}}
                                 <td>{{ $data->konsultasi_supervisi }}</td>
                                 <td>{{ $data->nama_ppk }}</td>
                                 <td>{{ $data->nama_se }}</td>

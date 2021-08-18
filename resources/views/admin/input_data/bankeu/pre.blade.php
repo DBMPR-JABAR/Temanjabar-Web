@@ -36,9 +36,9 @@
         <div class="card">
             <div class="card-header">
                 @if ($action == 'store')
-                <h5>Tambah Data Rencana Bantuan Keuangan</h5>
+                <h5 id="rencana_text">Tambah Data Rencana Bantuan Keuangan</h5>
                 @else
-                <h5>Perbaharui Data Rencana Bantuan Keuangan</h5>
+                <h5 id="rencana_text">Perbaharui Data Rencana Bantuan Keuangan</h5>
                 @endif
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
@@ -197,7 +197,7 @@
                             </div>
                         </div>
 
-                        <div class=" form-group row">
+                        {{-- <div class=" form-group row">
                             <label class="col-md-4 col-form-label">PPK Kegiatan</label>
                             <div class="col-md-8">
                                 <div class="row">
@@ -207,7 +207,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class=" form-group row">
                             <label class="col-md-4 col-form-label">Penyedia Jasa</label>
@@ -310,7 +310,7 @@
                             <label class="col-md-4 col-form-label">Pembagian Progres</label>
                             <div class="col-md-8">
                                 <div class="row">
-                                    <div class="col-md-2">
+                                    <div class="col-md-5">
                                         @if ($access)
                                         <select id="pembagian_progres" class="form-control" name="pembagian_progres"
                                             required {{@$access ? '': 'readonly'}}>
@@ -368,7 +368,7 @@
                                 </div>
                                 <div class="form-check-inline">
                                     <input class="form-check-input" type="radio" name="is_verified" id="gridRadios2"
-                                        value="0" {{@$bankeu->is_verified == '0' ? 'checked' : ''}}>
+                                        value="0" {{@$bankeu->is_verified == '0' ? 'checked' : ''}} {{@$action == 'store'? 'checked' : ''}}>
                                     <label class="form-check-label" for="gridRadios2">
                                         Tidak
                                     </label>
