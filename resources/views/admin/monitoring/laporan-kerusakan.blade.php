@@ -2,9 +2,12 @@
 
 @section('title') Laporan Kerusakan @endsection
 @section('head')
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/buttons.dataTables.min.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/data-table/extensions/responsive/css/responsive.dataTables.css') }}">
+<link rel="stylesheet" type="text/css"
+    href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" type="text/css"
+    href="{{ asset('assets/vendor/datatables.net/css/buttons.dataTables.min.css') }}">
+<link rel="stylesheet" type="text/css"
+    href="{{ asset('assets/vendor/data-table/extensions/responsive/css/responsive.dataTables.css') }}">
 
 <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
 
@@ -89,15 +92,14 @@
 </div>
 @endsection
 @section('script')
-<script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}" ></script>
-<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}" ></script>
-<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}" ></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}"></script>
 
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
 <script src="https://js.arcgis.com/4.17/"></script>
 <script>
-
     $(document).ready(function () {
         require([
             "esri/Map",
@@ -173,7 +175,7 @@
                                 caption: "diunggah oleh user",
                                 value: {
                                 sourceURL:
-                                    "{gambar}"
+                                    "https://tj.temanjabar.net/storage/{gambar}"
                                 }
                             }
                         ]
@@ -217,7 +219,7 @@
                                                     ${item.long}
                                                 </td>
                                                 <td>
-                                                    <img src="${item.gambar}" class="img-fluid rounded" alt="" style="max-width: 224px;">
+                                                    <img src="https://tj.temanjabar.net/storage/${item.gambar}" class="img-fluid rounded" alt="" style="max-width: 224px;">
                                                 </td>
                                             </tr>`;
                     });
