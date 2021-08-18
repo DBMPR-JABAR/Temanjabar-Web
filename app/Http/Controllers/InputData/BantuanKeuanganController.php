@@ -90,9 +90,9 @@ class BantuanKeuanganController extends Controller
                 $bankeu_progres['foto_1'] = $path;
                 $bankeu['foto'] = $path;
             } else $bankeu_progres['foto_1'] = '';
-            if ($request->file('foto_' . $i . '_1') != null) {
+            if ($request->file('foto_' . $i . '_2') != null) {
                 $path = 'bankeu/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto_' . $i . '_1')->getClientOriginalName());
-                $request->file('foto_' . $i . '_1')->storeAs('public/', $path);
+                $request->file('foto_' . $i . '_2')->storeAs('public/', $path);
                 $bankeu_progres['foto_2'] = $path;
                 $bankeu['foto_1'] = $path;
             } else $bankeu_progres['foto_2'] = '';
@@ -238,9 +238,9 @@ class BantuanKeuanganController extends Controller
                 $bankeu_progres['foto_1'] = $path;
                 $bankeu['foto'] = $path;
             } else $bankeu_progres['foto_1'] = '';
-            if ($request->file('foto_' . $i . '_1') != null) {
+            if ($request->file('foto_' . $i . '_2') != null) {
                 $path = 'bankeu/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto_' . $i . '_1')->getClientOriginalName());
-                $request->file('foto_' . $i . '_1')->storeAs('public/', $path);
+                $request->file('foto_' . $i . '_2')->storeAs('public/', $path);
                 $bankeu_progres['foto_2'] = $path;
                 $bankeu['foto_1'] = $path;
             } else $bankeu_progres['foto_2'] = '';
