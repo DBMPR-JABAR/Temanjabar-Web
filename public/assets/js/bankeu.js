@@ -47,7 +47,7 @@ $(document).ready(() => {
                                         <label class="col-md-2 col-form-label">Foto ${ke}.1</label>
                                         <div class="col-md-5">
                                             <img ${
-                                                data &&
+                                                data && data.foto_1 &&
                                                 `src="${urlStorage}/${data.foto_1}"`
                                             } class="mx-auto rounded img-thumbnail d-block" id="foto_${ke}_preview_1">
                                         </div>
@@ -59,7 +59,7 @@ $(document).ready(() => {
                                         <label class="col-md-2 col-form-label">Foto ${ke}.2</label>
                                         <div class="col-md-5">
                                             <img ${
-                                                data &&
+                                                data && data.foto_2 &&
                                                 `src="${urlStorage}/${data.foto_2}"`
                                             } class="mx-auto rounded img-thumbnail d-block" id="foto_${ke}_preview_2">
                                         </div>
@@ -71,7 +71,7 @@ $(document).ready(() => {
                                         <label class="col-md-2 col-form-label">Foto ${ke}.3</label>
                                         <div class="col-md-5">
                                             <img ${
-                                                data &&
+                                                data && data.foto_3 &&
                                                 `src="${urlStorage}/${data.foto_3}"`
                                             } class="mx-auto rounded d-block img-thumbnail" id="foto_${ke}_preview_3">
                                         </div>
@@ -83,7 +83,7 @@ $(document).ready(() => {
                                         <label class="col-md-2 col-form-label">Video ${ke}</label>
                                         <div class="col-md-5">
                                             <video ${
-                                                data &&
+                                                data && data.video &&
                                                 `src="${urlStorage}/${data.video}"`
                                             } class="mx-auto rounded img-thumbnail d-block" id="video_${ke}_preview"
                                                 src="" alt="" controls>
