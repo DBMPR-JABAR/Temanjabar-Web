@@ -11,11 +11,33 @@ $(document).ready(() => {
             const isNoVerified = document.getElementById("gridRadios2");
             const rencanaText = document.getElementById("rencana_text");
 
+            if (isNoVerified && isNoVerified.checked) {
+                $("#ditunjukan_untuk").prop("required", false);
+                $("#tanggal_smpk").prop("required", false);
+                $("#no_smpk").prop("required", false);
+                $("#penyedia_jasa").prop("required", false);
+                $("#konsultasi_supervisi").prop("required", false);
+                $("#nama_ppk").prop("required", false);
+                $("#nama_se").prop("required", false);
+                $("#nama_gs").prop("required", false);
+                $("#pembagian_progres").prop("required", false);
+                $("#waktu_pelaksanaan").prop("required", false);
+            }
             if (access) {
                 isNoVerified.onchange = (event) => {
                     if (event.target.checked) {
                         isVerifiedContainer.hide();
                         $("#ditunjukan_untuk").prop("required", false);
+                        $("#tanggal_smpk").prop("required", false);
+                        $("#no_smpk").prop("required", false);
+                        $("#penyedia_jasa").prop("required", false);
+                        $("#konsultasi_supervisi").prop("required", false);
+                        $("#nama_ppk").prop("required", false);
+                        $("#nama_se").prop("required", false);
+                        $("#nama_gs").prop("required", false);
+                        $("#pembagian_progres").prop("required", false);
+                        $("#waktu_pelaksanaan").prop("required", false);
+
                         if (action == "update")
                             rencanaText.innerText =
                             "Perbaharui Data Rencana Bantuan Keuangan";
@@ -28,6 +50,15 @@ $(document).ready(() => {
                     if (event.target.checked) {
                         isVerifiedContainer.show();
                         $("#ditunjukan_untuk").prop("required", true);
+                        $("#tanggal_smpk").prop("required", true);
+                        $("#no_smpk").prop("required", true);
+                        $("#penyedia_jasa").prop("required", true);
+                        $("#konsultasi_supervisi").prop("required", true);
+                        $("#nama_ppk").prop("required", true);
+                        $("#nama_se").prop("required", true);
+                        $("#nama_gs").prop("required", true);
+                        $("#pembagian_progres").prop("required", true);
+                        $("#waktu_pelaksanaan").prop("required", true);
                         if (action == "update")
                             rencanaText.innerText =
                             "Perbaharui Data Realisasi Bantuan Keuangan";
@@ -47,7 +78,8 @@ $(document).ready(() => {
                                         <label class="col-md-2 col-form-label">Foto ${ke}.1</label>
                                         <div class="col-md-5">
                                             <img ${
-                                                data && data.foto_1 &&
+                                                data &&
+                                                data.foto_1 &&
                                                 `src="${urlStorage}/${data.foto_1}"`
                                             } class="mx-auto rounded img-thumbnail d-block" id="foto_${ke}_preview_1">
                                         </div>
@@ -59,7 +91,8 @@ $(document).ready(() => {
                                         <label class="col-md-2 col-form-label">Foto ${ke}.2</label>
                                         <div class="col-md-5">
                                             <img ${
-                                                data && data.foto_2 &&
+                                                data &&
+                                                data.foto_2 &&
                                                 `src="${urlStorage}/${data.foto_2}"`
                                             } class="mx-auto rounded img-thumbnail d-block" id="foto_${ke}_preview_2">
                                         </div>
@@ -71,7 +104,8 @@ $(document).ready(() => {
                                         <label class="col-md-2 col-form-label">Foto ${ke}.3</label>
                                         <div class="col-md-5">
                                             <img ${
-                                                data && data.foto_3 &&
+                                                data &&
+                                                data.foto_3 &&
                                                 `src="${urlStorage}/${data.foto_3}"`
                                             } class="mx-auto rounded d-block img-thumbnail" id="foto_${ke}_preview_3">
                                         </div>
@@ -83,7 +117,8 @@ $(document).ready(() => {
                                         <label class="col-md-2 col-form-label">Video ${ke}</label>
                                         <div class="col-md-5">
                                             <video ${
-                                                data && data.video &&
+                                                data &&
+                                                data.video &&
                                                 `src="${urlStorage}/${data.video}"`
                                             } class="mx-auto rounded img-thumbnail d-block" id="video_${ke}_preview"
                                                 src="" alt="" controls>
@@ -233,8 +268,16 @@ $(document).ready(() => {
     progressSlider.oninput = onChange;
     progressSlider.onclick = onChange;
 
+    if(action == 'store') progressSlider.value = 0
+
+
+    if(exitsData && exitsData.is_verified == "1") {
+        $("#isVerifiedOnly").show();
+    }
+
     if (exitsData && exitsProgres) {
         if (exitsData.is_verified == "1") {
+            $("#isVerifiedOnly").show();
             const rencanaText = document.getElementById("rencana_text");
             if (action == "update")
                 rencanaText.innerText =

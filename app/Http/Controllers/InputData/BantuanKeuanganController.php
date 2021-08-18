@@ -33,9 +33,12 @@ class BantuanKeuanganController extends Controller
             'Update'
         );
         if ($access)
-            $bankeu = DB::table('bankeu')->get();
+            $bankeu = DB::table('bankeu')->orderBy('is_verified')->get();
         else
-            $bankeu = DB::table('bankeu')->where('ditunjukan_untuk', 'LIKE', "%" . Auth::user()->id . "%")->get();
+            $bankeu = DB::table('bankeu')
+            ->where('ditunjukan_untuk', 'LIKE', "%" . Auth::user()->id . "%")
+            ->orderBy('is_verified')
+            ->get();
 
         return view('admin.input_data.bankeu.index', compact('bankeu'));
     }
