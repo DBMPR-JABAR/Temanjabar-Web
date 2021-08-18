@@ -143,12 +143,16 @@
                         </div>
 
                         <div class=" form-group row">
-                            <label class="col-md-4 col-form-label">Panjang (m)</label>
+                            <label class="col-md-4 col-form-label">Panjang (m) dan Nilai Kontrak (Rp)</label>
                             <div class="col-md-8">
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <input name="panjang" value="{{ @$bankeu->panjang }}" type="number"
                                             class="form-control" placeholder="" {{@$access ? '': 'readonly'}}>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input name="nilai_kontrak" value="{{ @$bankeu->nilai_kontrak }}" type="number" class="form-control"
+                                            placeholder="19000000" {{@$access ? '': 'readonly'}}>
                                     </div>
                                 </div>
                             </div>
@@ -199,7 +203,9 @@ class="form-control" placeholder="" required {{@$access ? '': 'readonly'}}>
         </select>
         @else
         <input id="ruas_jalan" name="geo_id" value="{{ @$ruas_jalan_selected->geo_id }}" style="display:none" />
-        <input value="{{ @$ruas_jalan_selected->nama_ruas_jalan ? $ruas_jalan_selected->nama_ruas_jalan : ($bankeu->nama_lokasi ? $bankeu->nama_lokasi : "-") }}" type="text" class="form-control" required readonly>
+        <input
+            value="{{ @$ruas_jalan_selected->nama_ruas_jalan ? $ruas_jalan_selected->nama_ruas_jalan : ($bankeu->nama_lokasi ? $bankeu->nama_lokasi : "-") }}"
+            type="text" class="form-control" required readonly>
         @endif
     </div>
 </div>
@@ -207,8 +213,8 @@ class="form-control" placeholder="" required {{@$access ? '': 'readonly'}}>
 <div class=" form-group row" id="nama_lokasi">
     <label class="col-md-4 col-form-label">Nama Ruas</label>
     <div class="col-md-8">
-        <input id="nama_lokasi_value" name="nama_lokasi" value="{{@$bankeu->nama_lokasi?$bankeu->nama_lokasi:'-'}}" type="text"
-            class="form-control" {{@$access ? '': 'readonly'}}>
+        <input id="nama_lokasi_value" name="nama_lokasi" value="{{@$bankeu->nama_lokasi?$bankeu->nama_lokasi:'-'}}"
+            type="text" class="form-control" {{@$access ? '': 'readonly'}}>
     </div>
 </div>
 
@@ -270,21 +276,17 @@ class="form-control" placeholder="" required {{@$access ? '': 'readonly'}}>
 
 
     <div class=" form-group row">
-        <label class="col-md-4 col-form-label">No Kontrak, Tanggal Kontrak, dan Nilai Kontrak
+        <label class="col-md-4 col-form-label">No Kontrak dan Tanggal Kontrak
             (Rp)</label>
         <div class="col-md-8">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <input name="no_kontrak" value="{{ @$bankeu->no_kontrak }}" type="text" class="form-control"
                         placeholder="602.1/1521.Ting.02/KTR/PjPK/PJ2WP.III/2021" {{@$access ? '': 'readonly'}}>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <input name="tanggal_kontrak" value="{{ @$bankeu->tanggal_kontrak }}" type="date"
                         class="form-control" {{@$access ? '': 'readonly'}}>
-                </div>
-                <div class="col-md-4">
-                    <input name="nilai_kontrak" value="{{ @$bankeu->nilai_kontrak }}" type="number" class="form-control"
-                        placeholder="19000000" {{@$access ? '': 'readonly'}}>
                 </div>
             </div>
         </div>
@@ -299,8 +301,8 @@ class="form-control" placeholder="" required {{@$access ? '': 'readonly'}}>
                         placeholder="" {{@$access ? '': 'readonly'}} required>
                 </div>
                 <div class="col-md-6">
-                    <input id="tanggal_smpk" name="tanggal_spmk" value="{{ @$bankeu->tanggal_spmk }}" type="date" class="form-control"
-                        {{@$access ? '': 'readonly'}} required>
+                    <input id="tanggal_smpk" name="tanggal_spmk" value="{{ @$bankeu->tanggal_spmk }}" type="date"
+                        class="form-control" {{@$access ? '': 'readonly'}} required>
                 </div>
             </div>
         </div>
@@ -311,8 +313,8 @@ class="form-control" placeholder="" required {{@$access ? '': 'readonly'}}>
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-12">
-                    <input id="penyedia_jasa" name="penyedia_jasa" value="{{ @$bankeu->penyedia_jasa }}" type="text" class="form-control"
-                        placeholder="" required {{@$access ? '': 'readonly'}}>
+                    <input id="penyedia_jasa" name="penyedia_jasa" value="{{ @$bankeu->penyedia_jasa }}" type="text"
+                        class="form-control" placeholder="" required {{@$access ? '': 'readonly'}}>
                 </div>
             </div>
         </div>
@@ -324,8 +326,9 @@ class="form-control" placeholder="" required {{@$access ? '': 'readonly'}}>
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-12">
-                    <input id="konsultasi_supervisi" name="konsultasi_supervisi" value="{{ @$bankeu->konsultasi_supervisi }}" type="text"
-                        class="form-control" placeholder="" required {{@$access ? '': 'readonly'}}>
+                    <input id="konsultasi_supervisi" name="konsultasi_supervisi"
+                        value="{{ @$bankeu->konsultasi_supervisi }}" type="text" class="form-control" placeholder=""
+                        required {{@$access ? '': 'readonly'}}>
                 </div>
             </div>
         </div>
@@ -336,8 +339,8 @@ class="form-control" placeholder="" required {{@$access ? '': 'readonly'}}>
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-12">
-                    <input id="nama_ppk" name="nama_ppk" value="{{ @$bankeu->nama_ppk }}" type="text" class="form-control"
-                        placeholder="" required {{@$access ? '': 'readonly'}}>
+                    <input id="nama_ppk" name="nama_ppk" value="{{ @$bankeu->nama_ppk }}" type="text"
+                        class="form-control" placeholder="" required {{@$access ? '': 'readonly'}}>
                 </div>
             </div>
         </div>
@@ -365,8 +368,8 @@ class="form-control" placeholder="" required {{@$access ? '': 'readonly'}}>
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-12">
-                    <input id="waktu_pelaksanaan" name="waktu_pelaksanaan" value="{{ @$bankeu->waktu_pelaksanaan}}" type="number"
-                        class="form-control" {{@$access ? '': 'readonly'}}>
+                    <input id="waktu_pelaksanaan" name="waktu_pelaksanaan" value="{{ @$bankeu->waktu_pelaksanaan}}"
+                        type="number" class="form-control" {{@$access ? '': 'readonly'}}>
                 </div>
             </div>
         </div>
@@ -374,52 +377,52 @@ class="form-control" placeholder="" required {{@$access ? '': 'readonly'}}>
 
 
 
-<div class=" form-group row">
-    <label class="col-md-4 col-form-label">Pembagian Progres</label>
-    <div class="col-md-8">
-        <div class="row">
-            <div class="col-md-5">
-                @if ($access)
-                <select id="pembagian_progres" class="form-control" name="pembagian_progres" required
-                    {{@$access ? '': 'readonly'}}>
-                    <option value="1" {{@$bankeu->pembagian_progres == "1" ? 'selected' : ''}}>
-                        Tahunan</option>
-                    <option value="2" {{@$bankeu->pembagian_progres == "2" ? 'selected' : ''}}>
-                        Semester</option>
-                    <option value="4" {{@$bankeu->pembagian_progres == "4" ? 'selected' : ''}}>
-                        Quartal</option>
-                </select>
-                @else
-                <input name="pembagian_progres" value="{{@$bankeu->pembagian_progres}}" style="display: none">
-                <input name="pembagian_progres_view" id="pembagian_progres"
-                    value="@if(@$bankeu->pembagian_progres == '1') Tahunan @elseif(@$bankeu->pembagian_progres == " 2")
-                    Semester @else Quartal @endif" type="text" class="form-control" readonly>
-                @endif
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="target_container">
     <div class=" form-group row">
-        <label class="col-md-4 col-form-label">Target ke-1</label>
+        <label class="col-md-4 col-form-label">Pembagian Progres</label>
         <div class="col-md-8">
             <div class="row">
-                <div class="col-md-6">
-                    <input type="date" class="form-control">
+                <div class="col-md-5">
+                    @if ($access)
+                    <select id="pembagian_progres" class="form-control" name="pembagian_progres" required
+                        {{@$access ? '': 'readonly'}}>
+                        <option value="1" {{@$bankeu->pembagian_progres == "1" ? 'selected' : ''}}>
+                            Tahunan</option>
+                        <option value="2" {{@$bankeu->pembagian_progres == "2" ? 'selected' : ''}}>
+                            Semester</option>
+                        <option value="4" {{@$bankeu->pembagian_progres == "4" ? 'selected' : ''}}>
+                            Quartal</option>
+                    </select>
+                    @else
+                    <input name="pembagian_progres" value="{{@$bankeu->pembagian_progres}}" style="display: none">
+                    <input name="pembagian_progres_view" id="pembagian_progres"
+                        value="@if(@$bankeu->pembagian_progres == '1') Tahunan @elseif(@$bankeu->pembagian_progres == "
+                        2") Semester @else Quartal @endif" type="text" class="form-control" readonly>
+                    @endif
                 </div>
-                <div class="col-md-6">
-                    <div class="input-group">
-                        <input type="number" step="1" class="form-control">
-                        <span class="input-group-append">
-                            <label class="input-group-text">%</label>
-                        </span>
+            </div>
+        </div>
+    </div>
+
+    <div id="target_container">
+        <div class=" form-group row">
+            <label class="col-md-4 col-form-label">Target ke-1</label>
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="date" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <input type="number" step="1" class="form-control">
+                            <span class="input-group-append">
+                                <label class="input-group-text">%</label>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 
     <div class=" form-group row">
