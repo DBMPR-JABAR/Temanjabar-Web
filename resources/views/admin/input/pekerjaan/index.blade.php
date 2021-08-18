@@ -267,12 +267,12 @@
             <div class="card-block">
                 @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Create"))
                 <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
-                    @if (!str_contains(Auth::user()->internalRole->role,'Mandor'))
-                        <a href="{{ route('LaporanPekerjaan') }}" class="btn btn-mat btn-success mb-3">Cetak Laporan</a>
-                    @endif
+                @endif
+                @if (!str_contains(Auth::user()->internalRole->role,'Mandor'))
+                    <a href="{{ route('LaporanPekerjaan') }}" class="btn btn-mat btn-success mb-3">Cetak Laporan</a>
                 @endif
                 <div class="dt-responsive table-responsive">
-                    <table id="dttable"  class="table table-striped table-bordered able-responsive">
+                    <table   class="table table-striped table-bordered able-responsive">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -404,7 +404,7 @@
                                     @endif
                                 @else
                                 <tr>
-                                    <td>{{$loop->index + 1}}</td>
+                                    <td>{{++$nomber}}</td>
                                     <td>{{$data->id_pek}}</td>
                                     <td>{{$data->nama_mandor}}</td>
                                     <td>{{$data->sup}}</td>
@@ -816,89 +816,6 @@
                     yearTo : $("#yearTo").val()
                 };
             }
-
-            // $('#dttable').DataTable({
-            //     processing: true,
-            //     serverSide: true,
-            //     ajax: {
-            //         url: "{{ url('admin/input-data/pekerjaan/json') }}",
-            //         data: function(d){
-            //             d.year_from = getYearFilter().yearFrom;
-            //             d.year_to = getYearFilter().yearTo;
-            //         }
-            //     },
-
-            //     columns: [{
-            //             'mRender': function(data, type, full, meta) {
-            //                 console.log(full['intro']);
-            //                 return +meta.row + meta.settings._iDisplayStart + 1;
-            //             }
-            //         },
-            //         {
-            //             data: 'nama_mandor',
-            //             name: 'nama_mandor'
-            //         },
-            //         {
-            //             data: 'sup',
-            //             name: 'sup'
-            //         },
-            //         {
-            //             data: 'ruas_jalan',
-            //             name: 'ruas_jalan'
-            //         },
-            //         {
-            //             data: 'jenis_pekerjaan',
-            //             name: 'jenis_pekerjaan'
-            //         },
-            //         {
-            //             data: 'lokasi',
-            //             name: 'lokasi'
-            //         },
-            //         {
-            //             data: 'panjang',
-            //             name: 'panjang'
-            //         },
-            //         {
-            //             data: 'peralatan',
-            //             name: 'peralatan'
-            //         },
-            //         {
-            //             data: 'jumlah_pekerja',
-            //             name: 'jumlah_pekerja'
-            //         },
-            //         {
-            //             'mRender': function(data, type, full) {
-            //                 return '<img class="img-fluid" style="max-width: 100px" src="'+`{!! url('storage/pekerjaan/') !!}`+'/'+ full['foto_awal'] + '" alt="" srcset="">';
-            //             }
-            //         },
-            //         {
-            //             'mRender': function(data, type, full) {
-            //                 return '<img class="img-fluid" style="max-width: 100px" src="'+`{!! url('storage/pekerjaan/') !!}`+'/'+ full['foto_sedang'] + '" alt="" srcset="">';
-            //             }
-            //         },
-            //         {
-            //             'mRender': function(data, type, full) {
-            //                 return '<img class="img-fluid" style="max-width: 100px" src="'+`{!! url('storage/pekerjaan/') !!}`+'/'+ full['foto_akhir'] + '" alt="" srcset="">';
-            //             }
-            //         },
-            //         {
-            //             'mRender': function(data, type, full) {
-            //                 return `<video width='150' height='100' controls><source src="{!! url('storage/pekerjaan/') !!}`+'/' + full['video'] + `" type="video/mp4" /></video>`
-            //             }
-            //         },
-            //         {
-            //             data: 'tanggal',
-            //             name: 'tanggal'
-            //         },
-            //         {
-            //             data: 'action',
-            //             name: 'action',
-            //             orderable: false,
-            //             searchable: false
-            //         },
-            //     ]
-            // });
-            // $("#tbltitle").html(`Data Pekerjaan dari Tahun ${getYearFilter().yearFrom} hingga Tahun ${getYearFilter().yearTo}`);
 
 
             $('#yearFrom, #yearTo').change(function () {
