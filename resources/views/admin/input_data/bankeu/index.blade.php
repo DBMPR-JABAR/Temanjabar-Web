@@ -78,13 +78,13 @@
                                 <th>No. SPMK</th>
                                 <th>Panjang (km)</th>
                                 <th>Waktu Pelaksanaan</th>
-                                <th>PPK Kegiatan</th>
+                                {{-- <th>PPK Kegiatan</th> --}}
                                 <th>Konsultasi Supervisi</th>
                                 <th>Nama PPK</th>
                                 <th>Nama SE</th>
                                 <th>Nama GS</th>
                                 <th>Progress (%)</th>
-                                <th>Terverifikasi</th>
+                                <th>Terealisasi</th>
                                 <th style="min-width: 75px">Aksi</th>
                             </tr>
                         </thead>
@@ -94,26 +94,26 @@
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>{{ $data->kategori }}</td>
                                 <td>{{ $data->nama_kegiatan }}</td>
-                                <td>{{ $data->no_kontrak }}</td>
-                                <td>{{ $data->tanggal_kontrak }}</td>
-                                <td>{{ $data->nilai_kontrak }}</td>
-                                <td>{{ $data->no_spmk }}</td>
+                                <td>{{ $data->no_kontrak ? $data->no_kontrak  : '-'}}</td>
+                                <td>{{ $data->tanggal_kontrak ? $data->tanggal_kontrak :'-' }}</td>
+                                <td>{{ $data->nilai_kontrak?$data->nilai_kontrak:'-' }}</td>
+                                <td>{{ $data->no_spmk?$data->no_spmk:'-' }}</td>
                                 <td>{{ $data->panjang }}</td>
-                                <td>{{ $data->waktu_pelaksanaan }}</td>
-                                <td>{{ $data->ppk_kegiatan }}</td>
-                                <td>{{ $data->konsultasi_supervisi }}</td>
-                                <td>{{ $data->nama_ppk }}</td>
-                                <td>{{ $data->nama_se }}</td>
-                                <td>{{ $data->nama_gs }}</td>
-                                <td>{{ $data->progress }}</td>
+                                <td>{{ $data->waktu_pelaksanaan?$data->waktu_pelaksanaan:'-' }}</td>
+                                {{-- <td>{{ $data->ppk_kegiatan }}</td> --}}
+                                <td>{{ $data->konsultasi_supervisi?$data->konsultasi_supervisi:'-' }}</td>
+                                <td>{{ $data->nama_ppk?$data->nama_ppk:'-' }}</td>
+                                <td>{{ $data->nama_se?$data->nama_se:'-' }}</td>
+                                <td>{{ $data->nama_gs?$data->nama_gs:'-' }}</td>
+                                <td>{{ $data->progress ?$data->progress :"-"}}</td>
                                 <td>{{ $data->is_verified == '1' ? 'Ya' : 'Tidak' }}</td>
                                 <td style="min-width: 75px">
                                     <div class="btn-group" role="group" data-placement="top" title=""
                                         data-original-title=".btn-xlg">
                                         {{-- <a class="d-inline-block" href="{{ route('bankeu.show', $data->id) }}"><button
-                                                class="btn btn-success btn-sm waves-effect mr-1 waves-light"
-                                                data-toggle="tooltip" title="Histori Progres">
-                                                <i class="icofont icofont-eye-alt"></i></button></a> --}}
+                                            class="btn btn-success btn-sm waves-effect mr-1 waves-light"
+                                            data-toggle="tooltip" title="Histori Progres">
+                                            <i class="icofont icofont-eye-alt"></i></button></a> --}}
                                         @if(hasAccess(Auth::user()->internal_role_id,
                                         'Bantuan Keuangan', 'Update'))
                                         <a class="d-inline-block" href="{{ route('bankeu.edit', $data->id) }}"><button
@@ -123,7 +123,8 @@
                                         @endif
                                         @if(hasAccess(Auth::user()->internal_role_id,
                                         'Bantuan Keuangan', 'Delete'))
-                                        <a class="d-inline-block" href="#delModal" data-id="{{ $data->id }}" data-toggle="modal"><button
+                                        <a class="d-inline-block" href="#delModal" data-id="{{ $data->id }}"
+                                            data-toggle="modal"><button
                                                 class="btn btn-danger btn-sm waves-effect waves-light"
                                                 data-toggle="tooltip" title="Hapus">
                                                 <i class="icofont icofont-trash"></i></button></a>
