@@ -204,7 +204,7 @@ class="form-control" placeholder="" required {{@$access ? '': 'readonly'}}>
         @else
         <input id="ruas_jalan" name="geo_id" value="{{ @$ruas_jalan_selected->geo_id }}" style="display:none" />
         <input
-            value="{{ @$ruas_jalan_selected->nama_ruas_jalan ? $ruas_jalan_selected->nama_ruas_jalan : ($bankeu->nama_lokasi ? $bankeu->nama_lokasi : "-") }}"
+            value="{{ @$ruas_jalan_selected->nama_ruas_jalan ? $ruas_jalan_selected->nama_ruas_jalan : (@$bankeu->nama_lokasi ? @$bankeu->nama_lokasi : "-") }}"
             type="text" class="form-control" required readonly>
         @endif
     </div>
