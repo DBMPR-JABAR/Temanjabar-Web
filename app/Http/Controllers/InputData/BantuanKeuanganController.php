@@ -227,6 +227,7 @@ class BantuanKeuanganController extends Controller
         if ($request->ditunjukan_untuk) $bankeu['ditunjukan_untuk'] = implode('__', $request->ditunjukan_untuk);
         // DB::table('bankeu')->where('id', $id)->update($bankeu);
         $count = (int)$request->pembagian_progres;
+        // dd($request->all());
         for ($i = 1; $i <= $count; $i++) {
             $bankeu_progres['id_bankeu'] = $id;
             $bankeu_progres['target'] = $i;

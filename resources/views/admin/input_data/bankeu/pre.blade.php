@@ -322,7 +322,8 @@
                                                 Quartal</option>
                                         </select>
                                         @else
-                                        <input name="pembagian_progres" id="pembagian_progres"
+                                        <input name="pembagian_progres" value="{{@$bankeu->pembagian_progres}}" style="display: none">
+                                        <input name="pembagian_progres_view" id="pembagian_progres"
                                             value="@if(@$bankeu->pembagian_progres == '1') Tahunan @elseif(@$bankeu->pembagian_progres == "
                                             2") Semester @else Quartal @endif" type="text" class="form-control" required
                                             readonly>
