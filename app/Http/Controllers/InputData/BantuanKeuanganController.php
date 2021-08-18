@@ -237,30 +237,30 @@ class BantuanKeuanganController extends Controller
                 $request->file('foto_' . $i . '_1')->storeAs('public/', $path);
                 $bankeu_progres['foto_1'] = $path;
                 $bankeu['foto'] = $path;
-            } else $bankeu_progres['foto_1'] = '';
+            };
             if ($request->file('foto_' . $i . '_2') != null && $request->file('foto_' . $i . '_2')->getSize() > 0) {
                 $path = 'bankeu/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto_' . $i . '_2')->getClientOriginalName());
                 $request->file('foto_' . $i . '_2')->storeAs('public/', $path);
                 $bankeu_progres['foto_2'] = $path;
                 $bankeu['foto_1'] = $path;
-            } else $bankeu_progres['foto_2'] = '';
+            };
             if ($request->file('foto_' . $i . '_3') != null && $request->file('foto_' . $i . '_3')->getSize() > 0) {
                 $path = 'bankeu/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto_' . $i . '_3')->getClientOriginalName());
                 $request->file('foto_' . $i . '_3')->storeAs('public/', $path);
                 $bankeu_progres['foto_3'] = $path;
                 $bankeu['foto_2'] = $path;
-            } else $bankeu_progres['foto_3'] = '';
+            };
             if ($request->file('video_' . $i) != null && $request->file('video_' . $i)->getSize() > 0) {
                 $path = 'bankeu/' . Str::snake(date("YmdHis") . ' ' . $request->file('video_' . $i)->getClientOriginalName());
                 $request->file('video_' . $i)->storeAs('public/', $path);
                 $bankeu_progres['video'] = $path;
                 $bankeu['video'] = $path;
-            } else $bankeu_progres['video'] = '';
+            };
             if ($request->file('dokumen_' . $i) != null && $request->file('dokumen_' . $i)->getSize() > 0) {
                 $path = 'bankeu/' . Str::snake(date("YmdHis") . ' ' . $request->file('dokumen_' . $i)->getClientOriginalName());
                 $request->file('dokumen_' . $i)->storeAs('public/', $path);
                 $bankeu_progres['dokumen'] = $path;
-            } else $bankeu_progres['dokumen'] = '';
+            };
             $bankeu_progres['tanggal'] = $request->input('tanggal_target_' . $i);
             $bankeu_progres['persentase'] = $request->input('persentase_target_' . $i);
             $old = DB::table('bankeu_progres')->where('id_bankeu', $id)->where('target', $i);
