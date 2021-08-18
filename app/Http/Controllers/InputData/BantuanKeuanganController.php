@@ -29,8 +29,8 @@ class BantuanKeuanganController extends Controller
     {
         $access = hasAccess(
             Auth::user()->internal_role_id,
-            'Verifikasi Bantuan Keuangan',
-            'Update'
+            'Bantuan Keuangan',
+            'Create'
         );
         if ($access)
             $bankeu = DB::table('bankeu')->orderBy('is_verified')->get();
