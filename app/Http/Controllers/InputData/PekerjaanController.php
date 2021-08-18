@@ -115,12 +115,24 @@ class PekerjaanController extends Controller
             $pekerjaan = $pekerjaan->where('kemandoran.uptd_id', $uptd_id);
             if(str_contains(Auth::user()->internalRole->role,'Mandor')){
                 $pekerjaan = $pekerjaan->where('kemandoran.user_id',Auth::user()->id);
-            }else if(Auth::user()->sup_id)
+            }else if(Auth::user()->sup_id){
                 $pekerjaan = $pekerjaan->where('kemandoran.sup_id',Auth::user()->sup_id);
+
+            }
         }
-        // dd($pekerjaan);
         $pekerjaan = $pekerjaan->whereRaw("YEAR(tanggal) BETWEEN 2021 AND 2021");
         $pekerjaan = $pekerjaan->where('is_deleted', 0)->latest('tglreal')->get();
+        
+        // if(count(Auth::user()->ruas)>0){
+        //     foreach($pekerjaan as $oke){
+        //         if(in_array($oke->ruas_jalan_id,array_column( Auth::user()->ruas->toArray(), 'id_ruas_jalan'))){
+        //             echo $oke->ruas_jalan_id."<br>";
+        //         }
+                
+        //     }
+        //     dd(count(Auth::user()->ruas));
+        // }
+        // dd($pekerjaan);
         // dd($pekerjaan);
 
         foreach($pekerjaan as $no =>$data){
