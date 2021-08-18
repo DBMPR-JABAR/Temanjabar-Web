@@ -320,7 +320,6 @@ class PekerjaanController extends Controller
 
         ];
         $jenis_laporan_pekerjaan =DB::table('utils_jenis_laporan')->get();
-        dd($pekerjaan);
         return view('admin.input.pekerjaan.index', compact('pekerjaan', 'ruas_jalan', 'sup', 'mandor',  'sum_report', 'nama_kegiatan_pekerjaan','jenis_laporan_pekerjaan'));
     }
     public function statusData($id){
