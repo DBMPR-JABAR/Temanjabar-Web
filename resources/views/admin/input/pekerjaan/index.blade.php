@@ -297,7 +297,7 @@
                         <tbody id="bodyJembatan">
                             @foreach ($pekerjaan as $data)
                                 @if(Auth::user() && Auth::user()->internalRole->uptd && Auth::user()->sup_id && count(Auth::user()->ruas)>0)
-                                    @if(in_array($data->ruas_jalan_id,array_column( Auth::user()->ruas->toArray(), 'id_ruas_jalan'))){
+                                    @if(in_array($data->ruas_jalan_id,array_column( Auth::user()->ruas->toArray(), 'id_ruas_jalan')))
                                         <tr>
                                             <td>{{$loop->index + 1}}</td>
                                             <td>{{$data->id_pek}}</td>
