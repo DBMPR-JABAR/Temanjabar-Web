@@ -182,7 +182,7 @@
                         </div>
 
                         <div class=" form-group row">
-                            <label class="col-md-4 col-form-label">Panjang (km) dan Waktu Pelaksanaan (hari)</label>
+                            <label class="col-md-4 col-form-label">Panjang (m) dan Waktu Pelaksanaan (hari)</label>
                             <div class="col-md-8">
                                 <div class="row">
                                     <div class="col-md-6">
