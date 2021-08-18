@@ -279,7 +279,7 @@
                     </li>
                 </ul>
             @endif
-            @if (hasAccess(Auth::user()->internal_role_id, 'Input Pekerjaan', 'View'))
+            @if (hasAccess(Auth::user()->internal_role_id, 'Input Pekerjaan', 'View') || hasAccess(Auth::user()->internal_role_id, 'Bantuan Keuangan', 'View'))
                 {{-- <div class="pcoded-navigation-label">Input</div> --}}
                 <ul class="pcoded-item pcoded-left-item">
                     <li
@@ -331,7 +331,7 @@
                                     @endif
                                 </ul>
                             </li>
-                            @if (hasAccess(Auth::user()->internal_role_id, 'Data Paket', 'View') || hasAccess(Auth::user()->internal_role_id, 'Progress Kerja', 'View'))
+                            @if (hasAccess(Auth::user()->internal_role_id, 'Data Paket', 'View') || hasAccess(Auth::user()->internal_role_id, 'Progress Kerja', 'View') || hasAccess(Auth::user()->internal_role_id, 'Bantuan Keuangan', 'View'))
 
                             <li class=" pcoded-hasmenu  {{ Request::segment(3) == 'data-paket' || Request::segment(3) == 'bankeu' ? 'pcoded-trigger active' : '' }}">
                                 <a href="javascript:void(0)" class="waves-effect waves-dark">
