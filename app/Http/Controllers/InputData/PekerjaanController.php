@@ -93,7 +93,7 @@ class PekerjaanController extends Controller
     public function getData(Request $request)
     {
        
-        $filter['tanggal_awal']= Carbon::now()->subDays(30)->format('Y-m-d');
+        $filter['tanggal_awal']= Carbon::now()->subDays(14)->format('Y-m-d');
         $filter['tanggal_akhir']= Carbon::now()->format('Y-m-d');
         // dd($tanggal_awal);
 
@@ -139,7 +139,7 @@ class PekerjaanController extends Controller
         
         $pekerjaan = $pekerjaan->whereBetween('tanggal', [$filter['tanggal_awal'] , $filter['tanggal_akhir'] ]);
         $pekerjaan = $pekerjaan->where('is_deleted', 0)->latest('tglreal');
-        $pekerjaan = $pekerjaan->paginate(700);
+        $pekerjaan = $pekerjaan->paginate(1000);
         
         foreach($pekerjaan as $no =>$data){
             // echo "$data->id_pek<br>";

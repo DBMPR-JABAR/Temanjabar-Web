@@ -701,9 +701,9 @@
             });
 
             $("#dttable").DataTable(
-                // {
-                // "bInfo" : false
-                // }
+                {
+                "bInfo" : false
+                }
             );
             $('#delModal').on('show.bs.modal', function(event) {
                 const link = $(event.relatedTarget);
