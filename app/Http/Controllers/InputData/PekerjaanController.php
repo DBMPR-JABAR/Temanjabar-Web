@@ -121,7 +121,7 @@ class PekerjaanController extends Controller
             }
         }
         $pekerjaan = $pekerjaan->whereRaw("YEAR(tanggal) BETWEEN 2021 AND 2021");
-        $pekerjaan = $pekerjaan->where('is_deleted', 0)->latest('tglreal')->get();
+        $pekerjaan = $pekerjaan->where('is_deleted', 0)->latest('tglreal')->simplePaginate(5);
         
         // if(count(Auth::user()->ruas)>0){
         //     foreach($pekerjaan as $oke){
@@ -132,7 +132,6 @@ class PekerjaanController extends Controller
         //     }
         //     dd(count(Auth::user()->ruas));
         // }
-        // dd($pekerjaan);
         // dd($pekerjaan);
 
         foreach($pekerjaan as $no =>$data){
@@ -319,6 +318,8 @@ class PekerjaanController extends Controller
             "not_complete" => $not_complete
 
         ];
+        // dd($pekerjaan);
+
         $jenis_laporan_pekerjaan =DB::table('utils_jenis_laporan')->get();
         return view('admin.input.pekerjaan.index', compact('pekerjaan', 'ruas_jalan', 'sup', 'mandor',  'sum_report', 'nama_kegiatan_pekerjaan','jenis_laporan_pekerjaan'));
     }

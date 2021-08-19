@@ -272,7 +272,7 @@
                     <a href="{{ route('LaporanPekerjaan') }}" class="btn btn-mat btn-success mb-3">Cetak Laporan</a>
                 @endif
                 <div class="dt-responsive table-responsive">
-                    <table  class="table table-striped table-bordered able-responsive">
+                    <table class="table table-striped table-bordered able-responsive">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -315,6 +315,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    {{ $pekerjaan->links() }}
                 </div>
             </div>
         </div>
