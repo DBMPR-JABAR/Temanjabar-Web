@@ -47,49 +47,6 @@
 
 @section('page-body')
 <div class="row">
-    {{-- <div class="col-lg-12">
-        <div class="card">
-            <div class="card-block accordion-block">
-                <div id="accordion" role="tablist" aria-multiselectable="true">
-                    <div class="accordion-panel">
-                        <div class="accordion-heading" role="tab" id="headingOne">
-                            <h3 class="card-title accordion-title">
-                                <a class="accordion-msg" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                Filter
-                                </a>
-                            </h3>
-                        </div>
-                        <div id="collapseOne" class="panel-collapse collapse in show" role="tabpanel" aria-labelledby="headingOne">
-                            <div class="accordion-content accordion-desc">
-                                <div class="card-block">
-                                    <div class="row">
-                                        <div class="col-sm-12 col-xl-3 m-b-30">
-                                            <h4 class="sub-title">Dari Tahun</h4>
-                                            <select id="yearFrom" name="tahun" class="form-control form-control-primary">
-                                                <option value="2019" selected>2019</option>
-                                                @for ($i = 2020; $i <= date("Y"); $i++)
-                                                <option value="{{$i}}" {{($i == date("Y")) ? 'selected' : ''}}>{{$i}}</option>
-                                                @endfor
-                                            </select>
-                                        </div>
-                                        <div class="col-sm-12 col-xl-3 m-b-30">
-                                            <h4 class="sub-title">Ke Tahun</h4>
-                                            <select id="yearTo" name="tahun" class="form-control form-control-primary">
-                                                <option value="2019">2019</option>
-                                                @for ($i = 2020; $i <= date("Y"); $i++)
-                                                <option value="{{$i}}" {{($i == date("Y")) ? 'selected' : ''}}>{{$i}}</option>
-                                                @endfor
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> --}}
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header">
@@ -253,6 +210,52 @@
             </div>
         </div>
     </div>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-block accordion-block">
+                <div id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="accordion-panel">
+                        <div class="accordion-heading" role="tab" id="headingOne">
+                            <h3 class="card-title accordion-title">
+                                <a class="accordion-msg" data-toggle="collapse" data-parent="#accordion"
+                                    href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Filter
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse in show" role="tabpanel"
+                            aria-labelledby="headingOne">
+                            <div class="accordion-content accordion-desc">
+                                <div class="card-block w-100">
+                                    <form id="formFilter" action="{{ route('getDataPekerjaanTgl') }}" method="get"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="row col-12">
+                                            <div class="col-sm-12 col-xl-5 ">
+                                                <h4 class="sub-title">Tanggal Awal</h4>
+                                                <input required name="tanggal_awal" type="date"
+                                                    class="form-control form-control-primary" value="{{ @$filter['tanggal_awal'] }}">
+                                            </div>
+                                            <div class="col-sm-12 col-xl-5">
+                                                <h4 class="sub-title">Tanggal Akhir</h4>
+                                                <input name="tanggal_akhir" type="date" class="form-control form-control-primary" value="{{ @$filter['tanggal_akhir'] }}">
+                                            </div>
+                                            <input name="filter" value="true" style="display: none" />
+
+                                            <div class="mt-3 col-sm-12 col-xl-2">
+                                                <button type="submit"
+                                                    class="mt-4 btn btn-primary waves-effect waves-light">Filter</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header">
@@ -296,10 +299,10 @@
                         </thead>
                         <tbody id="bodyJembatan">
                             @php
-                                $nomber =0;
+                                $nomber = $pekerjaan->firstItem();
                             @endphp
                             @foreach ($pekerjaan as $no => $data)
-                                @if(Auth::user() && Auth::user()->internalRole->uptd && Auth::user()->sup_id && count(Auth::user()->ruas)>0)
+                                {{-- @if(Auth::user() && Auth::user()->internalRole->uptd && Auth::user()->sup_id && count(Auth::user()->ruas)>0)
                                     @if(in_array($data->ruas_jalan_id,array_column( Auth::user()->ruas->toArray(), 'id_ruas_jalan')))
                                     @include('admin.input.pekerjaan.alldata')
                                     @php
@@ -311,10 +314,111 @@
                                     @php
                                     ++$nomber;
                                     @endphp
-                                @endif
+                                @endif --}}
+                                <tr>
+                                    <td>{{$nomber++}}</td>
+                                    <td>{{$data->id_pek}}</td>
+                                    <td>{{$data->nama_mandor}}</td>
+                                    <td>{{$data->sup}}</td>
+                                    <td>{{$data->ruas_jalan}}</td>
+                                    <td>{{$data->jenis_pekerjaan}}</td>
+                                    <td>{{$data->lokasi}}</td>
+                                    <td>{{@$data->panjang}}</td>
+                                    <td>{{@$data->perkiraan_kuantitas}}</td>
+                                    {{-- <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_awal) !!}" alt="" srcset=""></td>
+                                    <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_sedang) !!}" alt="" srcset=""></td>
+                                    <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_akhir) !!}" alt="" srcset=""></td>
+                                    <td><video width='150' height='100' controls> <source src="{!! url('storage/pekerjaan/'.$data->video) !!}" type='video/*' Sorry, your browser doesn't support the video element.></video></td> --}}
+                                    <td>{{$data->tanggal}}</td>
+                                    <td>@if($data->status)
+                                            @if(str_contains($data->status->status,'Submitted') ||str_contains($data->status->status,'Approved') || str_contains($data->status->status,'Rejected')|| str_contains($data->status->status,'Edited') )
+                                                @if(str_contains($data->status->status,'Approved') )
+                                                    <button type="button" class="btn btn-mini btn-primary " disabled> {{$data->status->status}}</button>
+                                                @elseif(str_contains($data->status->status,'Rejected') )
+                                                    <button type="button" class="btn btn-mini btn-danger " disabled> {{$data->status->status}}</button>
+                                                @elseif(str_contains($data->status->status,'Submitted') )
+                                                    <button type="button" class="btn btn-mini btn-success waves-effect" disabled> {{$data->status->status}}</button>
+                                
+                                
+                                                @else
+                                                    <button type="button" class="btn btn-mini btn-warning " disabled> {{$data->status->status}}</button>
+                                                @endif
+                                                <br>{{$data->status->jabatan}}<br>
+                                                <a href="{{ route('detailStatusPekerjaan',$data->id_pek) }}"><button type="button" class="btn btn-sm waves-effect waves-light " ><i class="icofont icofont-search"></i> Detail</button>
+                                            @else
+                                                @if($data->input_material)
+                                                    <button type="button" class="btn btn-mini btn-success waves-effect " disabled>Submitted</button>
+                                                @endif
+                                            @endif
+                                        @else
+                                            <a href="@if(str_contains(Auth::user()->internalRole->role,'Mandor')  || str_contains(Auth::user()->internalRole->role,'Pengamat')|| str_contains(Auth::user()->internalRole->role,'Admin')) {{ route('materialDataPekerjaan',$data->id_pek) }} @else # @endif">
+                                
+                                                <button type="button" class="btn btn-mini btn-warning waves-effect " @if(str_contains(Auth::user()->internalRole->role,'Mandor') || str_contains(Auth::user()->internalRole->role,'Pengamat') || str_contains(Auth::user()->internalRole->role,'Admin')) @else disabled @endif>Not Completed</button>
+                                            </a>
+                                            <br>
+                                            <i style="color :red; font-size: 10px;">Lengkapi material</i>
+                                        @endif
+                                    </td>
+                                
+                                    <td style="min-width: 170px;">
+                                
+                                        <div class="btn-group" role="group" data-placement="top" title="" data-original-title=".btn-xlg">
+                                            @if(Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor')||str_contains(Auth::user()->internalRole->role,'Admin')||(str_contains(Auth::user()->internalRole->role,'Pengamat')&& $data->status != null && (str_contains($data->status->status,'Rejected')|| str_contains($data->status->status,'Edited'))) && !str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan'))
+                                                @if(!$data->keterangan_status_lap ||str_contains($data->status->status,'Submitted')|| str_contains($data->status->status,'Rejected')|| (str_contains($data->status->status,'Edited')&&Auth::user()->id == $data->status->adjustment_user_id)||str_contains(Auth::user()->internalRole->role,'Admin'))
+                                                    @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
+                                                    <a href="{{ route('editDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i></button></a>
+                                                    <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Lengkapi Data"><i class="icofont icofont-list"></i></button></a>
+                                                    @endif
+                                                    @if(!$data->keterangan_status_lap ||str_contains(Auth::user()->internalRole->role,'Admin'))
+                                                        @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Delete"))
+                                                        <a href="#delModal" data-id="{{$data->id_pek}}" data-toggle="modal"><button class="btn btn-danger btn-sm waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
+                                                        @endif
+                                                    @endif
+                                                    {{-- @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
+                                                    <a href="#submitModal" data-id="{{$data->id_pek}}" data-toggle="modal"><button class="btn btn-success btn-sm waves-effect waves-light" data-toggle="tooltip" title="Submit"><i class="icofont icofont-check-circled"></i></button></a>
+                                                    @endif --}}
+                                                @elseif(str_contains(Auth::user()->internalRole->role,'Pengamat')&& $data->status != null && (str_contains($data->status->status,'Edited') && Auth::user()->id != $data->status->adjustment_user_id ))
+                                                    @if(Auth::user()->internal_role_id!=null && Auth::user()->internal_role_id ==$data->status->parent )
+                                                        @if(str_contains(Auth::user()->internalRole->role,'Pengamat') && Auth::user()->sup_id==$data->status->sup_id)
+                                                            <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Judgement"><i class="icofont icofont-pencil"></i>Judgement</button></a>
+                                                        @endif
+                                                    @endif
+                                                    @if(@$data->status->adjustment_user_id==Auth::user()->id )
+                                                        <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit Judgement"><i class="icofont icofont-pencil"></i>Edit Judgement</button></a>
+                                                    @endif
+                                                @endif
+                                            @else
+                                                @if($data->status)
+                                                    @if(Auth::user()->internal_role_id!=null && Auth::user()->internal_role_id ==$data->status->parent )
+                                                        @if(str_contains(Auth::user()->internalRole->role,'Pengamat') || (str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') && $data->status->status == "Approved" || $data->status->status =="Edited"|| $data->status->status =="Submitted") && Auth::user()->sup_id==$data->status->sup_id)
+                                                            <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Judgement"><i class="icofont icofont-pencil"></i>Judgement</button></a>
+                                                        @elseif(!str_contains(Auth::user()->internalRole->role,'Pengamat') && !str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') && $data->status->status == "Approved")
+                                                            <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Judgement"><i class="icofont icofont-pencil"></i>Judgement</button></a>
+                                                        @endif
+                                                    @endif
+                                                    @if(@$data->status->adjustment_user_id==Auth::user()->id && !str_contains($data->status->status,'Submitted'))
+                                                        <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit Judgement"><i class="icofont icofont-pencil"></i>Edit Judgement</button></a>
+                                                    @elseif(str_contains(Auth::user()->internalRole->role,'Pengamat') && str_contains($data->status->status,'Submitted')&& str_contains($data->status->jabatan,'Pengamat'))
+                                                        @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
+                                                        <a href="{{ route('editDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i></button></a>
+                                                        <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Lengkapi Data"><i class="icofont icofont-list"></i></button></a>
+                                                        @endif
+                                                            @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Delete"))
+                                                                <a href="#delModal" data-id="{{$data->id_pek}}" data-toggle="modal"><button class="btn btn-danger btn-sm waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
+                                                            @endif
+                                                    @endif
+                                                @endif
+                                            @endif
+                                            &nbsp;<a href="{{ route('detailPemeliharaan',$data->id_pek) }}"><button class="btn btn-success btn-sm waves-effect waves-light" data-toggle="tooltip" title="lihat"><i class="icofont icofont-search"></i></button></a>
+                                
+                                        </div>
+                                    </td>
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>
+                    {{ $pekerjaan->links() }}
+
                 </div>
             </div>
         </div>
@@ -596,7 +700,11 @@
                 return (/^\-?[0-9]*\.?[0-9]*$/).test($(this).val() + evt.key);
             });
 
-            $("#dttable").DataTable();
+            $("#dttable").DataTable(
+                // {
+                // "bInfo" : false
+                // }
+            );
             $('#delModal').on('show.bs.modal', function(event) {
                 const link = $(event.relatedTarget);
                 const id = link.data('id');

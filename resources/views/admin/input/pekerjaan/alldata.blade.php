@@ -1,5 +1,5 @@
 <tr>
-    <td>{{++$no}}</td>
+    {{-- <td>{{++$no}}</td> --}}
     <td>{{$data->id_pek}}</td>
     <td>{{$data->nama_mandor}}</td>
     <td>{{$data->sup}}</td>

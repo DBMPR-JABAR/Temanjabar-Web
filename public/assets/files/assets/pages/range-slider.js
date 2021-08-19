@@ -83,7 +83,7 @@
      //#9
      var slider = new Slider("#ex9", {
          precision: 2,
-         value: 8.115 // Slider will instantiate showing 8.12 due to specified precision
+         value: 8.115 // Slider will instantiate  8.12 due to specified precision
      });
 
      //#10

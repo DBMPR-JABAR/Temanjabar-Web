@@ -90,8 +90,20 @@ class PekerjaanController extends Controller
             }
 
     }
-    public function getData()
+    public function getData(Request $request)
     {
+       
+        $filter['tanggal_awal']= Carbon::now()->subDays(30)->format('Y-m-d');
+        $filter['tanggal_akhir']= Carbon::now()->format('Y-m-d');
+        // dd($tanggal_awal);
+
+        if($request->tanggal_awal != null){
+            $filter['tanggal_awal']=  Carbon::createFromFormat('Y-m-d', $request->tanggal_awal)->format('Y-m-d');
+        }
+        if($request->tanggal_akhir != null){
+            $filter['tanggal_akhir']=  Carbon::createFromFormat('Y-m-d', $request->tanggal_akhir)->format('Y-m-d');
+        }
+        // dd($filter);
         if( Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor')||str_contains(Auth::user()->internalRole->role,'Pengamat') || str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') ){
             if(!Auth::user()->sup_id || !Auth::user()->internalRole->uptd ){
                 // dd(Auth::user()->sup_id);
@@ -117,24 +129,18 @@ class PekerjaanController extends Controller
                 $pekerjaan = $pekerjaan->where('kemandoran.user_id',Auth::user()->id);
             }else if(Auth::user()->sup_id){
                 $pekerjaan = $pekerjaan->where('kemandoran.sup_id',Auth::user()->sup_id);
-
+                if(count(Auth::user()->ruas)>0){
+                    $pekerjaan = $pekerjaan->whereIn('ruas_jalan_id',Auth::user()->ruas->pluck('id_ruas_jalan')->toArray());
+                }
+                
             }
         }
-        $pekerjaan = $pekerjaan->whereRaw("YEAR(tanggal) BETWEEN 2021 AND 2021");
-        $pekerjaan = $pekerjaan->where('is_deleted', 0)->latest('tglreal')->get();
+        // $pekerjaan = $pekerjaan->whereRaw("YEAR(tanggal) BETWEEN 2021 AND 2021");
         
-        // if(count(Auth::user()->ruas)>0){
-        //     foreach($pekerjaan as $oke){
-        //         if(in_array($oke->ruas_jalan_id,array_column( Auth::user()->ruas->toArray(), 'id_ruas_jalan'))){
-        //             echo $oke->ruas_jalan_id."<br>";
-        //         }
-                
-        //     }
-        //     dd(count(Auth::user()->ruas));
-        // }
-        // dd($pekerjaan);
-        // dd($pekerjaan);
-
+        $pekerjaan = $pekerjaan->whereBetween('tanggal', [$filter['tanggal_awal'] , $filter['tanggal_akhir'] ]);
+        $pekerjaan = $pekerjaan->where('is_deleted', 0)->latest('tglreal');
+        $pekerjaan = $pekerjaan->paginate(700);
+        
         foreach($pekerjaan as $no =>$data){
             // echo "$data->id_pek<br>";
 
@@ -320,7 +326,7 @@ class PekerjaanController extends Controller
 
         ];
         $jenis_laporan_pekerjaan =DB::table('utils_jenis_laporan')->get();
-        return view('admin.input.pekerjaan.index', compact('pekerjaan', 'ruas_jalan', 'sup', 'mandor',  'sum_report', 'nama_kegiatan_pekerjaan','jenis_laporan_pekerjaan'));
+        return view('admin.input.pekerjaan.index', compact('pekerjaan', 'ruas_jalan', 'sup', 'mandor',  'sum_report', 'nama_kegiatan_pekerjaan','jenis_laporan_pekerjaan','filter'));
     }
     public function statusData($id){
         $adjustment=DB::table('kemandoran_detail_status')
