@@ -471,6 +471,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::prefix('bankeu')->group(function () {
             Route::get('delete/{id}', 'InputData\BantuanKeuanganController@destroy');
             Route::get('get_ruas_jalan_by_geo_id/{id}', 'InputData\BantuanKeuanganController@getRuasJalanByGeoId')->name('getRuasJalanByGeoId');
+            Route::prefix('progres')->group(function () {
+                Route::get('/', 'InputData\BantuanKeuanganController@progres_index');
+            });
         });
         Route::resource('bankeu', 'InputData\BantuanKeuanganController');
 
