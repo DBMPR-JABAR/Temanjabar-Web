@@ -120,7 +120,7 @@
 
         const tahunField = "tgl_kontrak"
 
-        const iframeCurvaTemplate = ({id}) => `<iframe id="iframe_curva" src="http://124.81.122.131/talikuat/curva/index.php?data=${id}" height="700"
+        const iframeCurvaTemplate = ({id}) => `<iframe id="iframe_curva" src="https://tk.temanjabar.net/curva/index.php?data=${id}" height="700"
                     style="border:none;" width="100%" title="curva"></iframe>`
 
         $(document).ready(function() {

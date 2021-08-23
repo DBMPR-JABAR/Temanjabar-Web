@@ -366,7 +366,7 @@
                                     <li class="{{ Request::segment(3) == 'bankeu' ? 'active' : '' }}">
                                         <a href="{{ url('admin/input-data/bankeu/progres') }}"
                                             class="waves-effect waves-dark">
-                                            <span class="pcoded-mtext">Progres Bantuan Keuangan</span>
+                                            <span class="pcoded-mtext">Laporan BanKeu</span>
                                         </a>
                                     </li>
                                     @endif

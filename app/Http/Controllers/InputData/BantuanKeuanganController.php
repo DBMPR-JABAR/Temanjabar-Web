@@ -275,8 +275,10 @@ class BantuanKeuanganController extends Controller
             $bankeu_progres['persentase'] = $request->input('persentase_target_' . $i);
             $old = DB::table('bankeu_progres')->where('id_bankeu', $id)->where('target', $i);
             if ($old->count() > 0) {
-                if ($update)
+                if ($update) {
+                    $bankeu_progres['is_verified'] = 0;
                     $old->update($bankeu_progres);
+                }
             } else DB::table('bankeu_progres')->insert($bankeu_progres);
             if ($i == $count) DB::table('bankeu')->where('id', $id)->update($bankeu);
         }
@@ -353,7 +355,14 @@ class BantuanKeuanganController extends Controller
 
     public function progres_index()
     {
-        $bankeu_progres = DB::table('bankeu_progres')->leftJoin('bankeu','bankeu_progres.id_bankeu','bankeu.id')->get();
-        dd($bankeu_progres);
+        $bankeu_progres = DB::table('bankeu_progres')
+            ->rightJoin('bankeu', 'bankeu_progres.id_bankeu', 'bankeu.id')
+            ->where('bankeu_progres.is_verified', '>=', 0)
+            ->select(['bankeu_progres.*','bankeu.no_kontrak','bankeu.tanggal_kontrak','bankeu.nama_kegiatan'])
+            ->get();
+        // dd($bankeu_progres);
+
+        $bankeu = $bankeu_progres;
+        return view('admin.input_data.bankeu.progres.index', compact('bankeu'));
     }
 }
