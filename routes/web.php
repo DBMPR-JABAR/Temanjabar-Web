@@ -472,7 +472,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('delete/{id}', 'InputData\BantuanKeuanganController@destroy');
             Route::get('get_ruas_jalan_by_geo_id/{id}', 'InputData\BantuanKeuanganController@getRuasJalanByGeoId')->name('getRuasJalanByGeoId');
             Route::prefix('progres')->group(function () {
-                Route::get('/', 'InputData\BantuanKeuanganController@progres_index');
+                Route::get('/', 'InputData\BantuanKeuanganController@progres_index')->name('bankeu.progres');
+                Route::get('/verifikasi/{id}/{target}', 'InputData\BantuanKeuanganController@progres_verifikasi')->name('bankeu.verifikasi');
+                Route::post('/verifikasi/{id}/{target}/edit', 'InputData\BantuanKeuanganController@progres_verifikasi_update')->name('bankeu.verifikasi.update');
             });
         });
         Route::resource('bankeu', 'InputData\BantuanKeuanganController');

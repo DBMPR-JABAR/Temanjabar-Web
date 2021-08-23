@@ -358,11 +358,53 @@ class BantuanKeuanganController extends Controller
         $bankeu_progres = DB::table('bankeu_progres')
             ->rightJoin('bankeu', 'bankeu_progres.id_bankeu', 'bankeu.id')
             ->where('bankeu_progres.is_verified', '>=', 0)
-            ->select(['bankeu_progres.*','bankeu.no_kontrak','bankeu.tanggal_kontrak','bankeu.nama_kegiatan'])
+            ->select([
+                'bankeu_progres.*',
+                'bankeu.no_kontrak',
+                'bankeu.tanggal_kontrak',
+                'bankeu.nama_kegiatan',
+                'bankeu.kategori',
+                'bankeu.progress',
+                'bankeu.id'
+            ])
             ->get();
         // dd($bankeu_progres);
 
         $bankeu = $bankeu_progres;
         return view('admin.input_data.bankeu.progres.index', compact('bankeu'));
+    }
+
+    public function progres_verifikasi($id, $target)
+    {
+        $bankeu_progres = DB::table('bankeu_progres')
+            ->rightJoin('bankeu', 'bankeu_progres.id_bankeu', 'bankeu.id')
+            ->where('bankeu_progres.is_verified', '>=', 0)
+            ->where('bankeu_progres.id_bankeu', $id)
+            ->where('bankeu_progres.target', $target)
+            ->select([
+                'bankeu_progres.*',
+                'bankeu.no_kontrak',
+                'bankeu.tanggal_kontrak',
+                'bankeu.nama_kegiatan',
+                'bankeu.kategori',
+                'bankeu.progress',
+                'bankeu.id'
+            ])
+            ->first();
+        // dd($bankeu_progres);
+
+        $bankeu = $bankeu_progres;
+        return view('admin.input_data.bankeu.progres.verifikasi', compact('bankeu'));
+    }
+
+    public function progres_verifikasi_update(Request $request, $id, $target)
+    {
+        // dd($request->all());
+        $bankeu_progres = $request->except('_token');
+        DB::table('bankeu_progres')->where('id_bankeu',$id)
+        ->where('target',$target)->update($bankeu_progres);
+        $color = "success";
+        $msg = $request->is_verified == 1 ? 'Berhasil menyetujui laporan Bantuan Keuangan' : 'Berhasil menolak laporan Bantuan Keuangan';
+        return redirect(route('bankeu.progres'))->with(compact('color', 'msg'));
     }
 }

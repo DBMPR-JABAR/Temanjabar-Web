@@ -82,7 +82,7 @@
                                 <td>{{ $data->nama_kegiatan }}</td>
                                 <td>{{ $data->no_kontrak }}</td>
                                 <td>{{ $data->progress ? $data->progress :"-"}}</td>
-                                <td>{{ $data->is_verified }}
+                                <td>{{ $data->is_verified == 1 ? 'Terverifikasi': ($data->is_verified == 0 ? 'Belum Diverifikasi' : 'Ditolak') }}
                                 </td>
                                 <td style="min-width: 75px">
                                     <div class="btn-group" role="group" data-placement="top" title=""
@@ -93,10 +93,12 @@
                                             <i class="icofont icofont-eye-alt"></i></button></a> --}}
                                         @if(hasAccess(Auth::user()->internal_role_id,
                                         'Bantuan Keuangan', 'Update'))
-                                        <a class="d-inline-block" href="{{ route('bankeu.edit', $data->id) }}"><button
+                                        <a class="d-inline-block"
+                                            href="{{ route('bankeu.verifikasi', ['id'=>$data->id,'target'=>$data->target]) }}"><button
                                                 class="btn btn-primary mr-1 btn-sm waves-effect waves-light"
-                                                data-toggle="tooltip" title="Confirm">
-                                                <i class="icofont icofont-pencil"></i></button></a>
+                                                data-toggle="tooltip"
+                                                title="{{ $data->is_verified == 0 ? 'Konfirmasi': 'Detail' }}">
+                                                <i class="icofont {{ $data->is_verified == 0 ? 'icofont-pencil': 'icofont-eye' }}"></i></button></a>
                                         @endif
                                         {{-- @if(hasAccess(Auth::user()->internal_role_id,
                                         'Bantuan Keuangan', 'Delete'))
