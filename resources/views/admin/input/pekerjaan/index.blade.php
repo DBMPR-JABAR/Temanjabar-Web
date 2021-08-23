@@ -47,169 +47,7 @@
 
 @section('page-body')
 <div class="row">
-    <div class="col-sm-12">
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title">Rekap Pekerjaan Mandor</h4>
-                {{-- <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span> --}}
-                <div class="card-header-right">
-                    <ul class="list-unstyled card-option">
-                        {{-- {{-- <li><i class="feather icon-maximize full-card"></i></li> --}}
-                        <li><i class="feather icon-minus minimize-card"></i></li> --}}
-                    </ul>
-                </div>
-            </div>
-            <div class="card-block">
-
-                <div class="card-deck col-md-12">
-                    <div class="card w-100">
-                        {{-- <a href="{{ url('admin/lapor') }}"> --}}
-                        <div class="card-block">
-                            <div class="row align-items-center">
-                                <div class="col-8">
-                                    <h4 class="text-warning f-w-600">
-                                        {{ $sum_report['not_complete'] }}
-                                    </h4>
-                                    {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
-                                </div>
-                                <div class="col-4 text-right">
-                                    <i class="feather icon-arrow-down f-28"></i>
-                                </div>
-                            </div>
-                        </div>
-                        {{-- </a> --}}
-                        <div class="card-footer bg-warning">
-                            <div class="row align-items-center">
-                                <div class="col-9">
-                                    <p class="text-white m-b-0">Not Completed</p>
-                                </div>
-                                <div class="col-3 text-right">
-                                    <i class="feather icon-trending-up text-white f-16"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card w-100">
-                        {{-- <a href="{{ url('admin/lapor') }}"> --}}
-                        <div class="card-block">
-                            <div class="row align-items-center">
-                                <div class="col-8">
-                                    <h4 class="text-success f-w-600">
-                                        {{ $sum_report['submit'] }}
-                                    </h4>
-                                    {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
-                                </div>
-                                <div class="col-4 text-right">
-                                    <i class="feather icon-arrow-down f-28"></i>
-                                </div>
-                            </div>
-                        </div>
-                        {{-- </a> --}}
-                        <div class="card-footer bg-success">
-                            <div class="row align-items-center">
-                                <div class="col-9">
-                                    <p class="text-white m-b-0">Submitted</p>
-                                </div>
-                                <div class="col-3 text-right">
-                                    <i class="feather icon-trending-up text-white f-16"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card w-100">
-                        {{-- <a href="{{ url('admin/lapor') }}"> --}}
-                        <div class="card-block">
-                            <div class="row align-items-center">
-                                <div class="col-8">
-                                    <h4 class="text-primary f-w-600">
-                                        {{ $sum_report['approve'] }}
-                                    </h4>
-                                    {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
-                                </div>
-                                <div class="col-4 text-right">
-                                    <i class="feather icon-arrow-up f-28"></i>
-                                </div>
-                            </div>
-                        </div>
-                        {{-- </a> --}}
-                        <div class="card-footer bg-primary">
-                            <div class="row align-items-center">
-                                <div class="col-9">
-                                    <p class="text-white m-b-0">Approved</p>
-                                </div>
-                                <div class="col-3 text-right">
-                                    <i class="feather icon-trending-up text-white f-16"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card w-100">
-                        {{-- <a href="{{ url('admin/lapor') }}"> --}}
-                        <div class="card-block">
-                            <div class="row align-items-center">
-                                <div class="col-8">
-                                    <h4 class="text-danger f-w-600">
-                                        {{ $sum_report['reject'] }}
-
-                                    </h4>
-                                    {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
-                                </div>
-                                <div class="col-4 text-right">
-                                    <i class="feather icon-clock f-28"></i>
-                                </div>
-                            </div>
-                        </div>
-                        {{-- </a> --}}
-                        <div class="card-footer bg-danger">
-                            <div class="row align-items-center">
-                                <div class="col-9">
-                                    <p class="text-white m-b-0">Rejected</p>
-                                </div>
-                                <div class="col-3 text-right">
-                                    <i class="feather icon-trending-up text-white f-16"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-deck col-md-12 mt-3">
-                    <div class="card w-100">
-                        {{-- <a href="{{ url('admin/lapor') }}"> --}}
-                        <div class="card-block">
-                            <div class="row align-items-center">
-                                <div class="col-8">
-                                    <h4 class=" f-w-600">
-                                        {{ array_sum($sum_report) }}
-                                    </h4>
-                                    {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
-                                </div>
-                                <div class="col-4 text-right">
-                                    {{-- <i class="feather-archive"></i> --}}
-                                    <i class="feather icon-clipboard f-28"></i>
-                                </div>
-                            </div>
-                        </div>
-                        {{-- </a> --}}
-                        <div class="card-footer bg-default">
-                            <div class="row align-items-center">
-                                <div class="col-9">
-                                    <p class=" m-b-0" style="color: black">Total Laporan</p>
-                                </div>
-                                <div class="col-3 text-right">
-                                    <i class="feather icon-trending-up text-white f-16"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
-        </div>
-    </div>
+    
     <div class="col-lg-12">
         <div class="card">
             <div class="card-block accordion-block">
@@ -442,6 +280,169 @@
                     {{ $pekerjaan->links() }}
 
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Rekap Pekerjaan Mandor</h4>
+                {{-- <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span> --}}
+                <div class="card-header-right">
+                    <ul class="list-unstyled card-option">
+                        {{-- {{-- <li><i class="feather icon-maximize full-card"></i></li> --}}
+                        <li><i class="feather icon-minus minimize-card"></i></li> --}}
+                    </ul>
+                </div>
+            </div>
+            <div class="card-block">
+
+                <div class="card-deck col-md-12">
+                    <div class="card w-100">
+                        {{-- <a href="{{ url('admin/lapor') }}"> --}}
+                        <div class="card-block">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h4 class="text-warning f-w-600">
+                                        {{ $sum_report['not_complete'] }}
+                                    </h4>
+                                    {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
+                                </div>
+                                <div class="col-4 text-right">
+                                    <i class="feather icon-arrow-down f-28"></i>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- </a> --}}
+                        <div class="card-footer bg-warning">
+                            <div class="row align-items-center">
+                                <div class="col-9">
+                                    <p class="text-white m-b-0">Not Completed</p>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <i class="feather icon-trending-up text-white f-16"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card w-100">
+                        {{-- <a href="{{ url('admin/lapor') }}"> --}}
+                        <div class="card-block">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h4 class="text-success f-w-600">
+                                        {{ $sum_report['submit'] }}
+                                    </h4>
+                                    {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
+                                </div>
+                                <div class="col-4 text-right">
+                                    <i class="feather icon-arrow-down f-28"></i>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- </a> --}}
+                        <div class="card-footer bg-success">
+                            <div class="row align-items-center">
+                                <div class="col-9">
+                                    <p class="text-white m-b-0">Submitted</p>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <i class="feather icon-trending-up text-white f-16"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card w-100">
+                        {{-- <a href="{{ url('admin/lapor') }}"> --}}
+                        <div class="card-block">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h4 class="text-primary f-w-600">
+                                        {{ $sum_report['approve'] }}
+                                    </h4>
+                                    {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
+                                </div>
+                                <div class="col-4 text-right">
+                                    <i class="feather icon-arrow-up f-28"></i>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- </a> --}}
+                        <div class="card-footer bg-primary">
+                            <div class="row align-items-center">
+                                <div class="col-9">
+                                    <p class="text-white m-b-0">Approved</p>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <i class="feather icon-trending-up text-white f-16"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card w-100">
+                        {{-- <a href="{{ url('admin/lapor') }}"> --}}
+                        <div class="card-block">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h4 class="text-danger f-w-600">
+                                        {{ $sum_report['reject'] }}
+
+                                    </h4>
+                                    {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
+                                </div>
+                                <div class="col-4 text-right">
+                                    <i class="feather icon-clock f-28"></i>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- </a> --}}
+                        <div class="card-footer bg-danger">
+                            <div class="row align-items-center">
+                                <div class="col-9">
+                                    <p class="text-white m-b-0">Rejected</p>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <i class="feather icon-trending-up text-white f-16"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-deck col-md-12 mt-3">
+                    <div class="card w-100">
+                        {{-- <a href="{{ url('admin/lapor') }}"> --}}
+                        <div class="card-block">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h4 class=" f-w-600">
+                                        {{ array_sum($sum_report) }}
+                                    </h4>
+                                    {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
+                                </div>
+                                <div class="col-4 text-right">
+                                    {{-- <i class="feather-archive"></i> --}}
+                                    <i class="feather icon-clipboard f-28"></i>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- </a> --}}
+                        <div class="card-footer bg-default">
+                            <div class="row align-items-center">
+                                <div class="col-9">
+                                    <p class=" m-b-0" style="color: black">Total Laporan</p>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <i class="feather icon-trending-up text-white f-16"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
         </div>
     </div>
