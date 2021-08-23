@@ -15,13 +15,16 @@
                         <a class="nav-link active pagescroll" href="#home">Beranda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ url('map/map-dashboard-masyarakat') }}">Map DBMPR</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link pagescroll scrollupto" href="#about">Tentang Kami</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="http://124.81.122.131/status_jalan" target="_blank">Status Jalan</a>
+                    <li class="nav-item dropright">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                            aria-haspopup="false" id="dropdownMenuButton" aria-expanded="true">Maps</a>
+                        <div class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="http://124.81.122.131/status_jalan" target="_blank">Ruas
+                                Jalan</a>
+                            <a class="dropdown-item" href="{{ url('map/map-dashboard-masyarakat') }}">Kegiatan DBMPR</a>
+                        </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link pagescroll" href="#uptd">UPTD</a>
@@ -60,12 +63,6 @@
                         <a class="nav-link active pagescroll" href="#home">Beranda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="http://124.81.122.131/status_jalan" target="_blank">Status Jalan</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{{ url('map/map-dashboard-masyarakat') }}">Map DBMPR</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link pagescroll scrollupto" href="#about">Tentang Kami</a>
                     </li>
                     <li class="nav-item">
@@ -73,6 +70,15 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link pagescroll" href="#laporan">Laporan Kerusakan</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                            aria-haspopup="true" aria-expanded="false">Maps</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="http://124.81.122.131/status_jalan" target="_blank">Ruas
+                                Jalan</a>
+                            <a class="dropdown-item" href="{{ url('map/map-dashboard-masyarakat') }}">Kegiatan DBMPR</a>
+                        </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link pagescroll" href="#kontak">Kontak</a>

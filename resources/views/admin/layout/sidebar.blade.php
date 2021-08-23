@@ -362,6 +362,14 @@
                                         </a>
                                     </li>
                                     @endif
+                                    @if (hasAccess(Auth::user()->internal_role_id, 'Progres Bantuan Keuangan', 'View'))
+                                    <li class="{{ Request::segment(3) == 'bankeu' ? 'active' : '' }}">
+                                        <a href="{{ url('admin/input-data/bankeu/progres') }}"
+                                            class="waves-effect waves-dark">
+                                            <span class="pcoded-mtext">Laporan BanKeu</span>
+                                        </a>
+                                    </li>
+                                    @endif
                                     @if (hasAccess(Auth::user()->internal_role_id, 'DPA', 'View'))
                                     <li class="{{ Request::segment(3) == 'dpa' ? 'active' : '' }}">
                                         <a href="{{ url('admin/input-data/dpa') }}"

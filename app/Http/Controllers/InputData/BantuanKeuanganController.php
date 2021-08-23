@@ -36,9 +36,9 @@ class BantuanKeuanganController extends Controller
             $bankeu = DB::table('bankeu')->orderBy('is_verified')->get();
         else
             $bankeu = DB::table('bankeu')
-            ->where('ditunjukan_untuk', 'LIKE', "%" . Auth::user()->id . "%")
-            ->orderBy('is_verified')
-            ->get();
+                ->where('ditunjukan_untuk', 'LIKE', "%" . Auth::user()->id . "%")
+                ->orderBy('is_verified')
+                ->get();
 
         return view('admin.input_data.bankeu.index', compact('bankeu'));
     }
@@ -236,40 +236,50 @@ class BantuanKeuanganController extends Controller
             $bankeu_progres['target'] = $i;
             $bankeu_progres["updated_by"] = Auth::user()->id;
             $bankeu_progres['updated_at'] = Carbon::now()->format('Y-m-d H:i:s');
+            $update = false;
             if ($request->file('foto_' . $i . '_1') != null && $request->file('foto_' . $i . '_1')->getSize() > 0) {
                 $path = 'bankeu/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto_' . $i . '_1')->getClientOriginalName());
                 $request->file('foto_' . $i . '_1')->storeAs('public/', $path);
                 $bankeu_progres['foto_1'] = $path;
                 $bankeu['foto'] = $path;
+                $update = true;
             };
             if ($request->file('foto_' . $i . '_2') != null && $request->file('foto_' . $i . '_2')->getSize() > 0) {
                 $path = 'bankeu/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto_' . $i . '_2')->getClientOriginalName());
                 $request->file('foto_' . $i . '_2')->storeAs('public/', $path);
                 $bankeu_progres['foto_2'] = $path;
                 $bankeu['foto_1'] = $path;
+                $update = true;
             };
             if ($request->file('foto_' . $i . '_3') != null && $request->file('foto_' . $i . '_3')->getSize() > 0) {
                 $path = 'bankeu/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto_' . $i . '_3')->getClientOriginalName());
                 $request->file('foto_' . $i . '_3')->storeAs('public/', $path);
                 $bankeu_progres['foto_3'] = $path;
                 $bankeu['foto_2'] = $path;
+                $update = true;
             };
             if ($request->file('video_' . $i) != null && $request->file('video_' . $i)->getSize() > 0) {
                 $path = 'bankeu/' . Str::snake(date("YmdHis") . ' ' . $request->file('video_' . $i)->getClientOriginalName());
                 $request->file('video_' . $i)->storeAs('public/', $path);
                 $bankeu_progres['video'] = $path;
                 $bankeu['video'] = $path;
+                $update = true;
             };
             if ($request->file('dokumen_' . $i) != null && $request->file('dokumen_' . $i)->getSize() > 0) {
                 $path = 'bankeu/' . Str::snake(date("YmdHis") . ' ' . $request->file('dokumen_' . $i)->getClientOriginalName());
                 $request->file('dokumen_' . $i)->storeAs('public/', $path);
                 $bankeu_progres['dokumen'] = $path;
+                $update = true;
             };
             $bankeu_progres['tanggal'] = $request->input('tanggal_target_' . $i);
             $bankeu_progres['persentase'] = $request->input('persentase_target_' . $i);
             $old = DB::table('bankeu_progres')->where('id_bankeu', $id)->where('target', $i);
-            if ($old->count() > 0) $old->update($bankeu_progres);
-            else DB::table('bankeu_progres')->insert($bankeu_progres);
+            if ($old->count() > 0) {
+                if ($update) {
+                    $bankeu_progres['is_verified'] = 0;
+                    $old->update($bankeu_progres);
+                }
+            } else DB::table('bankeu_progres')->insert($bankeu_progres);
             if ($i == $count) DB::table('bankeu')->where('id', $id)->update($bankeu);
         }
         DB::table('bankeu_progres')->where('id_bankeu', $id)->where('target', '>', $count)->delete();
@@ -341,5 +351,18 @@ class BantuanKeuanganController extends Controller
         } catch (Error $e) {
             $error = $e;
         }
+    }
+
+    public function progres_index()
+    {
+        $bankeu_progres = DB::table('bankeu_progres')
+            ->rightJoin('bankeu', 'bankeu_progres.id_bankeu', 'bankeu.id')
+            ->where('bankeu_progres.is_verified', '>=', 0)
+            ->select(['bankeu_progres.*','bankeu.no_kontrak','bankeu.tanggal_kontrak','bankeu.nama_kegiatan'])
+            ->get();
+        // dd($bankeu_progres);
+
+        $bankeu = $bankeu_progres;
+        return view('admin.input_data.bankeu.progres.index', compact('bankeu'));
     }
 }
