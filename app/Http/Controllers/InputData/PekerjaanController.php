@@ -118,7 +118,7 @@ class PekerjaanController extends Controller
         }
         $nama_kegiatan_pekerjaan = DB::table('utils_nama_kegiatan_pekerjaan')->get();
         $pekerjaan = DB::table('kemandoran');
-
+        
         $pekerjaan = $pekerjaan->leftJoin('master_ruas_jalan', 'master_ruas_jalan.id', '=', 'kemandoran.ruas_jalan')->select('kemandoran.*', 'master_ruas_jalan.nama_ruas_jalan');
         // $pekerjaan = $pekerjaan->leftJoin('kemandoran_detail_status', 'kemandoran.id_pek', '=','kemandoran_detail_status.id_pek')->select('kemandoran.*', 'master_ruas_jalan.nama_ruas_jalan','kemandoran_detail_status.*');
 
@@ -139,7 +139,12 @@ class PekerjaanController extends Controller
         
         $pekerjaan = $pekerjaan->whereBetween('tanggal', [$filter['tanggal_awal'] , $filter['tanggal_akhir'] ]);
         $pekerjaan = $pekerjaan->where('is_deleted', 0)->latest('tglreal');
-        $pekerjaan = $pekerjaan->paginate(1000);
+        // dd($request->uptd_filter);
+        if($request->uptd_filter !=null){
+            $pekerjaan = $pekerjaan->where('kemandoran.uptd_id', $request->uptd_filter);
+            $filter['uptd_filter'] =$request->uptd_filter;
+        } 
+        $pekerjaan = $pekerjaan->paginate(700);
         
         foreach($pekerjaan as $no =>$data){
             // echo "$data->id_pek<br>";

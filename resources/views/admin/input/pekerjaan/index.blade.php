@@ -231,15 +231,36 @@
                                         enctype="multipart/form-data">
                                         @csrf
                                         <div class="row col-12">
-                                            <div class="col-sm-12 col-xl-5 ">
+                                            @php
+                                                $grid = 5;
+                                            @endphp
+                                            @if (Auth::user()->internalRole->uptd == null)
+                                            <div class="col-sm-12 col-xl-2">
+                                                <h4 class="sub-title">UPTD</h4>
+                                                <select class="form-control" style="width: 100%" name="uptd_filter" required>
+                                                    <option value="">Pilih Semua</option>
+                                                    <option value="1" @if(@$filter['uptd_filter'] == 1 ) selected @endif>UPTD 1</option>
+                                                    <option value="2" @if(@$filter['uptd_filter'] == 2 ) selected @endif>UPTD 2</option>
+                                                    <option value="3" @if(@$filter['uptd_filter'] == 3 ) selected @endif>UPTD 3</option>
+                                                    <option value="4" @if(@$filter['uptd_filter'] == 4 ) selected @endif>UPTD 4</option>
+                                                    <option value="5" @if(@$filter['uptd_filter'] == 5 ) selected @endif>UPTD 5</option>
+                                                    <option value="6" @if(@$filter['uptd_filter'] == 6 ) selected @endif>UPTD 6</option>
+                                                </select>
+                                            </div>
+                                            @php
+                                                $grid = 4;
+                                            @endphp
+                                            @endif
+                                            <div class="col-sm-12 col-xl-{{ $grid }} col-md-{{ $grid }} ">
                                                 <h4 class="sub-title">Tanggal Awal</h4>
                                                 <input required name="tanggal_awal" type="date"
                                                     class="form-control form-control-primary" value="{{ @$filter['tanggal_awal'] }}">
                                             </div>
-                                            <div class="col-sm-12 col-xl-5">
+                                            <div class="col-sm-12 col-xl-{{ $grid }} col-md-{{ $grid }}">
                                                 <h4 class="sub-title">Tanggal Akhir</h4>
                                                 <input name="tanggal_akhir" type="date" class="form-control form-control-primary" value="{{ @$filter['tanggal_akhir'] }}">
                                             </div>
+                                            
                                             <input name="filter" value="true" style="display: none" />
 
                                             <div class="mt-3 col-sm-12 col-xl-2">
@@ -280,6 +301,8 @@
                             <tr>
                                 <th>No</th>
                                 <th>Kode Laporan</th>
+                                <th>Tanggal</th>
+
                                 <th>Nama Mandor</th>
                                 <th>SUP</th>
                                 <th>Ruas Jalan</th>
@@ -291,7 +314,6 @@
                                 <th>Foto (50%)</th>
                                 <th>Foto (100%)</th>
                                 <th>Video</th> --}}
-                                <th>Tanggal</th>
                                 <th>Status</th>
 
                                 <th style="min-width: 190px;">Aksi</th>
@@ -318,6 +340,7 @@
                                 <tr>
                                     <td>{{$nomber++}}</td>
                                     <td>{{$data->id_pek}}</td>
+                                    <td>{{$data->tanggal}}</td>
                                     <td>{{$data->nama_mandor}}</td>
                                     <td>{{$data->sup}}</td>
                                     <td>{{$data->ruas_jalan}}</td>
@@ -329,7 +352,6 @@
                                     <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_sedang) !!}" alt="" srcset=""></td>
                                     <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_akhir) !!}" alt="" srcset=""></td>
                                     <td><video width='150' height='100' controls> <source src="{!! url('storage/pekerjaan/'.$data->video) !!}" type='video/*' Sorry, your browser doesn't support the video element.></video></td> --}}
-                                    <td>{{$data->tanggal}}</td>
                                     <td>@if($data->status)
                                             @if(str_contains($data->status->status,'Submitted') ||str_contains($data->status->status,'Approved') || str_contains($data->status->status,'Rejected')|| str_contains($data->status->status,'Edited') )
                                                 @if(str_contains($data->status->status,'Approved') )
