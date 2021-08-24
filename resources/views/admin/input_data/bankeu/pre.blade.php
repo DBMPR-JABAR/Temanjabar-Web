@@ -232,7 +232,7 @@ class="form-control" placeholder="" required {{@$access ? '': 'readonly'}}>
 @if(hasAccess(Auth::user()->internal_role_id,
 'Verifikasi Bantuan Keuangan', 'Update'))
 <fieldset class="form-group row">
-    <legend class="col-form-label col-sm-2 float-sm-left pt-0">Terealisasi ?</legend>
+    <legend class="col-form-label col-sm-2 float-sm-left pt-0">Apakah kegiatan ini akan direalisasikan?</legend>
     <div class="col-sm-8">
         <div class="form-check-inline">
             <input class="form-check-input" type="radio" name="is_verified" id="gridRadios1" value="1"
