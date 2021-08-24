@@ -66,6 +66,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Target</th>
                                 <th>Kategori</th>
                                 <th>Nama Kegiatan</th>
                                 <th>No. Kontrak</th>
@@ -78,6 +79,7 @@
                             @foreach ($bankeu as $data)
                             <tr>
                                 <td>{{ $loop->index + 1 }}</td>
+                                <td>{{ $data->target.'/'.$data->pembagian_progres }}</td>
                                 <td>{{ $data->kategori }}</td>
                                 <td>{{ $data->nama_kegiatan }}</td>
                                 <td>{{ $data->no_kontrak }}</td>

@@ -48,7 +48,7 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="card">
-            <div class="card-header">{{@$bankeu->no_kontrak}}</div>
+            <div class="card-header">{{'('.@$bankeu->target.'/'.@$bankeu->pembagian_progres. ') '.@$bankeu->no_kontrak}}</div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-xl-3 col-md-6">

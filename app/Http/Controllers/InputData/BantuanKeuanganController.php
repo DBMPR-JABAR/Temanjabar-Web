@@ -19,6 +19,11 @@ class BantuanKeuanganController extends Controller
         foreach ($roles as $role => $permission) {
             $this->middleware($role)->only($permission);
         }
+        $this->email_list_notifications =
+            DB::table('users')
+            ->leftJoin('master_grant_role_aplikasi', 'master_grant_role_aplikasi.internal_role_id', 'users.internal_role_id')
+            ->where('master_grant_role_aplikasi.menu', 'Laporan Bantuan Keuangan')
+            ->get();
     }
     /**
      * Display a listing of the resource.
@@ -278,6 +283,16 @@ class BantuanKeuanganController extends Controller
                 if ($update) {
                     $bankeu_progres['is_verified'] = 0;
                     $old->update($bankeu_progres);
+                    $subject = 'Perbaharuan Laporan Progres Bantuan Keuangan';
+                    $view = 'mail.bankeu.laporan_new';
+                    // dd($this->email_list_notifications);
+                    foreach ($this->email_list_notifications as $user) {
+                        $data = [
+                            'to_name' => $user->name,
+                            'no_kontrak' => $request->no_kontrak,
+                        ];
+                        $this->send_email($user->email, $user->name, $subject, Auth::user()->email, Auth::user()->name, $view, $data);
+                    }
                 }
             } else DB::table('bankeu_progres')->insert($bankeu_progres);
             if ($i == $count) DB::table('bankeu')->where('id', $id)->update($bankeu);
@@ -313,6 +328,7 @@ class BantuanKeuanganController extends Controller
 
             DB::table('bankeu_geo_json')->where('id_bankeu', $id)->update($geo_json);
         }
+
         $color = "success";
         $msg = "Berhasil Mengubah Data Bantuan Keuangan";
         return redirect(route('bankeu.index'))->with(compact('color', 'msg'));
@@ -365,7 +381,8 @@ class BantuanKeuanganController extends Controller
                 'bankeu.nama_kegiatan',
                 'bankeu.kategori',
                 'bankeu.progress',
-                'bankeu.id'
+                'bankeu.id',
+                'bankeu.pembagian_progres'
             ])
             ->get();
         // dd($bankeu_progres);
@@ -388,7 +405,8 @@ class BantuanKeuanganController extends Controller
                 'bankeu.nama_kegiatan',
                 'bankeu.kategori',
                 'bankeu.progress',
-                'bankeu.id'
+                'bankeu.id',
+                'bankeu.pembagian_progres'
             ])
             ->first();
         // dd($bankeu_progres);
@@ -401,8 +419,25 @@ class BantuanKeuanganController extends Controller
     {
         // dd($request->all());
         $bankeu_progres = $request->except('_token');
-        DB::table('bankeu_progres')->where('id_bankeu',$id)
-        ->where('target',$target)->update($bankeu_progres);
+        DB::table('bankeu_progres')->where('id_bankeu', $id)
+            ->where('target', $target)->update($bankeu_progres);
+        $bankeu = DB::table('bankeu')->where('id', $id)->first();
+        $ditunjukan_untuk = explode('__', $bankeu->ditunjukan_untuk);
+
+        $subject = 'Hasil tinjauan Laporan Progres Bantuan Keuangan';
+        $view = 'mail.bankeu.verifikasi';
+        // dd($ditunjukan_untuk);
+        foreach ($ditunjukan_untuk as $userId) {
+            // dd($userId);
+            $user = DB::table('users')->where('id', $userId)->first();
+            $data = [
+                'to_name' => $user->name,
+                'no_kontrak' => $bankeu->no_kontrak,
+                'is_verified' => $request->is_verified,
+                'catatan' => $request->catatan
+            ];
+            $this->send_email($user->email, $user->name, $subject, Auth::user()->email, Auth::user()->name, $view, $data);
+        }
         $color = "success";
         $msg = $request->is_verified == 1 ? 'Berhasil menyetujui laporan Bantuan Keuangan' : 'Berhasil menolak laporan Bantuan Keuangan';
         return redirect(route('bankeu.progres'))->with(compact('color', 'msg'));
