@@ -545,6 +545,8 @@ const action = @json($action)
 
 const progressBefore = `{{ @$bankeu->progress }}`;
 
+const verified_access = @json($verified_access)
+
 </script>
 <script type="text/javascript" src="{{ asset('assets/js/bankeu.js') }}"></script>
 @endsection

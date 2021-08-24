@@ -11,7 +11,7 @@ $(document).ready(() => {
             const isNoVerified = document.getElementById("gridRadios2");
             const rencanaText = document.getElementById("rencana_text");
 
-            if (isNoVerified && isNoVerified.checked) {
+            const disableFormRequired = () => {
                 $("#ditunjukan_untuk").prop("required", false);
                 $("#tanggal_smpk").prop("required", false);
                 $("#no_smpk").prop("required", false);
@@ -22,22 +22,16 @@ $(document).ready(() => {
                 $("#nama_gs").prop("required", false);
                 $("#pembagian_progres").prop("required", false);
                 $("#waktu_pelaksanaan").prop("required", false);
+            };
+
+            if (isNoVerified && isNoVerified.checked) {
+                disableFormRequired();
             }
-            if (access) {
+            if (verified_access) {
                 isNoVerified.onchange = (event) => {
                     if (event.target.checked) {
                         isVerifiedContainer.hide();
-                        $("#ditunjukan_untuk").prop("required", false);
-                        $("#tanggal_smpk").prop("required", false);
-                        $("#no_smpk").prop("required", false);
-                        $("#penyedia_jasa").prop("required", false);
-                        $("#konsultasi_supervisi").prop("required", false);
-                        $("#nama_ppk").prop("required", false);
-                        $("#nama_se").prop("required", false);
-                        $("#nama_gs").prop("required", false);
-                        $("#pembagian_progres").prop("required", false);
-                        $("#waktu_pelaksanaan").prop("required", false);
-
+                        disableFormRequired();
                         if (action == "update")
                             rencanaText.innerText =
                             "Perbaharui Data Rencana Bantuan Keuangan";
@@ -159,7 +153,7 @@ $(document).ready(() => {
                                                   data.is_verified == 2
                                                 ? `<p style="color:red;font-weight:bold">Ditolak dengan catatan "${data.catatan}", silahkan perbaharui<p>`
                                                 : `<p style="color:gray;font-weight:bold">Belum diverifikasi</p>` ||
-                                                `<p style="color:gray;font-weight:bold">Belum diverifikasi</p>`
+                                                  `<p style="color:gray;font-weight:bold">Belum diverifikasi</p>`
                                         }</p>
                                     </div>
                                 </div>
@@ -349,6 +343,8 @@ $(document).ready(() => {
             };
         });
     }
+
+    disableFormRequired();
 });
 
 $("#mapLatLong").ready(() => {
@@ -561,8 +557,8 @@ $("#mapLatLong").ready(() => {
                 $("#nama_lokasi").show();
                 $("#nama_lokasi_value").prop("required", true);
                 if (exitsData !== null) {
-                    if (exitsData.geo_id != -1) {
-                        geo_id = exitsData.geo_id;
+                    if (exitsData?.geo_id != -1) {
+                        geo_id = exitsData?.geo_id || -1;
                     } else {
                         const paths = JSON.parse(exitsData.geo_json);
                         addPolyLine(paths);
@@ -586,7 +582,9 @@ $("#mapLatLong").ready(() => {
 
         view.when(() => {
             if (exitsData !== null) {
-                onChangeRuasJalan({ target: { value: exitsData.geo_id } });
+                onChangeRuasJalan({
+                    target: { value: exitsData?.geo_id || -1 },
+                });
             } else {
                 onChangeRuasJalan({ target: { value: -1 } });
             }

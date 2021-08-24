@@ -68,8 +68,14 @@ class BantuanKeuanganController extends Controller
             'Bantuan Keuangan',
             'Create'
         );
+
+        $verified_access = hasAccess(
+            Auth::user()->internal_role_id,
+            'Verifikasi Bantuan Keuangan',
+            'Create'
+        );
         $action = 'store';
-        return view('admin.input_data.bankeu.pre', compact('action', 'ruas_jalan', 'kategori', 'penyedia_jasa', 'konsultan', 'ppk', 'kab_kota', 'access', 'users'));
+        return view('admin.input_data.bankeu.pre', compact('action', 'ruas_jalan', 'kategori', 'penyedia_jasa', 'konsultan', 'ppk', 'kab_kota', 'access', 'users','verified_access'));
     }
 
     /**
@@ -212,12 +218,18 @@ class BantuanKeuanganController extends Controller
             'Bantuan Keuangan',
             'Create'
         );
+
+        $verified_access = hasAccess(
+            Auth::user()->internal_role_id,
+            'Verifikasi Bantuan Keuangan',
+            'Create'
+        );
         $users = DB::table('users')->leftJoin('user_role', 'user_role.id', 'users.internal_role_id')->select(['users.name', 'user_role.role', 'users.id'])->get();
         $ditunjukan_untuk = explode('__', $bankeu->ditunjukan_untuk);
         $ruas_jalan_selected = DB::table('ruas_jalan_kabupaten_tarung')->select(['*'])->where('geo_id', $bankeu->geo_id)->first();
         $bankeu_progres = DB::table('bankeu_progres')->where('id_bankeu', $id)->get();
         $action = 'update';
-        return view('admin.input_data.bankeu.pre', compact('action', 'bankeu', 'kategori', 'penyedia_jasa', 'konsultan', 'ppk', 'ruas_jalan', 'kab_kota', 'bankeu_progres', 'access', 'ruas_jalan_selected', 'ditunjukan_untuk', 'users', 'bankeu_progres'));
+        return view('admin.input_data.bankeu.pre', compact('action', 'bankeu', 'kategori', 'penyedia_jasa', 'konsultan', 'ppk', 'ruas_jalan', 'kab_kota', 'bankeu_progres','verified_access', 'access', 'ruas_jalan_selected', 'ditunjukan_untuk', 'users', 'bankeu_progres'));
     }
 
     /**
@@ -360,10 +372,11 @@ class BantuanKeuanganController extends Controller
     private function send_email($to_email, $to_name, $subject, $form_email, $from_name, $view, $data)
     {
         try {
-            Mail::send($view, $data, function ($message) use ($to_name, $to_email, $subject, $form_email, $from_name) {
-                $message->to($to_email, $to_name)->subject($subject);
-                $message->from($form_email, $from_name);
-            });
+            // Mail::send($view, $data, function ($message) use ($to_name, $to_email, $subject, $form_email, $from_name) {
+            //     $message->to($to_email, $to_name)->subject($subject);
+            //     $message->from($form_email, $from_name);
+            // });
+            return true;
         } catch (Error $e) {
             $error = $e;
         }
