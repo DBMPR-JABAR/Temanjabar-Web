@@ -144,6 +144,25 @@ $(document).ready(() => {
                                                 ""
                                             }
                                         </div>
+
+
+                                    <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">Status Laporan Ke-${ke}</label>
+                                    <div class="col-md-5">
+                                        <p class="mt-1">${
+                                            data &&
+                                            data.is_verified &&
+                                            data.is_verified == 1
+                                                ? `<p style="color:green;font-weight:bold">Terverifikasi</p>`
+                                                : data &&
+                                                  data.is_verified &&
+                                                  data.is_verified == 2
+                                                ? `<p style="color:red;font-weight:bold">Ditolak dengan catatan "${data.catatan}", silahkan perbaharui<p>`
+                                                : `<p style="color:gray;font-weight:bold">Belum diverifikasi</p>` ||
+                                                `<p style="color:gray;font-weight:bold">Belum diverifikasi</p>`
+                                        }</p>
+                                    </div>
+                                </div>
                                 </div>`;
 
     const navTemplate = ({ ke, data }) => `<li class="nav-item">
@@ -268,10 +287,9 @@ $(document).ready(() => {
     progressSlider.oninput = onChange;
     progressSlider.onclick = onChange;
 
-    if(action == 'store') progressSlider.value = 0
+    if (action == "store") progressSlider.value = 0;
 
-
-    if(exitsData && exitsData.is_verified == "1") {
+    if (exitsData && exitsData.is_verified == "1") {
         $("#isVerifiedOnly").show();
     }
 
