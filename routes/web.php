@@ -493,7 +493,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         // Route::get('/add', 'LaporController@create')->name('addLapor');
         // Route::get('edit/{id}', 'LaporController@edit')->name('editLapor');
         // Route::post('/create', 'LaporController@store')->name('createLapor');
-        // Route::post('update', 'LaporController@update')->name('updateLapor');
+        Route::get('update/{no_aduan}/{status}', 'LaporController@update_jqr')->name('updateLaporJQR');
         // Route::get('delete/{id}', 'LaporController@delete')->name('deleteLapor');
         Route::get('json', 'LaporController@json')->name('getJsonLapor');
 

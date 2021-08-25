@@ -2,9 +2,12 @@
 
 @section('title') Daftar Laporan @endsection
 @section('head')
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net/css/buttons.dataTables.min.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/data-table/extensions/responsive/css/responsive.dataTables.css') }}">
+<link rel="stylesheet" type="text/css"
+    href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" type="text/css"
+    href="{{ asset('assets/vendor/datatables.net/css/buttons.dataTables.min.css') }}">
+<link rel="stylesheet" type="text/css"
+    href="{{ asset('assets/vendor/data-table/extensions/responsive/css/responsive.dataTables.css') }}">
 
 <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
 
@@ -59,6 +62,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Tanggal Pengaduan</th>
                                 <th>No Pengaduan</th>
                                 <th>Status</th>
                                 <th>Nama</th>
@@ -70,7 +74,7 @@
                                 <th>Deskripsi</th>
                                 <th>UPTD</th>
                                 <th>Foto</th>
-                                <th style="min-width: 100px;">Aksi</th>
+                                <th style="min-width: 135px;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -110,6 +114,45 @@
         </div>
     </div>
 
+
+    <div class="modal fade" id="jqrModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">Perbaharui Status Laporan JQR</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Status </label>
+                        <div class="col-md-10">
+                            <select id="status_jqr" class="form-control" name="status">
+                                <option value="1">Submitted</option>
+                                <option value="2">(Approved) Diverifikasi</option>
+                                <option value="4">(Progress) Dalam Proses Survei</option>
+                                <option value="5">(Progress) Dalam Rencana Tindakan</option>
+                                <option value="6">(Progress) Dalam Proses Tindakan</option>
+                                <option value="7">(Done) Selesai</option>
+                                <option value="3">(Done) Aduan Ditolak</option>
+                            </select>
+                            <!-- <input name="status" type="text" class="form-control" disabled required> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                    <a id="jqrUpdateHref" href="" class="btn btn-success waves-effect waves-light ">Perbaharui</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 </div>
 
 @endsection
@@ -133,14 +176,38 @@
             modal.find('.modal-footer #delHref').attr('href', url);
         });
 
+
+        $('#jqrModal').on('show.bs.modal', function(event) {
+            const link = $(event.relatedTarget);
+            const id = link.data('no_pengaduan');
+            const oldstatus = link.data('status_jqr')
+            const status = document.getElementById('status_jqr')
+            console.log(id,oldstatus);
+            status.value = oldstatus
+            let url = `{{ url('admin/lapor/update') }}/` + id+'/'+status.value;
+            console.log(url);
+            const modal = $(this);
+            modal.find('.modal-footer #jqrUpdateHref').attr('href', url);
+            status.onchange = (e) => {
+                url = `{{ url('admin/lapor/update') }}/` + id+'/'+e.target.value;
+                console.log(url)
+                modal.find('.modal-footer #jqrUpdateHref').attr('href', url);
+            }
+        });
+
         var table = $('#dttable').DataTable({
             processing: true,
             serverSide: true,
             ajax: "{{ url('admin/lapor/json') }}",
+            order: [[ 1, "desc" ]],
             columns: [{
                     'mRender': function(data, type, full, meta) {
                         return +meta.row + meta.settings._iDisplayStart + 1;
                     }
+                },
+                {
+                    data: 'updated_at',
+                    name: 'updated_at'
                 },
                 {
                     data: 'nomorPengaduan',
