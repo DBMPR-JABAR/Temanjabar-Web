@@ -70,11 +70,32 @@ Rekap Data Entry
                 </thead>
                 <tbody>
                     @foreach ($data as $no => $item)
+                    @php
+                    if($item->id == 1){
+                        $role = 'Mandor - UPTD 1';
+                        $role_id = 91;
+                    }else if($item->id == 2){
+                        $role = 'Mandor - UPTD 2';
+                        $role_id = 52;
+                    }else if($item->id == 3){
+                        $role = 'Mandor - UPTD 3';
+                        $role_id = 61;
+                    }else if($item->id == 4){
+                        $role = 'Mandor - UPTD 4';
+                        $role_id = 70;
+                    }else if($item->id == 5){
+                        $role = 'Mandor - UPTD 5';
+                        $role_id = 77;
+                    }else if($item->id == 6){
+                        $role = 'Mandor - UPTD 6';
+                        $role_id = 84;
+                    }
                    
+                    @endphp
                     <tr>
                         <td class="align-middle" rowspan="{{ count($item->library_sup) }}">{{ Str::limit($item->nama, 6, $end='') }}</td>  
                         <td class="align-middle">{{ $item->library_sup[0]->name }}</td>
-                        <td class="text-center">{{ count($item->library_sup[0]->library_user) }}</td>
+                        <td class="text-center">{{ count($item->library_sup[0]->library_user->where('internal_role_id',$role_id)) }}</td>
                         <td class="text-center">{{ count($item->library_sup[0]->library_pemeliharaan) }}</td>
                         
                         <td  class="text-center align-middle" rowspan="{{ count($item->library_sup) }}">{{ count($item->library_pemeliharaan) }}</td> 
@@ -90,7 +111,7 @@ Rekap Data Entry
                         @for ($x=1 ; $x < count($item->library_sup) ;$x++)
                         <tr>
                             <td>{{ $item->library_sup[$x]->name }}</td>
-                            <td class="text-center">{{ count($item->library_sup[$x]->library_user) }}</td>
+                            <td class="text-center">{{ count($item->library_sup[$x]->library_user->where('internal_role_id',$role_id)) }}</td>
                             <td class="text-center">{{ count($item->library_sup[$x]->library_pemeliharaan) }}</td>
 
 
