@@ -73,10 +73,10 @@ Rekap Data Entry
                     @php
                     if($item->id == 1){
                         $role = 'Mandor - UPTD 1';
-                        $role_id = 91;
+                        $role_id = 52;
                     }else if($item->id == 2){
                         $role = 'Mandor - UPTD 2';
-                        $role_id = 52;
+                        $role_id = 91;
                     }else if($item->id == 3){
                         $role = 'Mandor - UPTD 3';
                         $role_id = 61;
