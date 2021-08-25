@@ -474,7 +474,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('delete/{id}', 'InputData\BantuanKeuanganController@destroy');
             Route::get('get_ruas_jalan_by_geo_id/{id}', 'InputData\BantuanKeuanganController@getRuasJalanByGeoId')->name('getRuasJalanByGeoId');
             Route::prefix('progres')->group(function () {
-                Route::get('/', 'InputData\BantuanKeuanganController@progres_index');
+                Route::get('/', 'InputData\BantuanKeuanganController@progres_index')->name('bankeu.progres');
+                Route::get('/verifikasi/{id}/{target}', 'InputData\BantuanKeuanganController@progres_verifikasi')->name('bankeu.verifikasi');
+                Route::post('/verifikasi/{id}/{target}/edit', 'InputData\BantuanKeuanganController@progres_verifikasi_update')->name('bankeu.verifikasi.update');
             });
         });
         Route::resource('bankeu', 'InputData\BantuanKeuanganController');
@@ -493,7 +495,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         // Route::get('/add', 'LaporController@create')->name('addLapor');
         // Route::get('edit/{id}', 'LaporController@edit')->name('editLapor');
         // Route::post('/create', 'LaporController@store')->name('createLapor');
-        // Route::post('update', 'LaporController@update')->name('updateLapor');
+        Route::get('update/{no_aduan}/{status}', 'LaporController@update_jqr')->name('updateLaporJQR');
         // Route::get('delete/{id}', 'LaporController@delete')->name('deleteLapor');
         Route::get('json', 'LaporController@json')->name('getJsonLapor');
 

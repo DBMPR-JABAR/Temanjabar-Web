@@ -19,10 +19,10 @@ class LandingController extends Controller
         $uptd_role = setAccessBuilder('UPTD', ['createUPTD'], ['getUPTD'], ['editUPTD', 'updateUPTD'], ['deleteUPTD']);
         $laporan = setAccessBuilder('Input Laporan', ['addLaporanMasyarakat'], [], [], []);
         $daftar_laporan = setAccessBuilder('Daftar Laporan', ['createLaporanMasyarakat'], ['addLaporanMasyarakat'], ['editLaporanMasyarakat', 'updateLaporanMasyaraka'], ['deleteLaporanMasyarakat']);
-        $slideshow = setAccessBuilder('Slideshow', ['createSlideshow'], ['getSlideshow'], ['editSlideshow','updateSlideshow'], ['deleteSlideshow']);
-        $profil = setAccessBuilder('Profil WEB',[],['getProfil'],['updateProfil'],[]);
-        $fitur = setAccessBuilder('Fitur',['createFitur'],['getFitur'],['editFitur','updateFitur'],['deleteFitur']);
-        $pesan = setAccessBuilder('Pesan',[],['getPesan'],[],[]);
+        $slideshow = setAccessBuilder('Slideshow', ['createSlideshow'], ['getSlideshow'], ['editSlideshow', 'updateSlideshow'], ['deleteSlideshow']);
+        $profil = setAccessBuilder('Profil WEB', [], ['getProfil'], ['updateProfil'], []);
+        $fitur = setAccessBuilder('Fitur', ['createFitur'], ['getFitur'], ['editFitur', 'updateFitur'], ['deleteFitur']);
+        $pesan = setAccessBuilder('Pesan', [], ['getPesan'], [], []);
         $roles = array_merge($roles, $uptd_role);
         $roles = array_merge($roles, $laporan);
         $roles = array_merge($roles, $daftar_laporan);
@@ -437,34 +437,39 @@ class LandingController extends Controller
         DB::table('monitoring_laporan_masyarakat')->where('id', $req->id)->update($data);
         $title = "Perubahan status laporan.";
         $body = "Status laporan kamu saat ini berubah menjadi : " . $req->status;
-        $userPelapor = DB::table("users")->where('email', $req->email)->first()->id;
+        $userPelapor = DB::table("users")->where('email', $req->email)->first();
         //dd($userPelapor);
-        $users = [$userPelapor];
-        //$usersToken = DB::table('user_push_notification')->whereIn('user_id', $users)->pluck('device_token')->get();
-        //dd($usersToken);
+        if ($userPelapor) {
+            $users = [$userPelapor->id];
+            //$usersToken = DB::table('user_push_notification')->whereIn('user_id', $users)->pluck('device_token')->get();
+            //dd($usersToken);
 
-        sendNotification($users, $title, $body);
+            sendNotification($users, $title, $body);
+        }
         $color = "success";
         $msg = "Berhasil Menambah Data Laporan Masyarakat";
         return redirect(url('admin/lapor'))->with(compact('color', 'msg'));
 
         // return back()->with(compact('color', 'msg'));
     }
-    public function labkon(){
+    public function labkon()
+    {
         $data = DB::table('labkon_posts')->get();
-        
-        return view('landing.uptd.labkon',compact('data'));
+
+        return view('landing.uptd.labkon', compact('data'));
     }
-    public function createpost(){
+    public function createpost()
+    {
         return view('landing.uptd.lab.posts');
     }
-    public function storepost(Request $request){
+    public function storepost(Request $request)
+    {
         // dd($request->cover);
-        $this->validate($request,[
+        $this->validate($request, [
             'title'         => 'required|unique:labkon_posts',
             'content'       => 'required',
             'image'       => '',
-            'category'      =>''
+            'category'      => ''
         ]);
         $posting = [
             'title'       => $request->input('title'),
@@ -478,5 +483,4 @@ class LandingController extends Controller
         DB::table('labkon_posts')->insert($posting);
         return back();
     }
-
 }
