@@ -99,7 +99,7 @@
                                                 <input name="tanggal_akhir" type="date" class="form-control form-control-primary" value="{{ @$filter['tanggal_akhir'] }}">
                                             </div>
                                             
-                                            <input name="filter" value="true" style="display: none" />
+                                            {{-- <input name="filter" value="true" style="display: none" /> --}}
 
                                             <div class="mt-3 col-sm-12 col-xl-2">
                                                 <button type="submit"
@@ -131,7 +131,8 @@
                 <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
                 @endif
                 @if (!str_contains(Auth::user()->internalRole->role,'Mandor'))
-                    <a href="{{ route('LaporanPekerjaan') }}" class="btn btn-mat btn-success mb-3">Cetak Laporan</a>
+                    <a href="{{ route('LaporanPekerjaan') }}" class="btn btn-mat btn-success mb-3">Cetak BHS</a>
+                    <a href="{{ route('LaporanRekapEntry') }}" class="btn btn-mat btn-success mb-3">Cetak Rekap Entry</a>
                 @endif
                 <div class="dt-responsive table-responsive">
                     <table id="dttable"  class="table table-striped table-bordered able-responsive">
@@ -140,7 +141,6 @@
                                 <th>No</th>
                                 <th>Kode Laporan</th>
                                 <th>Tanggal</th>
-
                                 <th>Nama Mandor</th>
                                 <th>SUP</th>
                                 <th>Ruas Jalan</th>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\InputData;
 
 use App\User;
+use App\Model\Transactional\UPTD;
 use App\Http\Controllers\Controller;
 // use App\Model\DWH\RawanBencana;
 use Illuminate\Http\Request;
@@ -1182,6 +1183,13 @@ class PekerjaanController extends Controller
             // dd($get_kd->kd_sup);
         }
         return view('admin.input.pekerjaan.laporan-pekerjaan');
+    }
+    public function laporanEntry(){
+        $data = UPTD::whereBetween('id',[1,6])->get();
+        // dd($data->library_sup->toArray());
+        
+
+        return view('pdf.laporan_summary_pekerjaan',compact('data'));
     }
     public function arrOne($var1,$var2,$var3){
         $arrOne = (object)[

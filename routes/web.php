@@ -405,6 +405,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('jugment/{id}', 'InputData\PekerjaanController@jugmentLaporan')->name('jugmentLaporanMandor');
 
             Route::get('laporan', 'InputData\PekerjaanController@laporanPekerjaan')->name('LaporanPekerjaan');
+            Route::get('laporan/entry', 'InputData\PekerjaanController@laporanEntry')->name('LaporanRekapEntry');
+            
             Route::post('laporan', 'InputData\PekerjaanController@generateLaporanPekerjaan')->name('generateLapPekerjaan');
 
 
