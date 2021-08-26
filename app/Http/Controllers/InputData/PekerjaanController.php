@@ -1186,8 +1186,12 @@ class PekerjaanController extends Controller
     }
     public function laporanEntry(Request $request){
         $data = UPTD::whereBetween('id',[1,6]);
-        if($request->uptd_filter != null){
-            $data= $data->where('id', $request->uptd_filter);
+        if($request->uptd_filter != null || Auth::user()->internalRole->uptd != null){
+            if(Auth::user()->internalRole->uptd != null){
+                $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+                $data= $data->where('id', $uptd_id);
+            }else
+                $data= $data->where('id', $request->uptd_filter);
         }
         $data = $data->get();
         // dd($data->library_sup->toArray());

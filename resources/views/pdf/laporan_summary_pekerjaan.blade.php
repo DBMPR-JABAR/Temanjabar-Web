@@ -25,6 +25,7 @@ Rekap Data Entry
     <div class="row">
         <div class="col-7 mt-2">
             <p class=" font-weight-bold">Periode : {{ $filter['tanggal_awal'] }} s/d {{ $filter['tanggal_akhir'] }} </p>
+
             <table class="table table-sm table-bordered" >
                 <thead>
                     <tr class="text-center">
