@@ -24,7 +24,7 @@ Rekap Data Entry
     
     <div class="row">
         <div class="col-7 mt-2">
-            <p class=" font-weight-bold">Periode :</p>
+            <p class=" font-weight-bold">Periode : {{ $filter['tanggal_awal'] }} s/d {{ $filter['tanggal_akhir'] }} </p>
             <table class="table table-sm table-bordered" >
                 <thead>
                     <tr class="text-center">
@@ -37,7 +37,7 @@ Rekap Data Entry
                     @foreach ($data as $no => $item)
                     <tr>
                         <td>{{ Str::limit($item->nama, 6, $end='') }}</td>  
-                        <td class="text-center">{{ count($item->library_pemeliharaan) }}</td> 
+                        <td class="text-center">{{ count($item->library_pemeliharaan->whereBetween('tanggal', [$filter['tanggal_awal'] , $filter['tanggal_akhir'] ])) }}</td> 
                         <td>
                             @if (count($item->library_pemeliharaan)>=1)
                             {{ $item->library_pemeliharaan()->orderBy('tglreal','desc')->first()->tglreal }}
@@ -96,9 +96,9 @@ Rekap Data Entry
                         <td class="align-middle" rowspan="{{ count($item->library_sup) }}">{{ Str::limit($item->nama, 6, $end='') }}</td>  
                         <td class="align-middle">{{ $item->library_sup[0]->name }}</td>
                         <td class="text-center">{{ count($item->library_sup[0]->library_user->where('internal_role_id',$role_id)) }}</td>
-                        <td class="text-center">{{ count($item->library_sup[0]->library_pemeliharaan) }}</td>
+                        <td class="text-center">{{ count($item->library_sup[0]->library_pemeliharaan->whereBetween('tanggal', [$filter['tanggal_awal'] , $filter['tanggal_akhir'] ])) }}</td>
                         
-                        <td  class="text-center align-middle" rowspan="{{ count($item->library_sup) }}">{{ count($item->library_pemeliharaan) }}</td> 
+                        <td  class="text-center align-middle" rowspan="{{ count($item->library_sup) }}">{{ count($item->library_pemeliharaan->whereBetween('tanggal', [$filter['tanggal_awal'] , $filter['tanggal_akhir'] ])) }}</td> 
                         <td class="align-middle" rowspan="{{ count($item->library_sup) }}">
                             @if (count($item->library_pemeliharaan)>=1)
                             {{ $item->library_pemeliharaan()->orderBy('tglreal','desc')->first()->tglreal }}
@@ -112,7 +112,7 @@ Rekap Data Entry
                         <tr>
                             <td>{{ $item->library_sup[$x]->name }}</td>
                             <td class="text-center">{{ count($item->library_sup[$x]->library_user->where('internal_role_id',$role_id)) }}</td>
-                            <td class="text-center">{{ count($item->library_sup[$x]->library_pemeliharaan) }}</td>
+                            <td class="text-center">{{ count($item->library_sup[$x]->library_pemeliharaan->whereBetween('tanggal', [$filter['tanggal_awal'] , $filter['tanggal_akhir'] ])) }}</td>
 
 
                         </tr>

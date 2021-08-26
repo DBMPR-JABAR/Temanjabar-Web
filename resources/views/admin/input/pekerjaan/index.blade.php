@@ -65,8 +65,7 @@
                             aria-labelledby="headingOne">
                             <div class="accordion-content accordion-desc">
                                 <div class="card-block w-100">
-                                    <form id="formFilter" action="{{ route('getDataPekerjaanTgl') }}" method="get"
-                                        enctype="multipart/form-data">
+                                    <form method="post" enctype="multipart/form-data">
                                         @csrf
                                         <div class="row col-12">
                                             @php
@@ -75,7 +74,7 @@
                                             @if (Auth::user()->internalRole->uptd == null)
                                             <div class="col-sm-12 col-xl-2">
                                                 <h4 class="sub-title">UPTD</h4>
-                                                <select class="form-control" style="width: 100%" name="uptd_filter" required>
+                                                <select class="form-control" style="width: 100%" name="uptd_filter">
                                                     <option value="">Pilih Semua</option>
                                                     <option value="1" @if(@$filter['uptd_filter'] == 1 ) selected @endif>UPTD 1</option>
                                                     <option value="2" @if(@$filter['uptd_filter'] == 2 ) selected @endif>UPTD 2</option>
@@ -102,11 +101,12 @@
                                             {{-- <input name="filter" value="true" style="display: none" /> --}}
 
                                             <div class="mt-3 col-sm-12 col-xl-2">
-                                                <button type="submit"
-                                                    class="mt-4 btn btn-primary waves-effect waves-light">Filter</button>
+                                                {{-- <button type="submit" class="mt-4 btn btn-primary waves-effect waves-light">Filter</button> --}}
+                                                <button class="mt-4 btn btn-primary waves-effect waves-light" type="submit" formaction="{{ route('getDataPekerjaanTgl') }}">Filter</button>
+
                                             </div>
                                         </div>
-                                    </form>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -132,7 +132,11 @@
                 @endif
                 @if (!str_contains(Auth::user()->internalRole->role,'Mandor'))
                     <a href="{{ route('LaporanPekerjaan') }}" class="btn btn-mat btn-success mb-3">Cetak BHS</a>
-                    <a href="{{ route('LaporanRekapEntry') }}" class="btn btn-mat btn-success mb-3">Cetak Rekap Entry</a>
+                    
+                    {{-- <a href="{{ route('LaporanRekapEntry') }}" class="btn btn-mat btn-success mb-3">Cetak Rekap Entry</a> --}}
+                    <button class="btn btn-mat btn-success mb-3" type="submit" formaction="{{ route('LaporanRekapEntry') }}">Cetak Rekap Entry</button>
+
+                    </form>
                 @endif
                 <div class="dt-responsive table-responsive">
                     <table id="dttable"  class="table table-striped table-bordered able-responsive">

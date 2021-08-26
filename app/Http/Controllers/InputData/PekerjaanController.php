@@ -1184,12 +1184,19 @@ class PekerjaanController extends Controller
         }
         return view('admin.input.pekerjaan.laporan-pekerjaan');
     }
-    public function laporanEntry(){
-        $data = UPTD::whereBetween('id',[1,6])->get();
+    public function laporanEntry(Request $request){
+        $data = UPTD::whereBetween('id',[1,6]);
+        if($request->uptd_filter != null){
+            $data= $data->where('id', $request->uptd_filter);
+        }
+        $data = $data->get();
         // dd($data->library_sup->toArray());
-        
-
-        return view('pdf.laporan_summary_pekerjaan',compact('data'));
+        $filter=[
+            'tanggal_awal' => $request->tanggal_awal,
+            'tanggal_akhir' => $request->tanggal_akhir
+        ];
+        // dd($filter);
+        return view('pdf.laporan_summary_pekerjaan',compact('data','filter'));
     }
     public function arrOne($var1,$var2,$var3){
         $arrOne = (object)[
