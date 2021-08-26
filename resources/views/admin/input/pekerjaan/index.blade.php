@@ -281,7 +281,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{ $pekerjaan->withQueryString()->links() }}
+                    {{ $pekerjaan->withQueryString()->onEachSide(2)->links() }}
 
                 </div>
             </div>
