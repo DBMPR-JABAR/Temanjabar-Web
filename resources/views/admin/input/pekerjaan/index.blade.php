@@ -65,7 +65,7 @@
                             aria-labelledby="headingOne">
                             <div class="accordion-content accordion-desc">
                                 <div class="card-block w-100">
-                                    <form method="post" enctype="multipart/form-data">
+                                    <form  enctype="multipart/form-data">
                                         @csrf
                                         <div class="row col-12">
                                             @php
@@ -102,7 +102,7 @@
 
                                             <div class="mt-3 col-sm-12 col-xl-2">
                                                 {{-- <button type="submit" class="mt-4 btn btn-primary waves-effect waves-light">Filter</button> --}}
-                                                <button class="mt-4 btn btn-primary waves-effect waves-light" type="submit" formaction="{{ route('getDataPekerjaanTgl') }}">Filter</button>
+                                                <button class="mt-4 btn btn-primary waves-effect waves-light" type="submit" formmethod="get" formaction="{{ route('getDataPekerjaan') }}">Filter</button>
 
                                             </div>
                                         </div>
@@ -134,7 +134,7 @@
                     <a href="{{ route('LaporanPekerjaan') }}" class="btn btn-mat btn-success mb-3">Cetak BHS</a>
                     
                     {{-- <a href="{{ route('LaporanRekapEntry') }}" class="btn btn-mat btn-success mb-3">Cetak Rekap Entry</a> --}}
-                    <button class="btn btn-mat btn-success mb-3" type="submit" formaction="{{ route('LaporanRekapEntry') }}">Cetak Rekap Entry</button>
+                    <button class="btn btn-mat btn-success mb-3" formmethod="post" type="submit" formaction="{{ route('LaporanRekapEntry') }}">Cetak Rekap Entry</button>
 
                     </form>
                 @endif
@@ -281,7 +281,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{ $pekerjaan->links() }}
+                    {{ $pekerjaan->withQueryString()->links() }}
 
                 </div>
             </div>

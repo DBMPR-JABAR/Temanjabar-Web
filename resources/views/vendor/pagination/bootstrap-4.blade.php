@@ -29,7 +29,7 @@
                                 {{ $paginator->lastItem() }}    
                             </span></li>
                         @else
-                            <li class="page-item"><a class="page-link" href="{{ $url }}">
+                            <li class="page-item"><a class="page-link" href="{{$url }}">
                                 {{  $paginator->perPage() * $page - $paginator->perPage() + 1}} 
                                 {!! __('-') !!}
                                 {{  $paginator->perPage() * $page }}     
