@@ -387,7 +387,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::group(['prefix' => 'pekerjaan'], function () {
 
             Route::get('/', 'InputData\PekerjaanController@getData')->name('getDataPekerjaan');
-            Route::post('/', 'InputData\PekerjaanController@getData')->name('getDataPekerjaanTgl');
+            Route::post('/filter', 'InputData\PekerjaanController@getData')->name('getDataPekerjaanTgl');
 
             Route::get('edit/{id}', 'InputData\PekerjaanController@editData')->name('editDataPekerjaan');
             Route::get('status/{id}', 'InputData\PekerjaanController@statusData')->name('detailStatusPekerjaan');
