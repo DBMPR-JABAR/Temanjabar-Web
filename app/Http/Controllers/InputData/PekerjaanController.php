@@ -339,12 +339,9 @@ class PekerjaanController extends Controller
     {
        
        
-        if($request->tanggal_awal != null){
-            $filter['tanggal_awal']=  Carbon::createFromFormat('Y-m-d', $request->tanggal_awal)->format('Y-m-d');
-        }
-        if($request->tanggal_akhir != null){
-            $filter['tanggal_akhir']=  Carbon::createFromFormat('Y-m-d', $request->tanggal_akhir)->format('Y-m-d');
-        }
+        $filter['tanggal_awal']=  Carbon::createFromFormat('Y-m-d', $request->tanggal_awal)->format('Y-m-d');
+        $filter['tanggal_akhir']=  Carbon::createFromFormat('Y-m-d', $request->tanggal_akhir)->format('Y-m-d');
+        
         // dd($filter);
         if( Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor')||str_contains(Auth::user()->internalRole->role,'Pengamat') || str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') ){
             if(!Auth::user()->sup_id || !Auth::user()->internalRole->uptd ){
