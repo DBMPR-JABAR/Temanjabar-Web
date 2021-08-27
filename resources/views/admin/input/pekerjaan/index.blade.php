@@ -136,8 +136,8 @@
                     {{-- <a href="{{ route('LaporanRekapEntry') }}" class="btn btn-mat btn-success mb-3">Cetak Rekap Entry</a> --}}
                     <button class="btn btn-mat btn-success mb-3" formmethod="post" type="submit" formaction="{{ route('LaporanRekapEntry') }}">Cetak Rekap Entry</button>
 
-                    </form>
-                @endif
+                    @endif
+                </form>
                 <div class="dt-responsive table-responsive">
                     <table id="dttable"  class="table table-striped table-bordered able-responsive">
                         <thead>
@@ -640,7 +640,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary waves-effect waves-light " formmethod="post" formaction="{{ route('createDataPekerjaan') }}">Simpan</button>
+                        <button type="submit" class="btn btn-primary waves-effect waves-light " >Simpan</button>
                     </div>
 
                 </form>
