@@ -640,7 +640,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary waves-effect waves-light ">Simpan</button>
+                        <button type="submit" class="btn btn-primary waves-effect waves-light " formmethod="post" formaction="{{ route('createDataPekerjaan') }}">Simpan</button>
                     </div>
 
                 </form>

@@ -414,7 +414,7 @@ class PekerjaanController extends Controller
     public function createData(Request $req)
     {
         
-        $pekerjaan = $req->except(['_token']);
+        $pekerjaan = $req->except(['_token','tanggal_awal','tanggal_akhir','uptd_filter']);
         // dd($pekerjaan);
         $pekerjaan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
         if($pekerjaan['uptd_id'])
