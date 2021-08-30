@@ -14,13 +14,24 @@ class RumijaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $rumija = DB::table('rumija')
             ->leftJoin('landing_uptd', 'landing_uptd.id', 'rumija.uptd')
-            ->select('rumija.*','landing_uptd.nama as uptd_name')
-            ->get();
-        return view('admin.input_data.rumija.index', compact('rumija'));
+            ->select('rumija.*', 'landing_uptd.nama as uptd_name');
+
+        $filter = null;
+
+        if ($request->filter) {
+            $filter = (object)[
+                "uptd" => $request->uptd,
+            ];
+            $rumija = $rumija->where('rumija.uptd',$request->uptd);
+        }
+
+        $rumija = $rumija->get();
+        $uptd = DB::table('landing_uptd')->get();
+        return view('admin.input_data.rumija.index', compact('rumija','filter','uptd'));
     }
 
     /**

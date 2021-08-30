@@ -126,6 +126,19 @@
                             </div>
                         </div>
 
+
+                        <div class=" form-group row">
+                            <label class="col-md-4 col-form-label">KM</label>
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <input name="km" value="{{@$rumija->km}}" type="text" placeholder=""
+                                            class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class=" form-group row">
                             <label class="col-md-4 col-form-label">Kab/Kota</label>
                             <div class="col-md-8">
@@ -245,7 +258,7 @@
                             <div class="col-md-5">
                                 <div id="video_yt_frame_container"
                                     style="min-height: 40px;@if(@$rumija->video_yt) height:350px @endif"
-                                    class="embed-responsive border">
+                                    class="border embed-responsive">
                                     <iframe id="video_yt_frame" class="embed-responsive-item"
                                         src="{{@$rumija->video_yt}}"></iframe>
                                 </div>
