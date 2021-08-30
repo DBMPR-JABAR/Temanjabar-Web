@@ -26,7 +26,7 @@ class RumijaController extends Controller
             $filter = (object)[
                 "uptd" => $request->uptd,
             ];
-            $rumija = $rumija->where('rumija.uptd',$request->uptd);
+           if($request->uptd != 'ALL')  $rumija = $rumija->where('rumija.uptd',$request->uptd);
         }
 
         $rumija = $rumija->get();

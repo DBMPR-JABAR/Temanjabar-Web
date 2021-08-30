@@ -61,6 +61,7 @@ table.table-bordered tbody td {
                                                 <h4 class="sub-title">UPTD</h4>
                                                 <select required name="uptd" id="filterUPTD" name="select"
                                                     class="form-control form-control-primary">
+                                                    <option value="ALL">Semua </option>
                                                     @foreach ($uptd as $row)
                                                     <option value="{{$row->id}}"
                                                         {{$row->id == @$filter->uptd ? 'selected':''}}>{{$row->nama}}
