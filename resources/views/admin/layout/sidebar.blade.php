@@ -290,20 +290,19 @@
                             {{-- <span class="pcoded-badge label label-warning">NEW</span> --}}
                         </a>
                         <ul class="pcoded-submenu">
+                            @if (hasAccess(Auth::user()->internal_role_id, 'Pekerjaan', 'View'))
                             <li
                                 class=" pcoded-hasmenu  {{ Request::segment(3) == 'pekerjaan' || Request::segment(3) == 'kondisi_jalan' || Request::segment(3) == 'survei_kondisi_jalan' || Request::segment(3) == 'mandor' ? 'pcoded-trigger active' : '' }}">
                                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                                     <span class="pcoded-mtext">Pemeliharaan</span>
                                 </a>
                                 <ul class="pcoded-submenu">
-                                    @if (hasAccess(Auth::user()->internal_role_id, 'Pekerjaan', 'View'))
                                         <li class="{{ Request::segment(3) == 'pekerjaan' ? 'active' : '' }}">
                                             <a href="{{ url('admin/input-data/pekerjaan') }}"
                                                 class="waves-effect waves-dark">
                                                 <span class="pcoded-mtext">Pekerjaan</span>
                                             </a>
                                         </li>
-                                    @endif
                                     @if (hasAccess(Auth::user()->internal_role_id, 'Kondisi Jalan', 'View'))
                                         <li class="{{ Request::segment(3) == 'kondisi_jalan' ? 'active' : '' }}">
                                             <a href="{{ url('admin/input-data/kondisi_jalan') }}"
@@ -331,6 +330,8 @@
                                     @endif
                                 </ul>
                             </li>
+                            @endif
+
                             @if (hasAccess(Auth::user()->internal_role_id, 'Data Paket', 'View') || hasAccess(Auth::user()->internal_role_id, 'Progress Kerja', 'View') || hasAccess(Auth::user()->internal_role_id, 'Bantuan Keuangan', 'View'))
 
                             <li class=" pcoded-hasmenu  {{ Request::segment(3) == 'data-paket' || Request::segment(3) == 'bankeu' ? 'pcoded-trigger active' : '' }}">
