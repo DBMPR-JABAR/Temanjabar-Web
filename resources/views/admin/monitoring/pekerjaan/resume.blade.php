@@ -92,6 +92,7 @@
                                                 <h4 class="sub-title">SUP</h4>
                                                 <select required name="sup" id="filterSUP" name="select"
                                                     class="form-control form-control-primary">
+                                                    <option value="ALL" {{@$filter->sup == "ALL" ? 'selected' : ''}}>Semua SUP</option>
                                                     @foreach ($sup as $row)
                                                     @if ($row->uptd_id == (@$filter->uptd ?$filter->uptd: 1))
                                                     <option value="{{$row->id}}"
@@ -235,7 +236,7 @@
             console.log(event)
             const filterSup = sup.filter(data=>data.uptd_id == event.target.value)
             console.log(filterSup)
-            let html = ""
+            let html = `<option value="ALL">Semua SUP</option>`
             filterSup.forEach(data=>{
                 html += `<option value="${data.id}">${data.name}</option>`
             })

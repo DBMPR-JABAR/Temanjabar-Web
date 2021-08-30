@@ -232,7 +232,7 @@ class="form-control" placeholder="" required {{@$access ? '': 'readonly'}}>
 @if(hasAccess(Auth::user()->internal_role_id,
 'Verifikasi Bantuan Keuangan', 'Update'))
 <fieldset class="form-group row">
-    <legend class="col-form-label col-sm-2 float-sm-left pt-0">Terealisasi ?</legend>
+    <legend class="col-form-label col-sm-2 float-sm-left pt-0">Apakah kegiatan ini akan direalisasikan?</legend>
     <div class="col-sm-8">
         <div class="form-check-inline">
             <input class="form-check-input" type="radio" name="is_verified" id="gridRadios1" value="1"
@@ -276,8 +276,7 @@ class="form-control" placeholder="" required {{@$access ? '': 'readonly'}}>
 
 
     <div class=" form-group row">
-        <label class="col-md-4 col-form-label">No Kontrak dan Tanggal Kontrak
-            (Rp)</label>
+        <label class="col-md-4 col-form-label">No Kontrak dan Tanggal Kontrak</label>
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-6">
@@ -545,6 +544,8 @@ const access = @json($access)
 const action = @json($action)
 
 const progressBefore = `{{ @$bankeu->progress }}`;
+
+const verified_access = @json($verified_access)
 
 </script>
 <script type="text/javascript" src="{{ asset('assets/js/bankeu.js') }}"></script>

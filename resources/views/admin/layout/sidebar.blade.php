@@ -355,18 +355,18 @@
                                         </li>
                                     @endif
                                     @if (hasAccess(Auth::user()->internal_role_id, 'Bantuan Keuangan', 'View'))
-                                    <li class="{{ Request::segment(3) == 'bankeu' ? 'active' : '' }}">
+                                    <li class="{{ Request::segment(3).Request::segment(4) == 'bankeu' ? 'active' : '' }}">
                                         <a href="{{ url('admin/input-data/bankeu') }}"
                                             class="waves-effect waves-dark">
                                             <span class="pcoded-mtext">Bantuan Keuangan</span>
                                         </a>
                                     </li>
                                     @endif
-                                    @if (hasAccess(Auth::user()->internal_role_id, 'Progres Bantuan Keuangan', 'View'))
-                                    <li class="{{ Request::segment(3) == 'bankeu' ? 'active' : '' }}">
+                                    @if (hasAccess(Auth::user()->internal_role_id, 'Laporan Bantuan Keuangan', 'View'))
+                                    <li class="{{ Request::segment(3).Request::segment(4) == 'bankeuprogres' ? 'active' : '' }}">
                                         <a href="{{ url('admin/input-data/bankeu/progres') }}"
                                             class="waves-effect waves-dark">
-                                            <span class="pcoded-mtext">Progres Bantuan Keuangan</span>
+                                            <span class="pcoded-mtext">Laporan BanKeu</span>
                                         </a>
                                     </li>
                                     @endif

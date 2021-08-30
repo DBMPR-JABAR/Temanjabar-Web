@@ -47,6 +47,246 @@
 
 @section('page-body')
 <div class="row">
+    
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-block accordion-block">
+                <div id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="accordion-panel">
+                        <div class="accordion-heading" role="tab" id="headingOne">
+                            <h3 class="card-title accordion-title">
+                                <a class="accordion-msg" data-toggle="collapse" data-parent="#accordion"
+                                    href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Filter
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse in show" role="tabpanel"
+                            aria-labelledby="headingOne">
+                            <div class="accordion-content accordion-desc">
+                                <div class="card-block w-100">
+                                    <form  enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="row col-12">
+                                            @php
+                                                $grid = 5;
+                                            @endphp
+                                            @if (Auth::user()->internalRole->uptd == null)
+                                            <div class="col-sm-12 col-xl-2">
+                                                <h4 class="sub-title">UPTD</h4>
+                                                <select class="form-control" style="width: 100%" name="uptd_filter">
+                                                    <option value="">Pilih Semua</option>
+                                                    <option value="1" @if(@$filter['uptd_filter'] == 1 ) selected @endif>UPTD 1</option>
+                                                    <option value="2" @if(@$filter['uptd_filter'] == 2 ) selected @endif>UPTD 2</option>
+                                                    <option value="3" @if(@$filter['uptd_filter'] == 3 ) selected @endif>UPTD 3</option>
+                                                    <option value="4" @if(@$filter['uptd_filter'] == 4 ) selected @endif>UPTD 4</option>
+                                                    <option value="5" @if(@$filter['uptd_filter'] == 5 ) selected @endif>UPTD 5</option>
+                                                    <option value="6" @if(@$filter['uptd_filter'] == 6 ) selected @endif>UPTD 6</option>
+                                                </select>
+                                            </div>
+                                            @php
+                                                $grid = 4;
+                                            @endphp
+                                            @endif
+                                            <div class="col-sm-12 col-xl-{{ $grid }} col-md-{{ $grid }} ">
+                                                <h4 class="sub-title">Tanggal Awal</h4>
+                                                <input required name="tanggal_awal" type="date"
+                                                    class="form-control form-control-primary" value="{{ @$filter['tanggal_awal'] }}">
+                                            </div>
+                                            <div class="col-sm-12 col-xl-{{ $grid }} col-md-{{ $grid }}">
+                                                <h4 class="sub-title">Tanggal Akhir</h4>
+                                                <input name="tanggal_akhir" type="date" class="form-control form-control-primary" value="{{ @$filter['tanggal_akhir'] }}">
+                                            </div>
+                                            
+                                            {{-- <input name="filter" value="true" style="display: none" /> --}}
+
+                                            <div class="mt-3 col-sm-12 col-xl-2">
+                                                {{-- <button type="submit" class="mt-4 btn btn-primary waves-effect waves-light">Filter</button> --}}
+                                                <button class="mt-4 btn btn-primary waves-effect waves-light" type="submit" formmethod="get" formaction="{{ route('getDataPekerjaan') }}">Filter</button>
+
+                                            </div>
+                                        </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 id="tbltitle">Tabel Pekerjaan</h5>
+                <div class="card-header-right">
+                    <ul class="list-unstyled card-option">
+                        {{-- <li><i class="feather icon-maximize full-card"></i></li> --}}
+                        <li><i class="feather icon-minus minimize-card"></i></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-block">
+                @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Create"))
+                <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
+                @endif
+                @if (!str_contains(Auth::user()->internalRole->role,'Mandor'))
+                    <a href="{{ route('LaporanPekerjaan') }}" class="btn btn-mat btn-success mb-3">Cetak BHS</a>
+                    
+                    {{-- <a href="{{ route('LaporanRekapEntry') }}" class="btn btn-mat btn-success mb-3">Cetak Rekap Entry</a> --}}
+                    <button class="btn btn-mat btn-success mb-3" formmethod="post" type="submit" formaction="{{ route('LaporanRekapEntry') }}">Cetak Rekap Entry</button>
+
+                    @endif
+                </form>
+                <div class="dt-responsive table-responsive">
+                    <table id="dttable"  class="table table-striped table-bordered able-responsive">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Kode Laporan</th>
+                                <th>Tanggal</th>
+                                <th>Nama Mandor</th>
+                                <th>SUP</th>
+                                <th>Ruas Jalan</th>
+                                <th>Jenis Pekerjaan</th>
+                                <th>Lokasi</th>
+                                <th>Panjang (meter)</th>
+                                <th>Perkiraan Kuantitas</th>
+                                {{-- <th>Foto (0%)</th>
+                                <th>Foto (50%)</th>
+                                <th>Foto (100%)</th>
+                                <th>Video</th> --}}
+                                <th>Status</th>
+
+                                <th style="min-width: 190px;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyJembatan">
+                            @php
+                                $nomber = $pekerjaan->firstItem();
+                            @endphp
+                            @foreach ($pekerjaan as $no => $data)
+                                {{-- @if(Auth::user() && Auth::user()->internalRole->uptd && Auth::user()->sup_id && count(Auth::user()->ruas)>0)
+                                    @if(in_array($data->ruas_jalan_id,array_column( Auth::user()->ruas->toArray(), 'id_ruas_jalan')))
+                                    @include('admin.input.pekerjaan.alldata')
+                                    @php
+                                    ++$nomber;
+                                    @endphp
+                                    @endif
+                                @else
+                                    @include('admin.input.pekerjaan.alldata')
+                                    @php
+                                    ++$nomber;
+                                    @endphp
+                                @endif --}}
+                                <tr>
+                                    <td>{{$nomber++}}</td>
+                                    <td>{{$data->id_pek}}</td>
+                                    <td>{{$data->tanggal}}</td>
+                                    <td>{{$data->nama_mandor}}</td>
+                                    <td>{{$data->sup}}</td>
+                                    <td>{{$data->ruas_jalan}}</td>
+                                    <td>{{$data->jenis_pekerjaan}}</td>
+                                    <td>{{$data->lokasi}}</td>
+                                    <td>{{@$data->panjang}}</td>
+                                    <td>{{@$data->perkiraan_kuantitas}}</td>
+                                    {{-- <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_awal) !!}" alt="" srcset=""></td>
+                                    <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_sedang) !!}" alt="" srcset=""></td>
+                                    <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_akhir) !!}" alt="" srcset=""></td>
+                                    <td><video width='150' height='100' controls> <source src="{!! url('storage/pekerjaan/'.$data->video) !!}" type='video/*' Sorry, your browser doesn't support the video element.></video></td> --}}
+                                    <td>@if($data->status)
+                                            @if(str_contains($data->status->status,'Submitted') ||str_contains($data->status->status,'Approved') || str_contains($data->status->status,'Rejected')|| str_contains($data->status->status,'Edited') )
+                                                @if(str_contains($data->status->status,'Approved') )
+                                                    <button type="button" class="btn btn-mini btn-primary " disabled> {{$data->status->status}}</button>
+                                                @elseif(str_contains($data->status->status,'Rejected') )
+                                                    <button type="button" class="btn btn-mini btn-danger " disabled> {{$data->status->status}}</button>
+                                                @elseif(str_contains($data->status->status,'Submitted') )
+                                                    <button type="button" class="btn btn-mini btn-success waves-effect" disabled> {{$data->status->status}}</button>
+                                
+                                
+                                                @else
+                                                    <button type="button" class="btn btn-mini btn-warning " disabled> {{$data->status->status}}</button>
+                                                @endif
+                                                <br>{{$data->status->jabatan}}<br>
+                                                <a href="{{ route('detailStatusPekerjaan',$data->id_pek) }}"><button type="button" class="btn btn-sm waves-effect waves-light " ><i class="icofont icofont-search"></i> Detail</button>
+                                            @else
+                                                @if($data->input_material)
+                                                    <button type="button" class="btn btn-mini btn-success waves-effect " disabled>Submitted</button>
+                                                @endif
+                                            @endif
+                                        @else
+                                            <a href="@if(str_contains(Auth::user()->internalRole->role,'Mandor')  || str_contains(Auth::user()->internalRole->role,'Pengamat')|| str_contains(Auth::user()->internalRole->role,'Admin')) {{ route('materialDataPekerjaan',$data->id_pek) }} @else # @endif">
+                                
+                                                <button type="button" class="btn btn-mini btn-warning waves-effect " @if(str_contains(Auth::user()->internalRole->role,'Mandor') || str_contains(Auth::user()->internalRole->role,'Pengamat') || str_contains(Auth::user()->internalRole->role,'Admin')) @else disabled @endif>Not Completed</button>
+                                            </a>
+                                            <br>
+                                            <i style="color :red; font-size: 10px;">Lengkapi material</i>
+                                        @endif
+                                    </td>
+                                
+                                    <td style="min-width: 170px;">
+                                
+                                        <div class="btn-group" role="group" data-placement="top" title="" data-original-title=".btn-xlg">
+                                            @if(Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor')||str_contains(Auth::user()->internalRole->role,'Admin')||(str_contains(Auth::user()->internalRole->role,'Pengamat')&& $data->status != null && (str_contains($data->status->status,'Rejected')|| str_contains($data->status->status,'Edited'))) && !str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan'))
+                                                @if(!$data->keterangan_status_lap ||str_contains($data->status->status,'Submitted')|| str_contains($data->status->status,'Rejected')|| (str_contains($data->status->status,'Edited')&&Auth::user()->id == $data->status->adjustment_user_id)||str_contains(Auth::user()->internalRole->role,'Admin'))
+                                                    @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
+                                                    <a href="{{ route('editDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i></button></a>
+                                                    <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Lengkapi Data"><i class="icofont icofont-list"></i></button></a>
+                                                    @endif
+                                                    @if(!$data->keterangan_status_lap ||str_contains(Auth::user()->internalRole->role,'Admin'))
+                                                        @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Delete"))
+                                                        <a href="#delModal" data-id="{{$data->id_pek}}" data-toggle="modal"><button class="btn btn-danger btn-sm waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
+                                                        @endif
+                                                    @endif
+                                                    {{-- @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
+                                                    <a href="#submitModal" data-id="{{$data->id_pek}}" data-toggle="modal"><button class="btn btn-success btn-sm waves-effect waves-light" data-toggle="tooltip" title="Submit"><i class="icofont icofont-check-circled"></i></button></a>
+                                                    @endif --}}
+                                                @elseif(str_contains(Auth::user()->internalRole->role,'Pengamat')&& $data->status != null && (str_contains($data->status->status,'Edited') && Auth::user()->id != $data->status->adjustment_user_id ))
+                                                    @if(Auth::user()->internal_role_id!=null && Auth::user()->internal_role_id ==$data->status->parent )
+                                                        @if(str_contains(Auth::user()->internalRole->role,'Pengamat') && Auth::user()->sup_id==$data->status->sup_id)
+                                                            <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Judgement"><i class="icofont icofont-pencil"></i>Judgement</button></a>
+                                                        @endif
+                                                    @endif
+                                                    @if(@$data->status->adjustment_user_id==Auth::user()->id )
+                                                        <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit Judgement"><i class="icofont icofont-pencil"></i>Edit Judgement</button></a>
+                                                    @endif
+                                                @endif
+                                            @else
+                                                @if($data->status)
+                                                    @if(Auth::user()->internal_role_id!=null && Auth::user()->internal_role_id ==$data->status->parent )
+                                                        @if(str_contains(Auth::user()->internalRole->role,'Pengamat') || (str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') && $data->status->status == "Approved" || $data->status->status =="Edited"|| $data->status->status =="Submitted") && Auth::user()->sup_id==$data->status->sup_id)
+                                                            <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Judgement"><i class="icofont icofont-pencil"></i>Judgement</button></a>
+                                                        @elseif(!str_contains(Auth::user()->internalRole->role,'Pengamat') && !str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') && $data->status->status == "Approved")
+                                                            <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Judgement"><i class="icofont icofont-pencil"></i>Judgement</button></a>
+                                                        @endif
+                                                    @endif
+                                                    @if(@$data->status->adjustment_user_id==Auth::user()->id && !str_contains($data->status->status,'Submitted'))
+                                                        <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit Judgement"><i class="icofont icofont-pencil"></i>Edit Judgement</button></a>
+                                                    @elseif(str_contains(Auth::user()->internalRole->role,'Pengamat') && str_contains($data->status->status,'Submitted')&& str_contains($data->status->jabatan,'Pengamat'))
+                                                        @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
+                                                        <a href="{{ route('editDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i></button></a>
+                                                        <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Lengkapi Data"><i class="icofont icofont-list"></i></button></a>
+                                                        @endif
+                                                            @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Delete"))
+                                                                <a href="#delModal" data-id="{{$data->id_pek}}" data-toggle="modal"><button class="btn btn-danger btn-sm waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
+                                                            @endif
+                                                    @endif
+                                                @endif
+                                            @endif
+                                            &nbsp;<a href="{{ route('detailPemeliharaan',$data->id_pek) }}"><button class="btn btn-success btn-sm waves-effect waves-light" data-toggle="tooltip" title="lihat"><i class="icofont icofont-search"></i></button></a>
+                                
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    {{ $pekerjaan->withQueryString()->onEachSide(2)->links() }}
+
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header">
@@ -207,219 +447,6 @@
                 </div>
 
 
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-block accordion-block">
-                <div id="accordion" role="tablist" aria-multiselectable="true">
-                    <div class="accordion-panel">
-                        <div class="accordion-heading" role="tab" id="headingOne">
-                            <h3 class="card-title accordion-title">
-                                <a class="accordion-msg" data-toggle="collapse" data-parent="#accordion"
-                                    href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    Filter
-                                </a>
-                            </h3>
-                        </div>
-                        <div id="collapseOne" class="panel-collapse collapse in show" role="tabpanel"
-                            aria-labelledby="headingOne">
-                            <div class="accordion-content accordion-desc">
-                                <div class="card-block w-100">
-                                    <form id="formFilter" action="{{ route('getDataPekerjaanTgl') }}" method="get"
-                                        enctype="multipart/form-data">
-                                        @csrf
-                                        <div class="row col-12">
-                                            <div class="col-sm-12 col-xl-5 ">
-                                                <h4 class="sub-title">Tanggal Awal</h4>
-                                                <input required name="tanggal_awal" type="date"
-                                                    class="form-control form-control-primary" value="{{ @$filter['tanggal_awal'] }}">
-                                            </div>
-                                            <div class="col-sm-12 col-xl-5">
-                                                <h4 class="sub-title">Tanggal Akhir</h4>
-                                                <input name="tanggal_akhir" type="date" class="form-control form-control-primary" value="{{ @$filter['tanggal_akhir'] }}">
-                                            </div>
-                                            <input name="filter" value="true" style="display: none" />
-
-                                            <div class="mt-3 col-sm-12 col-xl-2">
-                                                <button type="submit"
-                                                    class="mt-4 btn btn-primary waves-effect waves-light">Filter</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-12">
-        <div class="card">
-            <div class="card-header">
-                <h5 id="tbltitle">Tabel Pekerjaan</h5>
-                <div class="card-header-right">
-                    <ul class="list-unstyled card-option">
-                        {{-- <li><i class="feather icon-maximize full-card"></i></li> --}}
-                        <li><i class="feather icon-minus minimize-card"></i></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="card-block">
-                @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Create"))
-                <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
-                @endif
-                @if (!str_contains(Auth::user()->internalRole->role,'Mandor'))
-                    <a href="{{ route('LaporanPekerjaan') }}" class="btn btn-mat btn-success mb-3">Cetak Laporan</a>
-                @endif
-                <div class="dt-responsive table-responsive">
-                    <table id="dttable"  class="table table-striped table-bordered able-responsive">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Kode Laporan</th>
-                                <th>Nama Mandor</th>
-                                <th>SUP</th>
-                                <th>Ruas Jalan</th>
-                                <th>Jenis Pekerjaan</th>
-                                <th>Lokasi</th>
-                                <th>Panjang (meter)</th>
-                                <th>Perkiraan Kuantitas</th>
-                                {{-- <th>Foto (0%)</th>
-                                <th>Foto (50%)</th>
-                                <th>Foto (100%)</th>
-                                <th>Video</th> --}}
-                                <th>Tanggal</th>
-                                <th>Status</th>
-
-                                <th style="min-width: 190px;">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="bodyJembatan">
-                            @php
-                                $nomber = $pekerjaan->firstItem();
-                            @endphp
-                            @foreach ($pekerjaan as $no => $data)
-                                {{-- @if(Auth::user() && Auth::user()->internalRole->uptd && Auth::user()->sup_id && count(Auth::user()->ruas)>0)
-                                    @if(in_array($data->ruas_jalan_id,array_column( Auth::user()->ruas->toArray(), 'id_ruas_jalan')))
-                                    @include('admin.input.pekerjaan.alldata')
-                                    @php
-                                    ++$nomber;
-                                    @endphp
-                                    @endif
-                                @else
-                                    @include('admin.input.pekerjaan.alldata')
-                                    @php
-                                    ++$nomber;
-                                    @endphp
-                                @endif --}}
-                                <tr>
-                                    <td>{{$nomber++}}</td>
-                                    <td>{{$data->id_pek}}</td>
-                                    <td>{{$data->nama_mandor}}</td>
-                                    <td>{{$data->sup}}</td>
-                                    <td>{{$data->ruas_jalan}}</td>
-                                    <td>{{$data->jenis_pekerjaan}}</td>
-                                    <td>{{$data->lokasi}}</td>
-                                    <td>{{@$data->panjang}}</td>
-                                    <td>{{@$data->perkiraan_kuantitas}}</td>
-                                    {{-- <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_awal) !!}" alt="" srcset=""></td>
-                                    <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_sedang) !!}" alt="" srcset=""></td>
-                                    <td><img class="img-fluid" style="max-width: 100px" src="{!! url('storage/pekerjaan/'.$data->foto_akhir) !!}" alt="" srcset=""></td>
-                                    <td><video width='150' height='100' controls> <source src="{!! url('storage/pekerjaan/'.$data->video) !!}" type='video/*' Sorry, your browser doesn't support the video element.></video></td> --}}
-                                    <td>{{$data->tanggal}}</td>
-                                    <td>@if($data->status)
-                                            @if(str_contains($data->status->status,'Submitted') ||str_contains($data->status->status,'Approved') || str_contains($data->status->status,'Rejected')|| str_contains($data->status->status,'Edited') )
-                                                @if(str_contains($data->status->status,'Approved') )
-                                                    <button type="button" class="btn btn-mini btn-primary " disabled> {{$data->status->status}}</button>
-                                                @elseif(str_contains($data->status->status,'Rejected') )
-                                                    <button type="button" class="btn btn-mini btn-danger " disabled> {{$data->status->status}}</button>
-                                                @elseif(str_contains($data->status->status,'Submitted') )
-                                                    <button type="button" class="btn btn-mini btn-success waves-effect" disabled> {{$data->status->status}}</button>
-                                
-                                
-                                                @else
-                                                    <button type="button" class="btn btn-mini btn-warning " disabled> {{$data->status->status}}</button>
-                                                @endif
-                                                <br>{{$data->status->jabatan}}<br>
-                                                <a href="{{ route('detailStatusPekerjaan',$data->id_pek) }}"><button type="button" class="btn btn-sm waves-effect waves-light " ><i class="icofont icofont-search"></i> Detail</button>
-                                            @else
-                                                @if($data->input_material)
-                                                    <button type="button" class="btn btn-mini btn-success waves-effect " disabled>Submitted</button>
-                                                @endif
-                                            @endif
-                                        @else
-                                            <a href="@if(str_contains(Auth::user()->internalRole->role,'Mandor')  || str_contains(Auth::user()->internalRole->role,'Pengamat')|| str_contains(Auth::user()->internalRole->role,'Admin')) {{ route('materialDataPekerjaan',$data->id_pek) }} @else # @endif">
-                                
-                                                <button type="button" class="btn btn-mini btn-warning waves-effect " @if(str_contains(Auth::user()->internalRole->role,'Mandor') || str_contains(Auth::user()->internalRole->role,'Pengamat') || str_contains(Auth::user()->internalRole->role,'Admin')) @else disabled @endif>Not Completed</button>
-                                            </a>
-                                            <br>
-                                            <i style="color :red; font-size: 10px;">Lengkapi material</i>
-                                        @endif
-                                    </td>
-                                
-                                    <td style="min-width: 170px;">
-                                
-                                        <div class="btn-group" role="group" data-placement="top" title="" data-original-title=".btn-xlg">
-                                            @if(Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor')||str_contains(Auth::user()->internalRole->role,'Admin')||(str_contains(Auth::user()->internalRole->role,'Pengamat')&& $data->status != null && (str_contains($data->status->status,'Rejected')|| str_contains($data->status->status,'Edited'))) && !str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan'))
-                                                @if(!$data->keterangan_status_lap ||str_contains($data->status->status,'Submitted')|| str_contains($data->status->status,'Rejected')|| (str_contains($data->status->status,'Edited')&&Auth::user()->id == $data->status->adjustment_user_id)||str_contains(Auth::user()->internalRole->role,'Admin'))
-                                                    @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
-                                                    <a href="{{ route('editDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i></button></a>
-                                                    <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Lengkapi Data"><i class="icofont icofont-list"></i></button></a>
-                                                    @endif
-                                                    @if(!$data->keterangan_status_lap ||str_contains(Auth::user()->internalRole->role,'Admin'))
-                                                        @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Delete"))
-                                                        <a href="#delModal" data-id="{{$data->id_pek}}" data-toggle="modal"><button class="btn btn-danger btn-sm waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
-                                                        @endif
-                                                    @endif
-                                                    {{-- @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
-                                                    <a href="#submitModal" data-id="{{$data->id_pek}}" data-toggle="modal"><button class="btn btn-success btn-sm waves-effect waves-light" data-toggle="tooltip" title="Submit"><i class="icofont icofont-check-circled"></i></button></a>
-                                                    @endif --}}
-                                                @elseif(str_contains(Auth::user()->internalRole->role,'Pengamat')&& $data->status != null && (str_contains($data->status->status,'Edited') && Auth::user()->id != $data->status->adjustment_user_id ))
-                                                    @if(Auth::user()->internal_role_id!=null && Auth::user()->internal_role_id ==$data->status->parent )
-                                                        @if(str_contains(Auth::user()->internalRole->role,'Pengamat') && Auth::user()->sup_id==$data->status->sup_id)
-                                                            <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Judgement"><i class="icofont icofont-pencil"></i>Judgement</button></a>
-                                                        @endif
-                                                    @endif
-                                                    @if(@$data->status->adjustment_user_id==Auth::user()->id )
-                                                        <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit Judgement"><i class="icofont icofont-pencil"></i>Edit Judgement</button></a>
-                                                    @endif
-                                                @endif
-                                            @else
-                                                @if($data->status)
-                                                    @if(Auth::user()->internal_role_id!=null && Auth::user()->internal_role_id ==$data->status->parent )
-                                                        @if(str_contains(Auth::user()->internalRole->role,'Pengamat') || (str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') && $data->status->status == "Approved" || $data->status->status =="Edited"|| $data->status->status =="Submitted") && Auth::user()->sup_id==$data->status->sup_id)
-                                                            <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Judgement"><i class="icofont icofont-pencil"></i>Judgement</button></a>
-                                                        @elseif(!str_contains(Auth::user()->internalRole->role,'Pengamat') && !str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan') && $data->status->status == "Approved")
-                                                            <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Judgement"><i class="icofont icofont-pencil"></i>Judgement</button></a>
-                                                        @endif
-                                                    @endif
-                                                    @if(@$data->status->adjustment_user_id==Auth::user()->id && !str_contains($data->status->status,'Submitted'))
-                                                        <a href="{{ route('jugmentDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit Judgement"><i class="icofont icofont-pencil"></i>Edit Judgement</button></a>
-                                                    @elseif(str_contains(Auth::user()->internalRole->role,'Pengamat') && str_contains($data->status->status,'Submitted')&& str_contains($data->status->jabatan,'Pengamat'))
-                                                        @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Update"))
-                                                        <a href="{{ route('editDataPekerjaan',$data->id_pek) }}"><button class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="tooltip" title="Edit"><i class="icofont icofont-pencil"></i></button></a>
-                                                        <a href="{{ route('materialDataPekerjaan',$data->id_pek) }}"><button class="btn btn-warning btn-sm waves-effect waves-light" data-toggle="tooltip" title="Lengkapi Data"><i class="icofont icofont-list"></i></button></a>
-                                                        @endif
-                                                            @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Delete"))
-                                                                <a href="#delModal" data-id="{{$data->id_pek}}" data-toggle="modal"><button class="btn btn-danger btn-sm waves-effect waves-light" data-toggle="tooltip" title="Hapus"><i class="icofont icofont-trash"></i></button></a>
-                                                            @endif
-                                                    @endif
-                                                @endif
-                                            @endif
-                                            &nbsp;<a href="{{ route('detailPemeliharaan',$data->id_pek) }}"><button class="btn btn-success btn-sm waves-effect waves-light" data-toggle="tooltip" title="lihat"><i class="icofont icofont-search"></i></button></a>
-                                
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $pekerjaan->links() }}
-
-                </div>
             </div>
         </div>
     </div>
@@ -613,7 +640,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary waves-effect waves-light ">Simpan</button>
+                        <button type="submit" class="btn btn-primary waves-effect waves-light " >Simpan</button>
                     </div>
 
                 </form>

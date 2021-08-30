@@ -19,6 +19,11 @@ class BantuanKeuanganController extends Controller
         foreach ($roles as $role => $permission) {
             $this->middleware($role)->only($permission);
         }
+        $this->email_list_notifications =
+            DB::table('users')
+            ->leftJoin('master_grant_role_aplikasi', 'master_grant_role_aplikasi.internal_role_id', 'users.internal_role_id')
+            ->where('master_grant_role_aplikasi.menu', 'Laporan Bantuan Keuangan')
+            ->get();
     }
     /**
      * Display a listing of the resource.
@@ -63,8 +68,14 @@ class BantuanKeuanganController extends Controller
             'Bantuan Keuangan',
             'Create'
         );
+
+        $verified_access = hasAccess(
+            Auth::user()->internal_role_id,
+            'Verifikasi Bantuan Keuangan',
+            'Create'
+        );
         $action = 'store';
-        return view('admin.input_data.bankeu.pre', compact('action', 'ruas_jalan', 'kategori', 'penyedia_jasa', 'konsultan', 'ppk', 'kab_kota', 'access', 'users'));
+        return view('admin.input_data.bankeu.pre', compact('action', 'ruas_jalan', 'kategori', 'penyedia_jasa', 'konsultan', 'ppk', 'kab_kota', 'access', 'users','verified_access'));
     }
 
     /**
@@ -207,12 +218,18 @@ class BantuanKeuanganController extends Controller
             'Bantuan Keuangan',
             'Create'
         );
+
+        $verified_access = hasAccess(
+            Auth::user()->internal_role_id,
+            'Verifikasi Bantuan Keuangan',
+            'Create'
+        );
         $users = DB::table('users')->leftJoin('user_role', 'user_role.id', 'users.internal_role_id')->select(['users.name', 'user_role.role', 'users.id'])->get();
         $ditunjukan_untuk = explode('__', $bankeu->ditunjukan_untuk);
         $ruas_jalan_selected = DB::table('ruas_jalan_kabupaten_tarung')->select(['*'])->where('geo_id', $bankeu->geo_id)->first();
         $bankeu_progres = DB::table('bankeu_progres')->where('id_bankeu', $id)->get();
         $action = 'update';
-        return view('admin.input_data.bankeu.pre', compact('action', 'bankeu', 'kategori', 'penyedia_jasa', 'konsultan', 'ppk', 'ruas_jalan', 'kab_kota', 'bankeu_progres', 'access', 'ruas_jalan_selected', 'ditunjukan_untuk', 'users', 'bankeu_progres'));
+        return view('admin.input_data.bankeu.pre', compact('action', 'bankeu', 'kategori', 'penyedia_jasa', 'konsultan', 'ppk', 'ruas_jalan', 'kab_kota', 'bankeu_progres','verified_access', 'access', 'ruas_jalan_selected', 'ditunjukan_untuk', 'users', 'bankeu_progres'));
     }
 
     /**
@@ -275,8 +292,20 @@ class BantuanKeuanganController extends Controller
             $bankeu_progres['persentase'] = $request->input('persentase_target_' . $i);
             $old = DB::table('bankeu_progres')->where('id_bankeu', $id)->where('target', $i);
             if ($old->count() > 0) {
-                if ($update)
+                if ($update) {
+                    $bankeu_progres['is_verified'] = 0;
                     $old->update($bankeu_progres);
+                    $subject = 'Perbaharuan Laporan Progres Bantuan Keuangan';
+                    $view = 'mail.bankeu.laporan_new';
+                    // dd($this->email_list_notifications);
+                    foreach ($this->email_list_notifications as $user) {
+                        $data = [
+                            'to_name' => $user->name,
+                            'no_kontrak' => $request->no_kontrak,
+                        ];
+                        $this->send_email($user->email, $user->name, $subject, Auth::user()->email, Auth::user()->name, $view, $data);
+                    }
+                }
             } else DB::table('bankeu_progres')->insert($bankeu_progres);
             if ($i == $count) DB::table('bankeu')->where('id', $id)->update($bankeu);
         }
@@ -311,6 +340,7 @@ class BantuanKeuanganController extends Controller
 
             DB::table('bankeu_geo_json')->where('id_bankeu', $id)->update($geo_json);
         }
+
         $color = "success";
         $msg = "Berhasil Mengubah Data Bantuan Keuangan";
         return redirect(route('bankeu.index'))->with(compact('color', 'msg'));
@@ -342,10 +372,11 @@ class BantuanKeuanganController extends Controller
     private function send_email($to_email, $to_name, $subject, $form_email, $from_name, $view, $data)
     {
         try {
-            Mail::send($view, $data, function ($message) use ($to_name, $to_email, $subject, $form_email, $from_name) {
-                $message->to($to_email, $to_name)->subject($subject);
-                $message->from($form_email, $from_name);
-            });
+            // Mail::send($view, $data, function ($message) use ($to_name, $to_email, $subject, $form_email, $from_name) {
+            //     $message->to($to_email, $to_name)->subject($subject);
+            //     $message->from($form_email, $from_name);
+            // });
+            return true;
         } catch (Error $e) {
             $error = $e;
         }
@@ -353,7 +384,75 @@ class BantuanKeuanganController extends Controller
 
     public function progres_index()
     {
-        $bankeu_progres = DB::table('bankeu_progres')->leftJoin('bankeu','bankeu_progres.id_bankeu','bankeu.id')->get();
-        dd($bankeu_progres);
+        $bankeu_progres = DB::table('bankeu_progres')
+            ->rightJoin('bankeu', 'bankeu_progres.id_bankeu', 'bankeu.id')
+            ->where('bankeu_progres.is_verified', '>=', 0)
+            ->select([
+                'bankeu_progres.*',
+                'bankeu.no_kontrak',
+                'bankeu.tanggal_kontrak',
+                'bankeu.nama_kegiatan',
+                'bankeu.kategori',
+                'bankeu.progress',
+                'bankeu.id',
+                'bankeu.pembagian_progres'
+            ])
+            ->get();
+        // dd($bankeu_progres);
+
+        $bankeu = $bankeu_progres;
+        return view('admin.input_data.bankeu.progres.index', compact('bankeu'));
+    }
+
+    public function progres_verifikasi($id, $target)
+    {
+        $bankeu_progres = DB::table('bankeu_progres')
+            ->rightJoin('bankeu', 'bankeu_progres.id_bankeu', 'bankeu.id')
+            ->where('bankeu_progres.is_verified', '>=', 0)
+            ->where('bankeu_progres.id_bankeu', $id)
+            ->where('bankeu_progres.target', $target)
+            ->select([
+                'bankeu_progres.*',
+                'bankeu.no_kontrak',
+                'bankeu.tanggal_kontrak',
+                'bankeu.nama_kegiatan',
+                'bankeu.kategori',
+                'bankeu.progress',
+                'bankeu.id',
+                'bankeu.pembagian_progres'
+            ])
+            ->first();
+        // dd($bankeu_progres);
+
+        $bankeu = $bankeu_progres;
+        return view('admin.input_data.bankeu.progres.verifikasi', compact('bankeu'));
+    }
+
+    public function progres_verifikasi_update(Request $request, $id, $target)
+    {
+        // dd($request->all());
+        $bankeu_progres = $request->except('_token');
+        DB::table('bankeu_progres')->where('id_bankeu', $id)
+            ->where('target', $target)->update($bankeu_progres);
+        $bankeu = DB::table('bankeu')->where('id', $id)->first();
+        $ditunjukan_untuk = explode('__', $bankeu->ditunjukan_untuk);
+
+        $subject = 'Hasil tinjauan Laporan Progres Bantuan Keuangan';
+        $view = 'mail.bankeu.verifikasi';
+        // dd($ditunjukan_untuk);
+        foreach ($ditunjukan_untuk as $userId) {
+            // dd($userId);
+            $user = DB::table('users')->where('id', $userId)->first();
+            $data = [
+                'to_name' => $user->name,
+                'no_kontrak' => $bankeu->no_kontrak,
+                'is_verified' => $request->is_verified,
+                'catatan' => $request->catatan
+            ];
+            $this->send_email($user->email, $user->name, $subject, Auth::user()->email, Auth::user()->name, $view, $data);
+        }
+        $color = "success";
+        $msg = $request->is_verified == 1 ? 'Berhasil menyetujui laporan Bantuan Keuangan' : 'Berhasil menolak laporan Bantuan Keuangan';
+        return redirect(route('bankeu.progres'))->with(compact('color', 'msg'));
     }
 }

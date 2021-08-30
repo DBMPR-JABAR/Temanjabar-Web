@@ -14,7 +14,7 @@ class LaporController extends Controller
 {
     public function __construct()
     {
-        $roles = setAccessBuilder('Daftar Laporan',['create','store'],['index','json'],['edit','update'],['delete']);
+        $roles = setAccessBuilder('Daftar Laporan', ['create', 'store'], ['index', 'json'], ['edit', 'update'], ['delete']);
         foreach ($roles as $role => $permission) {
             $this->middleware($role)->only($permission);
         }
@@ -68,12 +68,12 @@ class LaporController extends Controller
         $ruasJalan = $ruasJalan->get();
         $uptd = DB::table('landing_uptd')->get();
         $status = array(
-                        array('id'=>'menunggu','name'=>'menunggu'),
-                        array('id'=>'Dalam proses','name'=>'Dalam proses'),
-                        array('id'=>'selesai','name'=>'selesai')
-                        );
+            array('id' => 'menunggu', 'name' => 'menunggu'),
+            array('id' => 'Dalam proses', 'name' => 'Dalam proses'),
+            array('id' => 'selesai', 'name' => 'selesai')
+        );
 
-        return view('admin.lapor.edit', compact('aduan', 'ruasJalan', 'uptd','status'));
+        return view('admin.lapor.edit', compact('aduan', 'ruasJalan', 'uptd', 'status'));
     }
 
 
@@ -130,11 +130,15 @@ class LaporController extends Controller
 
     public function json()
     {
-        return DataTables::of(DB::table('monitoring_laporan_masyarakat'))
+        $aduan = DB::table('monitoring_laporan_masyarakat');
+        // ->leftJoin('utils_jenis_laporan', 'utils_jenis_laporan.id', 'monitoring_laporan_masyarakat.jenis')
+        // ->select(['monitoring_laporan_masyarakat.*', 'utils_jenis_laporan.name as jenis']);
+        // dd($aduan->get());
+        return DataTables::of($aduan)
             ->addIndexColumn()
             ->addColumn('imglaporan', function ($row) {
-                $path_foto = explode('/',$row->gambar);
-                $img = '<img class="img-fluid" style="max-width: 100px" src="'.url('storage/'.$row->gambar).'"  alt="'.end($path_foto).'" />';
+                $path_foto = explode('/', $row->gambar);
+                $img = '<img class="img-fluid" style="max-width: 100px" src="' . url('storage/' . $row->gambar) . '"  alt="' . end($path_foto) . '" />';
                 return $img;
             })
             ->addColumn('action', function ($row) {
@@ -151,14 +155,87 @@ class LaporController extends Controller
 
                 // $btn = '<a href="javascript:void(0)" class="btn btn-primary">' . $row->id . '</a>';
 
+                if (strpos($row->nomorPengaduan, 'QR') !== false) {
+                    $btn = $btn . '<a href="#jqrModal" data-status_jqr="' . ($row->status_jqr ? $row->status_jqr : 1) . '" data-no_pengaduan="' . $row->nomorPengaduan . '" data-toggle="modal"><button data-toggle="tooltip" title="Status JQR" class="btn btn-success btn-sm waves-effect waves-light"><i class="icofont icofont-pen"></i></button></a>';
+                }
+
                 return $btn;
             })
-            ->rawColumns(['action','imglaporan'])
+            ->addColumn('jenis', function ($row) {
+                $jenis = DB::table('utils_jenis_laporan')->where('id', $row->jenis)->first();
+                return $jenis->name;
+            })
+            ->addColumn('status', function ($row) {
+                if (strpos($row->nomorPengaduan, 'QR') !== false) {
+                    $status = '';
+                    switch ($row->status_jqr) {
+                        case 2:
+                            $status = "Diverifikasi";
+                            break;
+                        case 3:
+                            $status = "Aduan Ditolak";
+                            break;
+                        case 4:
+                            $status = "Dalam Proses Survei";
+                            break;
+                        case 5:
+                            $status = "Dalam Rencana Tindakan";
+                            break;
+                        case 6:
+                            $status = "Dalam Proses Tindakan";
+                            break;
+                        case 7:
+                            $status = "Selesai";
+                            break;
+                        default:
+                            $status = 'Submitted';
+                    }
+                    return $status;
+                } else return $row->status;
+            })
+            ->rawColumns(['action', 'imglaporan', 'jenis'])
             ->make(true);
     }
 
     public function pemetaanLaporanMasyarakat()
     {
         return view('admin.lapor.maps');
+    }
+
+    public function update_jqr($no_aduan, $status)
+    {
+        $aduan['status_jqr'] = $status;
+        DB::table('monitoring_laporan_masyarakat')->where('nomorPengaduan', $no_aduan)->update($aduan);
+
+        // TODO LAPORAN API JQR
+        $msg = "Berhasil Memperbaharui Status Laporan. JQR : ";
+        if ($status > 1) {
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://jabarqr.id/api/update_aduan',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => array('no_aduan' => $no_aduan, 'status' => $status),
+                CURLOPT_HTTPHEADER => array(
+                    'Authorization: a9a9933ce440323accad1dd73900e85321d19bc8'
+                ),
+            ));
+
+            $response = (object)curl_exec($curl);
+
+            curl_close($curl);
+            $msgJQR = (object)json_decode($response->scalar)->Message;
+            // dd($msg->scalar);
+            $msg = $msg . ($msgJQR->scalar ? $msgJQR->scalar : '-');
+        }
+
+        $color = "success";
+        return redirect(route('getLapor'))->with(compact('color', 'msg'));
     }
 }

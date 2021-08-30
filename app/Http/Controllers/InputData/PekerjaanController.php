@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\InputData;
 
 use App\User;
+use App\Model\Transactional\UPTD;
 use App\Http\Controllers\Controller;
 // use App\Model\DWH\RawanBencana;
 use Illuminate\Http\Request;
@@ -118,7 +119,7 @@ class PekerjaanController extends Controller
         }
         $nama_kegiatan_pekerjaan = DB::table('utils_nama_kegiatan_pekerjaan')->get();
         $pekerjaan = DB::table('kemandoran');
-
+        
         $pekerjaan = $pekerjaan->leftJoin('master_ruas_jalan', 'master_ruas_jalan.id', '=', 'kemandoran.ruas_jalan')->select('kemandoran.*', 'master_ruas_jalan.nama_ruas_jalan');
         // $pekerjaan = $pekerjaan->leftJoin('kemandoran_detail_status', 'kemandoran.id_pek', '=','kemandoran_detail_status.id_pek')->select('kemandoran.*', 'master_ruas_jalan.nama_ruas_jalan','kemandoran_detail_status.*');
 
@@ -139,7 +140,12 @@ class PekerjaanController extends Controller
         
         $pekerjaan = $pekerjaan->whereBetween('tanggal', [$filter['tanggal_awal'] , $filter['tanggal_akhir'] ]);
         $pekerjaan = $pekerjaan->where('is_deleted', 0)->latest('tglreal');
-        $pekerjaan = $pekerjaan->paginate(1000);
+        // dd($request->uptd_filter);
+        if($request->uptd_filter !=null){
+            $pekerjaan = $pekerjaan->where('kemandoran.uptd_id', $request->uptd_filter);
+            $filter['uptd_filter'] =$request->uptd_filter;
+        } 
+        $pekerjaan = $pekerjaan->paginate(700);
         
         foreach($pekerjaan as $no =>$data){
             // echo "$data->id_pek<br>";
@@ -328,6 +334,7 @@ class PekerjaanController extends Controller
         $jenis_laporan_pekerjaan =DB::table('utils_jenis_laporan')->get();
         return view('admin.input.pekerjaan.index', compact('pekerjaan', 'ruas_jalan', 'sup', 'mandor',  'sum_report', 'nama_kegiatan_pekerjaan','jenis_laporan_pekerjaan','filter'));
     }
+
     public function statusData($id){
         $adjustment=DB::table('kemandoran_detail_status')
         ->Join('kemandoran','kemandoran.id_pek','=','kemandoran_detail_status.id_pek')->where('kemandoran_detail_status.id_pek',$id)
@@ -407,7 +414,7 @@ class PekerjaanController extends Controller
     public function createData(Request $req)
     {
         
-        $pekerjaan = $req->except(['_token']);
+        $pekerjaan = $req->except(['_token','tanggal_awal','tanggal_akhir','uptd_filter']);
         // dd($pekerjaan);
         $pekerjaan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
         if($pekerjaan['uptd_id'])
@@ -1177,6 +1184,24 @@ class PekerjaanController extends Controller
             // dd($get_kd->kd_sup);
         }
         return view('admin.input.pekerjaan.laporan-pekerjaan');
+    }
+    public function laporanEntry(Request $request){
+        $data = UPTD::whereBetween('id',[1,6]);
+        if($request->uptd_filter != null || Auth::user()->internalRole->uptd != null){
+            if(Auth::user()->internalRole->uptd != null){
+                $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+                $data= $data->where('id', $uptd_id);
+            }else
+                $data= $data->where('id', $request->uptd_filter);
+        }
+        $data = $data->get();
+        // dd($data->library_sup->toArray());
+        $filter=[
+            'tanggal_awal' => $request->tanggal_awal,
+            'tanggal_akhir' => $request->tanggal_akhir
+        ];
+        // dd($filter);
+        return view('pdf.laporan_summary_pekerjaan',compact('data','filter'));
     }
     public function arrOne($var1,$var2,$var3){
         $arrOne = (object)[
