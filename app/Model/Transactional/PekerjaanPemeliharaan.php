@@ -8,5 +8,6 @@ class PekerjaanPemeliharaan extends Model
 {
     //
     protected $table = "kemandoran";
+    protected $guarded = [];
 
 }

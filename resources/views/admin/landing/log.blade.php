@@ -47,24 +47,45 @@
             </div>
             <div class="card-block">
 
-                <table id="dttable" class="table table-bordered table-responsive">
+                <table id="dttable" class="table table-bordered table-responsive" >
                     <thead>
                         <tr>
+                            <th>No</th>
+                            @if(Request::segment(2) == 'log')
+                            <th>User</th>
+                            @endif
                             <th>Aktivitas</th>
+                            <th>Target</th>
+                            <th>Tanggal & Waktu</th>
                             <th>Deskripsi</th>
-                            <th>Timestamp</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach ($logs as $log)
-                        <tr>
+                    <tbody >
+                        <span style="color: rgb(220, 255, 220)"></span>
+                        @foreach ($logs as $no => $log)
+                        @php
+                            $color = '';
+                            if($log->status == 'error'){
+                                $color = 'rgb(255, 233, 233)';
+                            }else if($log->status == 'success'){
+                                $color = 'rgb(220, 255, 220)';
+                            }
+                        @endphp
+                        <tr style="background-color: {{ $color }}">
+                            <td>{{++$no}}</td>
+                            @if(Request::segment(2) == 'log')
+                            <td>{{@$log->user->email}}</td>
+                            @endif
                             <td>{{$log->activity}}</td>
-                            <td>{{$log->description}}</td>
+                            <td>{{$log->target}}</td>
                             <td>{{Carbon\Carbon::parse($log->created_at)->format('d/m/Y H:i')}}</td>
+                            <td>{{$log->description}}</td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
+                {{ $logs->withQueryString()->onEachSide(2)->links() }}
+
             </div>
         </div>
     </div>
@@ -80,7 +101,11 @@
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
 <script>
     $(document).ready(function () {
-        $("#dttable").DataTable();
+        $("#dttable").DataTable(
+            {
+                "bInfo" : false
+            }
+        );
     });
 </script>
 @endsection

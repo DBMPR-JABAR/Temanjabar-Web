@@ -57,9 +57,14 @@
                 </div>
             </div>
             <div class="card-block">
+                @if(Request::segment(5) == 'trash')
+                <a href="{{ route('getMasterUser') }}" class="btn btn-mat btn-primary mb-3">Kembali</a>
+                @else
                 <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
-             
-
+                    @if (Auth::user()->id == 1)
+                    <a href="{{ route('getMasterUserTrash') }}" class="btn btn-mat btn-danger mb-3">Trash</a>   
+                    @endif
+                @endif
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered able-responsive">
                         <thead>
@@ -99,15 +104,22 @@
                                     <td>{{$data->created_at}}</td>
                                     <td>{{$data->updated_at}}</td>
                                     <td>
+                                            
+                                            @if(Request::segment(5) == 'trash')
+                                            <a type='button' href='#restore'  data-toggle='modal' data-id='{{$data->id}}'     class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Restore</a><br/>
+                                            <a type='button' href='#delPermanent'  data-toggle='modal' data-id='{{$data->id}}'     class='btn btn-danger btn-mini waves-effect waves-light'><i class='icofont icofont-trash'></i>Hapus</a><br/>
+                                            @else
                                             <a type='button' href="{{ route('detailMasterUser',$data->id ) }}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Rincian</a>
                                             <a type='button' href='{{route('editUser',$data->id)}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a>
-                                            <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data->id}}'     class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Hapus</a><br/>
+                                            <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data->id}}'     class='btn btn-danger btn-mini waves-effect waves-light'><i class='icofont icofont-trash'></i>Hapus</a><br/>
+                                            @endif
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                     {{-- <button onclick="tableHtmlToExcel('dttable', 'members-data')">Export Table Data To Excel File</button> --}}
+                
                 </div>
             </div>
         </div>
@@ -138,7 +150,52 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="restore" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
 
+                <div class="modal-header">
+                    <h4 class="modal-title">Kembalikan Data User</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <p>Apakah anda yakin ingin mengembalikan data ini?</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                    <a id="reHref" href="" class="btn btn-danger waves-effect waves-light ">Restore</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="delPermanent" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">Hapus Permanent Data User</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <p>Apakah anda yakin ingin menghapus Permanent data ini?</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Tutup</button>
+                    <a id="delHrefPermanent" href="" class="btn btn-danger waves-effect waves-light ">Hapus</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="modal-only">
@@ -318,6 +375,24 @@
             console.log(url);
             const modal = $(this);
             modal.find('.modal-footer #delHref').attr('href', url);
+        });
+        $('#delPermanent').on('show.bs.modal', function(event) {
+            const link = $(event.relatedTarget);
+            const id = link.data('id');
+            console.log(id);
+            const url = `{{ url('admin/master-data/user/manajemen/deletepermanent') }}/` + id;
+            console.log(url);
+            const modal = $(this);
+            modal.find('.modal-footer #delHrefPermanent').attr('href', url);
+        });
+        $('#restore').on('show.bs.modal', function(event) {
+            const link = $(event.relatedTarget);
+            const id = link.data('id');
+            console.log(id);
+            const url = `{{ url('admin/master-data/user/manajemen/restore') }}/` + id;
+            console.log(url);
+            const modal = $(this);
+            modal.find('.modal-footer #reHref').attr('href', url);
         });
 
         

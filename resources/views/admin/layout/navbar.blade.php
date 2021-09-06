@@ -151,7 +151,11 @@
                                     <i class="feather icon-user"></i> Setting Akun & Profil
                                 </a>
                             </li>
-
+                            <li>
+                                <a href="{{ route('log.user.index', Auth::user()->id) }}">
+                                    <i class="feather icon-alert-octagon"></i> Activity
+                                </a>
+                            </li>
                             <li>
                                 <a href="{{ url('logout') }}">
                                     <i class="feather icon-log-out"></i> Logout

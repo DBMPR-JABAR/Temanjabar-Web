@@ -41,7 +41,6 @@ class UserController extends Controller
         //     $uptd_id = str_replace('uptd','',Auth::user()->internalRole->uptd);
         //     $laporan = $users->where('uptd_id',$uptd_id);
         // }
-
         $sup = DB::table('utils_sup');
         if (Auth::user()->internalRole->uptd) {
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
@@ -62,6 +61,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        
         $validator = Validator::make($request->all(), [
             'email' => 'unique:users',
         ]);
@@ -69,6 +69,9 @@ class UserController extends Controller
         if ($validator->fails()) {
             $color = "danger";
             $msg = "Email telah terdaftar";
+            // Input Log Activity User
+            
+            storeLogActivity(declarLog(1, 'Manajemen User', $request->email ));
             return back()->with(compact('color', 'msg'));
         }
 
@@ -92,6 +95,8 @@ class UserController extends Controller
         DB::table('user_pegawai')->insert($userPegawai);
         $color = "success";
         $msg = "Berhasil Menambah Data User";
+        
+        storeLogActivity(declarLog(1, 'Manajemen User', $request->email, 1 ));
         return back()->with(compact('color', 'msg'));
     }
 
@@ -123,12 +128,21 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
+        $tempAct = [
+            'activity' => 'Add Item',
+            'target' => 'User',
+            'description' => 'Gagal Menambahkan Data User '.$request->email,
+            'status' => 'error'
+        ];
+        
         $validator = Validator::make($request->all(), [
             'email' => Rule::unique('users', 'email')->ignore($request->id),
         ]);
         if ($validator->fails()) {
             $color = "danger";
             $msg = "Email telah terdaftar ";
+            storeLogActivity(declarLog(2, 'Manajemen User', $request->email ));
+
             return back()->with(compact('color', 'msg'));
         }
         // dd($request->ruas_jalan);
@@ -179,25 +193,65 @@ class UserController extends Controller
 
         $color = "success";
         $msg = "Berhasil Memperbaharui Data User";
+        storeLogActivity(declarLog(2, 'Manajemen User', $request->email,1 ));
+
         return back()->with(compact('color', 'msg'));
     }
 
     public function delete($id)
     {
         $user = DB::table('users');
-        $old = $user->where('id', $id);
-        $old->delete();
-
+        $user->where('id',$id)->update(array('is_delete' => 1));
+        // dd($user->first()->email);
         DB::table('user_pegawai')->where('user_id', $id)->update(array('is_delete' => 1));
 
         $color = "success";
         $msg = "Berhasil Menghapus Data User";
+        storeLogActivity(declarLog(3, 'Manajemen User', $user->first()->email,1 ));
+
+        return redirect(route('getMasterUser'))->with(compact('color', 'msg'));
+    }
+    public function restore($id)
+    {
+        $user = DB::table('users');
+        $user->where('id',$id)->update(array('is_delete' => 0));
+        // dd($user->first()->email);
+        DB::table('user_pegawai')->where('user_id', $id)->update(array('is_delete' => 0));
+
+        $color = "success";
+        $msg = "Berhasil Mengembalikan Data User";
+        storeLogActivity(declarLog(4, 'Manajemen User', $user->first()->email,1 ));
+
+        return redirect(route('getMasterUser'))->with(compact('color', 'msg'));
+    }
+    public function deletepermanent($id)
+    {
+        $user = DB::table('users')->where('id',$id);
+        storeLogActivity(declarLog(3, 'Manajemen User', $user->first()->email,1 ));
+        $user->delete();
+        // dd($user->first()->email);
+        DB::table('user_pegawai')->where('user_id', $id)->delete();
+
+        $color = "success";
+        $msg = "Berhasil Menghapus Data User Secara Permanen";
+
         return redirect(route('getMasterUser'))->with(compact('color', 'msg'));
     }
 
     public function getUser()
     {
-        $users = DB::table('users')->get();
+        $users = DB::table('users')->where('is_delete',null)->orWhere('is_delete',0)->get();
+        $roles = DB::table('user_role');
+        if (Auth::user()->internalRole->uptd) {
+            $roles = $roles->where('uptd', Auth::user()->internalRole->uptd);
+        }
+        $roles = $roles->get();
+        // dd($roles);
+        return view('admin.master.user.manajemen.index', compact('users', 'roles'));
+    }
+    public function getUserTrash()
+    {
+        $users = DB::table('users')->where('is_delete',1)->get();
         $roles = DB::table('user_role');
         if (Auth::user()->internalRole->uptd) {
             $roles = $roles->where('uptd', Auth::user()->internalRole->uptd);

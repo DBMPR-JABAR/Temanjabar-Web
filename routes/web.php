@@ -91,6 +91,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::resource('/announcement', 'AnnouncementController');
 
     Route::get('profile/{id}', 'DetailUserController@show')->name('editProfile');
+    Route::get('activity/{id}', 'LandingController@getLogUser')->name('log.user.index');
+
     Route::get('edit/profile/{id}', 'DetailUserController@edit')->name('editDetailProfile');
     Route::put('edit/profile/{id}', 'DetailUserController@update');
     Route::post('user/account/{id}', 'DetailUserController@updateaccount');
@@ -284,11 +286,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             // Route::post('update', 'LandingController@updateUPTD')->name('updateLandingUPTD');
             // Route::get('delete/{id}', 'LandingController@deleteUPTD')->name('deleteLandingUPTD');
             Route::get('/manajemen', 'MasterData\UserController@getUser')->name('getMasterUser');
+            Route::get('/manajemen/trash', 'MasterData\UserController@getUserTrash')->name('getMasterUserTrash');
+
             Route::get('/manajemen/detail/{id}', 'DetailUserController@showall')->name('detailMasterUser');
             Route::get('/manajemen/edit/{id}', 'MasterData\UserController@edit')->name('editUser');
             Route::post('/manajemen/create', 'MasterData\UserController@store')->name('createUser');
             Route::post('/manajemen/update', 'MasterData\UserController@update')->name('updateUser');
             Route::get('/manajemen/delete/{id}', 'MasterData\UserController@delete')->name('deleteUser');
+            Route::get('/manajemen/restore/{id}', 'MasterData\UserController@restore')->name('restoreUser');
+            Route::get('/manajemen/deletepermanent/{id}', 'MasterData\UserController@deletepermanent')->name('deletepermanentUser');
+
         });
 
         Route::group(['prefix' => 'rawanbencana'], function () {
@@ -399,6 +406,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('update/{id}', 'InputData\PekerjaanController@updateData')->name('updateDataPekerjaan');
             Route::post('create', 'InputData\PekerjaanController@createData')->name('createDataPekerjaan');
             Route::get('delete/{id}', 'InputData\PekerjaanController@deleteData')->name('deleteDataPekerjaan');
+            Route::get('restore/{id}', 'InputData\PekerjaanController@restoreData')->name('restoreDataPekerjaan');
+
+            Route::get('/trash', 'InputData\PekerjaanController@getPekerjaanTrash')->name('getPekerjaanTrash');
+
             Route::get('submit/{id}', 'InputData\PekerjaanController@submitData')->name('submitDataPekerjaan');
             Route::get('jugment/{id}', 'InputData\PekerjaanController@show')->name('jugmentDataPekerjaan');
             Route::post('jugment/{id}', 'InputData\PekerjaanController@jugmentLaporan')->name('jugmentLaporanMandor');

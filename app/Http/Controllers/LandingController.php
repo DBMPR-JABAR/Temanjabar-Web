@@ -134,7 +134,12 @@ class LandingController extends Controller
 
     public function getLog()
     {
-        $logs = Log::all();
+        $logs = Log::latest('created_at')->paginate(1000);
+        return view('admin.landing.log', compact('logs'));
+    }
+    public function getLogUser()
+    {
+        $logs = Log::where('user_id',Auth::user()->id)->latest('created_at')->paginate(1000);
         return view('admin.landing.log', compact('logs'));
     }
 
