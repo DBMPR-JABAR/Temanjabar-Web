@@ -1,8 +1,16 @@
 //Disable modal close on body click
-const modalsNotCloseOnClick = ['#addModal', '#delModal', '#editModal', '#editModal1', '#addModal1', '#importExcel'];
-modalsNotCloseOnClick.forEach(modal => {
-    if ($(modal)) $(modal).modal({ backdrop: 'static', keyboard: false, show: false });
-})
+const modalsNotCloseOnClick = [
+    "#addModal",
+    "#delModal",
+    "#editModal",
+    "#editModal1",
+    "#addModal1",
+    "#importExcel",
+];
+modalsNotCloseOnClick.forEach((modal) => {
+    if ($(modal))
+        $(modal).modal({ backdrop: "static", keyboard: false, show: false });
+});
 
 function setDataSelect(id, url, id_select, text, valueOption, textOption) {
     $.ajax({
@@ -29,7 +37,7 @@ function setDataSelect(id, url, id_select, text, valueOption, textOption) {
 }
 document.addEventListener("DOMContentLoaded", function() {
     const table = document.getElementsByClassName("dt-responsive")[0];
-    table.style.cursor = "grab";
+    table && (table.style.cursor = "grab");
 
     let pos = { top: 0, left: 0, x: 0, y: 0 };
 
@@ -66,5 +74,5 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     // Attach the handler
-    table.addEventListener("mousedown", mouseDownHandler);
+    table && table.addEventListener("mousedown", mouseDownHandler);
 });
