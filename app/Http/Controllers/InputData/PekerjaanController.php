@@ -1235,6 +1235,8 @@ class PekerjaanController extends Controller
             'tanggal_akhir' => $request->tanggal_akhir
         ];
         // dd($filter);
+        storeLogActivity(declarLog(6, 'Rekap Entry Pemeliharaan', $request->tanggal_awal.' s/d '.$request->tanggal_akhir , 1 ));
+
         return view('pdf.laporan_summary_pekerjaan',compact('data','filter'));
     }
     public function arrOne($var1,$var2,$var3){
@@ -1265,9 +1267,12 @@ class PekerjaanController extends Controller
         $kemandoran = DB::table('kemandoran')->where('ruas_jalan_id',$request->ruas_jalan);
         if($kemandoran->exists()){
             $kemandoran = $kemandoran->whereBetween('tanggal',[$request->start_date,$request->end_date])->get()->toArray();
-            if(count($kemandoran) == 0)
+            if(count($kemandoran) == 0){
+                storeLogActivity(declarLog(6, 'Pemeliharaan (BHS)', '' ));
                 return back()->with(compact('color', 'msg'));
+            }
         }else{
+            storeLogActivity(declarLog(6, 'Pemeliharaan (BHS)', '' ));
             return back()->with(compact('color', 'msg'));
         }
         $x = 0;
@@ -1567,11 +1572,13 @@ class PekerjaanController extends Controller
 
 
         }
-        // dd($temporari);
+        
         // dd($laporan);
 
         // dd(count($laporan));
         // dd($ruas);
+        storeLogActivity(declarLog(6, 'Pemeliharaan (BHS)',  $sup.'/'.$kemandoran[0]->ruas_jalan, 1 ));
+
         return view('pdf.laporan_pekerjaan', compact('temporari'));
     }
     public function sqlreportrekap($id){

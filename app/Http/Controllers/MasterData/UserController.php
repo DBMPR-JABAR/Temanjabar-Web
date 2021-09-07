@@ -934,6 +934,7 @@ class UserController extends Controller
 
     public function createUserRole(Request $request)
     {
+        // dd($request->user_role);
         $create['role'] = $request->user_role;
         $create['is_superadmin'] = $request->super_admin;
         $create['parent'] = $request->parent;
@@ -947,6 +948,9 @@ class UserController extends Controller
         DB::table('user_role')->insert($create);
         $color = "success";
         $msg = "Berhasil Menambah Data User Role";
+
+        storeLogActivity(declarLog(1, 'User Role', $request->user_role,1 ));
+
         return back()->with(compact('color', 'msg'));
     }
 
@@ -982,16 +986,20 @@ class UserController extends Controller
         DB::table('user_role')->where('id', $request->id)->update($update);
         $color = "success";
         $msg = "Berhasil Mengupdate Data User Role";
+        storeLogActivity(declarLog(2, 'User Role', $request->user_role,1 ));
+
         return back()->with(compact('color', 'msg'));
     }
     public function deleteUserRole($id)
     {
-        $user_role = DB::table('user_role')
-            ->where('id', $id)
-            ->delete();
+        
+        $user_role = DB::table('user_role')->where('id',$id);
+        storeLogActivity(declarLog(3, 'User Role', $user_role->first()->role,1 ));
+        $user_role->delete();
 
         $color = "success";
         $msg = "Berhasil Menghapus Data User Role";
+
         return back()->with(compact('color', 'msg'));
     }
 
