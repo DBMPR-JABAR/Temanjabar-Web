@@ -20,6 +20,7 @@ if (! function_exists('declarLog')) {
      * @return void
      */
     function declarLog($cek, $target, $unix= null, $status= 0) {
+        // storeLogActivity(declarLog(3, 'Manajemen User', $user->first()->email,1 ));
         
         if($cek == 1){
             $activity = 'Add Item';
@@ -36,6 +37,9 @@ if (! function_exists('declarLog')) {
         }else if($cek == 5){
             $activity = 'Response Item';
             $desc2 = ' Response Data '.$target.' ' ;
+        }else if($cek == 6){
+            $activity = 'Print Data';
+            $desc2 = ' Print Data '.$target.' ' ;
         }
         if($status == 0){
             $stat = 'error';
