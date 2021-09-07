@@ -47,7 +47,7 @@
 
 @section('page-body')
     <div class="row">
-        
+
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-block accordion-block">
@@ -97,7 +97,7 @@
                                                     <h4 class="sub-title">Tanggal Akhir</h4>
                                                     <input name="tanggal_akhir" type="date" class="form-control form-control-primary" value="{{ @$filter['tanggal_akhir'] }}">
                                                 </div>
-                                                
+
                                                 {{-- <input name="filter" value="true" style="display: none" /> --}}
 
                                                 <div class="mt-3 col-sm-12 col-xl-2">
@@ -106,7 +106,7 @@
 
                                                 </div>
                                             </div>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -130,12 +130,12 @@
                     @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Create"))
                     <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
                     @if (Auth::user()->id == 1)
-                        <a href="{{ route('getPekerjaanTrash') }}" class="btn btn-mat btn-danger mb-3">Trash</a>   
+                        <a href="{{ route('getPekerjaanTrash') }}" class="btn btn-mat btn-danger mb-3">Trash</a>
                         @endif
                     @endif
                     @if (!str_contains(Auth::user()->internalRole->role,'Mandor'))
                         <a href="{{ route('LaporanPekerjaan') }}" class="btn btn-mat btn-success mb-3">Cetak BHS</a>
-                        
+
                         {{-- <a href="{{ route('LaporanRekapEntry') }}" class="btn btn-mat btn-success mb-3">Cetak Rekap Entry</a> --}}
                         <button class="btn btn-mat btn-success mb-3" formmethod="post" type="submit" formaction="{{ route('LaporanRekapEntry') }}">Cetak Rekap Entry</button>
 
@@ -189,7 +189,7 @@
                                         <td>{{$data->nama_mandor}}</td>
                                         <td>{{$data->sup}}</td>
                                         <td>{{$data->ruas_jalan}}</td>
-                                        <td>{{$data->jenis_pekerjaan}}</td>
+                                        <td>{{$data->paket}}</td>
                                         <td>{{$data->lokasi}}</td>
                                         <td>{{@$data->panjang}}</td>
                                         <td>{{@$data->perkiraan_kuantitas}}</td>
@@ -205,8 +205,8 @@
                                                         <button type="button" class="btn btn-mini btn-danger " disabled> {{$data->status->status}}</button>
                                                     @elseif(str_contains($data->status->status,'Submitted') )
                                                         <button type="button" class="btn btn-mini btn-success waves-effect" disabled> {{$data->status->status}}</button>
-                                    
-                                    
+
+
                                                     @else
                                                         <button type="button" class="btn btn-mini btn-warning " disabled> {{$data->status->status}}</button>
                                                     @endif
@@ -219,16 +219,16 @@
                                                 @endif
                                             @else
                                                 <a href="@if(str_contains(Auth::user()->internalRole->role,'Mandor')  || str_contains(Auth::user()->internalRole->role,'Pengamat')|| str_contains(Auth::user()->internalRole->role,'Admin')) {{ route('materialDataPekerjaan',$data->id_pek) }} @else # @endif">
-                                    
+
                                                     <button type="button" class="btn btn-mini btn-warning waves-effect " @if(str_contains(Auth::user()->internalRole->role,'Mandor') || str_contains(Auth::user()->internalRole->role,'Pengamat') || str_contains(Auth::user()->internalRole->role,'Admin')) @else disabled @endif>Not Completed</button>
                                                 </a>
                                                 <br>
                                                 <i style="color :red; font-size: 10px;">Lengkapi material</i>
                                             @endif
                                         </td>
-                                    
+
                                         <td style="min-width: 170px;">
-                                    
+
                                             <div class="btn-group" role="group" data-placement="top" title="" data-original-title=".btn-xlg">
                                                 @if(Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Mandor')||str_contains(Auth::user()->internalRole->role,'Admin')||(str_contains(Auth::user()->internalRole->role,'Pengamat')&& $data->status != null && (str_contains($data->status->status,'Rejected')|| str_contains($data->status->status,'Edited'))) && !str_contains(Auth::user()->internalRole->role,'Kepala Satuan Unit Pemeliharaan'))
                                                     @if(!$data->keterangan_status_lap ||str_contains($data->status->status,'Submitted')|| str_contains($data->status->status,'Rejected')|| (str_contains($data->status->status,'Edited')&&Auth::user()->id == $data->status->adjustment_user_id)||str_contains(Auth::user()->internalRole->role,'Admin'))
@@ -277,7 +277,7 @@
                                                     @endif
                                                 @endif
                                                 &nbsp;<a href="{{ route('detailPemeliharaan',$data->id_pek) }}"><button class="btn btn-success btn-sm waves-effect waves-light" data-toggle="tooltip" title="lihat"><i class="icofont icofont-search"></i></button></a>
-                                    
+
                                             </div>
                                         </td>
                                     </tr>

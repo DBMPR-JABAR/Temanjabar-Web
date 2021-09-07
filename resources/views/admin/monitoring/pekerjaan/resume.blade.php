@@ -157,7 +157,7 @@
                                 <td>{{$data->nama_mandor}}</td>
                                 <td>{{$data->sup}}</td>
                                 <td>{{$data->ruas_jalan}}</td>
-                                <td>{{$data->jenis_pekerjaan}}</td>
+                                <td>{{$data->paket}}</td>
                                 <td>{{$data->lokasi}}</td>
                                 <td>{{@$data->panjang}}</td>
                                 <td>{{@$data->perkiraan_kuantitas}}</td>

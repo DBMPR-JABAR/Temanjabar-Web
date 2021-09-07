@@ -75,7 +75,7 @@ class BantuanKeuanganController extends Controller
             'Create'
         );
         $action = 'store';
-        return view('admin.input_data.bankeu.pre', compact('action', 'ruas_jalan', 'kategori', 'penyedia_jasa', 'konsultan', 'ppk', 'kab_kota', 'access', 'users','verified_access'));
+        return view('admin.input_data.bankeu.pre', compact('action', 'ruas_jalan', 'kategori', 'penyedia_jasa', 'konsultan', 'ppk', 'kab_kota', 'access', 'users', 'verified_access'));
     }
 
     /**
@@ -91,6 +91,11 @@ class BantuanKeuanganController extends Controller
         $bankeu['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
         if ($request->ditunjukan_untuk) $bankeu['ditunjukan_untuk'] = implode('__', $request->ditunjukan_untuk);
         // dd($request->all());
+        if ($request->file('shp') != null) {
+            $path = 'bankeu/shp/' . Str::snake(date("YmdHis") . ' ' . $request->file('shp')->getClientOriginalName());
+            $request->file('shp')->storeAs('public/', $path);
+            $bankeu['shp'] = $path;
+        }
         $id =  DB::table('bankeu')->insertGetId($bankeu);
         $count = (int)$request->pembagian_progres;
         for ($i = 1; $i <= $count; $i++) {
@@ -229,7 +234,7 @@ class BantuanKeuanganController extends Controller
         $ruas_jalan_selected = DB::table('ruas_jalan_kabupaten_tarung')->select(['*'])->where('geo_id', $bankeu->geo_id)->first();
         $bankeu_progres = DB::table('bankeu_progres')->where('id_bankeu', $id)->get();
         $action = 'update';
-        return view('admin.input_data.bankeu.pre', compact('action', 'bankeu', 'kategori', 'penyedia_jasa', 'konsultan', 'ppk', 'ruas_jalan', 'kab_kota', 'bankeu_progres','verified_access', 'access', 'ruas_jalan_selected', 'ditunjukan_untuk', 'users', 'bankeu_progres'));
+        return view('admin.input_data.bankeu.pre', compact('action', 'bankeu', 'kategori', 'penyedia_jasa', 'konsultan', 'ppk', 'ruas_jalan', 'kab_kota', 'bankeu_progres', 'verified_access', 'access', 'ruas_jalan_selected', 'ditunjukan_untuk', 'users', 'bankeu_progres'));
     }
 
     /**
@@ -248,6 +253,11 @@ class BantuanKeuanganController extends Controller
         // DB::table('bankeu')->where('id', $id)->update($bankeu);
         $count = (int)$request->pembagian_progres;
         // dd($request->all());
+        if ($request->file('shp') != null) {
+            $path = 'bankeu/shp/' . Str::snake(date("YmdHis") . ' ' . $request->file('shp')->getClientOriginalName());
+            $request->file('shp')->storeAs('public/', $path);
+            $bankeu['shp'] = $path;
+        }
         for ($i = 1; $i <= $count; $i++) {
             $bankeu_progres['id_bankeu'] = $id;
             $bankeu_progres['target'] = $i;

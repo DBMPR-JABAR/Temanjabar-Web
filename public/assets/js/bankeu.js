@@ -63,19 +63,16 @@ $(document).ready(() => {
                 };
             }
 
-            const buktiTemplate = ({ ke, data }) => `<div class="tab-pane ${
-        ke == 1 ? "active show" : ""
-    }" id="bukti_${ke}" role="tabpanel" aria-selected="${
-        ke == 1 ? "true" : "false"
-    }">
+            const buktiTemplate = ({ ke, data }) => `<div class="tab-pane ${ke == 1 ? "active show" : ""
+        }" id="bukti_${ke}" role="tabpanel" aria-selected="${ke == 1 ? "true" : "false"
+        }">
                                     <div class="form-group row">
                                         <label class="col-md-2 col-form-label">Foto ${ke}.1</label>
                                         <div class="col-md-5">
-                                            <img ${
-                                                data &&
-                                                data.foto_1 &&
-                                                `src="${urlStorage}/${data.foto_1}"`
-                                            } class="mx-auto rounded img-thumbnail d-block" id="foto_${ke}_preview_1">
+                                            <img ${data &&
+        data.foto_1 &&
+        `src="${urlStorage}/${data.foto_1}"`
+        } class="mx-auto rounded img-thumbnail d-block" id="foto_${ke}_preview_1">
                                         </div>
                                         <div class="col-md-5">
                                             <input id="foto_${ke}_1" name="foto_${ke}_1" type="file" accept="image/*" class="form-control">
@@ -84,11 +81,10 @@ $(document).ready(() => {
                                     <div class="form-group row">
                                         <label class="col-md-2 col-form-label">Foto ${ke}.2</label>
                                         <div class="col-md-5">
-                                            <img ${
-                                                data &&
-                                                data.foto_2 &&
-                                                `src="${urlStorage}/${data.foto_2}"`
-                                            } class="mx-auto rounded img-thumbnail d-block" id="foto_${ke}_preview_2">
+                                            <img ${data &&
+        data.foto_2 &&
+        `src="${urlStorage}/${data.foto_2}"`
+        } class="mx-auto rounded img-thumbnail d-block" id="foto_${ke}_preview_2">
                                         </div>
                                         <div class="col-md-5">
                                             <input id="foto_${ke}_2" name="foto_${ke}_2" type="file" accept="image/*" class="form-control">
@@ -97,11 +93,10 @@ $(document).ready(() => {
                                     <div class="form-group row">
                                         <label class="col-md-2 col-form-label">Foto ${ke}.3</label>
                                         <div class="col-md-5">
-                                            <img ${
-                                                data &&
-                                                data.foto_3 &&
-                                                `src="${urlStorage}/${data.foto_3}"`
-                                            } class="mx-auto rounded d-block img-thumbnail" id="foto_${ke}_preview_3">
+                                            <img ${data &&
+        data.foto_3 &&
+        `src="${urlStorage}/${data.foto_3}"`
+        } class="mx-auto rounded d-block img-thumbnail" id="foto_${ke}_preview_3">
                                         </div>
                                         <div class="col-md-5">
                                             <input id="foto_${ke}_3" name="foto_${ke}_3" type="file" accept="image/*" class="form-control">
@@ -110,11 +105,10 @@ $(document).ready(() => {
                                     <div class="form-group row">
                                         <label class="col-md-2 col-form-label">Video ${ke}</label>
                                         <div class="col-md-5">
-                                            <video ${
-                                                data &&
-                                                data.video &&
-                                                `src="${urlStorage}/${data.video}"`
-                                            } class="mx-auto rounded img-thumbnail d-block" id="video_${ke}_preview"
+                                            <video ${data &&
+        data.video &&
+        `src="${urlStorage}/${data.video}"`
+        } class="mx-auto rounded img-thumbnail d-block" id="video_${ke}_preview"
                                                 src="" alt="" controls>
                                         </div>
                                         <div class="col-md-5">
@@ -127,44 +121,40 @@ $(document).ready(() => {
                                                 <input id="dokumen_${ke}" name="dokumen_${ke}" type="file" accept="application/pdf"
                                                     class="form-control">
                                             </div>
-                                            ${
-                                                (data &&
-                                                    data.dokumen &&
-                                                    action == "update" &&
-                                                    `<div class="col-md-3">
+                                            ${(data &&
+            data.dokumen &&
+            action == "update" &&
+            `<div class="col-md-3">
                                         <a href="${urlStorage}/${data.dokumen}" download><button type="button"
                                         class="btn btn-default waves-effect">Unduh</button></a>
                                         </div>`) ||
-                                                ""
-                                            }
+        ""
+        }
                                         </div>
 
 
                                     <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Status Laporan Ke-${ke}</label>
                                     <div class="col-md-5">
-                                        <p class="mt-1">${
-                                            data &&
-                                            data.is_verified &&
-                                            data.is_verified == 1
-                                                ? `<p style="color:green;font-weight:bold">Terverifikasi</p>`
-                                                : data &&
-                                                  data.is_verified &&
-                                                  data.is_verified == 2
-                                                ? `<p style="color:red;font-weight:bold">Ditolak dengan catatan "${data.catatan}", silahkan perbaharui<p>`
-                                                : `<p style="color:gray;font-weight:bold">Belum diverifikasi</p>` ||
-                                                  `<p style="color:gray;font-weight:bold">Belum diverifikasi</p>`
-                                        }</p>
+                                        <p class="mt-1">${data &&
+            data.is_verified &&
+            data.is_verified == 1
+            ? `<p style="color:green;font-weight:bold">Terverifikasi</p>`
+            : data &&
+                data.is_verified &&
+                data.is_verified == 2
+                ? `<p style="color:red;font-weight:bold">Ditolak dengan catatan "${data.catatan}", silahkan perbaharui<p>`
+                : `<p style="color:gray;font-weight:bold">Belum diverifikasi</p>` ||
+                `<p style="color:gray;font-weight:bold">Belum diverifikasi</p>`
+        }</p>
                                     </div>
                                 </div>
                                 </div>`;
 
     const navTemplate = ({ ke, data }) => `<li class="nav-item">
-                                    <a class="nav-link ${
-                                        ke == 1 ? "active show" : ""
-                                    }" data-toggle="tab" href="#bukti_${ke}" role="tab" aria-selected="${
-        ke == 1 ? "true" : "false"
-    }">Target ke-${ke}</a>
+                                    <a class="nav-link ${ke == 1 ? "active show" : ""
+        }" data-toggle="tab" href="#bukti_${ke}" role="tab" aria-selected="${ke == 1 ? "true" : "false"
+        }">Target ke-${ke}</a>
                                 </li>`;
 
     const targetTemplate = ({ ke, data }) => `<div class=" form-group row">
@@ -172,20 +162,16 @@ $(document).ready(() => {
                             <div class="col-md-8">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input type="date" ${
-                                            data && `value="${data.tanggal}"`
-                                        } name="tanggal_target_${ke}" class="form-control" ${
-        !access && "readonly"
-    }>
+                                        <input type="date" ${data && `value="${data.tanggal}"`
+        } name="tanggal_target_${ke}" class="form-control" ${!access && "readonly"
+        }>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="input-group">
-                                            <input ${
-                                                data &&
-                                                `value="${data.persentase}"`
-                                            } type="number" name="persentase_target_${ke}" step="1" class="form-control" ${
-        !access && "readonly"
-    }>
+                                            <input ${data &&
+        `value="${data.persentase}"`
+        } type="number" name="persentase_target_${ke}" step="1" class="form-control" ${!access && "readonly"
+        }>
                                             <span class="input-group-append">
                                                 <label class="input-group-text">%</label>
                                             </span>
@@ -591,3 +577,32 @@ $("#mapLatLong").ready(() => {
         });
     });
 });
+
+
+var _validFileExtensions = [".shp", ".SHP", ".zip"];
+function Validate(oForm) {
+    var arrInputs = oForm.getElementsByTagName("input");
+    for (var i = 0; i < arrInputs.length; i++) {
+        var oInput = arrInputs[i];
+        if (oInput.type == "file") {
+            var sFileName = oInput.value;
+            if (sFileName.length > 0) {
+                var blnValid = false;
+                for (var j = 0; j < _validFileExtensions.length; j++) {
+                    var sCurExtension = _validFileExtensions[j];
+                    if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                        blnValid = true;
+                        break;
+                    }
+                }
+
+                if (!blnValid) {
+                    alert("Maaf, " + sFileName + " tidak valid, hanya diizinkan mengupload shapefile: " + _validFileExtensions.join(", "));
+                    return false;
+                }
+            }
+        }
+    }
+
+    return true;
+}

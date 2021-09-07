@@ -50,9 +50,9 @@
             <div class="pb-5 pl-5 pr-5 card-block">
 
                 @if ($action == 'store')
-                <form action="{{ route('bankeu.store') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('bankeu.store') }}"  onsubmit="return Validate(this);" method="post" enctype="multipart/form-data">
                     @else
-                    <form action="{{ route('bankeu.update', $bankeu->id) }}" method="post"
+                    <form action="{{ route('bankeu.update', $bankeu->id) }}" method="post"  onsubmit="return Validate(this);"
                         enctype="multipart/form-data">
                         @method('PUT')
                         @endif
@@ -151,8 +151,8 @@
                                             class="form-control" placeholder="" {{@$access ? '': 'readonly'}}>
                                     </div>
                                     <div class="col-md-6">
-                                        <input name="nilai_kontrak" value="{{ @$bankeu->nilai_kontrak }}" type="number" class="form-control"
-                                            placeholder="19000000" {{@$access ? '': 'readonly'}}>
+                                        <input name="nilai_kontrak" value="{{ @$bankeu->nilai_kontrak }}" type="number"
+                                            class="form-control" placeholder="19000000" {{@$access ? '': 'readonly'}}>
                                     </div>
                                 </div>
                             </div>
@@ -222,10 +222,20 @@ class="form-control" placeholder="" required {{@$access ? '': 'readonly'}}>
 
 <small class="mb-1">*Jika tidak terdapat pada ruas jalan yang tersedia, anda dapat menggambar
     manual dengan klik icon
-    polyline pada peta, gunakan jarak zoom terdekat untuk lebih presisi.</small>
+    polyline pada peta, gunakan jarak zoom terdekat untuk lebih presisi. atau upload file shp (membutuhkan waktu untuk
+    tim teman jabar menampilkannya di peta)</small>
 <small class="text-danger">Klik 2x untuk mengakhiri gambar</small>
 <div id="mapLatLong" class="mb-3 full-map" style="height: 300px; width: 100%">
     <div id="tempel_disini"></div>
+</div>
+
+
+<div class=" form-group row">
+    <label class="col-md-4 col-form-label">Upload SHP</label>
+    <div class="col-md-8">
+        <input id="shp" name="shp" type="file" accept=".shp,.SHP,.zip" class="form-control"
+            {{@$access ? '': 'readonly'}}>
+    </div>
 </div>
 
 

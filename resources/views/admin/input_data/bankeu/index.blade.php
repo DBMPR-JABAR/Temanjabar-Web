@@ -129,6 +129,12 @@
                                                 data-toggle="tooltip" title="Hapus">
                                                 <i class="icofont icofont-trash"></i></button></a>
                                         @endif
+                                        @if ($data->shp && Auth::user()->internal_role_id == 1)
+                                        <a class="d-inline-block" href="{{url('storage/'.$data->shp)}}" download><button
+                                                class="btn btn-success btn-sm waves-effect waves-light"
+                                                data-toggle="tooltip" title="Download SHP">
+                                                <i class="icofont icofont-download"></i></button></a>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
