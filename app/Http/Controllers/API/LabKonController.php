@@ -32,9 +32,9 @@ class LabKonController extends Controller
     public function daftar_pemohon()
     {
         try {
-            $daftar_pemohon = DB::table('labkon_master_pemohon')->where('created_by', auth('api')->user()->id)->get();
+            $daftar_pemohon = DB::table('labkon_master_pemohon')->where('created_by', auth('api')->user()->id)->orderBy('id_pemohon', 'desc')->get();
             if (hasAccess(auth('api')->user()->internal_role_id, "Semua Data Laboratorium Konstruksi", "View"))
-                $daftar_pemohon = DB::table('labkon_master_pemohon')->get();
+                $daftar_pemohon = DB::table('labkon_master_pemohon')->orderBy('id_pemohon', 'desc')->get();
             $this->response['status'] = 'success';
             $this->response['daftar_pemohon'] = $daftar_pemohon;
             return response()->json($this->response, 200);
@@ -192,7 +192,12 @@ class LabKonController extends Controller
                 ->leftJoin(
                     'labkon_master_pemohon',
                     'labkon_master_pemohon.id_pemohon',
-                    'labkon_trans_progress.id_pemohon'
+                    'labkon_trans_progress.id_pemohon',
+                )
+                ->leftJoin(
+                    'labkon_persyaratan_permohonan',
+                    'labkon_persyaratan_permohonan.id_permohonan',
+                    'labkon_trans_progress.id_pemohon',
                 )
                 ->where(
                     'labkon_trans_progress.created_by',
@@ -204,8 +209,11 @@ class LabKonController extends Controller
                     'labkon_master_pemohon.email_penanggung_jawab',
                     'labkon_master_pemohon.no_telp_penanggung_jawab',
                     'labkon_master_pemohon.nip',
-                    'labkon_master_pemohon.uptd_id'
+                    'labkon_master_pemohon.uptd_id',
+                    'labkon_persyaratan_permohonan.formulir_permohonan',
+                    'labkon_persyaratan_permohonan.surat_permohonan'
                 )
+                ->orderBy('labkon_trans_progress.id_permohonan', 'desc')
                 ->get();
             if (hasAccess(auth('api')->user()->internal_role_id, "Semua Data Laboratorium Konstruksi", "View"))
                 $daftar_permohonan = DB::table('labkon_trans_progress')
@@ -214,14 +222,22 @@ class LabKonController extends Controller
                         'labkon_master_pemohon.id_pemohon',
                         'labkon_trans_progress.id_pemohon'
                     )
+                    ->leftJoin(
+                        'labkon_persyaratan_permohonan',
+                        'labkon_persyaratan_permohonan.id_permohonan',
+                        'labkon_trans_progress.id_permohonan',
+                    )
                     ->select(
                         'labkon_trans_progress.*',
                         'labkon_master_pemohon.nama_penanggung_jawab',
                         'labkon_master_pemohon.email_penanggung_jawab',
                         'labkon_master_pemohon.no_telp_penanggung_jawab',
                         'labkon_master_pemohon.nip',
-                        'labkon_master_pemohon.uptd_id'
+                        'labkon_master_pemohon.uptd_id',
+                        'labkon_persyaratan_permohonan.formulir_permohonan',
+                        'labkon_persyaratan_permohonan.surat_permohonan'
                     )
+                    ->orderBy('labkon_trans_progress.id_permohonan', 'desc')
                     ->get();
             $this->response['status'] = 'success';
             $this->response['data']['permohonan'] = $daftar_permohonan;
@@ -597,8 +613,8 @@ class LabKonController extends Controller
                 $dokumen_hasil_pengujian = $dokumen_hasil_pengujian->leftJoin('labkon_trans_progress', 'labkon_trans_progres.id_permohonan', 'labkon_dokumen_hasil_pengujian.id_permohonan')->leftJoin('labkon_master_pemohon.id_pemohon', 'labkon_trans_progres.id_pemohon')->where('labkon_master_pemohon.created_by', auth('api')->user->id)->where('labkon_dokumen_hasil_pengujian.id_permohonan', $id)->first();
             }
             if ($dokumen_hasil_pengujian)
-                return response()->download(public_path('storage/'.$dokumen_hasil_pengujian->dokumen_hasil_pengujian), $dokumen_hasil_pengujian->id_permohonan, ['Content-Type' => 'application/pdf']);
-                else {
+                return response()->download(public_path('storage/' . $dokumen_hasil_pengujian->dokumen_hasil_pengujian), $dokumen_hasil_pengujian->id_permohonan, ['Content-Type' => 'application/pdf']);
+            else {
                 $this->response['status'] = 'success';
                 $this->response['message'] = 'Kenapa anda coba-coba mendownload hasil pengujian orang lain :(';
             }
