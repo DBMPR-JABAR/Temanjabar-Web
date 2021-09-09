@@ -32,9 +32,13 @@ class LabKonController extends Controller
     public function daftar_pemohon()
     {
         try {
-            $daftar_pemohon = DB::table('labkon_master_pemohon')->where('created_by', auth('api')->user()->id)->orderBy('id_pemohon', 'desc')->get();
+            $daftar_pemohon = DB::table('labkon_master_pemohon')->where('created_by', auth('api')->user()->id)
+            // ->orderBy('id_pemohon', 'desc')
+            ->get();
             if (hasAccess(auth('api')->user()->internal_role_id, "Semua Data Laboratorium Konstruksi", "View"))
-                $daftar_pemohon = DB::table('labkon_master_pemohon')->orderBy('id_pemohon', 'desc')->get();
+                $daftar_pemohon = DB::table('labkon_master_pemohon')
+                // ->orderBy('id_pemohon', 'desc')
+                ->get();
             $this->response['status'] = 'success';
             $this->response['daftar_pemohon'] = $daftar_pemohon;
             return response()->json($this->response, 200);
@@ -213,7 +217,7 @@ class LabKonController extends Controller
                     'labkon_persyaratan_permohonan.formulir_permohonan',
                     'labkon_persyaratan_permohonan.surat_permohonan'
                 )
-                ->orderBy('labkon_trans_progress.id_permohonan', 'desc')
+                // ->orderBy('labkon_trans_progress.id_permohonan', 'desc')
                 ->get();
             if (hasAccess(auth('api')->user()->internal_role_id, "Semua Data Laboratorium Konstruksi", "View"))
                 $daftar_permohonan = DB::table('labkon_trans_progress')
@@ -237,7 +241,7 @@ class LabKonController extends Controller
                         'labkon_persyaratan_permohonan.formulir_permohonan',
                         'labkon_persyaratan_permohonan.surat_permohonan'
                     )
-                    ->orderBy('labkon_trans_progress.id_permohonan', 'desc')
+                    // ->orderBy('labkon_trans_progress.id_permohonan', 'desc')
                     ->get();
             $this->response['status'] = 'success';
             $this->response['data']['permohonan'] = $daftar_permohonan;
