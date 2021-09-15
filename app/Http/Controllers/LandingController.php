@@ -55,10 +55,6 @@ class LandingController extends Controller
     public function login()
     {
         $profil = DB::table('landing_profil')->where('id', 1)->first();
-        if(!session()->has('url.intended'))
-        {
-            session(['url.intended' => url()->previous()]);
-        }
         return view('landing.login', compact('profil'));
     }
     public function paketPekerjaan()

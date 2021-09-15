@@ -33,10 +33,7 @@ class AuthController extends Controller
         }
         Log::create(['activity' => 'Login', 'user_id' => Auth::user()->id, 'description' => 'User ' . Auth::user()->name . ' Logged In To Web Teman-Jabar', 'ip_address' => request()->ip()]);
 
-        // if ((strpos(session('url.intended'), 'temanjabar.net/admin') !== false)) {
-        //     redirect(session('url.intended'));
-        // } else
-            return redirect('admin');
+        return redirect()->intended('admin');
     }
     public function logout()
     {
