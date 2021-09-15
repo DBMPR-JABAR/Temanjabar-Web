@@ -240,13 +240,6 @@
                                     </a>
                                 </li>
                             @endif
-                            @if (hasAccess(Auth::user()->internal_role_id, 'Rumija', 'View'))
-                            <li class="{{ Request::segment(3) == 'rumija' ? 'active' : '' }}">
-                                <a href="{{ url('admin/master-data/rumija') }}" class="waves-effect waves-dark">
-                                    <span class="pcoded-mtext">Rumija</span>
-                                </a>
-                            </li>
-                            @endif
                             @if (hasAccess(Auth::user()->internal_role_id, 'Data Master LabKon', 'View') || hasAccess(Auth::user()->internal_role_id, 'Bahan Uji LabKon', 'View'))
                                 <li
                                     class=" pcoded-hasmenu  {{ Request::segment(3) == 'labkon' ? 'pcoded-trigger active' : '' }}">
@@ -263,15 +256,34 @@
                                                 </a>
                                             </li>
                                         @endif
-                                        {{-- @if (hasAccess(Auth::user()->internal_role_id, 'Metode Pengujian Labkon', 'View'))
-                                        <li
-                                            class="{{ Request::segment(4) == 'metode_pengujian_labkon' ? 'active' : '' }}">
-                                            <a href="{{ url('admin/master-data/labkon/metode_pengujian_labkon') }}"
-                                                class="waves-effect waves-dark">
-                                                <span class="pcoded-mtext">Metode Pengujian</span>
-                                            </a>
-                                        </li>
-                                    @endif --}}
+                                    </ul>
+                                </li>
+                            @endif
+                            @if (hasAccess(Auth::user()->internal_role_id, 'Rumija', 'View') || hasAccess(Auth::user()->internal_role_id, 'Permohonan Rumija', 'View'))
+                                <li
+                                    class=" pcoded-hasmenu  {{ Request::segment(3) == 'rumija' ? 'pcoded-trigger active' : '' }}">
+                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Rumija</span>
+                                    </a>
+                                    <ul class="pcoded-submenu">
+                                        @if (hasAccess(Auth::user()->internal_role_id, 'Rumija', 'View'))
+                                            <li
+                                                class="{{ Request::segment(4) == 'rumija' ? 'active' : '' }}">
+                                                <a href="{{ url('admin/master-data/rumija/rumija') }}"
+                                                    class="waves-effect waves-dark">
+                                                    <span class="pcoded-mtext">Rumija</span>
+                                                </a>
+                                            </li>
+                                        @endif
+                                        @if (hasAccess(Auth::user()->internal_role_id, 'Permohonan Rumija', 'View'))
+                                            <li
+                                                class="{{ Request::segment(4) == 'permohonan_rumija' ? 'active' : '' }}">
+                                                <a href="{{ url('admin/master-data/rumija/permohonan_rumija') }}"
+                                                    class="waves-effect waves-dark">
+                                                    <span class="pcoded-mtext">Permohonan Rumija</span>
+                                                </a>
+                                            </li>
+                                        @endif
                                     </ul>
                                 </li>
                             @endif
@@ -332,7 +344,7 @@
                             </li>
                             @endif
 
-                            @if (hasAccess(Auth::user()->internal_role_id, 'Data Paket', 'View') || hasAccess(Auth::user()->internal_role_id, 'Progress Kerja', 'View') || hasAccess(Auth::user()->internal_role_id, 'Bantuan Keuangan', 'View'))
+                            @if (hasAccess(Auth::user()->internal_role_id, 'Data Paket', 'View') || hasAccess(Auth::user()->internal_role_id, 'Progress Kerja', 'View') || hasAccess(Auth::user()->internal_role_id, 'Bantuan Keuangan', 'View') || hasAccess(Auth::user()->internal_role_id, 'Permohonan Rumija', 'View'))
 
                             <li class=" pcoded-hasmenu  {{ Request::segment(3) == 'data-paket' || Request::segment(3) == 'bankeu' ? 'pcoded-trigger active' : '' }}">
                                 <a href="javascript:void(0)" class="waves-effect waves-dark">

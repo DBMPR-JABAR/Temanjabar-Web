@@ -384,9 +384,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         });
 
         Route::prefix('rumija')->group(function () {
-            Route::get('delete/{id}', 'InputData\RumijaController@destroy');
+            Route::get('rumija/delete/{id}', 'InputData\RumijaController@destroy');
+            Route::resource('rumija', "InputData\RumijaController");
+            Route::get('/permohonan_rumija/delete/{id}', 'InputData\PermohonanRumijaController@destroy');
+            Route::resource('/permohonan_rumija', 'InputData\PermohonanRumijaController');
         });
-        Route::resource('rumija', "InputData\RumijaController");
+
     });
 
     Route::group(['prefix' => 'input-data'], function () {
@@ -394,7 +397,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::group(['prefix' => 'pekerjaan'], function () {
 
             Route::get('/', 'InputData\PekerjaanController@getData')->name('getDataPekerjaan');
-      
+
             Route::get('edit/{id}', 'InputData\PekerjaanController@editData')->name('editDataPekerjaan');
             Route::get('status/{id}', 'InputData\PekerjaanController@statusData')->name('detailStatusPekerjaan');
 
@@ -416,7 +419,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
             Route::get('laporan', 'InputData\PekerjaanController@laporanPekerjaan')->name('LaporanPekerjaan');
             Route::post('laporan/entry', 'InputData\PekerjaanController@laporanEntry')->name('LaporanRekapEntry');
-            
+
             Route::post('laporan', 'InputData\PekerjaanController@generateLaporanPekerjaan')->name('generateLapPekerjaan');
 
 
@@ -498,6 +501,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::resource('dpa', 'InputData\DPAController');
 
         Route::view('master_ruas_jalan', 'admin.input_data.master_ruas_jalan.index');
+
     });
 
     Route::group(['prefix' => 'lapor'], function () {
