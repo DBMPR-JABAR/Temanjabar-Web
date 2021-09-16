@@ -5,6 +5,7 @@ namespace App\Http\Controllers\InputData;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class PermohonanRumijaController extends Controller
@@ -152,7 +153,14 @@ class PermohonanRumijaController extends Controller
      */
     public function destroy($id)
     {
-        $permohonan_rumija = DB::table('permohonan_rumija')->where('id', $id)->delete();
+        $permohonan_rumija = DB::table('permohonan_rumija')->where('id', $id);
+        $exist = $permohonan_rumija->first();
+        foreach (json_decode($exist->persyaratan) as $key => $value) {
+            if (strpos($value, 'rumija/permohonan/') !== false) {
+                File::delete('public/storage/' . $value);
+            }
+        }
+        $permohonan_rumija->delete();
         $color = "success";
         $msg = "Berhasil Menghapus Data Permohonan Rumija";
         return redirect(route('permohonan_rumija.index'))->with(compact('color', 'msg'));

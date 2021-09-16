@@ -46,9 +46,9 @@
             <div class="card-block pl-5 pr-5 pb-5">
 
                 @if ($action == 'store')
-                <form action="{{ route('permohonan_rumija.store') }}" method="post">
+                <form action="{{ route('permohonan_rumija.store') }}" method="post" enctype="multipart/form-data" onsubmit="return Validate(this);" >
                     @else
-                    <form action="{{ route('permohonan_rumija.update', $permohonan_rumija->id) }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('permohonan_rumija.update', $permohonan_rumija->id) }}" method="post" enctype="multipart/form-data" onsubmit="return Validate(this);" >
                         @method('PUT')
                         @endif
                         @csrf
