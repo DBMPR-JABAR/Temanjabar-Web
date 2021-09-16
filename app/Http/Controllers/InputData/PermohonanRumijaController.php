@@ -157,7 +157,7 @@ class PermohonanRumijaController extends Controller
         $exist = $permohonan_rumija->first();
         foreach (json_decode($exist->persyaratan) as $key => $value) {
             if (strpos($value, 'rumija/permohonan/') !== false) {
-                File::delete('public/storage/' . $value);
+                File::delete('storage/app/public/' . $value);
             }
         }
         $permohonan_rumija->delete();
