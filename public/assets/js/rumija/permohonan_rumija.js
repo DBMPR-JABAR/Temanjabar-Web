@@ -280,7 +280,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             ? `value="${persyaratanParse[
                             `${selectedPersyaratanForm.kode}_${form.kode}`
                             ]}"` : '' : '' : ''}
-                        class="form-control" ${form.require === false ? '' : 'required'} accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps">
+                        class="form-control" ${(form.require === false) || (action === "update") ? '' : 'required'} accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps">
             </div>
             ${form.type === "file" && action === "update"
                     ? persyaratan

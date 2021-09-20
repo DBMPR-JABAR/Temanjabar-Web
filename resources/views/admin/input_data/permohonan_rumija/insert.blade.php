@@ -46,9 +46,11 @@
             <div class="card-block pl-5 pr-5 pb-5">
 
                 @if ($action == 'store')
-                <form action="{{ route('permohonan_rumija.store') }}" method="post" enctype="multipart/form-data" onsubmit="return Validate(this);" >
+                <form action="{{ route('permohonan_rumija.store') }}" method="post" enctype="multipart/form-data"
+                    onsubmit="return Validate(this);">
                     @else
-                    <form action="{{ route('permohonan_rumija.update', $permohonan_rumija->id) }}" method="post" enctype="multipart/form-data" onsubmit="return Validate(this);" >
+                    <form action="{{ route('permohonan_rumija.update', $permohonan_rumija->id) }}" method="post"
+                        enctype="multipart/form-data" onsubmit="return Validate(this);">
                         @method('PUT')
                         @endif
                         @csrf
@@ -128,6 +130,19 @@
                             </div>
                         </div>
 
+                        <div class=" form-group row">
+                            <label class="col-md-3 col-form-label">UPTD</label>
+                            <div class="col-md-9">
+                                <select class="form-control searchableField" id="edit_uptd" name="uptd_id" required>
+                                    @foreach ($uptd as $data)
+                                    <option value="{{ $data->id }}" id="{{ $data->id }}" @isset($permohonan_rumija)
+                                        {{ $permohonan_rumija->uptd_id == $data->id ? 'selected' : '' }} @endisset>
+                                        {{ $data->nama }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
                         <h4 class="sub-title">Persyaratan Permohonan</h4>
 
                         <div class="form-group row">
@@ -176,7 +191,6 @@
 </script>
 <script src="{{ asset('assets/js/rumija/permohonan_rumija.js') }}"></script>
 <script>
-
     const data = @json(@$permohonan_rumija)
 
     const action = @json(@$action)

@@ -17,7 +17,19 @@ class PermohonanRumijaController extends Controller
             $this->middleware($role)->only($permission);
         }
 
-        $this->forms = ['nomor', 'tanggal', 'sifat', 'perihal', 'nama_pemohon', 'alamat', 'nomor_dan_tanggal', 'surat_berkas', 'jenis_ijin', 'tipe_permohonan'];
+        $this->forms = [
+            'nomor',
+            'tanggal',
+            'sifat',
+            'perihal',
+            'nama_pemohon',
+            'alamat',
+            'nomor_dan_tanggal',
+            'surat_berkas',
+            'jenis_ijin',
+            'tipe_permohonan',
+            'uptd_id'
+        ];
     }
     /**
      * Display a listing of the resource.
@@ -37,7 +49,9 @@ class PermohonanRumijaController extends Controller
      */
     public function create()
     {
-        return view('admin.input_data.permohonan_rumija.insert', ['action' => 'store']);
+        $uptd = DB::table('landing_uptd')->get();
+
+        return view('admin.input_data.permohonan_rumija.insert', ['action' => 'store', 'uptd' => $uptd]);
     }
 
     /**
@@ -99,7 +113,8 @@ class PermohonanRumijaController extends Controller
     public function edit($id)
     {
         $permohonan_rumija = DB::table('permohonan_rumija')->where('id', $id)->first();
-        return view('admin.input_data.permohonan_rumija.insert', ['action' => 'update', 'permohonan_rumija' => $permohonan_rumija]);
+        $uptd = DB::table('landing_uptd')->get();
+        return view('admin.input_data.permohonan_rumija.insert', ['action' => 'update', 'permohonan_rumija' => $permohonan_rumija, 'uptd' => $uptd]);
     }
 
     /**
@@ -164,5 +179,41 @@ class PermohonanRumijaController extends Controller
         $color = "success";
         $msg = "Berhasil Menghapus Data Permohonan Rumija";
         return redirect(route('permohonan_rumija.index'))->with(compact('color', 'msg'));
+    }
+
+    public function surat_permohonan_rumija(Request $request, $id)
+    {
+        $my_template = new \PhpOffice\PhpWord\TemplateProcessor(storage_path('template/permohonan_rumija.docx'));
+
+        $ur = '-';
+        $data = DB::table('permohonan_rumija')->where('id', $id)->first();
+        switch($data->uptd_id) {
+            case 1 : $ur = 'I'; break;
+            case 2 : $ur = 'II'; break;
+            case 3 : $ur = 'III'; break;
+            case 4 : $ur = 'IV'; break;
+            case 5 : $ur = 'V'; break;
+            case 6 : $ur = 'VI'; break;
+            default : $ur = '-'; break;
+        }
+
+        $my_template->setValue('tanggal', $data->tanggal);
+        $my_template->setValue('nomor', $data->nomor);
+        $my_template->setValue('sifat', $data->sifat);
+        $my_template->setValue('perihal', $data->perihal);
+        $my_template->setValue('ur', $ur);
+        $my_template->setValue('nama_pemohon', $data->nama_pemohon);
+        $my_template->setValue('alamat', $data->alamat);
+        $my_template->setValue('nomor_dan_tanggal', $data->nomor_dan_tanggal);
+        $my_template->setValue('surat_berkas', $data->surat_berkas);
+        $my_template->setValue('jenis_ijin', $data->jenis_ijin);
+
+        try {
+            $my_template->saveAs(storage_path('permohonan_rumija/permohonan_rumija_'.$id.'.docx'));
+        } catch (Exception $e) {
+            dd($e);
+        }
+
+        return response()->download(storage_path('permohonan_rumija/permohonan_rumija_'.$id.'.docx'));
     }
 }
