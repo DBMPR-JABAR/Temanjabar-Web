@@ -298,7 +298,7 @@
                         class="pcoded-hasmenu {{ Request::segment(2) == 'input-data' ? 'pcoded-trigger active' : '' }}">
                         <a href="javascript:void(0)" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="feather icon-file-text"></i></span>
-                            <span class="pcoded-mtext">Input Pekerjaan</span>
+                            <span class="pcoded-mtext">Bidang Harbang</span>
                             {{-- <span class="pcoded-badge label label-warning">NEW</span> --}}
                         </a>
                         <ul class="pcoded-submenu">
@@ -383,7 +383,7 @@
                 </ul>
             @endif
 
-            @if (hasAccess(Auth::user()->internal_role_id, 'Input Pekerjaan', 'View') || hasAccess(Auth::user()->internal_role_id, 'Bantuan Keuangan', 'View'))
+            @if (hasAccess(Auth::user()->internal_role_id, 'Bantuan Keuangan', 'View'))
                 {{-- <div class="pcoded-navigation-label">Input</div> --}}
                 <ul class="pcoded-item pcoded-left-item">
                     <li
