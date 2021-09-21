@@ -291,7 +291,7 @@
                     </li>
                 </ul>
             @endif
-            @if (hasAccess(Auth::user()->internal_role_id, 'Input Pekerjaan', 'View') || hasAccess(Auth::user()->internal_role_id, 'Bantuan Keuangan', 'View'))
+            @if (hasAccess(Auth::user()->internal_role_id, 'Input Pekerjaan', 'View'))
                 {{-- <div class="pcoded-navigation-label">Input</div> --}}
                 <ul class="pcoded-item pcoded-left-item">
                     <li
@@ -344,9 +344,9 @@
                             </li>
                             @endif
 
-                            @if (hasAccess(Auth::user()->internal_role_id, 'Data Paket', 'View') || hasAccess(Auth::user()->internal_role_id, 'Progress Kerja', 'View') || hasAccess(Auth::user()->internal_role_id, 'Bantuan Keuangan', 'View') || hasAccess(Auth::user()->internal_role_id, 'Permohonan Rumija', 'View'))
+                            @if (hasAccess(Auth::user()->internal_role_id, 'Data Paket', 'View') || hasAccess(Auth::user()->internal_role_id, 'Progress Kerja', 'View') || hasAccess(Auth::user()->internal_role_id, 'Permohonan Rumija', 'View'))
 
-                            <li class=" pcoded-hasmenu  {{ Request::segment(3) == 'data-paket' || Request::segment(3) == 'bankeu' ? 'pcoded-trigger active' : '' }}">
+                            <li class=" pcoded-hasmenu  {{ Request::segment(3) == 'data-paket' ? 'pcoded-trigger active' : '' }}">
                                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                                     <span class="pcoded-mtext">Pembangunan</span>
                                 </a>
@@ -367,22 +367,6 @@
                                             </a>
                                         </li>
                                     @endif
-                                    @if (hasAccess(Auth::user()->internal_role_id, 'Bantuan Keuangan', 'View'))
-                                    <li class="{{ Request::segment(3).Request::segment(4) == 'bankeu' ? 'active' : '' }}">
-                                        <a href="{{ url('admin/input-data/bankeu') }}"
-                                            class="waves-effect waves-dark">
-                                            <span class="pcoded-mtext">Bantuan Keuangan</span>
-                                        </a>
-                                    </li>
-                                    @endif
-                                    @if (hasAccess(Auth::user()->internal_role_id, 'Laporan Bantuan Keuangan', 'View'))
-                                    <li class="{{ Request::segment(3).Request::segment(4) == 'bankeuprogres' ? 'active' : '' }}">
-                                        <a href="{{ url('admin/input-data/bankeu/progres') }}"
-                                            class="waves-effect waves-dark">
-                                            <span class="pcoded-mtext">Laporan BanKeu</span>
-                                        </a>
-                                    </li>
-                                    @endif
                                     @if (hasAccess(Auth::user()->internal_role_id, 'DPA', 'View'))
                                     <li class="{{ Request::segment(3) == 'dpa' ? 'active' : '' }}">
                                         <a href="{{ url('admin/input-data/dpa') }}"
@@ -398,6 +382,41 @@
                     </li>
                 </ul>
             @endif
+
+            @if (hasAccess(Auth::user()->internal_role_id, 'Input Pekerjaan', 'View') || hasAccess(Auth::user()->internal_role_id, 'Bantuan Keuangan', 'View'))
+                {{-- <div class="pcoded-navigation-label">Input</div> --}}
+                <ul class="pcoded-item pcoded-left-item">
+                    <li
+                        class="pcoded-hasmenu {{ Request::segment(2) == 'bidtek' ? 'pcoded-trigger active' : '' }}">
+                        <a href="javascript:void(0)" class="waves-effect waves-dark">
+                            <span class="pcoded-micon"><i class="feather icon-file-text"></i></span>
+                            <span class="pcoded-mtext">Bidang Teknik</span>
+                            {{-- <span class="pcoded-badge label label-warning">NEW</span> --}}
+                        </a>
+                        <ul class="pcoded-submenu">
+                            @if (hasAccess(Auth::user()->internal_role_id, 'Bidang Teknik', 'View') || hasAccess(Auth::user()->internal_role_id, 'Bantuan Keuangan', 'View'))
+                                    @if (hasAccess(Auth::user()->internal_role_id, 'Bantuan Keuangan', 'View'))
+                                    <li class="{{ Request::segment(3).Request::segment(4) == 'bankeu' ? 'active' : '' }}">
+                                        <a href="{{ url('admin/bidtek/bankeu') }}"
+                                            class="waves-effect waves-dark">
+                                            <span class="pcoded-mtext">Bantuan Keuangan</span>
+                                        </a>
+                                    </li>
+                                    @endif
+                                    @if (hasAccess(Auth::user()->internal_role_id, 'Laporan Bantuan Keuangan', 'View'))
+                                    <li class="{{ Request::segment(3).Request::segment(4) == 'bankeuprogres' ? 'active' : '' }}">
+                                        <a href="{{ url('admin/bidtek/bankeu/progres') }}"
+                                            class="waves-effect waves-dark">
+                                            <span class="pcoded-mtext">Laporan BanKeu</span>
+                                        </a>
+                                    </li>
+                                    @endif
+                            @endif
+                        </ul>
+                    </li>
+                </ul>
+            @endif
+
             @if (hasAccess(Auth::user()->internal_role_id, 'Lapor', 'View'))
                 <ul class="pcoded-item pcoded-left-item">
                     <li class="pcoded-hasmenu {{ Request::segment(2) == 'lapor' ? 'pcoded-trigger active' : '' }}">

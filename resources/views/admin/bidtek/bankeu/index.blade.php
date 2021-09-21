@@ -208,7 +208,7 @@
         const link = $(event.relatedTarget);
         const id = link.data("id");
         console.log(id);
-        const url = `{{ url('admin/input-data/bankeu/delete') }}/` + id;
+        const url = `{{ url('admin/bidtek/bankeu/delete') }}/` + id;
         console.log(url);
         const modal = $(this);
         modal.find(".modal-footer #delHref").attr("href", url);

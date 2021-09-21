@@ -393,6 +393,19 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
     });
 
+    Route::prefix('bidtek')->group(function () {
+        Route::prefix('bankeu')->group(function () {
+            Route::get('delete/{id}', 'BidTek\BantuanKeuanganController@destroy');
+            Route::get('get_ruas_jalan_by_geo_id/{id}', 'BidTek\BantuanKeuanganController@getRuasJalanByGeoId')->name('getRuasJalanByGeoId');
+            Route::prefix('progres')->group(function () {
+                Route::get('/', 'BidTek\BantuanKeuanganController@progres_index')->name('bankeu.progres');
+                Route::get('/verifikasi/{id}/{target}', 'BidTek\BantuanKeuanganController@progres_verifikasi')->name('bankeu.verifikasi');
+                Route::post('/verifikasi/{id}/{target}/edit', 'BidTek\BantuanKeuanganController@progres_verifikasi_update')->name('bankeu.verifikasi.update');
+            });
+        });
+        Route::resource('bankeu', 'BidTek\BantuanKeuanganController');
+    });
+
     Route::group(['prefix' => 'input-data'], function () {
         Route::resource('/mandor', 'InputData\MandorController');
         Route::group(['prefix' => 'pekerjaan'], function () {
@@ -483,18 +496,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('import', 'InputData\SurveiKondisiJalanController@import')->name('importSurveiRuasJalan');
         });
         Route::resource('survei_kondisi_jalan', 'InputData\SurveiKondisiJalanController');
-
-        Route::prefix('bankeu')->group(function () {
-            Route::get('delete/{id}', 'InputData\BantuanKeuanganController@destroy');
-            Route::get('get_ruas_jalan_by_geo_id/{id}', 'InputData\BantuanKeuanganController@getRuasJalanByGeoId')->name('getRuasJalanByGeoId');
-            Route::prefix('progres')->group(function () {
-                Route::get('/', 'InputData\BantuanKeuanganController@progres_index')->name('bankeu.progres');
-                Route::get('/verifikasi/{id}/{target}', 'InputData\BantuanKeuanganController@progres_verifikasi')->name('bankeu.verifikasi');
-                Route::post('/verifikasi/{id}/{target}/edit', 'InputData\BantuanKeuanganController@progres_verifikasi_update')->name('bankeu.verifikasi.update');
-            });
-        });
-        Route::resource('bankeu', 'InputData\BantuanKeuanganController');
-
 
         Route::prefix('dpa')->group(function () {
             Route::get('delete/{id}', 'InputData\DPAController@destroy');

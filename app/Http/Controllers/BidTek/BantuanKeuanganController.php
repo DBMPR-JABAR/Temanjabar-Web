@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\InputData;
+namespace App\Http\Controllers\BidTek;
 
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
@@ -45,7 +45,7 @@ class BantuanKeuanganController extends Controller
                 ->orderBy('is_verified')
                 ->get();
 
-        return view('admin.input_data.bankeu.index', compact('bankeu'));
+        return view('admin.bidtek.bankeu.index', compact('bankeu'));
     }
 
     /**
@@ -75,7 +75,7 @@ class BantuanKeuanganController extends Controller
             'Create'
         );
         $action = 'store';
-        return view('admin.input_data.bankeu.pre', compact('action', 'ruas_jalan', 'kategori', 'penyedia_jasa', 'konsultan', 'ppk', 'kab_kota', 'access', 'users', 'verified_access'));
+        return view('admin.bidtek.bankeu.pre', compact('action', 'ruas_jalan', 'kategori', 'penyedia_jasa', 'konsultan', 'ppk', 'kab_kota', 'access', 'users', 'verified_access'));
     }
 
     /**
@@ -198,7 +198,7 @@ class BantuanKeuanganController extends Controller
         $ppk = DB::connection('talikuat')->table('master_ppk')->get();
         $historis = DB::table('utils_historis_bankeu')->where('id_bankeu', $id)->get();
         // dd($historis);
-        return view('admin.input_data.bankeu.progress', compact('bankeu', 'kategori', 'penyedia_jasa', 'konsultan', 'ppk', 'historis'));
+        return view('admin.bidtek.bankeu.progress', compact('bankeu', 'kategori', 'penyedia_jasa', 'konsultan', 'ppk', 'historis'));
     }
 
     /**
@@ -234,7 +234,7 @@ class BantuanKeuanganController extends Controller
         $ruas_jalan_selected = DB::table('ruas_jalan_kabupaten_tarung')->select(['*'])->where('geo_id', $bankeu->geo_id)->first();
         $bankeu_progres = DB::table('bankeu_progres')->where('id_bankeu', $id)->get();
         $action = 'update';
-        return view('admin.input_data.bankeu.pre', compact('action', 'bankeu', 'kategori', 'penyedia_jasa', 'konsultan', 'ppk', 'ruas_jalan', 'kab_kota', 'bankeu_progres', 'verified_access', 'access', 'ruas_jalan_selected', 'ditunjukan_untuk', 'users', 'bankeu_progres'));
+        return view('admin.bidtek.bankeu.pre', compact('action', 'bankeu', 'kategori', 'penyedia_jasa', 'konsultan', 'ppk', 'ruas_jalan', 'kab_kota', 'bankeu_progres', 'verified_access', 'access', 'ruas_jalan_selected', 'ditunjukan_untuk', 'users', 'bankeu_progres'));
     }
 
     /**
@@ -411,7 +411,7 @@ class BantuanKeuanganController extends Controller
         // dd($bankeu_progres);
 
         $bankeu = $bankeu_progres;
-        return view('admin.input_data.bankeu.progres.index', compact('bankeu'));
+        return view('admin.bidtek.bankeu.progres.index', compact('bankeu'));
     }
 
     public function progres_verifikasi($id, $target)
@@ -435,7 +435,7 @@ class BantuanKeuanganController extends Controller
         // dd($bankeu_progres);
 
         $bankeu = $bankeu_progres;
-        return view('admin.input_data.bankeu.progres.verifikasi', compact('bankeu'));
+        return view('admin.bidtek.bankeu.progres.verifikasi', compact('bankeu'));
     }
 
     public function progres_verifikasi_update(Request $request, $id, $target)
