@@ -181,7 +181,7 @@ return [
          * Third Party Service Providers
          */
         Yajra\Datatables\DatatablesServiceProvider::class,
-        Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
+        // Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
 
     ],
 
