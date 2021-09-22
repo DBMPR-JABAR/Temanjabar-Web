@@ -4,7 +4,9 @@ namespace App\Http\Controllers\MasterData;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ItemBahanMaterialController extends Controller
 {
@@ -57,6 +59,8 @@ class ItemBahanMaterialController extends Controller
         DB::table('item_bahan')->insert($item_bahan_material);
         $color = "success";
         $msg = "Berhasil Menambah Data Item Bahan Material";
+
+        Log::info(Auth::user()->name.' menambah master data bahan material '.$item_bahan_material['nama_item']);
         return redirect(route('item_bahan_material.index'))->with(compact('color', 'msg'));
     }
 
@@ -99,8 +103,10 @@ class ItemBahanMaterialController extends Controller
             $item_bahan_material['keterangan'] = "Bahan Operasional";
         }else $item_bahan_material['keterangan'] = "";
         // $item_bahan_material['satuan'] = $request->satuan;
+        $exits = DB::table('item_bahan')->where('no', $id)->first();
         DB::table('item_bahan')->where('no', $id)->update($item_bahan_material);
 
+        Log::info(Auth::user()->name.' memperbaharui master data bahan material '.$exits->nama_item);
         $color = "success";
         $msg = "Berhasil Memperbaharui Data Item Bahan Material";
         return redirect(route('item_bahan_material.index'))->with(compact('color', 'msg'));
@@ -114,8 +120,10 @@ class ItemBahanMaterialController extends Controller
      */
     public function destroy($id)
     {
+        $exits = DB::table('item_bahan')->where('no',$id)->first();
         $item_bahan_material = DB::table('item_bahan')->where('no', $id)->delete();
 
+        Log::info(Auth::user()->name.' menghapus master data bahan material '. $exits->nama_item);
         $color = "success";
         $msg = "Berhasil Menghapus Data Item Bahan Material";
         return redirect(route('item_bahan_material.index'))->with(compact('color', 'msg'));
