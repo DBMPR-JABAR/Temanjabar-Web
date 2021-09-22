@@ -19,7 +19,7 @@ Route::get('test', function () {
 // {SiteURL}
 Route::get('/', 'LandingController@index')->name('/');
 
-Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('admin');
 
 Route::get('403', function () {
     return view('403')->render();
