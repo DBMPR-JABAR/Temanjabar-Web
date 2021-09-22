@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\Push\UserPushNotification;
 use App\Model\Transactional\Log;
+use Illuminate\Support\Facades\Log as Logs;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,6 +26,7 @@ class AuthController extends Controller
         $auth = Auth::attempt($credentials);
         // dd($auth);
         if (!$auth) {
+            Logs::notice("Email '" . $req->email . "' gagal login dengan ip " . request()->ip());
             return back()->with(['msg' => 'Email/NIP atau Password Salah', 'color' => 'danger']);
         }
         if (Auth::user()->role == 'masyarakat') {
@@ -33,6 +35,7 @@ class AuthController extends Controller
         }
         Log::create(['activity' => 'Login', 'user_id' => Auth::user()->id, 'description' => 'User ' . Auth::user()->name . ' Logged In To Web Teman-Jabar', 'ip_address' => request()->ip()]);
 
+        Logs::info(Auth::user()->name . ' login dengan ip ' . request()->ip());
         return redirect()->intended('admin');
     }
     public function logout()
