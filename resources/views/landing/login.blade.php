@@ -43,13 +43,13 @@
                                     <div class="input-group" id="show_hide_password">
                                         <input name="password" class="form-control" type="password"
                                             placeholder="Password:" required id="loginPass">
-                                        <div class="input-group-addon">
-                                        <a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                                        <div class="input-group-addon" style="border: none;">
+                                            <a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        {{-- <div class="col-md-12 col-sm-12">
+                            {{-- <div class="col-md-12 col-sm-12">
                         <div class="form-group bottom35">
                            <div class="text-right form-check">
                               <input class="form-check-input" checked type="checkbox" value="" id="rememberMe">
@@ -60,16 +60,16 @@
 
                         </div>
                      </div> --}}
-                        <div class="col-sm-12">
-                            <button type="submit" class="button gradient-btn btnprimary">Login</button>
-                            {{-- <p class="top20 log-meta"> Don't have an account? <a href="sign-up.html">Sign Up Now</a> </p> --}}
+                            <div class="col-sm-12">
+                                <button type="submit" class="button gradient-btn btnprimary">Login</button>
+                                {{-- <p class="top20 log-meta"> Don't have an account? <a href="sign-up.html">Sign Up Now</a> </p> --}}
+                            </div>
                         </div>
+                    </form>
                 </div>
-                </form>
             </div>
-        </div>
 
-    </div>
+        </div>
     </div>
 </section>
 <!-- sign-in ends -->
@@ -78,7 +78,7 @@
 
 @section('script')
 <script type="text/javascript">
-$(document).ready(function() {
+    $(document).ready(function() {
     $("#show_hide_password a").on('click', function(event) {
         event.preventDefault();
         if($('#show_hide_password input').attr("type") == "text"){
