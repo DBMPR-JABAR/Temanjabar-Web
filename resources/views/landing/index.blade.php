@@ -21,7 +21,7 @@
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
                             aria-haspopup="false" id="dropdownMenuButton" aria-expanded="true">Maps</a>
                         <div class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="https://124.81.122.131/status-jalan" target="_blank">Status
+                            <a class="dropdown-item" href="https://tj.temanjabar.net/status-jalan/" target="_blank">Status
                                 Jalan</a>
                             <a class="dropdown-item" href="{{ url('map/map-dashboard-masyarakat') }}">Kegiatan DBMPR</a>
                         </div>
@@ -75,7 +75,7 @@
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
                             aria-haspopup="true" aria-expanded="false">Maps</a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="https://124.81.122.131/status-jalan" target="_blank">Status
+                            <a class="dropdown-item" href="https://tj.temanjabar.net/status-jalan/" target="_blank">Status
                                 Jalan</a>
                             <a class="dropdown-item" href="{{ url('map/map-dashboard-masyarakat') }}">Kegiatan DBMPR</a>
                         </div>
