@@ -94,7 +94,7 @@ class PekerjaanController extends Controller
     }
     public function getData(Request $request)
     {
-       
+
         $filter['tanggal_awal']= Carbon::now()->subDays(14)->format('Y-m-d');
         $filter['tanggal_akhir']= Carbon::now()->format('Y-m-d');
         // dd($tanggal_awal);
@@ -120,7 +120,7 @@ class PekerjaanController extends Controller
         }
         $nama_kegiatan_pekerjaan = DB::table('utils_nama_kegiatan_pekerjaan')->get();
         $pekerjaan = DB::table('kemandoran');
-        
+
         $pekerjaan = $pekerjaan->leftJoin('master_ruas_jalan', 'master_ruas_jalan.id', '=', 'kemandoran.ruas_jalan')->select('kemandoran.*', 'master_ruas_jalan.nama_ruas_jalan');
         // $pekerjaan = $pekerjaan->leftJoin('kemandoran_detail_status', 'kemandoran.id_pek', '=','kemandoran_detail_status.id_pek')->select('kemandoran.*', 'master_ruas_jalan.nama_ruas_jalan','kemandoran_detail_status.*');
 
@@ -134,20 +134,20 @@ class PekerjaanController extends Controller
                 if(count(Auth::user()->ruas)>0){
                     $pekerjaan = $pekerjaan->whereIn('ruas_jalan_id',Auth::user()->ruas->pluck('id_ruas_jalan')->toArray());
                 }
-                
+
             }
         }
         // $pekerjaan = $pekerjaan->whereRaw("YEAR(tanggal) BETWEEN 2021 AND 2021");
-        
+
         $pekerjaan = $pekerjaan->whereBetween('tanggal', [$filter['tanggal_awal'] , $filter['tanggal_akhir'] ]);
         $pekerjaan = $pekerjaan->where('is_deleted', 0)->latest('tglreal');
         // dd($request->uptd_filter);
         if($request->uptd_filter !=null){
             $pekerjaan = $pekerjaan->where('kemandoran.uptd_id', $request->uptd_filter);
             $filter['uptd_filter'] =$request->uptd_filter;
-        } 
+        }
         $pekerjaan = $pekerjaan->paginate(700);
-        
+
         foreach($pekerjaan as $no =>$data){
             // echo "$data->id_pek<br>";
 
@@ -204,7 +204,7 @@ class PekerjaanController extends Controller
             $sup = $sup->where('uptd_id', $uptd_id);
         }
         $sup = $sup->get();
-        
+
 
         $mandor = User::where('user_role.role', 'like', '%mandor%');
         $mandor = $mandor->leftJoin('user_role', 'user_role.id', '=', 'users.internal_role_id')->select('users.*', 'user_role.id as id_role');
@@ -214,7 +214,7 @@ class PekerjaanController extends Controller
         }
         $mandor = $mandor->get();
 
-       
+
         //dd($uptd);
         $kemandoran = DB::table('kemandoran');
 
@@ -414,9 +414,10 @@ class PekerjaanController extends Controller
 
     public function createData(Request $req)
     {
-        
+
         $pekerjaan = $req->except(['_token','tanggal_awal','tanggal_akhir','uptd_filter']);
         // dd($pekerjaan);
+        if(strpos($req->lat, '-') == false) $pekerjaan['lat'] = '-'.$req->lat;
         $pekerjaan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
         if($pekerjaan['uptd_id'])
             $pekerjaan['uptd_id'] = str_replace('uptd', '', $pekerjaan['uptd_id']);
@@ -426,12 +427,12 @@ class PekerjaanController extends Controller
             $temp[1]=Auth::user()->id;
         }else
             $temp=explode(",",$pekerjaan['nama_mandor']);
-        
+
             $pekerjaan['ruas_jalan_id'] = $pekerjaan['ruas_jalan'];
             $pekerjaan['sup_id'] = DB::table('utils_sup')->where('kd_sup',$pekerjaan['sup'])->pluck('id')->first();
             $pekerjaan['sup'] = DB::table('utils_sup')->where('id',$pekerjaan['sup_id'])->pluck('name')->first();
             $pekerjaan['ruas_jalan'] = DB::table('master_ruas_jalan')->where('id_ruas_jalan',$pekerjaan['ruas_jalan_id'])->pluck('nama_ruas_jalan')->first();
-          
+
         $pekerjaan['nama_mandor'] = $temp[0];
         $pekerjaan['user_id'] = $temp[1];
 
@@ -488,6 +489,7 @@ class PekerjaanController extends Controller
     public function updateData(Request $req)
     {
         $pekerjaan = $req->except('_token', 'id_pek');
+        if(strpos($req->lat, '-') == false) $pekerjaan['lat'] = '-'.$req->lat;
         $pekerjaan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
         if($pekerjaan['uptd_id'])
             $pekerjaan['uptd_id'] = str_replace('uptd', '', $pekerjaan['uptd_id']);
@@ -636,7 +638,7 @@ class PekerjaanController extends Controller
         // dd($detail_penghambat);
         $detail_instruksi = DB::table('kemandoran_detail_instruksi')->where('id_pek',$id)->where('user_id',Auth::user()->id)->pluck('keterangan')->first();
 
-        
+
         $item_peralatan = ItemPeralatan::get();
         // dd($detail_instruksi);
         // dd($detail_bahan_operasional);
@@ -662,7 +664,7 @@ class PekerjaanController extends Controller
             'end_time',
             'akibat',
             'keterangan_instruksi'
-            ]); 
+            ]);
             // dd($pekerjaan['keterangan_instruksi']);
         $pekerjaan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
         $pekerjaan['updated_by'] = Auth::user()->id;
@@ -721,14 +723,14 @@ class PekerjaanController extends Controller
             $keterangan_instruksi['user_id'] = Auth::user()->id;
             $keterangan_instruksi['keterangan'] = $req->keterangan_instruksi;
             DB::table('kemandoran_detail_instruksi')->insert($keterangan_instruksi);
-            
+
         }
         DB::table('bahan_material')->insert($pekerjaan);
         $kemandoran =  DB::table('kemandoran');
 
         if($kemandoran->where('id_pek', $req->id_pek)->where('mail', null)->exists()){
             $mail['mail'] = 1;
-            
+
             $kemandoran->update($mail);
             $detail_adjustment =  DB::table('kemandoran_detail_status');
             $data['pointer'] = 0;
@@ -739,11 +741,11 @@ class PekerjaanController extends Controller
             $data['created_at'] = Carbon::now();
             $data['created_by'] = Auth::user()->id;
             if(str_contains(Auth::user()->internalRole->role,'Admin')){
-    
+
                 $data['adjustment_user_id'] = $temp[1];
-    
+
             }
-    
+
             $insert = $detail_adjustment->insert($data);
         }
         storeLogActivity(declarLog(1, 'Detail Pemeliharaan Pekerjaan', $req->id_pek, 1 ));
@@ -758,7 +760,7 @@ class PekerjaanController extends Controller
     {
         // dd($req->id_pek);
         $pekerjaan = $req
-        ->except('_token', 
+        ->except('_token',
                 'id_pek',
                 'nama_peralatan',
                 'jum_peralatan',
@@ -777,7 +779,7 @@ class PekerjaanController extends Controller
         $pekerjaan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
         $pekerjaan['updated_by'] = Auth::user()->id;
         $temp=explode(",",$pekerjaan['nama_mandor']);
-       
+
         // dd($req->jenis_gangguan);
         DB::table('kemandoran_detail_peralatan')->where('id_pek',$req->id_pek)->delete();
         DB::table('kemandoran_detail_material')->where('id_pek',$req->id_pek)->delete();
@@ -827,13 +829,13 @@ class PekerjaanController extends Controller
             $keterangan_instruksi['keterangan'] = $req->keterangan_instruksi;
             $ketIns = DB::table('kemandoran_detail_instruksi')->where('id_pek', $req->id_pek)->where('user_id', Auth::user()->id);
             if($ketIns->exists()){
-                $ketIns= $ketIns->update($keterangan_instruksi); 
+                $ketIns= $ketIns->update($keterangan_instruksi);
             }else{
                 $keterangan_instruksi['id_pek'] = $req->id_pek;
                 $keterangan_instruksi['user_id'] = Auth::user()->id;
-                $ketIns= $ketIns->insert($keterangan_instruksi); 
+                $ketIns= $ketIns->insert($keterangan_instruksi);
             }
-            
+
         }
         $kemandoran =  DB::table('kemandoran');
         // dd($pekerjaan);
@@ -855,10 +857,10 @@ class PekerjaanController extends Controller
                     $insert = $detail_adjustment->insert($data);
                     if($kemandoran->where('id_pek', $req->id_pek)->exists()){
                         $mail['mail'] = 1;
-                
+
                         // dd($mail);
                         $kemandoran->update($mail);
-    
+
                     }
                 }
             }
@@ -871,11 +873,11 @@ class PekerjaanController extends Controller
             $data['created_at'] = Carbon::now();
             $data['created_by'] = Auth::user()->id;
             if(str_contains(Auth::user()->internalRole->role,'Admin')){
-    
+
                 $data['adjustment_user_id'] = $temp[1];
-    
+
             }
-    
+
             $insert = $detail_adjustment->insert($data);
         }
         // dd($kemandoran->where('id_pek', $req->id_pek)->where('mail', null)->exists());
@@ -1057,7 +1059,7 @@ class PekerjaanController extends Controller
         $detail_penghambat = DB::table('kemandoran_detail_penghambat as a')->where('a.id_pek',$id)->get();
         $pekerjaan->jenis_pekerjaan = DB::table('utils_jenis_laporan')->where('id',$pekerjaan->jenis_pekerjaan)->pluck('name')->first();
         $detail_instruksi = DB::table('kemandoran_detail_instruksi')->where('id_pek',$id)->where('user_id',Auth::user()->id)->pluck('keterangan')->first();
-        
+
         // dd($pekerjaan);
         // dd($pekerjaan);
         return view('admin.input.pekerjaan.show', compact('pekerjaan','material','detail','peralatan','detail_bahan_operasional','detail_pekerja','detail_penghambat','detail_instruksi'));
@@ -1093,13 +1095,13 @@ class PekerjaanController extends Controller
         ->select('a.id_material','b.nama_item','a.kuantitas','a.satuan')->get();
         $detail_pekerja = DB::table('kemandoran_detail_pekerja as a')->select('jabatan','jumlah')->where('a.id_pek',$id)->get();
         $detail_penghambat = DB::table('kemandoran_detail_penghambat as a')->where('a.id_pek',$id)->get();
-        
+
         // dd($peralatan);
         $pekerjaan->jenis_pekerjaan = DB::table('utils_jenis_laporan')->where('id',$pekerjaan->jenis_pekerjaan)->pluck('name')->first();
 
         // dd($pekerjaan->jenis_pekerjaan);
         // dd($pekerjaan);
-        
+
 
         return view('admin.input.pekerjaan.detail_pekerjaan', compact('pekerjaan','material','peralatan','detail_bahan_operasional','detail_pekerja','detail_penghambat'));
     }
@@ -1141,11 +1143,11 @@ class PekerjaanController extends Controller
                     $keterangan_instruksi['keterangan'] = $request->keterangan_instruksi;
                     $ketIns = DB::table('kemandoran_detail_instruksi')->where('id_pek', $request->id_pek)->where('user_id', Auth::user()->id);
                     if($ketIns->exists()){
-                        $ketIns= $ketIns->update($keterangan_instruksi); 
+                        $ketIns= $ketIns->update($keterangan_instruksi);
                     }else{
                         $keterangan_instruksi['id_pek'] = $id;
                         $keterangan_instruksi['user_id'] = Auth::user()->id;
-                        $ketIns= $ketIns->insert($keterangan_instruksi); 
+                        $ketIns= $ketIns->insert($keterangan_instruksi);
                     }
                 }
                 $color = "success";
@@ -1168,7 +1170,7 @@ class PekerjaanController extends Controller
     public function deleteData($id)
     {
         // $temp = DB::table('kemandoran')->where('id',$id)->first();
-      
+
         $old = Pemeliharaan::firstOrNew(['id_pek'=> $id]);
         // dd($old);
         $old->is_deleted = 1;
@@ -1189,13 +1191,13 @@ class PekerjaanController extends Controller
     }
     public function restoreData($id)
     {
-        
+
         $old = Pemeliharaan::firstOrNew(['id_pek'=> $id]);
     //    dd($old);
         $old->is_deleted = 0;
         $old->save();
         storeLogActivity(declarLog(4, 'Pemeliharaan Pekerjaan', $old->id_pek, 1 ));
-        
+
         $color = "success";
         $msg = "Berhasil Mengembalikan Data Pekerjaan";
         return redirect(route('getPekerjaanTrash'))->with(compact('color', 'msg'));
@@ -1245,7 +1247,7 @@ class PekerjaanController extends Controller
             $var2 => [],
             $var3 => []
         ];
-        return $arrOne; 
+        return $arrOne;
     }
     public function arrTwo($var1,$var2,$var3){
         $arrTwo = (object)[
@@ -1278,16 +1280,16 @@ class PekerjaanController extends Controller
         $x = 0;
         // dd($kemandoran);
         for($i=0 ; $i < count($kemandoran); $i++){
-            
+
             $mat = $this->arrTwo('nama_bahan','satuan','jum_bahan');
             // $inst = $this->arrTwo('user_id','jab','keterangan');
-            
+
             $kemandoran[$i]->material_dipakai = "";
             $kemandoran[$i]->tenaga_kerja = DB::table('kemandoran_detail_pekerja')->where('id_pek',$kemandoran[$i]->id_pek)->select('jabatan','jumlah')->get()->toArray();
             $kemandoran[$i]->satuan_hasil = DB::table('utils_nama_kegiatan_pekerjaan')->where('name',$kemandoran[$i]->paket)->pluck('satuan')->first();
             $kemandoran[$i]->penghambat = DB::table('kemandoran_detail_penghambat')->where('id_pek',$kemandoran[$i]->id_pek)->select('jenis_gangguan','start_time','end_time','akibat')->get()->toArray();
             $kemandoran[$i]->instruksi = DB::table('kemandoran_detail_instruksi')->where('id_pek',$kemandoran[$i]->id_pek)->select('user_id','keterangan')->get()->toArray();
-            
+
             $material = DB::table('bahan_material')->where('id_pek', $kemandoran[$i]->id_pek)->first();
             if($material){
                 $arrTwo[$i]=[];
@@ -1300,7 +1302,7 @@ class PekerjaanController extends Controller
                         $mat->jum_bahan = $material->$jum_bahan;
                         $mat->satuan = $material->$satuan;
                         // $kemandoran[$i]->material_dipakai = $mat;
-                     
+
                       $arrTwo[$i][] = (object)[
                         "nama_bahan" => $material->$nama_bahan,
                         "jum_bahan" => $material->$jum_bahan,
@@ -1333,7 +1335,7 @@ class PekerjaanController extends Controller
 
             //declare hasil yang di capai
             $temphasilfix[$item] = $this->arrOne('jenis','satuan','perkiraan');
-            
+
             //declare penghambat pekerjaan
             $temppenghambat[$item] = $this->arrOne('jenis_gangguan','start_time','akibat');
             $temppenghambatfix = [];
@@ -1367,7 +1369,7 @@ class PekerjaanController extends Controller
                     'tenaga_kerja' => '',
                     'hasil_kerja' => ''
                 ];
-                
+
                 // $temporari[$item]=$laporan[$item][$item1];
                 $temporari[$item]->uptd = $laporan[$item][$item1]->uptd_id;
                 $sup = str_replace('SUP ','', $laporan[$item][$item1]->sup);
@@ -1379,7 +1381,7 @@ class PekerjaanController extends Controller
                 $temporari[$item]->tanggal_hari = $item.'/'.utf8_encode(strftime('%A',$timestamp));
                 $temporari[$item]->ruas_jalan = $laporan[$item][$item1]->ruas_jalan;
                 $temporari[$item]->km = $laporan[$item][$item1]->lokasi;
-                
+
                 $temphasilfix[$item]->jenis_pekerjaan[] = $laporan[$item][$item1]->jenis_pekerjaan;
                 $temphasilfix[$item]->jenis[] = $laporan[$item][$item1]->paket;
                 $temphasilfix[$item]->satuan[] = $laporan[$item][$item1]->satuan_hasil;
@@ -1390,7 +1392,7 @@ class PekerjaanController extends Controller
                     for($v = 0 ; $v < count($laporan[$item][$item1]->tenaga_kerja); $v++){
                         $tempkerja[$item]->jabatan[] =  $laporan[$item][$item1]->tenaga_kerja[$v]->jabatan;
                         $tempkerja[$item]->jumlah[] =  $laporan[$item][$item1]->tenaga_kerja[$v]->jumlah;
-                    }  
+                    }
                 }
 
                 //gabungkan penghambat
@@ -1401,7 +1403,7 @@ class PekerjaanController extends Controller
                         $temppenghambat[$item]->end_time[] =  $laporan[$item][$item1]->penghambat[$v]->end_time;
                         $temppenghambat[$item]->akibat[] =  $laporan[$item][$item1]->penghambat[$v]->akibat;
                         $temppenghambatfix[$laporan[$item][$item1]->penghambat[$v]->jenis_gangguan] = $this->arrOne('start_time','end_time','akibat');
-                    }  
+                    }
                 }
 
                 //gabungkan material
@@ -1410,7 +1412,7 @@ class PekerjaanController extends Controller
                         $tempmaterial[$item]->nama_bahan[] =  $laporan[$item][$item1]->material_dipakai[$v]->nama_bahan;
                         $tempmaterial[$item]->jum_bahan[] =  $laporan[$item][$item1]->material_dipakai[$v]->jum_bahan;
                         $tempmaterial[$item]->satuan[] =  $laporan[$item][$item1]->material_dipakai[$v]->satuan;
-                    }  
+                    }
                 }
 
                 //gabungkan material operasional
@@ -1419,7 +1421,7 @@ class PekerjaanController extends Controller
                         $tempmaterialoperasional[$item]->nama_item[] =  $laporan[$item][$item1]->material_operasional[$v]->nama_item;
                         $tempmaterialoperasional[$item]->kuantitas[] =  $laporan[$item][$item1]->material_operasional[$v]->kuantitas;
                         $tempmaterialoperasional[$item]->satuan[] =  $laporan[$item][$item1]->material_operasional[$v]->satuan;
-                    }  
+                    }
                 }
 
                 //gabungkan peralatan operasional
@@ -1428,7 +1430,7 @@ class PekerjaanController extends Controller
                         $tempperalatanoperasional[$item]->nama_peralatan[] =  $laporan[$item][$item1]->peralatan_operasional[$v]->nama_peralatan;
                         $tempperalatanoperasional[$item]->kuantitas[] =  $laporan[$item][$item1]->peralatan_operasional[$v]->kuantitas;
                         $tempperalatanoperasional[$item]->satuan[] =  $laporan[$item][$item1]->peralatan_operasional[$v]->satuan;
-                    }  
+                    }
                 }
 
                 //gabungkan instruksi
@@ -1436,7 +1438,7 @@ class PekerjaanController extends Controller
                     for($v = 0 ; $v < count($laporan[$item][$item1]->instruksi); $v++){
                         $tempinstruksi[$item]->user_id[] =  $laporan[$item][$item1]->instruksi[$v]->user_id;
                         $tempinstruksi[$item]->keterangan[] =  $laporan[$item][$item1]->instruksi[$v]->keterangan;
-                    }  
+                    }
                 }
             }
             // dd($tempinstruksi[$item]);
@@ -1447,7 +1449,7 @@ class PekerjaanController extends Controller
                 for($x=0;$x < count($tempkerjafix[$item]->jabatan) ; $x++){
                     $pointer = null;
                     if($tempkerjafix[$item]->jabatan[$x] == $tempkerja[$item]->jabatan[$j]){
-                        $pointer = 1;   
+                        $pointer = 1;
                         break;
                     }
                 }
@@ -1458,11 +1460,11 @@ class PekerjaanController extends Controller
                     $tempkerjafix[$item]->jumlah[$x] = $tempkerja[$item]->jumlah[$j];
                 }
             }
-            
+
             for($x = 0 ; $x<count($temppenghambat[$item]->jenis_gangguan) ; $x++){
                 $temppenghambatfix[$temppenghambat[$item]->jenis_gangguan[$x]]->start_time[] = $temppenghambat[$item]->start_time[$x];
                 $temppenghambatfix[$temppenghambat[$item]->jenis_gangguan[$x]]->end_time[] = $temppenghambat[$item]->end_time[$x];
-                $temppenghambatfix[$temppenghambat[$item]->jenis_gangguan[$x]]->akibat[] = $temppenghambat[$item]->akibat[$x];     
+                $temppenghambatfix[$temppenghambat[$item]->jenis_gangguan[$x]]->akibat[] = $temppenghambat[$item]->akibat[$x];
             }
 
             //menghilangkan redundan material
@@ -1543,22 +1545,22 @@ class PekerjaanController extends Controller
                 }else{
                     $tempinstruksifix[$item]->user_id[$x] = $tempinstruksi[$item]->user_id[$j];
                     $tempinstruksifix[$item]->keterangan[$x] = $tempinstruksi[$item]->keterangan[$j];
-              
+
                     $getusr = User::where('id',$tempinstruksi[$item]->user_id[$j])->first();
                     if($getusr->exists()){
                         // dd($getusr);
                         if(str_contains($getusr->internalRole->role,'Pengamat')){
-                            $tempinstruksifix[$item]->jabatan[$x] ="PENGAMAT";  
+                            $tempinstruksifix[$item]->jabatan[$x] ="PENGAMAT";
                         }else
                         $tempinstruksifix[$item]->jabatan[$x] ="KSPPJJ";
-                        
+
                         $tempinstruksifix[$item]->nama[$x] =$getusr->name;
 
                     }
 
 
                 }
-       
+
             }
 
             // dd($tempinstruksifix);
@@ -1572,7 +1574,7 @@ class PekerjaanController extends Controller
 
 
         }
-        
+
         // dd($laporan);
 
         // dd(count($laporan));
