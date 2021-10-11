@@ -2,10 +2,10 @@
 
 @section('title') Pekerjaan @endsection
 @section('head')
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
-    <link rel="stylesheet" type="text/css"
-        href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
+<link rel="stylesheet" type="text/css"
+    href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
 
 <style>
     table.table-bordered tbody td {
@@ -92,7 +92,8 @@
                                                 <h4 class="sub-title">SUP</h4>
                                                 <select required name="sup" id="filterSUP" name="select"
                                                     class="form-control form-control-primary">
-                                                    <option value="ALL" {{@$filter->sup == "ALL" ? 'selected' : ''}}>Semua SUP</option>
+                                                    <option value="ALL" {{@$filter->sup == "ALL" ? 'selected' : ''}}>
+                                                        Semua SUP</option>
                                                     @foreach ($sup as $row)
                                                     @if ($row->uptd_id == (@$filter->uptd ?$filter->uptd: 1))
                                                     <option value="{{$row->id}}"
@@ -181,19 +182,19 @@
                                         {{$data->status->status}}</button>
                                     @endif
 
-                                        @else
-                                        @if($data->input_material)
-                                        <button type="button" class="btn btn-mini btn-success waves-effect "
-                                            disabled>Submitted</button>
-                                        @endif
-                                        @endif
-                                        @else
-                                            <button type="button" class="btn btn-mini btn-warning waves-effect "
-                                                @if(str_contains(Auth::user()->internalRole->role,'Mandor') ||
-                                                str_contains(Auth::user()->internalRole->role,'Pengamat') ||
-                                                str_contains(Auth::user()->internalRole->role,'Admin')) @else disabled
-                                                @endif disabled>Not Completed</button>
-                                        @endif
+                                    @else
+                                    @if($data->input_material)
+                                    <button type="button" class="btn btn-mini btn-success waves-effect "
+                                        disabled>Submitted</button>
+                                    @endif
+                                    @endif
+                                    @else
+                                    <button type="button" class="btn btn-mini btn-warning waves-effect "
+                                        @if(str_contains(Auth::user()->internalRole->role,'Mandor') ||
+                                        str_contains(Auth::user()->internalRole->role,'Pengamat') ||
+                                        str_contains(Auth::user()->internalRole->role,'Admin')) @else disabled
+                                        @endif disabled>Not Completed</button>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
@@ -249,12 +250,18 @@
         document.getElementById('filterTanggalAkhir').value = filter ? filter.tanggal_akhir : now
 
 
-            $("#dttable").DataTable({
+        const table = $("#dttable").DataTable({
             dom: 'Bfrtip',
             buttons: ['excel']
         });
 
+
+        $('#dttable tbody').on('click', 'tr', function () {
+            const data = table.row( this ).data();
+            window.open('{{url("/pemeliharaan/pekerjaan")}}'+'/'+data[1], '_self')
         });
+
+    });
 
 </script>
 @endsection

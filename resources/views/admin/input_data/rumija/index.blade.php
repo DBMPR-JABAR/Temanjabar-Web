@@ -6,10 +6,10 @@
     href="{{ asset('assets/vendor/datatables.net/css/dataTables.bootstrap4.min.css') }}">
 
 <style>
-table.table-bordered tbody td {
-    word-break: break-word;
-    vertical-align: top;
-}
+    table.table-bordered tbody td {
+        word-break: break-word;
+        vertical-align: top;
+    }
 </style>
 @endsection @section('page-header')
 <div class="row align-items-end">
@@ -226,7 +226,7 @@ table.table-bordered tbody td {
         const link = $(event.relatedTarget);
         const id = link.data("id");
         console.log(id);
-        const url = `{{ url('admin/master-data/rumija/delete') }}/` + id;
+        const url = `{{ url('admin/input-data/rumija/rumija/delete') }}/` + id;
         console.log(url);
         const modal = $(this);
         modal.find(".modal-footer #delHref").attr("href", url);

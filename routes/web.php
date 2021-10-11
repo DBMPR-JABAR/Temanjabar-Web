@@ -298,7 +298,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('/manajemen/delete/{id}', 'MasterData\UserController@delete')->name('deleteUser');
             Route::get('/manajemen/restore/{id}', 'MasterData\UserController@restore')->name('restoreUser');
             Route::get('/manajemen/deletepermanent/{id}', 'MasterData\UserController@deletepermanent')->name('deletepermanentUser');
-
         });
 
         Route::group(['prefix' => 'rawanbencana'], function () {
@@ -385,15 +384,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('metode_pengujian_labkon/delete/{id}', 'MasterData\MetodePengujianLabKonController@destroy');
             Route::resource('metode_pengujian_labkon', 'MasterData\MetodePengujianLabKonController');
         });
-
-        Route::prefix('rumija')->group(function () {
-            Route::get('rumija/delete/{id}', 'InputData\RumijaController@destroy');
-            Route::resource('rumija', "InputData\RumijaController");
-            Route::get('/permohonan_rumija/surat_permohonan/{id}', 'InputData\PermohonanRumijaController@surat_permohonan_rumija')->name('surat_permohonan_rumija');
-            Route::get('/permohonan_rumija/delete/{id}', 'InputData\PermohonanRumijaController@destroy');
-            Route::resource('/permohonan_rumija', 'InputData\PermohonanRumijaController');
-        });
-
     });
 
     Route::prefix('bidtek')->group(function () {
@@ -507,6 +497,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
         Route::view('master_ruas_jalan', 'admin.input_data.master_ruas_jalan.index');
 
+        Route::prefix('rumija')->group(function () {
+            Route::get('rumija/delete/{id}', 'InputData\RumijaController@destroy');
+            Route::resource('rumija', "InputData\RumijaController");
+            Route::get('/permohonan_rumija/surat_permohonan/{id}', 'InputData\PermohonanRumijaController@surat_permohonan_rumija')->name('surat_permohonan_rumija');
+            Route::get('/permohonan_rumija/delete/{id}', 'InputData\PermohonanRumijaController@destroy');
+            Route::resource('/permohonan_rumija', 'InputData\PermohonanRumijaController');
+        });
     });
 
     Route::group(['prefix' => 'lapor'], function () {
@@ -526,8 +523,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::get('pemetaan', 'LaporController@pemetaanLaporanMasyarakat')->name('pemetaanLaporanMasyarakat');
         Route::get('laporan-kerusakan', 'MonitoringController@getLaporan');
     });
-
-
 });
 Route::get('map/target-realisasi', 'ProyekController@getTargetRealisasiAPI')->name('api.targetrealisasi');
 Route::get('map/kendali-kontrak', 'ProyekController@getProyekKontrakAPI')->name('api.proyekkontrak');
