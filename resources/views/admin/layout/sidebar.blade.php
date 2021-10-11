@@ -345,7 +345,7 @@
                         <li
                             class=" pcoded-hasmenu  {{ Request::segment(3) == 'rumija' ? 'pcoded-trigger active' : '' }}">
                             <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                <span class="pcoded-mtext">Pengawasan Pemanfaatan Rumija</span>
+                                <span class="pcoded-mtext">Pengawasan dan Pemanfaatan</span>
                             </a>
                             <ul class="pcoded-submenu">
                                 @if (hasAccess(Auth::user()->internal_role_id, 'Rumija', 'View'))

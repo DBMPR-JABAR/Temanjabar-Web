@@ -60,7 +60,7 @@
                             <label class="col-md-3 col-form-label">Nomor</label>
                             <div class="col-md-9">
                                 <input name="nomor" value="{{ @$permohonan_rumija->nomor }}" type="text"
-                                    class="form-control" required placeholder="27/PUR.05.01.09/TTP/Harbang">
+                                    class="form-control" required>
                             </div>
                         </div>
 
@@ -68,8 +68,7 @@
                             <label class="col-md-3 col-form-label">Perihal</label>
                             <div class="col-md-9">
                                 <input name="perihal" value="{{ @$permohonan_rumija->perihal }}" type="text"
-                                    class="form-control" required
-                                    placeholder="Kajian Teknis Untuk Pemasangan Kabel PLN">
+                                    class="form-control" required>
                             </div>
                         </div>
 
@@ -77,7 +76,7 @@
                             <label class="col-md-3 col-form-label">Sifat</label>
                             <div class="col-md-9">
                                 <input name="sifat" value="{{ @$permohonan_rumija->sifat }}" type="text"
-                                    class="form-control" required placeholder="Biasa">
+                                    class="form-control">
                             </div>
                         </div>
 
@@ -85,7 +84,7 @@
                             <label class="col-md-3 col-form-label">Tanggal</label>
                             <div class="col-md-9">
                                 <input name="tanggal" value="{{ @$permohonan_rumija->tanggal }}" type="date"
-                                    class="form-control" required placeholder="Tanggal">
+                                    class="form-control" required>
                             </div>
                         </div>
 
@@ -93,7 +92,7 @@
                             <label class="col-md-3 col-form-label">Nama Pemohon</label>
                             <div class="col-md-9">
                                 <input name="nama_pemohon" value="{{ @$permohonan_rumija->nama_pemohon }}" type="text"
-                                    class="form-control" required placeholder="PT.PLN (Persero) UP3 Purwakarta">
+                                    class="form-control" required>
                             </div>
                         </div>
 
@@ -101,7 +100,7 @@
                             <label class="col-md-3 col-form-label">Alamat</label>
                             <div class="col-md-9">
                                 <input name="alamat" value="{{ @$permohonan_rumija->alamat }}" type="text"
-                                    class="form-control" required placeholder="Jl. KK Singawinata No.50 Purwakarta">
+                                    class="form-control" required>
                             </div>
                         </div>
 
@@ -109,8 +108,7 @@
                             <label class="col-md-3 col-form-label">No dan Tanggal</label>
                             <div class="col-md-9">
                                 <input name="nomor_dan_tanggal" value="{{ @$permohonan_rumija->nomor_dan_tanggal }}"
-                                    type="text" class="form-control" required
-                                    placeholder="0791/OIS.01 .01/C02120000/2021">
+                                    type="text" class="form-control" required>
                             </div>
                         </div>
 
@@ -118,7 +116,7 @@
                             <label class="col-md-3 col-form-label">Surat/Berkas</label>
                             <div class="col-md-9">
                                 <input name="surat_berkas" value="{{ @$permohonan_rumija->surat_berkas }}" type="text"
-                                    class="form-control" required placeholder="ISPT – Rumija( Baru )">
+                                    class="form-control" required>
                             </div>
                         </div>
 
@@ -126,7 +124,7 @@
                             <label class="col-md-3 col-form-label">Jenis Ijin</label>
                             <div class="col-md-9">
                                 <input name="jenis_ijin" value="{{ @$permohonan_rumija->jenis_ijin }}" type="text"
-                                    class="form-control" required placeholder="Permohonan untuk pemasangan kabel PLN">
+                                    class="form-control" required>
                             </div>
                         </div>
 
