@@ -161,7 +161,7 @@
                     $(e.target).html(`<p class="text-center" style="position: absolute;
                     top: 50%;
                     left: 50%;
-                    transform: translate(-50%, -50%);">KESALAHAN SAAT MENGAKSES CCTV/CCTV NONAKTIF</p>`)
+                    transform: translate(-50%, -50%);">CCTV NONAKTIF</p>`)
                     console.log(e.target);
                     });
                     }
@@ -179,7 +179,7 @@
                        $(e.target).html(`<p class="text-center" style="position: absolute;
                     top: 50%;
                     left: 50%;
-                    transform: translate(-50%, -50%);">KESALAHAN SAAT MENGAKSES CCTV ATAU CCTV NONAKTIF</p>`)
+                    transform: translate(-50%, -50%);">CCTV NONAKTIF</p>`)
                     console.log(e.target);
                     });
                     }
