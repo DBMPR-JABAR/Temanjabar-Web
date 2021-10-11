@@ -252,25 +252,24 @@
 
         const table = $("#dttable").DataTable({
             dom: 'Bfrtip',
-            buttons: ['excel']
+            buttons: ['excel'],
+            drawCallback: function( oSettings ) {
+                $( "#dttable tbody tr" ).hover(
+                function() {
+                    $(this).find('td').hide()
+                    $( this ).prepend( $( `<td id="detailRow" colspan="11"><p class="text-center p-1 m-0">Klik untuk melihat detail</p></td>` ) );
+                }, function() {
+                    $( this ).find( "#detailRow" ).remove();
+                    $(this).find('td').show()
+                }
+                );
+            }
         });
-
 
         $('#dttable tbody').on('click', 'tr', function () {
             const data = table.row( this ).data();
             window.open('{{url("/pemeliharaan/pekerjaan")}}'+'/'+data[1], '_self')
         });
-
-        $( "#dttable tbody tr" ).hover(
-        function() {
-            $(this).find('td').hide()
-            $( this ).prepend( $( `<td id="detailRow" colspan="11"><p class="text-center p-1 m-0">Klik untuk melihat detail</p></td>` ) );
-        }, function() {
-            $( this ).find( "#detailRow" ).remove();
-            $(this).find('td').show()
-        }
-        );
-
     });
 
 </script>
