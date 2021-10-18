@@ -492,6 +492,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
         Route::prefix('dpa')->group(function () {
             Route::get('delete/{id}', 'InputData\DPAController@destroy');
+            Route::get('report/{id}', 'InputData\DPAController@report');
         });
         Route::resource('dpa', 'InputData\DPAController');
 
