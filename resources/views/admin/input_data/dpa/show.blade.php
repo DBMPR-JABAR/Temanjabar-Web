@@ -178,12 +178,12 @@
   <script type="text/javascript">
     var reports = @json($reports)
 
-    const headReport = (data) => `<tr><td  class="align-middle no-border">${data.kode_rekening}</td>
+    const headReport = (data) => `<tr style="font-weight: bold"><td  class="align-middle no-border">${data.kode_rekening}</td>
         <td class="no-border text-left" colspan="5">${data.uraian}</td>
-        <td class="align-middle no-border">${data.b_jumlah}</td>
+        <td class="align-middle no-border">Rp. ${data.b_jumlah}</td>
         <td class="align-middle no-border" colspan="4"></td>
-        <td class="align-middle no-border">${data.a_jumlah}</td>
-        <td class="align-middle no-border">${data.bertambah_berkurang || '-'}</td></tr>`
+        <td class="align-middle no-border">Rp. ${data.a_jumlah}</td>
+        <td class="align-middle no-border">Rp. ${data.bertambah_berkurang || '-'}</td></tr>`
 
     const childReport = (data) => `<tr class="align-middle no-border"><td></td>
         <td class="no-border text-left">${data.uraian}</td>
@@ -191,13 +191,13 @@
         <td class="align-middle no-border">${data.b_satuan}</td>
         <td class="align-middle no-border">${data.b_harga}</td>
         <td class="align-middle no-border">${data.b_ppn}</td>
-        <td class="align-middle no-border">${data.b_jumlah}</td>
+        <td class="align-middle no-border">Rp. ${data.b_jumlah}</td>
         <td class="align-middle no-border">${data.a_koefisien}</td>
         <td class="align-middle no-border">${data.a_satuan}</td>
         <td class="align-middle no-border">${data.a_harga}</td>
         <td class="align-middle no-border">${data.a_ppn}</td>
-        <td class="align-middle no-border">${data.a_jumlah}</td>
-        <td class="align-middle no-border">${data.bertambah_berkurang || '-'}</td></tr>`
+        <td class="align-middle no-border">Rp. ${data.a_jumlah}</td>
+        <td class="align-middle no-border">Rp. ${data.bertambah_berkurang || '-'}</td></tr>`
 
     function listToTree(list) {
       let map = {},
@@ -207,6 +207,10 @@
       for (i = 0; i < list.length; i += 1) {
         map[list[i].id] = i;
         list[i].children = [];
+        list[i].sum = {
+          before: 0,
+          after: 0
+        };
       }
 
       for (i = 0; i < list.length; i += 1) {
@@ -214,7 +218,11 @@
         if (node.is_head == 0) {
           let sumBefore = Number(node.b_koefisien) * Number(node.b_harga);
           if (Number(node.b_ppn) > 0) sumBefore += (sumBefore * Number(node.b_ppn));
-          console.log(sumBefore)
+          node.b_jumlah = sumBefore.toFixed(2);;
+          let sumAfter = Number(node.a_koefisien) * Number(node.a_harga);
+          if (Number(node.a_ppn) > 0) sumAfter += (sumAfter * Number(node.a_ppn));
+          node.a_jumlah = sumAfter.toFixed(2);
+
         }
         if (node.parent_id !== null) {
           list[map[node.parent_id]].children.push(node);
@@ -222,6 +230,7 @@
           roots.push(node);
         }
       }
+
       return roots;
     }
 
@@ -230,7 +239,14 @@
 
       const tree = listToTree(reports)
 
-      console.log(tree)
+      const groupBy = function(xs, key) {
+        return xs.reduce(function(rv, x) {
+          (rv[`${x[key]}_${x.id}`] = rv[`${x[key]}_${x.id}`] || []).push(x);
+          return rv;
+        }, {});
+      };
+
+      console.log(groupBy(reports, 'parent_id'))
 
       var html = '';
 
