@@ -180,9 +180,9 @@
 
     const headReport = (data) => `<tr style="font-weight: bold"><td  class="align-middle no-border">${data.kode_rekening}</td>
         <td class="no-border text-left" colspan="5">${data.uraian}</td>
-        <td class="align-middle no-border">Rp. ${data.b_jumlah}</td>
+        <td class="align-middle no-border">Rp. ${data.sum.b_jumlah}</td>
         <td class="align-middle no-border" colspan="4"></td>
-        <td class="align-middle no-border">Rp. ${data.a_jumlah}</td>
+        <td class="align-middle no-border">Rp. ${data.sum.a_jumlah}</td>
         <td class="align-middle no-border">Rp. ${data.bertambah_berkurang || '-'}</td></tr>`
 
     const childReport = (data) => `<tr class="align-middle no-border"><td></td>
@@ -191,12 +191,12 @@
         <td class="align-middle no-border">${data.b_satuan}</td>
         <td class="align-middle no-border">${data.b_harga}</td>
         <td class="align-middle no-border">${data.b_ppn}</td>
-        <td class="align-middle no-border">Rp. ${data.b_jumlah}</td>
+        <td class="align-middle no-border">Rp. ${data.sum.b_jumlah}</td>
         <td class="align-middle no-border">${data.a_koefisien}</td>
         <td class="align-middle no-border">${data.a_satuan}</td>
         <td class="align-middle no-border">${data.a_harga}</td>
         <td class="align-middle no-border">${data.a_ppn}</td>
-        <td class="align-middle no-border">Rp. ${data.a_jumlah}</td>
+        <td class="align-middle no-border">Rp. ${data.sum.a_jumlah}</td>
         <td class="align-middle no-border">Rp. ${data.bertambah_berkurang || '-'}</td></tr>`
 
     function listToTree(list) {
@@ -207,10 +207,6 @@
       for (i = 0; i < list.length; i += 1) {
         map[list[i].id] = i;
         list[i].children = [];
-        list[i].sum = {
-          before: 0,
-          after: 0
-        };
       }
 
       for (i = 0; i < list.length; i += 1) {
@@ -222,6 +218,12 @@
           let sumAfter = Number(node.a_koefisien) * Number(node.a_harga);
           if (Number(node.a_ppn) > 0) sumAfter += (sumAfter * Number(node.a_ppn));
           node.a_jumlah = sumAfter.toFixed(2);
+
+          if (sumAfter > sumBefore) {
+            node.bertambah_berkurang = sumAfter - sumBefore
+          } else {
+            node.bertambah_berkurang = sumBefore - sumAfter
+          }
 
         }
         if (node.parent_id !== null) {
@@ -239,14 +241,69 @@
 
       const tree = listToTree(reports)
 
-      const groupBy = function(xs, key) {
-        return xs.reduce(function(rv, x) {
-          (rv[`${x[key]}_${x.id}`] = rv[`${x[key]}_${x.id}`] || []).push(x);
-          return rv;
-        }, {});
-      };
+      let tempTree = tree
+      let tempChild = {}
 
-      console.log(groupBy(reports, 'parent_id'))
+      let depth = 0;
+      const calculate = array => {
+        array.forEach(arr => {
+          tempChild[`${depth}_${arr.id}_${arr.parent_id}`] = {
+            a_jumlah: Number(arr.a_jumlah),
+            b_jumlah: Number(arr.b_jumlah)
+          }
+          if (arr.children.length > 0) {
+            depth++
+            calculate(arr.children)
+          }
+        })
+      }
+
+      calculate(tree)
+
+      let calcResults = {}
+      const sorting = Object.keys(tempChild).sort((a, b) =>
+        b.split('_')[0] - a.split('_')[0]
+      )
+
+      const sortReport = sorting.map(key => {
+        const currentId = key.split('_')[1];
+        return reports.find(report => report.id == currentId)
+      })
+
+      const results = sortReport.map(report => {
+        const currentId = sorting.find(key => key.split('_')[1] == report.id)
+        const childsKeys = sorting.filter(key => key.split('_')[2] == report.id)
+
+        let a_jumlah = 0;
+        let b_jumlah = 0;
+
+        if (childsKeys.length > 0) {
+          childsKeys.forEach(key => {
+            a_jumlah += tempChild[key].a_jumlah
+            b_jumlah += tempChild[key].b_jumlah
+          })
+
+          tempChild[currentId] = {
+            a_jumlah,
+            b_jumlah
+          }
+        } else {
+          a_jumlah = Number(report.a_jumlah)
+          b_jumlah = Number(report.b_jumlah)
+        }
+
+        return {
+          ...report,
+          sum: {
+            a_jumlah,
+            b_jumlah
+          }
+        }
+      })
+
+      const resultsTree = listToTree(results)
+
+      console.log(resultsTree)
 
       var html = '';
 
@@ -264,7 +321,7 @@
       }
 
 
-      generateHTML(tree)
+      generateHTML(resultsTree)
 
       $('#report-container').html(html)
 
