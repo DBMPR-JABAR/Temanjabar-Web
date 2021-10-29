@@ -44,6 +44,10 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('resendOTPMail', 'API\AuthController@resendOTPMail');
 });
 
+Route::prefix('survei')->group(function () {
+    Route::post('kerusakan', 'API\SurveiController@insertKerusakan');
+});
+
 Route::prefix('jqr')->group(function () {
     Route::prefix('laporan_masyarakat')->group(function () {
         Route::get('/', 'API\LaporJQRController@index');
