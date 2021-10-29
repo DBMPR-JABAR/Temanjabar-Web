@@ -352,7 +352,7 @@
                                 <li class="{{ Request::segment(4) == 'rumija' ? 'active' : '' }}">
                                     <a href="{{ url('admin/input-data/rumija/rumija') }}"
                                         class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext">Rumija</span>
+                                        <span class="pcoded-mtext">Pemanfaatan Rumija</span>
                                     </a>
                                 </li>
                                 @endif
