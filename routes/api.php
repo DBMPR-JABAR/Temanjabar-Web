@@ -46,6 +46,7 @@ Route::group(['prefix' => 'auth'], function () {
 
 Route::prefix('survei')->group(function () {
     Route::post('kerusakan', 'API\SurveiController@insertKerusakan');
+    Route::post('kemantapan', 'API\SurveiController@insertKemantapan');
 });
 
 Route::prefix('jqr')->group(function () {
