@@ -108,6 +108,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::view('map-dashboard-canggih', 'admin.map.map-dashboard-canggih');
     // {SiteURL}/admin/monitoring/*
     Route::group(['prefix' => 'monitoring'], function () {
+        Route::get('kinerja-jalan/{idruas}', 'SurveiController@getKinerjaJalan');
+
         Route::get('progress-pekerjaan', 'MonitoringController@getProgressPekerjaan');
         Route::get('pekerjaan_resume', 'Monitoring\ResumeController@pekerjaan')->name('resume_pekerjaan');
 

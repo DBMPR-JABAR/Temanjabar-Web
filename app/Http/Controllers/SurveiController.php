@@ -39,4 +39,28 @@ class SurveiController extends Controller
         //dd($surveiKondisiJalan);
         return view('admin.monitoring.roadroid-survei-kondisi-jalan', ['id' => $id, 'surveiKondisiJalan' => $surveiKondisiJalan]);
     }
+
+    public function getKinerjaJalan($idruas)
+    {
+        $namaJalan = DB::table('master_ruas_jalan')
+                    ->where('id_ruas_jalan', $idruas)->first()->nama_ruas_jalan;
+
+        $kemantapanjalan = DB::table('survei_kondisi_jalan')->where('idruas',$idruas)->first();
+
+        $kerusakan = DB::table('survei_kondisi_jalan_kerusakan')
+                    ->where('idruas', $idruas)
+                    ->get();
+
+        $kondisi = [
+            'SANGAT_BAIK' => $kemantapanjalan->sangat_baik ?? 0,
+            'BAIK' => $kemantapanjalan->baik ?? 0,
+            'SEDANG' => $kemantapanjalan->sedang ?? 0,
+            'JELEK' => $kemantapanjalan->jelek ?? 0,
+            'PARAH' => $kemantapanjalan->parah ?? 0,
+            'SANGAT_PARAH' => $kemantapanjalan->sangat_parah ?? 0,
+            'HANCUR' => $kemantapanjalan->hancur ?? 0
+        ];
+
+        return view('admin.monitoring.survei.detail-kinerja-jalan', compact('kerusakan', 'namaJalan', 'kondisi'));
+    }
 }
