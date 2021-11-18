@@ -198,6 +198,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('update', 'LandingController@updateLaporanMasyarakat')->name('updateLandingLaporanMasyarakat');
             Route::get('delete/{id}', 'LandingController@deleteLaporanMasyarakat')->name('deleteLaporanMasyarakat');
         });
+
+        // {SiteURL}/admin/landing-page/news
+        Route::get('news/delete/{id}', 'Landing\NewsController@destroy');
+        Route::post('news/ckeditor/upload', 'Landing\NewsController@upload')->name('news.ckeditor.upload');
+        Route::resource('news', 'Landing\NewsController');
     });
 
     Route::group(['prefix' => 'disposisi'], function () {

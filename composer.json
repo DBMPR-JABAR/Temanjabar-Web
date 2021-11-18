@@ -17,6 +17,7 @@
         "maatwebsite/excel": "^3.1",
         "phpoffice/phpword": "^0.18.2",
         "rap2hpoutre/laravel-log-viewer": "^1.7",
+        "spatie/laravel-medialibrary": "^9.0.0",
         "tymon/jwt-auth": "^1.0",
         "yajra/laravel-datatables-oracle": "~9.0"
     },
