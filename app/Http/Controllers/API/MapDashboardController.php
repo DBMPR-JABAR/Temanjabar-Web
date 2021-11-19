@@ -125,9 +125,15 @@ class MapDashboardController extends Controller
                         ->whereIn('SUP', $request->sup)->get();
                     $this->response['data']['cctv'] = $data;
                 }
+
+                $uptd = [];
+                foreach ($request->uptd as $key => $value) {
+                    $uptd [] = str_replace('uptd','',$value);
+                }
+
                 if (in_array('laporanmasyarakat', $request->kegiatan)) {
                     $data = DB::table('monitoring_laporan_masyarakat')
-                        ->whereIn('uptd_id', $request->uptd)->get();
+                        ->whereIn('uptd_id', $uptd)->get();
                     $this->response['data']['laporanmasyarakat'] = $data;
                 }
             }

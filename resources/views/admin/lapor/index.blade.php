@@ -56,7 +56,7 @@
                 </div>
             </div>
             <div class="card-block">
-                <!-- <a href="{{ route('addLapor') }}" class="btn btn-mat btn-primary mb-3">Tambah</a> -->
+                <!-- <a href="{{ route('addLapor') }}" class="mb-3 btn btn-mat btn-primary">Tambah</a> -->
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered able-responsive">
                         <thead>
@@ -71,7 +71,6 @@
                                 <th>Telp</th>
                                 <th>Email</th>
                                 <th>Jenis</th>
-                                <th>Deskripsi</th>
                                 <th>UPTD</th>
                                 <th>Foto</th>
                                 <th style="min-width: 135px;">Aksi</th>
@@ -240,10 +239,6 @@
                 {
                     data: 'jenis',
                     name: 'jenis'
-                },
-                {
-                    data: 'deskripsi',
-                    name: 'deskripsi'
                 },
                 {
                     data: 'uptd_id',
