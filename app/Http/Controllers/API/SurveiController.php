@@ -31,7 +31,7 @@ class SurveiController extends Controller
             $json = json_decode($request->data, true);
 
             foreach ($json['data'] as $data) {
-                $kerusakan = SurveiKerusakan::updateOrCreate(['id' => $data['id']], $data->except(['nilai_pengurang']));
+                $kerusakan = SurveiKerusakan::updateOrCreate(['id' => $data['id']], $data);
             }
 
 
