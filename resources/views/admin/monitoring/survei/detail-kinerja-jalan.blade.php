@@ -105,7 +105,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="4">Tidak Ada Data</td>
+                                    <td colspan="9">Tidak Ada Data</td>
                                 </tr>
                                 @endforelse
                             </tbody>
@@ -133,7 +133,6 @@
         $(document).ready(function() {
             var kondisi = <?php echo json_encode($kondisi); ?> ;
 
-
             am4core.ready(function() {
 
                 am4core.useTheme(am4themes_animated);
@@ -153,6 +152,16 @@
                 var series = chart.series.push(new am4charts.PieSeries3D());
                 series.dataFields.value = "value";
                 series.dataFields.category = "category";
+
+                series.colors.list = [
+                    am4core.color("#209c05"),
+                    am4core.color("#85e62c"),
+                    am4core.color("#ebff0a"),
+                    am4core.color("#f2ce02"),
+                    am4core.color("#f27a02"),
+                    am4core.color("#f20202"),
+                    am4core.color("#9f5656"),
+                ];
 
             });
 
