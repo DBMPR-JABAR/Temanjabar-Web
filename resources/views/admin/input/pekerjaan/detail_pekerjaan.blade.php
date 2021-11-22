@@ -34,7 +34,7 @@
 
                 <h2>UPTD {{ Str::upper($pekerjaan->uptd_id) }}</h2>
                 <div class="card-header-right">
-                    {{ $pekerjaan->tanggal }}
+                    {{ $pekerjaan->id_pek }}&nbsp;{{ $pekerjaan->tanggal }}
                 </div>
             </div>
             <div class="card-block">
