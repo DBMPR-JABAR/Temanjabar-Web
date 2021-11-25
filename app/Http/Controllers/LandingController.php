@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Model\Transactional\LaporanMasyarakat;
+use App\Model\News;
 
 class LandingController extends Controller
 {
@@ -48,9 +49,9 @@ class LandingController extends Controller
         $jenis_laporan = DB::table('utils_jenis_laporan')->get();
         $ruas_jalan = DB::table('master_ruas_jalan')->get();
         $video = DB::table('landing_news_video')->get();
-
+        $news = News::limit(3)->get();
         // Compact mengubah variabel profil untuk dijadikan variabel yang dikirim
-        return view('landing.index', compact('profil', 'fitur', 'uptd', 'slideshow', 'lokasi', 'jenis_laporan', 'ruas_jalan', 'video'));
+        return view('landing.index', compact('profil', 'fitur', 'uptd', 'slideshow', 'lokasi', 'jenis_laporan', 'ruas_jalan', 'video','news'));
     }
     public function login()
     {

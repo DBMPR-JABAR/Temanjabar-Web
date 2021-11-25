@@ -21,7 +21,8 @@
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
                             aria-haspopup="false" id="dropdownMenuButton" aria-expanded="true">Maps</a>
                         <div class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="https://tj.temanjabar.net/status-jalan/" target="_blank">Status
+                            <a class="dropdown-item" href="https://tj.temanjabar.net/status-jalan/"
+                                target="_blank">Status
                                 Jalan</a>
                             <a class="dropdown-item" href="{{ url('map/map-dashboard-masyarakat') }}">Kegiatan DBMPR</a>
                         </div>
@@ -75,7 +76,8 @@
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
                             aria-haspopup="true" aria-expanded="false">Maps</a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="https://tj.temanjabar.net/status-jalan/" target="_blank">Status
+                            <a class="dropdown-item" href="https://tj.temanjabar.net/status-jalan/"
+                                target="_blank">Status
                                 Jalan</a>
                             <a class="dropdown-item" href="{{ url('map/map-dashboard-masyarakat') }}">Kegiatan DBMPR</a>
                         </div>
@@ -211,11 +213,11 @@
                                 </div>
                                 <div class="media-body">
                                     <p class="media-heading">&nbsp; {{ $item->title }}
-                                        <div class="pull-right">&nbsp; <span style="color :grey; font-size: 10px;"><i
-                                                    class='icofont icofont-user'></i> {{ $item->nama_user }}|| <i
-                                                    class='icofont icofont-time'></i>
-                                                {{ Carbon\Carbon::parse($item->created_at)->diffForHumans()}}</span>
-                                        </div>
+                                    <div class="pull-right">&nbsp; <span style="color :grey; font-size: 10px;"><i
+                                                class='icofont icofont-user'></i> {{ $item->nama_user }}|| <i
+                                                class='icofont icofont-time'></i>
+                                            {{ Carbon\Carbon::parse($item->created_at)->diffForHumans()}}</span>
+                                    </div>
 
 
                                     </p>
@@ -228,6 +230,23 @@
             @endforeach
             {{-- {{ $pengumuman_masyarakat->links() }} --}}
 
+        </div>
+        <div class="row">
+            @foreach ($news as $row)
+            <div class="col-md-4 mx-auto">
+                <div class="card" style="width: 100%;">
+                    <div class="p-3">
+                        <img src="{{@$row->getFirstMediaUrl('thumbnail', 'thumb')}}" class="card-img-top"
+                            alt="{{$row->title}}">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{$row->title}}</h5>
+                        <p class="card-text">{{$row->description}}</p>
+                        <a href="{{route('news.show', $row->slug)}}" target="_blank" class="btn btn-info">Detail berita</a>
+                    </div>
+                </div>
+            </div>
+            @endforeach
         </div>
         <div class="container-grid fadeInUp" data-wow-delay="300ms">
             @foreach ($video as $index => $data)
@@ -411,12 +430,16 @@
                                         <option value="{{ $uptd_list->id }}">{{ $uptd_list->nama }}
                                             ({{ $uptd_list->deskripsi }})</option>
                                         @endforeach
-                                        {{-- <option value="1">UPTD-I (kab.cianjur, kota/kab.bogor, kota depok, kota/kab.bekasi)</option>
+                                        {{-- <option value="1">UPTD-I (kab.cianjur, kota/kab.bogor, kota depok,
+                                            kota/kab.bekasi)</option>
                                         <option value="2">UPTD-II (kota & kab. sukabumi)</option>
-                                        <option value="3">UPTD-III (kota/kab.bandung, kota cimahi, kab.bandung barat, kab.subang, kab.karawang, kab.purwakarta)</option>
+                                        <option value="3">UPTD-III (kota/kab.bandung, kota cimahi, kab.bandung barat,
+                                            kab.subang, kab.karawang, kab.purwakarta)</option>
                                         <option value="4">UPTD-IV (kab.sumedang, kab. garut)</option>
-                                        <option value="5">UPTD-V (kab/kota tasikmalaya, kota banjar, kab.ciamis, kab.pangandaran, kab.kuningan)</option>
-                                        <option value="6">UPTD-VI (kota/kab cirebon, kab. majalengka, kab. indramayu)</option> --}}
+                                        <option value="5">UPTD-V (kab/kota tasikmalaya, kota banjar, kab.ciamis,
+                                            kab.pangandaran, kab.kuningan)</option>
+                                        <option value="6">UPTD-VI (kota/kab cirebon, kab. majalengka, kab. indramayu)
+                                        </option> --}}
                                     </select>
                                 </div>
                             </div>

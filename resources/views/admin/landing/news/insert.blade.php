@@ -60,15 +60,17 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Published</label>
                             <div class="col-md-9">
-                                <input name="published_at" value="{{ @$news->published_at ?$news->published_at->format('Y-m-d') : date('Y-m-d') }}" type="date"
-                                    class="form-control" required>
+                                <input name="published_at"
+                                    value="{{ @$news->published_at ?$news->published_at->format('Y-m-d') : date('Y-m-d') }}"
+                                    type="date" class="form-control" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Thumbnail</label>
                             <div class="col-md-4">
-                                <input id="thumbnail" name="thumbnail" type="file" accept="image/*" class="form-control">
+                                <input id="thumbnail" name="thumbnail" type="file" accept="image/*"
+                                    class="form-control">
                             </div>
                             <div class="col-md-5">
                                 <img style="min-height: 40px" class="mx-auto rounded img-thumbnail d-block"
@@ -87,8 +89,8 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Deskripsi</label>
                             <div class="col-md-9">
-                                <input name="description" value="{{ @$news->description }}" type="text" class="form-control"
-                                    required>
+                                <input name="description" value="{{ @$news->description }}" type="text"
+                                    class="form-control" required>
                             </div>
                         </div>
 
@@ -126,11 +128,14 @@
 <script src="https://cdn.ckeditor.com/4.17.1/standard/ckeditor.js"></script>
 <script>
     $(document).ready(()=>{
-        CKEDITOR.replace( 'content',{
-            filebrowserUploadUrl: "{{route('news.ckeditor.upload', ['_token' => csrf_token() ])}}",
-            filebrowserUploadMethod: 'form'
-        });
+        const editor = CKEDITOR.replace( 'content',{
+                            filebrowserUploadUrl: "{{route('news.ckeditor.upload', ['_token' => csrf_token() ])}}",
+                            filebrowserUploadMethod: 'form'
+                        });
 
+    editor.on( 'change', function( evt ) {
+        $('#content').val(editor.getData());
+    });
 
         const inputElement = document.getElementById('thumbnail')
         inputElement.onchange = event => {

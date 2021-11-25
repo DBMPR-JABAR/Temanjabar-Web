@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Landing;
 
 use App\Http\Controllers\Controller;
 use App\Model\News;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class NewsController extends Controller
@@ -60,6 +62,12 @@ class NewsController extends Controller
      */
     public function show($id)
     {
+        $news = News::where('slug', $id)->first();
+        $allNews = News::where('id', '!=', $news->id)->get();
+        $publishedAt = $news->published_at;
+        $publishedAtForHuman = Carbon::parse($publishedAt)->format('d F Y');
+        $publishedBy = DB::table('users')->where('id', $news->user_id)->first();
+        return view('admin.landing.news.show', compact('news', 'allNews', 'publishedAtForHuman','publishedBy'));
     }
 
     /**
@@ -93,6 +101,7 @@ class NewsController extends Controller
         if ($request->hasFile('thumbnail')) {
             $news->addMediaFromRequest('thumbnail')->toMediaCollection('thumbnail');
         }
+        $news->save();
         $color = "success";
         $msg = "Berhasil memperbaharui berita";
         return redirect(route('news.index'))->with(compact('color', 'msg'));
@@ -108,7 +117,7 @@ class NewsController extends Controller
     {
         News::find($id)->delete();
         $color = "success";
-        $msg = "Berhasil menghapus berita";
+        $msg = "Berhasil memnghapus berita";
         return redirect(route('news.index'))->with(compact('color', 'msg'));
     }
 
