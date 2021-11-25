@@ -30,50 +30,50 @@
                         </li>
                         @endif
                         {{-- @if (hasAccess(Auth::user()->internal_role_id, 'Kendali Kontrak', 'View'))
-                                <li class="{{ Request::segment(3) == 'kendali-kontrak' ? 'active' : '' }}">
-                        <a href="{{ url('admin/monitoring/kendali-kontrak') }}" class="waves-effect waves-dark">
-                            <span class="pcoded-mtext">Kendali Kontrak</span>
-                        </a>
+                        <li class="{{ Request::segment(3) == 'kendali-kontrak' ? 'active' : '' }}">
+                            <a href="{{ url('admin/monitoring/kendali-kontrak') }}" class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">Kendali Kontrak</span>
+                            </a>
+                        </li>
+                        @endif --}}
+                        {{-- @if (hasAccess(Auth::user()->internal_role_id, 'Kemantapan Jalan', 'View'))
+                        <li class="{{ Request::segment(3) == 'kemantapan-jalan' ? 'active' : '' }}">
+                            <a href="{{ url('admin/monitoring/kemantapan-jalan') }}" class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">Kemantapan Jalan</span>
+                            </a>
+                        </li>
+                        @endif --}}
+                        @if (hasAccess(Auth::user()->internal_role_id, 'Anggaran & Realisasi Keuangan', 'View'))
+                        <li class="{{ Request::segment(3) == 'realisasi-keuangan' ? 'active' : '' }}">
+                            <a href="{{ url('admin/monitoring/realisasi-keuangan') }}" class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">Target & Realisasi</span>
+                            </a>
+                        </li>
+                        @endif
+                        @if (hasAccess(Auth::user()->internal_role_id, 'CCTV Control Room', 'View'))
+                        <li class="{{ Request::segment(3) == 'cctv' ? 'active' : '' }}">
+                            <a href="{{ url('admin/monitoring/cctv') }}" class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">CCTV Control Room</span>
+                            </a>
+                        </li>
+                        @endif
+                        @if (hasAccess(Auth::user()->internal_role_id, 'Monitoring Survei Kondisi Jalan', 'View'))
+                        <li class="{{ Request::segment(3) == 'roadroid-survei-kondisi-jalan' ? 'active' : '' }}">
+                            <a href="{{ url('/admin/monitoring/roadroid-survei-kondisi-jalan') }}"
+                                class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">Survei Kondisi Jalan</span>
+                            </a>
+                        </li>
+                        @endif
+                        @if (hasAccess(Auth::user()->internal_role_id, 'Pekerjaan', 'View'))
+                        <li class="{{ Request::segment(3) == 'pekerjaan_resume' ? 'active' : '' }}">
+                            <a href="{{ url('/admin/monitoring/pekerjaan_resume') }}">
+                                <span class="pcoded-mtext">Pekerjaan</span>
+                            </a>
+                        </li>
+                        @endif
+                    </ul>
                 </li>
-                @endif --}}
-                {{-- @if (hasAccess(Auth::user()->internal_role_id, 'Kemantapan Jalan', 'View'))
-                <li class="{{ Request::segment(3) == 'kemantapan-jalan' ? 'active' : '' }}">
-                <a href="{{ url('admin/monitoring/kemantapan-jalan') }}" class="waves-effect waves-dark">
-                    <span class="pcoded-mtext">Kemantapan Jalan</span>
-                </a>
-                </li>
-                @endif --}}
-                @if (hasAccess(Auth::user()->internal_role_id, 'Anggaran & Realisasi Keuangan', 'View'))
-                <li class="{{ Request::segment(3) == 'realisasi-keuangan' ? 'active' : '' }}">
-                    <a href="{{ url('admin/monitoring/realisasi-keuangan') }}" class="waves-effect waves-dark">
-                        <span class="pcoded-mtext">Target & Realisasi</span>
-                    </a>
-                </li>
-                @endif
-                @if (hasAccess(Auth::user()->internal_role_id, 'CCTV Control Room', 'View'))
-                <li class="{{ Request::segment(3) == 'cctv' ? 'active' : '' }}">
-                    <a href="{{ url('admin/monitoring/cctv') }}" class="waves-effect waves-dark">
-                        <span class="pcoded-mtext">CCTV Control Room</span>
-                    </a>
-                </li>
-                @endif
-                @if (hasAccess(Auth::user()->internal_role_id, 'Monitoring Survei Kondisi Jalan', 'View'))
-                <li class="{{ Request::segment(3) == 'roadroid-survei-kondisi-jalan' ? 'active' : '' }}">
-                    <a href="{{ url('/admin/monitoring/roadroid-survei-kondisi-jalan') }}"
-                        class="waves-effect waves-dark">
-                        <span class="pcoded-mtext">Survei Kondisi Jalan</span>
-                    </a>
-                </li>
-                @endif
-                @if (hasAccess(Auth::user()->internal_role_id, 'Pekerjaan', 'View'))
-                <li class="{{ Request::segment(3) == 'pekerjaan_resume' ? 'active' : '' }}">
-                    <a href="{{ url('/admin/monitoring/pekerjaan_resume') }}">
-                        <span class="pcoded-mtext">Pekerjaan</span>
-                    </a>
-                </li>
-                @endif
-            </ul>
-            </li>
             </ul>
             @endif
             </ul>
@@ -482,6 +482,13 @@
                         <li class="{{ Request::segment(3) == 'video-news' ? 'active' : '' }}">
                             <a href="{{ url('admin/landing-page/video-news') }}" class="waves-effect waves-dark">
                                 <span class="pcoded-mtext">Video</span>
+                            </a>
+                        </li>
+                        @endif
+                        @if (hasAccess(Auth::user()->internal_role_id, 'News', 'View'))
+                        <li class="{{ Request::segment(3) == 'news' ? 'active' : '' }}">
+                            <a href="{{ url('admin/landing-page/news') }}" class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">Berita</span>
                             </a>
                         </li>
                         @endif
