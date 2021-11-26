@@ -132,6 +132,15 @@ class LaporanBencanaController extends Controller
 
         $color = "success";
         $msg = "Berhasil Menambah Data Laporan Bencana";
+
+        $jenis = DB::table('icon_titik_rawan_bencana')->where('id', $req->icon_id)->first()->icon_name;
+        $ruasJalan = DB::table('master_ruas_jalan')->where('id_ruas_jalan', $req->ruas_jalan)->first()->nama_ruas_jalan;
+        $title = "Laporan Bencana";
+        $body = "Terjadi ".$jenis." di Ruas Jalan ".$ruasJalan;
+        $userNotifHp = DB::table("users")->where('email','admin@mail.com')
+        ->rightJoin('user_push_notification','users.id','=','user_push_notification.user_id')->pluck('users.id');
+        sendNotificationPengumuman($userNotifHp,$title,$body);
+
         return back()->with(compact('color', 'msg'));
     }
     public function updateData(Request $req)
@@ -194,7 +203,7 @@ class LaporanBencanaController extends Controller
             })
             ->addColumn('videobencana', function ($row) {
                 $path_video = explode('/', $row->video);
-                $video = '<video style="max-width: 150px" controls class="img-thumbnail rounded mx-auto d-block" alt="'.end($path_video).'">
+                $video = '<video style="max-width: 150px" controls class="mx-auto rounded img-thumbnail d-block" alt="'.end($path_video).'">
                 <source src="' .url("storage/laporan_bencana/" . $row->video).'" type="video/mp4" />
             </video>';
                 return $video;
