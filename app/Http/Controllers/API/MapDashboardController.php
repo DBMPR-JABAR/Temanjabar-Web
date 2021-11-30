@@ -94,6 +94,8 @@ class MapDashboardController extends Controller
                     $data = Kemandoran::whereIn('SUP', $request->sup);
 
                     $data = $data->whereBetween('TANGGAL', [$request->date_from, $request->date_to]);
+                    $data = $data->whereBetween('LAT', [-8, -6]);
+                    $data = $data->whereBetween('LNG', [106, 109]);
 
                     $data = $data->get();
                     $this->response['data']['pemeliharaan'] = $data;
