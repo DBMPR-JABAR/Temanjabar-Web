@@ -110,6 +110,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::group(['prefix' => 'monitoring'], function () {
         Route::get('kemandoran-distance', 'Monitoring\KemandoranDistanceController@index');
         Route::get('kemandoran-distance-data', 'Monitoring\KemandoranDistanceController@getData')->name('kemandoran-distance-data');
+        Route::get('kemandoran-distance/export/', 'Monitoring\KemandoranDistanceController@export')->name('kemandoran-distance-export');
 
         Route::get('kinerja-jalan/{idruas}', 'SurveiController@getKinerjaJalan');
 

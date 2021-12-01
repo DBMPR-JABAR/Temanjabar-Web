@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers\Monitoring;
 
+use App\Exports\PekerjaanDistanceMultipleSheetExport;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class KemandoranDistanceController extends Controller
 {
-    function index()
+    public function index()
     {
         return view('admin.monitoring.kemandoran-distance.index');
     }
 
-    function getData(Request $request)
+    public function getData(Request $request)
     {
         $draw = $request->get('draw');
         $start = $request->get("start");
@@ -43,9 +45,14 @@ class KemandoranDistanceController extends Controller
             "draw" => intval($draw),
             "recordsTotal" => $totalRecords,
             "recordsFiltered" => $totalRecordswithFilter,
-            "data" => $records
+            "data" => $records,
         );
 
         return response()->json($response);
+    }
+
+    public function export()
+    {
+        return Excel::download(new PekerjaanDistanceMultipleSheetExport, 'kemandoran-distance.xlsx');
     }
 }
