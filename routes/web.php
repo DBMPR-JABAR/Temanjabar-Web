@@ -113,6 +113,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::get('kemandoran-distance/export/', 'Monitoring\KemandoranDistanceController@export')->name('kemandoran-distance-export');
 
         Route::get('kinerja-jalan/{idruas}', 'SurveiController@getKinerjaJalan');
+        Route::get('kinerja-jalan/{idruas}/print', 'SurveiController@getKinerjaJalanPrint')->name('printKinerjaJalan');
 
         Route::get('progress-pekerjaan', 'MonitoringController@getProgressPekerjaan');
         Route::get('pekerjaan_resume', 'Monitoring\ResumeController@pekerjaan')->name('resume_pekerjaan');

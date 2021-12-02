@@ -74,6 +74,7 @@
                     </div>
                 </div>
                 <div class="card-block">
+                    <a href="{{route('printKinerjaJalan', ['idruas'=>$idruas])}}" class="btn btn-success float-right mb-3" target="_blank">Cetak</a>
                     <div class="dt-responsive table-responsive">
 
                         <table id="dttable" class="table table-striped table-bordered">
