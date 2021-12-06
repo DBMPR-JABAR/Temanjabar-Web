@@ -5,7 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Model\Transactional\SurveiKerusakan;
 use App\Model\Transactional\Survei;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class SurveiController extends Controller
 {
@@ -69,5 +71,32 @@ class SurveiController extends Controller
 
         return response()->json($this->response, $code);
 
+    }
+
+    public function getUsers()
+    {
+
+        // return [
+        //     $user->email => [
+        //         "password" => $user->password,
+        //         "name" => $user->name,
+        //         "uptd" => $user->internalRole->uptd ?? "*"
+        //     ]
+        // ];
+
+        $users = User::where("role","internal")->get();
+        $mappedUsers = [];
+
+        foreach ($users as $user) {
+            $uptd = $user->internalRole->uptd ?? "*";
+
+            $mappedUsers[$user->email] = [
+                "password" => $user->password,
+                "name" => $user->name,
+                "uptd" => Str::replaceFirst('uptd', 'UPTD ', $uptd)
+            ];
+        }
+
+        return response()->json($mappedUsers, 200);
     }
 }
