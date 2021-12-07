@@ -211,7 +211,7 @@ class ResumeController extends Controller
         $sup = DB::table('utils_sup')->get();
         // dd($uptd);
 
-        return view('admin.monitoring.pekerjaan.resume', compact('filter', 'sup', 'uptd', 'pekerjaan', 'ruas_jalan', 'sup', 'mandor',  'sum_report', 'nama_kegiatan_pekerjaan', 'jenis_la poran_pekerjaan'));
+        return view('admin.monitoring.pekerjaan.resume', compact('filter', 'sup', 'uptd', 'pekerjaan', 'ruas_jalan', 'sup', 'mandor',  'sum_report', 'nama_kegiatan_pekerjaan', 'jenis_laporan_pekerjaan'));
     }
 
     public static function cekMaterial($id)
