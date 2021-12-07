@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 Route::get('test', function () {
     return view('admin.layout.index');
@@ -274,8 +274,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('update-menu/update', 'MasterData\UserController@updateMenu')->name('updateMenu');
             Route::get('destroy-menu/{id}', 'MasterData\UserController@destroyMenu')->name('deleteMenu');
 
-
-
             Route::get('role-akses', 'MasterData\UserController@getDaftarRoleAkses')->name('getRoleAkses');
             Route::get('role-akses/create', 'MasterData\UserController@createRoleAccess')->name('createRoleAccess');
             Route::post('role-akses/store', 'MasterData\UserController@storeRoleAccess')->name('storeRoleAccess');
@@ -441,7 +439,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
             Route::post('laporan', 'InputData\PekerjaanController@generateLaporanPekerjaan')->name('generateLapPekerjaan');
 
-
             Route::get('json', 'InputData\PekerjaanController@json')->name('getJsonDataBencana');
         });
 
@@ -536,6 +533,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::get('pemetaan', 'LaporController@pemetaanLaporanMasyarakat')->name('pemetaanLaporanMasyarakat');
         Route::get('laporan-kerusakan', 'MonitoringController@getLaporan');
     });
+
+    Route::get('forum', function () {
+        return view('admin.forum.index');
+    });
 });
 Route::get('map/target-realisasi', 'ProyekController@getTargetRealisasiAPI')->name('api.targetrealisasi');
 Route::get('map/kendali-kontrak', 'ProyekController@getProyekKontrakAPI')->name('api.proyekkontrak');
@@ -546,7 +547,6 @@ Route::view('map/kemantapan-jalan', 'admin.map.map-kemantapan-jalan')->name('map
 Route::view('map/pemetaan_laporan_masyarakat', 'admin.map.pemetaan_laporan_masyarakat')->name('map.pemetaanLaporanMasyarakat');
 
 Route::post('getSupData', 'MonitoringController@getSupData')->name('getSupData.filter');
-
 
 Route::view('debug/mail/disposisi', 'mail.notifikasiDisposisi');
 Route::view('debug/mail/tindaklanjut', 'mail.notifikasiTindakLanjut');
@@ -563,7 +563,6 @@ Route::view('map-progress-mingguan', 'debug.map-progress-mingguan');
 Route::view('map-ruas-jalan', 'debug.map-ruas-jalan');
 
 Route::get('debug', 'Backup\DebugController@debug');
-
 
 Route::middleware(['auth'])->group(function () {
     Route::prefix('v1')->group(function () {
