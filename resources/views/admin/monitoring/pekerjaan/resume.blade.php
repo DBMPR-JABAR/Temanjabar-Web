@@ -235,7 +235,7 @@
         const uptdSelect = document.getElementById('filterUPTD')
         uptdSelect.onchange = event=>{
             console.log(event)
-            const filterSup = sup.filter(data=>data.uptd_id == event.target.value)
+            const filterSup  = sup.filter(data=>data.uptd_id == event.target.value)
             console.log(filterSup)
             let html = `<option value="ALL">Semua SUP</option>`
             filterSup.forEach(data=>{
