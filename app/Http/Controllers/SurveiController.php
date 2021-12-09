@@ -45,7 +45,10 @@ class SurveiController extends Controller
         $namaJalan = DB::table('master_ruas_jalan')
             ->where('id_ruas_jalan', $idruas)->first()->nama_ruas_jalan;
 
-        $kemantapanjalan = DB::table('survei_kondisi_jalan')->where('idruas', $idruas)->first();
+        $kemantapanjalan = DB::table('survei_kondisi_jalan')
+                             ->where('idruas', $idruas)
+                             ->orderBy('tgl_survei')
+                             ->first();
 
         $kerusakan = DB::table('survei_kondisi_jalan_kerusakan')
             ->where('idruas', $idruas)
