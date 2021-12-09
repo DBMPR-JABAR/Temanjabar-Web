@@ -58,7 +58,7 @@
             <div class="card-block">
                 <!-- <a href="{{ route('addLapor') }}" class="mb-3 btn btn-mat btn-primary">Tambah</a> -->
                 <div class="dt-responsive table-responsive">
-                    <table id="dttable" class="table table-striped table-bordered able-responsive">
+                    <table id="dttable" class="table table-striped table-bordered table-responsive text-center">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -67,12 +67,12 @@
                                 <th>Status</th>
                                 <th>Nama</th>
                                 <th>NIK</th>
-                                <th>Alamat</th>
+                                {{-- <th>Alamat</th> --}}
                                 <th>Telp</th>
                                 <th>Email</th>
                                 <th>Jenis</th>
                                 <th>UPTD</th>
-                                <th>Foto</th>
+                                <th>Bukti</th>
                                 <th style="min-width: 135px;">Aksi</th>
                             </tr>
                         </thead>
@@ -224,10 +224,10 @@
                     data: 'nik',
                     name: 'nik'
                 },
-                {
-                    data: 'alamat',
-                    name: 'alamat'
-                },
+                // {
+                //     data: 'alamat',
+                //     name: 'alamat'
+                // },
                 {
                     data: 'telp',
                     name: 'telp'

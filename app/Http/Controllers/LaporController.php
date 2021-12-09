@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Yajra\Datatables\DataTables;
 
 class LaporController extends Controller
@@ -28,7 +28,7 @@ class LaporController extends Controller
     {
         $response = [
             'status' => 'false',
-            'data' => []
+            'data' => [],
         ];
 
         $aduan = DB::table('monitoring_laporan_masyarakat');
@@ -70,12 +70,11 @@ class LaporController extends Controller
         $status = array(
             array('id' => 'menunggu', 'name' => 'menunggu'),
             array('id' => 'Dalam proses', 'name' => 'Dalam proses'),
-            array('id' => 'selesai', 'name' => 'selesai')
+            array('id' => 'selesai', 'name' => 'selesai'),
         );
 
         return view('admin.lapor.edit', compact('aduan', 'ruasJalan', 'uptd', 'status'));
     }
-
 
     public function store(Request $request)
     {
@@ -138,8 +137,19 @@ class LaporController extends Controller
             ->addIndexColumn()
             ->addColumn('imglaporan', function ($row) {
                 $path_foto = explode('/', $row->gambar);
-                $img = '<img class="img-fluid" style="max-width: 100px" src="' . url('storage/' . $row->gambar) . '"  alt="' . end($path_foto) . '" />';
-                return $img;
+                $html = '<img class="img-fluid" style="max-width: 100px" src="' . url('storage/' . $row->gambar) . '"  alt="' . end($path_foto) . '" />';
+                $mime = mime_content_type('storage/' . $row->gambar);
+                if (strstr($mime, "video/")) {
+                    $html = '<video width="320" height="240" controls>
+                    <source src="' . url('storage/' . $row->gambar) . '">
+                  Your browser does not support the video tag.
+                  </video>';
+                } else if (strstr($mime, "image/")) {
+                    $html = '<img class="img-fluid" style="max-width: 100px" src="' . url('storage/' . $row->gambar) . '"  alt="' . end($path_foto) . '" />';
+                } else {
+                    $html = '<a href="' . url('storage/' . $row->gambar) . '" target="_blank">-</a>';
+                }
+                return $html;
             })
             ->addColumn('action', function ($row) {
                 $btn = '<div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">';
@@ -191,7 +201,10 @@ class LaporController extends Controller
                             $status = 'Submitted';
                     }
                     return $status;
-                } else return $row->status;
+                } else {
+                    return $row->status;
+                }
+
             })
             ->rawColumns(['action', 'imglaporan', 'jenis'])
             ->make(true);
@@ -223,14 +236,14 @@ class LaporController extends Controller
                 CURLOPT_CUSTOMREQUEST => 'POST',
                 CURLOPT_POSTFIELDS => array('no_aduan' => $no_aduan, 'status' => $status),
                 CURLOPT_HTTPHEADER => array(
-                    'Authorization: a9a9933ce440323accad1dd73900e85321d19bc8'
+                    'Authorization: a9a9933ce440323accad1dd73900e85321d19bc8',
                 ),
             ));
 
-            $response = (object)curl_exec($curl);
+            $response = (object) curl_exec($curl);
 
             curl_close($curl);
-            $msgJQR = (object)json_decode($response->scalar)->Message;
+            $msgJQR = (object) json_decode($response->scalar)->Message;
             // dd($msg->scalar);
             $msg = $msg . ($msgJQR->scalar ? $msgJQR->scalar : '-');
         }
