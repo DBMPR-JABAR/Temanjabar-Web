@@ -72,6 +72,13 @@
                             </a>
                         </li>
                         @endif
+                        @if (hasAccess(Auth::user()->internal_role_id, 'Pekerjaan Distance', 'View'))
+                        <li class="{{ Request::segment(3) == 'kemandoran-distance' ? 'active' : '' }}">
+                            <a href="{{ url('/admin/monitoring/kemandoran-distance') }}">
+                                <span class="pcoded-mtext">Kalkulasi Koordinate Pekerjaan</span>
+                            </a>
+                        </li>
+                        @endif
                     </ul>
                 </li>
             </ul>

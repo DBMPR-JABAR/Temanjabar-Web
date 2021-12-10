@@ -24,7 +24,10 @@ class PekerjaanDistanceExport implements FromCollection, WithHeadings, WithMappi
      */
     public function collection()
     {
-        $resume = DB::table('kemandoran_with_distance')->where('uptd_id', $this->uptd_id)->OrderBy('distance')->get();
+        $resume = DB::table('kemandoran_with_distance')
+        ->where('uptd_id', $this->uptd_id)
+        ->OrderBy('distance')
+        ->get();
         return $resume;
     }
 
@@ -50,10 +53,11 @@ class PekerjaanDistanceExport implements FromCollection, WithHeadings, WithMappi
             ucwords(strtolower($data->nama_mandor)),
             $data->lat,
             $data->lng,
-            $distance > 1000 ? number_format($distance / 1000, 2) . ' KM' : number_format($distance, 2) . ' M',
+            $distance,
+            // $distance > 1000 ? number_format($distance / 1000, 2) . ' KM' : number_format($distance, 2) . ' M',
             Carbon::parse($data->calculate_time)->format('d F Y H:i:s'),
             $data->tanggal,
-            '=HYPERLINK("' . route('editDataPekerjaan', $data->id_pek) . '", "edit")',
+            '=HYPERLINK("' . 'https://sp.temanjabar.net/admin/input-data/pekerjaan/edit/' . $data->id_pek . '", "edit")',
         ];
     }
 
@@ -66,7 +70,7 @@ class PekerjaanDistanceExport implements FromCollection, WithHeadings, WithMappi
     {
         return [
             'H' => ['font' => ['italic' => true, 'color' => ['rgb' => '0000FF']]],
-            'H1' => ['font' => ['italic' => false, 'color' => ['rgb' => '000000']]],
+            '1' => ['font' => ['bold' => true, 'color' => ['rgb' => '000000']]],
         ];
     }
 }
