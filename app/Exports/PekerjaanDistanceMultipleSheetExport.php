@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Exports\PekerjaanDistanceExport;
+use App\Exports\PekerjaanDistancePercentaseExport;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
@@ -22,6 +23,7 @@ class PekerjaanDistanceMultipleSheetExport implements WithMultipleSheets
 
         foreach ($uptd as $key => $value) {
             $sheets[] = new PekerjaanDistanceExport($value->uptd_id);
+            $sheets[] = new PekerjaanDistancePercentaseExport($value->uptd_id);
         }
 
         return $sheets;
