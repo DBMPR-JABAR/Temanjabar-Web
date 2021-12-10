@@ -38,7 +38,7 @@ class PekerjaanDistanceExport implements FromCollection, WithHeadings, WithMappi
             'Nama Mandor',
             'Latitude',
             'Longitude',
-            'Jarak',
+            'Jarak dari Ruas Jalan(Meter)',
             'Tanggal Kalkulasi',
             'Tanggal Pekerjaan',
             'Aksi',
