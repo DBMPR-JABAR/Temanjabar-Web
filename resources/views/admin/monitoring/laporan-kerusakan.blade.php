@@ -167,19 +167,57 @@
                     ]
                     },
                     {
-                        type: "media",
-                        mediaInfos: [
-                            {
-                                title: "<b>Foto Kondisi</b>",
-                                type: "image",
-                                caption: "diunggah oleh user",
-                                value: {
-                                sourceURL:
-                                    "https://tj.temanjabar.net/storage/{gambar}"
-                                }
+                            type: "custom",
+                            outFields: ["*"],
+                            creator: function(feature) {
+                                console.log(feature)
+                                const media = feature.graphic.attributes.gambar;
+                                let html = '';
+                            function getExtension(filename) {
+                            var parts = filename.split('.');
+                            return parts[parts.length - 1];
                             }
-                        ]
-                    }
+                            function isImage(filename) {
+                            var ext = getExtension(filename);
+                            switch (ext.toLowerCase()) {
+                                case 'jpg':
+                                case 'gif':
+                                case 'bmp':
+                                case 'png':
+                                return true;
+                            }
+                            return false;
+                            }
+
+                            function isVideo(filename) {
+                            var ext = getExtension(filename);
+                            switch (ext.toLowerCase()) {
+                                case 'm4v':
+                                case 'avi':
+                                case 'mpg':
+                                case 'mp4':
+                                case 'mov':
+                                return true;
+                            }
+                            return false;
+                            }
+                                if (isImage(media)) {
+                                    html += `
+                                    <div class="esri-feature-media__item">
+                                        <img src="${baseUrl}/storage/${media}" alt="Failed to load" />
+                                    </div>`;
+                                }
+                                if (isVideo(media)) {
+                                    html += `
+                                    <div class="esri-feature-media__item">
+                                        <video controls class="esri-feature-media__item">
+                                            <source src="${baseUrl}/storage/${media}">
+                                        </video>
+                                    </div>`;
+                                }
+                                return html;
+                            }
+                        },
                 ]
             };
 
@@ -199,12 +237,13 @@
                 }else{
                     data.forEach(item => {
                         var point = new Point(item.long, item.lat);
-                        view.graphics.add(new Graphic({
+                        let graphic = new Graphic({
                             geometry: point,
                             symbol: symbol,
                             attributes: item,
                             popupTemplate: popupTemplate
-                        }));
+                        });
+                        view.graphics.add(graphic);
                         table.innerHTML +=  `<tr>
                                                 <td>
                                                     <b>${item.nama}</b> <br>
