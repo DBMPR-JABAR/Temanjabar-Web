@@ -53,7 +53,7 @@ class PekerjaanDistanceExport implements FromCollection, WithHeadings, WithMappi
             ucwords(strtolower($data->nama_mandor)),
             $data->lat,
             $data->lng,
-            $distance,
+            number_format($distance, 2),
             // $distance > 1000 ? number_format($distance / 1000, 2) . ' KM' : number_format($distance, 2) . ' M',
             Carbon::parse($data->calculate_time)->format('d F Y H:i:s'),
             $data->tanggal,
