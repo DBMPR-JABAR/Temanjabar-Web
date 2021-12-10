@@ -83,6 +83,8 @@ class MapDashboardController extends Controller
             $this->response['data']['vehiclecounting'] = [];
             $this->response['data']['kemantapanjalan'] = [];
 
+            $distanceThreshold = env("DISTANCE_THRESHOLD", 1000);
+
             if ($request->has('kegiatan')) {
                 if (in_array('jembatan', $request->kegiatan)) {
                     // $data = Jembatan::whereIn('SUP',$request->sup)->get();
@@ -91,11 +93,13 @@ class MapDashboardController extends Controller
                     $this->response['data']['jembatan'] = $data;
                 }
                 if (in_array('pemeliharaan', $request->kegiatan)) {
-                    $data = Kemandoran::whereIn('SUP', $request->sup);
+                    $data = DB::table('kemandoran')
+                              ->join('kemandoran_distance', 'kemandoran.id', '=', 'kemandoran_distance.kemandoran_id')
+                              ->select('kemandoran.*', 'kemandoran_distance.distance');
 
-                    $data = $data->whereBetween('TANGGAL', [$request->date_from, $request->date_to]);
-                    $data = $data->whereBetween('LAT', [-7.72968, -6.06324]);
-                    $data = $data->whereBetween('LNG', [106.452, 108.79]);
+                    $data = $data->whereIn('sup', $request->sup);
+                    $data = $data->whereBetween('tanggal', [$request->date_from, $request->date_to]);
+                    $data = $data->where('distance', '<=', $distanceThreshold);
 
                     $data = $data->get();
                     $this->response['data']['pemeliharaan'] = $data;
