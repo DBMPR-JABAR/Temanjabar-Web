@@ -535,7 +535,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     });
 
     Route::get('forum', function () {
-        return view('admin.forum.index');
+        $idUser = Auth::user()->id;
+        return view('admin.forum.index', compact('idUser'));
     });
 });
 Route::get('map/target-realisasi', 'ProyekController@getTargetRealisasiAPI')->name('api.targetrealisasi');
