@@ -81,7 +81,7 @@
 <script>
     const frameAddUrl = 'http://124.81.122.131/forum/public/ex/question/create/teman-jabar/$id_user'
     $(document).ready(function () {
-        fetch('http://124.81.122.131/forum/public/api/category/teman-jabar')
+        fetch('https://forum.temanjabar.net/api/category/teman-jabar')
             .then(res => res.json())
             .then(res => {
                 console.log(res);
