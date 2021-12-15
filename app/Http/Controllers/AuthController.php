@@ -23,6 +23,7 @@ class AuthController extends Controller
             $user = DB::table('users')->where('id', $internal->first()->user_id)->first();
             $credentials['email'] = $user->email;
         }
+        
         $auth = Auth::attempt($credentials);
         // dd($auth);
         if (!$auth) {
@@ -32,6 +33,10 @@ class AuthController extends Controller
         if (Auth::user()->role == 'masyarakat') {
             Auth::logout();
             return back()->with(['msg' => 'Silahkan Login Di Smartphone Untuk Mengakses Fitur Masyarakat', 'color' => 'danger']);
+        }
+        if(Auth::user()->is_delete == 1 || Auth::user()->blokir == "Y"){
+            Auth::logout();
+            return back()->with(['msg' => 'Akun anda telah di Blokir / di Hapus, Hubungi admin!!', 'color' => 'danger']);
         }
         Log::create(['activity' => 'Login', 'user_id' => Auth::user()->id, 'description' => 'User ' . Auth::user()->name . ' Logged In To Web Teman-Jabar', 'ip_address' => request()->ip()]);
 
