@@ -240,7 +240,7 @@ class UserController extends Controller
 
     public function getUser()
     {
-        $users = DB::table('users')->where('is_delete',null)->Where('is_delete',0)->get();
+        $users = DB::table('users')->where('is_delete',null)->orWhere('is_delete',0)->orWhere('is_delete','!=',1)->get();
         $roles = DB::table('user_role');
         if (Auth::user()->internalRole->uptd) {
             $roles = $roles->where('uptd', Auth::user()->internalRole->uptd);
