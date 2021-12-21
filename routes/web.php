@@ -538,6 +538,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         $idUser = Auth::user()->id;
         return view('admin.forum.index', compact('idUser'));
     });
+
+    Route::get('forum/{slug}', function ($slug) {
+        $idUser = Auth::user()->id;
+        return view('admin.forum.detail', compact('idUser', 'slug'));
+    });
 });
 Route::get('map/target-realisasi', 'ProyekController@getTargetRealisasiAPI')->name('api.targetrealisasi');
 Route::get('map/kendali-kontrak', 'ProyekController@getProyekKontrakAPI')->name('api.proyekkontrak');
