@@ -87,8 +87,8 @@
 @section('script')
 <script>
     const imageCallback = "{{asset('assets/images/sample/sample.png')}}"
-    const addAnswer = "https://forum.temanjabar.net/api/store/answer/$id/{{$idUser}}"
-    const addComment = "https://forum.temanjabar.net/api/store/comment/$id/{{$idUser}}"
+    const addAnswer = "https://forum.temanjabar.net/api/store/answer/$id/{{$idUser}}/teman-jabar"
+    const addComment = "https://forum.temanjabar.net/api/store/comment/$id/{{$idUser}}/teman-jabar"
 
     function showModal(type, idQuestion, idAnswer) {
         let title = '';
@@ -165,6 +165,7 @@
             .then(res => res.json())
             .then(res => {
                 const data = res.data
+                console.log(data)
                 const created_at = new Date(data.created_at)
                 $('#title').text(data.question)
                 $('#sub_title').text(`${data.user.name} - ${created_at.getDate()} ${getMonthName(created_at.getMonth()+1)} ${created_at.getFullYear()} ${created_at.getHours()}:${created_at.getMinutes()}`)
@@ -179,7 +180,7 @@
                     answers.forEach(answer => {
                         const created_at_answer = new Date(answer.created_at)
                         htmlAnswers += `<div class="card-text">
-                            <small><b>${answer.user?.name || '-'}</b> ${created_at_answer.getDate()} ${getMonthName(created_at_answer.getMonth()+1)} ${created_at_answer.getFullYear()} ${created_at_answer.getHours()}:${created_at_answer.getMinutes()}</small><br/> ${answer.content_answer}
+                            <small><b>${answer.user_temanjabar?.name || '-'}</b> ${created_at_answer.getDate()} ${getMonthName(created_at_answer.getMonth()+1)} ${created_at_answer.getFullYear()} ${created_at_answer.getHours()}:${created_at_answer.getMinutes()}</small><br/> ${answer.content_answer}
                             </div>
                             <small>
                             <button onclick="showModal('COMMENT',${data.id},${answer.id})" class="btn btn-sm btn-primary d-inline">Komentar</button>
@@ -191,7 +192,7 @@
                         answer.comments.forEach(comment => {
                         const created_at_comment = new Date(comment.created_at)
                             htmlAnswers += `<div class="card-text ml-3">
-                                            <small><b>${comment.user?.name || '-'}</b> ${created_at_comment.getDate()} ${getMonthName(created_at_comment.getMonth()+1)} ${created_at_comment.getFullYear()} ${created_at_comment.getHours()}:${created_at_comment.getMinutes()}</small><br/> ${comment.content_comment}
+                                            <small><b>${comment.user_temanjabar?.name || '-'}</b> ${created_at_comment.getDate()} ${getMonthName(created_at_comment.getMonth()+1)} ${created_at_comment.getFullYear()} ${created_at_comment.getHours()}:${created_at_comment.getMinutes()}</small><br/> ${comment.content_comment}
                                         </div>
                                         <hr/>`
                         })

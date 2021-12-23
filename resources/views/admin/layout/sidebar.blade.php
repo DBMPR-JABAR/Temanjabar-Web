@@ -534,6 +534,14 @@
                     </a>
                 </li>
                 @endif
+                <li class="{{ Request::segment(2) == 'forum' ? 'active' : '' }}">
+                    <a href="{{ url('admin/forum') }}" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-bell"></i>
+                        </span>
+                        <span class="pcoded-mtext">Forum</span>
+                    </a>
+                </li>
         </div>
     </div>
 </nav>
