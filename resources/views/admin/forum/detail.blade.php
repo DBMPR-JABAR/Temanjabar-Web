@@ -76,7 +76,7 @@
                 <div class="modal-footer">
                     <button type="button" id="btn_add_cancel" class="btn btn-secondary"
                         data-dismiss="modal">Batal</button>
-                    <button type="submit" id="btn_add" class="btn btn-primary">Kirim</button>
+                    <button type="button" id="btn_add" class="btn btn-primary">Kirim</button>
                 </div>
             </form>
         </div>
@@ -86,12 +86,48 @@
 @endsection
 @section('script')
 <script>
-    const frameAddUrl = 'http://124.81.122.131/forum/public/ex/question/create/teman-jabar/$id_user'
-    const addUrl = 'http://124.81.122.131/forum/public//store/question/teman-jabar/$id_user'
     const imageCallback = "{{asset('assets/images/sample/sample.png')}}"
+    const addAnswer = "https://forum.temanjabar.net/api/store/answer/$id/{{$idUser}}"
+    const addComment = "https://forum.temanjabar.net/api/store/comment/$id/{{$idUser}}"
 
-    function showModal(type, data) {
+    function showModal(type, idQuestion, idAnswer) {
+        let title = '';
+        let form = new FormData();
+        if(type === 'ANSWER')
+        title = 'Tambah Jawaban';
+        if(type === 'COMMENT')
+        title = 'Tambah Komentar';
+
+        $('#exampleModalLongTitle').text(title);
         $('#exampleModalCenter').modal('show')
+
+        $('#btn_add').attr("onclick", "").unbind("click");
+
+        $('#btn_add').on('click', () => {
+            const content = $('textarea#content').val();
+            if(type === 'ANSWER') form.append('content_answer', content);
+            if(type === 'COMMENT') {
+                form.append('content_comment', content);
+                form.append('answer_id', idAnswer);
+                form.append('parent_id', '');
+            }
+            console.log(content);
+            $.ajax({
+                url: (type === 'ANSWER' ? addAnswer : addComment).replace('$id', idQuestion),
+                type: 'POST',
+                data : form,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    $('textarea#content').val('');
+                    $('#exampleModalCenter').modal('hide')
+                    render();
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+        })
     }
 
     const getMonthName = (month) => {
@@ -129,7 +165,6 @@
             .then(res => res.json())
             .then(res => {
                 const data = res.data
-                console.log(data)
                 const created_at = new Date(data.created_at)
                 $('#title').text(data.question)
                 $('#sub_title').text(`${data.user.name} - ${created_at.getDate()} ${getMonthName(created_at.getMonth()+1)} ${created_at.getFullYear()} ${created_at.getHours()}:${created_at.getMinutes()}`)
@@ -147,7 +182,8 @@
                             <small><b>${answer.user?.name || '-'}</b> ${created_at_answer.getDate()} ${getMonthName(created_at_answer.getMonth()+1)} ${created_at_answer.getFullYear()} ${created_at_answer.getHours()}:${created_at_answer.getMinutes()}</small><br/> ${answer.content_answer}
                             </div>
                             <small>
-                            <i class="fa fa-reply text-primary" style="cursor:pointer;" onclick="showModal('COMMENT',${data.id})"></i>
+                            <button onclick="showModal('COMMENT',${data.id},${answer.id})" class="btn btn-sm btn-primary d-inline">Komentar</button>
+                            <i class="fa fa-reply text-primary" style="cursor:pointer;"></i>
                             <span id="like_${answer.id}">${answer.comments.length} komentar</span>
                             </small>
                             <hr/>
@@ -160,9 +196,10 @@
                                         <hr/>`
                         })
                     })
+                    $('#card_body_response').empty()
                     $('#card_body_response').append(htmlAnswers)
                 }
-                $('#card_header_response').html(`<button onclick="showModal('ANSWER',${data.id})" class="btn btn-sm btn-primary">Balas</button>`)
+                $('#card_header_response').html(`<button onclick="showModal('ANSWER',${data.id},${null})" class="btn btn-sm btn-primary d-inline">Balas</button> <span class="d-inline">${answers.length} balasan</span>`)
             })
             .catch(err => console.log(err));
     }
