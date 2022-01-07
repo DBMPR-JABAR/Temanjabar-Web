@@ -41,6 +41,21 @@ class Home extends Controller
         }
         // dd($detail_data_talikuat);
 
+
+        $lat = -6.76544300000000000;
+        $lon = 108.16815900000000000;
+            
+        $nearby = DB::table("master_ruas_jalan")
+            ->select("*"
+                ,DB::raw("6371 * acos(cos(radians(" . $lat . ")) 
+                * cos(radians(master_ruas_jalan.lat_awal)) 
+                * cos(radians(master_ruas_jalan.long_awal) - radians(" . $lon . ")) 
+                + sin(radians(" .$lat. ")) 
+                * sin(radians(master_ruas_jalan.lat_awal))) AS distance"))
+                ->groupBy("master_ruas_jalan.id")->orderBy("distance")
+                ->get();
+        dd($nearby);
+
         return view('admin.home', compact('pembangunan_talikuat', 'data_talikuat','detail_data_talikuat'));
     }
 
