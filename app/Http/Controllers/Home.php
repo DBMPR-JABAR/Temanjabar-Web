@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Model\Transactional\RuasJalan;
+use App\Model\Transactional\RuasJalanDetail;
 
 class Home extends Controller
 {
@@ -42,20 +44,71 @@ class Home extends Controller
         // dd($detail_data_talikuat);
 
 
-        $lat = -6.76544300000000000;
-        $lon = 108.16815900000000000;
+        // $lat = -6.76544300000000000;
+        // $lon = 108.16815900000000000;
             
-        $nearby = DB::table("master_ruas_jalan")
-            ->select("*"
-                ,DB::raw("6371 * acos(cos(radians(" . $lat . ")) 
-                * cos(radians(master_ruas_jalan.lat_awal)) 
-                * cos(radians(master_ruas_jalan.long_awal) - radians(" . $lon . ")) 
-                + sin(radians(" .$lat. ")) 
-                * sin(radians(master_ruas_jalan.lat_awal))) AS distance"))
-                ->groupBy("master_ruas_jalan.id")->orderBy("distance")
-                ->get();
-        dd($nearby);
+        // $nearby_awal = DB::table("master_ruas_jalan")
+        //     ->select("*",DB::raw("6371 * acos(cos(radians(" . $lat . ")) 
+        //         * cos(radians(master_ruas_jalan.lat_awal)) 
+        //         * cos(radians(master_ruas_jalan.long_awal) - radians(" . $lon . ")) 
+        //         + sin(radians(" .$lat. ")) 
+        //         * sin(radians(master_ruas_jalan.lat_awal))) AS distance"))
+        //     ->groupBy("master_ruas_jalan.id")->orderBy("distance")
+        //     ->take(10)->get();
+        // $nearby_akhir = DB::table("master_ruas_jalan")
+        //     ->select("*",DB::raw("6371 * acos(cos(radians(" . $lat . ")) 
+        //         * cos(radians(master_ruas_jalan.lat_akhir)) 
+        //         * cos(radians(master_ruas_jalan.long_akhir) - radians(" . $lon . ")) 
+        //         + sin(radians(" .$lat. ")) 
+        //         * sin(radians(master_ruas_jalan.lat_akhir))) AS distance"))
+        //     ->groupBy("master_ruas_jalan.id")->orderBy("distance")
+        //     ->take(10)->get();
+        // dd($nearby_akhir);
+        // dd(count($temp_ruas));
+        
+        // // explode array lat long
+        // $temp_ruas = RuasJalan::groupBy('id_ruas_jalan')->get();
+        // foreach ($temp_ruas as $data =>$ruas) {
+        //     echo " Id: ", $ruas->id_ruas_jalan,"<br>";
+        //     if(isset($ruas->geo_prov->geo_json)){
+        //         $dec =  json_decode( $ruas->geo_prov->geo_json );       
+        //         for($i=0;$i<count($dec->coordinates[0]);$i++){
+        //             echo "long: ", $dec->coordinates[0][$i][0];
+        //             echo " lat: ", $dec->coordinates[0][$i][1],"<br>";
+        //             $save=[
+        //                 'id_ruas_jalan' =>$ruas->id_ruas_jalan,
+        //                 'lat'=>$dec->coordinates[0][$i][1],
+        //                 'long'=>$dec->coordinates[0][$i][0],
+        //             ];
+        //             DB::table('master_ruas_jalan_detail')->insert($save);
+        //         }
+        //     }     
+        // }
+        // dd($save);
 
+        // $temp_ruas2 = RuasJalan::groupBy('id_ruas_jalan')->get();
+        // foreach ($temp_ruas2 as $dat =>$ruas) {
+        //     for($x=0; $x<2 ; $x++){
+        //         echo $x;
+        //         if($x==0){
+        //             echo " lat_long_awal <br>";
+        //             $save=[
+        //                 'id_ruas_jalan' =>$ruas->id_ruas_jalan,
+        //                 'lat'=>$ruas->lat_awal,
+        //                 'long'=>$ruas->long_awal,
+        //             ];
+        //         }else{
+        //             echo " lat_long_akhir <br>";
+        //             $save=[
+        //                 'id_ruas_jalan' =>$ruas->id_ruas_jalan,
+        //                 'lat'=>$ruas->lat_akhir,
+        //                 'long'=>$ruas->long_akhir,
+        //             ];
+        //         }
+        //         DB::table('master_ruas_jalan_detail')->insert($save);
+        //     }
+        // }
+        // dd($save);
         return view('admin.home', compact('pembangunan_talikuat', 'data_talikuat','detail_data_talikuat'));
     }
 

@@ -27,6 +27,12 @@ Route::get('403', function () {
 Route::get('login', 'LandingController@login')->name('login');
 Route::get('logout', 'AuthController@logout');
 Route::get('verify-email/{token}', 'AuthController@verifyEmail');
+Route::get('email-verify/{token}', 'AuthController@verifyEmailMasyarakat');
+Route::prefix('password-reset')->group(function () {
+    Route::get('{token}', 'AuthController@passwordResetMasyarakat');
+    Route::post('{token}/change', 'AuthController@changePasswordResetMasyarakat');
+
+});
 
 Route::post('auth', 'AuthController@login');
 Route::get('forced-login/{encrypted_id}', 'AuthController@loginUsingId');

@@ -8,10 +8,12 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Facades\Validator;
 use App\User;
+use App\UserMasyarakat;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
 use App\Model\Transactional\Log;
+use App\Model\Transactional\LogMasyarakat;
 use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
@@ -70,7 +72,7 @@ class AuthController extends Controller
         $this->response['data']['user']['encrypted_id'] = encrypt(auth('api')->user()->id);
         return response()->json($this->response, 200);
     }
-
+    
     public function logout()
     {
         try {
@@ -86,7 +88,7 @@ class AuthController extends Controller
             return response()->json($this->response, 500);
         }
     }
-
+   
     public function register(Request $req)
     {
         try {
@@ -469,6 +471,178 @@ class AuthController extends Controller
             return response()->json($this->response, 200);
         } catch (JWTException $e) {
             $this->response['data']['message'] = 'could_not_create_token';
+            return response()->json($this->response, 500);
+        }
+    }
+
+    public function login_masyarakat(Request $req)
+    {
+        $credentials = $req->only('email', 'password');
+        $masyarakat = UserMasyarakat::where('email', $req->email);
+        $desc = 'By E-mail';
+        if (!$masyarakat->exists()) {
+            $another = UserMasyarakat::where('nik', $req->email)->first();
+            $desc = 'By NIK';
+            if (!isset($another)) {
+                $another = UserMasyarakat::where('no_telp', $req->email)->first();
+                $desc = 'By No Telp';
+                if (!isset($another)) {
+                    return response()->json([
+                        'success'   => false,
+                        'message'   => 'Password & E-mail/NIK/No Telp Salah !!',
+                        'data'  => $masyarakat->exists()
+                    ]);
+                }
+
+            }
+            $credentials['email'] = $another->email;
+            $masyarakat = $another;
+        }else{
+            $masyarakat = $masyarakat->first();
+        }
+        
+        try {
+            if (!$token = auth()->guard('api-masyarakat')->attempt($credentials)) {
+                $this->response['data']['message'] = 'Password & E-mail/NIK/No Telp Salah !!!';
+                LogMasyarakat::create(['user_masyarakat_id'=> $masyarakat->id ,'activity' => 'Login', 'description' => 'User ' . $masyarakat->name . ' Logged In To Android App '. $desc,'status' => 'error','ip_address' => $req->ip_address]);
+                return response()->json($this->response, 200);
+            }
+            
+        } catch (JWTException $e) {
+            $this->response['data']['message'] = 'could_not_create_token';
+            return response()->json($this->response, 500);
+        }
+        $temporari = auth('api-masyarakat')->user();
+        
+        if (!isset($temporari->email_verified_at)) {
+            auth('api-masyarakat')->logout();
+            $this->response['data']['message'] = 'Email Not Verified';
+            return response()->json($this->response, 200);
+        }
+        // return response()->json([
+        //     'success'   => true,
+        //     'message'   => 'Ruas terdekat',
+        //     'data'  =>$temporari
+        // ]);
+        if ($temporari) {
+            LogMasyarakat::create([
+                'user_masyarakat_id'=> $temporari->id ,
+                'activity' => 'Login', 
+                'description' => 'User ' . $temporari->name . ' Logged In To Android App '. $desc,
+                'status' => 'success',
+                'ip_address' => $req->ip_address
+            ]);
+        }
+        $this->response['status'] = 'success';
+        $this->response['data']['token'] = $this->getToken($token);
+        $this->response['data']['user'] = $temporari;
+        return response()->json($this->response, 200);
+    }
+    public function logout_masyarakat()
+    {
+        try {
+            if (auth('api-masyarakat')->user()) {
+                // Log::create(['activity' => 'Logout', 'description' => 'User ' . auth('api')->user()->name . ' Logged Out From Android App']);
+                LogMasyarakat::create(['user_masyarakat_id'=> auth('api-masyarakat')->user()->id ,'activity' => 'Logout', 'description' => 'User ' . auth('api-masyarakat')->user()->name . ' Logged Out From Android App ', 'status' => 'success']);
+            }
+            auth('api-masyarakat')->logout();
+            $this->response['status'] = 'success';
+            $this->response['data']['message'] = 'User Logged Out';
+            return response()->json($this->response, 200);
+        } catch (\Exception $th) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
+    public function register_masyarakat(Request $req)
+    {
+        
+        try {
+            // Data Validation
+            $validator = Validator::make($req->all(), [
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:user_masyarakat',
+                'password' => 'required|string|min:6',
+                'nik' => 'required|unique:user_masyarakat',
+                'no_telp' => 'required|unique:user_masyarakat',
+                'alamat' => '',
+            ]);
+           
+            if ($validator->fails()) {
+                $this->response['data']['error'] = $validator->errors();
+                return response()->json($this->response, 200);
+            }
+
+            // Create User Data
+            // return response()->json([
+            //     'success'   => true,
+            //     'message'   => 'Ruas terdekat',
+            //     'data'  =>Hash::make($req->password)
+            // ]);
+            $user = UserMasyarakat::create([
+                'name' => $req->name,
+                'email' => $req->email,
+                'password' => Hash::make($req->password),
+                'nik' => $req->nik,
+                'no_telp' => $req->no_telp,
+                'alamat' => $req->alamat,
+            ]);
+
+            // Send Email Verification
+            $to_email = $user->email;
+            $to_name = $user->name;
+            $data = [
+                'name' => $user->name,
+                'link' => url('email-verify/' . Crypt::encrypt($user->id))
+            ];
+            Mail::send('mail.sendVerificationMail', $data, function ($message) use ($to_name, $to_email) {
+                $message->to($to_email, $to_name)->subject('Verifikasi Akun Temanjabar');
+                $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
+            });
+
+            // Response
+            $this->response['status'] = 'success';
+            $this->response['data']['message'] = 'Email Verifikasi Dikirim';
+
+            return response()->json($this->response, 200);
+        } catch (\Exception $e) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
+    public function resetPasswordMasyarakat(Request $req)
+    {
+        try {
+            $validator = Validator::make($req->all(), [
+                'email' => 'required|string|email|max:255|exists:user_masyarakat',
+            ]);
+            if ($validator->fails()) {
+                $this->response['data']['message'] = "Jika email benar, link ganti password akan dikirimkan";
+                return response()->json($this->response, 200);
+            }
+            $user = UserMasyarakat::where('email', $req->email)->first();
+            // Create User Data
+            $code = $user->id.substr(uniqid(),7);
+            
+            $user->kode_otp = $code;
+            $user->save();
+            $data = [
+                'name' => $user->name,
+                'code' => Crypt::encrypt($user->kode_otp)
+            ];
+            $to_email = $user->email;
+            $to_name = $user->name;
+            Mail::send('mail.reset-password', $data, function ($message) use ($to_name, $to_email) {
+                $message->to($to_email, $to_name)->subject('Reset Password Temanjabar');
+                $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
+            });
+            LogMasyarakat::create(['user_masyarakat_id'=> $user->id ,'activity' => 'Reset Password', 'description' => 'User ' . $user->name . ' Reset Password ','status' => 'Success']);
+            $this->response['status'] = 'success';
+            $this->response['data']['message'] = "Jika email benar, link ganti password akan dikirimkan, periksa mail box atau spam";
+
+            return response()->json($this->response, 200);
+        } catch (\Exception $e) {
+            $this->response['data']['message'] = 'Internal Error';
             return response()->json($this->response, 500);
         }
     }

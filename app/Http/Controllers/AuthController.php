@@ -6,10 +6,12 @@ use App\Model\Push\UserPushNotification;
 use App\Model\Transactional\Log;
 use Illuminate\Support\Facades\Log as Logs;
 use App\User;
+use App\UserMasyarakat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -64,7 +66,60 @@ class AuthController extends Controller
             return $e->getMessage();
         }
     }
+    public function verifyEmailMasyarakat($token)
+    {
+        try {
+            $decrypted = Crypt::decrypt($token);
+            $user = UserMasyarakat::find($decrypted);
+            $user->email_verified_at = now();
+            $user->save();
+            return redirect('login')->with(['msg' => 'Email Berhasil Diverifikasi', 'color' => 'success']);
+        } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
+            return $e->getMessage();
+        }
+    }
+    public function passwordResetMasyarakat($token)
+    {
+        try {
+            $decrypted = Crypt::decrypt($token);
+            $user = UserMasyarakat::where('kode_otp',$decrypted)->first();
+            $profil = DB::table('landing_profil')->where('id', 1)->first();
 
+            // dd($user);
+            if($user){
+                // return redirect('login')->with(['msg' => 'Oke', 'color' => 'success']);
+                return view('landing.reset-password', compact('user','profil'));
+
+            }else{
+                return redirect('403')->with(['msg' => 'Link has been broken, please try again !', 'color' => 'error']);
+            }
+            return redirect('login')->with(['msg' => 'Email Berhasil Diverifikasi', 'color' => 'success']);
+        } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
+            return $e->getMessage();
+        }
+    }
+    public function changePasswordResetMasyarakat(Request $request, $token)
+    {
+        try {
+            $this->validate($request,[
+                'password' => 'confirmed|min:8|max:100'
+            ]);
+            $user = UserMasyarakat::where('kode_otp',$token)->first();
+
+            if($user){
+                // return redirect('login')->with(['msg' => 'Oke', 'color' => 'success']);
+                $user->password = Hash::make($request->password);
+                $user->save();
+                return redirect('login')->with(['msg' => 'Password berhasil diganti, silahkan login di mobile!', 'color' => 'success']);
+
+            }else{
+                return redirect('403')->with(['msg' => 'Link has been broken, please try again !', 'color' => 'error']);
+            }
+            return redirect('login')->with(['msg' => 'Email Berhasil Diverifikasi', 'color' => 'success']);
+        } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
+            return $e->getMessage();
+        }
+    }
     public function loginUsingId($encrypted_id)
     {
         $id = decrypt($encrypted_id);

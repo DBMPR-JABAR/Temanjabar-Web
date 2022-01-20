@@ -20,10 +20,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('laporan-masyarakat/store', 'API\LaporanMasyarakatController@store');
 Route::get('/lap-masyarakat', 'API\LapMasyarakatController@index');
-
+Route::prefix('nearby')->group(function () {
+    Route::get('ruas/{lat}/{long}', 'API\NearbyController@getNearbyRuas');
+});
 
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login', 'API\AuthController@login');
+   
     Route::post('logout', 'API\AuthController@logout');
     Route::post('registerMail', 'API\AuthController@register');
     Route::post('reset-password', 'API\AuthController@resetPasswordMail');
@@ -42,6 +45,14 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('register', 'API\AuthController@registerOTP');
     Route::post('verifyOTP', 'API\AuthController@verifyOTP');
     Route::post('resendOTPMail', 'API\AuthController@resendOTPMail');
+
+    // Masyarakat
+    Route::post('login-masyarakat', 'API\AuthController@login_masyarakat');
+    Route::post('logout-masyarakat', 'API\AuthController@logout_masyarakat');
+    Route::post('register-masyarakat', 'API\AuthController@register_masyarakat');
+    Route::post('reset-password-masyarakat', 'API\AuthController@resetPasswordMasyarakat');
+
+
 });
 
 Route::prefix('survei')->group(function () {

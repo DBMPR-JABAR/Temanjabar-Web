@@ -1,4 +1,17 @@
     <div class="container">
+        @if (Session::has('msg'))
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-{{ Session::get('color') }} alert-dismissible fade show"
+                    role="alert">
+                    {{ Session::get('msg') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        @endif
         <h1>4<div class="lock">
                 <div class="top"></div>
                 <div id="static_lock_bottom" class="bottom"></div>
