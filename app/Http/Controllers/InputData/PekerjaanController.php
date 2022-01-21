@@ -295,29 +295,29 @@ class PekerjaanController extends Controller
                 $rekaps = $rekaps->where('kemandoran.sup_id', Auth::user()->sup_id);
         }
 
-        $rekaps = $rekaps->get();
-        foreach ($rekaps as $it) {
-            // echo $it->status.' | '.$it->id_pek.'<br>';
+        // $rekaps = $rekaps->get();
+        // foreach ($rekaps as $it) {
+        //     // echo $it->status.' | '.$it->id_pek.'<br>';
 
-            $it->status_material = DB::table('bahan_material')->where('id_pek', $it->id_pek)->exists();
+        //     $it->status_material = DB::table('bahan_material')->where('id_pek', $it->id_pek)->exists();
 
-            $rekaplap = DB::table('kemandoran_detail_status')->where('id', $it->status_s)->pluck('status')->first();
-            $it->status = $rekaplap;
-            if (($it->status == "Approved" || $it->status == "Rejected" || $it->status == "Edited") || $it->status_material) {
-                if ($it->status == "Approved") {
-                    $approve += 1;
-                    // echo $it->status.' | '.$it->id_pek.'<br>';
-                } else if ($it->status == "Rejected" || $it->status == "Edited") {
-                    $reject += 1;
-                    // echo $it->status.' | '.$it->id_pek.'<br>';
-                } else
-                    $submit += 1;
-            } else
-                $not_complete += 1;
+        //     $rekaplap = DB::table('kemandoran_detail_status')->where('id', $it->status_s)->pluck('status')->first();
+        //     $it->status = $rekaplap;
+        //     if (($it->status == "Approved" || $it->status == "Rejected" || $it->status == "Edited") || $it->status_material) {
+        //         if ($it->status == "Approved") {
+        //             $approve += 1;
+        //             // echo $it->status.' | '.$it->id_pek.'<br>';
+        //         } else if ($it->status == "Rejected" || $it->status == "Edited") {
+        //             $reject += 1;
+        //             // echo $it->status.' | '.$it->id_pek.'<br>';
+        //         } else
+        //             $submit += 1;
+        //     } else
+        //         $not_complete += 1;
 
-            // echo $it->id_pek.' | '.$it->status.'<br>';
+        //     // echo $it->id_pek.' | '.$it->status.'<br>';
 
-        }
+        // }
         // dd($rekaps);
         $sum_report = [
             "approve" => $approve,
