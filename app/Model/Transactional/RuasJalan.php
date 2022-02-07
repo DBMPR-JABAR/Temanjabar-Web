@@ -28,7 +28,7 @@ class RuasJalan extends Model
     public function pekerjaan_pemeliharaan()
     {
         // return $this->belongsToMany('App\User','user_id');
-        return $this->hasMany('App\Model\Transactional\PekerjaanPemeliharaan','ruas_jalan_id','id_ruas_jalan')->whereBetween('tanggal', [Carbon::now()->subDays(2)->toDateString(), Carbon::now()->toDateString()]);
+        return $this->hasMany('App\Model\Transactional\PekerjaanPemeliharaan','ruas_jalan_id','id_ruas_jalan')->whereBetween('tanggal', [Carbon::now()->subDays(14)->toDateString(), Carbon::now()->toDateString()]);
     }
 
 }
