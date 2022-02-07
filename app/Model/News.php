@@ -21,4 +21,9 @@ class News extends Model implements HasMedia
     protected $dates = [
         'published_at',
     ];
+    
+    public function publishedBy()
+    {
+        return $this->belongsTo('App\User', 'user_id');
+    }
 }

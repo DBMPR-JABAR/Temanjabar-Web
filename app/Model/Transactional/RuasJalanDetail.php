@@ -13,7 +13,8 @@ class RuasJalanDetail extends Model
     ];
     public function ruas()
     {
-        return $this->belongsTo('App\Model\Transactional\RuasJalan', 'id_ruas_jalan','id_ruas_jalan');
+        return $this->belongsTo('App\Model\Transactional\RuasJalan', 'id_ruas_jalan','id_ruas_jalan')->with('pekerjaan_pemeliharaan');
     }
+    
 
 }

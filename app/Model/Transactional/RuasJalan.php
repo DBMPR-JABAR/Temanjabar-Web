@@ -3,6 +3,7 @@
 namespace App\Model\Transactional;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class RuasJalan extends Model
 {
@@ -19,11 +20,15 @@ class RuasJalan extends Model
     {
         // return $this->belongsToMany('App\User','user_id');
         return $this->belongsToMany('App\User','user_master_ruas_jalan','user_id','master_ruas_jalan_id');
-
     }
     public function geo_prov()
     {
         return $this->hasOne('App\Transactional\RuasJalanProvinsi', 'id_ruas_jalan','id_ruas_jalan');
+    }
+    public function pekerjaan_pemeliharaan()
+    {
+        // return $this->belongsToMany('App\User','user_id');
+        return $this->hasMany('App\Model\Transactional\PekerjaanPemeliharaan','ruas_jalan_id','id_ruas_jalan')->whereBetween('tanggal', [Carbon::now()->subDays(2)->toDateString(), Carbon::now()->toDateString()]);
     }
 
 }

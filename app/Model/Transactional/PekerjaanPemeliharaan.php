@@ -9,5 +9,8 @@ class PekerjaanPemeliharaan extends Model
     //
     protected $table = "kemandoran";
     protected $guarded = [];
-
+    public function ruas()
+    {
+        return $this->belongsTo('App\Model\Transactional\RuasJalan', 'id_ruas_jalan','ruas_jalan_id');
+    }
 }

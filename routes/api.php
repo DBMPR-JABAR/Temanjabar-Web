@@ -24,6 +24,12 @@ Route::prefix('nearby')->group(function () {
     Route::get('ruas/{lat}/{long}', 'API\NearbyController@getNearbyRuas');
 });
 
+Route::prefix('news')->group(function () {
+    Route::get('for-slider/', 'API\NewsController@slider');
+    Route::get('all-data/', 'API\NewsController@getAll');
+    Route::get('show/{slug}', 'API\NewsController@show');
+});
+
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login', 'API\AuthController@login');
    

@@ -49,6 +49,8 @@ class NewsController extends Controller
         if ($request->hasFile('thumbnail')) {
             $news->addMediaFromRequest('thumbnail')->toMediaCollection('thumbnail');
         }
+        $news->path_url = $news->getFirstMediaUrl('thumbnail', 'thumb');
+        $news->save();
         $color = "success";
         $msg = "Berhasil menambahkan berita";
         return redirect(route('news.index'))->with(compact('color', 'msg'));
@@ -101,6 +103,7 @@ class NewsController extends Controller
         if ($request->hasFile('thumbnail')) {
             $news->addMediaFromRequest('thumbnail')->toMediaCollection('thumbnail');
         }
+        $news->path_url = $news->getFirstMediaUrl('thumbnail', 'thumb');
         $news->save();
         $color = "success";
         $msg = "Berhasil memperbaharui berita";
