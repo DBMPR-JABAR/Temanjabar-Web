@@ -894,61 +894,64 @@ class PekerjaanController extends Controller
         $color = "danger";
         $msg = "Something when wrong!";
         $pekerjaan = DB::table('kemandoran')->where('kemandoran.id_pek', $id);
-        if (!$pekerjaan->exists())
+        if(!$pekerjaan->exists())
             return back()->with(compact('color', 'msg'));
 
         $pekerjaan = $pekerjaan->leftJoin('master_ruas_jalan', 'master_ruas_jalan.id_ruas_jalan', '=', 'kemandoran.ruas_jalan_id')->select('kemandoran.*', 'master_ruas_jalan.nama_ruas_jalan');
         // $pekerjaan = $pekerjaan->leftJoin('kemandoran_detail_status', 'kemandoran.id_pek', '=','kemandoran_detail_status.id_pek')->select('kemandoran.*', 'master_ruas_jalan.nama_ruas_jalan','kemandoran_detail_status.*');
+        
         if (Auth::user() && Auth::user()->internalRole->uptd) {
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
             $pekerjaan = $pekerjaan->where('kemandoran.uptd_id', $uptd_id);
-            if (str_contains(Auth::user()->internalRole->role, 'Mandor')) {
-                $pekerjaan = $pekerjaan->where('kemandoran.user_id', Auth::user()->id);
-            } else if (Auth::user()->sup_id)
-                $pekerjaan = $pekerjaan->where('kemandoran.sup_id', Auth::user()->sup_id);
+            if(str_contains(Auth::user()->internalRole->role,'Mandor')){
+                $pekerjaan = $pekerjaan->where('kemandoran.user_id',Auth::user()->id);
+            }else if(Auth::user()->sup_id)
+                $pekerjaan = $pekerjaan->where('kemandoran.sup_id',Auth::user()->sup_id);
         }
 
-        $pekerjaan = $pekerjaan->whereRaw("YEAR(tanggal) BETWEEN 2021 AND 2021");
+        $pekerjaan = $pekerjaan->whereRaw("YEAR(tanggal) BETWEEN 2021 AND 2022");
         $pekerjaan = $pekerjaan->where('is_deleted', 0)->latest('tglreal')->get();
-        foreach ($pekerjaan as $no => $data) {
+        // dd($pekerjaan);
+
+        foreach($pekerjaan as $no =>$data){
             // echo "$data->id_pek<br>";
             $data->status = "";
 
-            $detail_adjustment = DB::table('kemandoran_detail_status')->where('id_pek', $data->id_pek);
-            $input_material = $this->cekMaterial($data->id_pek);
-            if ($input_material) {
-                $tempuser = DB::table('users')
-                    ->leftJoin('user_role', 'users.internal_role_id', '=', 'user_role.id')->where('users.id', $data->user_id);
-                if ($tempuser->exists()) {
-                    $tempuser = $tempuser->first();
+            $detail_adjustment=DB::table('kemandoran_detail_status')->where('id_pek',$data->id_pek);
+            $input_material= $this->cekMaterial($data->id_pek);
+            if($input_material){
+                $tempuser= DB::table('users')
+                ->leftJoin('user_role','users.internal_role_id','=','user_role.id')->where('users.id',$data->user_id);
+                if($tempuser->exists()){
+                    $tempuser=$tempuser->first();
                     $data->status = $tempuser;
 
-                    $data->status->status = "";
+                    $data->status->status="";
                     // $data->status->status="";
 
                 }
             }
             $data->input_material = $input_material;
-            $data->keterangan_status_lap = $detail_adjustment->exists();
-            if ($detail_adjustment->exists()) {
+            $data->keterangan_status_lap= $detail_adjustment->exists();
+            if($detail_adjustment->exists()){
 
-                $detail_adjustment = $detail_adjustment
-                    ->leftJoin('users', 'users.id', '=', 'kemandoran_detail_status.adjustment_user_id')
-                    ->leftJoin('user_role', 'users.internal_role_id', '=', 'user_role.id');
+                $detail_adjustment=$detail_adjustment
+                ->leftJoin('users','users.id','=','kemandoran_detail_status.adjustment_user_id')
+                ->leftJoin('user_role','users.internal_role_id','=','user_role.id');
 
-                if ($detail_adjustment->count() > 1) {
-                    $detail_adjustment = $detail_adjustment->get();
-                    foreach ($detail_adjustment as $num => $data1) {
+                if($detail_adjustment->count() > 1){
+                    $detail_adjustment=$detail_adjustment->get();
+                    foreach($detail_adjustment as $num => $data1){
                         $temp = $data1;
                     }
-                    $data->status = $temp;
+                    $data->status=$temp;
                     // dd($data);
-                } else {
-                    $detail_adjustment = $detail_adjustment->first();
-                    $data->status = $detail_adjustment;
+                }else{
+                    $detail_adjustment=$detail_adjustment->first();
+                    $data->status=$detail_adjustment;
                 }
-                $temp = explode(" - ", $data->status->role);
-                $data->status->jabatan = $temp[0];
+                $temp=explode(" - ",$data->status->role);
+                $data->status->jabatan=$temp[0];
             }
 
             // echo "$data->id_pek<br>";
@@ -957,51 +960,52 @@ class PekerjaanController extends Controller
 
 
         $pekerjaan = $pekerjaan->first();
-        // dd($pekerjaan);
         // if($pekerjaan->keterangan_status_lap && $pekerjaan->status->adjustment_user_id != Auth::user()->id){
         //     return back()->with(compact('color', 'msg'));
         // }
         $pekerjaan->email = DB::table('users')->where('id', $pekerjaan->user_id)->pluck('email')->first();
 
-        if (Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role, 'Pengamat'))
-            if (Auth::user()->sup_id != $pekerjaan->sup_id) {
+        if(Auth::user()->internalRole->role != null && str_contains(Auth::user()->internalRole->role,'Pengamat'))
+            if(Auth::user()->sup_id != $pekerjaan->sup_id){
                 return back()->with(compact('color', 'msg'));
                 // return redirect('admin/user/profile/'. auth()->user()->id)->with(['error' => 'Somethink when wrong!']);
-            }
+        }
         $material = DB::table('bahan_material')->where('id_pek', $id)->first();
-        $pekerjaan->nama_bahan = [];
-        $pekerjaan->jum_bahan = [];
-        $pekerjaan->satuan = [];
+        $pekerjaan->nama_bahan=[];
+        $pekerjaan->jum_bahan=[];
+        $pekerjaan->satuan=[];
 
         // dd($material);
-        for ($i = 1; $i <= 15; $i++) {
+        for($i=1; $i<=15 ;$i++){
             $jum_bahan = "jum_bahan$i";
             $nama_bahan = "nama_bahan$i";
             $satuan = "satuan$i";
-            if (isset($material->$jum_bahan)) {
+            if(isset($material->$jum_bahan)){
                 $pekerjaan->nama_bahan[] = $material->$nama_bahan;
                 $pekerjaan->jum_bahan[] = $material->$jum_bahan;
                 $pekerjaan->satuan[] = $material->$satuan;
+
             }
         }
-        $detail = "";
+        $detail="";
         $detail = DB::table('kemandoran_detail_status')->where('id_pek', $id);
-        if ($detail->where('adjustment_user_id', Auth::user()->id)->exists() && $pekerjaan->status->adjustment_user_id == Auth::user()->id) {
+        if($detail->where('adjustment_user_id',Auth::user()->id)->exists() && $pekerjaan->status->adjustment_user_id == Auth::user()->id){
             $detail = $detail->latest('updated_at')->first();
             $id_pek = $pekerjaan->id_pek;
             $nama_mandor = Str::title($pekerjaan->nama_mandor);
             $jenis_pekerjaan = Str::title($pekerjaan->paket);
             $uptd = Str::upper($pekerjaan->status->uptd);
             $sup_mail = $pekerjaan->sup;
-            $status_mail = "di " . $pekerjaan->status->status . "<br> oleh " . $pekerjaan->status->name . " - " . $pekerjaan->status->role;
-            $subject = "Status Laporan " . $pekerjaan->id_pek . " - " . $pekerjaan->status->status;
+            $status_mail = "di ".$pekerjaan->status->status."<br> oleh ".$pekerjaan->status->name." - ".$pekerjaan->status->role;
+            $subject = "Status Laporan ".$pekerjaan->id_pek." - ".$pekerjaan->status->status;
             $pekerjaan->status->next_user = "";
 
-            if (str_contains($pekerjaan->status->status, "Approved") || str_contains($pekerjaan->status->status, "Edited")) {
-                if (str_contains($pekerjaan->status->jabatan, "Mandor") || str_contains($pekerjaan->status->jabatan, "Pengamat")) {
-                    $next_user = DB::table('users')->where('internal_role_id', $pekerjaan->status->parent)->where('sup_id', $pekerjaan->status->sup_id)->get();
-                } else {
-                    $next_user = DB::table('users')->where('internal_role_id', $pekerjaan->status->parent)->get();
+            if(str_contains($pekerjaan->status->status, "Approved")||str_contains($pekerjaan->status->status, "Edited")){
+                if(str_contains($pekerjaan->status->jabatan,"Mandor")||str_contains($pekerjaan->status->jabatan,"Pengamat") ){
+                    $next_user = DB::table('users')->where('internal_role_id',$pekerjaan->status->parent)->where('sup_id',$pekerjaan->status->sup_id)->get();
+                }else{
+                    $next_user = DB::table('users')->where('internal_role_id',$pekerjaan->status->parent)->get();
+
                 }
 
                 // dd($next_user);
@@ -1009,47 +1013,51 @@ class PekerjaanController extends Controller
                 // dd($pekerjaan);
                 $keterangan_mandor = "Silahkan menunggu sampai semua di terima / Approved";
 
-                // dd($pekerjaan->status->next_user);
+            // dd($pekerjaan->status->next_user);
 
-            } else if (str_contains($pekerjaan->status->status, "Rejected")) {
-                $before_user = DB::table('kemandoran_detail_status')->where('kemandoran_detail_status.id_pek', $id)->where('kemandoran_detail_status.adjustment_user_id', '!=', $pekerjaan->user_id)->where('kemandoran_detail_status.adjustment_user_id', '!=', $pekerjaan->status->adjustment_user_id)->groupBy('adjustment_user_id')
-                    ->leftJoin('users', 'users.id', '=', 'kemandoran_detail_status.adjustment_user_id')->get();
+            }else if(str_contains($pekerjaan->status->status, "Rejected")){
+                $before_user = DB::table('kemandoran_detail_status')->where('kemandoran_detail_status.id_pek', $id)->where('kemandoran_detail_status.adjustment_user_id','!=',$pekerjaan->user_id)->where('kemandoran_detail_status.adjustment_user_id','!=',$pekerjaan->status->adjustment_user_id)->groupBy('adjustment_user_id')
+                                ->leftJoin('users', 'users.id', '=', 'kemandoran_detail_status.adjustment_user_id')->get();
 
                 // dd($before_user);
 
                 $pekerjaan->status->next_user = $before_user;
                 $keterangan_mandor = "Silahkan ditindak lanjuti";
+
+
             }
             // dd($pekerjaan->status->next_user);
-            if ($pekerjaan->status->next_user != "") {
-                foreach ($pekerjaan->status->next_user as $no => $temp) {
-                    $to_email = $temp->email;
+            if($pekerjaan->status->next_user != ""){
+                foreach($pekerjaan->status->next_user as $no =>$temp){
+                    $to_email =$temp->email;
                     $to_name = $temp->name;
                     $keterangan = "Silahkan ditindak lanjuti";
 
-                    $name = Str::title($temp->name);
+                        $name =Str::title($temp->name);
 
                     $mail = $this->setSendEmail($name, $id_pek, $nama_mandor, $jenis_pekerjaan, $uptd, $sup_mail, $status_mail, $keterangan, $to_email, $to_name, $subject);
+
                 }
             }
-            $name = Str::title($pekerjaan->nama_mandor);
-            $to_email = $pekerjaan->email;
+            $name =Str::title($pekerjaan->nama_mandor);
+            $to_email =$pekerjaan->email;
             $to_name = $pekerjaan->nama_mandor;
             $mail = $this->setSendEmail($name, $id_pek, $nama_mandor, $jenis_pekerjaan, $uptd, $sup_mail, $status_mail, $keterangan_mandor, $to_email, $to_name, $subject);
+
         }
         $peralatan = DB::table('kemandoran_detail_peralatan as a')->where('a.id_pek', $id)
-            ->leftJoin('item_peralatan as b', 'b.id', '=', 'a.id_peralatan')->select('b.nama_peralatan', 'a.kuantitas', 'a.satuan')->get();
-        $detail_bahan_operasional = DB::table('kemandoran_detail_material as a')->where('a.id_pek', $id)
-            ->leftJoin('item_bahan as b', 'b.no', '=', 'a.id_material')
-            ->select('a.id_material', 'b.nama_item', 'a.kuantitas', 'a.satuan')->get();
-        $detail_pekerja = DB::table('kemandoran_detail_pekerja as a')->select('jabatan', 'jumlah')->where('a.id_pek', $id)->get();
-        $detail_penghambat = DB::table('kemandoran_detail_penghambat as a')->where('a.id_pek', $id)->get();
-        $pekerjaan->jenis_pekerjaan = DB::table('utils_jenis_laporan')->where('id', $pekerjaan->jenis_pekerjaan)->pluck('name')->first();
-        $detail_instruksi = DB::table('kemandoran_detail_instruksi')->where('id_pek', $id)->where('user_id', Auth::user()->id)->pluck('keterangan')->first();
-
+        ->leftJoin('item_peralatan as b', 'b.id', '=', 'a.id_peralatan')->select('b.nama_peralatan','a.kuantitas','a.satuan')->get();
+        $detail_bahan_operasional = DB::table('kemandoran_detail_material as a')->where('a.id_pek',$id)
+        ->leftJoin('item_bahan as b', 'b.no', '=', 'a.id_material')
+        ->select('a.id_material','b.nama_item','a.kuantitas','a.satuan')->get();
+        $detail_pekerja = DB::table('kemandoran_detail_pekerja as a')->select('jabatan','jumlah')->where('a.id_pek',$id)->get();
+        $detail_penghambat = DB::table('kemandoran_detail_penghambat as a')->where('a.id_pek',$id)->get();
+        $pekerjaan->jenis_pekerjaan = DB::table('utils_jenis_laporan')->where('id',$pekerjaan->jenis_pekerjaan)->pluck('name')->first();
+        $detail_instruksi = DB::table('kemandoran_detail_instruksi')->where('id_pek',$id)->where('user_id',Auth::user()->id)->pluck('keterangan')->first();
+        
         // dd($pekerjaan);
         // dd($pekerjaan);
-        return view('admin.input.pekerjaan.show', compact('pekerjaan', 'material', 'detail', 'peralatan', 'detail_bahan_operasional', 'detail_pekerja', 'detail_penghambat', 'detail_instruksi'));
+        return view('admin.input.pekerjaan.show', compact('pekerjaan','material','detail','peralatan','detail_bahan_operasional','detail_pekerja','detail_penghambat','detail_instruksi'));
     }
     public function detailPemeliharaan($id)
     {
