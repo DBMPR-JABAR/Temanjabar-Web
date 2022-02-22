@@ -30,5 +30,9 @@ class RuasJalan extends Model
         // return $this->belongsToMany('App\User','user_id');
         return $this->hasMany('App\Model\Transactional\PekerjaanPemeliharaan','ruas_jalan_id','id_ruas_jalan')->whereBetween('tanggal', [Carbon::now()->subDays(2)->toDateString(), Carbon::now()->toDateString()]);
     }
+    public function data_sup()
+    {
+        return $this->belongsTo('App\Model\Transactional\SUP', 'kd_sppjj','kd_sup');
+    }
 
 }
