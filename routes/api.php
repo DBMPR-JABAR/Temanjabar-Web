@@ -83,9 +83,10 @@ Route::prefix('jqr')->group(function () {
 Route::group(['middleware' => ['jwt.auth']], function () {
     Route::prefix('survei-lubang')->group(function () {
         Route::post('store/{desc}', 'API\MonitoringLubangController@storeSurvei');
-
     });
-
+    Route::prefix('penanganan-lubang')->group(function () {
+        Route::post('store/{desc}', 'API\MonitoringLubangController@storeSurvei');
+    });
     Route::get('has_access/{permission}', 'API\UtilsController@has_access');
     Route::get('uptd_list', 'API\UtilsController@uptd_list');
 

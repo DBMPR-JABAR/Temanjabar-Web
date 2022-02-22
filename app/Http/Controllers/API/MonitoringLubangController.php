@@ -26,6 +26,7 @@ class MonitoringLubangController extends Controller
             ]);
             if ($validator->fails()) {
                 $this->response['data']['error'] = $validator->errors();
+                storeLogActivity(declarLog(1, 'Survei Lubang', $validator->errors()));
                 return response()->json($this->response, 200);
             }
             $ruas = RuasJalan::where('id_ruas_jalan',$request->ruas_jalan_id)->first();
@@ -49,12 +50,59 @@ class MonitoringLubangController extends Controller
             $survei->created_by = Auth::user()->id;
             $survei->save();
             $survei->ruas = $survei->ruas()->select('id_ruas_jalan','nama_ruas_jalan')->get();
+            // storeLogActivity(declarLog(1, 'Survei Lubang', $ruas->nama_ruas_jalan,1));
+
             return response()->json([
                 'success' => true,
                 'message' => 'Berhasil Menambahkan',
                 'data' => $survei,  
             ]);
+        } catch (\Exception $th) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
+    public function storePenanganan(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'jumlah' => '',
+                'tanggal' => 'required|date',
+                'ruas_jalan_id' => 'required'
+            ]);
+            if ($validator->fails()) {
+                $this->response['data']['error'] = $validator->errors();
+                storeLogActivity(declarLog(1, 'Survei Lubang', $validator->errors()));
+                return response()->json($this->response, 200);
+            }
+            $ruas = RuasJalan::where('id_ruas_jalan',$request->ruas_jalan_id)->first();
+            if(!isset($ruas)){   
+                $this->response['data']['error'] = "Ruas Tidak Ditemukan";
+                return response()->json($this->response, 200);
+            }
+            $survei = SurveiLubang::firstOrNew([
+                'tanggal'=> $request->tanggal,
+                'created_by' =>Auth::user()->id,
+                'ruas_jalan_id'=>$request->ruas_jalan_id,
+                'sup_id'=>$ruas->data_sup->id
+            ]);
+            if(Str::contains($desc, 'tambah')){
+                $survei->jumlah = $survei->jumlah + 1;
+                // $survei->jumlah = $survei->jumlah + $request->jumlah;
+            }else{
+                $survei->jumlah = $survei->jumlah - 1;
+                // $survei->jumlah = $survei->jumlah - $request->jumlah;
+            }
+            $survei->created_by = Auth::user()->id;
+            $survei->save();
+            $survei->ruas = $survei->ruas()->select('id_ruas_jalan','nama_ruas_jalan')->get();
+            // storeLogActivity(declarLog(1, 'Survei Lubang', $ruas->nama_ruas_jalan,1));
 
+            return response()->json([
+                'success' => true,
+                'message' => 'Berhasil Menambahkan',
+                'data' => $survei,  
+            ]);
         } catch (\Exception $th) {
             $this->response['data']['message'] = 'Internal Error';
             return response()->json($this->response, 500);
