@@ -68,6 +68,10 @@ class User extends Authenticatable implements JWTSubject
         // return $this->belongsToMany('App\Model\Transactional\RuasJalan');
         return $this->belongsToMany('App\Model\Transactional\RuasJalan', 'user_master_ruas_jalan', 'user_id', 'master_ruas_jalan_id');
     }
+    public function data_sup()
+    {
+        return $this->belongsTo('App\Model\Transactional\SUP', 'sup_id');
+    }
 
     // public function sup()
     // {

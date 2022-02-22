@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
 use App\Model\Transactional\Log;
 use App\Model\Transactional\LogMasyarakat;
+use App\Model\Transactional\RuasJalan;
+
 use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
@@ -31,6 +33,7 @@ class AuthController extends Controller
 
     public function login(Request $req)
     {
+        
         $credentials = $req->only('email', 'password');
         $internal = DB::table('user_pegawai')->where('no_pegawai', $req->email);
 
@@ -55,6 +58,19 @@ class AuthController extends Controller
             return response()->json($this->response, 200);
         }
         if (auth('api')->user()->role == 'internal') {
+            if(auth('api')->user()->ruas()->exists()){
+                auth('api')->user()->ruas = auth('api')->user()->ruas()->select('id_ruas_jalan','nama_ruas_jalan')->get();
+            }else{
+                if (auth('api')->user() && auth('api')->user()->internalRole->uptd) {
+                    $uptd_id = str_replace('uptd', '', auth('api')->user()->internalRole->uptd);
+                    if (auth('api')->user()->sup_id) {
+                        auth('api')->user()->ruas = RuasJalan::select('id_ruas_jalan','nama_ruas_jalan')->where('kd_sppjj',auth('api')->user()->data_sup->kd_sup)->get();
+                    } else {
+                        auth('api')->user()->ruas = RuasJalan::select('id_ruas_jalan','nama_ruas_jalan')->where('uptd_id',$uptd_id)->get();
+                    }
+                }
+            }
+
             Log::create(['activity' => 'Login', 'description' => 'User ' . auth('api')->user()->name . ' Logged In To Android App']);
         }
         $userMasyarakat = DB::table('user_masyarakat')->where('user_id', auth('api')->user()->id)->first();
