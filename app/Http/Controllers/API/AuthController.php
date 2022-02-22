@@ -72,8 +72,11 @@ class AuthController extends Controller
             }
 
             Log::create(['activity' => 'Login', 'description' => 'User ' . auth('api')->user()->name . ' Logged In To Android App']);
+        }else{
+            $userMasyarakat = DB::table('user_masyarakat')->where('user_id', auth('api')->user()->id)->first();
+            $this->response['data']['user']['noTelp'] = $userMasyarakat ? $userMasyarakat->no_telp : 0;
+            $this->response['data']['user']['alamat'] = $userMasyarakat ? $userMasyarakat->alamat : "-";
         }
-        $userMasyarakat = DB::table('user_masyarakat')->where('user_id', auth('api')->user()->id)->first();
         $this->response['status'] = 'success';
         $this->response['data']['token'] = $this->getToken($token);
         $this->response['data']['user'] = auth('api')->user();
@@ -82,9 +85,6 @@ class AuthController extends Controller
             $role = auth('api')->user()->internalRole->role;
             if (strpos($role, 'Mandor') !== false) $this->response['data']['user']['role'] = "mandor";
         }
-
-        $this->response['data']['user']['noTelp'] = $userMasyarakat ? $userMasyarakat->no_telp : 0;
-        $this->response['data']['user']['alamat'] = $userMasyarakat ? $userMasyarakat->alamat : "-";
         $this->response['data']['user']['encrypted_id'] = encrypt(auth('api')->user()->id);
         return response()->json($this->response, 200);
     }
