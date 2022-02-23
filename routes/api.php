@@ -82,11 +82,21 @@ Route::prefix('jqr')->group(function () {
 
 Route::group(['middleware' => ['jwt.auth']], function () {
     Route::prefix('survei-lubang')->group(function () {
+        Route::get('index', 'API\MonitoringLubangController@indexSurvei');
         Route::post('start', 'API\MonitoringLubangController@startSurvei');
         Route::post('store/{desc}', 'API\MonitoringLubangController@storeSurvei');
     });
     Route::prefix('penanganan-lubang')->group(function () {
+        Route::get('index', 'API\MonitoringLubangController@indexPenanganan');
         Route::post('store', 'API\MonitoringLubangController@storePenanganan');
+        Route::get('edit/{id}', 'API\MonitoringLubangController@editPenanganan');
+        Route::put('update/{id}', 'API\MonitoringLubangController@updatePenanganan');
+    });
+    Route::prefix('rencana-penanganan-lubang')->group(function () {
+        Route::get('index', 'API\MonitoringLubangController@indexRencanaPenanganan');
+        Route::post('store', 'API\MonitoringLubangController@storeRencanaPenanganan');
+        Route::get('edit/{id}', 'API\MonitoringLubangController@editRencanaPenanganan');
+        Route::put('update/{id}', 'API\MonitoringLubangController@updateRencanaPenanganan');
     });
     Route::get('has_access/{permission}', 'API\UtilsController@has_access');
     Route::get('uptd_list', 'API\UtilsController@uptd_list');

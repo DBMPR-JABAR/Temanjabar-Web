@@ -4,10 +4,10 @@ namespace App\Model\Transactional;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MonitoringLubangPenanganan extends Model
+class MonitoringLubangRencanaPenanganan extends Model
 {
     //
-    protected $table = "monitoring_lubang_penanganan";
+    protected $table = "monitoring_lubang_rencana_penanganan";
     protected $guarded = [];
     public function ruas()
     {
