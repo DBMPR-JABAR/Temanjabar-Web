@@ -137,6 +137,7 @@ class UserController extends Controller
         
         $validator = Validator::make($request->all(), [
             'email' => Rule::unique('users', 'email')->ignore($request->id),
+            'sup_id' => ''
         ]);
         if ($validator->fails()) {
             $color = "danger";
@@ -145,7 +146,7 @@ class UserController extends Controller
 
             return back()->with(compact('color', 'msg'));
         }
-        // dd($request->ruas_jalan);
+        // dd($request->sup_id);
         $user['email'] = $request->email;
         if ($request->role == 'internal') {
             $getsup = DB::table('utils_sup')->where('kd_sup', $request->input('sup_id'))->select('id', 'name')->first();
