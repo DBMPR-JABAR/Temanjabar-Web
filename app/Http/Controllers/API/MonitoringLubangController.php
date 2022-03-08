@@ -183,6 +183,7 @@ class MonitoringLubangController extends Controller
                         'ruas_jalan_id'=>$request->ruas_jalan_id,
                         'sup_id'=>$ruas->data_sup->id,
                         'tanggal'=> $request->tanggal,
+                        'uptd_id'=>$ruas->uptd_id,
 
                     ]);
                     
@@ -325,8 +326,8 @@ class MonitoringLubangController extends Controller
                     return response()->json([
                         'success' => true,
                         'message' => 'Berhasil Merubah Status Lubang',
-                        'data'  => $data,
                         'data_support'  => $temp,
+                        'data'  => $data,
                     ]);
 
                 }else{
