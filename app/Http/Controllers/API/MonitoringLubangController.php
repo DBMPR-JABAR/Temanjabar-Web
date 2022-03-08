@@ -190,20 +190,21 @@ class MonitoringLubangController extends Controller
                 }
 
             }else{
-                $cross_chesck = SurveiLubang::find($survei->id);
-                if($cross_chesck->jumlah != $cross_chesck->SurveiLubangDetail->count()){
-                    $cross_chesck->jumlah = $cross_chesck->SurveiLubangDetail->count();
-                    $cross_chesck->save();
-                }
+                
 
             }
-            $survei->ruas = $survei->ruas()->select('id_ruas_jalan','nama_ruas_jalan')->get();
-            $survei->lokasi_km = $request->lokasi_km;
-            $survei->lokasi_m = $request->lokasi_m;
+            $cross_chesck = SurveiLubang::find($survei->id);
+            if($cross_chesck->jumlah != $cross_chesck->SurveiLubangDetail->count()){
+                $cross_chesck->jumlah = $cross_chesck->SurveiLubangDetail->count();
+                $cross_chesck->save();
+            }
+            $cross_chesck->ruas = $cross_chesck->ruas()->select('id_ruas_jalan','nama_ruas_jalan')->get();
+            $cross_chesck->lokasi_km = $request->lokasi_km;
+            $cross_chesck->lokasi_m = $request->lokasi_m;
             return response()->json([
                 'success' => true,
                 'message' => 'Berhasil Menambahkan',
-                'data' => $survei,  
+                'data' => $cross_chesck,  
             ]);
         } catch (\Exception $th) {
             $this->response['data']['message'] = 'Internal Error';
