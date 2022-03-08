@@ -145,15 +145,14 @@ class MonitoringLubangController extends Controller
 
                     ]);
                     // $survei->jumlah = $survei->jumlah + 1;
-                    $survei->jumlah = $survei->SurveiLubangDetail->count();
+                    // $survei->jumlah = $survei->SurveiLubangDetail->count();
                 }
                 // $survei->jumlah = $survei->jumlah + $request->jumlah;
             }else{
                 if($survei->SurveiLubangDetail->count()>=1){
                     $del = $survei->SurveiLubangDetail()->first();
                     $del->delete();
-                    $survei->jumlah = $survei->jumlah - 1;
-                    // $survei->jumlah = $survei->SurveiLubangDetail->count();
+                    // $survei->jumlah = $survei->jumlah - 1;
                 }else{
                     $this->response['data']['error'] = "Silahkan klik tambah!";
                     return response()->json($this->response, 200);
@@ -164,11 +163,14 @@ class MonitoringLubangController extends Controller
             $survei->lat = $request->lat;
             $survei->long = $request->long;
             $survei->created_by = Auth::user()->id;
-            if(Str::contains($desc, 'tambah')){
+           
                 if(!$survei->SurveiLubangDetail()->exists()){
                     $survei->jumlah = 1;
+                }else{
+                    $survei->jumlah = $survei->SurveiLubangDetail->count();
+
                 }
-            }
+           
             $survei->save();
             $survei->ruas = $survei->ruas()->select('id_ruas_jalan','nama_ruas_jalan')->get();
             // storeLogActivity(declarLog(1, 'Survei Lubang', $ruas->nama_ruas_jalan,1));
