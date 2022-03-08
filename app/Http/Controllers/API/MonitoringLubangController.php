@@ -141,6 +141,8 @@ class MonitoringLubangController extends Controller
                         'sup_id'=>$ruas->data_sup->id,
                         'uptd_id'=>$ruas->uptd_id,
                         'tanggal'=> $request->tanggal,
+
+
                     ]);
                     // $survei->jumlah = $survei->jumlah + 1;
                     $survei->jumlah = $survei->SurveiLubangDetail->count();
@@ -166,6 +168,7 @@ class MonitoringLubangController extends Controller
             if(!$survei->SurveiLubangDetail()->exists()){
                 $survei->jumlah = 1;
             }
+           
             $survei->save();
             
             // storeLogActivity(declarLog(1, 'Survei Lubang', $ruas->nama_ruas_jalan,1));
@@ -182,21 +185,21 @@ class MonitoringLubangController extends Controller
                         'tanggal'=> $request->tanggal,
                         'uptd_id'=>$ruas->uptd_id,
 
-                    ]);   
+                    ]);
+                    
                 }
+
+            }else{
+                
+
             }
-            $cross_check = SurveiLubang::find($survei->id);
-            if($cross_check->jumlah != $cross_check->SurveiLubangDetail->count()){
-                $cross_check->jumlah = $cross_check->SurveiLubangDetail->count();
-                $cross_check->save();
-            }
-            $cross_check->ruas = $cross_check->ruas()->select('id_ruas_jalan','nama_ruas_jalan')->get();
-            $cross_check->lokasi_km = $request->lokasi_km;
-            $cross_check->lokasi_m = $request->lokasi_m;
+            $survei->ruas = $survei->ruas()->select('id_ruas_jalan','nama_ruas_jalan')->get();
+            $survei->lokasi_km = $request->lokasi_km;
+            $survei->lokasi_m = $request->lokasi_m;
             return response()->json([
                 'success' => true,
                 'message' => 'Berhasil Menambahkan',
-                'data' => $cross_check,  
+                'data' => $survei,  
             ]);
         } catch (\Exception $th) {
             $this->response['data']['message'] = 'Internal Error';
