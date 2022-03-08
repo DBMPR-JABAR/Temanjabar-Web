@@ -125,7 +125,7 @@ class MonitoringLubangController extends Controller
                 'created_by' =>Auth::user()->id,
                 'ruas_jalan_id'=>$request->ruas_jalan_id,
                 'sup_id'=>$ruas->data_sup->id,
-                'lokasi_kode' => $request->lokasi_kode,
+                'lokasi_kode' => Str::upper($request->lokasi_kode),
 
             ]);
             if(Str::contains($desc, 'tambah')){
