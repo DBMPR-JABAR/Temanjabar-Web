@@ -168,7 +168,6 @@ class MonitoringLubangController extends Controller
             if(!$survei->SurveiLubangDetail()->exists()){
                 $survei->jumlah = 1;
             }
-           
             $survei->save();
             
             // storeLogActivity(declarLog(1, 'Survei Lubang', $ruas->nama_ruas_jalan,1));
@@ -185,13 +184,8 @@ class MonitoringLubangController extends Controller
                         'tanggal'=> $request->tanggal,
                         'uptd_id'=>$ruas->uptd_id,
 
-                    ]);
-                    
+                    ]);   
                 }
-
-            }else{
-                
-
             }
             $survei->ruas = $survei->ruas()->select('id_ruas_jalan','nama_ruas_jalan')->get();
             $survei->lokasi_km = $request->lokasi_km;
