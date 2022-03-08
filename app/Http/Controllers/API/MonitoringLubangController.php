@@ -164,12 +164,13 @@ class MonitoringLubangController extends Controller
             $survei->lat = $request->lat;
             $survei->long = $request->long;
             $survei->created_by = Auth::user()->id;
-            
-            if(!$survei->SurveiLubangDetail()->exists()){
-                $survei->jumlah = 1;
+            if(Str::contains($desc, 'tambah')){
+                if(!$survei->SurveiLubangDetail()->exists()){
+                    $survei->jumlah = 1;
+                }
             }
             $survei->save();
-            
+            $survei->ruas = $survei->ruas()->select('id_ruas_jalan','nama_ruas_jalan')->get();
             // storeLogActivity(declarLog(1, 'Survei Lubang', $ruas->nama_ruas_jalan,1));
             if(Str::contains($desc, 'tambah')){
                 if($survei->SurveiLubangDetail->count()==0){
@@ -184,10 +185,11 @@ class MonitoringLubangController extends Controller
                         'tanggal'=> $request->tanggal,
                         'uptd_id'=>$ruas->uptd_id,
 
-                    ]);   
+                    ]);
+                    
                 }
+
             }
-            $survei->ruas = $survei->ruas()->select('id_ruas_jalan','nama_ruas_jalan')->get();
             $survei->lokasi_km = $request->lokasi_km;
             $survei->lokasi_m = $request->lokasi_m;
             return response()->json([
