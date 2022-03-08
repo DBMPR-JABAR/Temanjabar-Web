@@ -68,6 +68,8 @@ class AuthController extends Controller
                     } else {
                         auth('api')->user()->ruas = RuasJalan::select('id_ruas_jalan','nama_ruas_jalan')->where('uptd_id',$uptd_id)->get();
                     }
+                }else{
+                    auth('api')->user()->ruas = RuasJalan::select('id_ruas_jalan','nama_ruas_jalan')->get();
                 }
             }
 
