@@ -153,7 +153,7 @@ class MonitoringLubangController extends Controller
                     $del = $survei->SurveiLubangDetail()->first();
                     $del->delete();
                     // $survei->jumlah = $survei->jumlah - 1;
-                    $survei->jumlah = $survei->SurveiLubangDetail->count() - 1;
+                    $survei->jumlah = $survei->SurveiLubangDetail->count();
                 }else{
                     $this->response['data']['error'] = "Silahkan klik tambah!";
                     return response()->json($this->response, 200);
@@ -170,7 +170,7 @@ class MonitoringLubangController extends Controller
             }
            
             $survei->save();
-            $survei->ruas = $survei->ruas()->select('id_ruas_jalan','nama_ruas_jalan')->get();
+            
             // storeLogActivity(declarLog(1, 'Survei Lubang', $ruas->nama_ruas_jalan,1));
             if(Str::contains($desc, 'tambah')){
                 if($survei->SurveiLubangDetail->count()==0){
@@ -189,7 +189,14 @@ class MonitoringLubangController extends Controller
                     
                 }
 
+            }else{
+                if($survei->jumlah != $survei->SurveiLubangDetail->count()){
+                    $survei->jumlah = $survei->SurveiLubangDetail->count();
+                    $survei->save();
+                }
+
             }
+            $survei->ruas = $survei->ruas()->select('id_ruas_jalan','nama_ruas_jalan')->get();
             $survei->lokasi_km = $request->lokasi_km;
             $survei->lokasi_m = $request->lokasi_m;
             return response()->json([
