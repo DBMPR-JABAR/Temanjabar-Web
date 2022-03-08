@@ -241,6 +241,10 @@ class MonitoringLubangController extends Controller
                 'lokasi_km' => '',
                 'lokasi_m' => '',
             ]);
+            if ($validator->fails()) {
+                $this->response['data']['error'] = $validator->errors();
+                return response()->json($this->response, 200);
+            }
             $temp = [
                 'tanggal' => $request->tanggal,
                 'lokasi_km' => $request->lokasi_km,
@@ -265,9 +269,16 @@ class MonitoringLubangController extends Controller
         }
         
     }
-    public function executePenanganan($id, $tanggal)
+    public function executePenanganan(Request $request, $id, $tanggal)
     {
         try {
+            $validator = Validator::make($request->all(), [
+                'keterangan' => ''
+            ]);
+            if ($validator->fails()) {
+                $this->response['data']['error'] = $validator->errors();
+                return response()->json($this->response, 200);
+            }
             $temp = [
                 "status"=>"Selesai",
                 'updated_by'=>Auth::user()->id
@@ -301,10 +312,11 @@ class MonitoringLubangController extends Controller
                 $penanganan->PenangananLubangDetail()->create([
                     'tanggal'=> $tanggal,
                     'created_by' =>Auth::user()->id,
-                    'ruas_jalan_id'=>$data->ruas_jalan_id,
+                    'ruas_jalan_id'=>$ruas->ruas_jalan_id,
                     'sup_id'=>$ruas->data_sup->id,
                     'uptd_id'=>$ruas->uptd_id,
-                    'monitoring_lubang_survei_detail_id'=>$data->id
+                    'monitoring_lubang_survei_detail_id'=>$data->id,
+                    'keterangan' => $request->keterangan
 
                 ]);
                 storeLogActivity(declarLog(2, 'Penanganan Lubang', '',1));
