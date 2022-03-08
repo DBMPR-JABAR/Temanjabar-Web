@@ -152,8 +152,8 @@ class MonitoringLubangController extends Controller
                 if($survei->SurveiLubangDetail->count()>=1){
                     $del = $survei->SurveiLubangDetail()->first();
                     $del->delete();
-                    // $survei->jumlah = $survei->jumlah - 1;
-                    $survei->jumlah = $survei->SurveiLubangDetail->count();
+                    $survei->jumlah = $survei->jumlah - 1;
+                    // $survei->jumlah = $survei->SurveiLubangDetail->count();
                 }else{
                     $this->response['data']['error'] = "Silahkan klik tambah!";
                     return response()->json($this->response, 200);
