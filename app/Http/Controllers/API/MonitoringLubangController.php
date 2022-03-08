@@ -192,7 +192,7 @@ class MonitoringLubangController extends Controller
             }else{
                 if($survei->jumlah != $survei->SurveiLubangDetail->count()){
                     $survei->jumlah = $survei->SurveiLubangDetail->count();
-                    $survei->save();
+                    $survei->update(['jumlah' =>$survei->SurveiLubangDetail->count()]);
                 }
 
             }
