@@ -189,6 +189,13 @@ class MonitoringLubangController extends Controller
                     
                 }
 
+            }else{
+                $cross_check = SurveiLubang::find($survei->id);
+                if($cross_check->jumlah != $cross_check->SurveiLubangDetail->count()){
+                   $cross_check->jumlah = $cross_check->SurveiLubangDetail->count();
+                   $cross_check->save();
+                   $survei->jumlah = $cross_check->jumlah;
+                }
             }
             $survei->lokasi_km = $request->lokasi_km;
             $survei->lokasi_m = $request->lokasi_m;
