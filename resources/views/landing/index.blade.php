@@ -1,4 +1,22 @@
-@extends('landing.template') @section('body')
+@extends('landing.template') @section('head')
+<link
+    rel="stylesheet"
+    href="{{
+        asset(
+            'assets/vendor/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css'
+        )
+    }}"
+/>
+<link
+    rel="stylesheet"
+    href="{{
+        asset(
+            'assets/vendor/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css'
+        )
+    }}"
+/>
+
+@endsection @section('body')
 
 <!-- header -->
 <header class="site-header" id="header">
@@ -410,9 +428,9 @@
             {{-- {{ $pengumuman_masyarakat->links() }} --}}
         </div>
         <div class="row">
-            @foreach ($news as $row)
-            <div class="col-md-4">
-                <div class="card" style="width: 100%">
+            <div class="owl-carousel owl-theme">
+                @foreach ($news as $row)
+                <div class="card" style="width: 25rem">
                     <div class="p-3">
                         <img
                             src="{{@$row->getFirstMediaUrl('thumbnail', 'thumb')}}"
@@ -431,8 +449,8 @@
                         >
                     </div>
                 </div>
+                @endforeach
             </div>
-            @endforeach
         </div>
         <div class="row mt-3 mb-5">
             <div class="col">
@@ -1197,9 +1215,28 @@
 </style>
 @endsection @section('script')
 <script src="https://js.arcgis.com/4.18/"></script>
+<script src="{{
+        asset('assets/vendor/OwlCarousel2-2.3.4/dist/owl.carousel.min.js')
+    }}"></script>
 <script>
     $(document).ready(() => {
         const baseUrl = "{{url('/')}}";
+        $(".owl-carousel").owlCarousel({
+            loop: true,
+            margin: 20,
+            nav: true,
+            responsive: {
+                0: {
+                    items: 1,
+                },
+                600: {
+                    items: 3,
+                },
+                1000: {
+                    items: 5,
+                },
+            },
+        });
 
         $("#mapLatLong").ready(() => {
             require([
