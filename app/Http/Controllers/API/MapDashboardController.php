@@ -15,6 +15,8 @@ use App\Http\Resources\GeneralResource;
 use App\Http\Resources\MapJembatanResource;
 use App\Model\DWH\KemantapanJalan;
 use App\Model\Transactional\LaporanMasyarakat;
+use App\Model\Transactional\MonitoringLubangSurveiDetail as SurveiLubangDetail;
+
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -82,6 +84,7 @@ class MapDashboardController extends Controller
             $this->response['data']['rehabilitasi'] = [];
             $this->response['data']['vehiclecounting'] = [];
             $this->response['data']['kemantapanjalan'] = [];
+            $this->response['data']['sapulobang'] = [];
 
             $distanceThreshold = env("DISTANCE_THRESHOLD", 1000);
 
@@ -91,6 +94,10 @@ class MapDashboardController extends Controller
                     $data = MapJembatanResource::collection(Jembatan::whereIn('SUP', $request->sup)->get());
 
                     $this->response['data']['jembatan'] = $data;
+                }
+                if (in_array('sapulobang', $request->kegiatan)) {
+                    $data = SurveiLubangDetail::get();
+                    $this->response['data']['sapulobang'] = $data;
                 }
                 if (in_array('pemeliharaan', $request->kegiatan)) {
                     $data = DB::table('kemandoran')
