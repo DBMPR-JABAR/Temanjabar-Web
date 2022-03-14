@@ -15,7 +15,19 @@
         )
     }}"
 />
-
+<style>
+    .news-warp {
+        padding: 10px;
+        max-width: 400px;
+        height: 120px;
+    }
+    .news-warp .card-text {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical;
+    }
+</style>
 @endsection @section('body')
 
 <!-- header -->
@@ -428,9 +440,9 @@
             {{-- {{ $pengumuman_masyarakat->links() }} --}}
         </div>
         <div class="row">
-            <div class="owl-carousel owl-theme">
+            <div class="owl-carousel">
                 @foreach ($news as $row)
-                <div class="card" style="width: 25rem">
+                <div class="card">
                     <div class="p-3">
                         <img
                             src="{{@$row->getFirstMediaUrl('thumbnail', 'thumb')}}"
@@ -438,9 +450,14 @@
                             alt="{{$row->title}}"
                         />
                     </div>
+
                     <div class="card-body">
                         <h5 class="card-title">{{$row->title}}</h5>
-                        <p class="card-text">{{$row->description}}</p>
+                        <div class="news-warp">
+                            <p class="card-text">{{$row->description}}</p>
+                        </div>
+                    </div>
+                    <div class="card-footer">
                         <a
                             href="{{route('news.show', $row->slug)}}"
                             target="_blank"
@@ -452,7 +469,7 @@
                 @endforeach
             </div>
         </div>
-        <div class="row mt-3 mb-5">
+        <div class="row mt-5 mb-5">
             <div class="col">
                 <div class="container-grid fadeInUp" data-wow-delay="300ms">
                     @foreach ($video as $index => $data)
@@ -643,9 +660,20 @@
                 </div>
             </div>
             @endif
-            <div
-                class="col-lg-6 col-md-12 col-sm-12 pr-lg-0 whitebox wow fadeInLeft"
-            >
+        </div>
+        <div class="row">
+            <div class="col wow fadeInRight">
+                <div class="image login-image h-100">
+                    <img
+                        src="{{ asset('images/jabar1.png') }}"
+                        alt=""
+                        class="h-100"
+                    />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col whitebox wow fadeInLeft">
                 <div class="widget logincontainer">
                     <h3 class="text-center darkcolor bottom35 text-md-left">
                         Identitas Pelapor
@@ -841,18 +869,18 @@
                             <input name="lat" type="hidden" id="lat" />
                             <input name="long" type="hidden" id="long" />
                             <!-- <div class="col-md-6 col-sm-6">
-                                <div class="form-group bottom35">
-                                    <label for="lat" class="d-none"></label>
+                            <div class="form-group bottom35">
+                                <label for="lat" class="d-none"></label>
 
-                                </div>
                             </div>
-                            <div class="col-md-6 col-sm-6">
-                                <div class="form-group bottom35">
-                                    <label for="lng" class="d-none"></label>
-                                    <input name="long" class="form-control" type="text" placeholder="Longitude (107.10987)"
-                                        required id="lng">
-                                </div>
-                            </div> -->
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="form-group bottom35">
+                                <label for="lng" class="d-none"></label>
+                                <input name="long" class="form-control" type="text" placeholder="Longitude (107.10987)"
+                                    required id="lng">
+                            </div>
+                        </div> -->
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group">
                                     <button
@@ -932,15 +960,6 @@
                             </div>
                         </div>
                     </form>
-                </div>
-            </div>
-            <div class="col-lg-6 d-none d-lg-block pl-lg-0 wow fadeInRight">
-                <div class="image login-image h-100">
-                    <img
-                        src="https://picsum.photos/id/1067/750/680"
-                        alt=""
-                        class="h-100"
-                    />
                 </div>
             </div>
         </div>
@@ -1221,19 +1240,25 @@
 <script>
     $(document).ready(() => {
         const baseUrl = "{{url('/')}}";
+        const cardNews = $(".owl-carousel .card");
+        //max 366
+        console.log(cardNews.width());
+
         $(".owl-carousel").owlCarousel({
-            loop: true,
             margin: 20,
             nav: true,
+            responsiveClass: true,
             responsive: {
                 0: {
                     items: 1,
                 },
-                600: {
-                    items: 3,
+                480: {
+                    items: 2,
                 },
                 1000: {
-                    items: 5,
+                    items: 3,
+                    nav: true,
+                    loop: false,
                 },
             },
         });
