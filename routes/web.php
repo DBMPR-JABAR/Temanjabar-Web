@@ -212,6 +212,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         });
 
         // {SiteURL}/admin/landing-page/news
+        Route::get('news/', 'Landing\NewsController@index');
+
         Route::get('news/delete/{id}', 'Landing\NewsController@destroy');
         Route::post('news/ckeditor/upload', 'Landing\NewsController@upload')->name('news.ckeditor.upload');
     });
