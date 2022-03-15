@@ -128,12 +128,12 @@ class MonitoringLubangController extends Controller
                 'lokasi_kode' => Str::upper($request->lokasi_kode),
 
             ]);
-            if(Str::contains($desc, 'tambah')){
-               
+            if(Str::contains($desc, 'tambah')){   
                 if($survei->id){
                     $survei->SurveiLubangDetail()->create([
                         'lat' => $request->lat,
                         'long' => $request->long,
+                        'lokasi_kode' => Str::upper($request->lokasi_kode),
                         'lokasi_km' => $request->lokasi_km,
                         'lokasi_m' => $request->lokasi_m,
                         'created_by' =>Auth::user()->id,
@@ -178,6 +178,7 @@ class MonitoringLubangController extends Controller
                     $survei->SurveiLubangDetail()->create([
                         'lat' => $request->lat,
                         'long' => $request->long,
+                        'lokasi_kode' => Str::upper($request->lokasi_kode),
                         'lokasi_km' => $request->lokasi_km,
                         'lokasi_m' => $request->lokasi_m,
                         'created_by' =>Auth::user()->id,
@@ -186,11 +187,8 @@ class MonitoringLubangController extends Controller
                         'sup'=>$ruas->data_sup->name,
                         'tanggal'=> $request->tanggal,
                         'uptd_id'=>$ruas->uptd_id,
-
-                    ]);
-                    
+                    ]);     
                 }
-
             }else{
                 $cross_check = SurveiLubang::find($survei->id);
                 if($cross_check->jumlah != $cross_check->SurveiLubangDetail->count()){
@@ -260,12 +258,15 @@ class MonitoringLubangController extends Controller
                 'lokasi_km' => $request->lokasi_km,
                 'lokasi_m' => $request->lokasi_m,
             ];
-            $data = SurveiLubangDetail::where('ruas_jalan_id',$request->ruas_jalan_id)->where('tanggal','<=',$request->tanggal)->whereNull('status')->latest()->get();
+            $data = SurveiLubangDetail::where('ruas_jalan_id',$request->ruas_jalan_id)->where('tanggal','<=',$request->tanggal)->where('status','Perencanaan')->latest()->get();
+            $data1 = SurveiLubangDetail::where('ruas_jalan_id',$request->ruas_jalan_id)->where('tanggal','<=',$request->tanggal)->where('status','Selesai')->latest()->get();
+
             if(isset($data)){
                 return response()->json([
                     'success' => true,
                     'message' => 'Data Penanganan',
                     'data'  => $data,
+                    'data_selesai'  => $data1,
                     'data_support'  => $temp,
                 ]);
 
@@ -313,7 +314,7 @@ class MonitoringLubangController extends Controller
                 if($penanganan->id){
                     // $penanganan->jumlah=$penanganan->jumlah + 1;
                     
-                    $penanganan->jumlah = $penanganan->PenangananLubangDetail->count();
+                    $penanganan->jumlah = $penanganan->PenangananLubangDetail->count() + 1;
                 }else{
                     $penanganan->jumlah=1;
                 }
@@ -330,13 +331,16 @@ class MonitoringLubangController extends Controller
 
                 ]);
                 storeLogActivity(declarLog(2, 'Penanganan Lubang', '',1));
-                $data = SurveiLubangDetail::where('ruas_jalan_id',$data->ruas_jalan_id)->where('tanggal','<=',$tanggal)->whereNull('status')->latest()->get();
+                $data = SurveiLubangDetail::where('ruas_jalan_id',$request->ruas_jalan_id)->where('tanggal','<=',$request->tanggal)->where('status','Perencanaan')->latest()->get();
+                $data1 = SurveiLubangDetail::where('ruas_jalan_id',$request->ruas_jalan_id)->where('tanggal','<=',$request->tanggal)->where('status','Selesai')->latest()->get();
+
                 if(isset($data)){
                     return response()->json([
                         'success' => true,
                         'message' => 'Berhasil Merubah Status Lubang',
-                        'data_support'  => $temp,
                         'data'  => $data,
+                        'data_selesai'  => $data1,
+                        'data_support'  => $temp,
                     ]);
 
                 }else{
@@ -582,10 +586,124 @@ class MonitoringLubangController extends Controller
             return response()->json($this->response, 500);
         }  
     }
+    public function listRencanaPenanganan(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'ruas_jalan_id' => 'required',
+                'tanggal' => 'required|date',
+                'lokasi_kode' => '',
+                'lokasi_km' => '',
+                'lokasi_m' => '',
+            ]);
+            if ($validator->fails()) {
+                $this->response['data']['error'] = $validator->errors();
+                return response()->json($this->response, 200);
+            }
+            $temp = [
+                'tanggal' => $request->tanggal,
+                'lokasi_km' => $request->lokasi_km,
+                'lokasi_m' => $request->lokasi_m,
+            ];
+            $data = SurveiLubangDetail::where('ruas_jalan_id',$request->ruas_jalan_id)->where('tanggal','<=',$request->tanggal)->whereNull('status')->latest()->get();
+            $data1 = SurveiLubangDetail::where('ruas_jalan_id',$request->ruas_jalan_id)->where('tanggal','<=',$request->tanggal)->where('status','Perencanaan')->latest()->get();
+
+            if(isset($data)){
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Data Rencana Penanganan',
+                    'data'  => $data,
+                    'data_perencanaan'  => $data1,
+                    'data_support'  => $temp,
+                ]);
+
+            }else{
+                $this->response['data']['error'] = "Data tidak ditemukan";
+                return response()->json($this->response, 200);
+            }
+        } catch (\Exception $th) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+        
+    }
+    public function executeRencanaPenanganan(Request $request, $id, $tanggal)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'keterangan' => ''
+            ]);
+            if ($validator->fails()) {
+                $this->response['data']['error'] = $validator->errors();
+                return response()->json($this->response, 200);
+            }
+            $temp = [
+                "status"=>"Perencanaan",
+                "updated_by"=>Auth::user()->id
+            ];
+            $data = SurveiLubangDetail::findOrFail($id);
+            $ruas = RuasJalan::where('id_ruas_jalan',$data->ruas_jalan_id)->first();
+            if($data){
+                $data->update($temp);
+                $rencana_penanganan = RencanaPenanganan::firstOrNew([
+                    'tanggal'=> $tanggal,
+                    'created_by' =>Auth::user()->id,
+                    'ruas_jalan_id'=>$data->ruas_jalan_id,
+                    'sup_id'=>$ruas->data_sup->id,
+                ]);
+                $rencana_penanganan->uptd_id=$ruas->uptd_id;
+                if($rencana_penanganan->id){
+                    // $rencana_penanganan->jumlah=$rencana_penanganan->jumlah + 1;  
+                    $rencana_penanganan->jumlah = $rencana_penanganan->RencanaPenangananLubangDetail->count() + 1;
+                }else{
+                    $rencana_penanganan->jumlah=1;
+                }
+                $rencana_penanganan->save();
+                
+                $rencana_penanganan->PenangananLubangDetail()->create([
+                    'tanggal'=> $tanggal,
+                    'created_by' =>Auth::user()->id,
+                    'ruas_jalan_id'=>$data->ruas_jalan_id,
+                    'sup_id'=>$ruas->data_sup->id,
+                    'uptd_id'=>$ruas->uptd_id,
+                    'monitoring_lubang_survei_detail_id'=>$data->id,
+                    'keterangan' => $request->keterangan
+                ]);
+                storeLogActivity(declarLog(2, 'Penanganan Lubang', '',1));
+                $data = SurveiLubangDetail::where('ruas_jalan_id',$request->ruas_jalan_id)->where('tanggal','<=',$request->tanggal)->whereNull('status')->latest()->get();
+                $data1 = SurveiLubangDetail::where('ruas_jalan_id',$request->ruas_jalan_id)->where('tanggal','<=',$request->tanggal)->where('status','Perencanaan')->latest()->get();
+                if(isset($data)){
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'Berhasil Merubah Status Lubang',
+                        'data'  => $data,
+                        'data_perencanaan'  => $data1,
+                        'data_support'  => $temp,
+                    ]);
+                }else{
+                    $this->response['data']['error'] = "Data tidak ditemukan";
+                    return response()->json($this->response, 200);
+                }
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Ruas ini sudah tiadak ada yang bisa di rencanakan',
+                ]);
+            }else{
+                $this->response['data']['message'] = 'Data tidak ditemukan';
+                return response()->json($this->response, 500);
+            }
+        } catch (\Exception $th) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+        
+    }
+
     // try {
     // } catch (\Exception $th) {
     //     $this->response['data']['message'] = 'Internal Error';
     //     return response()->json($this->response, 500);
     // }
+
 
 }
