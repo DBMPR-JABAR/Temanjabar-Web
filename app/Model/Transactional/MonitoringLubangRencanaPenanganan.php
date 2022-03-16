@@ -15,6 +15,6 @@ class MonitoringLubangRencanaPenanganan extends Model
     }
     public function RencanaPenangananLubangDetail()
     {
-        return $this->hasMany('App\Model\Transactional\MonitoringLubangPenangananDetail','monitoring_lubang_rencana_penanganan_id')->latest();
+        return $this->hasMany('App\Model\Transactional\MonitoringLubangRencanaPenangananDetail','monitoring_lubang_rencana_penanganan_id')->latest();
     }
 }

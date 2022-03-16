@@ -100,7 +100,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
         Route::get('edit/{id}', 'API\MonitoringLubangController@editRencanaPenanganan');
         Route::put('update/{id}', 'API\MonitoringLubangController@updateRencanaPenanganan');
         Route::post('list', 'API\MonitoringLubangController@listRencanaPenanganan');
-        Route::post('execute/{id}/{tanggal}', 'API\MonitoringLubangController@executeRencanaPenanganan');
+        Route::post('execute/{id}', 'API\MonitoringLubangController@executeRencanaPenanganan');
 
 
     });

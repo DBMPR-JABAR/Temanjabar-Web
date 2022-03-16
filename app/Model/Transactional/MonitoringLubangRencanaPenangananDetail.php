@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class MonitoringLubangRencanaPenangananDetail extends Model
 {
     //
-    protected $table = "monitoring_lubang_penanganan_detail";
+    protected $table = "monitoring_lubang_rencana_penanganan_detail";
     protected $guarded = [];
     public function RencanaPenangananLubang()
     {
