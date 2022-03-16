@@ -70,7 +70,6 @@ Route::group(['prefix' => 'uptd'], function () {
 Route::get('user', 'CobaController@index');
 Route::get('user/json', 'CobaController@json');
 
-Route::resource('news', 'Landing\NewsController');
 
 // {SiteURL}/admin/*
 Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
@@ -213,6 +212,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
         // {SiteURL}/admin/landing-page/news
         Route::get('news/', 'Landing\NewsController@index');
+        Route::resource('news', 'Landing\NewsController');
 
         Route::get('news/delete/{id}', 'Landing\NewsController@destroy');
         Route::post('news/ckeditor/upload', 'Landing\NewsController@upload')->name('news.ckeditor.upload');
