@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class NewsController extends Controller
 {
@@ -99,7 +100,8 @@ class NewsController extends Controller
         $news['slug'] = Str::slug($request->title);
         $news = array_merge($request->except('_token', 'thumbnail'), $news);
         $news = News::find($id)->fill($news);
-        $news->clearMediaCollection();
+        $news->clearMediaCollection('thumbnail');
+        Storage::delete($news->path_url);
         if ($request->hasFile('thumbnail')) {
             $news->addMediaFromRequest('thumbnail')->toMediaCollection('thumbnail');
         }
