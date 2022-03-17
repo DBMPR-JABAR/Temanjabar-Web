@@ -108,7 +108,7 @@ class MonitoringLubangController extends Controller
                 'lokasi_m' => '',
                 'lat' => 'required',
                 'long' => 'required',
-
+                'image' => '',
             ]);
             if ($validator->fails()) {
                 $this->response['data']['error'] = $validator->errors();
@@ -128,23 +128,27 @@ class MonitoringLubangController extends Controller
                 'lokasi_kode' => Str::upper($request->lokasi_kode),
 
             ]);
+            $temporari =[
+                'lat' => $request->lat,
+                'long' => $request->long,
+                'lokasi_kode' => Str::upper($request->lokasi_kode),
+                'lokasi_km' => $request->lokasi_km,
+                'lokasi_m' => $request->lokasi_m,
+                'created_by' =>Auth::user()->id,
+                'ruas_jalan_id'=>$request->ruas_jalan_id,
+                'sup_id'=>$ruas->data_sup->id,
+                'sup'=>$ruas->data_sup->name,
+                'uptd_id'=>$ruas->uptd_id,
+                'tanggal'=> $request->tanggal,
+            ];
+            if($request->file('image')){
+                $image = $request->file('image');
+                $image->storeAs('public/survei_lubang',$image->hashName());
+                $temporari['image'] = $image->hashName();
+            }
             if(Str::contains($desc, 'tambah')){   
                 if($survei->id){
-                    $survei->SurveiLubangDetail()->create([
-                        'lat' => $request->lat,
-                        'long' => $request->long,
-                        'lokasi_kode' => Str::upper($request->lokasi_kode),
-                        'lokasi_km' => $request->lokasi_km,
-                        'lokasi_m' => $request->lokasi_m,
-                        'created_by' =>Auth::user()->id,
-                        'ruas_jalan_id'=>$request->ruas_jalan_id,
-                        'sup_id'=>$ruas->data_sup->id,
-                        'sup'=>$ruas->data_sup->name,
-                        'uptd_id'=>$ruas->uptd_id,
-                        'tanggal'=> $request->tanggal,
-
-
-                    ]);
+                    $survei->SurveiLubangDetail()->create($temporari);
                     // $survei->jumlah = $survei->jumlah + 1;
                     $survei->jumlah = $survei->SurveiLubangDetail->count();
                 }
@@ -175,19 +179,7 @@ class MonitoringLubangController extends Controller
             // storeLogActivity(declarLog(1, 'Survei Lubang', $ruas->nama_ruas_jalan,1));
             if(Str::contains($desc, 'tambah')){
                 if($survei->SurveiLubangDetail->count()==0){
-                    $survei->SurveiLubangDetail()->create([
-                        'lat' => $request->lat,
-                        'long' => $request->long,
-                        'lokasi_kode' => Str::upper($request->lokasi_kode),
-                        'lokasi_km' => $request->lokasi_km,
-                        'lokasi_m' => $request->lokasi_m,
-                        'created_by' =>Auth::user()->id,
-                        'ruas_jalan_id'=>$request->ruas_jalan_id,
-                        'sup_id'=>$ruas->data_sup->id,
-                        'sup'=>$ruas->data_sup->name,
-                        'tanggal'=> $request->tanggal,
-                        'uptd_id'=>$ruas->uptd_id,
-                    ]);     
+                    $survei->SurveiLubangDetail()->create($temporari);      
                 }
             }else{
                 $cross_check = SurveiLubang::find($survei->id);
@@ -292,7 +284,7 @@ class MonitoringLubangController extends Controller
                 return response()->json($this->response, 200);
             }
             $temp = [
-                "status"=>"Selesai",
+                'status'=>"Selesai",
                 'updated_by'=>Auth::user()->id,
                 'tanggal_penanganan'=> $tanggal,
             ];
