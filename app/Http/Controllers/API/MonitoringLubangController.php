@@ -156,6 +156,9 @@ class MonitoringLubangController extends Controller
             }else{
                 if($survei->SurveiLubangDetail->count()>=1){
                     $del = $survei->SurveiLubangDetail()->first();
+                    if(Storage::exists('public/survei_lubang/'.$del->image)){
+                        Storage::delete('public/survei_lubang/'.$del->image);
+                    }
                     $del->delete();
                     // $survei->jumlah = $survei->jumlah - 1;
                     $survei->jumlah = $survei->SurveiLubangDetail->count();
