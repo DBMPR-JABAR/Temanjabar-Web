@@ -11,6 +11,6 @@ class MonitoringLubangPenangananDetail extends Model
     protected $guarded = [];
     public function PenangananLubang()
     {
-        return $this->belongsTo('App\Model\Transactional\RuasJalan', 'monitoring_lubang_penanganan_id');
+        return $this->belongsTo('App\Model\Transactional\MonitoringLubangPenanganan', 'monitoring_lubang_penanganan_id');
     }
 }

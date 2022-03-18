@@ -17,4 +17,13 @@ class MonitoringLubangSurveiDetail extends Model
     {
         return $this->belongsTo('App\Model\Transactional\RuasJalan', 'ruas_jalan_id','id_ruas_jalan');
     }
+    public function DetailRencana()
+    {
+        return $this->hasOne('App\Model\Transactional\MonitoringLubangRencanaPenangananDetail', 'monitoring_lubang_survei_detail_id');
+    }
+    public function DetailPenanganan()
+    {
+        return $this->hasOne('App\Model\Transactional\MonitoringLubangPenangananDetail', 'monitoring_lubang_survei_detail_id');
+    }
+    
 }
