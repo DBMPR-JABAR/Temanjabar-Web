@@ -101,6 +101,8 @@ class MapDashboardController extends Controller
                     $data = $data->whereIn('sup', $request->sup)->latest('tanggal');
                     $data = $data->get();
                     $this->response['data']['sapulobang'] = $data;
+                    $this->response['data']['iconsapulobang'] = $data;
+
                 }
                 if (in_array('pemeliharaan', $request->kegiatan)) {
                     $data = DB::table('kemandoran')
