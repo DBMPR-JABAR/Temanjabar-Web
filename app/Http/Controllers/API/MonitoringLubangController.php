@@ -111,7 +111,7 @@ class MonitoringLubangController extends Controller
                 'image' => '',
                 'kategori' => '',
                 'panjang' => '',
-
+                'description' =>''
             ]);
             if($request->kategori == "Group"){
                 $validator = Validator::make($request->all(), [
@@ -151,11 +151,13 @@ class MonitoringLubangController extends Controller
                 'tanggal'=> $request->tanggal,
                 'kategori'=> $request->kategori,
                 'panjang'=> $request->panjang,
+                'description'=>$request->panjang,
 
             ];
             if($request->kategori == "Group"){
                 $temporari['jumlah'] = $request->jumlah;
                 $temporari['icon'] = 'sapulobang.png';
+                $temporari['keterangan'] = 'Lubang Group';
 
             }
             if($request->file('image')){
@@ -402,7 +404,9 @@ class MonitoringLubangController extends Controller
                 'status'=>"Selesai",
                 'updated_by'=>Auth::user()->id,
                 'tanggal_penanganan'=> $tanggal,
-                'icon' => "sapulobang/sapulobang_finish.png"
+                'icon' => "sapulobang/sapulobang_finish.png",
+                'keterangan' => 'Lubang Diperbaiki'
+
 
             ];
             $data = SurveiLubangDetail::findOrFail($id);
@@ -762,8 +766,8 @@ class MonitoringLubangController extends Controller
                 "status"=>"Perencanaan",
                 "updated_by"=>Auth::user()->id,
                 'tanggal_rencana_penanganan'=> $request->tanggal,
-                'icon' => "sapulobang/sapulobang_schedule.png"
-
+                'icon' => "sapulobang/sapulobang_schedule.png",
+                'keterangan' => 'Lubang Dalam Perencanaan'
             ];
             $data = SurveiLubangDetail::findOrFail($id);
             $ruas = RuasJalan::where('id_ruas_jalan',$data->ruas_jalan_id)->first();
