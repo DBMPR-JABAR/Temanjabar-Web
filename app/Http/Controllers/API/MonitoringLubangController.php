@@ -402,7 +402,7 @@ class MonitoringLubangController extends Controller
                 'status'=>"Selesai",
                 'updated_by'=>Auth::user()->id,
                 'tanggal_penanganan'=> $tanggal,
-                'icon' => "sapulobang_finish.png"
+                'icon' => "/assets/images/marker/sapulobang_finish.png"
 
             ];
             $data = SurveiLubangDetail::findOrFail($id);
@@ -762,7 +762,7 @@ class MonitoringLubangController extends Controller
                 "status"=>"Perencanaan",
                 "updated_by"=>Auth::user()->id,
                 'tanggal_rencana_penanganan'=> $request->tanggal,
-                'icon' => "sapulobang_schedule.png"
+                'icon' => "/assets/images/marker/sapulobang_schedule.png"
 
             ];
             $data = SurveiLubangDetail::findOrFail($id);
