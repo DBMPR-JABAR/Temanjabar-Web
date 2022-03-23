@@ -45,11 +45,11 @@ class AuthController extends Controller
         try {
             if (!$token = auth('api')->attempt($credentials)) {
                 $this->response['data']['message'] = 'invalid_credentials';
-                return response()->json($this->response, 200);
+                return response()->json($this->response, 400);
             }
         } catch (JWTException $e) {
             $this->response['data']['message'] = 'could_not_create_token';
-            return response()->json($this->response, 500);
+            return response()->json($this->response, 400);
         }
 
         if (!auth('api')->user()->email_verified_at) {
