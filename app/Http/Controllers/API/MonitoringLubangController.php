@@ -151,7 +151,7 @@ class MonitoringLubangController extends Controller
                 'tanggal'=> $request->tanggal,
                 'kategori'=> $request->kategori,
                 'panjang'=> $request->panjang,
-                'description'=>$request->panjang,
+                'description'=>$request->description,
 
             ];
             if($request->kategori == "Group"){
