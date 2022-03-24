@@ -111,7 +111,8 @@ class MonitoringLubangController extends Controller
                 'image' => '',
                 'kategori' => '',
                 'panjang' => '',
-                'description' =>''
+                'description' =>'',
+                'lajur' =>''
             ]);
             if($request->kategori == "Group"){
                 $validator = Validator::make($request->all(), [
@@ -152,6 +153,7 @@ class MonitoringLubangController extends Controller
                 'kategori'=> $request->kategori,
                 'panjang'=> $request->panjang,
                 'description'=>$request->description,
+                'lajur'=>$request->lajur,
 
             ];
             if($request->kategori == "Group"){
@@ -172,7 +174,6 @@ class MonitoringLubangController extends Controller
                     // $survei->jumlah = $survei->jumlah + 1;
                     $survei->jumlah = $survei->SurveiLubangDetail->sum('jumlah');
                     $survei->panjang = $survei->SurveiLubangDetail->sum('panjang');
-
                 }
                 // $survei->jumlah = $survei->jumlah + $request->jumlah;
             }else{
@@ -191,7 +192,6 @@ class MonitoringLubangController extends Controller
                     $this->response['data']['error'] = "Silahkan klik tambah!";
                     return response()->json($this->response, 200);
                 }
-               
                 // $survei->jumlah = $survei->jumlah - $request->jumlah;
             }
             $survei->uptd_id=$ruas->uptd_id;
