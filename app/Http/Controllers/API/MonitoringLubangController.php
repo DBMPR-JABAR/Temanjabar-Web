@@ -394,7 +394,8 @@ class MonitoringLubangController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'keterangan' => ''
+                'keterangan' => '',
+                'image_penanganan' => '',
             ]);
             if ($validator->fails()) {
                 $this->response['data']['error'] = $validator->errors();
@@ -406,11 +407,13 @@ class MonitoringLubangController extends Controller
                 'tanggal_penanganan'=> $tanggal,
                 'icon' => "sapulobang/sapulobang_finish.png",
                 'keterangan' => 'Lubang Diperbaiki'
-
-
             ];
+            if($request->file('image_penanganan')){
+                $image_penanganan = $request->file('image_penanganan');
+                $image_penanganan->storeAs('public/survei_lubang',$image_penanganan->hashName());
+                $temp['image_penanganan'] = $image_penanganan->hashName();
+            }
             $data = SurveiLubangDetail::findOrFail($id);
-            
             $ruas = RuasJalan::where('id_ruas_jalan',$data->ruas_jalan_id)->first();
             
             if($data){
