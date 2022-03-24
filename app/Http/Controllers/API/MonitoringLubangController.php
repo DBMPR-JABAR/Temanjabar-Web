@@ -158,7 +158,7 @@ class MonitoringLubangController extends Controller
             ];
             if($request->kategori == "Group"){
                 $temporari['jumlah'] = $request->jumlah;
-                $temporari['icon'] = 'sapulobang.png';
+                $temporari['icon'] = 'sapulobang/sapulobang.png';
                 $temporari['keterangan'] = 'Lubang Group';
 
             }
