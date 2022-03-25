@@ -153,9 +153,11 @@ class MonitoringLubangController extends Controller
                 'uptd_id'=>$ruas->uptd_id,
                 'tanggal'=> $request->tanggal,
                 'kategori'=> $request->kategori,
+                'kategori_kedalaman'=> $request->kategori_kedalaman,
                 'panjang'=> $request->panjang,
                 'description'=>$request->description,
                 'lajur'=>$request->lajur,
+
 
             ];
             if($request->kategori == "Group"){
