@@ -77,10 +77,12 @@ class MonitoringLubangController extends Controller
             ])->first();
             if(isset($survei)){
                 $survei->jumlah = $survei->SurveiLubangDetail->sum('jumlah');
+                $survei->panjang = $survei->SurveiLubangDetail->sum('panjang');
                 $survei->ruas = $survei->ruas()->select('id_ruas_jalan','nama_ruas_jalan')->get();
             }else{
                 $survei =([
                     'jumlah'=>0,
+                    'panjang'=>0,
                     'tanggal'=>$request->tanggal,
                     'ruas_jalan_id'=>$request->ruas_jalan_id,
                     'ruas'=>$ruas->select('id_ruas_jalan','nama_ruas_jalan')->where('id_ruas_jalan',$request->ruas_jalan_id)->get(),
