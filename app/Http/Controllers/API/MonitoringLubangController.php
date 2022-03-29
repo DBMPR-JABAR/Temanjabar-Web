@@ -70,7 +70,7 @@ class MonitoringLubangController extends Controller
                 }
             }
             // $temporari['data_survei'] = $data->whereNull('status')->count();
-            $temporari['perencanaan'] = $data->where('status','Perencanaan')->count();
+            // $temporari['perencanaan'] = $data->where('status','Perencanaan')->count();
             $temporari['penanganan'] = $data->where('status','Selesai')->count();
 
             $data = $data->get();
