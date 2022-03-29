@@ -69,15 +69,16 @@ class MonitoringLubangController extends Controller
                     }
                 }
             }
-            // $temporari['data_survei'] = $data->whereNull('status')->count();
-            // $temporari['perencanaan'] = $data->where('status','Perencanaan')->count();
+            $temporari['data_survei'] = $data->whereNull('status')->count();
+            $temporari['perencanaan'] = $data->where('status','Perencanaan')->count();
             $temporari['penanganan'] = $data->where('status','Selesai')->count();
 
             $data = $data->get();
             return response()->json([
                 'success' => true,
                 'message' => 'Data Penanganan',
-                'data'  => $temporari
+                'data'  => $temporari,
+                'data2' => $data
             ]);
         } catch (\Exception $th) {
             $this->response['data']['message'] = 'Internal Error';
