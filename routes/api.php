@@ -105,9 +105,9 @@ Route::group(['middleware' => ['jwt.auth']], function () {
         Route::put('update/{id}', 'API\MonitoringLubangController@updateRencanaPenanganan');
         Route::post('list', 'API\MonitoringLubangController@listRencanaPenanganan');
         Route::post('execute/{id}', 'API\MonitoringLubangController@executeRencanaPenanganan');
-
-
     });
+    Route::get('sapu-lubang/rekapitulasi', 'API\MonitoringLubangController@getRekap');
+    
     Route::get('has_access/{permission}', 'API\UtilsController@has_access');
     Route::get('uptd_list', 'API\UtilsController@uptd_list');
 

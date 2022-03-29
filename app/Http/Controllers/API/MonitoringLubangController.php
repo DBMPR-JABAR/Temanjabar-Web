@@ -52,6 +52,39 @@ class MonitoringLubangController extends Controller
         }
         
     }
+    public function getRekap()
+    {
+        try {
+            
+            $data = SurveiLubangDetail::latest('tanggal');
+            if (Auth::user() && Auth::user()->internalRole->uptd) {
+                $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+                $data = $data->where('uptd_id', $uptd_id);
+                if (str_contains(Auth::user()->internalRole->role, 'Mandor')) {
+                    $data = $data->where('created_by', Auth::user()->id);
+                } else if (Auth::user()->sup_id) {
+                    $data = $data->where('sup_id', Auth::user()->sup_id);
+                    if (count(Auth::user()->ruas) > 0) {
+                        $data = $data->whereIn('ruas_jalan_id', Auth::user());
+                    }
+                }
+            }
+            $temporari['data_survei'] = $data->whereNull('status')->count();
+            $temporari['perencanaan'] = $data->where('status','Perencanaan')->count();
+            $temporari['penanganan'] = $data->where('status','Selesai')->count();
+
+            $data = $data->get();
+            return response()->json([
+                'success' => true,
+                'message' => 'Data Penanganan',
+                'data'  => $temporari
+            ]);
+        } catch (\Exception $th) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+        
+    }
     public function startSurvei(Request $request)
     {
         try {
@@ -157,8 +190,6 @@ class MonitoringLubangController extends Controller
                 'panjang'=> $request->panjang,
                 'description'=>$request->description,
                 'lajur'=>$request->lajur,
-
-
             ];
             if($request->kategori == "Group"){
                 $temporari['jumlah'] = $request->jumlah;
