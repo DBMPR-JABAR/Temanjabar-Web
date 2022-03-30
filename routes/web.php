@@ -269,6 +269,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
             Route::get('json', 'MasterData\RuasJalanController@json')->name('getJsonRuasJalan');
         });
+        Route::group(['prefix' => 'kota'], function () {
+            Route::get('/', 'MasterData\KotaController@index')->name('getMasterKota');
+        });
 
         Route::group(['prefix' => 'user'], function () {
             Route::get('permission', 'MasterData\UserController@getPermission')->name('getAkses')->middleware('role:User,View');

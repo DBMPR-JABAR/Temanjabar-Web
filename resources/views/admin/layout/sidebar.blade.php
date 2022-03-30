@@ -133,6 +133,11 @@
                         </li>
                         @endif
                         @if (hasAccess(Auth::user()->internal_role_id, 'Ruas Jalan', 'View'))
+                        <li class="{{ Request::segment(3) == 'kota' ? 'active' : '' }}">
+                            <a href="{{ url('admin/master-data/kota') }}" class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">Kota</span>
+                            </a>
+                        </li>
                         <li class="{{ Request::segment(3) == 'ruas-jalan' ? 'active' : '' }}">
                             <a href="{{ url('admin/master-data/ruas-jalan') }}" class="waves-effect waves-dark">
                                 <span class="pcoded-mtext">Ruas Jalan</span>
