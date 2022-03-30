@@ -57,32 +57,38 @@ class MonitoringLubangController extends Controller
         try {
             
             $data = SurveiLubangDetail::latest('tanggal');
+            $data1 = SurveiLubangDetail::latest('tanggal');
+            $data2 = SurveiLubangDetail::latest('tanggal');
             if (Auth::user() && Auth::user()->internalRole->uptd) {
                 $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
                 $data = $data->where('uptd_id', $uptd_id);
+                $data1 = $data->where('uptd_id', $uptd_id);
+                $data2 = $data->where('uptd_id', $uptd_id);
                 if (str_contains(Auth::user()->internalRole->role, 'Mandor')) {
                     $data = $data->where('created_by', Auth::user()->id);
+                    $data1 = $data->where('created_by', Auth::user()->id);
+                    $data2 = $data->where('created_by', Auth::user()->id);
                 } else if (Auth::user()->sup_id) {
                     $data = $data->where('sup_id', Auth::user()->sup_id);
+                    $data1 = $data->where('sup_id', Auth::user()->sup_id);
+                    $data2 = $data->where('sup_id', Auth::user()->sup_id);
                     if (count(Auth::user()->ruas) > 0) {
                         $data = $data->whereIn('ruas_jalan_id', Auth::user());
+                        $data1 = $data->whereIn('ruas_jalan_id', Auth::user());
+                        $data2 = $data->whereIn('ruas_jalan_id', Auth::user());
                     }
                 }
             }
-            $temp1 = $data;
-            $temp2 = $data;
-            $temp3 = $data;
-            $temporari['data_survei'] = $temp1->whereNull('status')->get()->count();
-            $temporari['perencanaan'] = $temp2->where('status','Perencanaan')->get()->count();
-            $temporari['penanganan'] = $temp3->where('status','Selesai')->get()->count();
-
-            $data = $data->get();
+            $temporari['data_survei'] = $data->whereNull('status')->get()->count();
+            $temporari['perencanaan'] = $data1->where('status','Perencanaan')->get()->count();
+            $temporari['penanganan'] = $data2->where('status','Selesai')->get()->count();
+           
             return response()->json([
                 'success' => true,
                 'message' => 'Data Penanganan',
-                'data'  => $temporari,
-                'data2' => $data
+                'data'  => $temporari
             ]);
+
         } catch (\Exception $th) {
             $this->response['data']['message'] = 'Internal Error';
             return response()->json($this->response, 500);
