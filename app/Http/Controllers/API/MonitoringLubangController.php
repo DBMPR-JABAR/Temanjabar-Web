@@ -192,6 +192,7 @@ class MonitoringLubangController extends Controller
                 'created_by' =>Auth::user()->id,
                 'ruas_jalan_id'=>$request->ruas_jalan_id,
                 'sup_id'=>$ruas->data_sup->id,
+                'kota_id'=>$ruas->kota_id,
                 'sup'=>$ruas->data_sup->name,
                 'uptd_id'=>$ruas->uptd_id,
                 'tanggal'=> $request->tanggal,
