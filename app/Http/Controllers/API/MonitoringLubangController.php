@@ -443,6 +443,8 @@ class MonitoringLubangController extends Controller
             $validator = Validator::make($request->all(), [
                 'keterangan' => '',
                 'image_penanganan' => '',
+                'lat' => '',
+                'long' => '',
             ]);
             if ($validator->fails()) {
                 $this->response['data']['error'] = $validator->errors();
@@ -463,8 +465,25 @@ class MonitoringLubangController extends Controller
             $data = SurveiLubangDetail::findOrFail($id);
             $ruas = RuasJalan::where('id_ruas_jalan',$data->ruas_jalan_id)->first();
             
+
+            $theta = $data->long - $request->long;
+            $miles = (sin(deg2rad($data->lat)) * sin(deg2rad($request->lat))) + (cos(deg2rad($data->lat)) * cos(deg2rad($request->lat)) * cos(deg2rad($theta)));
+            $miles = acos($miles);
+            $miles = rad2deg($miles);
+            $miles = $miles * 60 * 1.1515;
+            $feet  = $miles * 5280;
+            $yards = $feet / 3;
+            $kilometers = $miles * 1.609344;
+            $meters = $kilometers * 1000;
+
+
             if($data){
-                $data->update($temp);
+                if($meters <=3){
+                    $data->update($temp);
+                }else{
+                    $this->response['data']['error'] = "Jarak anda terlalu jauh, Maksimal 3 meter";
+                    return response()->json($this->response, 200);
+                }
                 $temp = [
                     'tanggal' => $tanggal,
                     'lokasi_km' => $request->lokasi_km,
