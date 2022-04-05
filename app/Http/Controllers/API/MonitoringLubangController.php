@@ -144,6 +144,7 @@ class MonitoringLubangController extends Controller
     public function storeSurvei(Request $request, $desc)
     {
         try {
+            
             $validator = Validator::make($request->all(), [
                 'jumlah' => '',
                 'tanggal' => 'required|date',
@@ -159,6 +160,7 @@ class MonitoringLubangController extends Controller
                 'description' =>'',
                 'lajur' =>''
             ]);
+            
             if($request->kategori == "Group"){
                 $validator = Validator::make($request->all(), [
                     'jumlah' => 'required|numeric',
@@ -169,13 +171,13 @@ class MonitoringLubangController extends Controller
                 storeLogActivity(declarLog(1, 'Survei Lubang', $validator->errors()));
                 return response()->json($this->response, 200);
             }
-            
             $ruas = RuasJalan::where('id_ruas_jalan',$request->ruas_jalan_id)->first();
             
             if(!isset($ruas)){   
                 $this->response['data']['error'] = "Ruas Tidak Ditemukan";
                 return response()->json($this->response, 200);
             }
+            
             $survei = SurveiLubang::firstOrNew([
                 'tanggal'=> $request->tanggal,
                 'created_by' =>Auth::user()->id,
@@ -184,6 +186,7 @@ class MonitoringLubangController extends Controller
                 'kota_id'=>$ruas->kota_id,
                 'lokasi_kode' => Str::upper($request->lokasi_kode),
             ]);
+           
             $temporari =[
                 'lat' => $request->lat,
                 'long' => $request->long,
@@ -480,68 +483,69 @@ class MonitoringLubangController extends Controller
             if($data){
                 if($meters <=3){
                     $data->update($temp);
-                }else{
-                    $this->response['data']['error'] = "Jarak anda terlalu jauh, Maksimal 3 meter";
-                    return response()->json($this->response, 200);
-                }
-                $temp = [
-                    'tanggal' => $tanggal,
-                    'lokasi_km' => $request->lokasi_km,
-                    'lokasi_m' => $request->lokasi_m,
-                    'ruas_jalan_id' => $data->ruas_jalan_id
-                ];
-                $penanganan = PenangananLubang::firstOrNew([
-                    'tanggal'=> $tanggal,
-                    'created_by' =>Auth::user()->id,
-                    'ruas_jalan_id'=>$data->ruas_jalan_id,
-                    'sup_id'=>$ruas->data_sup->id,
-                ]);
-                
-                $penanganan->uptd_id=$ruas->uptd_id;
-                
-                if($penanganan->id){
-                    $penanganan->jumlah += $data->jumlah;
-                    $penanganan->panjang += $data->panjang;
-                }else{
-                    $penanganan->jumlah= $data->jumlah;
-                    $penanganan->panjang= $data->panjang;
-                }
-                $penanganan->save();
-                
-                $penanganan->PenangananLubangDetail()->create([
-                    'tanggal'=> $tanggal,
-                    'created_by' =>Auth::user()->id,
-                    'ruas_jalan_id'=>$data->ruas_jalan_id,
-                    'sup_id'=>$ruas->data_sup->id,
-                    'uptd_id'=>$ruas->uptd_id,
-                    'monitoring_lubang_survei_detail_id'=>$data->id,
-                    'keterangan' => $request->keterangan,
-                    'kategori'=>$data->kategori,
-                    'jumlah'=>$data->jumlah,
-                    'panjang'=>$data->panjang,
-
-                ]);
-                storeLogActivity(declarLog(2, 'Penanganan Lubang', '',1));
-                $data2 = SurveiLubangDetail::where('ruas_jalan_id',$data->ruas_jalan_id)->where('tanggal_rencana_penanganan','<=',$tanggal)->where('status','Perencanaan')->latest()->get();
-                $data1 = SurveiLubangDetail::where('ruas_jalan_id',$data->ruas_jalan_id)->where('tanggal','<=',$tanggal)->where('status','Selesai')->latest()->get();
-
-                if(isset($data)){
+                    $temp = [
+                        'tanggal' => $tanggal,
+                        'lokasi_km' => $request->lokasi_km,
+                        'lokasi_m' => $request->lokasi_m,
+                        'ruas_jalan_id' => $data->ruas_jalan_id
+                    ];
+                    $penanganan = PenangananLubang::firstOrNew([
+                        'tanggal'=> $tanggal,
+                        'created_by' =>Auth::user()->id,
+                        'ruas_jalan_id'=>$data->ruas_jalan_id,
+                        'sup_id'=>$ruas->data_sup->id,
+                    ]);
+                    
+                    $penanganan->uptd_id=$ruas->uptd_id;
+                    
+                    if($penanganan->id){
+                        $penanganan->jumlah += $data->jumlah;
+                        $penanganan->panjang += $data->panjang;
+                    }else{
+                        $penanganan->jumlah= $data->jumlah;
+                        $penanganan->panjang= $data->panjang;
+                    }
+                    $penanganan->save();
+                    
+                    $penanganan->PenangananLubangDetail()->create([
+                        'tanggal'=> $tanggal,
+                        'created_by' =>Auth::user()->id,
+                        'ruas_jalan_id'=>$data->ruas_jalan_id,
+                        'sup_id'=>$ruas->data_sup->id,
+                        'uptd_id'=>$ruas->uptd_id,
+                        'monitoring_lubang_survei_detail_id'=>$data->id,
+                        'keterangan' => $request->keterangan,
+                        'kategori'=>$data->kategori,
+                        'jumlah'=>$data->jumlah,
+                        'panjang'=>$data->panjang,
+    
+                    ]);
+                    storeLogActivity(declarLog(2, 'Penanganan Lubang', '',1));
+                    $data2 = SurveiLubangDetail::where('ruas_jalan_id',$data->ruas_jalan_id)->where('tanggal_rencana_penanganan','<=',$tanggal)->where('status','Perencanaan')->latest()->get();
+                    $data1 = SurveiLubangDetail::where('ruas_jalan_id',$data->ruas_jalan_id)->where('tanggal','<=',$tanggal)->where('status','Selesai')->latest()->get();
+    
+                    if(isset($data)){
+                        return response()->json([
+                            'success' => true,
+                            'message' => 'Berhasil Merubah Status Lubang',
+                            'data'  => $data2,
+                            'data_selesai'  => $data1,
+                            'data_support'  => $temp,
+                        ]);
+    
+                    }else{
+                        $this->response['data']['error'] = "Data tidak ditemukan";
+                        return response()->json($this->response, 200);
+                    }
                     return response()->json([
                         'success' => true,
-                        'message' => 'Berhasil Merubah Status Lubang',
-                        'data'  => $data2,
-                        'data_selesai'  => $data1,
-                        'data_support'  => $temp,
+                        'message' => 'Ruas ini sudah tiadak ada yang bisa di tangani',
                     ]);
-
                 }else{
-                    $this->response['data']['error'] = "Data tidak ditemukan";
-                    return response()->json($this->response, 200);
+                    $this->response['data']['error'] = "Jarak anda terlalu jauh, Maksimal 3 meter";
+                    return response()->json($this->response, 400);
                 }
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Ruas ini sudah tiadak ada yang bisa di tangani',
-                ]);
+                
             }else{
                 $this->response['data']['message'] = 'Data tidak ditemukan';
                 return response()->json($this->response, 500);
