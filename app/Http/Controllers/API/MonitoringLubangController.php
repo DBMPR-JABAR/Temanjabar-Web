@@ -479,6 +479,12 @@ class MonitoringLubangController extends Controller
             $kilometers = $miles * 1.609344;
             $meters = $kilometers * 1000;
 
+            return response()->json([
+                'success' => true,
+                'message' => 'Berhasil Merubah Status Lubang',
+                'data'  => $meters,
+               
+            ]);
 
             if($data){
                 if($meters <=3){
@@ -535,7 +541,7 @@ class MonitoringLubangController extends Controller
     
                     }else{
                         $this->response['data']['error'] = "Data tidak ditemukan";
-                        return response()->json($this->response, 200);
+                        return response()->json($this->response, 400);
                     }
                     return response()->json([
                         'success' => true,
