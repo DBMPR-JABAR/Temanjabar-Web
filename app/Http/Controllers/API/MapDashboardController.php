@@ -16,6 +16,7 @@ use App\Http\Resources\MapJembatanResource;
 use App\Model\DWH\KemantapanJalan;
 use App\Model\Transactional\LaporanMasyarakat;
 use App\Model\Transactional\MonitoringLubangSurveiDetail as SurveiLubangDetail;
+use App\Transactional\RumijaReport;
 
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
@@ -118,6 +119,10 @@ class MapDashboardController extends Controller
                     $data = $data->whereIn('sup', $request->sup)->latest('tanggal');
                     $data = $data->get();
                     $this->response['data']['sapulobang_penanganan'] = $data;
+                }
+                if (in_array('laporrumija', $request->kegiatan)) {  
+                    $data = RumijaReport::latest()->get();
+                    $this->response['data']['laporrumija'] = $data;
                 }
                 if (in_array('pemeliharaan', $request->kegiatan)) {
                     $data = DB::table('kemandoran')
