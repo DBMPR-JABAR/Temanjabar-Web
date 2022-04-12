@@ -266,7 +266,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('delete/{id}', 'MasterData\RuasJalanController@delete')->name('deleteRuasJalan');
             Route::get('getSUP', 'MasterData\RuasJalanController@getSUP')->name('getSUPRuasJalan');
             Route::get('getCITIES', 'MasterData\RuasJalanController@getCITIES')->name('getSUPRuasJalan');
-
             Route::get('json', 'MasterData\RuasJalanController@json')->name('getJsonRuasJalan');
         });
         Route::group(['prefix' => 'kota'], function () {

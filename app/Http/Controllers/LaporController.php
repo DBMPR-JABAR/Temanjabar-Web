@@ -37,12 +37,8 @@ class LaporController extends Controller
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
             $aduan = $aduan->where('uptd_id', $uptd_id);
         }
-
         $aduan = $aduan->latest()->get();
-        // foreach($aduan as $ni){
-        //     echo $ni->status;
-        // }
-        // dd($aduan);
+    
         return view('admin.lapor.index', compact('aduan'));
     }
 
@@ -133,6 +129,11 @@ class LaporController extends Controller
         // ->leftJoin('utils_jenis_laporan', 'utils_jenis_laporan.id', 'monitoring_laporan_masyarakat.jenis')
         // ->select(['monitoring_laporan_masyarakat.*', 'utils_jenis_laporan.name as jenis']);
         // dd($aduan->get());
+        if (Auth::user()->internalRole->uptd) {
+            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+            $aduan = $aduan->where('uptd_id', $uptd_id);
+        }
+        
         return DataTables::of($aduan)
             ->addIndexColumn()
             ->addColumn('imglaporan', function ($row) {
