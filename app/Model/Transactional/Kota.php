@@ -9,4 +9,9 @@ class Kota extends Model
     //
     protected $table = "master_kota";
     protected $guarded = [];
+
+    public function uptd()
+    {
+        return $this->belongsTo('App\Model\Transactional\UPTD', 'uptd_id');
+    }
 }

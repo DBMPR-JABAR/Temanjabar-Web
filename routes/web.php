@@ -270,6 +270,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         });
         Route::group(['prefix' => 'kota'], function () {
             Route::get('/', 'MasterData\KotaController@index')->name('getMasterKota');
+            Route::get('/edit/{id}', 'MasterData\KotaController@edit')->name('editMasterKota');
+            Route::put('/update/{id}', 'MasterData\KotaController@update')->name('updateMasterKota');
+
+
         });
 
         Route::group(['prefix' => 'user'], function () {

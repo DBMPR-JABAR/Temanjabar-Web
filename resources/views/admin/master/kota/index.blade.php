@@ -66,6 +66,9 @@
                                 <tr>
                                     <th style="width: 5%">No</th>
                                     <th>Nama</th>
+                                    <th>UPTD</th>
+                                    <th style="width: 5%">Aksi</th>
+
                                     {{-- <th style="width: 75px;">Aksi</th> --}}
                                 </tr>
                             </thead>
@@ -74,24 +77,12 @@
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>{{ $data->name }}</td>
-                                        {{-- <td style="min-width: 75px;">
-                                            <div class="btn-group " role="group" data-placement="top" title=""
-                                                data-original-title=".btn-xlg">
-                                                @if (hasAccess(Auth::user()->internal_role_id, 'Ruas Jalan', 'Update'))
-                                                    <a href="{{ route('item_satuan.edit', $data->id) }}"><button
-                                                            class="btn btn-primary btn-sm waves-effect waves-light"
-                                                            data-toggle="tooltip" title="Edit"><i
-                                                                class="icofont icofont-pencil"></i></button></a>
-                                                @endif
-                                                @if (hasAccess(Auth::user()->internal_role_id, 'Ruas Jalan', 'Delete'))
-                                                    <a href="#delModal" data-id="{{ $data->id }}"
-                                                        data-toggle="modal"><button
-                                                            class="btn btn-danger btn-sm waves-effect waves-light"
-                                                            data-toggle="tooltip" title="Hapus"><i
-                                                                class="icofont icofont-trash"></i></button></a>
-                                                @endif
-                                            </div>
-                                        </td> --}}
+                                        <td>{{ @$data->uptd->nama }}</td>
+
+                                        <td>
+                                            <a href="{{ route('editMasterKota',$data->id) }}"><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>
+                                            {{-- <a href="#delModal"  data-toggle="modal"><button data-toggle="tooltip" title="Hapus" class="btn btn-danger btn-sm waves-effect waves-light"><i class="icofont icofont-trash"></i></button></a>  --}}
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
