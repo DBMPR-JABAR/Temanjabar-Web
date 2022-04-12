@@ -25,7 +25,7 @@
         <div class="page-header-title">
             <div class="d-inline">
                 <h4>Daftar Laporan</h4>
-                <span>Data Seluruh Laporan</span>
+                <span>Data Seluruh Laporan sd</span>
             </div>
         </div>
     </div>
