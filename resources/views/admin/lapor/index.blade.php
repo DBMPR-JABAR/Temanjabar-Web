@@ -25,7 +25,7 @@
         <div class="page-header-title">
             <div class="d-inline">
                 <h4>Daftar Laporan</h4>
-                <span>Data Seluruh Laporan sd</span>
+                <span>Data Seluruh Laporan</span>
             </div>
         </div>
     </div>
@@ -90,7 +90,7 @@
                                 <td>{{$data->jenis_laporan->name}}</td>
                                 <td>{{$data->uptd_id}}</td>
                                 <td>
-                                    <img class="img-fluid" style="max-width: 100px" src="{{$data->gambar}}" />
+                                    <img class="img-fluid" style="max-width: 100px" src="{{url('storage/'.$data->gambar)}}" />
                                 </td>
                                 <td>
                                     <a href="{{ route('edit.admin.lapor',$data->id) }}"><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>
