@@ -13,4 +13,8 @@ class LaporanMasyarakat extends Model
     {
         return $this->belongsTo('App\Model\Transactional\UPTD', 'uptd_id');
     }
+    public function jenis_laporan()
+    {
+        return $this->belongsTo('App\Model\Transactional\JenisLaporan', 'jenis');
+    }
 }

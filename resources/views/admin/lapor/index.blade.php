@@ -77,8 +77,26 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($aduan as $no => $item)
-
+                            @foreach ($aduan as $no => $data)
+                            <tr>
+                                <td>{{++$no}}</td>
+                                <td>{{$data->created_at}}</td>
+                                <td>{{$data->nomorPengaduan}}</td>
+                                <td>{{$data->status}}</td>
+                                <td>{{$data->nama}}</td>
+                                <td>{{$data->nik}}</td>
+                                <td>{{$data->telp}}</td>
+                                <td>{{$data->email}}</td>
+                                <td>{{$data->jenis_laporan->name}}</td>
+                                <td>{{$data->uptd_id}}</td>
+                                <td>
+                                    <img class="img-fluid" style="max-width: 100px" src="{{$data->gambar}}" />
+                                </td>
+                                <td>
+                                    <a href="{{ route('edit.admin.lapor',$data->id) }}"><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>
+                                    <a href="#delModal"  data-toggle="modal"><button data-toggle="tooltip" title="Hapus" class="btn btn-danger btn-sm waves-effect waves-light"><i class="icofont icofont-trash"></i></button></a> 
+                                </td>
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -162,9 +180,16 @@
 
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/js/custom.js') }}"></script>
+
 <script>
     $(document).ready(function() {
         // $("#dttable").DataTable();
+        $("#dttable").DataTable(
+                {
+                "bInfo" : false
+                }
+            );
         $('#delModal').on('show.bs.modal', function(event) {
             const link = $(event.relatedTarget);
             const id = link.data('id');
@@ -194,69 +219,69 @@
             }
         });
 
-        var table = $('#dttable').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{ url('admin/lapor/json') }}",
-            order: [[ 1, "desc" ]],
-            columns: [{
-                    'mRender': function(data, type, full, meta) {
-                        return +meta.row + meta.settings._iDisplayStart + 1;
-                    }
-                },
-                {
-                    data: 'updated_at',
-                    name: 'updated_at'
-                },
-                {
-                    data: 'nomorPengaduan',
-                    name: 'nomorPengaduan'
-                },
-                {
-                    data: 'status',
-                    name: 'status'
-                },
-                {
-                    data: 'nama',
-                    name: 'nama'
-                },
-                {
-                    data: 'nik',
-                    name: 'nik'
-                },
-                // {
-                //     data: 'alamat',
-                //     name: 'alamat'
-                // },
-                {
-                    data: 'telp',
-                    name: 'telp'
-                },
-                {
-                    data: 'email',
-                    name: 'email'
-                },
-                {
-                    data: 'jenis',
-                    name: 'jenis'
-                },
-                {
-                    data: 'uptd_id',
-                    name: 'uptd_id'
-                },
-                {
-                    data: 'imglaporan',
-                    name: 'imglaporan'
-                },
+        // var table = $('#dttable').DataTable({
+        //     processing: true,
+        //     serverSide: true,
+        //     ajax: "{{ url('admin/lapor/json') }}",
+        //     order: [[ 1, "desc" ]],
+        //     columns: [{
+        //             'mRender': function(data, type, full, meta) {
+        //                 return +meta.row + meta.settings._iDisplayStart + 1;
+        //             }
+        //         },
+        //         {
+        //             data: 'updated_at',
+        //             name: 'updated_at'
+        //         },
+        //         {
+        //             data: 'nomorPengaduan',
+        //             name: 'nomorPengaduan'
+        //         },
+        //         {
+        //             data: 'status',
+        //             name: 'status'
+        //         },
+        //         {
+        //             data: 'nama',
+        //             name: 'nama'
+        //         },
+        //         {
+        //             data: 'nik',
+        //             name: 'nik'
+        //         },
+        //         // {
+        //         //     data: 'alamat',
+        //         //     name: 'alamat'
+        //         // },
+        //         {
+        //             data: 'telp',
+        //             name: 'telp'
+        //         },
+        //         {
+        //             data: 'email',
+        //             name: 'email'
+        //         },
+        //         {
+        //             data: 'jenis',
+        //             name: 'jenis'
+        //         },
+        //         {
+        //             data: 'uptd_id',
+        //             name: 'uptd_id'
+        //         },
+        //         {
+        //             data: 'imglaporan',
+        //             name: 'imglaporan'
+        //         },
 
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                },
-            ]
-        });
+        //         {
+        //             data: 'action',
+        //             name: 'action',
+        //             orderable: false,
+        //             searchable: false
+        //         },
+        //     ]
+        // });
     });
 </script>
 @endsection

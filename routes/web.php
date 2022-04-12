@@ -537,7 +537,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
         Route::get('/add', 'LandingController@addLaporanMasyarakat')->name('addLapor');
         Route::post('create', 'LandingController@createLaporanMasyarakat')->name('createLapor');
-        Route::get('edit/{id}', 'LandingController@editLaporanMasyarakat')->name('editLapor');
+        Route::get('edit/{id}', 'LandingController@editLaporanMasyarakat')->name('edit.admin.lapor');
         Route::post('update', 'LandingController@updateLaporanMasyarakat')->name('updateLapor');
         Route::get('delete/{id}', 'LandingController@deleteLaporanMasyarakat')->name('deleteLapor');
         Route::get('pemetaan', 'LaporController@pemetaanLaporanMasyarakat')->name('pemetaanLaporanMasyarakat');

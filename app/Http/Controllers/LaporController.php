@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Yajra\Datatables\DataTables;
+use App\Model\Transactional\LaporanMasyarakat;
 
 class LaporController extends Controller
 {
@@ -31,13 +32,13 @@ class LaporController extends Controller
             'data' => [],
         ];
 
-        $aduan = DB::table('monitoring_laporan_masyarakat');
+        $aduan = LaporanMasyarakat::latest();
 
         if (Auth::user()->internalRole->uptd) {
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
             $aduan = $aduan->where('uptd_id', $uptd_id);
         }
-        $aduan = $aduan->latest()->get();
+        $aduan = $aduan->get();
     
         return view('admin.lapor.index', compact('aduan'));
     }
@@ -126,14 +127,11 @@ class LaporController extends Controller
     public function json()
     {
         $aduan = DB::table('monitoring_laporan_masyarakat');
-        // ->leftJoin('utils_jenis_laporan', 'utils_jenis_laporan.id', 'monitoring_laporan_masyarakat.jenis')
-        // ->select(['monitoring_laporan_masyarakat.*', 'utils_jenis_laporan.name as jenis']);
-        // dd($aduan->get());
+
         if (Auth::user()->internalRole->uptd) {
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
             $aduan = $aduan->where('uptd_id', $uptd_id);
         }
-        
         return DataTables::of($aduan)
             ->addIndexColumn()
             ->addColumn('imglaporan', function ($row) {
