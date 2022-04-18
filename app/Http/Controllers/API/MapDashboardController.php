@@ -93,12 +93,13 @@ class MapDashboardController extends Controller
                 if (in_array('jembatan', $request->kegiatan)) {
                     // $data = Jembatan::whereIn('SUP',$request->sup)->get();
                     $data = MapJembatanResource::collection(Jembatan::whereIn('SUP', $request->sup)->get());
-
                     $this->response['data']['jembatan'] = $data;
                 }
+
                 if (in_array('sapulobang', $request->kegiatan)) {
                     
-                    $data = SurveiLubangDetail::wherenull('status')->whereBetween('tanggal', [$request->date_from, $request->date_to]);
+                    // $data = SurveiLubangDetail::wherenull('status')->whereBetween('tanggal', [$request->date_from, $request->date_to]);
+                    $data = SurveiLubangDetail::whereBetween('tanggal', [$request->date_from, $request->date_to]);
                     $data = $data->whereIn('sup', $request->sup)->latest('tanggal');
                     $data = $data->get();
                     $icon = SurveiLubangDetail::wherenull('status')->whereBetween('tanggal', [$request->date_from, $request->date_to]);
@@ -107,13 +108,14 @@ class MapDashboardController extends Controller
                     $this->response['data']['sapulobang'] = $data;
                     $this->response['data']['iconsapulobang'] = $icon;
                 }
+
                 if (in_array('sapulobang_perencanaan', $request->kegiatan)) {
                     $data = SurveiLubangDetail::where('status','Perencanaan')->whereBetween('tanggal', [$request->date_from, $request->date_to]);
                     $data = $data->whereIn('sup', $request->sup)->latest('tanggal');
                     $data = $data->get();
                     $this->response['data']['sapulobang_perencanaan'] = $data;
-
                 }
+
                 if (in_array('sapulobang_penanganan', $request->kegiatan)) {  
                     $data = SurveiLubangDetail::where('status','Selesai')->whereBetween('tanggal', [$request->date_from, $request->date_to]);
                     $data = $data->whereIn('sup', $request->sup)->latest('tanggal');
