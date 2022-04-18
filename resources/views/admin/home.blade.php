@@ -569,7 +569,7 @@ span.onclick = function() {
     const drilldownData = datakota;
     myChart.on('click', function (event) {
         // console.log(event);
-        modal.style.display = "none";
+        // modal.style.display = "none";
 
         if (event.data) {
             var slug_kota ="";
@@ -634,11 +634,11 @@ span.onclick = function() {
                     }
                 ]
             });
-            myChart.on('click', function(event) {
-            // Print name in console
-                modal.style.display = "block";
-                console.log(event.name);
-            });
+            // myChart.on('click', function(event) {
+            // // Print name in console
+            //     modal.style.display = "block";
+            //     console.log(event.name);
+            // });
         }
     });
 
