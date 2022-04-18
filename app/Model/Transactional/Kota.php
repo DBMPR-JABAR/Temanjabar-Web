@@ -14,4 +14,8 @@ class Kota extends Model
     {
         return $this->belongsTo('App\Model\Transactional\UPTD', 'uptd_id');
     }
+    public function library_ruas()
+    {
+        return $this->hasMany('App\Model\Transactional\RuasJalan', 'kota_id');
+    }
 }
