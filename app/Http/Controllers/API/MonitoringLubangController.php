@@ -158,7 +158,8 @@ class MonitoringLubangController extends Controller
                 'kategori' => '',
                 'panjang' => '',
                 'description' =>'',
-                'lajur' =>''
+                'lajur' =>'',
+                'potensi_lubang'=>''
             ]);
             
             if($request->kategori == "Group"){
