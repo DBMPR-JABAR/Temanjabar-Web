@@ -372,12 +372,10 @@ class MonitoringLubangController extends Controller
             }
             $find = [
                 ['tanggal', $request->tanggal],
+                ['created_by' ,Auth::user()->id],
                 ['ruas_jalan_id',$request->ruas_jalan_id],
                 ['sup_id',$ruas->data_sup->id]
             ];
-            if(Auth::user()->id !=1){
-                $find['created_by'] = Auth::user()->id;
-            }
             $survei = SurveiLubang::where($find)->first();
             $potensi = SurveiPotensiLubang::where($find)->first();
             if(isset($survei)){
