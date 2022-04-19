@@ -87,8 +87,9 @@ Route::group(['middleware' => ['jwt.auth']], function () {
         Route::post('store/{desc}', 'API\MonitoringLubangController@storeSurvei');
         Route::post('result', 'API\MonitoringLubangController@resultSurvei');
         Route::get('delete/{id}', 'API\MonitoringLubangController@deleteSurvei');
-
-
+    });
+    Route::prefix('survei-potensi-lubang')->group(function () {
+        Route::get('delete/{id}', 'API\MonitoringLubangController@deletePotensi');
     });
     Route::prefix('penanganan-lubang')->group(function () {
         Route::get('index', 'API\MonitoringLubangController@indexPenanganan');
