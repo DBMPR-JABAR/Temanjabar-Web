@@ -11,6 +11,8 @@ use Carbon\Carbon;
 
 use App\Model\Transactional\MonitoringLubangSurvei as SurveiLubang;
 use App\Model\Transactional\MonitoringLubangSurveiDetail as SurveiLubangDetail;
+use App\Model\Transactional\MonitoringPotensiLubangSurvei as SurveiPotensiLubang;
+use App\Model\Transactional\MonitoringPotensiLubangSurveiDetail as SurveiPotensiLubangDetail;
 use App\Model\Transactional\MonitoringLubangPenanganan as PenangananLubang;
 use App\Model\Transactional\MonitoringLubangPenangananDetail as PenangananLubangDetail;
 
@@ -311,6 +313,12 @@ class MonitoringLubangController extends Controller
                 ['ruas_jalan_id',$request->ruas_jalan_id],
                 ['sup_id',$ruas->data_sup->id]
             ])->first();
+            $potensi = SurveiPotensiLubang::where([
+                ['tanggal', $request->tanggal],
+                ['created_by' ,Auth::user()->id],
+                ['ruas_jalan_id',$request->ruas_jalan_id],
+                ['sup_id',$ruas->data_sup->id]
+            ])->first();
             if(isset($survei)){
                 $survei->jumlah = $survei->SurveiLubangDetail->sum('jumlah');
                 $survei->ruas = $survei->ruas()->select('id_ruas_jalan','nama_ruas_jalan')->get();
@@ -323,10 +331,24 @@ class MonitoringLubangController extends Controller
                     'survei_lubang_detail'=>[]
                 ]);
             }
+            if(isset($potensi)){
+                $potensi->jumlah = $potensi->SurveiPotensiLubangDetail->sum('jumlah');
+                $potensi->ruas = $potensi->ruas()->select('id_ruas_jalan','nama_ruas_jalan')->get();
+            }else{
+                $potensi =([
+                    'jumlah'=>0,
+                    'tanggal'=>$request->tanggal,
+                    'ruas_jalan_id'=>$request->ruas_jalan_id,
+                    'ruas'=>$ruas->select('id_ruas_jalan','nama_ruas_jalan')->where('id_ruas_jalan',$request->ruas_jalan_id)->get(),
+                    'survei_lubang_detail'=>[]
+                ]);
+            }
             // $survei->survei_lubang_detail = $survei->SurveiLubangDetail()->whereNull('status');
             return response()->json([
                 'success' => true,
-                'data' => $survei,  
+                'data' => $survei,
+                'data2' => $potensi,  
+
             ]);
         } catch (\Exception $th) {
             $this->response['data']['message'] = 'Internal Error';
@@ -369,6 +391,27 @@ class MonitoringLubangController extends Controller
             return response()->json($this->response, 500);
         }
     }
+
+    public function deletePotensi(Request $request, $id)
+    {
+        try {
+            $data = SurveiPotensiLubangDetail::find($id);
+           
+            $survei_potensi = $data->SurveiPotensiLubang;
+            $survei_potensi->jumlah = $survei_potensi->jumlah - $data->jumlah;
+            $survei_potensi->panjang = $survei_potensi->panjang - $data->panjang;
+            $data->delete();
+            $survei_potensi->save();
+            return response()->json([
+                'success' => true,
+                'message' => 'Berhasil Menghapus Data Survei', 
+            ]);
+        } catch (\Exception $th) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
+
     public function indexPenanganan()
     {
         try {
