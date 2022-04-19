@@ -286,11 +286,8 @@ class MonitoringLubangController extends Controller
             }else{
                 $find['monitoring_lubang_survei_id'] = $survei->id;
                 $potensi = SurveiPotensiLubang::firstOrNew($find);
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Berhasil Menambahkan',
-                    'data' => $survei,  
-                ]);
+                $temporari['monitoring_lubang_survei_id'] = $survei->id;
+
                 if(Str::contains($desc, 'tambah')){   
                     if($potensi->id){
                         $potensi->SurveiPotensiLubangDetail()->create($temporari);
