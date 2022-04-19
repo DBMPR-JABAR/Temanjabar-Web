@@ -346,6 +346,7 @@ class MonitoringLubangController extends Controller
             
             $survei->lokasi_km = $request->lokasi_km;
             $survei->lokasi_m = $request->lokasi_m;
+            $survei->SurveiLubangDetail;
             $survei->SurveiPotensiLubangDetail;
             return response()->json([
                 'success' => true,
