@@ -392,7 +392,7 @@ class MonitoringLubangController extends Controller
             if(isset($survei)){
                 $survei->jumlah = $survei->SurveiLubangDetail->sum('jumlah');
                 $survei->ruas = $survei->ruas()->select('id_ruas_jalan','nama_ruas_jalan')->get();
-                $survei->SurveiPotensiLubangDetail;
+                // $survei->SurveiPotensiLubangDetail;
 
             }else{
                 $survei =([
