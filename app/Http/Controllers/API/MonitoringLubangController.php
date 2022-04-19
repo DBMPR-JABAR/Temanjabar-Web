@@ -230,11 +230,7 @@ class MonitoringLubangController extends Controller
             }
             
             if($request->potensi_lubang == "false"){
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Berhasil Menambahkan',
-                    'data' => "false lubang",  
-                ]);
+                
                 if(Str::contains($desc, 'tambah')){   
                     if($survei->id){
                         $survei->SurveiLubangDetail()->create($temporari);
@@ -289,11 +285,7 @@ class MonitoringLubangController extends Controller
                     }
                 }      
             }else{
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Berhasil Menambahkan',
-                    'data' => $request->potensi_lubang,  
-                ]);
+                
                 $find['monitoring_lubang_survei_id'] = $survei->id;
                 $potensi = SurveiPotensiLubang::firstOrNew($find);
                 $temporari['monitoring_lubang_survei_id'] = $survei->id;
