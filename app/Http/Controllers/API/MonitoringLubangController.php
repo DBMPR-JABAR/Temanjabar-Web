@@ -407,7 +407,7 @@ class MonitoringLubangController extends Controller
             $survei_potensi->save();
             return response()->json([
                 'success' => true,
-                'message' => 'Berhasil Menghapus Data Survei', 
+                'message' => 'Berhasil Menghapus Data Survei Potensi Lubang', 
             ]);
         } catch (\Exception $th) {
             $this->response['data']['message'] = 'Internal Error';
