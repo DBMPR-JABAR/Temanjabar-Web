@@ -222,6 +222,10 @@ class MonitoringLubangController extends Controller
             }
             $survei = SurveiLubang::firstOrNew($find);
             if(!$survei->id){
+                $survei->uptd_id=$ruas->uptd_id;
+                $survei->lat = $request->lat;
+                $survei->long = $request->long;
+                $survei->created_by = Auth::user()->id;
                 $survei->save();
             }
             if(!$request->potensi_lubang){
@@ -251,10 +255,7 @@ class MonitoringLubangController extends Controller
                     }
                     // $survei->jumlah = $survei->jumlah - $request->jumlah;
                 }
-                $survei->uptd_id=$ruas->uptd_id;
-                $survei->lat = $request->lat;
-                $survei->long = $request->long;
-                $survei->created_by = Auth::user()->id;
+                
                 if(Str::contains($desc, 'tambah')){
                     if(!$survei->SurveiLubangDetail()->exists()){
                         if($request->kategori == "Group"){
