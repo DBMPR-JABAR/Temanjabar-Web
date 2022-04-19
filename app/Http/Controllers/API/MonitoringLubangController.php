@@ -383,7 +383,7 @@ class MonitoringLubangController extends Controller
             }
             $find = [
                 'tanggal'=> $request->tanggal,
-                'created_by' ,Auth::user()->id,
+                'created_by' =>Auth::user()->id,
                 'ruas_jalan_id'=>$request->ruas_jalan_id,
                 'sup_id'=>$ruas->data_sup->id
             ];
