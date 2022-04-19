@@ -385,13 +385,17 @@ class MonitoringLubangController extends Controller
             if(isset($survei)){
                 $survei->jumlah = $survei->SurveiLubangDetail->sum('jumlah');
                 $survei->ruas = $survei->ruas()->select('id_ruas_jalan','nama_ruas_jalan')->get();
+                $survei->SurveiPotensiLubangDetail;
+
             }else{
                 $survei =([
                     'jumlah'=>0,
                     'tanggal'=>$request->tanggal,
                     'ruas_jalan_id'=>$request->ruas_jalan_id,
                     'ruas'=>$ruas->select('id_ruas_jalan','nama_ruas_jalan')->where('id_ruas_jalan',$request->ruas_jalan_id)->get(),
-                    'survei_lubang_detail'=>[]
+                    'survei_lubang_detail'=>[],
+                    'survei_potensi_lubang_detail'=>[]
+
                 ]);
             }
             if(isset($potensi)){
@@ -406,6 +410,7 @@ class MonitoringLubangController extends Controller
                     'survei_potensi_lubang_detail'=>[]
                 ]);
             }
+
             // $survei->survei_lubang_detail = $survei->SurveiLubangDetail()->whereNull('status');
             return response()->json([
                 'success' => true,
