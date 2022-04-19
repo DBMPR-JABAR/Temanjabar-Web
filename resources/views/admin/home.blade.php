@@ -545,24 +545,24 @@ span.onclick = function() {
 
     series: [
         {
-        name: 'KOTA',
-        type: 'bar',
-        id: 'sales',
-        data: datauptdkota,
-        universalTransition: {
-            enabled: true,
-            divideShape: 'clone'
-        }
+            name: 'KOTA',
+            type: 'bar',
+            id: 'sales',
+            data: datauptdkota,
+            universalTransition: {
+                enabled: true,
+                divideShape: 'clone'
+            }
         },
         {
-        name: 'KABUPATEN',
-        type: 'bar',
+            name: 'KABUPATEN',
+            type: 'bar',
 
-        data: datauptdkabupaten,
-        universalTransition: {
-            enabled: true,
-            divideShape: 'clone'
-        }
+            data: datauptdkabupaten,
+            universalTransition: {
+                enabled: true,
+                divideShape: 'clone'
+            }
         }
     ]
     };

@@ -161,10 +161,8 @@ class Home extends Controller
                     'name'=>$x->name
                 ];
                 array_push($data3,$temp1);
-
             }
             array_push($datakota,$tempkota);
-
         }
         // dd($datauptdkabupaten);
         return view('admin.home', compact('pembangunan_talikuat', 'data_talikuat','detail_data_talikuat','data1','data2','data3','datauptd1','datauptd2','datakota','datauptdkota','datauptdkabupaten'));
