@@ -228,12 +228,13 @@ class MonitoringLubangController extends Controller
                 $survei->created_by = Auth::user()->id;
                 $survei->save();
             }
-            return response()->json([
-                'success' => true,
-                'message' => 'Berhasil Menambahkan',
-                'data' => $request->potensi_lubang,  
-            ]);
+            
             if(!$request->potensi_lubang){
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Berhasil Menambahkan',
+                    'data' => "false lubang",  
+                ]);
                 if(Str::contains($desc, 'tambah')){   
                     if($survei->id){
                         $survei->SurveiLubangDetail()->create($temporari);
@@ -288,6 +289,11 @@ class MonitoringLubangController extends Controller
                     }
                 }      
             }else{
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Berhasil Menambahkan',
+                    'data' => $request->potensi_lubang,  
+                ]);
                 $find['monitoring_lubang_survei_id'] = $survei->id;
                 $potensi = SurveiPotensiLubang::firstOrNew($find);
                 $temporari['monitoring_lubang_survei_id'] = $survei->id;
