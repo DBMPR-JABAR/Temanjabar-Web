@@ -388,8 +388,14 @@ class MonitoringLubangController extends Controller
                 'sup_id'=>$ruas->data_sup->id
             ];
 
-            $survei = SurveiLubang::where('tanggal',$request->tanggal)->where('ruas_jalan_id',$request->ruas_jalan_id)->where('created_by',Auth::user()->id)->first();
+            $survei = SurveiLubang::where($find)->first();
             $potensi = SurveiPotensiLubang::where($find)->first();
+            return response()->json([
+                'success' => true,
+                'data' => $find,
+                'data2' => $potensi,  
+
+            ]);
             if(isset($survei)){
                 $survei->jumlah = $survei->SurveiLubangDetail->sum('jumlah');
                 $survei->ruas = $survei->ruas()->select('id_ruas_jalan','nama_ruas_jalan')->get();
