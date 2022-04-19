@@ -229,7 +229,7 @@ class MonitoringLubangController extends Controller
                 $survei->save();
             }
             
-            if(!!$request->potensi_lubang){
+            if($request->potensi_lubang == "false"){
                 return response()->json([
                     'success' => true,
                     'message' => 'Berhasil Menambahkan',
