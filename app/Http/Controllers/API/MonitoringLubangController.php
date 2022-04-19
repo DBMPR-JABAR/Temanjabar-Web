@@ -221,8 +221,9 @@ class MonitoringLubangController extends Controller
                 $temporari['image'] = $image->hashName();
             }
             $survei = SurveiLubang::firstOrNew($find);
-            $potensi = SurveiPotensiLubang::firstOrNew($find);
-
+            if(!$survei->id){
+                $survei->save();
+            }
             if(!$request->potensi_lubang){
                 if(Str::contains($desc, 'tambah')){   
                     if($survei->id){
@@ -281,6 +282,9 @@ class MonitoringLubangController extends Controller
                     }
                 }      
             }else{
+                $find['monitoring_lubang_survei_id'] = $survei->id;
+                $potensi = SurveiPotensiLubang::firstOrNew($find);
+
                 if(Str::contains($desc, 'tambah')){   
                     if($potensi->id){
                         $potensi->SurveiPotensiLubangDetail()->create($temporari);
@@ -341,7 +345,7 @@ class MonitoringLubangController extends Controller
             
             $survei->lokasi_km = $request->lokasi_km;
             $survei->lokasi_m = $request->lokasi_m;
-            
+            $survei->SurveiPotensiLubangDetail;
             return response()->json([
                 'success' => true,
                 'message' => 'Berhasil Menambahkan',

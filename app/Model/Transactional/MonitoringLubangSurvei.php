@@ -21,4 +21,9 @@ class MonitoringLubangSurvei extends Model
     {
         return $this->hasMany('App\Model\Transactional\MonitoringLubangSurveiDetail','monitoring_lubang_survei_id')->whereNull('status')->latest();
     }
+
+    public function SurveiPotensiLubangDetail()
+    {
+        return $this->hasMany('App\Model\Transactional\MonitoringPotensiLubangSurveiDetail','monitoring_lubang_survei_id')->latest();
+    }
 }
