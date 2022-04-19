@@ -228,7 +228,11 @@ class MonitoringLubangController extends Controller
                 $survei->created_by = Auth::user()->id;
                 $survei->save();
             }
-            
+            return response()->json([
+                'success' => true,
+                'message' => 'Berhasil Menambahkan',
+                'data' => $request->potensi_lubang,  
+            ]);
             if(!$request->potensi_lubang){
                 if(Str::contains($desc, 'tambah')){   
                     if($survei->id){
