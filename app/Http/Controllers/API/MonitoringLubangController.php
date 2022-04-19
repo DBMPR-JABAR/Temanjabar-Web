@@ -221,7 +221,7 @@ class MonitoringLubangController extends Controller
                 $temporari['image'] = $image->hashName();
             }
             $survei = SurveiLubang::firstOrNew($find);
-            $potensi = SurveiPotensuLubang::firstOrNew($find);
+            $potensi = SurveiPotensiLubang::firstOrNew($find);
 
             if(!$request->potensi_lubang){
                 if(Str::contains($desc, 'tambah')){   
