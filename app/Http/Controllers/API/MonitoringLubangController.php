@@ -343,7 +343,7 @@ class MonitoringLubangController extends Controller
                     'tanggal'=>$request->tanggal,
                     'ruas_jalan_id'=>$request->ruas_jalan_id,
                     'ruas'=>$ruas->select('id_ruas_jalan','nama_ruas_jalan')->where('id_ruas_jalan',$request->ruas_jalan_id)->get(),
-                    'survei_lubang_detail'=>[]
+                    'survei_potensi_lubang_detail'=>[]
                 ]);
             }
             // $survei->survei_lubang_detail = $survei->SurveiLubangDetail()->whereNull('status');
