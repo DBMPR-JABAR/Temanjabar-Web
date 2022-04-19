@@ -221,7 +221,7 @@ class MonitoringLubangController extends Controller
                 $temporari['image'] = $image->hashName();
             }
             $survei = SurveiLubang::firstOrNew($find);
-            if(!$survei->id){
+            if($survei->id){
                 $survei->uptd_id=$ruas->uptd_id;
                 $survei->lat = $request->lat;
                 $survei->long = $request->long;
