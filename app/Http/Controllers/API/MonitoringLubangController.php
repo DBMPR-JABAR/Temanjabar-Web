@@ -382,11 +382,12 @@ class MonitoringLubangController extends Controller
                 return response()->json($this->response, 200);
             }
             $find = [
-                ['tanggal', $request->tanggal],
-                ['created_by' ,Auth::user()->id],
-                ['ruas_jalan_id',$request->ruas_jalan_id],
-                ['sup_id',$ruas->data_sup->id]
+                'tanggal'=> $request->tanggal,
+                'created_by' ,Auth::user()->id,
+                'ruas_jalan_id'=>$request->ruas_jalan_id,
+                'sup_id'=>$ruas->data_sup->id
             ];
+
             $survei = SurveiLubang::where($find)->first();
             $potensi = SurveiPotensiLubang::where($find)->first();
             if(isset($survei)){
