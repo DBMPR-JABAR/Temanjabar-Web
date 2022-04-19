@@ -180,14 +180,15 @@ class MonitoringLubangController extends Controller
                 $this->response['data']['error'] = "Ruas Tidak Ditemukan";
                 return response()->json($this->response, 200);
             }
-            $survei = SurveiLubang::firstOrNew([
+
+            $find = [
                 'tanggal'=> $request->tanggal,
                 'created_by' =>Auth::user()->id,
                 'ruas_jalan_id'=>$request->ruas_jalan_id,
                 'sup_id'=>$ruas->data_sup->id,
                 'kota_id'=>$ruas->kota_id,
                 'lokasi_kode' => Str::upper($request->lokasi_kode),
-            ]);
+            ];
             $temporari =[
                 'lat' => $request->lat,
                 'long' => $request->long,
@@ -219,6 +220,9 @@ class MonitoringLubangController extends Controller
                 $image->storeAs('public/survei_lubang',$image->hashName());
                 $temporari['image'] = $image->hashName();
             }
+            $survei = SurveiLubang::firstOrNew($find);
+            $potensi = SurveiPotensuLubang::firstOrNew($find);
+
             if(!$request->potensi_lubang){
                 if(Str::contains($desc, 'tambah')){   
                     if($survei->id){
@@ -276,6 +280,63 @@ class MonitoringLubangController extends Controller
                        $survei->jumlah = $cross_check->jumlah;
                     }
                 }      
+            }else{
+                if(Str::contains($desc, 'tambah')){   
+                    if($potensi->id){
+                        $potensi->SurveiPotensiLubangDetail()->create($temporari);
+                        // $potensi->jumlah = $potensi->jumlah + 1;
+                        $potensi->jumlah = $potensi->SurveiPotensiLubangDetail->sum('jumlah');
+                        $potensi->panjang = $potensi->SurveiPotensiLubangDetail->sum('panjang');
+                    }
+                    // $potensi->jumlah = $potensi->jumlah + $request->jumlah;
+                }else{
+                    
+                    if($potensi->SurveiPotensiLubangDetail()->where('kategori','Single')->count()>=1){
+                        $del = $potensi->SurveiPotensiLubangDetail()->where('kategori','Single')->first();  
+                        if($del->image){
+                            Storage::delete('public/survei_lubang/'.$del->image);
+                        }
+                        $del->delete();
+                        // $potensi->jumlah = $potensi->jumlah - 1;
+                        $potensi->jumlah = $potensi->SurveiPotensiLubangDetail->sum('jumlah');
+                        $potensi->panjang = $potensi->SurveiPotensiLubangDetail->sum('panjang');
+    
+                    }else{
+                        $this->response['data']['error'] = "Silahkan klik tambah!";
+                        return response()->json($this->response, 200);
+                    }
+                    // $potensi->jumlah = $potensi->jumlah - $request->jumlah;
+                }
+                $potensi->uptd_id=$ruas->uptd_id;
+                $potensi->lat = $request->lat;
+                $potensi->long = $request->long;
+                $potensi->created_by = Auth::user()->id;
+                if(Str::contains($desc, 'tambah')){
+                    if(!$potensi->SurveiPotensiLubangDetail()->exists()){
+                        if($request->kategori == "Group"){
+                            $potensi->jumlah = $request->jumlah;
+                        }else
+                            $potensi->jumlah = 1;
+    
+                        $potensi->panjang = $request->panjang;
+                    }
+                }
+                $potensi->save();
+                $potensi->ruas = $potensi->ruas()->select('id_ruas_jalan','nama_ruas_jalan')->get();
+                // storeLogActivity(declarLog(1, 'Survei Lubang', $ruas->nama_ruas_jalan,1));
+                if(Str::contains($desc, 'tambah')){
+                    if($potensi->SurveiPotensiLubangDetail->count()==0){
+                        $potensi->SurveiPotensiLubangDetail()->create($temporari);      
+                    }
+                }else{
+                    $cross_check = SurveiPotensiLubang::find($potensi->id);
+                    if($cross_check->jumlah != $cross_check->SurveiPotensiLubangDetail->sum('jumlah') || $cross_check->panjang != $cross_check->SurveiPotensiLubangDetail->sum('panjang')){
+                       $cross_check->jumlah = $cross_check->SurveiPotensiLubangDetail->sum('jumlah');
+                       $cross_check->panjang = $cross_check->SurveiPotensiLubangDetail->sum('panjang');
+                       $cross_check->save();
+                       $potensi->jumlah = $cross_check->jumlah;
+                    }
+                }   
             }
             
             $survei->lokasi_km = $request->lokasi_km;
