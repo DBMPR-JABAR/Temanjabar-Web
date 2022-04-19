@@ -314,6 +314,7 @@ class MonitoringLubangController extends Controller
                 $potensi->uptd_id=$ruas->uptd_id;
                 $potensi->lat = $request->lat;
                 $potensi->long = $request->long;
+                $potensi->monitoring_lubang_survei_id = $survei->id;
                 $potensi->created_by = Auth::user()->id;
                 if(Str::contains($desc, 'tambah')){
                     if(!$potensi->SurveiPotensiLubangDetail()->exists()){
