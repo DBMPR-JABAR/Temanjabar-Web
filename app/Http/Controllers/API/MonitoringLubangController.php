@@ -423,8 +423,7 @@ class MonitoringLubangController extends Controller
             // $survei->survei_lubang_detail = $survei->SurveiLubangDetail()->whereNull('status');
             return response()->json([
                 'success' => true,
-                'data' => $survei,
-                'data2' => $potensi,  
+                'data' => $survei
 
             ]);
         } catch (\Exception $th) {
