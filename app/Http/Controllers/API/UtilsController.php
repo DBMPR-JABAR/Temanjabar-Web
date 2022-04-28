@@ -35,7 +35,7 @@ class UtilsController extends Controller
         return response()->json($this->response, 200);
     }
 
-    public function showJalurLebaran()
+    public function mapsLebaran2022()
     {
         return view('maps');
     }

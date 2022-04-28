@@ -594,4 +594,4 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
-Route::get('/jalur-lebaran-2022', [UtilsController::class, 'showJalurLebaran'])->name('jalur-lebaran-2022');
+Route::get('/maps-lebaran-2022', [UtilsController::class, 'mapsLebaran2022']);

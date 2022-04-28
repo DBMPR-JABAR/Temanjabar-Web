@@ -310,7 +310,7 @@
                     });
 
                     graphicsLayer.add(polylineGraphic3);
-
+                    var realIndex = 1;
                     const pointLocation = arrPointLocation.map(
                         (point, index) => {
                             if (index === 6 || index === 7) {
@@ -338,7 +338,7 @@
                                     y: point[0],
                                     name: nameAndDesc[index].name,
                                     desc: nameAndDesc[index].desc,
-                                    icon: icon + index,
+                                    icon: icon + (index + 1),
                                 };
                             }
                         }
