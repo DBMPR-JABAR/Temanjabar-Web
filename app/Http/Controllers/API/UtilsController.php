@@ -34,4 +34,9 @@ class UtilsController extends Controller
         $this->response['data']['permission'] = $permission;
         return response()->json($this->response, 200);
     }
+
+    public function showJalurLebaran()
+    {
+        return view('maps');
+    }
 }

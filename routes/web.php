@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\UtilsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -275,8 +276,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('/', 'MasterData\KotaController@index')->name('getMasterKota');
             Route::get('/edit/{id}', 'MasterData\KotaController@edit')->name('editMasterKota');
             Route::put('/update/{id}', 'MasterData\KotaController@update')->name('updateMasterKota');
-
-
         });
 
         Route::group(['prefix' => 'user'], function () {
@@ -594,3 +593,5 @@ Route::middleware(['auth'])->group(function () {
         });
     });
 });
+
+Route::get('/jalur-lebaran-2022', [UtilsController::class, 'showJalurLebaran'])->name('jalur-lebaran-2022');
