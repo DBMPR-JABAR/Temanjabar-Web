@@ -445,7 +445,7 @@
                 @foreach ($news as $row)
                 <div class="news-card">
                     <a
-                        href="{{route('news.show', $row->slug)}}"
+                        href="{{route('masyarakat.news.show', $row->slug)}}"
                         class="news-card__card-link"
                     ></a>
                     <img

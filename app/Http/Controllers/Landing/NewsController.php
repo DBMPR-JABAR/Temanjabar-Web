@@ -72,7 +72,15 @@ class NewsController extends Controller
         $publishedBy = DB::table('users')->where('id', $news->user_id)->first();
         return view('admin.landing.news.show', compact('news', 'allNews', 'publishedAtForHuman','publishedBy'));
     }
-
+    public function show_masyarakat($id)
+    {
+        $news = News::where('slug', $id)->first();
+        $allNews = News::where('id', '!=', $news->id)->get();
+        $publishedAt = $news->published_at;
+        $publishedAtForHuman = Carbon::parse($publishedAt)->format('d F Y');
+        $publishedBy = DB::table('users')->where('id', $news->user_id)->first();
+        return view('masyarakat.news.show', compact('news', 'allNews', 'publishedAtForHuman','publishedBy'));
+    }
     /**
      * Show the form for editing the specified resource.
      *

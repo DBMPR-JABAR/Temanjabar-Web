@@ -58,7 +58,10 @@ Route::prefix('status_jalan')->group(function () {
         Route::get('/', 'StatusJalanController@api_index');
     });
 });
+Route::prefix('news')->group(function () {
+    Route::get('/show/{slug}', 'Landing\NewsController@show_masyarakat')->name('masyarakat.news.show');
 
+});
 // {SiteURL}/uptd/*
 Route::group(['prefix' => 'uptd'], function () {
     Route::get('/{slug}', 'LandingController@uptd');
