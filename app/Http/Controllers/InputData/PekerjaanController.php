@@ -59,11 +59,13 @@ class PekerjaanController extends Controller
     public function sendEmail($data, $to_email, $to_name, $subject)
     {
 
-        return Mail::send('mail.notifikasiStatusLapMandor', $data, function ($message) use ($to_name, $to_email, $subject) {
-            $message->to($to_email, $to_name)->subject($subject);
+        $mail = true;
+        // $mail = Mail::send('mail.notifikasiStatusLapMandor', $data, function ($message) use ($to_name, $to_email, $subject) {
+        //     $message->to($to_email, $to_name)->subject($subject);
 
-            $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
-        });
+        //     $message->from(env('MAIL_USERNAME'), env('MAIL_FROM_NAME'));
+        // });
+        return $mail;
         // dd($mail);
     }
     public function setSendEmail($name, $id, $mandor, $jenis_pekerjaan, $uptd, $sup_mail, $status_mail, $keterangan, $to_email, $to_name, $subject)
