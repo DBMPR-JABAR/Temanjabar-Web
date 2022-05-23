@@ -442,6 +442,7 @@ class MonitoringLubangController extends Controller
                     $penanganan = $penanganan_detail->PenangananLubang;
                     $penanganan->jumlah = $penanganan->jumlah - $penanganan_detail->jumlah;
                     $penanganan->panjang = $penanganan->panjang - $penanganan_detail->panjang;
+                    Storage::delete('public/survei_lubang/'.$data->image_penanganan);
                     $penanganan_detail->delete();
                     $penanganan->save();
                 }
@@ -456,6 +457,7 @@ class MonitoringLubangController extends Controller
             $survei = $data->SurveiLubang;
             $survei->jumlah = $survei->jumlah - $data->jumlah;
             $survei->panjang = $survei->panjang - $data->panjang;
+            Storage::delete('public/survei_lubang/'.$data->image);
             $data->delete();
             $survei->save();
             return response()->json([
