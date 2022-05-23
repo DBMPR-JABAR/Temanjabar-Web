@@ -106,7 +106,7 @@ class MonitoringLubangController extends Controller
             ]);
             if ($validator->fails()) {
                 $this->response['data']['error'] = $validator->errors();
-                storeLogActivity(declarLog(1, 'Survei Lubang', $validator->errors()));
+                storeLogActivity(declarLog(1, 'Mulai Survei Lubang', $validator->errors()));
                 return response()->json($this->response, 200);
             }
             $ruas = RuasJalan::where('id_ruas_jalan',$request->ruas_jalan_id)->first();
@@ -333,7 +333,6 @@ class MonitoringLubangController extends Controller
                 }
                 $potensi->save();
                 $potensi->ruas = $potensi->ruas()->select('id_ruas_jalan','nama_ruas_jalan')->get();
-                // storeLogActivity(declarLog(1, 'Survei Lubang', $ruas->nama_ruas_jalan,1));
                 if(Str::contains($desc, 'tambah')){
                     if($potensi->SurveiPotensiLubangDetail->count()==0){
                         $potensi->SurveiPotensiLubangDetail()->create($temporari);      
@@ -353,6 +352,8 @@ class MonitoringLubangController extends Controller
             $survei->lokasi_m = $request->lokasi_m;
             $survei->SurveiLubangDetail;
             $survei->SurveiPotensiLubangDetail;
+            storeLogActivity(declarLog(1, 'Survei Lubang', $ruas->nama_ruas_jalan,1));
+
             return response()->json([
                 'success' => true,
                 'message' => 'Berhasil Menambahkan',
@@ -372,7 +373,7 @@ class MonitoringLubangController extends Controller
             ]);
             if ($validator->fails()) {
                 $this->response['data']['error'] = $validator->errors();
-                storeLogActivity(declarLog(1, 'Survei Lubang', $validator->errors()));
+                storeLogActivity(declarLog(1, 'Result Survei Lubang', $validator->errors()));
                 return response()->json($this->response, 200);
             }
             $ruas = RuasJalan::where('id_ruas_jalan',$request->ruas_jalan_id)->first();
