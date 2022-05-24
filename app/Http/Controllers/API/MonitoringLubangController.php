@@ -20,6 +20,7 @@ use App\Model\Transactional\MonitoringLubangRencanaPenanganan as RencanaPenangan
 
 
 use App\Model\Transactional\RuasJalan;
+use Illuminate\Support\Facades\Storage;
 
 class MonitoringLubangController extends Controller
 {
