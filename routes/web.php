@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\UtilsController;
 use Illuminate\Support\Facades\Route;
+use Intervention\Image\ImageManagerStatic as Image;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,13 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
  */
+Route::get('/map-dashboard/intervention-mage/{value}', function($value) {
+    $img = Image::make(url('storage/survei_lubang/'.$value))->resize(400, 400, function ($constraint) {
+        $constraint->aspectRatio();
+        $constraint->upsize();
+    });
+    return $img->response('jpg');
+});
 
 Route::get('test', function () {
     return view('admin.layout.index');

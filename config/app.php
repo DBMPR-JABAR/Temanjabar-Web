@@ -182,7 +182,7 @@ return [
          */
         Yajra\Datatables\DatatablesServiceProvider::class,
         // Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
-
+        Intervention\Image\ImageServiceProvider::class,
     ],
 
     /*
@@ -235,7 +235,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'DataTables' => Yajra\Datatables\Facades\DataTables::class,
-
+        'Image' => Intervention\Image\Facades\Image::class
     ],
 
 ];
