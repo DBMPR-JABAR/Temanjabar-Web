@@ -14,7 +14,6 @@ use App\Model\DWH\VehicleCounting;
 use App\Http\Resources\GeneralResource;
 use App\Http\Resources\MapJembatanResource;
 use App\Model\DWH\KemantapanJalan;
-use App\Model\DWH\RawanBencana;
 use App\Model\Transactional\LaporanMasyarakat;
 use App\Model\Transactional\MonitoringLubangSurveiDetail as SurveiLubangDetail;
 use App\Transactional\RumijaReport;
@@ -142,12 +141,13 @@ class MapDashboardController extends Controller
                     $this->response['data']['vehiclecounting'] = $data;
                 }
                 if (in_array('rawanbencana', $request->kegiatan)) {
-                    $data = RawanBencana::whereIn('sup', $request->sup)->whereNotNull(['lat', 'long'])->get();
-                    // $icon = RawanBencana::select('icon_name', 'icon_image')
-                    //     ->whereIn('sup', $request->sup)->whereNotNull(['lat', 'long'])->whereNotNull('icon_image')
-                    //     ->groupBy('icon_image')->get();
+                    $data = DB::connection('dwh')->table('TBL_TMNJABAR_TRX_MASTER_RAWAN_BENCANA')
+                        ->whereIn('SUP', $request->sup)->whereNotNull(['LAT', 'LONG'])->get();
+                    $icon = DB::connection('dwh')->table('TBL_TMNJABAR_TRX_MASTER_RAWAN_BENCANA')->select('ICON_NAME', 'ICON_IMAGE')
+                        ->whereIn('SUP', $request->sup)->whereNotNull(['LAT', 'LONG'])->whereNotNull('ICON_IMAGE')
+                        ->groupBy('ICON_IMAGE')->get();
                     $this->response['data']['rawanbencana'] = $data;
-                    // $this->response['data']['iconrawanbencana'] = $icon;
+                    $this->response['data']['iconrawanbencana'] = $icon;
                 }
                 if (in_array('laporanbencana', $request->kegiatan)) {
                     $data = DB::connection('dwh')->table('TBL_LAPORAN_BENCANA')
