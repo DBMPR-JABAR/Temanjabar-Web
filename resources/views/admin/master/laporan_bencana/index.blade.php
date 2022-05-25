@@ -133,7 +133,7 @@
                                             @if (Auth::user()->internalRole->uptd)
                                                 @if (Auth::user()->sup_id)
                                                     @foreach ($sup as $data)
-                                                    @if (Auth::user()->sup_id == {{$data->id}})
+                                                    @if (Auth::user()->sup_id == $data->id)
                                                     <option value="{{$data->name}},{{$data->id}}" @if(Auth::user()->sup_id != null && Auth::user()->sup_id == $data->id) selected @endif>{{$data->name}}</option>
                                                     @endif
                                                     @endforeach
