@@ -162,10 +162,20 @@
                                         
                                         <select id="ruas_jalan" name="ruas_jalan" class="form-control" required>
                                             @if (Auth::user()->internalRole->uptd)
+                                                @if (Auth::user()->sup_id)
+                                                @foreach ($ruas as $data)
+                                                        @if (Auth::user()->data_sup->kd_sup == $data->kd_sppjj)
+                                                        <option value="{{ $data->nama_ruas_jalan }},{{ $data->id_ruas_jalan }}">
+                                                            {{ $data->nama_ruas_jalan }}</option>
+                                                            
+                                                        @endif
+                                                @endforeach
+                                                @else
                                                 @foreach ($ruas as $data)
                                                     <option value="{{ $data->nama_ruas_jalan }},{{ $data->id_ruas_jalan }}">
                                                         {{ $data->nama_ruas_jalan }}</option>
                                                 @endforeach
+                                                @endif
                                             @else
                                                 <option>-</option>
                                             @endif
