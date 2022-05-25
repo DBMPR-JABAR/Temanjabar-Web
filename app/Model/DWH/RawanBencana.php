@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class RawanBencana extends Model
 {
-    protected $connection = 'dwh';
-    protected $table = 'MASTER_RAWAN_BENCANA'; 
+    protected $connection = 'mysql';
+    protected $table = 'master_rawan_bencana'; 
+    protected $guarded = [];
 }
