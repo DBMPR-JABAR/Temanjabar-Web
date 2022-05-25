@@ -151,19 +151,19 @@
                                 <div class="form-group row">
                                     <label class="col-md-2 col-form-label">Ruas Jalans</label>
                                     <div class="col-md-10">
-                                        <select id="ruas_jalan" name="id_ruas_jalan" class="searchableModalField" required>
+                                        <select id="ruas_jalan" name="ruas_jalan" class="searchableModalField" required>
                                             @if (Auth::user()->internalRole->uptd)
                                                 @if (Auth::user()->sup_id)
                                                 @foreach ($ruas as $data)
                                                     @if (Auth::user()->data_sup->kd_sup == $data->kd_sppjj)
-                                                    <option value="{{ $data->nama_ruas_jalan }},{{ $data->id_ruas_jalan }}">
+                                                    <option value="{{ $data->id_ruas_jalan }}">
                                                         {{ $data->nama_ruas_jalan }}</option>
                                                         
                                                     @endif
                                                 @endforeach
                                                 @else
                                                 @foreach ($ruas as $data)
-                                                    <option value="{{ $data->nama_ruas_jalan }},{{ $data->id_ruas_jalan }}">
+                                                    <option value="{{ $data->id_ruas_jalan }}">
                                                         {{ $data->nama_ruas_jalan }}</option>
                                                 @endforeach
                                                 @endif
