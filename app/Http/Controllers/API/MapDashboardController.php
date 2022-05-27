@@ -133,7 +133,10 @@ class MapDashboardController extends Controller
                     $data = $data->whereBetween('tanggal', [$request->date_from, $request->date_to]);
                     // $data = $data->where('distance', '<=', $distanceThreshold);
 
+
+
                     $data = $data->get();
+
                     $this->response['data']['pemeliharaan'] = $data;
                 }
                 if (in_array('vehiclecounting', $request->kegiatan)) {
