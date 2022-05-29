@@ -5,7 +5,7 @@ namespace App\talikuat;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Dataumum extends Model
+class DataUmum extends Model
 {
     use HasFactory;
     protected $connection = 'talikuat';
