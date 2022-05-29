@@ -228,8 +228,15 @@ class Home extends Controller
             $filter['tanggal_awal']=  Carbon::createFromFormat('Y-m-d', $request->tanggal_awal)->format('Y-m-d');
             $filter['tanggal_akhir']=  Carbon::createFromFormat('Y-m-d', $request->tanggal_akhir)->format('Y-m-d');    
         }
-        $total_report = $this->count_pemeliharaan($filter['tanggal_awal'], $filter['tanggal_akhir']);
+        // $total_report = $this->count_pemeliharaan($filter['tanggal_awal'], $filter['tanggal_akhir']);
+        $total_report=[
+            'not_complete' => 0,
+            'submit' => 0,
+            'approve' => 0,
+            'reject' => 0
+        ];
         // dd($total_report);
+        
         $pembangunan_talikuat = [];
         $data_talikuat = [];
         $detail_data_talikuat =[];
@@ -347,19 +354,27 @@ class Home extends Controller
                 'value'=> $temporari_pemeliharaan['not_complete'],
                 'groupId'=>$merge
             ];
+            $total_report['not_complete'] += $temporari_pemeliharaan['not_complete'];
             $chart_pemeliharaan['submit'][]= [
                 'value'=> $temporari_pemeliharaan['submit'],
                 'groupId'=>$merge
             ];
+            $total_report['submit'] += $temporari_pemeliharaan['submit'];
+
             $chart_pemeliharaan['approve'][]= [
                 'value'=> $temporari_pemeliharaan['approve'],
                 'groupId'=>$merge
             ];
+            $total_report['approve'] += $temporari_pemeliharaan['approve'];
+
             $chart_pemeliharaan['reject'][]= [
                 'value'=> $temporari_pemeliharaan['reject'],
                 'groupId'=>$merge
             ];
+            $total_report['reject'] += $temporari_pemeliharaan['reject'];
+
         }
+        // dd($total_report);
         $chart_lubang=[
             'potensi' => $data_lubang_potensi,
             'perencanaan'=> $data_lubang_perencanaan,
