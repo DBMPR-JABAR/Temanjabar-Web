@@ -162,16 +162,15 @@
 
 @section('page-body')
 <div class="row">
-    <div class="col-12">
+    {{-- <div class="col-12">
         <div class="card">
             <figure class="highcharts-figure">
                 <div id="container_pembangunan_talikuat_uptd"></div>
-                {{-- <p class="highcharts-description">
-                </p> --}}
+                
             </figure>
 
         </div>
-    </div>
+    </div> --}}
     <div class="col-sm-12">
 		<div class="card">
             <div class="card-header">
@@ -191,7 +190,408 @@
 			</div>
 		</div>
 	</div>
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-block accordion-block">
+                <div id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="accordion-panel">
+                        <div class="accordion-heading" role="tab" id="headingOne">
+                            <h4 class="card-title accordion-title">
+                                Filter
+                            </h4>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse in show" role="tabpanel"
+                            aria-labelledby="headingOne">
+                            <div class="accordion-content accordion-desc">
+                                <div class="card-block w-100">
+                                    <form  enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="row col-12">
+                                            @php
+                                                $grid = 5;
+                                            @endphp
+                                            {{-- @if (Auth::user()->internalRole->uptd == null)
+                                            <div class="col-sm-12 col-xl-2">
+                                                <h4 class="sub-title">UPTD</h4>
+                                                <select class="form-control" style="width: 100%" name="uptd_filter">
+                                                    <option value="">Pilih Semua</option>
+                                                    <option value="1" @if(@$filter['uptd_filter'] == 1 ) selected @endif>UPTD 1</option>
+                                                    <option value="2" @if(@$filter['uptd_filter'] == 2 ) selected @endif>UPTD 2</option>
+                                                    <option value="3" @if(@$filter['uptd_filter'] == 3 ) selected @endif>UPTD 3</option>
+                                                    <option value="4" @if(@$filter['uptd_filter'] == 4 ) selected @endif>UPTD 4</option>
+                                                    <option value="5" @if(@$filter['uptd_filter'] == 5 ) selected @endif>UPTD 5</option>
+                                                    <option value="6" @if(@$filter['uptd_filter'] == 6 ) selected @endif>UPTD 6</option>
+                                                </select>
+                                            </div>
+                                            @php
+                                                $grid = 4;
+                                            @endphp
+                                            @endif --}}
+                                            <div class="col-sm-12 col-xl-{{ $grid }} col-md-{{ $grid }} ">
+                                                <h4 class="sub-title">Tanggal Awal</h4>
+                                                <input required name="tanggal_awal" type="date"
+                                                    class="form-control form-control-primary" value="{{ @$filter['tanggal_awal'] }}">
+                                            </div>
+                                            <div class="col-sm-12 col-xl-{{ $grid }} col-md-{{ $grid }} ">
+                                                <h4 class="sub-title">Tanggal Akhir</h4>
+                                                <input required name="tanggal_akhir" type="date"
+                                                    class="form-control form-control-primary" value="{{ @$filter['tanggal_akhir'] }}">
+                                            </div>
+                                            
+                                            {{-- <input name="filter" value="true" style="display: none" /> --}}
 
+                                            <div class="mt-3 col-sm-12 col-xl-2">
+                                                {{-- <button type="submit" class="mt-4 btn btn-primary waves-effect waves-light">Filter</button> --}}
+                                                <button class="mt-4 btn btn-primary waves-effect waves-light" type="submit" formmethod="get" formaction="{{ url('admin/home') }}">Filter</button>
+                                                {{-- <button class="mt-4 btn btn-mat btn-success " formmethod="post" type="submit" formaction="{{ route('sapu-lobang.rekapitulasi') }}">Cetak Rekap Entry</button> --}}
+                                            </div>
+                                            
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Rekap Pekerjaan Pemeliharaan {{ @$filter['tanggal_awal'] }} - {{ @$filter['tanggal_akhir'] }}</h4>
+                {{-- <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span> --}}
+                <div class="card-header-right">
+                    <ul class="list-unstyled card-option">
+                        {{-- <li><i class="feather icon-maximize full-card"></i></li>
+                        <li><i class="feather icon-minus minimize-card"></i></li> --}}
+                    </ul>
+                </div>
+            </div>
+            <div class="card-block">
+                
+                <div class="chart has-fixed-height" id="chart_pemeliharaan" style="width: 800px; height: 600px;"></div>
+                <div class="card-deck col-md-12">
+                    <div class="card w-100">
+                        {{-- <a href="{{ url('admin/lapor') }}"> --}}
+                        <div class="card-block">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h4 class="text-warning f-w-600">
+                                        {{ @$total_report['not_complete'] }}
+                                    </h4>
+                                    {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
+                                </div>
+                                <div class="col-4 text-right">
+                                    <i class="feather icon-arrow-down f-28"></i>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- </a> --}}
+                        <div class="card-footer bg-warning">
+                            <div class="row align-items-center">
+                                <div class="col-9">
+                                    <p class="text-white m-b-0">Not Completed</p>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <i class="feather icon-trending-up text-white f-16"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="card w-100">
+                        {{-- <a href="{{ url('admin/lapor') }}"> --}}
+                        <div class="card-block">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h4 class="text-success f-w-600">
+                                        {{ @$total_report['submit'] }}
+                                    </h4>
+                                    {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
+                                </div>
+                                <div class="col-4 text-right">
+                                    <i class="feather icon-arrow-down f-28"></i>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- </a> --}}
+                        <div class="card-footer bg-success">
+                            <div class="row align-items-center">
+                                <div class="col-9">
+                                    <p class="text-white m-b-0">Submitted</p>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <i class="feather icon-trending-up text-white f-16"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="card w-100">
+                        {{-- <a href="{{ url('admin/lapor') }}"> --}}
+                        <div class="card-block">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h4 class="text-primary f-w-600">
+                                        {{ @$total_report['approve'] }}
+                                    </h4>
+                                    {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
+                                </div>
+                                <div class="col-4 text-right">
+                                    <i class="feather icon-arrow-up f-28"></i>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- </a> --}}
+                        <div class="card-footer bg-primary">
+                            <div class="row align-items-center">
+                                <div class="col-9">
+                                    <p class="text-white m-b-0">Approved</p>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <i class="feather icon-trending-up text-white f-16"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="card w-100">
+                        {{-- <a href="{{ url('admin/lapor') }}"> --}}
+                        <div class="card-block">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h4 class="text-danger f-w-600">
+                                        {{ @$total_report['reject'] }}
+    
+                                    </h4>
+                                    {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
+                                </div>
+                                <div class="col-4 text-right">
+                                    <i class="feather icon-clock f-28"></i>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- </a> --}}
+                        <div class="card-footer bg-danger">
+                            <div class="row align-items-center">
+                                <div class="col-9">
+                                    <p class="text-white m-b-0">Rejected</p>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <i class="feather icon-trending-up text-white f-16"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-deck col-md-12 mt-3">
+                    <div class="card w-100">
+                        {{-- <a href="{{ url('admin/lapor') }}"> --}}
+                        <div class="card-block">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h4 class=" f-w-600">
+                                        {{ array_sum($total_report) }}
+                                        
+                                    </h4>
+                                    {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
+                                </div>
+                                <div class="col-4 text-right">
+                                    {{-- <i class="feather-archive"></i> --}}
+                                    <i class="feather icon-clipboard f-28"></i>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- </a> --}}
+                        <div class="card-footer bg-default">
+                            <div class="row align-items-center">
+                                <div class="col-9">
+                                    <p class=" m-b-0" style="color: black">Total Laporan</p>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <i class="feather icon-trending-up text-white f-16"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+    
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Monitoring Lubang {{ @$filter['tanggal_awal'] }} - {{ @$filter['tanggal_akhir'] }}</h4>
+                {{-- <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span> --}}
+                <div class="card-header-right">
+                    <ul class="list-unstyled card-option">
+                        {{-- <li><i class="feather icon-maximize full-card"></i></li>
+                        <li><i class="feather icon-minus minimize-card"></i></li> --}}
+                    </ul>
+                </div>
+            </div>
+            <div class="card-block align-items-center justify-content-center">
+                <div class="chart has-fixed-height" id="chart_lubang" style="width: 800px; height: 600px;"></div>
+                <div class="row">
+                    <div class="col-md-3 align-items-center justify-content-center my-auto">
+                        <div class="card w-100 ">
+                            {{-- <a href="{{ route('sapu-lobang.potensi') }}" target="_blank"> --}}
+                            <div class="card-block">
+                                <div class="row align-items-center">
+                                    <div class="col-8">
+                                        <h4 class="text-warning f-w-600">
+                                            {{ @$temporari1['jumlah']['potensi'] }} Lubang
+                                        </h4>
+                                        <h6 class="text-muted m-b-0">{{ @$temporari1['panjang']['potensi'] }} Lubang</h6>
+                                    </div>
+                                    <div class="col-4 text-right">
+                                        <i class="feather icon-arrow-down f-28"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            {{-- </a> --}}
+                            <div class="card-footer bg-warning">
+                                <div class="row align-items-center">
+                                    <div class="col-9">
+                                        <p class="text-white m-b-0">Potensi Lubang</p>
+                                    </div>
+                                    <div class="col-3 text-right">
+                                        <i class="feather icon-trending-up text-white f-16"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="card-deck col-md-12">
+                            <div class="card w-100">
+                                {{-- <a href="{{ url('admin/input-data/sapu-lobang/data-lubang?status_filter=Dalam+Perencanaan') }}" target="_blank"> --}}
+                                <div class="card-block">
+                                    <div class="row align-items-center">
+                                        <div class="col-8">
+                                            <h4 class="text-c-yellow f-w-600">
+                                                {{ @$temporari['jumlah']['perencanaan'] }} Lubang
+                                            </h4>
+                                            <h6 class="text-muted m-b-0">{{ @$temporari['panjang']['perencanaan'] }} Km</h6>
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            <i class="feather icon-arrow-down f-28"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- </a> --}}
+                                <div class="card-footer bg-c-yellow">
+                                    <div class="row align-items-center">
+                                        <div class="col-9">
+                                            <p class="text-white m-b-0">Perencanaan</p>
+                                        </div>
+                                        <div class="col-3 text-right">
+                                            <i class="feather icon-trending-up text-white f-16"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+            
+                            <div class="card w-100">
+                                {{-- <a href="{{ url('admin/input-data/sapu-lobang/data-lubang?status_filter=Sudah+Ditangani') }}" target="_blank"> --}}
+                                <div class="card-block">
+                                    <div class="row align-items-center">
+                                        <div class="col-8">
+                                            <h4 class="text-success f-w-600">
+                                                {{ @$temporari['jumlah']['penanganan'] }} Lubang
+                                            </h4>
+                                            <h6 class="text-muted m-b-0">{{ @$temporari['panjang']['penanganan'] }} Km</h6>
+            
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            <i class="feather icon-arrow-up f-28"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- </a> --}}
+                                <div class="card-footer bg-success">
+                                    <div class="row align-items-center">
+                                        <div class="col-9">
+                                            <p class="text-white m-b-0">Ditangani</p>
+                                        </div>
+                                        <div class="col-3 text-right">
+                                            <i class="feather icon-trending-up text-white f-16"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+            
+                            <div class="card w-100">
+                                {{-- <a href="{{ url('admin/input-data/sapu-lobang/data-lubang?status_filter=Belum+Ditangani') }}" target="_blank"> --}}
+                                <div class="card-block">
+                                    <div class="row align-items-center">
+                                        <div class="col-8">
+                                            <h4 class="text-danger f-w-600">
+                                                {{ @$temporari['jumlah']['sisa'] }} Lubang
+            
+                                            </h4>
+                                            <h6 class="text-muted m-b-0">{{ @$temporari['panjang']['sisa'] }} Km</h6>
+            
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            <i class="feather icon-clock f-28"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- </a> --}}
+                                <div class="card-footer bg-danger">
+                                    <div class="row align-items-center">
+                                        <div class="col-9">
+                                            <p class="text-white m-b-0">Sisa</p>
+                                        </div>
+                                        <div class="col-3 text-right">
+                                            <i class="feather icon-trending-up text-white f-16"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-deck col-md-12 mt-3">
+                            <div class="card w-100">
+                                {{-- <a href="{{ route('sapu-lobang.lubang') }}" target="_blank"> --}}
+    
+                                <div class="card-block">
+                                    <div class="row align-items-center">
+                                        <div class="col-8">
+                                            <h4 class=" f-w-600">
+                                                {{ array_sum($temporari['jumlah']) }} Lubang
+                                                
+                                            </h4>
+                                            <h6 class="text-muted m-b-0">{{ array_sum($temporari['panjang']) }} Km</h6>
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            {{-- <i class="feather-archive"></i> --}}
+                                            <i class="feather icon-clipboard f-28"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- </a> --}}
+                                <div class="card-footer bg-default">
+                                    <div class="row align-items-center">
+                                        <div class="col-9">
+                                            <p class=" m-b-0" style="color: black">Total</p>
+                                        </div>
+                                        <div class="col-3 text-right">
+                                            <i class="feather icon-trending-up text-white f-16"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     @if (hasAccess(Auth::user()->internal_role_id, 'Daftar Laporan', 'View'))
     <div class="col-sm-12">
         <div class="card">
@@ -455,28 +855,28 @@
 <script>
 
     // Get the modal
-var modal = document.getElementById("myModal");
+    var modal = document.getElementById("myModal");
 
-// Get the button that opens the modal
-var btn = document.getElementById("myBtn");
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
 
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
 
-// When the user clicks the button, open the modal 
+    // When the user clicks the button, open the modal 
 
 
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  modal.style.display = "none";
-}
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+    modal.style.display = "none";
+    }
 
-// When the user clicks anywhere outside of the modal, close it
-// window.onclick = function(event) {
-//   if (event.target == modal) {
-//     modal.style.display = "none";
-//   }
-// }
+    // When the user clicks anywhere outside of the modal, close it
+    // window.onclick = function(event) {
+    //   if (event.target == modal) {
+    //     modal.style.display = "none";
+    //   }
+    // }
 
 
     function removeFirstWord(str) {
@@ -643,6 +1043,206 @@ span.onclick = function() {
     });
 
     option && myChart.setOption(option);
+</script>
+<script>
+    var library_uptd = {!! json_encode($datauptd1) !!};
+    var data_not_complete = {!! json_encode($chart_pemeliharaan['not_complete']) !!};
+    var data_submit = {!! json_encode($chart_pemeliharaan['submit']) !!};
+    var data_approve = {!! json_encode($chart_pemeliharaan['approve']) !!};
+    var data_reject = {!! json_encode($chart_pemeliharaan['reject']) !!};
+    var chartDom = document.getElementById('chart_pemeliharaan');
+    var myChart = echarts.init(chartDom);
+    var option;
+
+    option = {
+        xAxis: {
+            data: library_uptd
+        },
+        yAxis: [
+            {
+                type: 'value'
+            }
+        ],
+        dataGroupId: '',
+        animationDurationUpdate: 500,
+        tooltip: {
+            trigger: 'axis',
+            // formatter: '{b}<br />{a0}: {c0} Km<br />{a1}: {c1} Km<br />{a2}: {c2} Km<br />{a3}: {c3} Km<br />{a4}: {c4} Km'
+        },
+        legend: {
+            data: ['NOT COMPLETE', 'SUBMIT', 'APPROVE', 'REJECT']
+        },
+        toolbox: {
+            show: true,
+            feature: {
+            dataView: { show: false, readOnly: false },
+            magicType: { show: true, type: ['line', 'bar'] },
+            restore: { show: true },
+            saveAsImage: { show: true }
+            }
+        },
+        calculable: true,
+
+        series: [
+            {
+                name: 'NOT COMPLETE',
+                type: 'bar',
+                id: 'sales',
+                itemStyle: {color: '#ffc107'},
+                data: data_not_complete,
+                universalTransition: {
+                    enabled: true,
+                    divideShape: 'clone'
+                }
+            },
+            {
+                name: 'SUBMIT',
+                type: 'bar',
+                itemStyle: {color: '#28a745'},
+
+                data: data_submit,
+                universalTransition: {
+                    enabled: true,
+                    divideShape: 'clone'
+                }
+            },
+            {
+                name: 'APPROVE',
+                type: 'bar',
+
+                data: data_approve,
+                universalTransition: {
+                    enabled: true,
+                    divideShape: 'clone'
+                }
+            },
+            {
+                name: 'REJECT',
+                type: 'bar',
+                itemStyle: {color: '#dc3545'},
+
+                data: data_reject,
+                universalTransition: {
+                    enabled: true,
+                    divideShape: 'clone'
+                }
+            }
+        ]
+    };
+
+    option && myChart.setOption(option);
+
+</script>
+<script>
+    var library_uptd = {!! json_encode($datauptd1) !!};
+    var data_sisa = {!! json_encode($chart_lubang['sisa']) !!};
+    var data_perencanaan = {!! json_encode($chart_lubang['perencanaan']) !!};
+    var data_penanganan = {!! json_encode($chart_lubang['ditangani']) !!};
+    var data_potensi = {!! json_encode($chart_lubang['potensi']) !!};
+    var data_total_km = {!! json_encode($chart_lubang['total_km']) !!};
+    
+    var chartDom = document.getElementById('chart_lubang');
+    var myChart = echarts.init(chartDom);
+    var option;
+    
+    option = {
+        xAxis: {
+            type: 'category',
+            data: library_uptd
+        },
+        yAxis: [
+            {
+                type: 'value'
+            }
+        ],
+        dataGroupId: '',
+        animationDurationUpdate: 500,
+        tooltip: {
+            trigger: 'axis',
+            // formatter: '{b}<br />{a0}: {c0} Km<br />{a1}: {c1} Km<br />{a2}: {c2} Km<br />{a3}: {c3} Km<br />{a4}: {c4} Km'
+        },
+        legend: {
+            data: ['POTENSI', 'PERENCANAAN', 'DITANGANI', 'SISA','TOTAL KM'],
+            selected: {
+                
+                POTENSI: true,
+                PERENCANAAN: true,
+                DITANGANI: true,
+                SISA: true
+
+            }
+        },
+        toolbox: {
+            show: true,
+            feature: {
+            dataView: { show: false, readOnly: false },
+            magicType: { show: true, type: ['line', 'bar'] },
+            restore: { show: true },
+            saveAsImage: { show: true }
+            }
+        },
+        
+        calculable: true,
+
+        series: [
+            {
+                name: 'POTENSI',
+                type: 'bar',
+                id: 'sales',
+                itemStyle: {color: '#ffc107'},
+                data: data_potensi,
+                universalTransition: {
+                    enabled: true,
+                    divideShape: 'clone'
+                }
+            },
+            {
+                name: 'PERENCANAAN',
+                type: 'bar',
+                itemStyle: {color: '#ffb64d'},
+
+                data: data_perencanaan,
+                universalTransition: {
+                    enabled: true,
+                    divideShape: 'clone'
+                }
+            },
+            {
+                name: 'DITANGANI',
+                type: 'bar',
+                itemStyle: {color: '#28a745'},
+
+                data: data_penanganan,
+                universalTransition: {
+                    enabled: true,
+                    divideShape: 'clone'
+                }
+            },
+            {
+                name: 'SISA',
+                type: 'bar',
+                itemStyle: {color: '#dc3545'},
+
+                data: data_sisa,
+                universalTransition: {
+                    enabled: true,
+                    divideShape: 'clone'
+                }
+            },
+            {
+                name: 'TOTAL KM',
+                type: 'bar',
+                
+                data: data_total_km,
+                universalTransition: {
+                    enabled: true,
+                    divideShape: 'clone'
+                }
+            }
+        ]
+    };
+    option && myChart.setOption(option);
+
 </script>
 {{-- <script>
     function removeFirstWord(str) {

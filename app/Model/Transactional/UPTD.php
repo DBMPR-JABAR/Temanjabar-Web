@@ -32,4 +32,21 @@ class UPTD extends Model
     {
         return $this->hasMany('App\Model\Transactional\Kota', 'uptd_id')->where('kategori',2);
     }
+
+    public function lubang_sisa()
+    {
+        return $this->hasMany('App\Model\Transactional\MonitoringLubangSurveiDetail', 'uptd_id')->whereNull('status');
+    }
+    public function lubang_perencanaan()
+    {
+        return $this->hasMany('App\Model\Transactional\MonitoringLubangSurveiDetail', 'uptd_id')->where('status','Perencanaan');
+    }
+    public function lubang_penanganan()
+    {
+        return $this->hasMany('App\Model\Transactional\MonitoringLubangSurveiDetail', 'uptd_id')->where('status','Selesai');
+    }
+    public function lubang_potensi()
+    {
+        return $this->hasMany('App\Model\Transactional\MonitoringPotensiLubangSurveiDetail', 'uptd_id');
+    }
 }
