@@ -162,25 +162,19 @@
 
 @section('page-body')
 <div class="row">
-    {{-- <div class="col-12">
+    <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h5>Data Pemasukan</h5>
-                <div class="card-header-right">
-                    <ul class="list-unstyled card-option">
-                        <li><i class="fa fa-chevron-left"></i></li>
-                        <li><i class="fa fa-window-maximize full-card"></i></li>
-                        <li><i class="fa fa-minus minimize-card"></i></li>
-                        <li><i class="fa fa-times close-card"></i></li>
-                    </ul>
-                </div>
-            <figure class="highcharts-figure">
-                <div id="container_pembangunan_talikuat_uptd"></div>
-                
-            </figure>
-
+                <a href="https://tk.temanjabar.net/pembangunan">
+                <h5>Maps Pembangunan</h5></a>
+            </div>
+            <div class="card-body">
+                <figure class="highcharts-figure">
+                    <div id="pembangunan_talikuat"></div>
+                </figure>
+             </div>
         </div>
-    </div> --}}
+    </div>
     <div class="col-sm-12">
 		<div class="card">
             <div class="card-header">
