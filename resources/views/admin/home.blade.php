@@ -164,6 +164,16 @@
 <div class="row">
     <div class="col-12">
         <div class="card">
+            <div class="card-header">
+                <h5>Data Pemasukan</h5>
+                <div class="card-header-right">
+                    <ul class="list-unstyled card-option">
+                        <li><i class="fa fa-chevron-left"></i></li>
+                        <li><i class="fa fa-window-maximize full-card"></i></li>
+                        <li><i class="fa fa-minus minimize-card"></i></li>
+                        <li><i class="fa fa-times close-card"></i></li>
+                    </ul>
+                </div>
             <figure class="highcharts-figure">
                 <div id="container_pembangunan_talikuat_uptd"></div>
                 {{-- <p class="highcharts-description">
@@ -445,11 +455,12 @@
 
 @section('script')
 <script type="text/javascript">
-    const pembangunanTalikuat = @json($pembangunan_talikuat);
-
-    const dataTalikuat = @json($data_talikuat);
-
-    const detailDataTalikuat = @json($detail_data_talikuat);
+            const uptd1 = @json($uptd1);
+            const uptd2 = @json($uptd2);
+            const uptd3 = @json($uptd3);
+            const uptd4 = @json($uptd4);
+            const uptd5 = @json($uptd5);
+            const uptd6 = @json($uptd6);
 </script>
 <script type="text/javascript" src="{{ asset('assets/js/home.js') }}"></script>
 <script>

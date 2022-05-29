@@ -10,42 +10,40 @@ use App\Model\Transactional\RuasJalan;
 use App\Model\Transactional\RuasJalanDetail;
 use App\Model\Transactional\UPTD;
 use App\Model\Transactional\Kota;
-use App\talikuat\Dataumum;
+use App\talikuat\DataUmum;
 
 class Home extends Controller
 {
     // public function index()
     // {
-    // //     $pembangunan_talikuat = DB::connection('talikuat')->table('data_umum')->where('is_deleted', '=', null);
-
-
+    //     $pembangunan_talikuat = DB::connection('talikuat')->table('data_umum')->where('is_deleted', '=', null);
         
-    // //     if (Auth::user()->internalRole->uptd) {
-    // //         if (Auth::user()->internalRole->uptd) {
-    // //             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
-    // //             $pembangunan_talikuat = $pembangunan_talikuat->where('id_uptd', $uptd_id);
-    // //         }
-    // //     }
-    // //     $pembangunan_talikuat = $pembangunan_talikuat->get();
+    //     if (Auth::user()->internalRole->uptd) {
+    //         if (Auth::user()->internalRole->uptd) {
+    //             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+    //             $pembangunan_talikuat = $pembangunan_talikuat->where('id_uptd', $uptd_id);
+    //         }
+    //     }
+    //     $pembangunan_talikuat = $pembangunan_talikuat->get();
 
-    // //     $data_talikuat = DB::connection('talikuat')->select('SELECT
-    // //     ( SUM( master_laporan_harian.bobot )) as persentase,
-    // //     master_laporan_harian.id_data_umum,
-    // //     data_umum.nm_paket as nama_paket,
-    // //     data_umum.id_uptd
-    // // FROM
-    // //     `master_laporan_harian`
-    // //     JOIN jadual ON jadual.id = master_laporan_harian.id_jadual
-    // //     JOIN data_umum ON data_umum.id = master_laporan_harian.id_data_umum
+    //     $data_talikuat = DB::connection('talikuat')->select('SELECT
+    //     ( SUM( master_laporan_harian.bobot )) as persentase,
+    //     master_laporan_harian.id_data_umum,
+    //     data_umum.nm_paket as nama_paket,
+    //     data_umum.id_uptd
+    // FROM
+    //     `master_laporan_harian`
+    //     JOIN jadual ON jadual.id = master_laporan_harian.id_jadual
+    //     JOIN data_umum ON data_umum.id = master_laporan_harian.id_data_umum
 
-    // //     WHERE master_laporan_harian.ditolak = 4 AND data_umum.is_deleted IS NULL AND master_laporan_harian.reason_delete IS NULL
-    // // GROUP BY
-    // //     master_laporan_harian.id_data_umum');
+    //     WHERE master_laporan_harian.ditolak = 4 AND data_umum.is_deleted IS NULL AND master_laporan_harian.reason_delete IS NULL
+    // GROUP BY
+    //     master_laporan_harian.id_data_umum');
 
-    // //     $detail_data_talikuat = null;
-    // //     foreach($pembangunan_talikuat as $data) {
-    // //         $detail_data_talikuat[$data->id] = $this->GetDataUmum($data->id);
-    // //     }
+    //     $detail_data_talikuat = null;
+    //     foreach($pembangunan_talikuat as $data) {
+    //         $detail_data_talikuat[$data->id] = $this->GetDataUmum($data->id);
+    //     }
     //     // dd($detail_data_talikuat);
 
 
@@ -205,13 +203,70 @@ class Home extends Controller
 
     public function index()
     {
-        $uptd1 = Dataumum::where('id_uptd', 1)->latest()->with('detail')->with('uptd')->get();
-        $uptd2 = Dataumum::where('id_uptd', 2)->latest()->with('detail')->with('uptd')->get();
-        $uptd3 = Dataumum::where('id_uptd', 3)->latest()->with('detail')->with('uptd')->get();
-        $uptd4 = Dataumum::where('id_uptd', 4)->latest()->with('detail')->with('uptd')->get();
-        $uptd5 = Dataumum::where('id_uptd', 5)->latest()->with('detail')->with('uptd')->get();
-        $uptd6 = Dataumum::where('id_uptd', 6)->latest()->with('detail')->with('uptd')->get();
+        $uptd1 = DataUmum::where('id_uptd', 1)->with('laporanApproved')->get();
+        $uptd2 = DataUmum::where('id_uptd', 2)->with('laporanApproved')->get();
+        $uptd3 = DataUmum::where('id_uptd', 3)->with('laporanApproved')->get();
+        $uptd4 = DataUmum::where('id_uptd', 4)->with('laporanApproved')->get();
+        $uptd5 = DataUmum::where('id_uptd', 5)->with('laporanApproved')->get();
+        $uptd6 = DataUmum::where('id_uptd', 6)->with('laporanApproved')->get();
 
-        return view('admin.home', compact('uptd1', 'uptd2', 'uptd3', 'uptd4', 'uptd5', 'uptd6'));
+        $temporari = UPTD::where('id','!=', 11);
+        $temporari=$temporari->get();
+        $data1 = [];
+        $data2 = [];
+        $data3 =[];
+        $datauptd1 =[];
+        $datauptd2 =[];
+        $datakota =[];
+
+        $datauptdkota =[];
+        $datauptdkabupaten =[];
+
+        foreach($temporari as $i){
+            $merge = 'UPTD'.$i->id;
+            array_push($datauptd1,$merge);
+            array_push($data1,$merge);
+            $temp2=[
+                'value'=> $i->library_kota->count(),
+                'groupId'=>$merge
+            ];
+            array_push($datauptd2,$temp2);
+            $temp=[
+                'value'=> $i->library_kota->count(),
+                'name'=>$merge
+            ];
+            array_push($data2,$temp);
+
+            $temp8=[
+                'value'=> $i->kota->count(),
+                'groupId'=>$merge
+            ];
+            array_push($datauptdkota,$temp8);
+            $temp9=[
+                'value'=> $i->kabupaten->count(),
+                'groupId'=>$merge
+            ];
+            array_push($datauptdkabupaten,$temp9);
+            $tempkota['dataGroupId']=$merge;
+            $tempkota['data']=[];
+
+            foreach($i->library_kota as $x){
+                $temp3=[$x->name, $x->library_ruas->count()];
+                array_push($tempkota['data'],$temp3);
+
+                array_push($data1,$x->name);
+                $temp1=[
+                    'value'=> $x->library_ruas->count(),
+                    'name'=>$x->name
+                ];
+                array_push($data3,$temp1);
+            }
+            array_push($datakota,$tempkota);
+        }
+
+                
+
+
+        return view('admin.home',compact('uptd1','uptd2','uptd3','uptd4','uptd5','uptd6','data1','data2','data3','datauptd1','datauptd2','datakota','datauptdkota','datauptdkabupaten'));
     }
 }

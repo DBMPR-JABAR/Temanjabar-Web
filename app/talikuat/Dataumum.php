@@ -35,4 +35,9 @@ class Dataumum extends Model
     {
         return $this->belongsTo('App\talikuat\KategoriPaket', 'kategori_paket_id', 'id');
     }
+    
+    public function laporanApproved()
+    {
+        return $this->hasMany('App\talikuat\Laporan', 'data_umum_id')->where('status', 5);
+    }
 }
