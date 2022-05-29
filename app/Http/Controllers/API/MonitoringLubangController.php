@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 
 use App\Model\Transactional\MonitoringLubangSurvei as SurveiLubang;
-<<<<<<< HEAD
-use App\Model\Transactional\monitoring_lubang_penanganan as PenangananLubang;
-=======
 use App\Model\Transactional\MonitoringLubangSurveiDetail as SurveiLubangDetail;
 use App\Model\Transactional\MonitoringPotensiLubangSurvei as SurveiPotensiLubang;
 use App\Model\Transactional\MonitoringPotensiLubangSurveiDetail as SurveiPotensiLubangDetail;
@@ -22,15 +19,12 @@ use App\Model\Transactional\MonitoringLubangPenangananDetail as PenangananLubang
 use App\Model\Transactional\MonitoringLubangRencanaPenanganan as RencanaPenanganan;
 
 
->>>>>>> 8974a68d223af7290395c827eb6cec58a89ac73d
 use App\Model\Transactional\RuasJalan;
 use Illuminate\Support\Facades\Storage;
 
 class MonitoringLubangController extends Controller
 {
     //
-<<<<<<< HEAD
-=======
     public function indexSurvei()
     {
         try {
@@ -104,7 +98,6 @@ class MonitoringLubangController extends Controller
         }
         
     }
->>>>>>> 8974a68d223af7290395c827eb6cec58a89ac73d
     public function startSurvei(Request $request)
     {
         try {
@@ -127,9 +120,6 @@ class MonitoringLubangController extends Controller
                 ['created_by' ,Auth::user()->id],
                 ['ruas_jalan_id',$request->ruas_jalan_id],
                 ['sup_id',$ruas->data_sup->id]
-<<<<<<< HEAD
-            ])->get();
-=======
             ])->first();
             if(isset($survei)){
                 $survei->jumlah = $survei->SurveiLubangDetail->sum('jumlah');
@@ -145,7 +135,6 @@ class MonitoringLubangController extends Controller
                     'survei_lubang_detail'=>[]
                 ]);
             }
->>>>>>> 8974a68d223af7290395c827eb6cec58a89ac73d
             return response()->json([
                 'success' => true,
                 'data' => $survei,  
@@ -197,23 +186,6 @@ class MonitoringLubangController extends Controller
                 'tanggal'=> $request->tanggal,
                 'created_by' =>Auth::user()->id,
                 'ruas_jalan_id'=>$request->ruas_jalan_id,
-<<<<<<< HEAD
-                'sup_id'=>$ruas->data_sup->id
-            ]);
-            if(Str::contains($desc, 'tambah')){
-                $survei->jumlah = $survei->jumlah + 1;
-                // $survei->jumlah = $survei->jumlah + $request->jumlah;
-            }else{
-                $survei->jumlah = $survei->jumlah - 1;
-                // $survei->jumlah = $survei->jumlah - $request->jumlah;
-            }
-            $survei->lat = $request->lat;
-            $survei->long = $request->long;
-            $survei->created_by = Auth::user()->id;
-            $survei->save();
-            $survei->ruas = $survei->ruas()->select('id_ruas_jalan','nama_ruas_jalan')->get();
-            // storeLogActivity(declarLog(1, 'Survei Lubang', $ruas->nama_ruas_jalan,1));
-=======
                 'sup_id'=>$ruas->data_sup->id,
                 'kota_id'=>$ruas->kota_id,
                 'lokasi_kode' => Str::upper($request->lokasi_kode),
@@ -382,7 +354,6 @@ class MonitoringLubangController extends Controller
             $survei->SurveiLubangDetail;
             $survei->SurveiPotensiLubangDetail;
             storeLogActivity(declarLog(1, 'Survei Lubang', $ruas->nama_ruas_jalan,1));
->>>>>>> 8974a68d223af7290395c827eb6cec58a89ac73d
 
             return response()->json([
                 'success' => true,
@@ -394,8 +365,6 @@ class MonitoringLubangController extends Controller
             return response()->json($this->response, 500);
         }
     }
-<<<<<<< HEAD
-=======
     public function resultSurvei(Request $request)
     {
         try {
@@ -710,14 +679,14 @@ class MonitoringLubangController extends Controller
         }
         
     }
->>>>>>> 8974a68d223af7290395c827eb6cec58a89ac73d
     public function storePenanganan(Request $request)
     {
         try {
             $validator = Validator::make($request->all(), [
                 'jumlah' => 'required',
                 'tanggal' => 'required|date',
-                'ruas_jalan_id' => 'required'
+                'ruas_jalan_id' => 'required',
+                'keterangan' => ''
             ]);
             if ($validator->fails()) {
                 $this->response['data']['error'] = $validator->errors();
@@ -734,7 +703,9 @@ class MonitoringLubangController extends Controller
                 'created_by'=>Auth::user()->id,
                 'ruas_jalan_id'=>$request->ruas_jalan_id,
                 'sup_id'=>$ruas->data_sup->id,
+                'uptd_id'=>$ruas->uptd_id,
                 'jumlah'=>$request->jumlah,
+                'keterangan'=>$request->keterangan,
             ]);
             $penanganan = PenangananLubang::create($temp);
             storeLogActivity(declarLog(1, 'Penanganan Lubang', $ruas->nama_ruas_jalan,1));
@@ -747,8 +718,6 @@ class MonitoringLubangController extends Controller
             return response()->json($this->response, 500);
         }
     }
-<<<<<<< HEAD
-=======
     public function editPenanganan($id)
     {
         try {
@@ -1078,5 +1047,4 @@ class MonitoringLubangController extends Controller
     // }
 
 
->>>>>>> 8974a68d223af7290395c827eb6cec58a89ac73d
 }
