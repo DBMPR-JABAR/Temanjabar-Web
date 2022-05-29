@@ -12,6 +12,10 @@ use App\Model\Transactional\UPTD;
 use App\Model\Transactional\Kota;
 use App\talikuat\DataUmum;
 
+use App\Model\Transactional\MonitoringLubangSurvei as SurveiLubang;
+use App\Model\Transactional\MonitoringLubangSurveiDetail as SurveiLubangDetail;
+use App\Model\Transactional\MonitoringPotensiLubangSurveiDetail as SurveiPotensiLubangDetail;
+
 class Home extends Controller
 {
     // public function index()
@@ -201,8 +205,20 @@ class Home extends Controller
         ];
     }
 
-    public function index()
-    {
+    // public function index()
+    // {
+    //     $uptd1 = Dataumum::where('id_uptd', 1)->latest()->with('detail')->with('uptd')->get();
+    //     $uptd2 = Dataumum::where('id_uptd', 2)->latest()->with('detail')->with('uptd')->get();
+    //     $uptd3 = Dataumum::where('id_uptd', 3)->latest()->with('detail')->with('uptd')->get();
+    //     $uptd4 = Dataumum::where('id_uptd', 4)->latest()->with('detail')->with('uptd')->get();
+    //     $uptd5 = Dataumum::where('id_uptd', 5)->latest()->with('detail')->with('uptd')->get();
+    //     $uptd6 = Dataumum::where('id_uptd', 6)->latest()->with('detail')->with('uptd')->get();
+
+    //     return view('admin.home', compact('uptd1', 'uptd2', 'uptd3', 'uptd4', 'uptd5', 'uptd6'));
+    // }
+
+    public function index(Request $request)
+    {   
         $uptd1 = DataUmum::where('id_uptd', 1)->with('laporanApproved')->get();
         $uptd2 = DataUmum::where('id_uptd', 2)->with('laporanApproved')->get();
         $uptd3 = DataUmum::where('id_uptd', 3)->with('laporanApproved')->get();
@@ -210,8 +226,47 @@ class Home extends Controller
         $uptd5 = DataUmum::where('id_uptd', 5)->with('laporanApproved')->get();
         $uptd6 = DataUmum::where('id_uptd', 6)->with('laporanApproved')->get();
 
-        $temporari = UPTD::where('id','!=', 11);
-        $temporari=$temporari->get();
+        $filter['tanggal_awal']= Carbon::now()->subDays(365)->format('Y-m-d');
+        $filter['tanggal_akhir']= Carbon::now()->format('Y-m-d');
+        if($request->tanggal_awal || $request->tanggal_akhir ){
+            $filter['tanggal_awal']=  Carbon::createFromFormat('Y-m-d', $request->tanggal_awal)->format('Y-m-d');
+            $filter['tanggal_akhir']=  Carbon::createFromFormat('Y-m-d', $request->tanggal_akhir)->format('Y-m-d');    
+        }
+        // $total_report = $this->count_pemeliharaan($filter['tanggal_awal'], $filter['tanggal_akhir']);
+        $total_report=[
+            'not_complete' => 0,
+            'submit' => 0,
+            'approve' => 0,
+            'reject' => 0
+        ];
+        // dd($total_report);
+        
+        $pembangunan_talikuat = [];
+        $data_talikuat = [];
+        $detail_data_talikuat =[];
+        
+        $data_t_lubang = SurveiLubangDetail::whereBetween('tanggal',[$filter['tanggal_awal'] , $filter['tanggal_akhir'] ]);
+        $data_t_lubang1 = SurveiLubangDetail::whereBetween('tanggal',[$filter['tanggal_awal'] , $filter['tanggal_akhir'] ]);
+        $data_t_lubang2 = SurveiLubangDetail::whereBetween('tanggal',[$filter['tanggal_awal'] , $filter['tanggal_akhir'] ]);
+        $data_t_lubang3 = SurveiPotensiLubangDetail::whereBetween('tanggal',[$filter['tanggal_awal'] , $filter['tanggal_akhir'] ]);
+
+        $temporari['jumlah']['sisa'] = $data_t_lubang->whereNull('status')->get()->sum('jumlah');
+        $temporari['jumlah']['perencanaan'] = $data_t_lubang1->where('status','Perencanaan')->get()->sum('jumlah');
+        $temporari['jumlah']['penanganan'] = $data_t_lubang2->where('status','Selesai')->get()->sum('jumlah');
+        $temporari1['jumlah']['potensi'] = $data_t_lubang3->get()->sum('jumlah');
+
+        $temporari['panjang']['sisa'] =  round($data_t_lubang->whereNull('status')->get()->sum('panjang')/1000,3);
+        $temporari['panjang']['perencanaan'] = round($data_t_lubang1->where('status','Perencanaan')->get()->sum('panjang')/1000,3);
+        $temporari['panjang']['penanganan'] =round($data_t_lubang2->where('status','Selesai')->get()->sum('panjang')/1000,3);
+        $temporari1['panjang']['potensi'] =round($data_t_lubang3->get()->sum('panjang')/1000,3);
+
+
+        $uptd = UPTD::where('id','!=', 11);
+        // if (Auth::user() && Auth::user()->internalRole->uptd) {
+        //     $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+        //     $uptd=$uptd->where('id',$uptd_id);
+        // }
+        $uptd=$uptd->get();
         $data1 = [];
         $data2 = [];
         $data3 =[];
@@ -222,7 +277,13 @@ class Home extends Controller
         $datauptdkota =[];
         $datauptdkabupaten =[];
 
-        foreach($temporari as $i){
+        $data_lubang_sisa =[];
+        $data_lubang_perencanaan =[];
+        $data_lubang_penanganan =[];
+        $data_lubang_potensi =[];
+        $data_lubang_total_km =[];
+
+        foreach($uptd as $i){
             $merge = 'UPTD'.$i->id;
             array_push($datauptd1,$merge);
             array_push($data1,$merge);
@@ -262,11 +323,115 @@ class Home extends Controller
                 array_push($data3,$temp1);
             }
             array_push($datakota,$tempkota);
+
+
+            $sisa=[
+               
+                'value'=>  round($i->lubang_sisa->whereBetween('tanggal',[$filter['tanggal_awal'] , $filter['tanggal_akhir'] ])->sum('panjang')/1000,3),
+                'groupId'=>$merge
+            ];
+            array_push($data_lubang_sisa,$sisa);
+            $perencanaan=[
+                'value'=> round($i->lubang_perencanaan->whereBetween('tanggal',[$filter['tanggal_awal'] , $filter['tanggal_akhir'] ])->sum('panjang')/1000,3),
+                'groupId'=>$merge
+            ];
+            array_push($data_lubang_perencanaan,$perencanaan);
+            $penanganan=[
+                'value'=> round($i->lubang_penanganan->whereBetween('tanggal',[$filter['tanggal_awal'] , $filter['tanggal_akhir'] ])->sum('panjang')/1000,3),
+                'groupId'=>$merge
+            ];
+            array_push($data_lubang_penanganan,$penanganan);
+            $total=[
+                'value'=> round($i->library_ruas->sum('panjang')/1000,3),
+                'groupId'=>$merge
+            ];
+            array_push($data_lubang_total_km,$total);
+
+            $potensi=[
+                'value'=> round($i->lubang_potensi->whereBetween('tanggal',[$filter['tanggal_awal'] , $filter['tanggal_akhir'] ])->sum('panjang')/1000,3),
+                'groupId'=>$merge
+            ];
+            array_push($data_lubang_potensi,$potensi);
+
+            $temporari_pemeliharaan = $this->count_pemeliharaan($filter['tanggal_awal'], $filter['tanggal_akhir'], $i->id);
+            $chart_pemeliharaan['not_complete'][]= [
+                'value'=> $temporari_pemeliharaan['not_complete'],
+                'groupId'=>$merge
+            ];
+            $total_report['not_complete'] += $temporari_pemeliharaan['not_complete'];
+            $chart_pemeliharaan['submit'][]= [
+                'value'=> $temporari_pemeliharaan['submit'],
+                'groupId'=>$merge
+            ];
+            $total_report['submit'] += $temporari_pemeliharaan['submit'];
+
+            $chart_pemeliharaan['approve'][]= [
+                'value'=> $temporari_pemeliharaan['approve'],
+                'groupId'=>$merge
+            ];
+            $total_report['approve'] += $temporari_pemeliharaan['approve'];
+
+            $chart_pemeliharaan['reject'][]= [
+                'value'=> $temporari_pemeliharaan['reject'],
+                'groupId'=>$merge
+            ];
+            $total_report['reject'] += $temporari_pemeliharaan['reject'];
+
         }
+        // dd($total_report);
+        $chart_lubang=[
+            'potensi' => $data_lubang_potensi,
+            'perencanaan'=> $data_lubang_perencanaan,
+            'ditangani'=> $data_lubang_penanganan,
+            'sisa'=> $data_lubang_sisa,
+            'total_km'=> $data_lubang_total_km
+        ];
+        return view('admin.home', compact('pembangunan_talikuat', 'data_talikuat','detail_data_talikuat','data1','data2','data3','datauptd1','datauptd2','datakota','datauptdkota','datauptdkabupaten','filter','total_report', 'chart_pemeliharaan', 'chart_lubang', 'temporari', 'temporari1','uptd1','uptd2','uptd3','uptd4','uptd5','uptd6'));
+    }
+    public function count_pemeliharaan($tanggal_awal, $tanggal_akhir, $uptd = null )
+    {
+        $approve = 0;
+        $reject = 0;
+        $submit = 0;
+        $not_complete = 0;
+        
+        $rekaps = DB::table('kemandoran')
+        ->where('kemandoran.is_deleted',0)
+        ->whereBetween('kemandoran.tglreal',[$tanggal_awal , $tanggal_akhir ])
+        ->leftJoin('kemandoran_detail_status','kemandoran_detail_status.id_pek','=','kemandoran.id_pek')
+        ->select('kemandoran.*','kemandoran_detail_status.status',DB::raw('max(kemandoran_detail_status.id ) as status_s'), DB::raw('max(kemandoran_detail_status.id ) as status_s'))
+        ->groupBy('kemandoran.id_pek');
+        // ->where('kemandoran_detail_status.status','Approved')
+        if($uptd != null){
+            $rekaps = $rekaps->where('kemandoran.uptd_id', $uptd);
+        }
+        $rekaps = $rekaps->get();
+        // dd($rekaps);
+        if($rekaps->count()>=1){
+            foreach($rekaps as $it){
+                // echo $it->status.' | '.$it->id_pek.'<br>';
+                $it->status_material = DB::table('bahan_material')->where('id_pek', $it->id_pek)->exists();
+                $rekaplap = DB::table('kemandoran_detail_status')->where('id', $it->status_s)->pluck('status')->first();
+                $it->status = $rekaplap;
+                if(($it->status == "Approved"||$it->status == "Rejected" ||$it->status == "Edited") || $it->status_material){
+                    if($it->status == "Approved"){
+                        $approve+=1;
+                        // echo $it->status.' | '.$it->id_pek.'<br>';
+                    }else if($it->status == "Rejected" ||$it->status == "Edited"){
+                        $reject+=1;
+                        // echo $it->status.' | '.$it->id_pek.'<br>';
+                    }else
+                        $submit+=1;
+                }else
+                    $not_complete+=1;
+            }
 
-                
-
-
-        return view('admin.home',compact('uptd1','uptd2','uptd3','uptd4','uptd5','uptd6','data1','data2','data3','datauptd1','datauptd2','datakota','datauptdkota','datauptdkabupaten'));
+        }
+        return $temporari=[
+            'not_complete' => $not_complete,
+            'submit'=> $submit,
+            'approve'=> $approve,
+            'reject'=> $reject
+        ];
     }
 }

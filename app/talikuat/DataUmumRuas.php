@@ -14,6 +14,6 @@ class DataUmumRuas extends Model
 
     public function detail_ruas()
     {
-        return $this->belongsTo('App\Models\talikuat\RuasJalan', 'id_ruas_jalan','id_ruas_jalan');
+        return $this->belongsTo('App\talikuat\RuasJalan', 'id_ruas_jalan','id_ruas_jalan');
     }
 }
