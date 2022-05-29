@@ -123,8 +123,8 @@
                             </select>
                         </div>
                     </div>
-                    @if (Auth::user()->id == 1)
-                    <div class="form-group row">
+                    
+                    <div class="form-group row" @if (Auth::user()->id != 1) style="visibility: hidden;" @endif>
                         <label class="col-md-2 col-form-label">Role</label>
                         <div class="col-md-10">
                             <select class="form-control searchableField" required name="role">
@@ -133,7 +133,7 @@
                             </select>
                         </div>
                     </div>
-                    @endif
+                    
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Blokir</label>

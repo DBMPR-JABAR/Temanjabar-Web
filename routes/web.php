@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\API\UtilsController;
 use Illuminate\Support\Facades\Route;
+use Intervention\Image\ImageManagerStatic as Image;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,6 +14,13 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
  */
+Route::get('/map-dashboard/intervention-mage/{value}', function($value) {
+    $img = Image::make(url('storage/survei_lubang/'.$value))->resize(400, 400, function ($constraint) {
+        $constraint->aspectRatio();
+        $constraint->upsize();
+    });
+    return $img->response('jpg');
+});
 
 Route::get('test', function () {
     return view('admin.layout.index');
@@ -31,7 +40,6 @@ Route::get('email-verify/{token}', 'AuthController@verifyEmailMasyarakat');
 Route::prefix('password-reset')->group(function () {
     Route::get('{token}', 'AuthController@passwordResetMasyarakat');
     Route::post('{token}/change', 'AuthController@changePasswordResetMasyarakat');
-
 });
 
 Route::post('auth', 'AuthController@login');
@@ -59,7 +67,10 @@ Route::prefix('status_jalan')->group(function () {
         Route::get('/', 'StatusJalanController@api_index');
     });
 });
+Route::prefix('news')->group(function () {
+    Route::get('/show/{slug}', 'Landing\NewsController@show_masyarakat')->name('masyarakat.news.show');
 
+});
 // {SiteURL}/uptd/*
 Route::group(['prefix' => 'uptd'], function () {
     Route::get('/{slug}', 'LandingController@uptd');
@@ -70,6 +81,7 @@ Route::group(['prefix' => 'uptd'], function () {
 
 Route::get('user', 'CobaController@index');
 Route::get('user/json', 'CobaController@json');
+
 
 // {SiteURL}/admin/*
 Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
@@ -211,9 +223,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         });
 
         // {SiteURL}/admin/landing-page/news
+        Route::get('news/', 'Landing\NewsController@index');
+        Route::resource('news', 'Landing\NewsController');
+
         Route::get('news/delete/{id}', 'Landing\NewsController@destroy');
         Route::post('news/ckeditor/upload', 'Landing\NewsController@upload')->name('news.ckeditor.upload');
-        Route::resource('news', 'Landing\NewsController');
     });
 
     Route::group(['prefix' => 'disposisi'], function () {
@@ -264,8 +278,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('delete/{id}', 'MasterData\RuasJalanController@delete')->name('deleteRuasJalan');
             Route::get('getSUP', 'MasterData\RuasJalanController@getSUP')->name('getSUPRuasJalan');
             Route::get('getCITIES', 'MasterData\RuasJalanController@getCITIES')->name('getSUPRuasJalan');
-
             Route::get('json', 'MasterData\RuasJalanController@json')->name('getJsonRuasJalan');
+        });
+        Route::group(['prefix' => 'kota'], function () {
+            Route::get('/', 'MasterData\KotaController@index')->name('getMasterKota');
+            Route::get('/edit/{id}', 'MasterData\KotaController@edit')->name('editMasterKota');
+            Route::put('/update/{id}', 'MasterData\KotaController@update')->name('updateMasterKota');
         });
 
         Route::group(['prefix' => 'user'], function () {
@@ -533,7 +551,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
         Route::get('/add', 'LandingController@addLaporanMasyarakat')->name('addLapor');
         Route::post('create', 'LandingController@createLaporanMasyarakat')->name('createLapor');
-        Route::get('edit/{id}', 'LandingController@editLaporanMasyarakat')->name('editLapor');
+        Route::get('edit/{id}', 'LandingController@editLaporanMasyarakat')->name('edit.admin.lapor');
         Route::post('update', 'LandingController@updateLaporanMasyarakat')->name('updateLapor');
         Route::get('delete/{id}', 'LandingController@deleteLaporanMasyarakat')->name('deleteLapor');
         Route::get('pemetaan', 'LaporController@pemetaanLaporanMasyarakat')->name('pemetaanLaporanMasyarakat');
@@ -583,3 +601,5 @@ Route::middleware(['auth'])->group(function () {
         });
     });
 });
+
+Route::get('/maps-lebaran-2022', [UtilsController::class, 'mapsLebaran2022']);

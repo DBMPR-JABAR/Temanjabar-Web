@@ -126,14 +126,22 @@
                                     </div>
                                 @endif
 
-                                <div class="form-group row">
+                                <div class="form-group row" >
                                     <label class="col-md-2 col-form-label">SUP</label>
                                     <div class="col-md-10">
                                         <select class="searchableModalField" id="sup" name="sup" required >
                                             @if (Auth::user()->internalRole->uptd)
-                                            @foreach ($sup as $data)
-                                            <option value="{{$data->name}},{{$data->id}}" @if(Auth::user()->sup_id != null && Auth::user()->sup_id == $data->id) selected @endif>{{$data->name}}</option>
-                                            @endforeach
+                                                @if (Auth::user()->sup_id)
+                                                    @foreach ($sup as $data)
+                                                    @if (Auth::user()->sup_id == $data->id)
+                                                    <option value="{{$data->name}},{{$data->id}}" @if(Auth::user()->sup_id != null && Auth::user()->sup_id == $data->id) selected @endif>{{$data->name}}</option>
+                                                    @endif
+                                                    @endforeach
+                                                @else
+                                                    @foreach ($sup as $data)
+                                                    <option value="{{$data->name}},{{$data->id}}" @if(Auth::user()->sup_id != null && Auth::user()->sup_id == $data->id) selected @endif>{{$data->name}}</option>
+                                                    @endforeach
+                                                @endif
                                             @else
                                             <option>Pilih SUP</option>
                                             @endif
@@ -144,7 +152,24 @@
                                     <label class="col-md-2 col-form-label">Ruas Jalans</label>
                                     <div class="col-md-10">
                                         <select id="ruas_jalan" name="ruas_jalan" class="searchableModalField" required>
-                                            <option>Pilih Ruas Jalan</option>
+                                            @if (Auth::user()->internalRole->uptd)
+                                                @if (Auth::user()->sup_id)
+                                                @foreach ($ruas as $data)
+                                                    @if (Auth::user()->data_sup->kd_sup == $data->kd_sppjj)
+                                                    <option value="{{ $data->id_ruas_jalan }}">
+                                                        {{ $data->nama_ruas_jalan }}</option>
+                                                        
+                                                    @endif
+                                                @endforeach
+                                                @else
+                                                @foreach ($ruas as $data)
+                                                    <option value="{{ $data->id_ruas_jalan }}">
+                                                        {{ $data->nama_ruas_jalan }}</option>
+                                                @endforeach
+                                                @endif
+                                            @else
+                                                <option>-</option>
+                                            @endif
                                         </select>
                                     </div>
                                 </div>

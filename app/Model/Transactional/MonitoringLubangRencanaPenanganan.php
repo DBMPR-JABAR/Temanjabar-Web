@@ -13,4 +13,8 @@ class MonitoringLubangRencanaPenanganan extends Model
     {
         return $this->belongsTo('App\Model\Transactional\RuasJalan', 'ruas_jalan_id','id_ruas_jalan');
     }
+    public function RencanaPenangananLubangDetail()
+    {
+        return $this->hasMany('App\Model\Transactional\MonitoringLubangRencanaPenangananDetail','monitoring_lubang_rencana_penanganan_id')->latest();
+    }
 }

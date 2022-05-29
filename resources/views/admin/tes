@@ -1,0 +1,183 @@
+option = {
+    xAxis: [
+      {
+        type: 'category',
+        // prettier-ignore
+        data: ['UPTD1', 'UPTD2', 'UPTD3']
+      }
+    ],
+    yAxis: [
+      {
+        type: 'value'
+      }
+    ],
+    dataGroupId: '',
+    animationDurationUpdate: 500,
+    
+    tooltip: {
+      trigger: 'axis',
+      formatter: '{b}<br />{a0}: {c0}<br />{a1}: {c1}'
+    },
+    legend: {
+      data: ['Kota', 'Kabupaten'],
+      selected: {
+              // selected'series 1'
+              'Kota': true,
+              // unselected'series 2'
+              'Kabupaten': true
+          }
+    },
+    toolbox: {
+      show: true,
+      feature: {
+        dataView: { show: false, readOnly: false },
+        magicType: { show: true, type: ['line', 'bar'] },
+        restore: { show: true },
+        saveAsImage: { show: true }
+      }
+    },
+    calculable: true,
+    
+    series: [
+      {
+        name: 'Kota',
+        type: 'bar',
+        id: 'sales',
+        data: [
+          {
+              value: 3,
+              groupId: 'animals'
+          },
+          {
+              value: 1,
+              groupId: 'fruits'
+          },
+          {
+              value: 2,
+              groupId: 'cars'
+          }
+        ],
+        universalTransition: {
+          enabled: true,
+          divideShape: 'clone'
+        }
+      },
+      {
+        name: 'Kabupaten',
+        type: 'bar',
+        
+        data: [
+          {
+              value: 3,
+              groupId: 'animals'
+          },
+          {
+              value: 1,
+              groupId: 'fruits'
+          },
+          {
+              value: 5,
+              groupId: 'cars'
+          }
+        ],
+        universalTransition: {
+          enabled: true,
+          divideShape: 'clone'
+        }
+      }
+    ]
+  };
+  const drilldownData = [
+    {
+      dataGroupId: 'animals',
+      data: [
+        ['KABUPATEN BOGOR', 4],
+        ['KABUPATEN CIANJUR', 2],
+        ['KABUPATEN BEKASI', 1],
+        ['KOTA BOGOR', 9],
+        ['KOTA BEKASI', 4],
+        ['KOTA DEPOK', 5]
+      ]
+    },
+    {
+      dataGroupId: 'fruits',
+      data: [
+        ['KABUPATEN SUKABUMI', 18],
+        ['KOTA SUKABUMI', 15]
+      ]
+    },
+    {
+      dataGroupId: 'cars',
+      data: [
+        ['KABUPATEN BANDUNG', 19],
+        ['KABUPATEN SUBANG', 22],
+        ['KABUPATEN PURWAKARTA', 9],
+        ['KABUPATEN KARAWANG', 5],
+        ['BANDUNG BARAT', 11],
+        ['KOTA BANDUNG', 30],
+        ['KOTA CIMAHI', 4]
+      ]
+    }
+  ];
+  myChart.on('click', function (event) {
+    if (event.data) {
+      var subData = drilldownData.find(function (data) {
+        return data.dataGroupId === event.data.groupId;
+      });
+      if (!subData) {
+        return;
+      }
+      myChart.setOption({
+        tooltip: {
+          trigger: 'item',
+          formatter: '{b}<br />{a0}: {c0}'
+        },
+        legend: {
+          data: ['Ruas'],
+          selected: {
+              // selected'series 1'
+              'Ruas': true,
+              // unselected'series 2'
+              'Kabupaten': false
+          }
+        },
+        xAxis: {
+          data: subData.data.map(function (item) {
+            return item[0];
+          }).map(function (str) {
+            if(str.split(' ').length >2 ){
+              str = removeFirstWord(str)
+            }
+              return str.replace(' ', '\n');
+          })
+        },
+        series: {
+          name: 'Ruas',
+          type: 'bar',
+          id: 'sales',
+          dataGroupId: subData.dataGroupId,
+          data: subData.data.map(function (item) {
+            return item[1];
+          }),
+          universalTransition: {
+            enabled: true,
+            divideShape: 'clone'
+          }
+        },
+        graphic: [
+          {
+            type: 'text',
+            left: 50,
+            top: 20,
+            style: {
+              text: 'Back',
+              fontSize: 18
+            },
+            onclick: function () {
+              myChart.setOption(option);
+            }
+          }
+        ]
+      });
+    }
+  });

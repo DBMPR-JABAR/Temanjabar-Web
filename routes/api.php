@@ -85,19 +85,30 @@ Route::group(['middleware' => ['jwt.auth']], function () {
         Route::get('index', 'API\MonitoringLubangController@indexSurvei');
         Route::post('start', 'API\MonitoringLubangController@startSurvei');
         Route::post('store/{desc}', 'API\MonitoringLubangController@storeSurvei');
+        Route::post('result', 'API\MonitoringLubangController@resultSurvei');
+        Route::get('delete/{id}', 'API\MonitoringLubangController@deleteSurvei');
+    });
+    Route::prefix('survei-potensi-lubang')->group(function () {
+        Route::get('delete/{id}', 'API\MonitoringLubangController@deletePotensi');
     });
     Route::prefix('penanganan-lubang')->group(function () {
         Route::get('index', 'API\MonitoringLubangController@indexPenanganan');
         Route::post('store', 'API\MonitoringLubangController@storePenanganan');
         Route::get('edit/{id}', 'API\MonitoringLubangController@editPenanganan');
         Route::put('update/{id}', 'API\MonitoringLubangController@updatePenanganan');
+        Route::post('list', 'API\MonitoringLubangController@listPenanganan');
+        Route::post('execute/{id}/{tanggal}', 'API\MonitoringLubangController@executePenanganan');
     });
     Route::prefix('rencana-penanganan-lubang')->group(function () {
         Route::get('index', 'API\MonitoringLubangController@indexRencanaPenanganan');
         Route::post('store', 'API\MonitoringLubangController@storeRencanaPenanganan');
         Route::get('edit/{id}', 'API\MonitoringLubangController@editRencanaPenanganan');
         Route::put('update/{id}', 'API\MonitoringLubangController@updateRencanaPenanganan');
+        Route::post('list', 'API\MonitoringLubangController@listRencanaPenanganan');
+        Route::post('execute/{id}', 'API\MonitoringLubangController@executeRencanaPenanganan');
     });
+    Route::get('sapu-lubang/rekapitulasi', 'API\MonitoringLubangController@getRekap');
+    
     Route::get('has_access/{permission}', 'API\UtilsController@has_access');
     Route::get('uptd_list', 'API\UtilsController@uptd_list');
 

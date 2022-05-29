@@ -45,11 +45,11 @@ class AuthController extends Controller
         try {
             if (!$token = auth('api')->attempt($credentials)) {
                 $this->response['data']['message'] = 'invalid_credentials';
-                return response()->json($this->response, 200);
+                return response()->json($this->response, 400);
             }
         } catch (JWTException $e) {
             $this->response['data']['message'] = 'could_not_create_token';
-            return response()->json($this->response, 500);
+            return response()->json($this->response, 400);
         }
 
         if (!auth('api')->user()->email_verified_at) {
@@ -68,6 +68,8 @@ class AuthController extends Controller
                     } else {
                         auth('api')->user()->ruas = RuasJalan::select('id_ruas_jalan','nama_ruas_jalan')->where('uptd_id',$uptd_id)->get();
                     }
+                }else{
+                    auth('api')->user()->ruas = RuasJalan::select('id_ruas_jalan','nama_ruas_jalan')->get();
                 }
             }
 

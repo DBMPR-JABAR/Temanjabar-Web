@@ -15,6 +15,9 @@ use App\Http\Resources\GeneralResource;
 use App\Http\Resources\MapJembatanResource;
 use App\Model\DWH\KemantapanJalan;
 use App\Model\Transactional\LaporanMasyarakat;
+use App\Model\Transactional\MonitoringLubangSurveiDetail as SurveiLubangDetail;
+use App\Transactional\RumijaReport;
+
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -82,6 +85,7 @@ class MapDashboardController extends Controller
             $this->response['data']['rehabilitasi'] = [];
             $this->response['data']['vehiclecounting'] = [];
             $this->response['data']['kemantapanjalan'] = [];
+            $this->response['data']['sapulobang'] = [];
 
             $distanceThreshold = env("DISTANCE_THRESHOLD", 1000);
 
@@ -89,19 +93,50 @@ class MapDashboardController extends Controller
                 if (in_array('jembatan', $request->kegiatan)) {
                     // $data = Jembatan::whereIn('SUP',$request->sup)->get();
                     $data = MapJembatanResource::collection(Jembatan::whereIn('SUP', $request->sup)->get());
-
                     $this->response['data']['jembatan'] = $data;
                 }
+
+                if (in_array('sapulobang', $request->kegiatan)) {
+
+                    // $data = SurveiLubangDetail::wherenull('status')->whereBetween('tanggal', [$request->date_from, $request->date_to]);
+                    $data = SurveiLubangDetail::whereBetween('tanggal', [$request->date_from, $request->date_to]);
+                    $data = $data->whereIn('sup', $request->sup)->latest('tanggal');
+                    $data = $data->get();
+                    $icon = SurveiLubangDetail::wherenull('status')->whereBetween('tanggal', [$request->date_from, $request->date_to]);
+                    $icon = $icon->whereIn('sup', $request->sup)->latest('tanggal')->groupBy('keterangan');
+                    $icon = $icon->get();
+                    $this->response['data']['sapulobang'] = $data;
+                    $this->response['data']['iconsapulobang'] = $icon;
+                }
+
+                if (in_array('sapulobang_perencanaan', $request->kegiatan)) {
+                    $data = SurveiLubangDetail::where('status', 'Perencanaan')->whereBetween('tanggal', [$request->date_from, $request->date_to]);
+                    $data = $data->whereIn('sup', $request->sup)->latest('tanggal');
+                    $data = $data->get();
+                    $this->response['data']['sapulobang_perencanaan'] = $data;
+                }
+
+                if (in_array('sapulobang_penanganan', $request->kegiatan)) {
+                    $data = SurveiLubangDetail::where('status', 'Selesai')->whereBetween('tanggal', [$request->date_from, $request->date_to]);
+                    $data = $data->whereIn('sup', $request->sup)->latest('tanggal');
+                    $data = $data->get();
+                    $this->response['data']['sapulobang_penanganan'] = $data;
+                }
+                if (in_array('laporrumija', $request->kegiatan)) {
+                    $data = RumijaReport::latest()->get();
+                    $this->response['data']['laporrumija'] = $data;
+                }
                 if (in_array('pemeliharaan', $request->kegiatan)) {
-                    $data = DB::table('kemandoran')
-                              ->join('kemandoran_distance', 'kemandoran.id', '=', 'kemandoran_distance.kemandoran_id')
-                              ->select('kemandoran.*', 'kemandoran_distance.distance');
+                    $data = DB::table('kemandoran');
 
                     $data = $data->whereIn('sup', $request->sup);
                     $data = $data->whereBetween('tanggal', [$request->date_from, $request->date_to]);
-                    $data = $data->where('distance', '<=', $distanceThreshold);
+                    // $data = $data->where('distance', '<=', $distanceThreshold);
+
+
 
                     $data = $data->get();
+
                     $this->response['data']['pemeliharaan'] = $data;
                 }
                 if (in_array('vehiclecounting', $request->kegiatan)) {
@@ -134,7 +169,7 @@ class MapDashboardController extends Controller
 
                 $uptd = [];
                 foreach ($request->uptd as $key => $value) {
-                    $uptd [] = str_replace('uptd','',$value);
+                    $uptd[] = str_replace('uptd', '', $value);
                 }
 
                 if (in_array('laporanmasyarakat', $request->kegiatan)) {

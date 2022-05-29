@@ -8,11 +8,12 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.2.5|^8.0.0",
+        "php": "^7.2.5",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
-        "laravel/framework": "^7.0",
+        "intervention/image": "^2.7",
+        "laravel/framework": "^8.0",
         "laravel/tinker": "^2.0",
         "maatwebsite/excel": "^3.1",
         "phpoffice/phpword": "^0.18.2",
@@ -48,7 +49,7 @@
         ],
         "files": [
             "app/Helpers/logActivity.php"
-         ]
+        ]
     },
     "autoload-dev": {
         "psr-4": {
