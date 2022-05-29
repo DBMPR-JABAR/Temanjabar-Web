@@ -2,12 +2,12 @@
 
 namespace App\talikuat;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+//use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class DataUmumRuas extends Model
 {
-    use HasFactory;
+    //use HasFactory;
     protected $connection = 'talikuat';
     protected $table = 'data_umum_ruas';
     protected $guarded = [];
