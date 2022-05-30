@@ -62,30 +62,50 @@ class MonitoringLubangController extends Controller
             $data = SurveiLubangDetail::latest('tanggal');
             $data1 = SurveiLubangDetail::latest('tanggal');
             $data2 = SurveiLubangDetail::latest('tanggal');
+            $data3 = SurveiPotensiLubangDetail::latest('tanggal');
+
             if (Auth::user() && Auth::user()->internalRole->uptd) {
                 $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
                 $data = $data->where('uptd_id', $uptd_id);
-                $data1 = $data->where('uptd_id', $uptd_id);
-                $data2 = $data->where('uptd_id', $uptd_id);
+                $data1 = $data1->where('uptd_id', $uptd_id);
+                $data2 = $data2->where('uptd_id', $uptd_id);
+                $data3 = $data3->where('uptd_id', $uptd_id);
+
                 if (str_contains(Auth::user()->internalRole->role, 'Mandor')) {
                     $data = $data->where('created_by', Auth::user()->id);
-                    $data1 = $data->where('created_by', Auth::user()->id);
-                    $data2 = $data->where('created_by', Auth::user()->id);
+                    $data1 = $data1->where('created_by', Auth::user()->id);
+                    $data2 = $data2->where('created_by', Auth::user()->id);
+                    $data3 = $data3->where('created_by', Auth::user()->id);
+
                 } else if (Auth::user()->sup_id) {
                     $data = $data->where('sup_id', Auth::user()->sup_id);
-                    $data1 = $data->where('sup_id', Auth::user()->sup_id);
-                    $data2 = $data->where('sup_id', Auth::user()->sup_id);
+                    $data1 = $data1->where('sup_id', Auth::user()->sup_id);
+                    $data2 = $data2->where('sup_id', Auth::user()->sup_id);
+                    $data3 = $data3->where('sup_id', Auth::user()->sup_id);
+
                     if (count(Auth::user()->ruas) > 0) {
-                        $data = $data->whereIn('ruas_jalan_id', Auth::user());
-                        $data1 = $data->whereIn('ruas_jalan_id', Auth::user());
-                        $data2 = $data->whereIn('ruas_jalan_id', Auth::user());
+                        $data = $data->whereIn('ruas_jalan_id', Auth::user()->ruas->pluck('id_ruas_jalan')->toArray());
+                        $data1 = $data1->whereIn('ruas_jalan_id', Auth::user()->ruas->pluck('id_ruas_jalan')->toArray());
+                        $data2 = $data2->whereIn('ruas_jalan_id', Auth::user()->ruas->pluck('id_ruas_jalan')->toArray());
+                        $data3 = $data3->whereIn('ruas_jalan_id', Auth::user()->ruas->pluck('id_ruas_jalan')->toArray());
+
                     }
                 }
             }
-            $temporari['data_survei'] = $data->whereNull('status')->get()->count();
-            $temporari['perencanaan'] = $data1->where('status','Perencanaan')->get()->count();
-            $temporari['penanganan'] = $data2->where('status','Selesai')->get()->count();
+            // $temporari['data_survei'] = $data->whereNull('status')->get()->count();
+            // $temporari['perencanaan'] = $data1->where('status','Perencanaan')->get()->count();
+            // $temporari['penanganan'] = $data2->where('status','Selesai')->get()->count();
            
+            $temporari['jumlah']['sisa'] = $data->whereNull('status')->get()->sum('jumlah');
+            $temporari['jumlah']['perencanaan'] = $data1->where('status','Perencanaan')->get()->sum('jumlah');
+            $temporari['jumlah']['penanganan'] = $data2->where('status','Selesai')->get()->sum('jumlah');
+            $temporari['jumlah']['potensi'] = $data3->get()->sum('jumlah');
+
+            $temporari['panjang']['sisa'] =  round($data->whereNull('status')->get()->sum('panjang')/1000,3);
+            $temporari['panjang']['perencanaan'] = round($data1->where('status','Perencanaan')->get()->sum('panjang')/1000,3);
+            $temporari['panjang']['penanganan'] =round($data2->where('status','Selesai')->get()->sum('panjang')/1000,3);
+            $temporari['panjang']['potensi'] =round($data3->get()->sum('panjang')/1000,3);
+
             return response()->json([
                 'success' => true,
                 'message' => 'Data Penanganan',
@@ -1039,7 +1059,51 @@ class MonitoringLubangController extends Controller
         }
         
     }
+    public function listLubang($desc, $status = null)
+    {
+        try {
+            if($desc =="lubang"){
+                $data = SurveiLubangDetail::latest('tanggal');
+                if($status != null){
+                    if($status == "belum_ditangani"){
+                        $data = $data->whereNull('status');
+                    }else if($status == "dalam_perencanaan"){
+                        $data = $data->where('status','Perencanaan');
+                    }else if($status == "sudah_ditangani"){
+                        $data = $data->where('status','Selesai');
+                    }
+                }
+            }else if($desc =="potensi"){
+                $data = SurveiPotensiLubangDetail::latest('tanggal');
+            }
 
+            if (Auth::user() && Auth::user()->internalRole->uptd) {
+                $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+                $data = $data->where('uptd_id',$uptd_id);
+
+                if (str_contains(Auth::user()->internalRole->role, 'Mandor')) {
+                    $data = $data->where('created_by', Auth::user()->id);
+
+                } else if (Auth::user()->sup_id) {
+                    $data = $data->where('sup_id', Auth::user()->sup_id);
+                    if (count(Auth::user()->ruas) > 0) {
+                        $data = $data->whereIn('ruas_jalan_id', Auth::user()->ruas->pluck('id_ruas_jalan')->toArray());
+                    }
+                }
+            }
+            
+            $data = $data->get();
+            return response()->json([
+                'success' => true,
+                'message' => 'Data '.$desc,
+                'data'  => $data
+            ]);
+        } catch (\Exception $th) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+        
+    }
     // try {
     // } catch (\Exception $th) {
     //     $this->response['data']['message'] = 'Internal Error';

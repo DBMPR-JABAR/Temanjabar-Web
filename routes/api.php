@@ -107,7 +107,11 @@ Route::group(['middleware' => ['jwt.auth']], function () {
         Route::post('list', 'API\MonitoringLubangController@listRencanaPenanganan');
         Route::post('execute/{id}', 'API\MonitoringLubangController@executeRencanaPenanganan');
     });
-    Route::get('sapu-lubang/rekapitulasi', 'API\MonitoringLubangController@getRekap');
+    Route::prefix('sapu-lubang')->group(function () {
+        Route::get('rekapitulasi', 'API\MonitoringLubangController@getRekap');
+        Route::get('list/{desc}/{status}', 'API\MonitoringLubangController@listLubang');
+
+    });
     
     Route::get('has_access/{permission}', 'API\UtilsController@has_access');
     Route::get('uptd_list', 'API\UtilsController@uptd_list');

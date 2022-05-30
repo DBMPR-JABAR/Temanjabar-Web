@@ -226,7 +226,7 @@ class Home extends Controller
         $uptd5 = DataUmum::where('id_uptd', 5)->with('laporanApproved')->get();
         $uptd6 = DataUmum::where('id_uptd', 6)->with('laporanApproved')->get();
 
-        $filter['tanggal_awal']= Carbon::now()->subDays(365)->format('Y-m-d');
+        $filter['tanggal_awal']= Carbon::now()->subDays(100)->format('Y-m-d');
         $filter['tanggal_akhir']= Carbon::now()->format('Y-m-d');
         if($request->tanggal_awal || $request->tanggal_akhir ){
             $filter['tanggal_awal']=  Carbon::createFromFormat('Y-m-d', $request->tanggal_awal)->format('Y-m-d');
@@ -260,7 +260,7 @@ class Home extends Controller
         $temporari['panjang']['penanganan'] =round($data_t_lubang2->where('status','Selesai')->get()->sum('panjang')/1000,3);
         $temporari1['panjang']['potensi'] =round($data_t_lubang3->get()->sum('panjang')/1000,3);
 
-
+        // dd($temporari);
         $uptd = UPTD::where('id','!=', 11);
         // if (Auth::user() && Auth::user()->internalRole->uptd) {
         //     $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
