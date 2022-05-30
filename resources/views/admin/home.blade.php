@@ -857,198 +857,7 @@
             const uptd6 = @json($uptd6);
 </script>
 <script type="text/javascript" src="{{ asset('assets/js/home.js') }}"></script>
-<script>
 
-    // Get the modal
-    var modal = document.getElementById("myModal");
-
-    // Get the button that opens the modal
-    var btn = document.getElementById("myBtn");
-
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
-
-    // When the user clicks the button, open the modal 
-
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-    modal.style.display = "none";
-    }
-
-    // When the user clicks anywhere outside of the modal, close it
-    // window.onclick = function(event) {
-    //   if (event.target == modal) {
-    //     modal.style.display = "none";
-    //   }
-    // }
-
-
-    function removeFirstWord(str) {
-        const indexOfSpace = str.indexOf(' ');
-
-        if (indexOfSpace === -1) {
-            return '';
-        }
-
-        return str.substring(indexOfSpace + 1);
-    }
-    var data1 = {!! json_encode($data1) !!};
-    var data2 = {!! json_encode($data2) !!};
-    var data3 = {!! json_encode($data3) !!};
-    var datauptd1 = {!! json_encode($datauptd1) !!};
-    var datauptd2 = {!! json_encode($datauptd2) !!};
-    var datauptdkota = {!! json_encode($datauptdkota) !!};
-    var datauptdkabupaten = {!! json_encode($datauptdkabupaten) !!};
-    var datakota = {!! json_encode($datakota) !!};
-
-    console.log(datakota);
-    
-    var chartDom = document.getElementById('pie_basic');
-    var myChart = echarts.init(chartDom);
-    var option;
-
-    option = {
-    xAxis: [
-        {
-        type: 'category',
-        // prettier-ignore
-        data: datauptd1
-        }
-    ],
-    yAxis: [
-        {
-        type: 'value'
-        }
-    ],
-    dataGroupId: '',
-    animationDurationUpdate: 500,
-
-    tooltip: {
-        trigger: 'axis',
-        formatter: '{b}<br />{a0}: {c0}<br />{a1}: {c1}'
-    },
-    legend: {
-        data: ['KOTA', 'KABUPATEN'],
-        selected: {
-        // selected'series 1'
-        KOTA: true,
-        // unselected'series 2'
-        KABUPATEN: true
-        }
-    },
-    toolbox: {
-        show: true,
-        feature: {
-        dataView: { show: false, readOnly: false },
-        magicType: { show: true, type: ['line', 'bar'] },
-        restore: { show: true },
-        saveAsImage: { show: true }
-        }
-    },
-    calculable: true,
-
-    series: [
-        {
-            name: 'KOTA',
-            type: 'bar',
-            id: 'sales',
-            data: datauptdkota,
-            universalTransition: {
-                enabled: true,
-                divideShape: 'clone'
-            }
-        },
-        {
-            name: 'KABUPATEN',
-            type: 'bar',
-
-            data: datauptdkabupaten,
-            universalTransition: {
-                enabled: true,
-                divideShape: 'clone'
-            }
-        }
-    ]
-    };
-    const drilldownData = datakota;
-    myChart.on('click', function (event) {
-        // console.log(event);
-        // modal.style.display = "none";
-
-        if (event.data) {
-            var slug_kota ="";
-            var subData = drilldownData.find(function (data) {
-            return data.dataGroupId === event.data.groupId;
-            });
-            if (!subData) {
-            return;
-            }
-            myChart.setOption({
-                tooltip: {
-                    trigger: 'item',
-                    formatter: '{b}<br />{a0}: {c0}'
-                },
-                legend: {
-                    data: ['RUAS'],
-                    selected: {
-                    // selected'series 1'
-                    RUAS: true,
-                    // unselected'series 2'
-                    KABUPATEN: false
-                    }
-                },
-                xAxis: {
-                    data: subData.data
-                    .map(function (item) {
-                        return item[0];
-                    })
-                    .map(function (str) {
-                        
-                        if (str.split(' ').length > 2) {
-                            str = removeFirstWord(str);
-                        }
-                        return str.replace(' ', '\n');
-                    })
-                },
-                series: {
-                    name: 'RUAS',
-                    type: 'bar',
-                    id: 'sales',
-                    dataGroupId: subData.dataGroupId,
-                    data: subData.data.map(function (item) {
-                    return item[1];
-                    }),
-                    universalTransition: {
-                    enabled: true,
-                    divideShape: 'clone'
-                    }
-                },
-                graphic: [
-                    {
-                    type: 'text',
-                    left: 50,
-                    top: 20,
-                    style: {
-                        text: 'BACK',
-                        fontSize: 18
-                    },
-                    onclick: function () {
-                        myChart.setOption(option);
-                    }
-                    }
-                ]
-            });
-            // myChart.on('click', function(event) {
-            // // Print name in console
-            //     modal.style.display = "block";
-            //     console.log(event.name);
-            // });
-        }
-    });
-
-    option && myChart.setOption(option);
-</script>
 <script>
     var library_uptd = {!! json_encode($datauptd1) !!};
     var data_not_complete = {!! json_encode($chart_pemeliharaan['not_complete']) !!};
@@ -1248,6 +1057,198 @@
     };
     option && myChart.setOption(option);
 
+</script>
+<script>
+
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal 
+
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+    modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    // window.onclick = function(event) {
+    //   if (event.target == modal) {
+    //     modal.style.display = "none";
+    //   }
+    // }
+
+
+    function removeFirstWord(str) {
+        const indexOfSpace = str.indexOf(' ');
+
+        if (indexOfSpace === -1) {
+            return '';
+        }
+
+        return str.substring(indexOfSpace + 1);
+    }
+    var data1 = {!! json_encode($data1) !!};
+    var data2 = {!! json_encode($data2) !!};
+    var data3 = {!! json_encode($data3) !!};
+    var datauptd1 = {!! json_encode($datauptd1) !!};
+    var datauptd2 = {!! json_encode($datauptd2) !!};
+    var datauptdkota = {!! json_encode($datauptdkota) !!};
+    var datauptdkabupaten = {!! json_encode($datauptdkabupaten) !!};
+    var datakota = {!! json_encode($datakota) !!};
+
+    console.log(datakota);
+    
+    var chartDom = document.getElementById('pie_basic');
+    var myChart = echarts.init(chartDom);
+    var option;
+
+    option = {
+    xAxis: [
+        {
+        type: 'category',
+        // prettier-ignore
+        data: datauptd1
+        }
+    ],
+    yAxis: [
+        {
+        type: 'value'
+        }
+    ],
+    dataGroupId: '',
+    animationDurationUpdate: 500,
+
+    tooltip: {
+        trigger: 'axis',
+        formatter: '{b}<br />{a0}: {c0}<br />{a1}: {c1}'
+    },
+    legend: {
+        data: ['KOTA', 'KABUPATEN'],
+        selected: {
+        // selected'series 1'
+        KOTA: true,
+        // unselected'series 2'
+        KABUPATEN: true
+        }
+    },
+    toolbox: {
+        show: true,
+        feature: {
+        dataView: { show: false, readOnly: false },
+        magicType: { show: true, type: ['line', 'bar'] },
+        restore: { show: true },
+        saveAsImage: { show: true }
+        }
+    },
+    calculable: true,
+
+    series: [
+        {
+            name: 'KOTA',
+            type: 'bar',
+            id: 'sales',
+            data: datauptdkota,
+            universalTransition: {
+                enabled: true,
+                divideShape: 'clone'
+            }
+        },
+        {
+            name: 'KABUPATEN',
+            type: 'bar',
+
+            data: datauptdkabupaten,
+            universalTransition: {
+                enabled: true,
+                divideShape: 'clone'
+            }
+        }
+    ]
+    };
+    const drilldownData = datakota;
+    myChart.on('click', function (event) {
+        // console.log(event);
+        // modal.style.display = "none";
+
+        if (event.data) {
+            var slug_kota ="";
+            var subData = drilldownData.find(function (data) {
+            return data.dataGroupId === event.data.groupId;
+            });
+            if (!subData) {
+            return;
+            }
+            myChart.setOption({
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{b}<br />{a0}: {c0}'
+                },
+                legend: {
+                    data: ['RUAS'],
+                    selected: {
+                    // selected'series 1'
+                    RUAS: true,
+                    // unselected'series 2'
+                    KABUPATEN: false
+                    }
+                },
+                xAxis: {
+                    data: subData.data
+                    .map(function (item) {
+                        return item[0];
+                    })
+                    .map(function (str) {
+                        
+                        if (str.split(' ').length > 2) {
+                            str = removeFirstWord(str);
+                        }
+                        return str.replace(' ', '\n');
+                    })
+                },
+                series: {
+                    name: 'RUAS',
+                    type: 'bar',
+                    id: 'sales',
+                    dataGroupId: subData.dataGroupId,
+                    data: subData.data.map(function (item) {
+                    return item[1];
+                    }),
+                    universalTransition: {
+                    enabled: true,
+                    divideShape: 'clone'
+                    }
+                },
+                graphic: [
+                    {
+                    type: 'text',
+                    left: 50,
+                    top: 20,
+                    style: {
+                        text: 'BACK',
+                        fontSize: 18
+                    },
+                    onclick: function () {
+                        myChart.setOption(option);
+                    }
+                    }
+                ]
+            });
+            // myChart.on('click', function(event) {
+            // // Print name in console
+            //     modal.style.display = "block";
+            //     console.log(event.name);
+            // });
+        }
+    });
+
+    option && myChart.setOption(option);
 </script>
 {{-- <script>
     function removeFirstWord(str) {
