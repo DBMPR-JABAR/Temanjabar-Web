@@ -15,6 +15,7 @@ use App\Model\Transactional\MonitoringPotensiLubangSurvei as SurveiPotensiLubang
 use App\Model\Transactional\MonitoringPotensiLubangSurveiDetail as SurveiPotensiLubangDetail;
 use App\Model\Transactional\MonitoringLubangPenanganan as PenangananLubang;
 use App\Model\Transactional\MonitoringLubangPenangananDetail as PenangananLubangDetail;
+use App\Model\Transactional\MonitoringLubangSurveiReject as SurveiReject;
 
 use App\Model\Transactional\MonitoringLubangRencanaPenanganan as RencanaPenanganan;
 
@@ -1103,6 +1104,28 @@ class MonitoringLubangController extends Controller
             return response()->json($this->response, 500);
         }
         
+    }
+    public function rejectLubang($id)
+    {
+        $data = SurveiLubangDetail::find($id);
+        $temporari = $data;
+        $temporari = $temporari->toarray();
+        unset($temporari['id'],$temporari['created_at'],$temporari['updated_at']);
+        $temporari['updated_by'] = Auth::user()->id;
+        $save = SurveiReject::create($temporari);
+
+        $survei = $data->SurveiLubang;
+        $survei->jumlah = $survei->jumlah - $data->jumlah;
+        $survei->panjang = $survei->panjang - $data->panjang;
+        
+        storeLogActivity(declarLog(1, 'Reject Data Lubang', $data->ruas->nama_ruas_jalan,1));
+        $data->delete();
+        $survei->save();
+        return response()->json([
+            'success' => true,
+            'message' => 'Lubang Berhasil Di Reject'
+        ]);
+         
     }
     // try {
     // } catch (\Exception $th) {

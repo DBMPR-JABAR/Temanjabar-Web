@@ -110,7 +110,13 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::prefix('sapu-lubang')->group(function () {
         Route::get('rekapitulasi', 'API\MonitoringLubangController@getRekap');
         Route::get('list/{desc}/{status}', 'API\MonitoringLubangController@listLubang');
+        Route::prefix('data-lubang')->group(function () {
+            Route::get('/reject/{id}', 'API\MonitoringLubangController@rejectLubang');
+        });
+        Route::prefix('data-potensi')->group(function () {
 
+        });
+            
     });
     
     Route::get('has_access/{permission}', 'API\UtilsController@has_access');
