@@ -449,7 +449,7 @@
                                         <h4 class="text-warning f-w-600">
                                             {{ @$temporari1['jumlah']['potensi'] }} Lubang
                                         </h4>
-                                        <h6 class="text-muted m-b-0">{{ @$temporari1['panjang']['potensi'] }} Lubang</h6>
+                                        <h6 class="text-muted m-b-0">{{ @$temporari1['panjang']['potensi'] }} Km</h6>
                                     </div>
                                     <div class="col-4 text-right">
                                         <i class="feather icon-arrow-down f-28"></i>
