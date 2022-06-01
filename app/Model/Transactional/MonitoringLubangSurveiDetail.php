@@ -25,5 +25,9 @@ class MonitoringLubangSurveiDetail extends Model
     {
         return $this->hasOne('App\Model\Transactional\MonitoringLubangPenangananDetail', 'monitoring_lubang_survei_detail_id');
     }
+    public function user_create()
+    {
+        return $this->belongsTo('App\User', 'created_by');
+    }
     
 }

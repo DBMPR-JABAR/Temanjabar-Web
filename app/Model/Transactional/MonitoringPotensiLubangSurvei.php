@@ -21,4 +21,8 @@ class MonitoringPotensiLubangSurvei extends Model
     {
         return $this->hasMany('App\Model\Transactional\MonitoringPotensiLubangSurveiDetail','monitoring_lubang_survei_id')->whereNull('status')->latest();
     }
+    public function user_create()
+    {
+        return $this->belongsTo('App\User', 'created_by');
+    }
 }

@@ -19,4 +19,8 @@ class MonitoringLubangSurveiReject extends Model
     {
         return $this->belongsTo('App\Model\Transactional\RuasJalan', 'ruas_jalan_id','id_ruas_jalan');
     }
+    public function user_create()
+    {
+        return $this->belongsTo('App\User', 'created_by');
+    }
 }

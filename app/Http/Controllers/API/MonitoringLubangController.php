@@ -563,8 +563,8 @@ class MonitoringLubangController extends Controller
                 'lokasi_m' => $request->lokasi_m,
                 'ruas_jalan_id' => $request->ruas_jalan_id
             ];
-            $data = SurveiLubangDetail::where('ruas_jalan_id',$request->ruas_jalan_id)->where('tanggal_rencana_penanganan','<=',$request->tanggal)->where('status','Perencanaan')->latest('updated_at')->get();
-            $data1 = SurveiLubangDetail::where('ruas_jalan_id',$request->ruas_jalan_id)->where('tanggal','<=',$request->tanggal)->where('status','Selesai')->latest('updated_at')->get();
+            $data = SurveiLubangDetail::where('ruas_jalan_id',$request->ruas_jalan_id)->with('user_create')->where('tanggal_rencana_penanganan','<=',$request->tanggal)->where('status','Perencanaan')->latest('updated_at')->get();
+            $data1 = SurveiLubangDetail::where('ruas_jalan_id',$request->ruas_jalan_id)->with('user_create')->where('tanggal','<=',$request->tanggal)->where('status','Selesai')->latest('updated_at')->get();
 
             if(isset($data)){
                 return response()->json([
@@ -946,9 +946,11 @@ class MonitoringLubangController extends Controller
                 'ruas_jalan_id' => $request->ruas_jalan_id
 
             ];
-            $data = SurveiLubangDetail::where('ruas_jalan_id',$request->ruas_jalan_id)->where('tanggal','<=',$request->tanggal)->whereNull('status')->latest()->get();
-            $data1 = SurveiLubangDetail::where('ruas_jalan_id',$request->ruas_jalan_id)->where('tanggal','<=',$request->tanggal)->where('status','Perencanaan')->latest('updated_at')->get();
-
+            $data = SurveiLubangDetail::where('ruas_jalan_id',$request->ruas_jalan_id)->with('user_create')->where('tanggal','<=',$request->tanggal)->whereNull('status')->latest()->get();
+            $data1 = SurveiLubangDetail::where('ruas_jalan_id',$request->ruas_jalan_id)->with('user_create')->where('tanggal','<=',$request->tanggal)->where('status','Perencanaan')->latest('updated_at')->get();
+            // ->with(['user_create' => function ($query) {
+            //     $query->select('id', 'username');
+            // }])
             if(isset($data)){
                 return response()->json([
                     'success' => true,
@@ -1093,7 +1095,7 @@ class MonitoringLubangController extends Controller
                 }
             }
             
-            $data = $data->get();
+            $data = $data->with('user_create')->get();
             return response()->json([
                 'success' => true,
                 'message' => 'Data '.$desc,

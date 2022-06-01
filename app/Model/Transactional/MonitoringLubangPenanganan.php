@@ -17,4 +17,8 @@ class MonitoringLubangPenanganan extends Model
     {
         return $this->hasMany('App\Model\Transactional\MonitoringLubangPenangananDetail','monitoring_lubang_penanganan_id')->latest();
     }
+    public function user_create()
+    {
+        return $this->belongsTo('App\User', 'created_by');
+    }
 }

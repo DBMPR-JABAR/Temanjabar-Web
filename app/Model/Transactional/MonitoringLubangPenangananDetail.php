@@ -13,4 +13,8 @@ class MonitoringLubangPenangananDetail extends Model
     {
         return $this->belongsTo('App\Model\Transactional\MonitoringLubangPenanganan', 'monitoring_lubang_penanganan_id');
     }
+    public function user_create()
+    {
+        return $this->belongsTo('App\User', 'created_by');
+    }
 }
