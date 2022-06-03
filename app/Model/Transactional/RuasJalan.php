@@ -8,9 +8,7 @@ use Carbon\Carbon;
 class RuasJalan extends Model
 {
     protected $table = "master_ruas_jalan";
-    protected $hidden = [
-        'id'
-    ];
+    
     public function uptd()
     {
         return $this->belongsTo('App\Model\Transactional\UPTD', 'uptd_id');

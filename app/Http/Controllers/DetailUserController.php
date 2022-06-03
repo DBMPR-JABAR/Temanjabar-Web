@@ -154,7 +154,9 @@ class DetailUserController extends Controller
                 $role = $role->where('uptd',Auth::user()->internalRole->uptd);
             }
             $role = $role->get();
-            // dd($role);
+            // // dd($role);
+            // dd(Auth::user()->ruas->toArray());
+            // dd(array_column( Auth::user()->ruas->toArray(),'id'));
 
             return view('admin.master.user.edit_detail_user',compact('profile','user','sup','role','provinces','cities'));
         }
