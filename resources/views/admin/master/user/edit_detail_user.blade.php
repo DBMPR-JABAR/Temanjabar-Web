@@ -223,7 +223,7 @@
                             @enderror
                             {{-- <i style="color :red; font-size: 10px;">Untuk perubahan hubungi admin</i> --}}
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="display:none">
                             <label>Ruas Jalan</label>
                             <select data-placeholder="Ruas jalan" id="ruas_jalan" name="ruas_jalan[]" class="form-control chosen-select @error('ruas_jalan') is-invalid @enderror" multiple >
                                 <option value="">Pilih Ruas</option>
@@ -391,6 +391,8 @@
         $(document).ready(function() {
             $(".chosen-select").chosen( { width: '100%' } );
         });
+
+        
     </script>
     <script>
         // $(function () {

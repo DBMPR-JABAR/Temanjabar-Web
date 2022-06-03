@@ -29,7 +29,7 @@ class MandorController extends Controller
     {
         //
         $temp=[];
-        $users = User::get();
+        $users = User::whereNull('is_delete')->get();
         $userssup = "";
         $usersuptd = "";
         // dd($users->internalRole->keterangan);
