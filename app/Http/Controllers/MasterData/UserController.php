@@ -246,6 +246,9 @@ class UserController extends Controller
         $temp=[];
 
         $users = User::where('is_delete',null)->with('internalRole');
+        if(!$request->uptd_filter && !$request->sup_filter){
+            $users = $users->OrWhere('is_delete',0)->OrWhere('is_delete','!=',1);
+        }
         $roles = DB::table('user_role');
         $sup = SUP::orderBy('uptd_id');
         if (Auth::user()->internalRole->uptd) {
@@ -262,18 +265,21 @@ class UserController extends Controller
         }
         $roles = $roles->get();
         
-        if($request->uptd_filter){
-            $filter['uptd_filter'] = $request->uptd_filter;
-            $sup = $sup->where('uptd_id',$filter['uptd_filter']);
-
-        }
-        if($request->sup_filter){
-            $filter['sup_filter'] = $request->sup_filter;
-            $users = $users->where('sup_id', $filter['sup_filter']);
-            // dd($filter['sup_filter']);
+        if($request->uptd_filter || $request->sup_filter ){
+            if($request->uptd_filter){
+                $filter['uptd_filter'] = $request->uptd_filter;
+                $sup = $sup->where('uptd_id',$filter['uptd_filter']);
+    
+            }
+            if($request->sup_filter && $request->sup_filter != 'Pilih Semua'){
+                $filter['sup_filter'] = $request->sup_filter;
+                $users = $users->where('sup_id', $filter['sup_filter']);
+                // dd($filter['sup_filter']);
+            }
+            $users = $users->OrWhere('is_delete',0)->OrWhere('is_delete','!=',1);
         }
         $sup = $sup->get();
-        $users = $users->OrWhere('is_delete',0)->OrWhere('is_delete','!=',1)->get();
+        $users = $users->get();
         if($request->uptd_filter){
             $uptd_id = 'uptd'.$filter['uptd_filter'];
         
