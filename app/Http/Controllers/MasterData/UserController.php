@@ -4,6 +4,7 @@ namespace App\Http\Controllers\MasterData;
 
 use App\User;
 use App\Model\Transactional\RuasJalan;
+use App\Model\Transactional\SUP;
 
 
 use App\Http\Controllers\Controller;
@@ -239,16 +240,55 @@ class UserController extends Controller
         return redirect(route('getMasterUser'))->with(compact('color', 'msg'));
     }
 
-    public function getUser()
+    public function getUser(Request $request)
     {
-        $users = User::where('is_delete',null)->orWhere('is_delete',0)->orWhere('is_delete','!=',1)->get();
+        $filter['uptd_filter']=null;
+        $temp=[];
+
+        $users = User::where('is_delete',null)->with('internalRole');
         $roles = DB::table('user_role');
+        $sup = SUP::orderBy('uptd_id');
         if (Auth::user()->internalRole->uptd) {
+            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+
             $roles = $roles->where('uptd', Auth::user()->internalRole->uptd);
+            $sup = $sup->where('uptd_id',$uptd_id);
+            $filter['uptd_filter'] = $uptd_id;
+            if (Auth::user()->sup_id) {
+                $filter['sup_filter'] = Auth::user()->sup_id;
+                $users = $users->where('sup_id', $filter['sup_filter']);
+                $sup = $sup->where('id',$filter['sup_filter']);
+            }
         }
         $roles = $roles->get();
-        // dd($roles);
-        return view('admin.master.user.manajemen.index', compact('users', 'roles'));
+        
+        if($request->uptd_filter){
+            $filter['uptd_filter'] = $request->uptd_filter;
+            $sup = $sup->where('uptd_id',$filter['uptd_filter']);
+
+        }
+        if($request->sup_filter){
+            $filter['sup_filter'] = $request->sup_filter;
+            $users = $users->where('sup_id', $filter['sup_filter']);
+            // dd($filter['sup_filter']);
+        }
+        $sup = $sup->get();
+        $users = $users->OrWhere('is_delete',0)->OrWhere('is_delete','!=',1)->get();
+        if($request->uptd_filter){
+            $uptd_id = 'uptd'.$filter['uptd_filter'];
+        
+            foreach($users as $no => $data){
+                $cek =$data->internalRole->uptd ?? '';
+                if($uptd_id && $cek == $uptd_id)
+                    $temp[]=$data;
+            }
+            $users = $temp;
+            
+        }
+        
+        // dd($users);
+        // dd($uptd_id);
+        return view('admin.master.user.manajemen.index', compact('users', 'roles','sup', 'filter'));
     }
     public function getUserTrash()
     {

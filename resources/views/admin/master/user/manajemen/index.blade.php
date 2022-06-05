@@ -63,41 +63,33 @@
                         @csrf
                         <div class="row col-12">
                             @php
-                                $grid = 3;
+                                $grid = 10;
                             @endphp
                             @if (Auth::user()->internalRole->uptd == null)
-                            <div class="col-sm-12 col-xl-2 mb-4">
+                            @php
+                                $grid = 5;
+                            @endphp
+                            <div class="col-sm-12 col-xl-{{ $grid }} mb-6">
                                 <h4 class="sub-title">UPTD</h4>
-                                <select class="form-control" style="width: 100%" name="uptd_filter">
+                                <select class="form-control" id="uptd" onchange="ubahOption()" style="width: 100%" name="uptd_filter">
                                     <option value="">Pilih Semua</option>
                                     @foreach ($input_uptd_lists as $item)
                                     @if ( $item->id != 11)
-                                        <option value="{{ $item->id }}" @if(@$filter['uptd_filter'] == 1 ) selected @endif>UPTD {{ $item->id }}</option>  
+                                        <option value="{{ $item->id }}" @if(@$filter['uptd_filter'] == $item->id ) selected @endif>UPTD {{ $item->id }}</option>  
                                     @endif     
                                     @endforeach    
                                 </select>
                             </div>
-                            @php
-                                $grid = 2;
-                            @endphp
+                            
                             @endif
                             <div class="col-sm-12 col-xl-{{ $grid }} col-md-{{ $grid }} mb-3">
-                                <h4 class="sub-title">Tanggal Awal</h4>
-                                <input required name="tanggal_awal" type="date"
-                                    class="form-control " style="width: 100%" value="{{ @$filter['tanggal_awal'] }}">
-                            </div>
-                            <div class="col-sm-12 col-xl-{{ $grid }} col-md-{{ $grid }} mb-3">
-                                <h4 class="sub-title">Tanggal Akhir</h4>
-                                <input required name="tanggal_akhir" type="date"
-                                    class="form-control " style="width: 100%" value="{{ @$filter['tanggal_akhir'] }}">
-                            </div>
-                            <div class="col-sm-12 col-xl-{{ $grid }} col-md-{{ $grid }} mb-3">
-                                <h4 class="sub-title">Status</h4>
-                                <select class="form-control " style="width: 100%" name="status_filter">
+                                <h4 class="sub-title">SPPJJ</h4>
+                                
+                                <select class=" form-control" name="sup_filter" id="sup" name="sup" onchange="ubahOption1()"  >
                                     <option value="">Pilih Semua</option>
-                                    <option value="Belum Ditangani" @if(@$filter['status_filter'] == 'Belum Ditangani' ) selected @endif>Belum Ditangani</option>
-                                    <option value="Dalam Perencanaan" @if(@$filter['status_filter'] == 'Dalam Perencanaan' ) selected @endif>Dalam Perencanaan</option>
-                                    <option value="Sudah Ditangani" @if(@$filter['status_filter'] == 'Sudah Ditangani' ) selected @endif>Sudah Ditangani</option>
+                                    @foreach ($sup as $item)
+                                    <option value="{{ $item->id }}" @if(@$filter['sup_filter'] == $item->id ) selected @endif>{{ $item->name }}</option>  
+                                    @endforeach
                                 </select>
                             </div>
                             {{-- <input name="filter" value="true" style="display: none" /> --}}
@@ -489,6 +481,41 @@
         
             downloadLink.click();
         }
+    }
+    function ubahOption() {
+
+    //untuk select SUP
+    id = document.getElementById("uptd").value
+    url = "{{ url('admin/master-data/ruas-jalan/getSUP') }}"
+    id_select = '#sup'
+    text = 'Pilih Semua'
+    option = 'name'
+    id_supp = 'id'
+
+    setDataSelect(id, url, id_select, text, id_supp, option)
+
+    //untuk select Ruas
+    url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalan') }}"
+    id_select = '#ruas_jalan'
+    text = 'Pilih Ruas Jalan'
+    option = 'nama_ruas_jalan'
+    id_ruass = 'id_ruas_jalan'
+
+    setDataSelect(id, url, id_select, text, id_ruass, option)
+    }
+    function ubahOption1() {
+
+    //untuk select SUP
+    id = document.getElementById("sup").value
+
+    //untuk select Ruas
+    url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalanBySup') }}"
+    id_select = '#ruas_jalan'
+    text = 'Pilih Ruas Jalan'
+    option = 'nama_ruas_jalan'
+    id_ruass = 'id_ruas_jalan'
+
+    setDataSelect(id, url, id_select, text, id_ruass, option)
     }
 </script>
 @endsection
