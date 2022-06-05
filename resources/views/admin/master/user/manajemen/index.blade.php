@@ -49,6 +49,76 @@
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header">
+                <h4>Filter</h4>
+                <div class="card-header-right">
+                    <ul class="list-unstyled card-option">
+                        {{-- <li><i class="feather icon-maximize full-card"></i></li> --}}
+                        <li><i class="feather icon-minus minimize-card"></i></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-block">
+                <div class="card-block w-100">
+                    <form  enctype="multipart/form-data">
+                        @csrf
+                        <div class="row col-12">
+                            @php
+                                $grid = 3;
+                            @endphp
+                            @if (Auth::user()->internalRole->uptd == null)
+                            <div class="col-sm-12 col-xl-2 mb-4">
+                                <h4 class="sub-title">UPTD</h4>
+                                <select class="form-control" style="width: 100%" name="uptd_filter">
+                                    <option value="">Pilih Semua</option>
+                                    @foreach ($input_uptd_lists as $item)
+                                    @if ( $item->id != 11)
+                                        <option value="{{ $item->id }}" @if(@$filter['uptd_filter'] == 1 ) selected @endif>UPTD {{ $item->id }}</option>  
+                                    @endif     
+                                    @endforeach    
+                                </select>
+                            </div>
+                            @php
+                                $grid = 2;
+                            @endphp
+                            @endif
+                            <div class="col-sm-12 col-xl-{{ $grid }} col-md-{{ $grid }} mb-3">
+                                <h4 class="sub-title">Tanggal Awal</h4>
+                                <input required name="tanggal_awal" type="date"
+                                    class="form-control " style="width: 100%" value="{{ @$filter['tanggal_awal'] }}">
+                            </div>
+                            <div class="col-sm-12 col-xl-{{ $grid }} col-md-{{ $grid }} mb-3">
+                                <h4 class="sub-title">Tanggal Akhir</h4>
+                                <input required name="tanggal_akhir" type="date"
+                                    class="form-control " style="width: 100%" value="{{ @$filter['tanggal_akhir'] }}">
+                            </div>
+                            <div class="col-sm-12 col-xl-{{ $grid }} col-md-{{ $grid }} mb-3">
+                                <h4 class="sub-title">Status</h4>
+                                <select class="form-control " style="width: 100%" name="status_filter">
+                                    <option value="">Pilih Semua</option>
+                                    <option value="Belum Ditangani" @if(@$filter['status_filter'] == 'Belum Ditangani' ) selected @endif>Belum Ditangani</option>
+                                    <option value="Dalam Perencanaan" @if(@$filter['status_filter'] == 'Dalam Perencanaan' ) selected @endif>Dalam Perencanaan</option>
+                                    <option value="Sudah Ditangani" @if(@$filter['status_filter'] == 'Sudah Ditangani' ) selected @endif>Sudah Ditangani</option>
+                                </select>
+                            </div>
+                            {{-- <input name="filter" value="true" style="display: none" /> --}}
+
+                            <div class="mt-3 col-sm-12 col-xl-2 mb-2">
+                                {{-- <button type="submit" class="mt-4 btn btn-primary waves-effect waves-light">Filter</button> --}}
+                                <button class="mt-4 btn btn-primary waves-effect waves-light" type="submit" formmethod="get" formaction="{{ route('getMasterUser') }}">Filter</button>
+                                {{-- <button class="mt-4 btn btn-mat btn-success " formmethod="post" type="submit" formaction="{{ route('sapu-lobang.rekapitulasi') }}">Cetak Rekap Entry</button> --}}
+                            </div>
+                            
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>Data User</h4>
+
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
                         {{-- <li><i class="feather icon-maximize full-card"></i></li> --}}
