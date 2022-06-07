@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use Yajra\Datatables\DataTables;
 use App\Model\Transactional\RuasJalan as Ruas;
 use App\Model\Transactional\Kota;
+use App\Model\Transactional\SUP;
 
 
 
@@ -29,16 +30,19 @@ class RuasJalanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $response = [
             'status' => 'false',
             'data' => []
         ];
+        $filter['uptd_filter']=null;
+        $filter['sup_filter']=null;
 
-        $ruasJalan = DB::table('master_ruas_jalan');
+        $ruasJalan = Ruas::orderBy('kd_sppjj');
         $uptd = DB::table('landing_uptd');
-        $sup = DB::table('utils_sup');
+        $sup = SUP::orderBy('uptd_id');
+        
         
         $ruasJalan = $ruasJalan->leftJoin('utils_sup', 'utils_sup.id', '=', 'master_ruas_jalan.sup')->select('master_ruas_jalan.*', 'utils_sup.name as supName');
         if (Auth::user()->internalRole->uptd) {
@@ -46,29 +50,35 @@ class RuasJalanController extends Controller
             $ruasJalan = $ruasJalan->where('master_ruas_jalan.uptd_id', $uptd_id);
             $sup = $sup->where('uptd_id', $uptd_id);
             $uptd = $uptd->where('slug', Auth::user()->internalRole->uptd);
+
+            $filter['uptd_filter'] = $uptd_id;
+            if (Auth::user()->sup_id) {
+                $filter['sup_filter'] = Auth::user()->data_sup->kd_sup;
+                $ruasJalan = $ruasJalan->where('master_ruas_jalan.kd_sppjj', $filter['sup_filter']);
+                $sup = $sup->where('id',$filter['sup_filter']);
+            }
+        }
+        if($request->uptd_filter || $request->sup_filter ){
+            if($request->uptd_filter){
+                $filter['uptd_filter'] = $request->uptd_filter;
+                $sup = $sup->where('uptd_id',$filter['uptd_filter']);
+                $ruasJalan = $ruasJalan->where('master_ruas_jalan.uptd_id', $filter['uptd_filter']);
+            // dd($filter);
+
+            }
+            if($request->sup_filter && $request->sup_filter != 'Pilih Semua'){
+                $filter['sup_filter'] = $request->sup_filter;
+                $ruasJalan = $ruasJalan->where('master_ruas_jalan.kd_sppjj', $filter['sup_filter']);
+
+                // dd($filter['sup_filter']);
+            }
+            // dd($filter);
         }
         $ruasJalan = $ruasJalan->get();
-        // foreach($ruasJalan as $ruas){
-        //     print($string = Str::upper($ruas->kab_kota));
-        //     $tempor = Ruas::findOrFail($ruas->id);
-        //     $tempor->kab_kota = Str::upper($ruas->kab_kota);
-        //     $tempor->save();
-        // }
-     
-        // dd($tempo->kab_kota);
-        // foreach($ruasJalan as $tempo){
-        //     $kota = Kota::where('name',$tempo->kab_kota)->first();
-        //     if($kota){
-        //         $tempor = Ruas::findOrFail($tempo->id);
-        //         $tempor->kota_id = $kota->id;
-        //         $tempor->save();
-        //     }
-        // }
-        
         // dd($ruasJalan);
         $uptd = $uptd->get();
         $sup = $sup->get();
-        return view('admin.master.ruas_jalan.index', compact('ruasJalan', 'uptd', 'sup'));
+        return view('admin.master.ruas_jalan.index', compact('ruasJalan', 'uptd', 'sup', 'filter'));
     }
 
     /**
@@ -208,31 +218,44 @@ class RuasJalanController extends Controller
 
     public function json()
     {
+        
         $ruasJalan = DB::table('master_ruas_jalan');
         if (Auth::user()->internalRole->uptd) {
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
             $ruasJalan =  $ruasJalan->where('uptd_id', $uptd_id);
+            if (Auth::user()->sup_id) {
+                $ruasJalan = $ruasJalan->where('kd_sppjj', $filter['sup_filter']);
+            }
         }
-        return DataTables::of($ruasJalan)
-            ->addIndexColumn()
-            ->addColumn('action', function ($row) {
-                $textedit = 'editMasterRuasJalan';
-                $btn = '<div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">';
+        if($uptd || $sup ){
+            if($uptd){
+                $ruasJalan = $ruasJalan->where('uptd_id', $uptd);
+            }
+            if($sup && $sup != 'Pilih Semua'){
+                $ruasJalan = $ruasJalan->where('kd_sppjj', $sup);
+            }
+        }
+        $data =DataTables::of($ruasJalan)
+        ->addIndexColumn()
+        ->addColumn('action', function ($row) {
+            $textedit = 'editMasterRuasJalan';
+            $btn = '<div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">';
 
-                if (hasAccess(Auth::user()->internal_role_id, "Ruas Jalan", "Update")) {
-                    $btn = $btn . '<a href="' . route('editMasterRuasJalan', $row->id) . '"><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>';
-                }
+            if (hasAccess(Auth::user()->internal_role_id, "Ruas Jalan", "Update")) {
+                $btn = $btn . '<a href="' . route('editMasterRuasJalan', $row->id) . '"><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>';
+            }
 
-                if (hasAccess(Auth::user()->internal_role_id, "Ruas Jalan", "Delete")) {
-                    $btn = $btn . '<a href="#delModal" data-id="' . $row->id . '" data-toggle="modal"><button data-toggle="tooltip" title="Hapus" class="btn btn-danger btn-sm waves-effect waves-light"><i class="icofont icofont-trash"></i></button></a>';
-                }
-                $btn = $btn . '</div>';
+            if (hasAccess(Auth::user()->internal_role_id, "Ruas Jalan", "Delete")) {
+                $btn = $btn . '<a href="#delModal" data-id="' . $row->id . '" data-toggle="modal"><button data-toggle="tooltip" title="Hapus" class="btn btn-danger btn-sm waves-effect waves-light"><i class="icofont icofont-trash"></i></button></a>';
+            }
+            $btn = $btn . '</div>';
 
-                // $btn = '<a href="javascript:void(0)" class="btn btn-primary">' . $row->id . '</a>';
+            // $btn = '<a href="javascript:void(0)" class="btn btn-primary">' . $row->id . '</a>';
 
-                return $btn;
-            })
-            ->rawColumns(['action'])
-            ->make(true);
+            return $btn;
+        })
+        ->rawColumns(['action'])
+        ->make(true);
+        return $data;
     }
 }
