@@ -32,5 +32,9 @@ class RuasJalan extends Model
     {
         return $this->belongsTo('App\Model\Transactional\SUP', 'kd_sppjj','kd_sup');
     }
+    public function data_kota()
+    {
+        return $this->belongsTo('App\Model\Transactional\Kota', 'kota_id');
+    }
 
 }

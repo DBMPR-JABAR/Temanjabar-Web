@@ -48,6 +48,66 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header">
+                    <h4>Filter</h4>
+                    <div class="card-header-right">
+                        <ul class="list-unstyled card-option">
+                            {{-- <li><i class="feather icon-maximize full-card"></i></li> --}}
+                            <li><i class="feather icon-minus minimize-card"></i></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-block">
+                    <div class="card-block w-100">
+                        <form  enctype="multipart/form-data">
+                            @csrf
+                            <div class="row col-12">
+                                @php
+                                    $grid = 10;
+                                @endphp
+                                @if (Auth::user()->internalRole->uptd == null)
+                                @php
+                                    $grid = 5;
+                                @endphp
+                                <div class="col-sm-12 col-xl-{{ $grid }} mb-6">
+                                    <h4 class="sub-title">UPTD</h4>
+                                    <select class="form-control" id="uptd" onchange="ubahOption()" style="width: 100%" name="uptd_filter">
+                                        <option value="">Pilih Semua</option>
+                                        @foreach ($input_uptd_lists as $item)
+                                        @if ( $item->id != 11)
+                                            <option value="{{ $item->id }}" @if(@$filter['uptd_filter'] == $item->id ) selected @endif>UPTD {{ $item->id }}</option>  
+                                        @endif     
+                                        @endforeach    
+                                    </select>
+                                </div>
+                                
+                                @endif
+                                <div class="col-sm-12 col-xl-{{ $grid }} col-md-{{ $grid }} mb-3">
+                                    <h4 class="sub-title">SPPJJ</h4>
+                                    
+                                    <select class=" form-control" name="sup_filter" id="sup" name="sup" onchange="ubahOption1()"  >
+                                        <option value="">Pilih Semua</option>
+                                        @foreach ($sup as $item)
+                                        <option value="{{ $item->kd_sup }}" @if(@$filter['sup_filter'] == $item->kd_sup ) selected @endif>{{ $item->name }}</option>  
+                                        @endforeach
+                                    </select>
+                                </div>
+                                {{-- <input name="filter" value="true" style="display: none" /> --}}
+    
+                                <div class="mt-3 col-sm-12 col-xl-2 mb-2">
+                                    {{-- <button type="submit" class="mt-4 btn btn-primary waves-effect waves-light">Filter</button> --}}
+                                    <button class="mt-4 btn btn-primary waves-effect waves-light" type="submit" formmethod="get" formaction="{{ route('getMasterRuasJalan') }}">Filter</button>
+                                    {{-- <button class="mt-4 btn btn-mat btn-success " formmethod="post" type="submit" formaction="{{ route('sapu-lobang.rekapitulasi') }}">Cetak Rekap Entry</button> --}}
+                                </div>
+                                
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
                     <h5>Tabel Ruas Jalan</h5>
                     <div class="card-header-right">
                         <ul class="list-unstyled card-option">
@@ -67,7 +127,7 @@
                                     <th>No</th>
                                     <th>Kode Ruas Jalan</th>
                                     <th>Nama Ruas Jalan</th>
-                                    <th>Sup</th>
+                                    {{-- <th>Sup</th> --}}
                                     <th>Lokasi</th>
                                     <th>Panjang (meter)</th>
                                     <th>STA Awal</th>
@@ -85,28 +145,39 @@
                                     <th style="min-width: 100px;">Aksi</th>
                                 </tr>
                             </thead>
-                            <!-- <tbody id="bodyJembatan">
-                            @foreach ($ruasJalan as $data)
-                            <tr>
-                                <td>{{ $loop->index + 1 }}</td>
-                                <td>{{ $data->id_ruas_jalan }}</td>
-                                <td>{{ $data->nama_ruas_jalan }}</td>
-                                <td>{{ $data->supName }}</td>
-                                <td>{{ $data->lokasi }}</td>
-                                <td>{{ $data->panjang }}</td>
-                                <td>
-                                    <div class="btn-group " role="group" data-placement="top" title="" data-original-title=".btn-xlg">
+                            <tbody id="bodyJembatan">
+                                @foreach ($ruasJalan as $no => $data)
+                                <tr>
+                                    <td>{{ ++$no }}</td>
+                                    <td>{{ $data->id_ruas_jalan }}</td>
+                                    <td>{{ $data->nama_ruas_jalan }}</td>
+                                    <td>{{ $data->lokasi }}</td>
+                                    <td>{{ $data->panjang }}</td>
+                                    <td>{{ $data->sta_awal }}</td>
+                                    <td>{{ $data->sta_akhir }}</td>
+                                    <td>{{ $data->lat_awal }}</td>
+                                    <td>{{ $data->long_awal }}</td>
+                                    <td>{{ $data->lat_akhir }}</td>
+                                    <td>{{ $data->long_akhir }}</td>
+                                    <td>{{ @$data->data_kota->name }}</td>
+                                    <td>{{ @$data->data_sup->kd_sup }}</td>
+                                    <td>{{ @$data->data_sup->name }}</td>
+                                    <td>{{ $data->lat_ctr }}</td>
+                                    <td>{{ $data->long_ctr }}</td>
+                                    <td>{{ $data->uptd_id }}</td>
+
+                                    <td>
                                         @if (hasAccess(Auth::user()->internal_role_id, 'Ruas Jalan', 'Update'))
                                         <a href="{{ route('editMasterRuasJalan', $data->id) }}"><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>
                                         @endif
                                         @if (hasAccess(Auth::user()->internal_role_id, 'Ruas Jalan', 'Delete'))
                                         <a href="#delModal" data-id="{{ $data->id }}" data-toggle="modal"><button data-toggle="tooltip" title="Hapus" class="btn btn-danger btn-sm waves-effect waves-light"><i class="icofont icofont-trash"></i></button></a>
                                         @endif
-                                    </div>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody> -->
+                                       
+                                    </td>
+                                </tr>
+                                @endforeach
+                        </tbody>
                         </table>
                     </div>
                 </div>
@@ -385,6 +456,8 @@
 
     <script>
         $(document).ready(function() {
+            $("#dttable").DataTable();
+
             const filePreviews = [
             {
                 input:"foto",
@@ -522,92 +595,93 @@
             $('.formatLatLong').keypress(function(evt) {
                 return (/^\-?[0-9]*\.?[0-9]*$/).test($(this).val() + evt.key);
             });
-
-            var table = $('#dttable').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: "{{ url('admin/master-data/ruas-jalan/json') }}",
-                columns: [{
-                        'mRender': function(data, type, full, meta) {
-                            return +meta.row + meta.settings._iDisplayStart + 1;
-                        }
-                    },
-                    {
-                        data: 'id_ruas_jalan',
-                        name: 'id_ruas_jalan'
-                    },
-                    {
-                        data: 'nama_ruas_jalan',
-                        name: 'nama_ruas_jalan'
-                    },
-                    {
-                        data: 'sup',
-                        name: 'sup'
-                    },
-                    {
-                        data: 'lokasi',
-                        name: 'lokasi'
-                    },
-                    {
-                        data: 'panjang',
-                        name: 'panjang'
-                    },
-                    {
-                        data: 'sta_awal',
-                        name: 'sta_awal'
-                    },
-                    {
-                        data: 'sta_akhir',
-                        name: 'sta_akhir'
-                    },
-                    {
-                        data: 'lat_awal',
-                        name: 'lat_awal'
-                    },
-                    {
-                        data: 'long_awal',
-                        name: 'long_awal'
-                    },
-                    {
-                        data: 'lat_akhir',
-                        name: 'lat_akhir'
-                    },
-                    {
-                        data: 'long_akhir',
-                        name: 'long_akhir'
-                    },
-                    {
-                        data: 'kab_kota',
-                        name: 'kab_kota'
-                    },
-                    {
-                        data: 'kd_sppjj',
-                        name: 'kd_sppjj'
-                    },
-                    {
-                        data: 'nm_sppjj',
-                        name: 'nm_sppjj'
-                    },
-                    {
-                        data: 'lat_ctr',
-                        name: 'lat_ctr'
-                    },
-                    {
-                        data: 'long_ctr',
-                        name: 'long_ctr'
-                    },
-                    {
-                        data: 'wil_uptd',
-                        name: 'wil_uptd'
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
-                    },
-                ]
-            });
+            var filter = {!! json_encode($filter) !!};
+            
+            // var table = $('#dttable').DataTable({
+            //     processing: true,
+            //     serverSide: true,
+            //     ajax: "{{ url('admin/master-data/ruas-jalan/json/') }}",
+            //     columns: [{
+            //             'mRender': function(data, type, full, meta) {
+            //                 return +meta.row + meta.settings._iDisplayStart + 1;
+            //             }
+            //         },
+            //         {
+            //             data: 'id_ruas_jalan',
+            //             name: 'id_ruas_jalan'
+            //         },
+            //         {
+            //             data: 'nama_ruas_jalan',
+            //             name: 'nama_ruas_jalan'
+            //         },
+            //         {
+            //             data: 'sup',
+            //             name: 'sup'
+            //         },
+            //         {
+            //             data: 'lokasi',
+            //             name: 'lokasi'
+            //         },
+            //         {
+            //             data: 'panjang',
+            //             name: 'panjang'
+            //         },
+            //         {
+            //             data: 'sta_awal',
+            //             name: 'sta_awal'
+            //         },
+            //         {
+            //             data: 'sta_akhir',
+            //             name: 'sta_akhir'
+            //         },
+            //         {
+            //             data: 'lat_awal',
+            //             name: 'lat_awal'
+            //         },
+            //         {
+            //             data: 'long_awal',
+            //             name: 'long_awal'
+            //         },
+            //         {
+            //             data: 'lat_akhir',
+            //             name: 'lat_akhir'
+            //         },
+            //         {
+            //             data: 'long_akhir',
+            //             name: 'long_akhir'
+            //         },
+            //         {
+            //             data: 'kab_kota',
+            //             name: 'kab_kota'
+            //         },
+            //         {
+            //             data: 'kd_sppjj',
+            //             name: 'kd_sppjj'
+            //         },
+            //         {
+            //             data: 'nm_sppjj',
+            //             name: 'nm_sppjj'
+            //         },
+            //         {
+            //             data: 'lat_ctr',
+            //             name: 'lat_ctr'
+            //         },
+            //         {
+            //             data: 'long_ctr',
+            //             name: 'long_ctr'
+            //         },
+            //         {
+            //             data: 'wil_uptd',
+            //             name: 'wil_uptd'
+            //         },
+            //         {
+            //             data: 'action',
+            //             name: 'action',
+            //             orderable: false,
+            //             searchable: false
+            //         },
+            //     ]
+            // });
         });
 
         function ubahDataSUP() {
@@ -633,5 +707,40 @@
             });
         }
 
+        function ubahOption() {
+
+        //untuk select SUP
+        id = document.getElementById("uptd").value
+        url = "{{ url('admin/master-data/ruas-jalan/getSUP') }}"
+        id_select = '#sup'
+        text = 'Pilih Semua'
+        option = 'name'
+        id_supp = 'kd_sup'
+
+        setDataSelect(id, url, id_select, text, id_supp, option)
+
+        //untuk select Ruas
+        url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalan') }}"
+        id_select = '#ruas_jalan'
+        text = 'Pilih Ruas Jalan'
+        option = 'nama_ruas_jalan'
+        id_ruass = 'id_ruas_jalan'
+
+        setDataSelect(id, url, id_select, text, id_ruass, option)
+        }
+        function ubahOption1() {
+
+        //untuk select SUP
+        id = document.getElementById("sup").value
+
+        //untuk select Ruas
+        url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalanBySup') }}"
+        id_select = '#ruas_jalan'
+        text = 'Pilih Ruas Jalan'
+        option = 'nama_ruas_jalan'
+        id_ruass = 'id_ruas_jalan'
+
+        setDataSelect(id, url, id_select, text, id_ruass, option)
+        }
     </script>
 @endsection
