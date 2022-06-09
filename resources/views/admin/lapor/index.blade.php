@@ -80,15 +80,15 @@
                             @foreach ($aduan as $no => $data)
                             <tr>
                                 <td>{{++$no}}</td>
-                                <td>{{$data->created_at}}</td>
-                                <td>{{$data->nomorPengaduan}}</td>
-                                <td>{{$data->status}}</td>
-                                <td>{{$data->nama}}</td>
-                                <td>{{$data->nik}}</td>
-                                <td>{{$data->telp}}</td>
-                                <td>{{$data->email}}</td>
-                                <td>{{$data->jenis_laporan->name}}</td>
-                                <td>{{$data->uptd_id}}</td>
+                                <td>{{@$data->created_at}}</td>
+                                <td>{{@$data->nomorPengaduan}}</td>
+                                <td>{{@$data->status}}</td>
+                                <td>{{@$data->nama}}</td>
+                                <td>{{@$data->nik}}</td>
+                                <td>{{@$data->telp}}</td>
+                                <td>{{@$data->email}}</td>
+                                <td>{{@$data->jenis_laporan->name}}</td>
+                                <td>{{@$data->uptd_id}}</td>
                                 <td>
                                     <img class="img-fluid" style="max-width: 100px" src="{{url('storage/'.$data->gambar)}}" />
                                 </td>
