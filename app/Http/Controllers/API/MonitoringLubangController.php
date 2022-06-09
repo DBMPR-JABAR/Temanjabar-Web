@@ -946,7 +946,7 @@ class MonitoringLubangController extends Controller
                 'ruas_jalan_id' => $request->ruas_jalan_id
 
             ];
-            $data = SurveiLubangDetail::where('ruas_jalan_id',$request->ruas_jalan_id)->with('user_create')->where('tanggal','<=',$request->tanggal)->whereNull('status')->latest()->get();
+            $data = SurveiLubangDetail::where('ruas_jalan_id',$request->ruas_jalan_id)->with('user_create')->where('tanggal','<=',$request->tanggal)->whereNull('status')->orderBy("lokasi_km")->orderBy("lokasi_m")->get();
             $data1 = SurveiLubangDetail::where('ruas_jalan_id',$request->ruas_jalan_id)->with('user_create')->where('tanggal','<=',$request->tanggal)->where('status','Perencanaan')->latest('updated_at')->get();
             // ->with(['user_create' => function ($query) {
             //     $query->select('id', 'username');
