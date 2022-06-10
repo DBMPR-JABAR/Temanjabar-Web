@@ -296,16 +296,58 @@ class UserController extends Controller
         // dd($uptd_id);
         return view('admin.master.user.manajemen.index', compact('users', 'roles','sup', 'filter'));
     }
-    public function getUserTrash()
+    public function getUserTrash(Request $request)
     {
+        $filter['uptd_filter']=null;
+        $temp=[];
+
         $users = DB::table('users')->where('is_delete',1)->get();
         $roles = DB::table('user_role');
+        $sup = SUP::orderBy('uptd_id');
+
         if (Auth::user()->internalRole->uptd) {
+            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+
             $roles = $roles->where('uptd', Auth::user()->internalRole->uptd);
+            $sup = $sup->where('uptd_id',$uptd_id);
+            $filter['uptd_filter'] = $uptd_id;
+
+            if (Auth::user()->sup_id) {
+                $filter['sup_filter'] = Auth::user()->sup_id;
+                $sup = $sup->where('id',$filter['sup_filter']);
+            }
+
         }
         $roles = $roles->get();
         // dd($roles);
-        return view('admin.master.user.manajemen.index', compact('users', 'roles'));
+        if($request->uptd_filter || $request->sup_filter ){
+            if($request->uptd_filter){
+                $filter['uptd_filter'] = $request->uptd_filter;
+                $sup = $sup->where('uptd_id',$filter['uptd_filter']);
+    
+            }
+            if($request->sup_filter && $request->sup_filter != 'Pilih Semua'){
+                $filter['sup_filter'] = $request->sup_filter;
+                $users = $users->where('sup_id', $filter['sup_filter']);
+                // dd($filter['sup_filter']);
+            }
+        }
+        
+        $sup = $sup->get();
+        if($request->uptd_filter){
+            $uptd_id = 'uptd'.$filter['uptd_filter'];
+        
+            foreach($users as $no => $data){
+                $cek =$data->internalRole->uptd ?? '';
+                if($uptd_id && $cek == $uptd_id)
+                    $temp[]=$data;
+            }
+            $users = $temp;
+            
+        }
+
+
+        return view('admin.master.user.manajemen.index', compact('users', 'roles','sup','filter'));
     }
 
     public function getUserAPI()
