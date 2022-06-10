@@ -1095,7 +1095,7 @@ class MonitoringLubangController extends Controller
                 }
             }
             
-            $data = $data->with('user_create')->get();
+            $data = $data->with('user_create')->with('ruas')->get();
             return response()->json([
                 'success' => true,
                 'message' => 'Data '.$desc,
