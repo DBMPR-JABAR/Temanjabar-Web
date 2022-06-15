@@ -46,6 +46,8 @@
 @section('page-body')
 
 <div class="row">
+    @if(Request::segment(5) != 'trash')
+
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header">
@@ -106,6 +108,7 @@
             </div>
         </div>
     </div>
+    @endif
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header">
