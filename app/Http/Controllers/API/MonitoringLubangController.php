@@ -1110,23 +1110,30 @@ class MonitoringLubangController extends Controller
     public function rejectLubang($id)
     {
         $data = SurveiLubangDetail::find($id);
-        $temporari = $data;
-        $temporari = $temporari->toarray();
-        unset($temporari['id'],$temporari['created_at'],$temporari['updated_at']);
-        $temporari['updated_by'] = Auth::user()->id;
-        $save = SurveiReject::create($temporari);
-
-        $survei = $data->SurveiLubang;
-        $survei->jumlah = $survei->jumlah - $data->jumlah;
-        $survei->panjang = $survei->panjang - $data->panjang;
-        
-        storeLogActivity(declarLog(1, 'Reject Data Lubang', $data->ruas->nama_ruas_jalan,1));
-        $data->delete();
-        $survei->save();
-        return response()->json([
-            'success' => true,
-            'message' => 'Lubang Berhasil Di Reject'
-        ]);
+        if($data){
+            $temporari = $data;
+            $temporari = $temporari->toarray();
+            unset($temporari['id'],$temporari['created_at'],$temporari['updated_at']);
+            $temporari['updated_by'] = Auth::user()->id;
+            $save = SurveiReject::create($temporari);
+    
+            $survei = $data->SurveiLubang;
+            $survei->jumlah = $survei->jumlah - $data->jumlah;
+            $survei->panjang = $survei->panjang - $data->panjang;
+            
+            storeLogActivity(declarLog(1, 'Reject Data Lubang', $data->ruas->nama_ruas_jalan,1));
+            $data->delete();
+            $survei->save();
+            return response()->json([
+                'success' => true,
+                'message' => 'Lubang Berhasil Di Reject'
+            ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Lubang Tidak Ada!'
+            ]);  
+        }
          
     }
     // try {
