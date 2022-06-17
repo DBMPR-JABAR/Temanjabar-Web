@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MonitoringLubangSurveiReject extends Model
 {
-    use HasFactory;
+    // use HasFactory;
     //
     protected $table = "monitoring_lubang_survei_detail_reject";
     protected $guarded = [];
