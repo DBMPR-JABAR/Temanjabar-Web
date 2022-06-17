@@ -625,7 +625,7 @@ class MonitoringLubangController extends Controller
             $meters = $kilometers * 1000;
 
             if($data){
-                if($meters <= 15){
+                if($meters <= 40){
                     $data->update($temp);
                     $temp = [
                         'tanggal' => $tanggal,
