@@ -343,6 +343,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('json', 'MasterData\RawanBencanaController@json')->name('getJsonDataBencana');
             Route::get('getDataSUP/{id}', 'MasterData\RawanBencanaController@getDataSUP')->name('getDataSUP');
             Route::get('getURL/{id}', 'MasterData\RawanBencanaController@getURL');
+            Route::get('synchronize', 'MasterData\RawanBencanaController@synchronize');
+
         });
 
         Route::group(['prefix' => 'laporan_bencana'], function () {

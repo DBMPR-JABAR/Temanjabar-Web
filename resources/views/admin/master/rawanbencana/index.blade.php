@@ -165,14 +165,14 @@
                                                 @if (Auth::user()->sup_id)
                                                 @foreach ($ruas as $data)
                                                         @if (Auth::user()->data_sup->kd_sup == $data->kd_sppjj)
-                                                        <option value="{{ $data->nama_ruas_jalan }},{{ $data->id_ruas_jalan }}">
+                                                        <option value="{{ $data->id_ruas_jalan }}">
                                                             {{ $data->nama_ruas_jalan }}</option>
                                                             
                                                         @endif
                                                 @endforeach
                                                 @else
                                                 @foreach ($ruas as $data)
-                                                    <option value="{{ $data->nama_ruas_jalan }},{{ $data->id_ruas_jalan }}">
+                                                    <option value="{{ $data->id_ruas_jalan }}">
                                                         {{ $data->nama_ruas_jalan }}</option>
                                                 @endforeach
                                                 @endif
@@ -255,7 +255,7 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label class="col-md-2 col-form-label">Icon</label>
+                                    <label class="col-md-2 col-form-label">Bencana</label>
                                     <div class="col-md-10">
                                         <select name="icon_id" class="form-control" onchange="getURL()" id="icon">
                                             @foreach ($icon as $data)
@@ -471,8 +471,9 @@
             id_select = '#ruas_jalan'
             text = 'Pilih Ruas Jalan'
             option = 'nama_ruas_jalan'
+            value = 'id_ruas_jalan'
 
-            setDataSelect(id, url, id_select, text, option, option);
+            setDataSelect(id, url, id_select, text, value, option);
 
             const baseUrl = `{{ url('admin/master-data/rawanbencana/getDataSUP/') }}/` + id;
             $.get(baseUrl, {

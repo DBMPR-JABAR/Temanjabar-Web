@@ -49,13 +49,6 @@
                         <!-- <input type="hidden" name="uptd_id" value="{{ $rawan->uptd_id }}"> -->
                         <input type="hidden" name="id" value="{{ $rawan->id }}">
 
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">No Ruas</label>
-                            <div class="col-md-10">
-                                <input name="no_ruas" type="text" class="form-control" value="{{ $rawan->no_ruas }}">
-                            </div>
-                        </div>
-
                         @if (Auth::user()->internalRole->uptd)
                             <input type="hidden" id="uptd" name="uptd_id" value="{{ $rawan->uptd_id }}">
                         @else
@@ -64,7 +57,7 @@
                                 <div class="col-md-10">
                                     <select class="form-control" id="uptd" name="uptd_id" onchange="ubahOption()">
                                         @foreach ($uptd as $data)
-                                            <option value="{{ $data->id }}">{{ $data->nama }}</option>
+                                            <option value="{{ $data->id }}" @if($data->id == $rawan->uptd_id) selected @endif>{{ $data->nama }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -75,10 +68,8 @@
                             <label class="col-md-2 col-form-label">Ruas Jalan</label>
                             <div class="col-md-10">
                                 <select id="ruas_jalan" name="ruas_jalan" class="form-control">
-                                    <option value="{{ $rawan->ruas_jalan }}">{{ $rawan->ruas_jalan }}</option>>
-                                    <option></option>
                                     @foreach ($ruas as $data)
-                                        <option value="{{ $data->nama_ruas_jalan }},{{ $data->id_ruas_jalan }}" @if($rawan->no_ruas == $data->id_ruas_jalan) selected @endif>{{ $data->nama_ruas_jalan }}</option>
+                                        <option value="{{ $data->id_ruas_jalan }}" @if($rawan->no_ruas == $data->id_ruas_jalan) selected @endif>{{ $data->nama_ruas_jalan }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -288,8 +279,9 @@
             id_select = '#ruas_jalan'
             text = 'Pilih Ruas Jalan'
             option = 'nama_ruas_jalan'
+            value = 'id_ruas_jalan'
 
-            setDataSelect(id, url, id_select, text, option, option);
+            setDataSelect(id, url, id_select, text, value, option);
             const baseUrl = `{{ url('admin/master-data/rawanbencana/getDataSUP/') }}/` + id;
             $.get(baseUrl, {
                     id: id

@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Yajra\Datatables\DataTables;
+use App\Model\Transactional\RuasJalan;
+use App\Model\Transactional\RawanBencana as Rawan;
+use Carbon\Carbon;
 
 class RawanBencanaController extends Controller
 {
@@ -25,6 +28,33 @@ class RawanBencanaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function synchronize()
+    {
+        if(Auth::user()->id == 1){
+            $temp = Rawan::get();
+            foreach($temp as $data){
+                if(isset($data->ruasJalan)){
+                    $data->sup_id = $data->ruasJalan->data_sup->id;
+                    $data->kota_id = $data->ruasJalan->kota_id;
+                    $data->save();
+                }else{
+                    if($data->foto)
+                    Storage::delete('public/'.$data->foto);
+                    
+                    $data->delete();
+                }
+            }
+            storeLogActivity(declarLog(1, 'Singkronisasi Data Rawan Bencana', 'Singkronisasi Data Rawan Bencana',1));
+            $color = "success";
+            $msg = "Singkronisasi Sudah Dilakukan !";
+        }else{
+            storeLogActivity(declarLog(1, 'Singkronisasi Data Rawan Bencana', 'Wrong Access'));
+            $color = "danger";
+            $msg = "Somethink When Wrong !";
+        }
+        return back()->with(compact('color', 'msg'));
+        
+    }
     public function index()
     {
         $response = [
@@ -44,23 +74,32 @@ class RawanBencanaController extends Controller
     public function getData()
     {
         $rawan = DB::table('master_rawan_bencana');
-        $ruas = DB::table('master_ruas_jalan');
         $rawan = $rawan->leftJoin('master_ruas_jalan', 'master_ruas_jalan.id', '=', 'master_rawan_bencana.ruas_jalan')->select('master_rawan_bencana.*', 'master_ruas_jalan.nama_ruas_jalan');
+        $ruas = DB::table('master_ruas_jalan');
         // print_r(Auth::user()->internalRole->uptd);
+        $uptd = DB::table('landing_uptd');
+        $sup = DB::table('utils_sup');
+
         if (Auth::user()->internalRole->uptd) {
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
             $rawan = $rawan->where('master_rawan_bencana.uptd_id', $uptd_id);
             $ruas = $ruas->where('master_ruas_jalan.uptd_id', $uptd_id);
+            $sup = $sup->where('uptd_id', $uptd_id);
+            $uptd= $uptd->where('id', $uptd_id);
+            if (count(Auth::user()->ruas) > 0) {
+                $ruas = $ruas->whereIn('master_ruas_jalan.id_ruas_jalan', Auth::user()->ruas->pluck('id_ruas_jalan')->toArray());
+            }
+            if(isset(Auth::user()->data_sup)){
+                $sup = $sup->where('id', Auth::user()->data_sup->id);
+            }
         }
         $rawan = $rawan->get();
         $ruas = $ruas->get();
-        $uptd = DB::table('landing_uptd')->get();
-        $sup = DB::table('utils_sup');
-        if (Auth::user()->internalRole->uptd) {
-            $sup = $sup->where('uptd_id', $uptd_id);
-        }
         $sup = $sup->get();
+        $uptd = $uptd->get();
+
         $icon = DB::table('icon_titik_rawan_bencana')->get();
+        // dd(isset(Auth::user()->data_sup));
         return view('admin.master.rawanbencana.index', compact('rawan', 'ruas', 'uptd','icon','sup'));
     }
     public function getDataSUP($id){
@@ -83,16 +122,26 @@ class RawanBencanaController extends Controller
         // ->leftJoin('icon_titik_rawan_bencana', 'icon_titik_rawan_bencana.id', '=', 'master_rawan_bencana.icon_id')
         // ->select('master_rawan_bencana.*', 'icon_titik_rawan_bencana.id as icon_id')
         ->first();
-        // dd($rawan);
-        $uptd = DB::table('landing_uptd')->get();
+        // print_r(Auth::user()->internalRole->uptd);
+        $uptd = DB::table('landing_uptd');
+        $ruas = DB::table('master_ruas_jalan')->where('uptd_id',$rawan->uptd_id);
+        $sup = DB::table('utils_sup');
 
-        $ruas = DB::table('master_ruas_jalan');
-        $ruas = $ruas->where('master_ruas_jalan.uptd_id', $rawan->uptd_id);
+        if (Auth::user()->internalRole->uptd) {
+            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+            $ruas = $ruas->where('master_ruas_jalan.uptd_id', $uptd_id);
+            $sup = $sup->where('uptd_id', $uptd_id);
+            $uptd= $uptd->where('id', $uptd_id);
+            if (count(Auth::user()->ruas) > 0) {
+                $ruas = $ruas->whereIn('master_ruas_jalan.id_ruas_jalan', Auth::user()->ruas->pluck('id_ruas_jalan')->toArray());
+            }
+            if(isset(Auth::user()->data_sup)){
+                $sup = $sup->where('id', Auth::user()->data_sup->id);
+            }
+        }
         $ruas = $ruas->get();
-
-        $sup = DB::table('utils_sup')
-        ->where('uptd_id',$rawan->uptd_id)
-        ->get();
+        $sup = $sup->get();
+        $uptd = $uptd->get();
 
         $icon = DB::table('icon_titik_rawan_bencana')->get();
 
@@ -107,9 +156,14 @@ class RawanBencanaController extends Controller
         $rawan = $req->except('_token');
         // $rawan['slug'] = Str::slug($req->nama, '');
         $rawan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
-        $temp=explode(",",$req->ruas_jalan);
-        $rawan['no_ruas'] = $temp[1];
-        $rawan['ruas_jalan'] = $temp[0];
+        $ruas = RuasJalan::where('id_ruas_jalan',$rawan['ruas_jalan'])->first();
+        $rawan['no_ruas'] = $ruas->id_ruas_jalan;
+        $rawan['ruas_jalan'] = $ruas->nama_ruas_jalan;
+        $rawan['sup_id'] = $ruas->data_sup->id;
+        $rawan['kota_id'] = $ruas->kota_id;
+        $rawan['created_at'] = Carbon::now();
+        $rawan['created_by'] = Auth::user()->id;
+        // dd($rawan);
         if ($req->foto != null) {
             $path = 'rawanbencana/' . Str::snake(date("YmdHis") . ' ' . $req->foto->getClientOriginalName());
             $req->foto->storeAs('public/', $path);
@@ -127,9 +181,13 @@ class RawanBencanaController extends Controller
     {
         $rawan = $req->except('_token', 'id');
         $rawan['uptd_id'] = $req->uptd_id == '' ? 0 : $req->uptd_id;
-        $temp=explode(",",$req->ruas_jalan);
-        $rawan['no_ruas'] = $temp[1];
-        $rawan['ruas_jalan'] = $temp[0];
+        $ruas = RuasJalan::where('id_ruas_jalan',$rawan['ruas_jalan'])->first();
+        $rawan['no_ruas'] = $ruas->id_ruas_jalan;
+        $rawan['ruas_jalan'] = $ruas->nama_ruas_jalan;
+        $rawan['sup_id'] = $ruas->data_sup->id;
+        $rawan['kota_id'] = $ruas->kota_id;
+        $rawan['updated_at'] = Carbon::now();
+        $rawan['updated_by'] = Auth::user()->id;
 
         // dd($rawan);
         if ($req->foto != null) {
@@ -139,6 +197,8 @@ class RawanBencanaController extends Controller
         }
 
         $old = DB::table('master_rawan_bencana')->where('id', $req->id)->first();
+        if($old->foto)
+        Storage::delete('public/'.$old->foto);
 
         $icon_image = DB::table('icon_titik_rawan_bencana')->where('id',$req->icon_id)->get();
         $rawan['icon_image'] = $icon_image[0]->icon_image;
@@ -165,6 +225,19 @@ class RawanBencanaController extends Controller
         if (Auth::user()->internalRole->uptd) {
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
             $rawanbencana = $rawanbencana->where('uptd_id', $uptd_id);
+            if(isset(Auth::user()->data_sup)){
+                $rawanbencana = $rawanbencana->where('sup_id', Auth::user()->data_sup->id);
+            }
+            if (str_contains(Auth::user()->internalRole->role, 'Mandor')) {
+                $rawanbencana = $rawanbencana->where('created_by', Auth::user()->id);
+
+            } else if (isset(Auth::user()->data_sup)) {
+                $rawanbencana = $rawanbencana->where('sup_id', Auth::user()->data_sup->id);
+
+                if (count(Auth::user()->ruas) > 0) 
+                    $rawanbencana = $rawanbencana->whereIn('no_ruas', Auth::user()->ruas->pluck('id_ruas_jalan')->toArray());
+            }
+              
         }
         return DataTables::of($rawanbencana)
             ->addIndexColumn()
