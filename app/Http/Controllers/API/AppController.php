@@ -14,7 +14,7 @@ public function getVersion()
     return response()->json([
         'appName' => 'siperlajar',
         'packageName'=>'com.siperlajar.sipelajar',
-        'version' => '1.0.0',
+        'version' => '1.0.2',
         'build' => '1',
         'buildSignature' => '0D7C367E726EC9B5E129AE8E96C79D6AED776B60',
         'ReleaseNotes' => 'Minor update and bug fixes',
