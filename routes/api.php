@@ -81,6 +81,8 @@ Route::prefix('jqr')->group(function () {
 });
 
 Route::group(['middleware' => ['jwt.auth']], function () {
+    Route::get('user/profile', 'API\AuthController@userProfile');
+
     Route::prefix('survei-lubang')->group(function () {
         Route::get('index', 'API\MonitoringLubangController@indexSurvei');
         Route::post('start', 'API\MonitoringLubangController@startSurvei');

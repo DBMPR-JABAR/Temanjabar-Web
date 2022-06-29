@@ -17,6 +17,7 @@ use App\Model\Transactional\LogMasyarakat;
 use App\Model\Transactional\RuasJalan;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -88,6 +89,10 @@ class AuthController extends Controller
             if (strpos($role, 'Mandor') !== false) $this->response['data']['user']['role'] = "mandor";
         }
         $this->response['data']['user']['encrypted_id'] = encrypt(auth('api')->user()->id);
+        if(isset($req->fcm_token)){
+            $fcm = DB::table('users')->where('id', auth('api')->user()->id)->update(['fcm_token' => $req->fcm_token]);
+            auth('api')->user()->fcm_token = $req->fcm_token;
+        }
         return response()->json($this->response, 200);
     }
     
@@ -274,7 +279,37 @@ class AuthController extends Controller
             return response()->json($this->response, 500);
         }
     }
+    public function userProfile()
+    {
+        try {
+            $data = User::find(Auth::user()->id);
+           
 
+            if (Auth::user()->role == 'internal') {
+                if(Auth::user()->ruas()->exists()){
+                    $data->ruas = Auth::user()->ruas()->select('id_ruas_jalan','nama_ruas_jalan')->get();
+                }else{
+                    if (Auth::user() && Auth::user()->internalRole->uptd) {
+                        $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+                        if (Auth::user()->sup_id) {
+                            $data->ruas = RuasJalan::select('id_ruas_jalan','nama_ruas_jalan')->where('kd_sppjj',Auth::user()->data_sup->kd_sup)->get();
+                        } else {
+                            $data->ruas = RuasJalan::select('id_ruas_jalan','nama_ruas_jalan')->where('uptd_id',$uptd_id)->get();
+                        }
+                    }else{
+                        $data->ruas = RuasJalan::select('id_ruas_jalan','nama_ruas_jalan')->get();
+                    }
+                }
+            }
+            return response()->json([
+                'success' => true,
+                'data' => $data,
+            ]);
+        } catch (\Exception $e) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
     public function getUser()
     {
         try {
