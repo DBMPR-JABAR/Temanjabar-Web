@@ -248,6 +248,9 @@ Route::post('debug-notification', 'API\PushNotifController@debugNotification')->
 Route::get('map/geojson/ruas_jalan_propinsi', 'API\GeoJsonController@getRuasJalanProvinsi');
 Route::get('map/geojson/ruas_jalan_custom', 'API\GeoJsonController@getRuasJalanCustom');
 
+Route::get('app/version', 'API\AppController@getVersion');
+Route::get('app/download', 'API\AppController@download')->name('app.download');
+
 Route::fallback(function () {
     return response()->json([
         'status' => 'false',
@@ -256,3 +259,4 @@ Route::fallback(function () {
         ]
     ], 404);
 });
+
