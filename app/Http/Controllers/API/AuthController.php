@@ -95,7 +95,22 @@ class AuthController extends Controller
         }
         return response()->json($this->response, 200);
     }
-    
+    public function refreshFcm(Request $req)
+    {
+        try {
+            $fcm = DB::table('users')->where('id', Auth::user()->id)->update(['fcm_token' => $req->fcm_token]);
+            $data = User::find(Auth::user()->id);
+            auth('api')->user()->fcm_token = $req->fcm_token;
+            return response()->json([
+                'success' => true,
+                'message' => "Refresh fcm successfully !!",
+                'data' =>$data
+            ]);
+        } catch (\Exception $th) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
     public function logout()
     {
         try {
