@@ -188,7 +188,7 @@ class MonitoringLubangController extends Controller
 
             if($request->kategori == "Group"){
                 $validator = Validator::make($request->all(), [
-                    'jumlah' => 'required|numeric',
+                    'jumlah' => 'required',
                 ]);
             }
             if ($validator->fails()) {
@@ -226,13 +226,13 @@ class MonitoringLubangController extends Controller
                 'tanggal'=> $request->tanggal,
                 'kategori'=> $request->kategori,
                 'kategori_kedalaman'=> $request->kategori_kedalaman,
-                'panjang'=> $request->panjang,
+                'panjang'=> (float)$request->panjang,
                 'description'=>$request->description,
                 'lajur'=>$request->lajur,
                 'potensi_lubang'=>$request->potensi_lubang,
             ];
             if($request->kategori == "Group"){
-                $temporari['jumlah'] = $request->jumlah;
+                $temporari['jumlah'] = (int)$request->jumlah;
                 $temporari['icon'] = 'sapulobang/sapulobang.png';
                 $temporari['keterangan'] = 'Lubang Group';
 
