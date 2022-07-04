@@ -48,18 +48,16 @@ class LaporanBencanaController extends Controller
         $ruas = DB::table('master_ruas_jalan');
         $laporan_bencana = $laporan_bencana->leftJoin('master_ruas_jalan', 'master_ruas_jalan.id', '=', 'laporan_bencana.ruas_jalan')->select('laporan_bencana.*', 'master_ruas_jalan.nama_ruas_jalan');
         // print_r(Auth::user()->internalRole->uptd);
+        $sup = DB::table('utils_sup');
         if (Auth::user()->internalRole->uptd) {
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
             $laporan_bencana = $laporan_bencana->where('laporan_bencana.uptd_id', $uptd_id);
             $ruas = $ruas->where('master_ruas_jalan.uptd_id', $uptd_id);
+            $sup = $sup->where('uptd_id', $uptd_id);
         }
         $laporan_bencana = $laporan_bencana->get();
         $ruas = $ruas->get();
         $uptd = DB::table('landing_uptd')->get();
-        $sup = DB::table('utils_sup');
-        if (Auth::user()->internalRole->uptd) {
-            $sup = $sup->where('uptd_id', $uptd_id);
-        }
         $sup = $sup->get();
         $icon = DB::table('icon_titik_rawan_bencana')->get();
         return view('admin.master.laporan_bencana.index', compact('laporan_bencana', 'ruas', 'uptd', 'icon', 'sup'));
