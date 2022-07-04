@@ -251,7 +251,7 @@ class MonitoringLubangController extends Controller
                 $survei->save();
             }
 
-            if(!$request->potensi_lubang){
+            if($request->potensi_lubang == "false"){
 
                 if(Str::contains($desc, 'tambah')){
                     if($survei->id){
