@@ -208,8 +208,7 @@ class MonitoringLubangController extends Controller
                 'created_by' =>Auth::user()->id,
                 'ruas_jalan_id'=>$request->ruas_jalan_id,
                 'sup_id'=>$ruas->data_sup->id,
-                'kota_id'=>$ruas->kota_id,
-                'lokasi_kode' => Str::upper($request->lokasi_kode),
+                'kota_id'=>$ruas->kota_id
             ];
             $temporari =[
                 'lat' => $request->lat,
@@ -247,6 +246,7 @@ class MonitoringLubangController extends Controller
                 $survei->uptd_id=$ruas->uptd_id;
                 $survei->lat = $request->lat;
                 $survei->long = $request->long;
+                $survei->lokasi_kode = Str::upper($request->lokasi_kode);
                 $survei->created_by = Auth::user()->id;
                 $survei->save();
             }
