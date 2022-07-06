@@ -19,6 +19,11 @@ Route::get('/map-dashboard/intervention-mage/{value}', function($value) {
         $constraint->aspectRatio();
         $constraint->upsize();
     });
+    $height = $img->height();
+    $width = $img->width();
+    if ($height < $width) {
+       $img->rotate(-90);
+    }
     return $img->response('jpg');
 });
 
