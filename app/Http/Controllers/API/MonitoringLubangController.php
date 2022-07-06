@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use App\User;
 
 use App\Model\Transactional\MonitoringLubangSurvei as SurveiLubang;
 use App\Model\Transactional\MonitoringLubangSurveiDetail as SurveiLubangDetail;
@@ -26,6 +27,31 @@ use Illuminate\Support\Facades\Storage;
 class MonitoringLubangController extends Controller
 {
     //
+    public function pushNotification()
+    {
+        if (Auth::user() && Auth::user()->internalRole->uptd && Auth::user()->sup_id) {
+            $temp_user = User::where('sup_id',Auth::user()->sup_id)->with(['internalRole' => function ($query) {
+                $query->where('role','LIKE','Kepala Satuan Unit Pemeliharaan %');
+            }])->first();
+            $temp_data = [
+                "title"=>"Suevei Sapu Lobang ".$temp_user,
+                "body"=>"1500 Lubang menunggu direncanakan",
+                "sound"=>"sound"
+            ];
+            $temp_ektsra = [
+                "route" => "Survei Lubang",
+                "id_ruas_jalan" => "827K",
+            ];
+            if($temp_user->fcm_token) {
+                $sendNotif = sendNotifFCM($temp_user->fcm_token, $temp_data, $temp_ektsra);
+            }else{
+                return response()->json([
+                    'success' => false,
+                    'message' => 'FCM receiver Kosong'
+                ]);
+            }        
+        }
+    }
     public function indexSurvei()
     {
         try {
@@ -375,7 +401,7 @@ class MonitoringLubangController extends Controller
             $survei->SurveiLubangDetail;
             $survei->SurveiPotensiLubangDetail;
             storeLogActivity(declarLog(1, 'Survei Lubang', $ruas->nama_ruas_jalan,1));
-
+            $this->pushNotification();
             return response()->json([
                 'success' => true,
                 'message' => 'Berhasil Menambahkan',

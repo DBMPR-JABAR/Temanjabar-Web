@@ -48,6 +48,66 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header">
+                    <h4>Filter</h4>
+                    <div class="card-header-right">
+                        <ul class="list-unstyled card-option">
+                            {{-- <li><i class="feather icon-maximize full-card"></i></li> --}}
+                            <li><i class="feather icon-minus minimize-card"></i></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-block">
+                    <div class="card-block w-100">
+                        <form  enctype="multipart/form-data">
+                            @csrf
+                            <div class="row col-12">
+                                @php
+                                    $grid = 10;
+                                @endphp
+                                @if (Auth::user()->internalRole->uptd == null)
+                                @php
+                                    $grid = 5;
+                                @endphp
+                                <div class="col-sm-12 col-xl-{{ $grid }} mb-6">
+                                    <h4 class="sub-title">UPTD</h4>
+                                    <select class="form-control" id="uptd" onchange="ubahOption()" style="width: 100%" name="uptd_filter">
+                                        <option value="">Pilih Semua</option>
+                                        @foreach ($input_uptd_lists as $item)
+                                        @if ( $item->id != 11)
+                                            <option value="{{ $item->id }}" @if(@$filter['uptd_filter'] == $item->id ) selected @endif>UPTD {{ $item->id }}</option>  
+                                        @endif     
+                                        @endforeach    
+                                    </select>
+                                </div>
+                                
+                                @endif
+                                <div class="col-sm-12 col-xl-{{ $grid }} col-md-{{ $grid }} mb-3">
+                                    <h4 class="sub-title">SPPJJ</h4>
+                                    
+                                    <select class=" form-control" name="sup_filter" id="sup" name="sup" onchange="ubahOption1()"  >
+                                        <option value="">Pilih Semua</option>
+                                        @foreach ($sup as $item)
+                                        <option value="{{ $item->id }}" @if(@$filter['sup_filter'] == $item->id ) selected @endif>{{ $item->name }}</option>  
+                                        @endforeach
+                                    </select>
+                                </div>
+                                {{-- <input name="filter" value="true" style="display: none" /> --}}
+    
+                                <div class="mt-3 col-sm-12 col-xl-2 mb-2">
+                                    {{-- <button type="submit" class="mt-4 btn btn-primary waves-effect waves-light">Filter</button> --}}
+                                    <button class="mt-4 btn btn-primary waves-effect waves-light" type="submit" formmethod="get" formaction="{{ route('getDataLaporanBencana') }}">Filter</button>
+                                    {{-- <button class="mt-4 btn btn-mat btn-success " formmethod="post" type="submit" formaction="{{ route('sapu-lobang.rekapitulasi') }}">Cetak Rekap Entry</button> --}}
+                                </div>
+                                
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
                     <h5>Tabel Laporan Bencana</h5>
                     <div class="card-header-right">
                         <ul class="list-unstyled card-option">
@@ -439,31 +499,66 @@
             });
         });
 
+        // function ubahOption() {
+
+        //     //untuk select Ruas
+        //     id = document.getElementById("uptd").value
+        //     url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalan') }}"
+        //     id_select = '#ruas_jalan'
+        //     text = 'Pilih Ruas Jalan'
+        //     optionVal = 'id_ruas_jalan'
+        //     option = 'nama_ruas_jalan'
+
+        //     setDataSelect(id, url, id_select, text, optionVal, option);
+
+        //     const baseUrl = `{{ url('admin/master-data/laporan_bencana/getDataSUP/') }}/` + id;
+        //     $.get(baseUrl, {
+        //             id: id
+        //         },
+        //         function(response) {
+        //             $('.sup').remove();
+        //             for (var i = 0; i < response.sup.length; i++) {
+        //                 $('#sup').append("<option value='" + response.sup[i].name + "' class='sup' >" + response.sup[i]
+        //                     .name + "</option>");
+        //             }
+        //         });
+        // }
         function ubahOption() {
 
-            //untuk select Ruas
-            id = document.getElementById("uptd").value
-            url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalan') }}"
-            id_select = '#ruas_jalan'
-            text = 'Pilih Ruas Jalan'
-            optionVal = 'id_ruas_jalan'
-            option = 'nama_ruas_jalan'
+        //untuk select SUP
+        id = document.getElementById("uptd").value
+        url = "{{ url('admin/master-data/ruas-jalan/getSUP') }}"
+        id_select = '#sup'
+        text = 'Pilih Semua'
+        option = 'name'
+        id_supp = 'id'
 
-            setDataSelect(id, url, id_select, text, optionVal, option);
+        setDataSelect(id, url, id_select, text, id_supp, option)
 
-            const baseUrl = `{{ url('admin/master-data/laporan_bencana/getDataSUP/') }}/` + id;
-            $.get(baseUrl, {
-                    id: id
-                },
-                function(response) {
-                    $('.sup').remove();
-                    for (var i = 0; i < response.sup.length; i++) {
-                        $('#sup').append("<option value='" + response.sup[i].name + "' class='sup' >" + response.sup[i]
-                            .name + "</option>");
-                    }
-                });
+        //untuk select Ruas
+        url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalan') }}"
+        id_select = '#ruas_jalan'
+        text = 'Pilih Ruas Jalan'
+        option = 'nama_ruas_jalan'
+        id_ruass = 'id_ruas_jalan'
+
+        setDataSelect(id, url, id_select, text, id_ruass, option)
         }
+        function ubahOption1() {
 
+        //untuk select SUP
+        id = document.getElementById("sup").value
+
+        //untuk select Ruas
+        url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalanBySup') }}"
+        id_select = '#ruas_jalan'
+        text = 'Pilih Ruas Jalan'
+        option = 'nama_ruas_jalan'
+        id_ruass = 'id_ruas_jalan'
+
+        setDataSelect(id, url, id_select, text, id_ruass, option)
+        }
+        
         $('#addModal').on('show.bs.modal', function(event) {
             $('#icon-img').attr('src', '<?php echo $icon[0]->icon_image; ?>');
         });

@@ -11,6 +11,7 @@ use App\Model\Transactional\RuasJalanDetail;
 use App\Model\Transactional\UPTD;
 use App\Model\Transactional\Kota;
 use App\talikuat\DataUmum;
+use App\User;
 
 use App\Model\Transactional\MonitoringLubangSurvei as SurveiLubang;
 use App\Model\Transactional\MonitoringLubangSurveiDetail as SurveiLubangDetail;
@@ -225,7 +226,12 @@ class Home extends Controller
         $uptd4 = DataUmum::where('id_uptd', 4)->with('laporanApproved')->get();
         $uptd5 = DataUmum::where('id_uptd', 5)->with('laporanApproved')->get();
         $uptd6 = DataUmum::where('id_uptd', 6)->with('laporanApproved')->get();
-
+        // if (Auth::user() && Auth::user()->internalRole->uptd && Auth::user()->sup_id) {
+        //     $temp_user = User::where('sup_id',Auth::user()->sup_id)->with(['internalRole' => function ($query) {
+        //         $query->where('role','LIKE','Kepala Satuan Unit Pemeliharaan %');
+        //     }])->first(); 
+        //     dd($temp_user->fcm_token);        
+        // }
         $filter['tanggal_awal']= Carbon::now()->subDays(100)->format('Y-m-d');
         $filter['tanggal_akhir']= Carbon::now()->format('Y-m-d');
         if($request->tanggal_awal || $request->tanggal_akhir ){

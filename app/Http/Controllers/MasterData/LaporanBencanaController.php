@@ -44,6 +44,9 @@ class LaporanBencanaController extends Controller
 
     public function getData()
     {
+        $filter['uptd_filter']=null;
+        $filter['sup_filter']=null;
+
         $laporan_bencana = DB::table('laporan_bencana');
         $ruas = DB::table('master_ruas_jalan');
         $laporan_bencana = $laporan_bencana->leftJoin('master_ruas_jalan', 'master_ruas_jalan.id', '=', 'laporan_bencana.ruas_jalan')->select('laporan_bencana.*', 'master_ruas_jalan.nama_ruas_jalan');
@@ -60,7 +63,7 @@ class LaporanBencanaController extends Controller
         $uptd = DB::table('landing_uptd')->get();
         $sup = $sup->get();
         $icon = DB::table('icon_titik_rawan_bencana')->get();
-        return view('admin.master.laporan_bencana.index', compact('laporan_bencana', 'ruas', 'uptd', 'icon', 'sup'));
+        return view('admin.master.laporan_bencana.index', compact('laporan_bencana', 'ruas', 'uptd', 'icon', 'sup','filter'));
     }
     public function getDataSUP($id)
     {
