@@ -100,6 +100,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
         Route::get('edit/{id}', 'API\MonitoringLubangController@editPenanganan');
         Route::put('update/{id}', 'API\MonitoringLubangController@updatePenanganan');
         Route::post('list', 'API\MonitoringLubangController@listPenanganan');
+        Route::get('list_by_user', 'API\MonitoringLubangController@listPenangananByUser');
         Route::post('execute/{id}/{tanggal}', 'API\MonitoringLubangController@executePenanganan');
     });
     Route::prefix('rencana-penanganan-lubang')->group(function () {

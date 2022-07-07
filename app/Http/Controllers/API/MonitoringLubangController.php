@@ -593,6 +593,31 @@ class MonitoringLubangController extends Controller
         }
 
     }
+    public function listPenangananByUser()
+    {
+        try {
+            
+            $data = SurveiLubangDetail::with('user_create')->with('ruas')->where('created_by',Auth::user()->id)->where('status','Perencanaan')->orderBy("lokasi_km")->orderBy("lokasi_m")->get();
+            $data1 = SurveiLubangDetail::with('user_create')->with('ruas')->where('created_by',Auth::user()->id)->where('status','Selesai')->latest('updated_at')->get();
+
+            if(isset($data)){
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Data Penanganan',
+                    'data'  => $data,
+                    'data_selesai'  => $data1
+                ]);
+
+            }else{
+                $this->response['data']['error'] = "Ruas ini sudah tidak ada yang bisa di tangani";
+                return response()->json($this->response, 200);
+            }
+        } catch (\Exception $th) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+
+    }
     public function executePenanganan(Request $request, $id, $tanggal)
     {
         try {
