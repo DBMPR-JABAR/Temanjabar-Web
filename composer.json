@@ -48,7 +48,8 @@
             "database/factories"
         ],
         "files": [
-            "app/Helpers/logActivity.php"
+            "app/Helpers/logActivity.php",
+            "app/Helpers/sendNotification.php"
         ]
     },
     "autoload-dev": {

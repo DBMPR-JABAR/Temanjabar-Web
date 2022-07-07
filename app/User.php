@@ -72,7 +72,10 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsTo('App\Model\Transactional\SUP', 'sup_id');
     }
-
+    public function surveiLubang()
+    {
+        return $this->hasMany('App\Model\Transactional\MonitoringLubangSurveiDetail', 'created_by');
+    }
     // public function sup()
     // {
     //     return $this->hasOne('App\Model\Transactional\SUP', 'user_id');

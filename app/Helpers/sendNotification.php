@@ -4,6 +4,7 @@ use App\Model\Push\UserPushNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+
 function sendNotifFCM($users, $temp_data, $temp_ektsra = null)
 {
     $serverKey =  env('FCM_SERVER_KEY', null);
@@ -12,16 +13,16 @@ function sendNotifFCM($users, $temp_data, $temp_ektsra = null)
         "registration_ids" => $users,
         "priority"=>"high",
         "notification" => [
-            "title" => $title,
-            "body" =>  $body,
-            "sound"=> $sound
+            "title" => $temp_data['title'],
+            "body" =>  $temp_data['body'],
+            "sound"=> $temp_data['sound']
         ]
-        
     ];
     if(isset($temp_ektsra)){
         $data['data'] =$temp_ektsra; 
     }
-    
+    return $data;
+
     $response =  Http::withHeaders([
         'Content-Type' => 'application/json',
         'Authorization' => 'key=' . $serverKey,

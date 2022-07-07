@@ -27,31 +27,7 @@ use Illuminate\Support\Facades\Storage;
 class MonitoringLubangController extends Controller
 {
     //
-    public function pushNotification()
-    {
-        if (Auth::user() && Auth::user()->internalRole->uptd && Auth::user()->sup_id) {
-            $temp_user = User::where('sup_id',Auth::user()->sup_id)->with(['internalRole' => function ($query) {
-                $query->where('role','LIKE','Kepala Satuan Unit Pemeliharaan %');
-            }])->first();
-            $temp_data = [
-                "title"=>"Suevei Sapu Lobang ".$temp_user,
-                "body"=>"1500 Lubang menunggu direncanakan",
-                "sound"=>"sound"
-            ];
-            $temp_ektsra = [
-                "route" => "Survei Lubang",
-                "id_ruas_jalan" => "827K",
-            ];
-            if($temp_user->fcm_token) {
-                $sendNotif = sendNotifFCM($temp_user->fcm_token, $temp_data, $temp_ektsra);
-            }else{
-                return response()->json([
-                    'success' => false,
-                    'message' => 'FCM receiver Kosong'
-                ]);
-            }        
-        }
-    }
+    
     public function indexSurvei()
     {
         try {
@@ -191,10 +167,11 @@ class MonitoringLubangController extends Controller
             return response()->json($this->response, 500);
         }
     }
+
     public function storeSurvei(Request $request, $desc)
     {
         try {
-
+            
             $validator = Validator::make($request->all(), [
                 'jumlah' => '',
                 'tanggal' => 'required|date',
@@ -401,11 +378,16 @@ class MonitoringLubangController extends Controller
             $survei->SurveiLubangDetail;
             $survei->SurveiPotensiLubangDetail;
             storeLogActivity(declarLog(1, 'Survei Lubang', $ruas->nama_ruas_jalan,1));
-            $this->pushNotification();
+            
+            // $data_notif = [
+            //     "id_ruas_jalan" => $request->ruas_jalan_id
+            // ];
+            // $notif=$this->pushingNotification("Survei", $data_notif);
+            
             return response()->json([
                 'success' => true,
                 'message' => 'Berhasil Menambahkan',
-                'data' => $survei,
+                'data' => $survei
             ]);
         } catch (\Exception $th) {
             $this->response['data']['message'] = 'Internal Error';
@@ -996,9 +978,60 @@ class MonitoringLubangController extends Controller
         }
 
     }
+    public function pushingNotification($desc, $data_ekstra=null)
+    {
+        
+        if (Auth::user() && Auth::user()->internalRole->uptd && Auth::user()->sup_id) {
+            if($desc == "Survei"){
+                $data_user = User::where('sup_id',Auth::user()->sup_id)->with(['internalRole' => function ($query) {
+                    $query->where('role','LIKE','Kepala Satuan Unit Pemeliharaan %');
+                }])->first();
+                $data = [
+                    "title"=>"Survei Lubang-".Auth::user()->name,
+                    "body"=>Auth::user()->surveiLubang->sum('jumlah')." Lubang menunggu direncanakan",
+                    "sound"=>"default"
+                ];
+                $data_ekstra['route'] = "Survei Lubang";
+
+            }else if($desc == "Perencanaan"){
+                $data_user = SurveiLubangDetail::findOrFail($data_ekstra['id_lubang']);
+                return $data_user;
+
+                $data = [
+                    "title"=>"Perencanaan Lubang",
+                    "body"=>Auth::user()->surveiLubang->sum('jumlah')." Lubang baru saja direncanakan",
+                    "sound"=>"default"
+                ];
+
+                $data_ekstra['route'] = "Perencanaan Lubang";
+            }
+
+
+            if($data_user->fcm_token) {
+                $sendNotif = sendNotifFCM($data_user->fcm_token, $data, $data_ekstra);
+                return $sendNotif;
+
+            }else{
+                return "FCM receiver Kosong";
+            }        
+        }
+    }
+
     public function executeRencanaPenanganan(Request $request, $id)
     {
         try {
+            // $data_notif = [
+            //     // "id_ruas_jalan" => $request->ruas_jalan_id,
+            //     "id_ruas_jalan" => "283K812K",
+            //     "id_lubang" => $id
+            // ];
+            // $notif=$this->pushingNotification("Perencanaan", $data_notif);
+            // return response()->json([
+            //     'success' => true,
+            //     'message' => 'tes notif',
+            //     'data'  => $notif,
+            // ]);
+
             $validator = Validator::make($request->all(), [
                 'keterangan' => '',
                 'tanggal' =>'required'
