@@ -1007,7 +1007,9 @@ class MonitoringLubangController extends Controller
     {
         
         // return Auth::user()->id;
-        if (Auth::user() && Auth::user()->internalRole->uptd && Auth::user()->sup_id) {
+        if (Auth::user()) {
+        // if (Auth::user() && Auth::user()->internalRole->uptd && Auth::user()->sup_id) {
+
             if($desc == "Survei"){
                 $data_user = User::where('sup_id',Auth::user()->sup_id)->with(['internalRole' => function ($query) {
                     $query->where('role','LIKE','Kepala Satuan Unit Pemeliharaan %');
