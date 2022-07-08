@@ -1006,6 +1006,7 @@ class MonitoringLubangController extends Controller
     public function pushingNotification($desc, $data_ekstra=null)
     {
         
+        // return Auth::user()->id;
         if (Auth::user() && Auth::user()->internalRole->uptd && Auth::user()->sup_id) {
             if($desc == "Survei"){
                 $data_user = User::where('sup_id',Auth::user()->sup_id)->with(['internalRole' => function ($query) {
@@ -1021,11 +1022,10 @@ class MonitoringLubangController extends Controller
             }else if($desc == "Perencanaan"){
                 $data_lubang = SurveiLubangDetail::findOrFail($data_ekstra['id_lubang']);
                 $data_user = (object) array('fcm_token' => $data_lubang->user_create->fcm_token);
-                // return $data_user->fcm_token;
                 $data = [
                     "title"=>"Perencanaan Lubang",
-                    "body"=>Auth::user()->surveiLubang->sum('jumlah')." Lubang baru saja direncanakan",
-                    "sound"=>"default"
+                    "body"=>" Lubang baru saja direncanakan",
+                    "sound"=>"notif"
                 ];
 
                 $data_ekstra['route'] = "Perencanaan Lubang";
@@ -1048,7 +1048,7 @@ class MonitoringLubangController extends Controller
             
             // $data_notif = [
             //     // "id_ruas_jalan" => $request->ruas_jalan_id,
-            //     "id_ruas_jalan" => $data->ruas_jalan_id,
+            //     "id_ruas_jalan" => "owuoiwaKs",
             //     "id_lubang" => $id
             // ];
             // $notif=$this->pushingNotification("Perencanaan", $data_notif);

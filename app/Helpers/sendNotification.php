@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 function sendNotifFCM($users, $temp_data, $temp_ektsra = null)
 {
-    $serverKey =  env('FCM_SERVER_KEY', null);
+    $serverKey =  env('FCM_SERVER_KEY', 'AAAA9ioAF4g:APA91bEu-73jqibmWEV3Rgzx93FZhpjYTXMK9f25dbSj2-zYIK9mth5uKr62tnJK-mqkKzG_2va7avqk19bLpKtcneuB1jyfmfi8yblGLUevtmm5H2F-g02BtK1vZF1kq8g_2CpKkRwn');
     
     $data = [
         "registration_ids" => $users,
