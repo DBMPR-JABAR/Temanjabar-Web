@@ -379,10 +379,10 @@ class MonitoringLubangController extends Controller
             $survei->SurveiPotensiLubangDetail;
             storeLogActivity(declarLog(1, 'Survei Lubang', $ruas->nama_ruas_jalan,1));
             
-            // $data_notif = [
-            //     "id_ruas_jalan" => $request->ruas_jalan_id
-            // ];
-            // $notif=$this->pushingNotification("Survei", $data_notif);
+            $data_notif = [
+                "id_ruas_jalan" => $request->ruas_jalan_id
+            ];
+            $notif=$this->pushingNotification("Survei", $data_notif);
             
             return response()->json([
                 'success' => true,
@@ -1019,9 +1019,9 @@ class MonitoringLubangController extends Controller
                 $data_ekstra['route'] = "Survei Lubang";
 
             }else if($desc == "Perencanaan"){
-                $data_user = SurveiLubangDetail::findOrFail($data_ekstra['id_lubang']);
-                return $data_user;
-
+                $data_lubang = SurveiLubangDetail::findOrFail($data_ekstra['id_lubang']);
+                $data_user = (object) array('fcm_token' => $data_lubang->user_create->fcm_token);
+                // return $data_user->fcm_token;
                 $data = [
                     "title"=>"Perencanaan Lubang",
                     "body"=>Auth::user()->surveiLubang->sum('jumlah')." Lubang baru saja direncanakan",
@@ -1045,17 +1045,7 @@ class MonitoringLubangController extends Controller
     public function executeRencanaPenanganan(Request $request, $id)
     {
         try {
-            // $data_notif = [
-            //     // "id_ruas_jalan" => $request->ruas_jalan_id,
-            //     "id_ruas_jalan" => "283K812K",
-            //     "id_lubang" => $id
-            // ];
-            // $notif=$this->pushingNotification("Perencanaan", $data_notif);
-            // return response()->json([
-            //     'success' => true,
-            //     'message' => 'tes notif',
-            //     'data'  => $notif,
-            // ]);
+            
 
             $validator = Validator::make($request->all(), [
                 'keterangan' => '',
@@ -1120,6 +1110,13 @@ class MonitoringLubangController extends Controller
                 storeLogActivity(declarLog(2, 'Rencana Penanganan Lubang', $ruas->nama_ruas_jalan,1));
                 $data2 = SurveiLubangDetail::where('ruas_jalan_id',$data->ruas_jalan_id)->where('tanggal','<=',$request->tanggal)->whereNull('status')->latest()->get();
                 $data1 = SurveiLubangDetail::where('ruas_jalan_id',$data->ruas_jalan_id)->where('tanggal','<=',$request->tanggal)->where('status','Perencanaan')->latest('updated_at')->get();
+                $data_notif = [
+                    // "id_ruas_jalan" => $request->ruas_jalan_id,
+                    "id_ruas_jalan" => $data->ruas_jalan_id,
+                    "id_lubang" => $id
+                ];
+                $notif=$this->pushingNotification("Perencanaan", $data_notif);
+               
                 if(isset($data)){
                     return response()->json([
                         'success' => true,

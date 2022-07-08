@@ -21,7 +21,7 @@ function sendNotifFCM($users, $temp_data, $temp_ektsra = null)
     if(isset($temp_ektsra)){
         $data['data'] =$temp_ektsra; 
     }
-    return $data;
+    // return $data;
 
     $response =  Http::withHeaders([
         'Content-Type' => 'application/json',
