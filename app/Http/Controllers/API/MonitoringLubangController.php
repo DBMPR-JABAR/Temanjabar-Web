@@ -1046,7 +1046,18 @@ class MonitoringLubangController extends Controller
     {
         try {
             
-
+            // $data_notif = [
+            //     // "id_ruas_jalan" => $request->ruas_jalan_id,
+            //     "id_ruas_jalan" => $data->ruas_jalan_id,
+            //     "id_lubang" => $id
+            // ];
+            // $notif=$this->pushingNotification("Perencanaan", $data_notif);
+            // return response()->json([
+            //     'success' => true,
+            //     'message' => 'tes notif',
+            //     'data'  => $notif,
+                
+            // ]);
             $validator = Validator::make($request->all(), [
                 'keterangan' => '',
                 'tanggal' =>'required'
