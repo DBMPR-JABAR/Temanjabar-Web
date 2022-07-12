@@ -14,7 +14,7 @@ public function getVersion()
     return response()->json([
         'appName' => 'Siperlajar',
         'packageName'=>'com.dbmpr.sipelajar',
-        'version' => '1.2.1',
+        'version' => '1.0.0',
         'build' => '1',
         'buildSignature' => '0D7C367E726EC9B5E129AE8E96C79D6AED776B60',
         'ReleaseNotes' => 'Add Feature Entry Data & Add Feature Entry Perencanaan',
