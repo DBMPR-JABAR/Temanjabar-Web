@@ -13,7 +13,7 @@ class NewsController extends Controller
     //
     public function slider()
     {
-        $data = News::limit(5)->latest()->get();
+        $data = News::take(5)->latest()->get();
         if($data){
             return response()->json([
                 'success'   => true,

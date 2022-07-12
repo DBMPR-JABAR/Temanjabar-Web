@@ -132,7 +132,7 @@
                             </ul>
                         </li>
                         @endif
-                        @if (hasAccess(Auth::user()->internal_role_id, 'Ruas Jalan', 'View'))
+                        @if (hasAccess(Auth::user()->internal_role_id, 'Kota', 'View'))
                         <li class="{{ Request::segment(3) == 'kota' ? 'active' : '' }}">
                             <a href="{{ url('admin/master-data/kota') }}" class="waves-effect waves-dark">
                                 <span class="pcoded-mtext">Kota</span>

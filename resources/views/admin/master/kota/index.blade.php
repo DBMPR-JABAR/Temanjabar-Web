@@ -67,7 +67,9 @@
                                     <th style="width: 5%">No</th>
                                     <th>Nama</th>
                                     <th>UPTD</th>
+                                    @if (hasAccess(Auth::user()->internal_role_id, 'Kota', 'Update'))
                                     <th style="width: 5%">Aksi</th>
+                                    @endif
 
                                     {{-- <th style="width: 75px;">Aksi</th> --}}
                                 </tr>
@@ -79,10 +81,12 @@
                                         <td>{{ $data->name }}</td>
                                         <td>{{ @$data->uptd->nama }}</td>
 
+                                        @if (hasAccess(Auth::user()->internal_role_id, 'Kota', 'Update'))
                                         <td>
                                             <a href="{{ route('editMasterKota',$data->id) }}"><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-sm waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>
                                             {{-- <a href="#delModal"  data-toggle="modal"><button data-toggle="tooltip" title="Hapus" class="btn btn-danger btn-sm waves-effect waves-light"><i class="icofont icofont-trash"></i></button></a>  --}}
                                         </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>
