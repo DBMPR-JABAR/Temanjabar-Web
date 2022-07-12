@@ -54,7 +54,9 @@
                                 <th width="5%">No</th>
                                 <th>Nama</th>
                                 <th>Keterangan</th>
+                                @if (hasAccess(Auth::user()->internal_role_id, 'Tipe Bangunan Atas', 'Update') || hasAccess(Auth::user()->internal_role_id, 'Tipe Bangunan Atas', 'Delete'))
                                 <th width="5%">Aksi</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody id="bodyJembatan">
@@ -67,12 +69,12 @@
 
                                     <td>
                                             {{-- TOLONG TAMBAH KE DB BUAT AKSES --}}
-                                            {{-- @if (hasAccess(Auth::user()->internal_role_id, "Tipe Bangunan Atas", "Update")) --}}
+                                            @if (hasAccess(Auth::user()->internal_role_id, "Tipe Bangunan Atas", "Update"))
                                             <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$tba->id}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-edit'></i>Edit</a>
-                                            {{-- @endif --}}
-                                            {{-- @if (hasAccess(Auth::user()->internal_role_id, "Tipe Bangunan Atas", "Delete")) --}}
+                                            @endif
+                                            @if (hasAccess(Auth::user()->internal_role_id, "Tipe Bangunan Atas", "Delete"))
                                             <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$tba->id}}' class='btn btn-warning btn-mini waves-effect waves-light'><i class='icofont icofont-trash'></i>Hapus</a><br/>
-                                            {{-- @endif --}}
+                                            @endif
                                     </td>
                                 </tr>
                             @endforeach

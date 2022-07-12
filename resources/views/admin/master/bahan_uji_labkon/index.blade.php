@@ -67,7 +67,9 @@
                                     <th>No</th>
                                     <th>Nama</th>
                                     <th>Status</th>
+                                    @if (hasAccess(Auth::user()->internal_role_id, 'Bahan Uji Labkon', 'Update') || hasAccess(Auth::user()->internal_role_id, 'Bahan Uji Labkon', 'Delete'))
                                     <th style="min-width: 75px;">Aksi</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -76,6 +78,7 @@
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>{{ $data->nama }}</td>
                                         <td>{{ $data->status == 'aktif' ? 'Aktif' : 'Tidak Aktif' }}</td>
+                                        @if (hasAccess(Auth::user()->internal_role_id, 'Bahan Uji Labkon', 'Update') || hasAccess(Auth::user()->internal_role_id, 'Bahan Uji Labkon', 'Delete'))
                                         <td style="min-width: 75px;">
                                             <div class="btn-group " role="group" data-placement="top" title=""
                                                 data-original-title=".btn-xlg">
@@ -94,6 +97,7 @@
                                                 @endif
                                             </div>
                                         </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -126,7 +130,9 @@
                                     <th>Nama Bahan</th>
                                     <th>Nama Pengujian</th>
                                     <th>Status</th>
+                                    @if (hasAccess(Auth::user()->internal_role_id, 'Bahan Uji Labkon', 'Update') || hasAccess(Auth::user()->internal_role_id, 'Bahan Uji Labkon', 'Delete'))
                                     <th style="min-width: 75px;">Aksi</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -136,6 +142,7 @@
                                         <td>{{ $data->nama_bahan }}</td>
                                         <td>{{ $data->nama_pengujian }}</td>
                                         <td>{{ $data->status == 'aktif' ? 'Aktif' : 'Tidak Aktif' }}</td>
+                                        @if (hasAccess(Auth::user()->internal_role_id, 'Bahan Uji Labkon', 'Update') || hasAccess(Auth::user()->internal_role_id, 'Bahan Uji Labkon', 'Delete'))
                                         <td style="min-width: 75px;">
                                             <div class="btn-group " role="group" data-placement="top" title=""
                                                 data-original-title=".btn-xlg">
@@ -155,6 +162,7 @@
                                                 @endif
                                             </div>
                                         </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>

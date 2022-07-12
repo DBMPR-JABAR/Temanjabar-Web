@@ -213,7 +213,7 @@
                         hasAccess(Auth::user()->internal_role_id, 'Peralatan', 'View'))
 
                         <li
-                            class=" pcoded-hasmenu  {{ Request::segment(3) == 'item_bahan_material' ||Request::segment(3) == 'peralatan' ? 'pcoded-trigger active' : '' }}">
+                            class=" pcoded-hasmenu  {{ Request::segment(3) == 'item_bahan_material' ||Request::segment(3) == 'item_peralatan' ? 'pcoded-trigger active' : '' }}">
                             <a href="javascript:void(0)" class="waves-effect waves-dark">
                                 <span class="pcoded-mtext">Peralatan & Material</span>
                             </a>
@@ -227,7 +227,7 @@
                                 </li>
                                 @endif
                                 @if (hasAccess(Auth::user()->internal_role_id, 'Peralatan', 'View'))
-                                <li class="{{ Request::segment(4) == 'peralatan' ? 'active' : '' }}">
+                                <li class="{{ Request::segment(4) == 'item_peralatan' ? 'active' : '' }}">
                                     <a href="{{ route('item_peralatan.index') }}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Peralatan Operasional</span>
                                     </a>

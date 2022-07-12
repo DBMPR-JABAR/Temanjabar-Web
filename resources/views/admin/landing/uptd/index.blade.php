@@ -56,7 +56,9 @@
                             <th>Nama</th>
                             <th>Nama Lain</th>
                             <th>Deskripsi</th>
+                            @if (hasAccess(Auth::user()->internal_role_id, 'UPTD', 'Update'))
                             <th>Aksi</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -66,10 +68,16 @@
                             <td>{{$data->nama}}</td>
                             <td>{{$data->altnama}}</td>
                             <td>{{$data->deskripsi}}</td>
+                            @if (hasAccess(Auth::user()->internal_role_id, 'UPTD', 'Update') || hasAccess(Auth::user()->internal_role_id, 'UPTD', 'Delete'))
                             <td>
+                                @if (hasAccess(Auth::user()->internal_role_id, 'UPTD', 'Update'))
                                 <a type='button' href='{{ route('editMasterUPTD',$data->id) }}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a>
+                                @endif
+                                @if (hasAccess(Auth::user()->internal_role_id, 'UPTD', 'Delete'))
                                 <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data->id}}'     class='btn btn-warning btn-mini waves-effect waves-light'><i class='icofont icofont-trash'></i>Hapus</a><br/>
+                                @endif
                             </td>
+                            @endif
                         </tr>
                         @endforeach
                     </tbody>

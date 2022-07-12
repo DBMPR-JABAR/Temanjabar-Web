@@ -65,7 +65,10 @@
                                 <th>No</th>
                                 <th>Icon Name</th>
                                 <th>Icon Image</th>
+                                @if (hasAccess(Auth::user()->internal_role_id, 'Icon Rawan Bencana', 'Update'))
+                                
                                 <th>Aksi</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody id="bodyJembatan">
@@ -74,11 +77,17 @@
                                     <td>{{$loop->index + 1}}</td>
                                     <td>{{$data->icon_name}}</td>
                                     <td><center><img class="img-fluid" style="max-width: 100px" src="{{url('storage/'.$data->icon_image)}}" alt="" srcset=""></center></td>
+                                    @if (hasAccess(Auth::user()->internal_role_id, 'Icon Rawan Bencana', 'Update') || hasAccess(Auth::user()->internal_role_id, 'Icon Rawan Bencana', 'Delete'))
                                     <td>
                                             {{-- <a type='button' href="{{ route('detailIcon',$data->id ) }}"  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Rincian</a> --}}
+                                        @if (hasAccess(Auth::user()->internal_role_id, 'Icon Rawan Bencana', 'Update'))
                                             <a type='button' href='#editModal'  data-toggle='modal' data-id='{{$data->id}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-check-circled'></i>Edit</a>
+                                        @endif
+                                        @if (hasAccess(Auth::user()->internal_role_id, 'Icon Rawan Bencana', 'Delete'))
                                             <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data->id}}'     class='btn btn-warning btn-mini waves-effect waves-light'><i class='icofont icofont-trash'></i>Hapus</a><br/>
+                                        @endif
                                     </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>

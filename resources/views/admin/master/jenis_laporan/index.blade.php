@@ -66,7 +66,9 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Jenis Laporan</th>
+                                    @if (hasAccess(Auth::user()->internal_role_id, 'Jenis Laporan', 'Update') || hasAccess(Auth::user()->internal_role_id, 'Jenis Laporan', 'Delete'))
                                     <th style="min-width: 75px;">Aksi</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody id="bodyJembatan">

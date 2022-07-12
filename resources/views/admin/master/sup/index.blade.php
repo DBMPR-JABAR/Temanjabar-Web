@@ -70,9 +70,8 @@
 
                                     <td>{{$data->name}}</td>
                                     <td>UPTD {{$data->uptd_id}}</td>
-
+                                    @if (hasAccess(Auth::user()->internal_role_id, 'SUP', 'Update') || hasAccess(Auth::user()->internal_role_id, 'SUP', 'Delete'))
                                     <td>
-
                                             @if (hasAccess(Auth::user()->internal_role_id, "SUP", "Update"))
                                             <a type='button' href='{{route('editSUP',$data->id)}}'  class='btn btn-primary btn-mini waves-effect waves-light'><i class='icofont icofont-edit'></i>Edit</a>
                                             @endif
@@ -80,6 +79,7 @@
                                             <a type='button' href='#delModal'  data-toggle='modal' data-id='{{$data->id}}' class='btn btn-warning btn-mini waves-effect waves-light'><i class='icofont icofont-trash'></i>Hapus</a><br/>
                                             @endif
                                     </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>

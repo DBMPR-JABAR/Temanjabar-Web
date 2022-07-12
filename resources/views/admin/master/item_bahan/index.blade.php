@@ -69,7 +69,9 @@
                                     <th>Keterangan</th>
 
                                     {{-- <th>Satuan</th> --}}
+                                    @if (hasAccess(Auth::user()->internal_role_id, 'Bahan Material', 'Update') || hasAccess(Auth::user()->internal_role_id, 'Bahan Material', 'Delete'))
                                     <th style="min-width: 75px;">Aksi</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody id="bodyJembatan">
@@ -80,6 +82,7 @@
                                         <td>{{ $data->keterangan }}</td>
 
                                         {{-- <td>{{ $data->satuan }}</td> --}}
+                                        @if (hasAccess(Auth::user()->internal_role_id, 'Bahan Material', 'Update') || hasAccess(Auth::user()->internal_role_id, 'Bahan Material', 'Delete'))
                                         <td style="min-width: 75px;">
                                             <div class="btn-group " role="group" data-placement="top" title=""
                                                 data-original-title=".btn-xlg">
@@ -98,6 +101,7 @@
                                                 @endif
                                             </div>
                                         </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>
