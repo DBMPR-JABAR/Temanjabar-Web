@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Model\Transactional\LaporanMasyarakat;
 use App\Model\News;
+use App\Model\Transactional\Kota;
+
 
 class LandingController extends Controller
 {
@@ -45,7 +47,7 @@ class LandingController extends Controller
         $fitur = DB::table('landing_fitur')->get();
         $uptd = DB::table('landing_uptd')->get();
         $slideshow = DB::table('landing_slideshow')->get();
-        $lokasi = DB::table('utils_lokasi')->get();
+        $lokasi = Kota::get();
         $jenis_laporan = DB::table('utils_jenis_laporan')->get();
         $ruas_jalan = DB::table('master_ruas_jalan')->get();
         $video = DB::table('landing_news_video')->get();

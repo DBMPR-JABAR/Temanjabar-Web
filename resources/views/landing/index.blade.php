@@ -813,7 +813,7 @@
                                         id="ruas_jalan"
                                         required
                                     >
-                                        <option selected>Pilih...</option>
+                                        <option>Pilih...</option>
                                         @foreach ($lokasi as $kabkota)
                                         <option value="{{$kabkota->name}}">
                                             {{$kabkota->name}}
