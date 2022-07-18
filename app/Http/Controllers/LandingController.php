@@ -47,7 +47,7 @@ class LandingController extends Controller
     }
     public function index()
     {
-        $this->fix_lokasi();
+        // $this->fix_lokasi();
         $profil = DB::table('landing_profil')->where('id', 1)->first();
         $fitur = DB::table('landing_fitur')->get();
         $uptd = DB::table('landing_uptd')->get();
