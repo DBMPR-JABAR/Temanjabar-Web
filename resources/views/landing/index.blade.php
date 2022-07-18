@@ -762,40 +762,16 @@
                                         onchange="ubahOption()"
                                         required
                                     >
-                                        <option selected>Pilih...</option>
+                                        <option value="">Pilih...</option>
                                         @foreach ($uptd_lists as $no =>
                                         $uptd_list)
+                                        @if ($uptd_list->id != 11)
                                         <option value="{{ $uptd_list->id }}">
                                             {{ $uptd_list->nama }}
                                             ({{ $uptd_list->deskripsi }})
-                                        </option>
-                                        @endforeach {{--
-                                        <option value="1">
-                                            UPTD-I (kab.cianjur, kota/kab.bogor,
-                                            kota depok, kota/kab.bekasi)
-                                        </option>
-                                        <option value="2">
-                                            UPTD-II (kota & kab. sukabumi)
-                                        </option>
-                                        <option value="3">
-                                            UPTD-III (kota/kab.bandung, kota
-                                            cimahi, kab.bandung barat,
-                                            kab.subang, kab.karawang,
-                                            kab.purwakarta)
-                                        </option>
-                                        <option value="4">
-                                            UPTD-IV (kab.sumedang, kab. garut)
-                                        </option>
-                                        <option value="5">
-                                            UPTD-V (kab/kota tasikmalaya, kota
-                                            banjar, kab.ciamis, kab.pangandaran,
-                                            kab.kuningan)
-                                        </option>
-                                        <option value="6">
-                                            UPTD-VI (kota/kab cirebon, kab.
-                                            majalengka, kab. indramayu)
-                                        </option>
-                                        --}}
+                                        </option>   
+                                        @endif
+                                        @endforeach 
                                     </select>
                                 </div>
                             </div>
@@ -805,17 +781,17 @@
                                     <label
                                         class="my-1 mr-2"
                                         for="pilihanKeluhan"
-                                        >Lokasi</label
+                                        >Kota</label
                                     >
                                     <select
-                                        name="lokasi"
+                                        name="kota_id"
                                         class="my-1 custom-select mr-sm-2 w-100"
                                         id="ruas_jalan"
                                         required
                                     >
-                                        <option>Pilih...</option>
+                                        <option value="">Pilih...</option>
                                         @foreach ($lokasi as $kabkota)
-                                        <option value="{{$kabkota->name}}">
+                                        <option value="{{$kabkota->id}}">
                                             {{$kabkota->name}}
                                         </option>
                                         @endforeach
@@ -836,7 +812,7 @@
                                         id="pilihanKeluhan"
                                         required
                                     >
-                                        <option selected>Pilih...</option>
+                                        <option value="">Pilih...</option>
                                         @foreach ($jenis_laporan as $laporan)
                                         <option value="{{$laporan->id}}">
                                             {{$laporan->name}}
@@ -882,7 +858,7 @@
                                         data-target="#latLong"
                                     >
                                         <i class="fas fa-map-marked-alt"></i>
-                                        Lat Long
+                                        Pilih Lokasi
                                     </button>
                                 </div>
                                 <div
