@@ -43,11 +43,18 @@ class LandingController extends Controller
     // GET
     public function fix_lokasi(){
         $laporan = LaporanMasyarakat::get();
-        dd($laporan);
+        foreach($laporan as $data){
+            $temp = Str::upper($data->lokasi);
+            $save = Kota::where('name', $temp)->first();
+            if(isset($save)){
+                $data->kota_id = $save->id;
+                $data->save();
+            }  
+        }
     }
     public function index()
     {
-        // $this->fix_lokasi();
+        $this->fix_lokasi();
         $profil = DB::table('landing_profil')->where('id', 1)->first();
         $fitur = DB::table('landing_fitur')->get();
         $uptd = DB::table('landing_uptd')->get();
