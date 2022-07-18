@@ -17,6 +17,7 @@ use App\Model\DWH\KemantapanJalan;
 use App\Model\Transactional\LaporanMasyarakat;
 use App\Model\Transactional\MonitoringLubangSurveiDetail as SurveiLubangDetail;
 use App\Transactional\RumijaReport;
+use Illuminate\Support\Facades\Http as curl;
 
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
@@ -177,10 +178,25 @@ class MapDashboardController extends Controller
                         ->whereIn('uptd_id', $uptd)->get();
                     $this->response['data']['laporanmasyarakat'] = $data;
                 }
+
+                if (in_array('pembangunan', $request->kegiatan)) {  
+
+                    $uptd  =[];
+                    foreach ($request->uptd as $key => $value) {
+                       array_push($uptd, str_replace('uptd', '', $value));
+                    }
+                     
+                  
+                    $res = curl::post('https://tk.temanjabar.net/api/get-data-pembangunan/',['uptd'=>$uptd]);
+                   
+                    $res = json_decode($res->body());
+                    $this->response['data']['pembangunan'] = $res->data;          
+                }
             }
 
             return response()->json($this->response, 200);
         } catch (\Exception $th) {
+     
             $this->response['data']['message'] = $th->getMessage();
             // $this->response['data']['message'] = 'Internal Error';
             return response()->json($this->response, 500);
