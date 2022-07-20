@@ -27,6 +27,7 @@ Route::get('/map-dashboard/intervention-mage/{value}', function($value) {
     return $img->response('jpg');
 });
 Route::get('/map-dashboard/intervention-mage/pengaduan_masyarakat/{value}', function($value) {
+    dd($value);
     $img = Image::make(url('storage/'.$value))->resize(400, 400, function ($constraint) {
         $constraint->aspectRatio();
         $constraint->upsize();
