@@ -26,7 +26,18 @@ Route::get('/map-dashboard/intervention-mage/{value}', function($value) {
     }
     return $img->response('jpg');
 });
-
+Route::get('/map-dashboard/intervention-mage/{value}/pengaduan_masyarakat', function($value) {
+    $img = Image::make(url('storage/'.$value))->resize(400, 400, function ($constraint) {
+        $constraint->aspectRatio();
+        $constraint->upsize();
+    });
+    $height = $img->height();
+    $width = $img->width();
+    if ($height < $width) {
+       $img->rotate(-90);
+    }
+    return $img->response('jpg');
+});
 Route::get('test', function () {
     return view('admin.layout.index');
 });
