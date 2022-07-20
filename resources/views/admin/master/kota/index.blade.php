@@ -57,8 +57,8 @@
                     </div>
                 </div>
                 <div class="card-block">
-                    @if (hasAccess(Auth::user()->internal_role_id, 'Ruas Jalan', 'Create'))
-                        {{-- <a href="{{ route('item_satuan.create') }}" class="btn btn-mat btn-primary mb-3">Tambah</a> --}}
+                    @if (hasAccess(Auth::user()->internal_role_id, 'Kota', 'Create'))
+                        <a href="{{ route('item_satuan.create') }}" class="btn btn-mat btn-primary mb-3">Tambah</a>
                     @endif
                     <div class="dt-responsive table-responsive">
                         <table id="item_satuan-table" class="table table-striped table-bordered able-responsive">
