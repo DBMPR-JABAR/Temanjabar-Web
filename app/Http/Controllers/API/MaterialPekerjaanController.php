@@ -288,7 +288,7 @@ class MaterialPekerjaanController extends Controller
     public function bahanMaterial()
     {
         try {
-            $bahan_material = DB::table('item_bahan')->select('no', 'nama_item')->where('keterangan',null)->get();
+            $bahan_material = DB::table('item_bahan')->select('no', 'nama_item')->where('keterangan','!=','Bahan Operasional')->orWhere('keterangan',null)->get();
             $this->response['status'] = 'success';
             $this->response['data']['bahan_material'] = $bahan_material;
             return response()->json($this->response, 200);

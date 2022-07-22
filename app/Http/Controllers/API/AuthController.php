@@ -336,7 +336,44 @@ class AuthController extends Controller
             return response()->json($this->response, 500);
         }
     }
+    public function getUserMandor()
+    {
+        try {
 
+            $data = User::with('internalRole')->where('user_role.role', 'like', '%mandor%');
+            $data = $data->leftJoin('user_role', 'user_role.id', '=', 'users.internal_role_id')->select('users.*', 'user_role.id as id_role');
+            if (Auth::user() && str_contains(Auth::user()->internalRole->role, 'Mandor')) {
+                $data = $data->where('users.id', Auth::user()->id);
+                $data = $data->get();
+            } else if (Auth::user() && Auth::user()->sup_id) {
+                $data = $data->where('users.sup_id', Auth::user()->sup_id);
+                $data = $data->get();
+
+                // if (count(Auth::user()->ruas) > 0) {
+                //     $data = $data->whereIn('ruas_jalan_id', Auth::user()->ruas->pluck('id_ruas_jalan')->toArray());
+                // }
+            }else if (Auth::user() && Auth::user()->internalRole->uptd) {
+                $data = $data->get();
+                $temp=[];
+                foreach($data as $user){
+                    if( Auth::user()->internalRole->uptd == $user->internalRole->uptd){
+                        $temp[]=$user;
+                    }
+                }
+                $data = $temp;
+            }else{
+                $data = $data->get();
+            }
+
+            return response()->json([
+                'success' => true,
+                'data' => $data,
+            ]);
+        } catch (\Exception $e) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
     protected function getToken($token)
     {
         return [

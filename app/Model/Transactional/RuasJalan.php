@@ -8,6 +8,7 @@ use Carbon\Carbon;
 class RuasJalan extends Model
 {
     protected $table = "master_ruas_jalan";
+    protected $hidden = ['pivot'];
     
     public function uptd()
     {

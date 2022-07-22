@@ -83,6 +83,20 @@ Route::prefix('jqr')->group(function () {
 Route::group(['middleware' => ['jwt.auth']], function () {
     Route::get('user/profile', 'API\AuthController@userProfile');
     Route::post('user/refresh_fcm', 'API\AuthController@refreshFcm');
+    Route::get('get-user-mandor', 'API\AuthController@getUserMandor');
+
+    Route::get('get-uptd', 'API\UtilsController@getUPTD');
+    Route::get('get-uptd-byUser', 'API\UtilsController@getUPTDByUser');
+    Route::get('get-sup', 'API\UtilsController@getSUP');
+    Route::get('get-sup-byUser', 'API\UtilsController@getSUPByUser');
+    Route::get('get-ruas', 'API\RuasJalanController@getRuas');
+    Route::get('get-ruas-byUser', 'API\RuasJalanController@getRuasByUser');
+    Route::get('get-jenis-laporan', 'API\UtilsController@getJenisLaporan');
+    Route::get('get-kegiatan-pekerjaan', 'API\UtilsController@getKegiatanPekerjaan');
+
+    Route::get('get-peralatan', 'API\PeralatanController@getData');
+    Route::get('get-bahan-operasional', 'API\MaterialPekerjaanController@getBahanMaterialOperasional');
+    Route::get('get-bahan-material', 'API\MaterialPekerjaanController@bahanMaterial');
 
     Route::prefix('survei-lubang')->group(function () {
         Route::get('index', 'API\MonitoringLubangController@indexSurvei');
@@ -124,7 +138,6 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     });
     
     Route::get('has_access/{permission}', 'API\UtilsController@has_access');
-    Route::get('uptd_list', 'API\UtilsController@uptd_list');
 
     Route::get('/pengumuman/masyarakat', 'API\AnnouncementController@getDataMasyarakat');
     Route::get('/pengumuman/{slug?}', 'API\AnnouncementController@show');

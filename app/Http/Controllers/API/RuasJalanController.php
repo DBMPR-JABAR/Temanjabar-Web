@@ -8,8 +8,10 @@ use App\Http\Resources\GeneralResource;
 use App\Http\Resources\KemantapanJalanResource;
 use App\Http\Resources\RekapKemantapanJalanResource;
 use App\Model\DWH\KemantapanJalan;
-use App\Model\DWH\RuasJalan;
+use App\Model\DWH\RuasJalanDWH;
+use App\Model\Transactional\RuasJalan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RuasJalanController extends Controller
 {
@@ -29,9 +31,50 @@ class RuasJalanController extends Controller
      */
     public function index()
     {
-        return (new GeneralResource(RuasJalan::all()));
+        return (new GeneralResource(RuasJalanDWH::all()));
     }
+    public function getRuas()
+    {
+        try {
+            $ruas = RuasJalan::select('id_ruas_jalan','nama_ruas_jalan')->get();
+            $this->response['status'] = 'success';
+            $this->response['data'] = $ruas;
 
+            return response()->json($this->response, 200);
+        } catch (\Exception $e) {
+            $this->response['message'] = 'Internal Error';
+            $this->response['error']['message'] = $e->getMessage();
+            return response()->json($this->response, 500);
+        }
+    }
+    public function getRuasByUser()
+    {
+        try {
+
+            if(Auth::user()->ruas()->exists()){
+                $ruas = Auth::user()->ruas()->select('id_ruas_jalan','nama_ruas_jalan')->get();
+            }else{
+                if (Auth::user() && Auth::user()->internalRole->uptd) {
+                    $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+                    if (Auth::user()->sup_id) {
+                        $ruas = RuasJalan::select('id_ruas_jalan','nama_ruas_jalan')->where('kd_sppjj',Auth::user()->data_sup->kd_sup)->get();
+                    } else {
+                        $ruas = RuasJalan::select('id_ruas_jalan','nama_ruas_jalan')->where('uptd_id',$uptd_id)->get();
+                    }
+                }else{
+                    $ruas = RuasJalan::select('id_ruas_jalan','nama_ruas_jalan')->get();
+                }
+            }
+            $this->response['status'] = 'success';
+            $this->response['data'] = $ruas;
+
+            return response()->json($this->response, 200);
+        } catch (\Exception $e) {
+            $this->response['message'] = 'Internal Error';
+            $this->response['error']['message'] = $e->getMessage();
+            return response()->json($this->response, 500);
+        }
+    }
     public function getKemantapanJalan()
     {
         return (KemantapanJalanResource::collection(KemantapanJalan::all())->additional(['status' => 'success']));
