@@ -122,30 +122,30 @@ class PekerjaanController extends Controller
             $pekerjaan['panjang'] = $request->panjang;
             $pekerjaan['perkiraan_kuantitas'] = $request->perkiraan_kuantitas;
             
-            if ($request->foto_awal != null) {
-                $path = Str::snake(date("YmdHis") . ' ' . uniqid());
-                $request->foto_awal->storeAs('public/pekerjaan/', $path);
-                $pekerjaan['foto_awal'] = $path;
+            if($request->file('foto_awal')){
+                $image = $request->file('foto_awal');
+                $image->storeAs('public/pekerjaan',$image->hashName());
+                $pekerjaan['foto_awal'] = $image->hashName();
             }
-            if ($request->foto_sedang != null) {
-                $path = Str::snake(date("YmdHis") . ' ' .uniqid());
-                $request->foto_sedang->storeAs('public/pekerjaan/', $path);
-                $pekerjaan['foto_sedang'] = $path;
+            if($request->file('foto_sedang')){
+                $image = $request->file('foto_sedang');
+                $image->storeAs('public/pekerjaan',$image->hashName());
+                $pekerjaan['foto_sedang'] = $image->hashName();
             }
-            if ($request->foto_akhir != null) {
-                $path = Str::snake(date("YmdHis") . ' ' . uniqid());
-                $request->foto_akhir->storeAs('public/pekerjaan/', $path);
-                $pekerjaan['foto_akhir'] = $path;
+            if($request->file('foto_akhir')){
+                $image = $request->file('foto_akhir');
+                $image->storeAs('public/pekerjaan',$image->hashName());
+                $pekerjaan['foto_akhir'] = $image->hashName();
             }
-            if ($request->foto_pegawai != null) {
-                $path = Str::snake(date("YmdHis") . ' ' . uniqid());
-                $request->foto_pegawai->storeAs('public/pekerjaan/', $path);
-                $pekerjaan['foto_pegawai'] = $path;
+            if($request->file('foto_pegawai')){
+                $image = $request->file('foto_pegawai');
+                $image->storeAs('public/pekerjaan',$image->hashName());
+                $pekerjaan['foto_pegawai'] = $image->hashName();
             }
-            if ($request->video != null) {
-                $path = Str::snake(date("YmdHis") . ' ' .uniqid());
-                $request->video->storeAs('public/pekerjaan/', $path);
-                $pekerjaan['video'] = $path;
+            if($request->file('video')){
+                $image = $request->file('video');
+                $image->storeAs('public/pekerjaan',$image->hashName());
+                $pekerjaan['video'] = $image->hashName();
             }
 
             $row = DB::table('kemandoran')->select('id_pek')->orderByDesc('id_pek')->limit(1)->first();
@@ -168,7 +168,6 @@ class PekerjaanController extends Controller
                 'message' => 'Berhasil menambahkan pekerjaan Pemeliharaan',
                 'data' => $pekerjaan
             ]);
-            return response()->json($this->response, 200);
         } catch (\Exception $th) {
             $this->response['data']['message'] = 'Internal Error' . $th;
             return response()->json($this->response, 500);

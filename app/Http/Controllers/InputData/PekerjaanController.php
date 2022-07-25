@@ -128,7 +128,6 @@ class PekerjaanController extends Controller
 
         if (Auth::user() && Auth::user()->internalRole->uptd) {
             $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
-            $pekerjaan = $pekerjaan->where('kemandoran.uptd_id', $uptd_id);
             if (str_contains(Auth::user()->internalRole->role, 'Mandor')) {
                 $pekerjaan = $pekerjaan->where('kemandoran.user_id', Auth::user()->id);
             } else if (Auth::user()->sup_id) {
@@ -136,6 +135,8 @@ class PekerjaanController extends Controller
                 if (count(Auth::user()->ruas) > 0) {
                     $pekerjaan = $pekerjaan->whereIn('ruas_jalan_id', Auth::user()->ruas->pluck('id_ruas_jalan')->toArray());
                 }
+            }else{
+                $pekerjaan = $pekerjaan->where('kemandoran.uptd_id', $uptd_id);
             }
         }
         // $pekerjaan = $pekerjaan->whereRaw("YEAR(tanggal) BETWEEN 2021 AND 2021");
