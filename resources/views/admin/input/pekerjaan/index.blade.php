@@ -128,7 +128,10 @@
                 </div>
                 <div class="card-block">
                     @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Create"))
-                    <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
+                    {{-- <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a> --}}
+                    <a href="https://sp.temanjabar.net/admin/input-data/pekerjaan" target="_blank" class="btn btn-mat btn-primary mb-3">Tambah</a>
+
+                    
                     @if (Auth::user()->id == 1)
                         <a href="{{ route('getPekerjaanTrash') }}" class="btn btn-mat btn-danger mb-3">Trash</a>
                         @endif

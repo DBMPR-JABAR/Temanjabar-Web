@@ -179,6 +179,8 @@ Route::group(['middleware' => ['jwt.auth']], function () {
         Route::get('get-ruas-jalan', 'API\PekerjaanController@getRuasJalan');
         Route::get('get-jenis-pekerjaan', 'API\PekerjaanController@getJenisPekerjaan');
         Route::get('get-jenis-kegiatan', 'API\PekerjaanController@getJenisKegiatan');
+        
+        Route::get('store', 'API\PekerjaanController@store');
 
         Route::group(['prefix' => 'material_pekerjaan'], function () {
             Route::get('bahan_material', 'API\MaterialPekerjaanController@bahanMaterial');
