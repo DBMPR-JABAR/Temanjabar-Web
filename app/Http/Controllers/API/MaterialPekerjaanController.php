@@ -290,7 +290,7 @@ class MaterialPekerjaanController extends Controller
         try {
             $bahan_material = DB::table('item_bahan')->select('no', 'nama_item')->where('keterangan','!=','Bahan Operasional')->orWhere('keterangan',null)->get();
             $this->response['status'] = 'success';
-            $this->response['data']['bahan_material'] = $bahan_material;
+            $this->response['data'] = $bahan_material;
             return response()->json($this->response, 200);
         } catch (\Exception $e) {
             $this->response['data']['message'] = 'Internal Error ';
@@ -304,7 +304,7 @@ class MaterialPekerjaanController extends Controller
                 ->get();
 
             $this->response['status'] = 'success';
-            $this->response['data']['alat_operasional'] = $alatOperasional;
+            $this->response['data'] = $alatOperasional;
 
             return response()->json($this->response, 200);
         } catch (\Exception $e) {
@@ -319,7 +319,7 @@ class MaterialPekerjaanController extends Controller
                 ->get();
 
             $this->response['status'] = 'success';
-            $this->response['data']['jenis_pekerjaan'] = $jenisPekerjaan;
+            $this->response['data'] = $jenisPekerjaan;
 
             return response()->json($this->response, 200);
         } catch (\Exception $e) {
@@ -332,7 +332,7 @@ class MaterialPekerjaanController extends Controller
         try {
             $satuan_material = DB::table('item_satuan')->get();
             $this->response['status'] = 'success';
-            $this->response['data']['satuan_material'] = $satuan_material;
+            $this->response['data'] = $satuan_material;
             return response()->json($this->response, 200);
         } catch (\Exception $e) {
             $this->response['data']['message'] = 'Internal Error ';
