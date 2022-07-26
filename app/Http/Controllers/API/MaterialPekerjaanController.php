@@ -35,23 +35,22 @@ class MaterialPekerjaanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
         try {
 
             $validator = Validator::make($request->all(), [
-                'id_pek' => 'required',
                 'jenis_pekerjaan' => 'required|string',
                 // 'nama_bahan1' => 'required|string',
                 // 'jum_bahan1' => 'required|string',
                 // 'satuan1' => 'required|string',
                 
                 'bahan_material' => '',
-                'peralatan_operasional' => 'required|string',
+                'peralatan_operasional' => '',
                 'bahan_operasional' => '',
                 'pekerja' => '',
                 'penghambat_pelaksanaan' =>'',
-                'uptd_id' => 'required|int'
+                'uptd_id' => ''
             ]);
 
             if ($validator->fails()) {
@@ -59,108 +58,88 @@ class MaterialPekerjaanController extends Controller
                 return response()->json($this->response, 200);
             }
 
-            $sudahAda = DB::table('bahan_material')->where('id_pek', $request->id_pek)->count();
-
-            if ($sudahAda) {
-                $this->response['status'] = 'success';
-                $this->response['data']['tess'] = json_decode($request->peralatan_operasional);
-                
-                $this->response['data']['message'] = 'Bahan material sudah ada, silahkan update';
-                return response()->json($this->response, 200);
-            }
-
-            $request['tanggal'] = Carbon::now();
-            $request['nama_mandor'] = $this->user->name;
-            $bahan_tiba =$request->except([
-                'peralatan',
-
-                'bahan_material',
-                'peralatan_operasional',
-                'bahan_operasional',
-                'pekerja',
-                'penghambat_pelaksanaan'
-
-                
-            ]);
-
-            $temp_bahan_tiba = json_decode($request->bahan_material);
-            $temp_peralatan_operasional = json_decode($request->peralatan_operasional);
-            $temp_bahan_operasional = json_decode($request->bahan_operasional);
-            $temp_pekerja = json_decode($request->pekerja);
-            $temp_penghambat_pelaksanaan = json_decode($request->penghambat_pelaksanaan);
-            
+            $temp = Pemeliharaan::where('id_pek', $id)->first();
+            // dd($pekerjaan['keterangan_instruksi']);
+            $pekerjaan['uptd_id'] = $temp->uptd_id;
+            $pekerjaan['updated_by'] = Auth::user()->id;
+            $pekerjaan['nama_mandor']=$temp->nama_mandor;
+            $pekerjaan['jenis_pekerjaan']=$temp->jenis_pekerjaan;
+            $pekerjaan['tanggal']=$temp->tanggal;
+            // dd($pekerjaan);
             $x=1;
-            if($temp_bahan_tiba){
-                for($i = 0; $i<count($temp_bahan_tiba) ;$i++){
-                    $jum_bahan = "jum_bahan$x";
-                    $nama_bahan = "nama_bahan$x";
-                    $satuan = "satuan$x";
-                    $bahan_tiba[$nama_bahan]=DB::table('item_bahan')->where('no',$temp_bahan_tiba[$i]->nama_bahan)->pluck('nama_item')->first();
-                    $bahan_tiba[$jum_bahan]=$temp_bahan_tiba[$i]->jum_bahan;
-                    $bahan_tiba[$satuan]=$temp_bahan_tiba[$i]->satuan;
-                    $x++;
+            for($i = 0; $i<count($request->nama_bahan)-1 ;$i++){
+                $jum_bahan = "jum_bahan$x";
+                $nama_bahan = "nama_bahan$x";
+                $satuan = "satuan$x";
+                $pekerjaan[$nama_bahan]=$request->nama_bahan[$i];
+                $pekerjaan[$jum_bahan]=$request->jum_bahan[$i];
+                $pekerjaan[$satuan]=$request->satuan[$i];
+                $x++;
+            }
+            for($i = 0; $i<count($request->jum_peralatan)-1 ;$i++){
+                if($request->jum_peralatan[$i] != null){
+                    $peralatan['id_pek'] = $id;
+                    $temp_peralatan=explode(",",$request->nama_peralatan[$i]);
+                    $peralatan['id_peralatan'] = $temp_peralatan[0];
+                    $peralatan['nama_peralatan'] = $temp_peralatan[1];
+                    $peralatan['kuantitas'] = $request->jum_peralatan[$i];
+                    $peralatan['satuan'] = $request->satuan_peralatan[$i];
+                    DB::table('kemandoran_detail_peralatan')->insert($peralatan);
                 }
             }
-            $store_material = DB::table('bahan_material')->insert($bahan_tiba);
-                if($store_material){
-                    
-                    for($i = 0; $i<count($temp_peralatan_operasional) ;$i++){
-                        if($temp_peralatan_operasional[$i]->jum_peralatan != 0){
-                            $peralatan['id_pek'] = $request->id_pek;
-                            $peralatan['id_peralatan'] = $temp_peralatan_operasional[$i]->nama_peralatan;
-                            $peralatan['kuantitas'] = $temp_peralatan_operasional[$i]->jum_peralatan;
-                            $peralatan['satuan'] = $temp_peralatan_operasional[$i]->satuan_peralatan;
-                            DB::table('kemandoran_detail_peralatan')->insert($peralatan);
-                        }
-                    }
-
-                    for($i = 0; $i<count($temp_bahan_operasional) ;$i++){
-                        if($temp_bahan_operasional[$i]->jum_bahan_operasional != 0){
-                            $material['id_pek'] = $request->id_pek;
-                            $material['id_material'] = $temp_bahan_operasional[$i]->nama_bahan_operasional;
-                            $material['kuantitas'] = $temp_bahan_operasional[$i]->jum_bahan_operasional;
-                            $material['satuan'] = $temp_bahan_operasional[$i]->satuan_operasional;
-                            DB::table('kemandoran_detail_material')->insert($material);
-                        }
-                    }
-                    foreach($temp_pekerja as $dat){
-                        $pekerja['id_pek'] = $request->id_pek;
-                        $pekerja['jabatan'] = $dat->jabatan_pekerja;
-                        $pekerja['jumlah'] = $dat ->jum_pekerja;
-                        DB::table('kemandoran_detail_pekerja')->insert($pekerja);
-
-                    }
-                    // for($i = 0; $i<count($temp_pekerja) ;$i++){
-                    //     $pekerja['id_pek'] = $request->id_pek;
-                    //     $pekerja['jabatan'] = $temp_pekerja[$i]->jabatan_pekerja;
-                    //     $pekerja['jumlah'] = $temp_pekerja[$i]->jum_pekerja;
-                    // }
-                    for($i = 0; $i<count($temp_penghambat_pelaksanaan) ;$i++){
-                        if($temp_penghambat_pelaksanaan[$i]->start_time != 0){
-                            $penghambat['id_pek'] = $request->id_pek;
-                            $penghambat['jenis_gangguan'] = $temp_penghambat_pelaksanaan[$i]->jenis_gangguan;
-                            $penghambat['start_time'] = $temp_penghambat_pelaksanaan[$i]->start_time;
-                            $penghambat['end_time'] = $temp_penghambat_pelaksanaan[$i]->end_time;
-                            $penghambat['akibat'] = $temp_penghambat_pelaksanaan[$i]->akibat;
-                            DB::table('kemandoran_detail_penghambat')->insert($penghambat);
-                        }
-                    }
-
-                    $kemandoran = DB::table('kemandoran')->where('id_pek', $request->id_pek);
-                    $kemandoranUpdate['mail'] = 1;
-                    $kemandoran->update($kemandoranUpdate);
-                    $this->response['status'] = 'success';
-
-                    $this->response['data']['message'] = 'Berhasil Menambah Material Pekerjaan';
-                    return response()->json($this->response, 200);
-                }else{
-                    $this->response['status'] = 'error';
-                    $this->response['data']['message'] = 'data gagal disimpan';
-                    $this->response['data']['tess'] = json_decode($request->peralatan_operasional);
-                    
-                    
-                    return response()->json($this->response, 500);
+            for($i = 0; $i<count($request->jum_bahan_operasional)-1 ;$i++){
+                if($request->jum_bahan_operasional[$i] != null){
+                    $material['id_pek'] = $id;
+                    $material['id_material'] = $request->nama_bahan_operasional[$i];
+                    $material['kuantitas'] = $request->jum_bahan_operasional[$i];
+                    $material['satuan'] = $request->satuan_operasional[$i];
+                    DB::table('kemandoran_detail_material')->insert($material);
                 }
+            }
+            for($i = 0; $i<count($request->jabatan_pekerja)-1 ;$i++){
+                $pekerja['id_pek'] = $id;
+                $pekerja['jabatan'] = $request->jabatan_pekerja[$i];
+                $pekerja['jumlah'] = $request->jum_pekerja[$i] ? :0;
+                DB::table('kemandoran_detail_pekerja')->insert($pekerja);
+            }
+            for($i = 0; $i<count($request->jenis_gangguan)-1 ;$i++){
+                if($request->start_time[$i] != null){
+                    $penghambat['id_pek'] = $id;
+                    $penghambat['jenis_gangguan'] = $request->jenis_gangguan[$i];
+                    $penghambat['start_time'] = $request->start_time[$i];
+                    $penghambat['end_time'] = $request->end_time[$i];
+                    $penghambat['akibat'] = $request->akibat[$i];
+                    DB::table('kemandoran_detail_penghambat')->insert($penghambat);
+                }
+            }
+            // dd($pekerjaan);
+            if(str_contains(Auth::user()->internalRole->role,'Pengamat')){
+                $keterangan_instruksi['id_pek'] = $id;
+                $keterangan_instruksi['user_id'] = Auth::user()->id;
+                $keterangan_instruksi['keterangan'] = $request->keterangan_instruksi;
+                DB::table('kemandoran_detail_instruksi')->insert($keterangan_instruksi);
+            }
+            DB::table('bahan_material')->insert($pekerjaan);
+            $kemandoran =  DB::table('kemandoran');
+
+            if($kemandoran->where('id_pek', $id)->where('mail', null)->exists()){
+                $mail['mail'] = 1;
+                
+                $kemandoran->update($mail);
+                $detail_adjustment =  DB::table('kemandoran_detail_status');
+                $data['pointer'] = 0;
+                $data['adjustment_user_id'] = Auth::user()->id;
+                $data['status'] = "Submitted";
+                $data['id_pek'] = $id;
+                $data['updated_at'] = Carbon::now();
+                $data['created_at'] = Carbon::now();
+                $data['created_by'] = Auth::user()->id;
+                if(str_contains(Auth::user()->internalRole->role,'Admin')){
+                    $data['adjustment_user_id'] = $temp->user_id;
+                }
+                $insert = $detail_adjustment->insert($data);
+            }
+            storeLogActivity(declarLog(1, 'Detail Pemeliharaan Pekerjaan', $id, 1 ));
 
         } catch (\Exception $e) {
            
