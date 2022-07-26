@@ -33,16 +33,22 @@ class PekerjaanController extends Controller
     public function index()
     {
         try {
-            $pekerjaan = DB::table('kemandoran')
-                // ->rightJoin('utils_pekerjaan', 'utils_pekerjaan.id_pek', '=', 'kemandoran.id_pek')
-                ->where('is_deleted', 0)
-                ->where('user_id', $this->user->id)
-                ->get()
-                ->reverse()->values();
-
+            $data = Pemeliharaan::latest('tglreal');
+            if ($this->user && $this->user->internalRole->uptd) {
+                if(str_contains($this->user->internalRole->role,'Mandor')){
+                    $data = $data->where('user_id',$this->user->id);
+                }else if($this->user->sup_id){
+                    $data = $data->where('sup_id',$this->user->sup_id);
+                    if(count($this->user->ruas)>0){
+                        $data = $data->whereIn('ruas_jalan_id',$this->user->ruas->pluck('id_ruas_jalan')->toArray());
+                    }
+                }else{
+                    $data = $data->where('uptd_id', $this->userUptd);
+                }
+            }
+            $data = $data->get();
             $this->response['status'] = 'success';
-            $this->response['data']['pekerjaan'] = $pekerjaan;
-
+            $this->response['data'] = $data;
             return response()->json($this->response, 200);
         } catch (\Exception $th) {
             $this->response['data']['message'] = 'Internal Error';

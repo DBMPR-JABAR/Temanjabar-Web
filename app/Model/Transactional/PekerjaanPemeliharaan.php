@@ -13,4 +13,8 @@ class PekerjaanPemeliharaan extends Model
     {
         return $this->belongsTo('App\Model\Transactional\RuasJalan', 'id_ruas_jalan','ruas_jalan_id');
     }
+    public function detailPeralatan()
+    {
+        return $this->hasMany('App\Model\Transactional\PemeliharaanDetailPeralatan', 'id_pek','id_pek');
+    }
 }

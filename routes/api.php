@@ -93,6 +93,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::get('get-ruas-byUser', 'API\RuasJalanController@getRuasByUser');
     Route::get('get-jenis-laporan', 'API\UtilsController@getJenisLaporan');
     Route::get('get-kegiatan-pekerjaan', 'API\UtilsController@getKegiatanPekerjaan');
+    Route::get('get-satuan-material', 'API\MaterialPekerjaanController@satuanMaterial');
 
     Route::get('get-peralatan', 'API\PeralatanController@getData');
     Route::get('get-bahan-operasional', 'API\MaterialPekerjaanController@getBahanMaterialOperasional');
@@ -174,6 +175,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::get('proyek-kontrak/status/{status}', 'API\ProyekController@getByStatus');
 
     Route::group(['prefix' => 'pekerjaan-pemeliharaan'], function () {
+        Route::get('get-data', 'API\PekerjaanController@index');
         Route::get('get-nama-kegiatan-pekerjaan', 'API\PekerjaanController@getNamaKegiatanPekerjaan');
         Route::get('get-sup', 'API\PekerjaanController@getSUP');
         Route::get('get-ruas-jalan', 'API\PekerjaanController@getRuasJalan');
@@ -182,7 +184,9 @@ Route::group(['middleware' => ['jwt.auth']], function () {
         
         Route::post('store', 'API\PekerjaanController@store');
 
-        Route::group(['prefix' => 'material_pekerjaan'], function () {
+        Route::group(['prefix' => 'material-pekerjaan'], function () {
+            Route::post('store/{id_pek}', 'API\MaterialPekerjaanController@store');
+
             Route::get('bahan_material', 'API\MaterialPekerjaanController@bahanMaterial');
             Route::get('satuan_material', 'API\MaterialPekerjaanController@satuanMaterial');
             Route::get('get-alat-operasional', 'API\MaterialPekerjaanController@getAlatOperasional');
