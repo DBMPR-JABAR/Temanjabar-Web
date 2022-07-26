@@ -173,14 +173,14 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::get('proyek-kontrak/count', 'API\ProyekController@count');
     Route::get('proyek-kontrak/status/{status}', 'API\ProyekController@getByStatus');
 
-    Route::group(['prefix' => 'pekerjaan'], function () {
+    Route::group(['prefix' => 'pekerjaan-pemeliharaan'], function () {
         Route::get('get-nama-kegiatan-pekerjaan', 'API\PekerjaanController@getNamaKegiatanPekerjaan');
         Route::get('get-sup', 'API\PekerjaanController@getSUP');
         Route::get('get-ruas-jalan', 'API\PekerjaanController@getRuasJalan');
         Route::get('get-jenis-pekerjaan', 'API\PekerjaanController@getJenisPekerjaan');
         Route::get('get-jenis-kegiatan', 'API\PekerjaanController@getJenisKegiatan');
         
-        Route::get('store', 'API\PekerjaanController@store');
+        Route::post('store', 'API\PekerjaanController@store');
 
         Route::group(['prefix' => 'material_pekerjaan'], function () {
             Route::get('bahan_material', 'API\MaterialPekerjaanController@bahanMaterial');

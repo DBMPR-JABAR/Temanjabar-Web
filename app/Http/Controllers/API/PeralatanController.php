@@ -15,7 +15,7 @@ class PeralatanController extends Controller
             $data = ItemPeralatan::get();
 
             $this->response['status'] = 'success';
-            $this->response['data']['jenis_pekerjaan'] = $data;
+            $this->response['data'] = $data;
 
             return response()->json($this->response, 200);
         } catch (\Exception $e) {
