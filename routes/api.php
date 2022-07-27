@@ -190,6 +190,12 @@ Route::group(['middleware' => ['jwt.auth']], function () {
             Route::get('get-peralatan/{id_pek}', 'API\MaterialPekerjaanController@getPeralatan');
             Route::post('store-bahan-operasional/{id_pek}', 'API\MaterialPekerjaanController@storeBahanOperasional');
             Route::get('get-bahan-operasional/{id_pek}', 'API\MaterialPekerjaanController@getBahanOperasional');
+            Route::post('store-pekerja/{id_pek}', 'API\MaterialPekerjaanController@storePekerja');
+            Route::get('get-pekerja/{id_pek}', 'API\MaterialPekerjaanController@getPekerja');
+            Route::post('store-bahan-material/{id_pek}', 'API\MaterialPekerjaanController@storeBahanMaterial');
+            Route::get('get-bahan-material/{id_pek}', 'API\MaterialPekerjaanController@getBahanMaterial');
+            Route::post('store-penghambat/{id_pek}', 'API\MaterialPekerjaanController@storePenghambat');
+            Route::get('get-penghambat/{id_pek}', 'API\MaterialPekerjaanController@getPenghambat');
 
             Route::get('bahan_material', 'API\MaterialPekerjaanController@bahanMaterial');
             Route::get('satuan_material', 'API\MaterialPekerjaanController@satuanMaterial');

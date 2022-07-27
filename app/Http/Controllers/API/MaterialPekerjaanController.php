@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 use App\User;
 use App\Model\Transactional\PekerjaanPemeliharaan as Pemeliharaan;
@@ -136,7 +137,7 @@ class MaterialPekerjaanController extends Controller
                 }
             }
             for($i = 0; $i<count($temp_save_pekerja_jum) ;$i++){
-                if($temp_save_bahan_operasional_jum[$i] > 0 && $temp_save_bahan_operasional_jum[$i] != null){
+                if($temp_save_pekerja_jum[$i] > 0 && $temp_save_pekerja_jum[$i] != null){
                     $pekerja['id_pek'] = $id;
                     $pekerja['jabatan'] = $temp_save_jabatan_pekerja[$i];
                     $pekerja['jumlah'] = $temp_save_pekerja_jum[$i] ? :0;
@@ -197,7 +198,6 @@ class MaterialPekerjaanController extends Controller
             //     'data' => $pekerjaan
             // ]);
             DetailMaterial::create($pekerjaan);
-            $kemandoran =  DB::table('kemandoran');
             // return response()->json([
             //     'success' => true,
             //     'message' => 'Berhasil Menambahkan',
@@ -207,6 +207,7 @@ class MaterialPekerjaanController extends Controller
             //     'id1' => $temp_save_nama_bahan,
             //     'kuantitas1' => $temp_save_bahan_jum,
             // ]);
+            $kemandoran =  DB::table('kemandoran');
             if($kemandoran->where('id_pek', $id)->where('mail', null)->exists()){
                 $mail['mail'] = 1;
                 
@@ -242,7 +243,7 @@ class MaterialPekerjaanController extends Controller
     public function storePeralatan(Request $request, $id)
     {
         try {
-
+            $pointer = true ;
             $validator = Validator::make($request->all(), [
                 'peralatan' => ''
             ]);
@@ -255,7 +256,7 @@ class MaterialPekerjaanController extends Controller
             $cek = DB::table('kemandoran_detail_peralatan')->where('id_pek',$id);
             if($cek->exists()){
                 storeLogActivity(declarLog(2, 'Detail Pemeliharaan - Peralatan', $id, 1 ));
-
+                $pointer = false;
                 $cek->delete();
             }
             $request = $request->json()->all();
@@ -296,6 +297,43 @@ class MaterialPekerjaanController extends Controller
 
             
             storeLogActivity(declarLog(1, 'Detail Pemeliharaan - Peralatan', $id, 1 ));
+            $temp = Pemeliharaan::where('id_pek', $id)->first();
+            // $detail = DetailMaterial::firstOrNew(
+            //     ['id_pek' => $id]
+            // );
+            // $detail->uptd_id = $temp->uptd_id;
+            // $detail->updated_by = $this->user->id;
+            // $detail->nama_mandor = $temp->nama_mandor;
+            // $detail->jenis_pekerjaan = $temp->jenis_pekerjaan;
+            // $detail->tanggal = $temp->tanggal;
+            // $detail->save();
+            if($pointer){
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Send Data'
+                ]);
+                $kemandoran =  DB::table('kemandoran');
+                if($kemandoran->where('id_pek', $id)->where('mail', null)->exists()){
+                    $mail['mail'] = 1;
+                    
+                    $kemandoran->update($mail);
+                    $detail_adjustment =  DB::table('kemandoran_detail_status');
+                    $data['pointer'] = 0;
+                    $data['adjustment_user_id'] =$this->user->id;
+                    $data['status'] = "Submitted";
+                    $data['id_pek'] = $id;
+                    $data['updated_at'] = Carbon::now();
+                    $data['created_at'] = Carbon::now();
+                    $data['created_by'] =$this->user->id;
+                    if(str_contains(Auth::user()->internalRole->role,'Admin')){
+                        $data['adjustment_user_id'] = $temp->user_id;
+                    }
+                    $insert = $detail_adjustment->insert($data);
+                }
+
+            }
+            
+
             return response()->json([
                 'success' => true,
                 'message' => 'Berhasil Melengkapi Data Peralatan!'
@@ -416,6 +454,292 @@ class MaterialPekerjaanController extends Controller
             }else{
                 $this->response['success'] = false;
                 $this->response['message'] = 'Data Bahan Operasional Kosong';
+            }
+            return response()->json($this->response, 200);
+
+            
+        } catch (\Exception $e) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+
+    }
+    // Pekerja
+    public function storePekerja(Request $request, $id)
+    {
+        try {
+
+            $validator = Validator::make($request->all(), [
+                'pekerja' => ''
+            ]);
+
+            if ($validator->fails()) {
+                $this->response['data']['error'] = $validator->errors();
+                return response()->json($this->response, 200);
+            }
+            
+            $cek = DB::table('kemandoran_detail_pekerja')->where('id_pek',$id);
+            if($cek->exists()){
+                storeLogActivity(declarLog(2, 'Detail Pemeliharaan - Pekerja', $id, 1 ));
+                $cek->delete();
+            }
+            $request = $request->json()->all();
+
+            $temp_save_jabatan_pekerja=[];
+            $temp_save_pekerja_jum=[];
+            
+            // return response()->json([
+            //     'success' => true,
+            //     'message' => 'Berhasil Material',
+            //     'data' => $request['pekerja']
+            // ]);
+
+            for($i = 0; $i<count($request['pekerja']) ;$i++){
+                if (in_array($request['pekerja'][$i]['jabatan_pekerja'], $temp_save_jabatan_pekerja)) {
+                    $k = array_search($request['pekerja'][$i]['jabatan_pekerja'], $temp_save_jabatan_pekerja);
+                    $temp_save_pekerja_jum[$k]+=$request['pekerja'][$i]['jum_pekerja'];
+                } else {
+                    $temp_save_jabatan_pekerja[]=$request['pekerja'][$i]['jabatan_pekerja'];
+                    $temp_save_pekerja_jum[]=$request['pekerja'][$i]['jum_pekerja'];
+
+                }
+            }
+
+            // return response()->json([
+            //     'success' => true,
+            //     'message' => 'Berhasil Material',
+            //     'data' => $temp_save_pekerja_jum
+            // ]);
+
+
+            for($i = 0; $i<count($temp_save_pekerja_jum) ;$i++){
+                if($temp_save_pekerja_jum[$i] > 0 && $temp_save_pekerja_jum[$i] != null){
+                    $pekerja['id_pek'] = $id;
+                    $pekerja['jabatan'] = $temp_save_jabatan_pekerja[$i];
+                    $pekerja['jumlah'] = $temp_save_pekerja_jum[$i] ? :0;
+                    DB::table('kemandoran_detail_pekerja')->insert($pekerja);
+                }
+            }
+
+            storeLogActivity(declarLog(1, 'Detail Pemeliharaan - Pekerja', $id, 1 ));
+            return response()->json([
+                'success' => true,
+                'message' => 'Berhasil Melengkapi Data Pekerja!'
+            ]);
+        } catch (\Exception $e) {
+           
+            // $this->response['data']['tess'] = json_decode($request->peralatan_operasional);
+            
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
+    public function getPekerja($id)
+    {
+        //
+        try {
+            $data = DB::table('kemandoran_detail_pekerja')->where('id_pek',$id)->get();
+            if(count($data)>0){
+                $this->response['success'] = true;
+                $this->response['message'] = 'Data Pekerja';
+                $this->response['data'] = $data;
+                
+            }else{
+                $this->response['success'] = false;
+                $this->response['message'] = 'Data Pekerja Kosong';
+            }
+            return response()->json($this->response, 200);
+
+            
+        } catch (\Exception $e) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+
+    }
+    // Bahan Material 
+    public function storeBahanMaterial(Request $request, $id)
+    {
+        try {
+
+            $validator = Validator::make($request->all(), [
+                'bahan_material' => ''
+            ]);
+
+            if ($validator->fails()) {
+                $this->response['data']['error'] = $validator->errors();
+                return response()->json($this->response, 200);
+            }
+            
+            $cek = DetailMaterial::where('id_pek',$id);
+            if($cek->exists()){
+                $cek = $cek->first();
+                if($cek->jum_bahan1 > 0 && $cek->jum_bahan1 != null){
+                    storeLogActivity(declarLog(2, 'Detail Pemeliharaan - Bahan Material', $id, 1 ));
+                }
+            }
+            $request = $request->json()->all();
+
+            $temp_save_nama_bahan=[];
+            $temp_save_bahan_jum=[];
+            $temp_save_bahan_satuan=[];
+            
+            // return response()->json([
+            //     'success' => true,
+            //     'message' => 'Berhasil Material',
+            //     'data' => $request['bahan_material']
+            // ]);
+
+            for($i = 0; $i<count($request['bahan_material']) ;$i++){
+                if (in_array($request['bahan_material'][$i]['nama_bahan'], $temp_save_nama_bahan)) {
+                    $k = array_search($request['bahan_material'][$i]['nama_bahan'], $temp_save_nama_bahan);
+                    $temp_save_bahan_jum[$k]+=$request['bahan_material'][$i]['jum_bahan'];
+                } else {
+                    $temp_save_nama_bahan[]=$request['bahan_material'][$i]['nama_bahan'];
+                    $temp_save_bahan_jum[]=$request['bahan_material'][$i]['jum_bahan'];
+                    $temp_save_bahan_satuan[]=$request['bahan_material'][$i]['satuan_bahan'];
+
+                }
+            }
+
+           
+        
+            $x=1;
+            for($i = 0; $i<count($temp_save_nama_bahan) ;$i++){
+                if($temp_save_bahan_jum[$i] > 0 && $temp_save_bahan_jum[$i] != null){
+                    $jum_bahan = "jum_bahan$x";
+                    $nama_bahan = "nama_bahan$x";
+                    $satuan = "satuan$x";
+                    $pekerjaan[$nama_bahan]=$temp_save_nama_bahan[$i];
+                    $pekerjaan[$jum_bahan]=$temp_save_bahan_jum[$i];
+                    $pekerjaan[$satuan]=$temp_save_bahan_satuan[$i];
+                    $x++;
+                }
+            }
+            // return response()->json([
+            //     'success' => true,
+            //     'message' => 'Berhasil Material',
+            //     'data' => $pekerjaan
+            // ]);
+            $temp = Pemeliharaan::where('id_pek', $id)->first();
+
+            $pekerjaan['updated_by'] =$this->user->id;
+            $pekerjaan['uptd_id'] = $temp->uptd_id;
+            $pekerjaan['nama_mandor']=$temp->nama_mandor;
+            $pekerjaan['jenis_pekerjaan']=$temp->jenis_pekerjaan;
+            $pekerjaan['tanggal']=$temp->tanggal;
+
+            $material = DetailMaterial::updateOrCreate(
+                ['id_pek' => $id],
+                $pekerjaan
+            );
+            storeLogActivity(declarLog(1, 'Detail Pemeliharaan - Bahan Material', $id, 1 ));
+            return response()->json([
+                'success' => true,
+                'message' => 'Berhasil Melengkapi Data Bahan Material!'
+            ]);
+        } catch (\Exception $e) {
+           
+            // $this->response['data']['tess'] = json_decode($request->peralatan_operasional);
+            
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
+    public function getBahanMaterial($id)
+    {
+        //
+        try {
+            $data = DetailMaterial::where('id_pek',$id)->get();
+            if(count($data)>0){
+                $this->response['success'] = true;
+                $this->response['message'] = 'Data Bahan Material';
+                $this->response['data'] = $data;
+                
+            }else{
+                $this->response['success'] = false;
+                $this->response['message'] = 'Data Bahan Material Kosong';
+            }
+            return response()->json($this->response, 200);
+
+            
+        } catch (\Exception $e) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+
+    }
+    //Penghambat
+    public function storePenghambat(Request $request, $id)
+    {
+        try {
+
+            $validator = Validator::make($request->all(), [
+                'penghambat' => ''
+            ]);
+
+            if ($validator->fails()) {
+                $this->response['data']['error'] = $validator->errors();
+                return response()->json($this->response, 200);
+            }
+            
+            $cek = DB::table('kemandoran_detail_penghambat')->where('id_pek',$id);
+            if($cek->exists()){
+                storeLogActivity(declarLog(2, 'Detail Pemeliharaan - Penghambat', $id, 1 ));
+                $cek->delete();
+            }
+            $request = $request->json()->all();
+            
+            // return response()->json([
+            //     'success' => true,
+            //     'message' => 'Berhasil Material',
+            //     'data' => $request['penghambat']
+            // ]);
+
+            for($i = 0; $i<count($request['penghambat']) ;$i++){
+                if($request['penghambat'][$i]['start_time'] != null){
+                    $penghambat['id_pek'] = $id;
+                    $penghambat['jenis_gangguan'] = $request['penghambat'][$i]['jenis_gangguan'];
+                    $penghambat['start_time'] = $request['penghambat'][$i]['start_time'];
+                    $penghambat['end_time'] = $request['penghambat'][$i]['end_time'];
+                    $penghambat['dampak'] = $request['penghambat'][$i]['dampak'];
+                    // return response()->json([
+                    //     'success' => true,
+                    //     'message' => 'Berhasil Material',
+                    //     'data' => $penghambat
+                    // ]);
+                    DB::table('kemandoran_detail_penghambat')->insert($penghambat);
+                }
+            }
+
+
+
+            storeLogActivity(declarLog(1, 'Detail Pemeliharaan - Penghambat', $id, 1 ));
+            return response()->json([
+                'success' => true,
+                'message' => 'Berhasil Melengkapi Data Penghambat!'
+            ]);
+        } catch (\Exception $e) {
+           
+            // $this->response['data']['tess'] = json_decode($request->peralatan_operasional);
+            
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
+    public function getPenghambat($id)
+    {
+        //
+        try {
+            $data = DB::table('kemandoran_detail_penghambat')->where('id_pek',$id)->get();
+            if(count($data)>0){
+                $this->response['success'] = true;
+                $this->response['message'] = 'Data Penghambat';
+                $this->response['data'] = $data;
+                
+            }else{
+                $this->response['success'] = false;
+                $this->response['message'] = 'Data Penghambat Kosong';
             }
             return response()->json($this->response, 200);
 
