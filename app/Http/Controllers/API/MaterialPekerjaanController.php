@@ -238,6 +238,194 @@ class MaterialPekerjaanController extends Controller
         }
     }
 
+    // Peralatan
+    public function storePeralatan(Request $request, $id)
+    {
+        try {
+
+            $validator = Validator::make($request->all(), [
+                'peralatan' => ''
+            ]);
+
+            if ($validator->fails()) {
+                $this->response['data']['error'] = $validator->errors();
+                return response()->json($this->response, 200);
+            }
+            
+            $cek = DB::table('kemandoran_detail_peralatan')->where('id_pek',$id);
+            if($cek->exists()){
+                storeLogActivity(declarLog(2, 'Detail Pemeliharaan - Peralatan', $id, 1 ));
+
+                $cek->delete();
+            }
+            $request = $request->json()->all();
+
+            $temp_save_peralatan_id=[];
+            $temp_save_peralatan_jum=[];
+            $temp_save_peralatan_satuan=[];
+            
+            for($i = 0; $i<count($request['peralatan']) ;$i++){
+                if (in_array($request['peralatan'][$i]['peralatan_id'], $temp_save_peralatan_id)) {
+                    $k = array_search($request['peralatan'][$i]['peralatan_id'], $temp_save_peralatan_id);
+                    $temp_save_peralatan_jum[$k]+=$request['peralatan'][$i]['jum_peralatan'];
+                } else {
+                    $temp_save_peralatan_id[]=$request['peralatan'][$i]['peralatan_id'];
+                    $temp_save_peralatan_jum[]=$request['peralatan'][$i]['jum_peralatan'];
+                    $temp_save_peralatan_satuan[]=$request['peralatan'][$i]['satuan_peralatan'];
+
+                }
+            }
+            // return response()->json([
+            //     'success' => true,
+            //     'message' => 'Berhasil Material',
+            //     'data' => $temp_save_peralatan_jum
+            // ]);
+            for($i = 0; $i<count($temp_save_peralatan_jum) ;$i++){
+                if($temp_save_peralatan_jum[$i] > 0 && $temp_save_peralatan_jum[$i] != null){
+                    $peralatan['id_pek'] = $id;
+                    // $temp_peralatan=explode(",",$request->nama_peralatan[$i]);
+                    $temp_peralatan = ItemPeralatan::find($temp_save_peralatan_id[$i]);
+                    $peralatan['id_peralatan'] = $temp_peralatan->id;
+                    $peralatan['nama_peralatan'] = $temp_peralatan->nama_peralatan;
+                    $peralatan['kuantitas'] = $temp_save_peralatan_jum[$i];
+                    $peralatan['satuan'] = $temp_save_peralatan_satuan[$i];
+                    // $temp->detailPeralatan()->create($peralatan);
+                    DB::table('kemandoran_detail_peralatan')->insert($peralatan);
+                }
+            }
+
+            
+            storeLogActivity(declarLog(1, 'Detail Pemeliharaan - Peralatan', $id, 1 ));
+            return response()->json([
+                'success' => true,
+                'message' => 'Berhasil Melengkapi Data Peralatan!'
+            ]);
+        } catch (\Exception $e) {
+           
+            // $this->response['data']['tess'] = json_decode($request->peralatan_operasional);
+            
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
+    public function getPeralatan($id)
+    {
+        //
+        try {
+            $data = DB::table('kemandoran_detail_peralatan')->where('id_pek',$id)->get();
+            if(count($data)>0){
+                $this->response['success'] = true;
+                $this->response['message'] = 'Data Peralatan';
+                $this->response['data'] = $data;
+                
+            }else{
+                $this->response['success'] = false;
+                $this->response['message'] = 'Data Peralatan Kosong';
+            }
+            return response()->json($this->response, 200);
+
+            
+        } catch (\Exception $e) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+
+    }
+    // Bahan Operasional 
+    public function storeBahanOperasional(Request $request, $id)
+    {
+        try {
+
+            $validator = Validator::make($request->all(), [
+                'bahan_operasional' => ''
+            ]);
+
+            if ($validator->fails()) {
+                $this->response['data']['error'] = $validator->errors();
+                return response()->json($this->response, 200);
+            }
+            
+            $cek = DB::table('kemandoran_detail_material')->where('id_pek',$id);
+            if($cek->exists()){
+                storeLogActivity(declarLog(2, 'Detail Pemeliharaan - Bahan Operasional', $id, 1 ));
+                $cek->delete();
+            }
+            $request = $request->json()->all();
+
+            $temp_save_bahan_operasional_id=[];
+            $temp_save_bahan_operasional_jum=[];
+            $temp_save_bahan_operasional_satuan=[];
+            
+            // return response()->json([
+            //     'success' => true,
+            //     'message' => 'Berhasil Material',
+            //     'data' => $request['bahan_operasional']
+            // ]);
+
+            for($i = 0; $i<count($request['bahan_operasional']) ;$i++){
+                if (in_array($request['bahan_operasional'][$i]['bahan_operasional_id'], $temp_save_bahan_operasional_id)) {
+                    $k = array_search($request['bahan_operasional'][$i]['bahan_operasional_id'], $temp_save_bahan_operasional_id);
+                    $temp_save_bahan_operasional_jum[$k]+=$request['bahan_operasional'][$i]['jum_bahan_operasional'];
+                } else {
+                    $temp_save_bahan_operasional_id[]=$request['bahan_operasional'][$i]['bahan_operasional_id'];
+                    $temp_save_bahan_operasional_jum[]=$request['bahan_operasional'][$i]['jum_bahan_operasional'];
+                    $temp_save_bahan_operasional_satuan[]=$request['bahan_operasional'][$i]['satuan_bahan_operasional'];
+
+                }
+            }
+
+            // return response()->json([
+            //     'success' => true,
+            //     'message' => 'Berhasil Material',
+            //     'data' => $temp_save_bahan_operasional_jum
+            // ]);
+        
+            for($i = 0; $i<count($temp_save_bahan_operasional_jum) ;$i++){
+                if($temp_save_bahan_operasional_jum[$i] > 0 && $temp_save_bahan_operasional_jum[$i] != null){
+                    $material['id_pek'] = $id;
+                    $material['id_material'] = $temp_save_bahan_operasional_id[$i];
+                    $material['kuantitas'] = $temp_save_bahan_operasional_jum[$i];
+                    $material['satuan'] = $temp_save_bahan_operasional_satuan[$i];
+                    DB::table('kemandoran_detail_material')->insert($material);
+                }
+            }
+
+            storeLogActivity(declarLog(1, 'Detail Pemeliharaan - Bahan Operasional', $id, 1 ));
+            return response()->json([
+                'success' => true,
+                'message' => 'Berhasil Melengkapi Data Bahan Operasional!'
+            ]);
+        } catch (\Exception $e) {
+           
+            // $this->response['data']['tess'] = json_decode($request->peralatan_operasional);
+            
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
+    public function getBahanOperasional($id)
+    {
+        //
+        try {
+            $data = DB::table('kemandoran_detail_material')->where('id_pek',$id)->get();
+            if(count($data)>0){
+                $this->response['success'] = true;
+                $this->response['message'] = 'Data Bahan Operasional';
+                $this->response['data'] = $data;
+                
+            }else{
+                $this->response['success'] = false;
+                $this->response['message'] = 'Data Bahan Operasional Kosong';
+            }
+            return response()->json($this->response, 200);
+
+            
+        } catch (\Exception $e) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+
+    }
     /**
      * Display the specified resource.
      *

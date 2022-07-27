@@ -186,11 +186,14 @@ Route::group(['middleware' => ['jwt.auth']], function () {
 
         Route::group(['prefix' => 'material-pekerjaan'], function () {
             Route::post('store/{id_pek}', 'API\MaterialPekerjaanController@store');
+            Route::post('store-peralatan/{id_pek}', 'API\MaterialPekerjaanController@storePeralatan');
+            Route::get('get-peralatan/{id_pek}', 'API\MaterialPekerjaanController@getPeralatan');
+            Route::post('store-bahan-operasional/{id_pek}', 'API\MaterialPekerjaanController@storeBahanOperasional');
+            Route::get('get-bahan-operasional/{id_pek}', 'API\MaterialPekerjaanController@getBahanOperasional');
 
             Route::get('bahan_material', 'API\MaterialPekerjaanController@bahanMaterial');
             Route::get('satuan_material', 'API\MaterialPekerjaanController@satuanMaterial');
             Route::get('get-alat-operasional', 'API\MaterialPekerjaanController@getAlatOperasional');
-            Route::get('get-bahan-operasional', 'API\MaterialPekerjaanController@getBahanMaterialOperasional');
         });
         Route::resource('material_pekerjaan', 'API\MaterialPekerjaanController')->except('index');
     });
