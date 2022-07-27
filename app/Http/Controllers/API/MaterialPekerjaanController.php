@@ -650,11 +650,117 @@ class MaterialPekerjaanController extends Controller
     {
         //
         try {
-            $data = DetailMaterial::where('id_pek',$id)->get();
-            if(count($data)>0){
+            $data = DetailMaterial::where('id_pek',$id)->first();
+            $temp = [];
+            if($data->jum_bahan1 > 0 && $data->jum_bahan1 != null){
+                $temp[]=[
+                    'nama_bahan' =>$data->nama_bahan1,
+                    'jum_bahan' =>$data->jum_bahan1,
+                    'satuan_bahan' =>$data->satuan1,
+                ];
+            }
+            if($data->jum_bahan2 > 0 && $data->jum_bahan2 != null){
+                $temp[]=[
+                    'nama_bahan' =>$data->nama_bahan2,
+                    'jum_bahan' =>$data->jum_bahan2,
+                    'satuan_bahan' =>$data->satuan2,
+                ];
+            }
+            if($data->jum_bahan3 > 0 && $data->jum_bahan3 != null){
+                $temp[]=[
+                    'nama_bahan' =>$data->nama_bahan3,
+                    'jum_bahan' =>$data->jum_bahan3,
+                    'satuan_bahan' =>$data->satuan3,
+                ];
+            }
+            if($data->jum_bahan4 > 0 && $data->jum_bahan4 != null){
+                $temp[]=[
+                    'nama_bahan' =>$data->nama_bahan4,
+                    'jum_bahan' =>$data->jum_bahan4,
+                    'satuan_bahan' =>$data->satuan4,
+                ];
+            }
+            if($data->jum_bahan5 > 0 && $data->jum_bahan5 != null){
+                $temp[]=[
+                    'nama_bahan' =>$data->nama_bahan5,
+                    'jum_bahan' =>$data->jum_bahan5,
+                    'satuan_bahan' =>$data->satuan5,
+                ];
+            }
+            if($data->jum_bahan6 > 0 && $data->jum_bahan6 != null){
+                $temp[]=[
+                    'nama_bahan' =>$data->nama_bahan6,
+                    'jum_bahan' =>$data->jum_bahan6,
+                    'satuan_bahan' =>$data->satuan6,
+                ];
+            }
+            if($data->jum_bahan7 > 0 && $data->jum_bahan7 != null){
+                $temp[]=[
+                    'nama_bahan' =>$data->nama_bahan7,
+                    'jum_bahan' =>$data->jum_bahan7,
+                    'satuan_bahan' =>$data->satuan7,
+                ];
+            }
+            if($data->jum_bahan8 > 0 && $data->jum_bahan8 != null){
+                $temp[]=[
+                    'nama_bahan' =>$data->nama_bahan8,
+                    'jum_bahan' =>$data->jum_bahan8,
+                    'satuan_bahan' =>$data->satuan8,
+                ];
+            }
+            if($data->jum_bahan9 > 0 && $data->jum_bahan9 != null){
+                $temp[]=[
+                    'nama_bahan' =>$data->nama_bahan9,
+                    'jum_bahan' =>$data->jum_bahan9,
+                    'satuan_bahan' =>$data->satuan9,
+                ];
+            }
+            if($data->jum_bahan10 > 0 && $data->jum_bahan10 != null){
+                $temp[]=[
+                    'nama_bahan' =>$data->nama_bahan10,
+                    'jum_bahan' =>$data->jum_bahan10,
+                    'satuan_bahan' =>$data->satuan10,
+                ];
+            }
+            if($data->jum_bahan11 > 0 && $data->jum_bahan11 != null){
+                $temp[]=[
+                    'nama_bahan' =>$data->nama_bahan11,
+                    'jum_bahan' =>$data->jum_bahan11,
+                    'satuan_bahan' =>$data->satuan11,
+                ];
+            }
+            if($data->jum_bahan12 > 0 && $data->jum_bahan12 != null){
+                $temp[]=[
+                    'nama_bahan' =>$data->nama_bahan12,
+                    'jum_bahan' =>$data->jum_bahan12,
+                    'satuan_bahan' =>$data->satuan12,
+                ];
+            }
+            if($data->jum_bahan13 > 0 && $data->jum_bahan13 != null){
+                $temp[]=[
+                    'nama_bahan' =>$data->nama_bahan13,
+                    'jum_bahan' =>$data->jum_bahan13,
+                    'satuan_bahan' =>$data->satuan13,
+                ];
+            }
+            if($data->jum_bahan14 > 0 && $data->jum_bahan14 != null){
+                $temp[]=[
+                    'nama_bahan' =>$data->nama_bahan14,
+                    'jum_bahan' =>$data->jum_bahan14,
+                    'satuan_bahan' =>$data->satuan14,
+                ];
+            }
+            if($data->jum_bahan15 > 0 && $data->jum_bahan15 != null){
+                $temp[]=[
+                    'nama_bahan' =>$data->nama_bahan15,
+                    'jum_bahan' =>$data->jum_bahan15,
+                    'satuan_bahan' =>$data->satuan15,
+                ];
+            }
+            if(isset($data)){
                 $this->response['success'] = true;
                 $this->response['message'] = 'Data Bahan Material';
-                $this->response['data'] = $data;
+                $this->response['data'] = $temp;
                 
             }else{
                 $this->response['success'] = false;
