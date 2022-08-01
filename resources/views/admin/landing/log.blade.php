@@ -84,7 +84,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $logs->withQueryString()->onEachSide(2)->links() }}
+                {{ $logs->withQueryString()->onEachSide(2)->links('pagination::bootstrap-4') }}
 
             </div>
         </div>

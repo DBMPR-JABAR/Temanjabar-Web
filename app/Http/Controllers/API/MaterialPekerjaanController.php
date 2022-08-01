@@ -308,10 +308,10 @@ class MaterialPekerjaanController extends Controller
             // $detail->tanggal = $temp->tanggal;
             // $detail->save();
             if($pointer){
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Send Data'
-                ]);
+                // return response()->json([
+                //     'success' => true,
+                //     'message' => 'Send Data'
+                // ]);
                 $kemandoran =  DB::table('kemandoran');
                 if($kemandoran->where('id_pek', $id)->where('mail', null)->exists()){
                     $mail['mail'] = 1;
@@ -651,6 +651,11 @@ class MaterialPekerjaanController extends Controller
         //
         try {
             $data = DetailMaterial::where('id_pek',$id)->first();
+            if(!isset($data)){
+                $this->response['success'] = false;
+                $this->response['message'] = 'Data Bahan Material Kosong';
+                return response()->json($this->response, 200);
+            }
             $temp = [];
             if($data->jum_bahan1 > 0 && $data->jum_bahan1 != null){
                 $temp[]=[
@@ -761,12 +766,9 @@ class MaterialPekerjaanController extends Controller
                 $this->response['success'] = true;
                 $this->response['message'] = 'Data Bahan Material';
                 $this->response['data'] = $temp;
+                return response()->json($this->response, 200);
                 
-            }else{
-                $this->response['success'] = false;
-                $this->response['message'] = 'Data Bahan Material Kosong';
             }
-            return response()->json($this->response, 200);
 
             
         } catch (\Exception $e) {
