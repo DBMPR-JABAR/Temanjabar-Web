@@ -287,7 +287,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {{ $pekerjaan->withQueryString()->onEachSide(2)->links() }}
+                        {{ $pekerjaan->withQueryString()->onEachSide(2)->links('pagination::bootstrap-4') }}
 
                     </div>
                 </div>
