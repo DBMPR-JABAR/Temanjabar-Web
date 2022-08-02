@@ -60,8 +60,16 @@ class PekerjaanController extends Controller
         try {
             $data = Pemeliharaan::where('id_pek',$id)->first();
             
-            $this->response['status'] = 'success';
-            $this->response['data'] = $data;
+            if(isset($data)){
+                $this->response['success'] = true;
+                $this->response['message'] = 'Data Pekerjaan Pemeliharaan';
+                $this->response['data'] = $data;
+                
+            }else{
+                $this->response['success'] = false;
+                $this->response['message'] = 'Data Kosong';
+            }
+
             return response()->json($this->response, 200);
         } catch (\Exception $th) {
             $this->response['data']['message'] = 'Internal Error';

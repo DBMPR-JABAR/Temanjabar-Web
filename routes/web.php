@@ -85,8 +85,11 @@ Route::prefix('status_jalan')->group(function () {
 });
 Route::prefix('news')->group(function () {
     Route::get('/show/{slug}', 'Landing\NewsController@show_masyarakat')->name('masyarakat.news.show');
-
 });
+
+Route::get('privacy-policy', 'Landing\TermController@show')->name('privacy.show');
+
+
 // {SiteURL}/uptd/*
 Route::group(['prefix' => 'uptd'], function () {
     Route::get('/{slug}', 'LandingController@uptd');
