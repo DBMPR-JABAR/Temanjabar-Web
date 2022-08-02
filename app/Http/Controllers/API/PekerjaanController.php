@@ -55,7 +55,19 @@ class PekerjaanController extends Controller
             return response()->json($this->response, 500);
         }
     }
-
+    public function show($id)
+    {
+        try {
+            $data = Pemeliharaan::where('id_pek',$id)->first();
+            
+            $this->response['status'] = 'success';
+            $this->response['data'] = $data;
+            return response()->json($this->response, 200);
+        } catch (\Exception $th) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -180,16 +192,7 @@ class PekerjaanController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.
