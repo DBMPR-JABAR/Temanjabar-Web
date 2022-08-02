@@ -507,6 +507,13 @@
                             </a>
                         </li>
                         @endif
+                        @if (hasAccess(Auth::user()->internal_role_id, 'Term', 'View'))
+                        <li class="{{ Request::segment(3) == 'term' ? 'active' : '' }}">
+                            <a href="{{ url('admin/landing-page/term') }}" class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">Ketentuan</span>
+                            </a>
+                        </li>
+                        @endif
                         @endif
                     </ul>
                 </li>

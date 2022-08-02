@@ -87,7 +87,7 @@ Route::prefix('news')->group(function () {
     Route::get('/show/{slug}', 'Landing\NewsController@show_masyarakat')->name('masyarakat.news.show');
 });
 
-Route::get('privacy-policy', 'Landing\TermController@show')->name('privacy.show');
+Route::get('term', 'Landing\TermController@show_masyarakat')->name('masyarakat.privacy.show');
 
 
 // {SiteURL}/uptd/*
@@ -247,6 +247,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
         Route::get('news/delete/{id}', 'Landing\NewsController@destroy');
         Route::post('news/ckeditor/upload', 'Landing\NewsController@upload')->name('news.ckeditor.upload');
+        
+        // {SiteURL}/admin/landing-page/news
+        Route::get('term', 'Landing\TermController@index')->name('term.index');
+        Route::post('term/store', 'Landing\TermController@store')->name('term.store');
+
     });
 
     Route::group(['prefix' => 'disposisi'], function () {

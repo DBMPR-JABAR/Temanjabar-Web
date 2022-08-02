@@ -106,7 +106,9 @@
                         <div class=" form-group row">
                             <a href="{{ route('news.index') }}"><button type="button"
                                     class="btn btn-default waves-effect">Batal</button></a>
+                            @if (hasAccess(Auth::user()->internal_role_id, 'Term', 'Create'))
                             <button type="submit" class="btn btn-primary waves-effect waves-light ml-2">Simpan</button>
+                            @endif
                         </div>
                     </form>
 
