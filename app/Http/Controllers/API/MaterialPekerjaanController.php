@@ -811,6 +811,7 @@ class MaterialPekerjaanController extends Controller
                     $penghambat['start_time'] = $request['penghambat'][$i]['start_time'];
                     $penghambat['end_time'] = $request['penghambat'][$i]['end_time'];
                     $penghambat['dampak'] = $request['penghambat'][$i]['dampak'];
+                    $penghambat['akibat'] = $request['penghambat'][$i]['dampak'];
                     // return response()->json([
                     //     'success' => true,
                     //     'message' => 'Berhasil Material',
