@@ -298,15 +298,15 @@ class MaterialPekerjaanController extends Controller
             
             storeLogActivity(declarLog(1, 'Detail Pemeliharaan - Peralatan', $id, 1 ));
             $temp = Pemeliharaan::where('id_pek', $id)->first();
-            // $detail = DetailMaterial::firstOrNew(
-            //     ['id_pek' => $id]
-            // );
-            // $detail->uptd_id = $temp->uptd_id;
-            // $detail->updated_by = $this->user->id;
-            // $detail->nama_mandor = $temp->nama_mandor;
-            // $detail->jenis_pekerjaan = $temp->jenis_pekerjaan;
-            // $detail->tanggal = $temp->tanggal;
-            // $detail->save();
+            $detail = DetailMaterial::firstOrNew(
+                ['id_pek' => $id]
+            );
+            $detail->uptd_id = $temp->uptd_id;
+            $detail->updated_by = $this->user->id;
+            $detail->nama_mandor = $temp->nama_mandor;
+            $detail->jenis_pekerjaan = $temp->jenis_pekerjaan;
+            $detail->tanggal = $temp->tanggal;
+            $detail->save();
             if($pointer){
                 // return response()->json([
                 //     'success' => true,
@@ -558,6 +558,85 @@ class MaterialPekerjaanController extends Controller
 
     }
     // Bahan Material 
+    public function clearBahanMaterial($id){
+        $data = DetailMaterial::where('id_pek',$id)->first();
+        if($data->jum_bahan1 > 0 && $data->jum_bahan1 != null){
+            $data->nama_bahan1= null;
+            $data->jum_bahan1=null;
+            $data->satuan1=null;
+        }
+        if($data->jum_bahan2 > 0 && $data->jum_bahan2 != null){
+            $data->nama_bahan2= null;
+            $data->jum_bahan2=null;
+            $data->satuan2=null;
+        }
+        if($data->jum_bahan3 > 0 && $data->jum_bahan3 != null){
+            $data->nama_bahan3= null;
+            $data->jum_bahan3=null;
+            $data->satuan3=null;
+        }
+        if($data->jum_bahan4 > 0 && $data->jum_bahan4 != null){
+            $data->nama_bahan4= null;
+            $data->jum_bahan4=null;
+            $data->satuan4=null;
+        }
+        if($data->jum_bahan5 > 0 && $data->jum_bahan5 != null){
+            $data->nama_bahan5= null;
+            $data->jum_bahan5=null;
+            $data->satuan5=null;
+        }
+        if($data->jum_bahan6 > 0 && $data->jum_bahan6 != null){
+            $data->nama_bahan6= null;
+            $data->jum_bahan6=null;
+            $data->satuan6=null;
+        }
+        if($data->jum_bahan7 > 0 && $data->jum_bahan7 != null){
+            $data->nama_bahan7= null;
+            $data->jum_bahan7=null;
+            $data->satuan7=null;
+        }
+        if($data->jum_bahan8 > 0 && $data->jum_bahan8 != null){
+            $data->nama_bahan8= null;
+            $data->jum_bahan8=null;
+            $data->satuan8=null;
+        }
+        if($data->jum_bahan9 > 0 && $data->jum_bahan9 != null){
+            $data->nama_bahan9= null;
+            $data->jum_bahan9=null;
+            $data->satuan9=null;
+        }
+        if($data->jum_bahan10 > 0 && $data->jum_bahan10 != null){
+            $data->nama_bahan10= null;
+            $data->jum_bahan10=null;
+            $data->satuan10=null;
+        }
+        if($data->jum_bahan11 > 0 && $data->jum_bahan11 != null){
+            $data->nama_bahan11= null;
+            $data->jum_bahan11=null;
+            $data->satuan11=null;
+        }
+        if($data->jum_bahan12 > 0 && $data->jum_bahan12 != null){
+            $data->nama_bahan12= null;
+            $data->jum_bahan12=null;
+            $data->satuan12=null;
+        }
+        if($data->jum_bahan13 > 0 && $data->jum_bahan13 != null){
+            $data->nama_bahan13= null;
+            $data->jum_bahan13=null;
+            $data->satuan13=null;
+        }
+        if($data->jum_bahan14 > 0 && $data->jum_bahan14 != null){
+            $data->nama_bahan14= null;
+            $data->jum_bahan14=null;
+            $data->satuan14=null;
+        }
+        if($data->jum_bahan15 > 0 && $data->jum_bahan15 != null){
+            $data->nama_bahan15= null;
+            $data->jum_bahan15=null;
+            $data->satuan15=null;
+        }
+        $data->save();
+    }
     public function storeBahanMaterial(Request $request, $id)
     {
         try {
@@ -577,6 +656,11 @@ class MaterialPekerjaanController extends Controller
                 if($cek->jum_bahan1 > 0 && $cek->jum_bahan1 != null){
                     storeLogActivity(declarLog(2, 'Detail Pemeliharaan - Bahan Material', $id, 1 ));
                 }
+                $this->clearBahanMaterial($id);
+                // return response()->json([
+                //     'success' => true,
+                //     'message' => 'okokoko'
+                // ]);
             }
             $request = $request->json()->all();
 
@@ -584,11 +668,6 @@ class MaterialPekerjaanController extends Controller
             $temp_save_bahan_jum=[];
             $temp_save_bahan_satuan=[];
             
-            // return response()->json([
-            //     'success' => true,
-            //     'message' => 'Berhasil Material',
-            //     'data' => $request['bahan_material']
-            // ]);
 
             for($i = 0; $i<count($request['bahan_material']) ;$i++){
                 if (in_array($request['bahan_material'][$i]['nama_bahan'], $temp_save_nama_bahan)) {
@@ -616,18 +695,18 @@ class MaterialPekerjaanController extends Controller
                     $x++;
                 }
             }
-            // return response()->json([
-            //     'success' => true,
-            //     'message' => 'Berhasil Material',
-            //     'data' => $pekerjaan
-            // ]);
             $temp = Pemeliharaan::where('id_pek', $id)->first();
-
+            
             $pekerjaan['updated_by'] =$this->user->id;
             $pekerjaan['uptd_id'] = $temp->uptd_id;
             $pekerjaan['nama_mandor']=$temp->nama_mandor;
             $pekerjaan['jenis_pekerjaan']=$temp->jenis_pekerjaan;
             $pekerjaan['tanggal']=$temp->tanggal;
+            // return response()->json([
+            //     'success' => true,
+            //     'message' => 'Berhasil Material',
+            //     'data' => $pekerjaan
+            // ]);
 
             $material = DetailMaterial::updateOrCreate(
                 ['id_pek' => $id],
