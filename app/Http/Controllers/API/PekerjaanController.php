@@ -187,7 +187,7 @@ class PekerjaanController extends Controller
             $pekerjaan['tglreal'] = date('Y-m-d H:i:s');
             $pekerjaan['is_deleted'] = 0;
 
-            Pemeliharaan::create($pekerjaan);
+            Pemeliharaan::updateOrCreate(['id_lokal'=>$request->id_lokal],$pekerjaan);
             storeLogActivity(declarLog(1, 'Pemeliharaan Pekerjaan', $pekerjaan['id_pek'], 1 ));
             return response()->json([
                 'success' => true,
